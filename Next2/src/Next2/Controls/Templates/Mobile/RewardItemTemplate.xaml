@@ -42,7 +42,7 @@
                 <Label
                     FontFamily="Barlow-Medium"
                     FontSize="{DynamicResource TSize_i6}"
-                    Text="{Binding SetTitle}"/>
+                    Text="{Binding DishTitle}"/>
 
                 <Label
                     FontFamily="Barlow-SemiBold"

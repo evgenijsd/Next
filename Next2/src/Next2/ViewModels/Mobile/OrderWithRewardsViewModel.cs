@@ -19,7 +19,7 @@ namespace Next2.ViewModels.Mobile
 
         public RewardBindabledModel Reward { get; set; }
 
-        public ObservableCollection<SeatWithFreeSetsBindableModel> Seats { get; set; } = new();
+        public ObservableCollection<SeatWithFreeDishesBindableModel> Seats { get; set; } = new();
 
         private ICommand _applyRewardCommand;
         public ICommand ApplyRewardCommand => _applyRewardCommand ??= new AsyncCommand(OnApplyRewardCommandAsync);
@@ -33,7 +33,7 @@ namespace Next2.ViewModels.Mobile
             base.OnNavigatedTo(parameters);
 
             if (parameters.TryGetValue(Constants.Navigations.REWARD, out RewardBindabledModel reward) &&
-                parameters.TryGetValue(Constants.Navigations.SEATS, out ObservableCollection<SeatWithFreeSetsBindableModel> seats))
+                parameters.TryGetValue(Constants.Navigations.SEATS, out ObservableCollection<SeatWithFreeDishesBindableModel> seats))
             {
                 Reward = reward;
                 Seats = seats;

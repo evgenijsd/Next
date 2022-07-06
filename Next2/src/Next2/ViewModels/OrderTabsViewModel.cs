@@ -119,6 +119,7 @@ namespace Next2.ViewModels
 
             if (App.IsTablet)
             {
+                IsTabsModeSelected = false;
                 IsSearchModeActive = false;
                 SearchQuery = string.Empty;
                 SelectedOrder = null;

@@ -68,7 +68,7 @@
                 </CollectionView.Effects>
                                     
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:SeatWithFreeSetsBindableModel"> 
+                    <DataTemplate x:DataType="models:SeatWithFreeDishesBindableModel"> 
 
                         <StackLayout 
                             Padding="16, 14, 16, 0" 
@@ -87,13 +87,13 @@
                             </Label>
     
                             <CollectionView
-                                ItemsSource="{Binding Sets}"
-                                HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=85}">
+                                ItemsSource="{Binding Dishes}"
+                                HeightRequest="{Binding Dishes, Converter={StaticResource listHeightConverter}, ConverterParameter=85}">
                                                     
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:FreeSetBindableModel">
+                                    <DataTemplate x:DataType="models:FreeDishBindableModel">
 
-                                        <mobiletemplates:FreeSetItemTemplate/>
+                                        <mobiletemplates:FreeDishItemTemplate/>
                                                             
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>

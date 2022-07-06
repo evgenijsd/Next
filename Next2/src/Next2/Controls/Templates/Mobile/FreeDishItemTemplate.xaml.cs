@@ -2,9 +2,9 @@
 
 namespace Next2.Controls.Templates.Mobile
 {
-    public partial class FreeSetItemTemplate : StackLayout
+    public partial class FreeDishItemTemplate : StackLayout
     {
-        public FreeSetItemTemplate()
+        public FreeDishItemTemplate()
         {
             InitializeComponent();
         }

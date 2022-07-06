@@ -131,6 +131,9 @@
     <Compile Update="Controls\CalendarTab.xaml.cs">
       <DependentUpon>CalendarTab2.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\Templates\DishItemTemplate.xaml.cs">
+      <DependentUpon>DishItemTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\TimeAndDateBar.xaml.cs">
       <DependentUpon>TimeAndDateBar.xaml</DependentUpon>
     </Compile>
@@ -152,8 +155,8 @@
     <Compile Update="Controls\ProductsDetails.xaml.cs">
       <DependentUpon>ProductsDetails.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Controls\Templates\Mobile\FreeSetItemTemplate.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
+    <Compile Update="Controls\Templates\Mobile\FreeDishItemTemplate.xaml.cs">
+      <DependentUpon>FreeDishItemTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\Templates\Mobile\RewardItemTemplate.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
@@ -164,8 +167,11 @@
     <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
       <DependentUpon>SubCategoryItemTemplate.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Controls\Templates\Tablet\FreeSetItemTemplate.xaml.cs">
-      <DependentUpon>FreeSetItemTemplate.xaml</DependentUpon>
+    <Compile Update="Controls\Templates\Tablet\FreeDishItemTemplate.xaml.cs">
+      <DependentUpon>FreeDishItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\ChooseDishPage.xaml.cs">
+      <DependentUpon>ChooseDishPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\Dialogs\AddDishToOrderDialog.xaml.cs">
       <DependentUpon>AddDishToOrderDialog.xaml</DependentUpon>
@@ -349,7 +355,7 @@
     <EmbeddedResource Update="Controls\Templates\CategoryItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\Templates\SetItemTemplate.xaml">      
+    <EmbeddedResource Update="Controls\Templates\DishItemTemplate.xaml">      
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Buttons\InputButton.xaml">
@@ -502,7 +508,7 @@
     <EmbeddedResource Update="Views\HoldItemsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\ChooseSetPage.xaml">
+    <EmbeddedResource Update="Views\Mobile\ChooseDishPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\AddDishToOrderDialog.xaml">

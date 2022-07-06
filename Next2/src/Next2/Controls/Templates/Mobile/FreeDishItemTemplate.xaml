@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:local="clr-namespace:Next2"
-    x:Class="Next2.Controls.Templates.Mobile.FreeSetItemTemplate">
+    x:Class="Next2.Controls.Templates.Mobile.FreeDishItemTemplate">
 
     <StackLayout
         Padding="0, 16"

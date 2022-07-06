@@ -31,7 +31,7 @@ namespace Next2.ViewModels.Dialogs
 
         public SeatListItemBindableModel SelectedSeatListItem { get; set; } = new ();
 
-        public bool IsDeletingSetsSelected { get; set; }
+        public bool IsDeletingDishesSelected { get; set; }
 
         public Action<IDialogParameters> RequestClose;
 
@@ -39,8 +39,8 @@ namespace Next2.ViewModels.Dialogs
 
         public ICommand AcceptCommand { get; }
 
-        private ICommand _selectDeletingSetsCommand;
-        public ICommand SelectDeletingSetsCommand => _selectDeletingSetsCommand ??= new Command(OnSelectDeletingSetsCommand);
+        private ICommand _selectDeletingDishesCommand;
+        public ICommand SelectDeletingDishesCommand => _selectDeletingDishesCommand ??= new Command(OnSelectDeletingDishesCommand);
 
         #endregion
 
@@ -65,17 +65,17 @@ namespace Next2.ViewModels.Dialogs
                 }
                 else
                 {
-                    IsDeletingSetsSelected = true;
+                    IsDeletingDishesSelected = true;
                     SelectedSeatListItem.SeatNumber = removalSeat.SeatNumber;
                 }
             }
         }
 
-        private void OnSelectDeletingSetsCommand()
+        private void OnSelectDeletingDishesCommand()
         {
             if (SeatsListItems.Any())
             {
-                IsDeletingSetsSelected = !IsDeletingSetsSelected;
+                IsDeletingDishesSelected = !IsDeletingDishesSelected;
             }
         }
 
@@ -83,13 +83,13 @@ namespace Next2.ViewModels.Dialogs
         {
             var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.REMOVAL_SEAT, _removalSeat } };
 
-            if (IsDeletingSetsSelected)
+            if (IsDeletingDishesSelected)
             {
-                dialogParameters.Add(Constants.DialogParameterKeys.ACTION_ON_SETS, EActionOnSets.DeleteSets);
+                dialogParameters.Add(Constants.DialogParameterKeys.ACTION_ON_DISHES, EActionOnDishes.DeleteDishes);
             }
             else
             {
-                dialogParameters.Add(Constants.DialogParameterKeys.ACTION_ON_SETS, EActionOnSets.RedirectSets);
+                dialogParameters.Add(Constants.DialogParameterKeys.ACTION_ON_DISHES, EActionOnDishes.RedirectDishes);
                 dialogParameters.Add(Constants.DialogParameterKeys.DESTINATION_SEAT_NUMBER, SelectedSeatListItem.SeatNumber);
             }
 

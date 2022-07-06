@@ -1,8 +1,8 @@
 ﻿namespace Next2.Views.Mobile
 {
-    public partial class ChooseSetPage : BaseContentPage
+    public partial class ChooseDishPage : BaseContentPage
     {
-        public ChooseSetPage()
+        public ChooseDishPage()
         {
             InitializeComponent();
         }

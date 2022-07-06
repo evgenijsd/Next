@@ -84,7 +84,7 @@
                 
             </StackLayout>
 
-            <!-- SET LIST -->
+            <!-- DISH LIST -->
             <CollectionView 
                 IsVisible="{Binding IsOrderDetailsDisplayed}"
                 ItemsSource="{Binding Seats}">

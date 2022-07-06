@@ -172,7 +172,7 @@ namespace Next2.ViewModels.Mobile
                 { Constants.Navigations.CATEGORY, category },
             };
 
-            return _navigationService.NavigateAsync(nameof(ChooseSetPage), navigationParams);
+            return _navigationService.NavigateAsync(nameof(ChooseDishPage), navigationParams);
         }
 
         private Task GoToSettingsCommandAsync()

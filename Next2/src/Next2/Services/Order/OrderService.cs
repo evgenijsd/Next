@@ -280,7 +280,7 @@ namespace Next2.Services.Order
 
             try
             {
-                var isCurrentOrderSet = false;
+                var isCurrentOrderDish = false;
                 var employeeId = _authenticationService.AuthorizedUserId.ToString();
 
                 var resultOfGettingLastOrderId = await GetIdLastCreatedOrderFromSettingsAsync(employeeId);
@@ -297,12 +297,12 @@ namespace Next2.Services.Order
                         {
                             var resultOfSettingCurrentOrder = await SetCurrentOrderAsync(resultOfGettingOrder.Result);
 
-                            isCurrentOrderSet = resultOfSettingCurrentOrder.IsSuccess;
+                            isCurrentOrderDish = resultOfSettingCurrentOrder.IsSuccess;
                         }
                     }
                 }
 
-                if (!isCurrentOrderSet)
+                if (!isCurrentOrderDish)
                 {
                     var orderCreationResult = await CreateNewOrderAsync();
 
@@ -312,11 +312,11 @@ namespace Next2.Services.Order
 
                         var resultOfSettingCurrentOrder = await SetCurrentOrderAsync(orderCreationResult.Result);
 
-                        isCurrentOrderSet = resultOfSettingCurrentOrder.IsSuccess;
+                        isCurrentOrderDish = resultOfSettingCurrentOrder.IsSuccess;
                     }
                 }
 
-                if (isCurrentOrderSet)
+                if (isCurrentOrderDish)
                 {
                     result.SetSuccess();
                 }
@@ -461,7 +461,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> RedirectSetsFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber)
+        public async Task<AOResult> RedirectDishesFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber)
         {
             var result = new AOResult();
 
@@ -487,7 +487,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(RedirectSetsFromSeatInCurrentOrder)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(RedirectDishesFromSeatInCurrentOrder)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

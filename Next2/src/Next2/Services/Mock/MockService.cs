@@ -171,70 +171,71 @@ namespace Next2.Services.Mock
         private Task IniRewardsAsync() => Task.Run(() =>
         {
             int rewardId = 1;
+
             _rewards = new List<RewardModel>
             {
                 new RewardModel
                 {
                     Id = rewardId++,
                     CustomerId = new Guid("05c541cf-a5b7-4c50-aed4-e30afd4be1b2"),
-                    SetId = 1,
-                    SetTitle = "A Pulled Pork Sammy Meal",
+                    DishId = 1,
+                    DishTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
                     CustomerId = new Guid("05c541cf-a5b7-4c50-aed4-e30afd4be1b2"),
-                    SetId = 2,
-                    SetTitle = "B Pulled Pork Sammy Meal",
+                    DishId = 2,
+                    DishTitle = "B Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
                     CustomerId = new Guid("05c541cf-a5b7-4c50-aed4-e30afd4be1b2"),
-                    SetId = 3,
-                    SetTitle = "C Pulled Pork Sammy Meal",
+                    DishId = 3,
+                    DishTitle = "C Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
                     CustomerId = new Guid("05c541cf-a5b7-4c50-aed4-e30afd4be1b2"),
-                    SetId = 3,
-                    SetTitle = "C Pulled Pork Sammy Meal",
+                    DishId = 3,
+                    DishTitle = "C Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
                     CustomerId = new Guid("0777f536-3be6-4baf-b436-83541a21989c"),
-                    SetId = 1,
-                    SetTitle = "A Pulled Pork Sammy Meal",
+                    DishId = 1,
+                    DishTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
                     CustomerId = new Guid("0777f536-3be6-4baf-b436-83541a21989c"),
-                    SetId = 1,
-                    SetTitle = "A Pulled Pork Sammy Meal",
+                    DishId = 1,
+                    DishTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
                     CustomerId = new Guid("0777f536-3be6-4baf-b436-83541a21989c"),
-                    SetId = 3,
-                    SetTitle = "C Pulled Pork Sammy Meal",
+                    DishId = 3,
+                    DishTitle = "C Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
                     CustomerId = new Guid("0c6d6d48-c6a6-4f8a-8d0b-0b545427a598"),
-                    SetId = 1,
-                    SetTitle = "A Pulled Pork Sammy Meal",
+                    DishId = 1,
+                    DishTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
                     CustomerId = new Guid("0c6d6d48-c6a6-4f8a-8d0b-0b545427a598"),
-                    SetId = 4,
-                    SetTitle = "D Pulled Pork Sammy Meal",
+                    DishId = 4,
+                    DishTitle = "D Pulled Pork Sammy Meal",
                 },
             };
         });

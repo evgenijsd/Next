@@ -124,7 +124,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.OrderRegistrationPage, OrderRegistrationViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.ChooseSetPage, MobileViewModels.ChooseSetPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.ChooseDishPage, MobileViewModels.ChooseDishPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SearchPage, SearchPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.PaymentPage, PaymentViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderWithRewardsPage, OrderWithRewardsViewModel>();
@@ -195,7 +195,6 @@ namespace Next2
                     .ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Number));
                 cfg.CreateMap<CustomerModelDTO, CustomerBindableModel>().ReverseMap();
                 cfg.CreateMap<CustomerBindableModel, UpdateCustomerCommand>().ReverseMap();
-                cfg.CreateMap<SetBindableModel, FreeSetBindableModel>();
                 cfg.CreateMap<RewardModel, RewardBindabledModel>();
                 cfg.CreateMap<MemberBindableModel, MemberBindableModel>();
                 cfg.CreateMap<DiscountModelDTO, BonusBindableModel>().ReverseMap();
@@ -204,7 +203,7 @@ namespace Next2
                     .ForMember(x => x.OrderType, x => x.MapFrom(s => (EOrderType)Enum.Parse(typeof(EOrderType), s.OrderType)));
                 cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
                 cfg.CreateMap<SeatBindableModel, SeatBindableModel>();
-                cfg.CreateMap<DishBindableModel, DishBindableModel>();
+                cfg.CreateMap<Models.Bindables.DishBindableModel, Models.Bindables.DishBindableModel>();
                 cfg.CreateMap<ProductBindableModel, ProductBindableModel>()
                     .AfterMap((s, d) => d.Product = s.Product);
                 cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();
@@ -214,7 +213,7 @@ namespace Next2
                 cfg.CreateMap<SimpleIngredientsCategoryModelDTO, SimpleIngredientsCategoryModelDTO>();
                 cfg.CreateMap<TableBindableModel, SimpleTableModelDTO>()
                     .ForMember(x => x.Number, s => s.MapFrom(x => x.TableNumber));
-                cfg.CreateMap<DishModelDTO, DishBindableModel>();
+                cfg.CreateMap<DishModelDTO, Models.Bindables.DishBindableModel>();
                 cfg.CreateMap<SimpleIngredientsCategoryModelDTO, IngredientsCategoryModelDTO>();
                 cfg.CreateMap<ProductBindableModel, SimpleProductModelDTO>().ReverseMap();
                 cfg.CreateMap<GiftCardModelDTO, UpdateGiftCardCommand>().ReverseMap();

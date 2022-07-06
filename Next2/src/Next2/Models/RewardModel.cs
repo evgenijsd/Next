@@ -9,8 +9,8 @@ namespace Next2.Models
 
         public Guid CustomerId { get; set; }
 
-        public int SetId { get; set; }
+        public int DishId { get; set; }
 
-        public string SetTitle { get; set; } = string.Empty;
+        public string DishTitle { get; set; } = string.Empty;
     }
 }

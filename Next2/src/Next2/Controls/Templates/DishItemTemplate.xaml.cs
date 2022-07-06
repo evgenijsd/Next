@@ -2,9 +2,9 @@
 
 namespace Next2.Controls.Templates
 {
-    public partial class SetItemTemplate : StackLayout
+    public partial class DishItemTemplate : StackLayout
     {
-        public SetItemTemplate()
+        public DishItemTemplate()
         {
             InitializeComponent();
         }

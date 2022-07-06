@@ -16,7 +16,7 @@ namespace Next2.Models
 
         public ObservableCollection<RewardBindabledModel> Rewards { get; set; } = new ();
 
-        public ObservableCollection<SeatWithFreeSetsBindableModel> Seats { get; set; } = new ();
+        public ObservableCollection<SeatWithFreeDishesBindableModel> Seats { get; set; } = new ();
 
         public EBonusType BonusType { get; set; }
 
