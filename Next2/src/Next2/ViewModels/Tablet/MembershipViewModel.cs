@@ -94,7 +94,8 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnDisappearing();
 
-            ClearSearch();
+            SetSearchQuery(string.Empty);
+
             AnyMembersLoaded = false;
         }
 
@@ -184,8 +185,6 @@ namespace Next2.ViewModels.Tablet
                     { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["NameOrPhone"] },
                 };
 
-                ClearSearch();
-
                 await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
             }
         }
@@ -200,16 +199,9 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnClearSearchCommandAsync()
         {
-            ClearSearch();
+            SetSearchQuery(string.Empty);
 
             return Task.CompletedTask;
-        }
-
-        private void ClearSearch()
-        {
-            SearchText = string.Empty;
-
-            DisplayMembers = new(GetSortedMembers(SearchMembers(SearchText)));
         }
 
         private async Task OnMembershipEditCommandAsync(MemberBindableModel? member)
