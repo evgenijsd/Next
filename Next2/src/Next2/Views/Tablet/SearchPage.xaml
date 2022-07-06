@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:local="clr-namespace:Next2"
@@ -21,7 +22,7 @@
             Title="{xct:Translate Search}"
             HeightImage="18"
             FontSize="{DynamicResource TSize_i7}"
-            LeftButtonCommand="{Binding GoBackCommand}" />
+            LeftButtonCommand="{prism:GoBack}" />
 
         <StackLayout
             Grid.Row="1"

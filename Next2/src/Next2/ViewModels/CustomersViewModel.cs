@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Helpers;
-using Next2.Helpers.Events;
 using Next2.Models;
 using Next2.Services.Customers;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
-using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
@@ -91,10 +88,13 @@ namespace Next2.ViewModels
 
         public override void OnDisappearing()
         {
-            ClearSearch();
+            if (App.IsTablet)
+            {
+                SetSearchQuery(string.Empty);
 
-            SelectedCustomer = null;
-            AnyCustomersLoaded = false;
+                SelectedCustomer = null;
+                AnyCustomersLoaded = false;
+            }
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -136,11 +136,11 @@ namespace Next2.ViewModels
         {
             IsRefreshing = true;
 
-            var customersAoresult = await _customersService.GetCustomersAsync();
+            var resultOfGettingCustomers = await _customersService.GetCustomersAsync();
 
-            if (customersAoresult.IsSuccess)
+            if (resultOfGettingCustomers.IsSuccess)
             {
-                var customers = customersAoresult.Result.ToList();
+                var customers = resultOfGettingCustomers.Result.ToList();
 
                 foreach (var item in customers)
                 {
@@ -152,6 +152,7 @@ namespace Next2.ViewModels
                 {
                     _allCustomers = customers;
                     DisplayedCustomers = SearchCustomers(SearchText);
+
                     SelectCurrentCustomer();
                 }
             }
@@ -165,13 +166,17 @@ namespace Next2.ViewModels
 
             if (currentCustomer is not null)
             {
-                SelectedCustomer = DisplayedCustomers.FirstOrDefault(x => x.Id == currentCustomer.Id);
+                var customerId = currentCustomer.Id;
+
+                SelectedCustomer = DisplayedCustomers.FirstOrDefault(x => x.Id == customerId);
             }
         }
 
         private void SelectDeselectItem(CustomerBindableModel customer)
         {
-            SelectedCustomer = SelectedCustomer == customer ? null : customer;
+            SelectedCustomer = SelectedCustomer == customer
+                ? null
+                : customer;
         }
 
         private async Task ShowCustomerInfoAsync(CustomerBindableModel customer)
@@ -244,6 +249,7 @@ namespace Next2.ViewModels
                 await RefreshAsync();
 
                 int index = DisplayedCustomers.IndexOf(DisplayedCustomers.FirstOrDefault(x => x.Id == customerId));
+
                 DisplayedCustomers.Move(index, 0);
             }
         }
@@ -285,8 +291,6 @@ namespace Next2.ViewModels
                     { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["NameOrPhone"] },
                 };
 
-                ClearSearch();
-
                 await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
             }
         }
@@ -301,16 +305,9 @@ namespace Next2.ViewModels
 
         private Task OnClearSearchCommandAsync()
         {
-            ClearSearch();
+            SetSearchQuery(string.Empty);
 
             return Task.CompletedTask;
-        }
-
-        private void ClearSearch()
-        {
-            SearchText = string.Empty;
-
-            DisplayedCustomers = SearchCustomers(SearchText);
         }
 
         #endregion
