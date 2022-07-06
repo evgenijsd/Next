@@ -79,6 +79,7 @@ namespace Next2.ViewModels
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
                 var seat = currentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
+
                 if (seat is not null)
                 {
                     _indexOfSeat = currentOrder.Seats.IndexOf(seat);
