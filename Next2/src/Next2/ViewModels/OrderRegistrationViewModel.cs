@@ -250,6 +250,12 @@ namespace Next2.ViewModels
 
                 case nameof(SelectedDish):
                     IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
+
+                    if (SelectedDish is null)
+                    {
+                        OnGoBackCommand();
+                    }
+
                     break;
             }
         }
@@ -398,6 +404,13 @@ namespace Next2.ViewModels
             {
                 seat.Checked = true;
 
+                if (_seatWithSelectedDish?.SeatNumber != seat.SeatNumber)
+                {
+                    _seatWithSelectedDish.SelectedItem = null;
+                    SelectedDish = null;
+                    _seatWithSelectedDish = null;
+                }
+
                 foreach (var item in CurrentOrder.Seats)
                 {
                     if (item.SeatNumber != seat.SeatNumber)
@@ -410,6 +423,38 @@ namespace Next2.ViewModels
             }
 
             return Task.CompletedTask;
+        }
+
+        private async Task OnSelectDishCommandAsync(SeatBindableModel seat)
+        {
+            if (CurrentOrder.Seats is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && seat.SelectedItem is not null)
+            {
+                _seatWithSelectedDish = seat;
+                seat.Checked = true;
+
+                foreach (var item in CurrentOrder.Seats)
+                {
+                    if (item.SeatNumber != seat.SeatNumber)
+                    {
+                        item.SelectedItem = null;
+                        item.Checked = false;
+                    }
+                }
+
+                _orderService.CurrentSeat = seat;
+                SelectedDish = seat.SelectedItem;
+
+                if (App.IsTablet)
+                {
+                    CurrentState = LayoutState.Success;
+                    Thread.Sleep(100); // It suspend the thread to hide unwanted animation
+                    IsSideMenuVisible = false;
+                }
+                else
+                {
+                    await _navigationService.NavigateAsync(nameof(EditPage));
+                }
+            }
         }
 
         private Task OnDeleteSeatCommandAsync(SeatBindableModel seat) => DeleteSeatAsync(seat);
@@ -640,35 +685,6 @@ namespace Next2.ViewModels
                 {
                     InitOrderTypes();
                     await RefreshCurrentOrderAsync();
-                }
-            }
-        }
-
-        private async Task OnSelectDishCommandAsync(SeatBindableModel seat)
-        {
-            if (CurrentOrder.Seats is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && seat.SelectedItem is not null)
-            {
-                _seatWithSelectedDish = seat;
-
-                foreach (var item in CurrentOrder.Seats)
-                {
-                    if (item.SeatNumber != seat.SeatNumber)
-                    {
-                        item.SelectedItem = null;
-                    }
-                }
-
-                SelectedDish = seat.SelectedItem;
-
-                if (App.IsTablet)
-                {
-                    CurrentState = LayoutState.Success;
-                    Thread.Sleep(100); // It suspend the thread to hide unwanted animation
-                    IsSideMenuVisible = false;
-                }
-                else
-                {
-                    await _navigationService.NavigateAsync(nameof(EditPage));
                 }
             }
         }
