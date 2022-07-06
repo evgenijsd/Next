@@ -86,6 +86,7 @@
 
                             <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
                             <Setter Property="ImageSource" Value="ic_search_24x24" />
+                            <Setter Property="CommandClear" Value="{Binding SearchCommand}" />
 
                         </DataTrigger>
 
@@ -94,7 +95,7 @@
                             <Setter Property="Placeholder" Value="{xct:Translate SearchTableNumber}" />
 
                         </DataTrigger>
-                        
+
                     </buttons:SearchButton.Triggers>
 
                 </buttons:SearchButton>
