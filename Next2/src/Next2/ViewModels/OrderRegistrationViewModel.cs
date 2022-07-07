@@ -369,6 +369,11 @@ namespace Next2.ViewModels
                 seat.SeatDeleteCommand = _deleteSeatCommand;
                 seat.RemoveOrderCommand = _removeOrderCommand;
                 seat.DishSelectionCommand = _selectDishCommand;
+
+                if (seat.SelectedItem is not null)
+                {
+                    seat.SelectedItem = null;
+                }
             }
         }
 
