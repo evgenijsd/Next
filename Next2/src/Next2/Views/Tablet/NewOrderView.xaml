@@ -650,7 +650,7 @@
                                         <Label
                                             Text="{xct:Translate Cancel}"
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationBar}}, Path=FontFamily}"
+                                            FontFamily="{Binding FontFamily, Source={RelativeSource AncestorType={x:Type controls:CustomNavigationBar}}}"
                                             FontSize="{DynamicResource TSize_i9}"
                                             VerticalOptions="CenterAndExpand"/>
                                         

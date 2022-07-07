@@ -32,10 +32,10 @@
     </VisualStateManager.VisualStateGroups>
 
     <pancakeview:PancakeView
-        BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=BackColor}"
+        BackgroundColor="{Binding BackColor, Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}}"
         Border="{OnIdiom Tablet={pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}}"
         CornerRadius="8"
-        HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=HeightBonus}"
+        HeightRequest="{Binding HeightBonus, Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}}"
         x:Name="bonusPancakeView">
 
         <Grid
@@ -43,7 +43,7 @@
             ColumnDefinitions="*, 50">
 
             <ffimageloading:CachedImage
-                Source="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=ImagePath}"
+                Source="{Binding ImagePath, Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}}"
                 Grid.Column="1"
                 HeightRequest="25"
                 HorizontalOptions="CenterAndExpand"
@@ -56,7 +56,7 @@
                 HorizontalOptions="FillAndExpand"
                 Margin="20, 0, 0, 0"
                 VerticalOptions="CenterAndExpand"
-                Text="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=Text}"
+                Text="{Binding Text, Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}}"
                 LineBreakMode="TailTruncation"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 FontSize="{DynamicResource TSize_i8}"
@@ -66,8 +66,8 @@
 
         <pancakeview:PancakeView.GestureRecognizers>
             <TapGestureRecognizer
-                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=TapSelectCommand}"
-                CommandParameter="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=TapSelectCommandParameter}"/>
+                Command="{Binding TapSelectCommand, Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}}"
+                CommandParameter="{Binding TapSelectCommandParameter, Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}}"/>
             
         </pancakeview:PancakeView.GestureRecognizers>
 

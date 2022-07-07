@@ -15,15 +15,15 @@
     <ffimageloading:CachedImage
         VerticalOptions="CenterAndExpand"
         Source="ic_arrow_left_tail_40x40"
-        HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationBar}}, Path=HeightImage}"
-        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationBar}}, Path=LeftButtonCommand}"/>
+        HeightRequest="{Binding HeightImage, Source={RelativeSource AncestorType={x:Type controls:CustomNavigationBar}}}"
+        xct:TouchEffect.Command="{Binding LeftButtonCommand, Source={RelativeSource AncestorType={x:Type controls:CustomNavigationBar}}}"/>
 
     <Label
         VerticalOptions="CenterAndExpand"
         Margin="0, 0, 0, 2"
-        Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationBar}}, Path=Title}"
+        Text="{Binding Title, Source={RelativeSource AncestorType={x:Type controls:CustomNavigationBar}}}"
         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-        FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationBar}}, Path=FontFamily}"
-        FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationBar}}, Path=FontSize}"/>
+        FontFamily="{Binding FontFamily, Source={RelativeSource AncestorType={x:Type controls:CustomNavigationBar}}}"
+        FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type controls:CustomNavigationBar}}}"/>
 
 </StackLayout>
