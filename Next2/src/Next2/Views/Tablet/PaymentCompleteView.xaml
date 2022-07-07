@@ -131,7 +131,6 @@
 
                         <templates:CustomNumericKeyboardTemplate
                             Grid.Column="1"
-                            IsEnabled="False"
                             Margin="0, 95, 0, 0"
                             BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i5}"
                             PlaceHolder="{xct:Translate EnterAmount}"
@@ -144,22 +143,7 @@
                             IsUserLogIn="{Binding IsClearedTip}"
                             MaxLength="{x:Static local:Constants+Limits.MAXIMUM_DISCHARGE_NUMBER}"
                             HeightRequest="340"
-                            WidthRequest="360">
-
-                            <templates:CustomNumericKeyboardTemplate.Triggers>
-
-                                <DataTrigger
-                                    TargetType="templates:CustomNumericKeyboardTemplate"
-                                    Binding="{Binding SelectedTipItem.TipType}"
-                                    Value="{Static enum:ETipType.Other}">
-
-                                    <Setter Property="IsEnabled" Value="True" />
-
-                                </DataTrigger>
-
-                            </templates:CustomNumericKeyboardTemplate.Triggers>
-
-                        </templates:CustomNumericKeyboardTemplate>
+                            WidthRequest="360" />
 
                     </Grid>
 
