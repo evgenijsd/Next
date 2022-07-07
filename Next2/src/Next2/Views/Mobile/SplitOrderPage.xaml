@@ -31,7 +31,7 @@
         <!--  Navbar  -->
         <StackLayout>
 
-            <controls:CustomNavigationbar
+            <controls:CustomNavigationBar
                 Title="{xct:Translate Cancel}"
                 HeightRequest="50"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -66,7 +66,7 @@
 
                 </VisualStateManager.VisualStateGroups>
 
-            </controls:CustomNavigationbar>
+            </controls:CustomNavigationBar>
 
         </StackLayout>
 

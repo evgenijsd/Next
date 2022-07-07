@@ -131,6 +131,9 @@
     <Compile Update="Controls\CalendarTab.xaml.cs">
       <DependentUpon>CalendarTab2.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\CustomNavigationBar.xaml.cs">
+      <DependentUpon>CustomNavigationBar.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\Templates\DishItemTemplate.xaml.cs">
       <DependentUpon>DishItemTemplate.xaml</DependentUpon>
     </Compile>
@@ -313,7 +316,7 @@
     <EmbeddedResource Update="Controls\Buttons\SearchButton.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\CustomNavigationbar.xaml">
+    <EmbeddedResource Update="Controls\CustomNavigationBar.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\FormattedLabel.xaml">

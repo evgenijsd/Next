@@ -118,7 +118,7 @@
             Grid.Row="0"
             Grid.ColumnSpan="2">
 
-            <controls:CustomNavigationbar
+            <controls:CustomNavigationBar
                 Title="{xct:Translate Cancel}"
                 HeightRequest="50"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
@@ -153,7 +153,7 @@
 
                 </VisualStateManager.VisualStateGroups>
 
-            </controls:CustomNavigationbar>
+            </controls:CustomNavigationBar>
 
             <BoxView Style="{DynamicResource SeparatorStyle_i4}" />
 

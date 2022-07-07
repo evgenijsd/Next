@@ -5,7 +5,7 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     HasShadow="False"
-    CornerRadius="8"
+    CornerRadius="5"
     BackgroundColor="Transparent"
     x:Class="Next2.Controls.Buttons.BorderButton">
 

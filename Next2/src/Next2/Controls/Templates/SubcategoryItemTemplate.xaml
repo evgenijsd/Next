@@ -35,7 +35,7 @@
     </VisualStateManager.VisualStateGroups>
 
     <BoxView
-        HeightRequest="4"
+        HeightRequest="2"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
         x:Name="boxView"/>
 

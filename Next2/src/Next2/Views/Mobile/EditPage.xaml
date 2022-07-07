@@ -17,9 +17,9 @@
 
     <Grid RowDefinitions="0.10*, *, 0.30*">
 
-        <controls:CustomNavigationbar 
+        <controls:CustomNavigationBar 
             Grid.Row="0"
-            Padding="0, 0, 0, 0"
+            Padding="12, 0, 0, 0"
             Title="{xct:Translate EditOrder}" 
             FontSize="{DynamicResource TSize_i5}"
             LeftButtonCommand="{Binding GoBackCommand}"

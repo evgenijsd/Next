@@ -11,39 +11,39 @@
     x:DataType="buttons:SearchButton">
 
     <Frame
-        BorderColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=BorderColor}"
-        BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=BackColor}"
-        CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=CornerRadius}"
+        BorderColor="{Binding BorderColor, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
+        BackgroundColor="{Binding BackColor, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
+        CornerRadius="{Binding CornerRadius, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
         VerticalOptions="FillAndExpand"/>
 
     <StackLayout
         BackgroundColor="Transparent"
         Margin="0, 0, 40, 0"
         xct:TouchEffect.AnimationDuration="0"
-        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=CommandSearch}">
+        xct:TouchEffect.Command="{Binding CommandSearch, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}">
 
         <Label
-            Text="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=Text}"
+            Text="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
             Margin="10, 0, 0, 0"
-            FontSize="{DynamicResource TSize_i11}"
+            FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
             FontFamily="Barlow-Regular"
-            TextColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=TextColor}"
+            TextColor="{Binding TextColor, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
             VerticalOptions="CenterAndExpand"
             HorizontalOptions="FillAndExpand"
             LineBreakMode="TailTruncation"
-            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=Text, Converter={xct:IsNotNullOrEmptyConverter}}" />
+            IsVisible="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Converter={xct:IsNotNullOrEmptyConverter}}" />
 
         <Label
-            Text="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=Placeholder}"
+            Text="{Binding Placeholder, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
             Margin="10, 0, 40, 0"
             FontSize="{DynamicResource TSize_i11}"
             FontFamily="Barlow-Regular"
-            TextColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=TextColor}"
+            TextColor="{Binding TextColor, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
             Opacity="{DynamicResource OpacityWhenDisabled_i1}"
             VerticalOptions="CenterAndExpand"
             HorizontalOptions="FillAndExpand"
             LineBreakMode="TailTruncation"
-            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=Text, Converter={xct:IsNullOrEmptyConverter}}" />
+            IsVisible="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Converter={xct:IsNullOrEmptyConverter}}" />
 
     </StackLayout>
 
@@ -53,10 +53,10 @@
         WidthRequest="40"
         xct:TouchEffect.AnimationDuration="0"
         xct:TouchEffect.NativeAnimation="False"
-        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=CommandClear}">
+        xct:TouchEffect.Command="{Binding CommandClear, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}">
 
         <ffimageloading:CachedImage
-            Source="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=ImageSource}"
+            Source="{Binding ImageSource, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
             HeightRequest="20"
             Margin="0, 0, 10, 0"
             VerticalOptions="CenterAndExpand"

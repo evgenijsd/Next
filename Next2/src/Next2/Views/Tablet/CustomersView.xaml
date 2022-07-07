@@ -5,6 +5,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
+    xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
@@ -21,7 +22,7 @@
 
             <Style x:Key="ViewCellLabelStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
                 <Setter Property="FontFamily" Value="Barlow-Medium" />
                 <Setter Property="VerticalOptions" Value="Center" />
             </Style>
@@ -49,7 +50,7 @@
 
         <Grid
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-            RowDefinitions="0.09*, 0.79*, 0.1*"
+            RowDefinitions="auto, 0.79*, 0.1*"
             RowSpacing="2">
 
             <!--  header  -->
@@ -59,7 +60,7 @@
 
             <Label
                 Grid.Row="0"
-                Margin="30, 0, 0, 0"
+                Padding="32, 19, 32, 16"
                 FontFamily="Barlow-Bold"
                 FontSize="{DynamicResource TSize_i4_5}"
                 HorizontalOptions="Start"
@@ -74,11 +75,12 @@
                 CornerRadius="0" >
 
                 <StackLayout>
+                    
                     <Grid
-                        HeightRequest="40"
-                        MinimumHeightRequest="40"
-                        Margin="24, 24, 24, 17"
-                        ColumnDefinitions="0.35*, 0.65*">
+                        ColumnDefinitions="0.35*, 0.65*"
+                        Margin="32, 30, 32, 18"
+                        MinimumHeightRequest="36"
+                        HeightRequest="36">
 
                         <buttons:SearchButton
                             CornerRadius="5"
@@ -112,8 +114,7 @@
                             <Frame
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                                 BorderColor="{DynamicResource IndicationColor_i7}"
-                                HeightRequest="40"
-                                Opacity="1"
+                                HeightRequest="45"
                                 Style="{DynamicResource ButtonFrameStyle}"
                                 VerticalOptions="Center"
                                 WidthRequest="110"
@@ -148,7 +149,7 @@
 
                             <Frame
                                 BackgroundColor="{DynamicResource AppColor_i1}"
-                                HeightRequest="40"
+                                HeightRequest="45"
                                 Margin="15, 0, 0, 0"
                                 Style="{DynamicResource ButtonFrameStyle}"
                                 VerticalOptions="Center"
@@ -176,10 +177,10 @@
 
                         <yummy:PancakeView
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                            Border="{yummy:BorderMarkup Thickness=3, Color={StaticResource TextAndBackgroundColor_i3}}"
-                            Margin="24, 0, 24, 20"
+                            Border="{yummy:BorderMarkup Thickness=1, Color={StaticResource TextAndBackgroundColor_i3}}"
+                            Margin="32, 0, 32, 20"
                             IsVisible="false"
-                            CornerRadius="{OnPlatform Android=6, iOS=8}"
+                            CornerRadius="8"
                             VerticalOptions="FillAndExpand"
                             HorizontalOptions="FillAndExpand">
 
@@ -207,14 +208,14 @@
                         <StackLayout>
 
                             <yummy:PancakeView
-                                Margin="24, 0"
+                                Margin="32, 0"
                                 BackgroundColor="{StaticResource TextAndBackgroundColor_i3}"
                                 CornerRadius="8, 8, 0, 0"
-                                HeightRequest="45"
-                                MinimumHeightRequest="45">
+                                HeightRequest="42"
+                                MinimumHeightRequest="42">
 
                                 <Grid
-                                    ColumnDefinitions="65, 0.16*, 0.161*, 0.161*, 0.161*, 0.164*"
+                                    ColumnDefinitions="69, 0.16*, 0.161*, 0.161*, 0.161*, 0.164*"
                                     HorizontalOptions="FillAndExpand"
                                     VerticalOptions="Center">
 
@@ -231,7 +232,9 @@
                                             Style="{DynamicResource ViewCellLabelStyle}"
                                             Text="{xct:Translate CustomerName}" />
 
-                                        <Image Source="ic_sort_primary_24x24" />
+                                        <Image
+                                            WidthRequest="20"
+                                            Source="ic_sort_primary_24x24" />
 
                                         <StackLayout.GestureRecognizers>
                                             
@@ -253,6 +256,7 @@
 
                                         <Image
                                             IsVisible="true"
+                                            WidthRequest="20"
                                             Source="ic_sort_primary_24x24"
                                             x:Name="sortPointsImage"/>
 
@@ -284,13 +288,16 @@
                                 </Grid>
 
                             </yummy:PancakeView>
-
+                            
+                            <BoxView
+                                HeightRequest="2"
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+                            
                             <!--  Table content  -->
                             <yummy:PancakeView
-                                Margin="24, 0, 24, 21"
-                                HeightRequest="{Binding DisplayedCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
+                                Margin="32, 0, 32, 42"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                CornerRadius="0, 0, 8, 8"
+                                CornerRadius="0, 0, 7, 7"
                                 VerticalOptions="Start">
 
                                 <yummy:PancakeView.Triggers>
@@ -309,12 +316,18 @@
 
                                     <controls:CustomScrollBarCollectionView
                                         Style="{DynamicResource CustomScrollBarCollectionView_i1}"
+                                        HeightRequest="{Binding DisplayedCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=40}"                                       
                                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                                         ItemsSource="{Binding DisplayedCustomers}"
                                         SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
                                         x:Name="collectiomView">
 
+                                        <controls:CustomScrollBarCollectionView.Behaviors>
+                                            <behaviors:ScrollToCenterBehavior/>
+                                        </controls:CustomScrollBarCollectionView.Behaviors>
+
                                         <CollectionView.Effects>
+                                            
                                             <effects:NoOverScrollEffect />
 
                                             <effects:ScrollBarColorEffect
@@ -330,11 +343,11 @@
 
                                                 <Grid
                                                     ColumnDefinitions="0.325*, *"
-                                                    HeightRequest="45">
+                                                    HeightRequest="40">
                                                     
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="*" />
-                                                        <RowDefinition Height="{OnPlatform Android=1.5, iOS=2}" />
+                                                        <RowDefinition Height="2" />
                                                     </Grid.RowDefinitions>
 
                                                     <Grid.GestureRecognizers>
@@ -347,7 +360,7 @@
                                                     <ffimageloading:CachedImage
                                                         Grid.Row="0"
                                                         Grid.Column="0"
-                                                        Margin="16, 0, 0, 0"
+                                                        Margin="20, 0, 0, 0"
                                                         HeightRequest="20"
                                                         HorizontalOptions="Start"
                                                         Source="ic_check_box_unhecked_24x24"
@@ -441,6 +454,7 @@
                         </StackLayout>
 
                     </Grid>
+                    
                 </StackLayout>
 
             </Frame>
@@ -451,9 +465,9 @@
 
                 <!--  select button  -->
                 <Frame
-                    Margin="30, 18"
+                    Margin="24, 18"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
-                    CornerRadius="6"
+                    CornerRadius="5"
                     Opacity="1"
                     xct:TouchEffect.Command="{Binding AddCustomerToOrderCommand}">
 

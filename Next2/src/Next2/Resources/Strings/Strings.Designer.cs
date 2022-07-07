@@ -1196,8 +1196,7 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select a Coupon or Discount 
-        ///                 to use it..
+        ///   Looks up a localized string similar to Select a Coupon or Discount to use it..
         /// </summary>
         internal static string SelectCoupon {
             get {

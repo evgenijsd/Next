@@ -16,7 +16,7 @@
         RowDefinitions="60, *, 130"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
-        <controls:CustomNavigationbar
+        <controls:CustomNavigationBar
             Grid.Row="0"
             Title="{xct:Translate Card}"
             HeightImage="30"

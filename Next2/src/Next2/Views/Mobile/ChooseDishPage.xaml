@@ -11,6 +11,7 @@
     xmlns:dto="clr-namespace:Next2.Models.API.DTO"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
     xmlns:views="clr-namespace:Next2.Views"
+    xmlns:controls="clr-namespace:Next2.Controls"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
     x:Class="Next2.Views.Mobile.ChooseDishPage"
     x:DataType="viewModels:ChooseDishPageViewModel">
@@ -19,24 +20,13 @@
 
         <!--Categories-->
 
-        <StackLayout
+        <controls:CustomNavigationBar
+            Title="{xct:Translate Categories}"
             Padding="15"
-            Orientation="Horizontal"
-            xct:TouchEffect.Command="{prism:GoBack}">
-
-            <ffimageloading:CachedImage
-                HorizontalOptions="Start"
-                Source="ic_arrow_left_tail_24x24.png"/>
-
-            <Label
-                Text="{xct:Translate Categories}"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontSize="{DynamicResource TSize_i5}"
-                FontFamily="Barlow-SemiBold"
-                HorizontalOptions="StartAndExpand"
-                Margin="15, 0, 0, 0"/>
-
-        </StackLayout>
+            HeightImage="24"
+            FontSize="{DynamicResource TSize_i5}"
+            BackgroundColor="Transparent"
+            LeftButtonCommand="{prism:GoBack}" />
 
         <BoxView
             HeightRequest="1"
