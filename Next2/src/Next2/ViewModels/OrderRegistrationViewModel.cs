@@ -689,6 +689,7 @@ namespace Next2.ViewModels
                 if (resultOfSettingEmptyCurrentOrder.IsSuccess)
                 {
                     InitOrderTypes();
+
                     await RefreshCurrentOrderAsync();
                 }
             }
@@ -736,8 +737,13 @@ namespace Next2.ViewModels
                     IsOrderSavingAndPaymentEnabled = false;
 
                     CurrentOrder.Seats = new();
+
                     OnGoBackCommand();
                 }
+            }
+            else
+            {
+                await ResponseToBadRequestAsync(updateOrderResult.Exception.Message);
             }
         }
 
@@ -772,8 +778,10 @@ namespace Next2.ViewModels
                     await SaveCurrentOrderAsync(true);
                 }
             }
-
-            await PopupNavigation.PopAsync();
+            else
+            {
+                await PopupNavigation.PopAsync();
+            }
         }
 
         private Task OnOpenModifyCommandAsync()

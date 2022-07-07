@@ -48,7 +48,14 @@ namespace Next2.ViewModels
 
                 await _navigationService.NavigateAsync($"{nameof(LoginPage)}", navigationParameters);
             }
-            else if (statusCode == Constants.StatusCode.BAD_REQUEST)
+            else if (statusCode == Constants.StatusCode.SOCKET_CLOSED)
+            {
+                await ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["RequestTimedOut"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
+            else
             {
                 await ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
