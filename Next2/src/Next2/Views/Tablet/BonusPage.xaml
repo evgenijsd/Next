@@ -19,33 +19,15 @@
     x:DataType="viewModels:BonusPageViewModel">
 
     <Grid RowDefinitions="68, *">
-
-        <!--CANCEL BUTTON -->
-        <Frame
-            Grid.Row="0"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-            xct:TouchEffect.Command="{prism:GoBack}">
                                 
-            <StackLayout 
-                Margin="32, 24, 32, 20"
-                Orientation="Horizontal"
-                Spacing="10">
-                                    
-                <ffimageloading:CachedImage
-                    VerticalOptions="CenterAndExpand"
-                    HeightRequest="20"
-                    Source="ic_arrow_left_tail_40x40"/>
-
-                <Label
-                    Text="{xct:Translate Cancel}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationBar}}, Path=FontFamily}"
-                    FontSize="{DynamicResource TSize_i9}"
-                    VerticalOptions="CenterAndExpand"/>
-                                    
-            </StackLayout>
-
-        </Frame>
+        <controls:CustomNavigationBar
+            Grid.Row="0"
+            Padding="32, 24, 32, 20"
+            Title="{xct:Translate Cancel}"
+            HeightImage="20"
+            FontSize="{DynamicResource TSize_i9}"
+            LeftButtonCommand="{prism:GoBack}"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}" />
 
         <BoxView
             Grid.Row="0"
