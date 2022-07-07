@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     HorizontalOptions="Fill"
     VerticalOptions="Start"
     Margin="0, 7, 0, 0"
@@ -18,7 +19,11 @@
                     <VisualState.Setters>
                         <Setter Property="BackgroundColor" Value="Transparent" />
                         <Setter TargetName="checkBoxImage" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24" />
-                        <Setter TargetName="bonusFrame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
+                        <Setter TargetName="bonusPancakeView" Property="pancakeview:PancakeView.Border">
+                            <Setter.Value>
+                                <pancakeview:BorderMarkup Color="{StaticResource AppColor_i1}" Thickness="2"/>
+                            </Setter.Value>
+                        </Setter>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -26,19 +31,19 @@
 
     </VisualStateManager.VisualStateGroups>
 
-    <Frame
-        BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=BackColor}"
-        BorderColor="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=BorderBonusColor}"
+    <pancakeview:PancakeView
+        BackgroundColor="{Binding BackColor, Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}}"
+        Border="{OnIdiom Tablet={pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}}"
         CornerRadius="8"
-        HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=HeightBonus}"
-        x:Name="bonusFrame">
+        HeightRequest="{Binding HeightBonus, Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}}"
+        x:Name="bonusPancakeView">
 
         <Grid
             Grid.Row="0"
             ColumnDefinitions="*, 50">
 
             <ffimageloading:CachedImage
-                Source="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=ImagePath}"
+                Source="{Binding ImagePath, Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}}"
                 Grid.Column="1"
                 HeightRequest="25"
                 HorizontalOptions="CenterAndExpand"
@@ -51,21 +56,21 @@
                 HorizontalOptions="FillAndExpand"
                 Margin="20, 0, 0, 0"
                 VerticalOptions="CenterAndExpand"
-                Text="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=Text}"
+                Text="{Binding Text, Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}}"
                 LineBreakMode="TailTruncation"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontSize="{DynamicResource TSize_i7}"
+                FontSize="{DynamicResource TSize_i8}"
                 FontFamily="Barlow-SemiBold" />
 
         </Grid>
 
-        <Frame.GestureRecognizers>
+        <pancakeview:PancakeView.GestureRecognizers>
             <TapGestureRecognizer
-                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=TapSelectCommand}"
-                CommandParameter="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=TapSelectCommandParameter}"/>
+                Command="{Binding TapSelectCommand, Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}}"
+                CommandParameter="{Binding TapSelectCommandParameter, Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}}"/>
             
-        </Frame.GestureRecognizers>
+        </pancakeview:PancakeView.GestureRecognizers>
 
-    </Frame>
+    </pancakeview:PancakeView>
 
 </StackLayout>

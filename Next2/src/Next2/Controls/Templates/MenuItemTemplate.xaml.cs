@@ -2,7 +2,7 @@
 
 namespace Next2.Controls.Templates
 {
-    public partial class MenuItemTemplate : StackLayout
+    public partial class MenuItemTemplate : Frame
     {
         public MenuItemTemplate()
         {

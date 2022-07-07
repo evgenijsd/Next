@@ -6,7 +6,6 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:local="clr-namespace:Next2"
     Orientation="Horizontal"
-    Spacing="12"
     x:Class="Next2.Controls.TimeAndDateBar">
     
     <StackLayout.Resources>
@@ -14,7 +13,7 @@
         <Style TargetType="Label">
             <Setter Property="VerticalOptions" Value="Center"/>
             <Setter Property="FontFamily" Value="Barlow-Medium"/>
-            <Setter Property="FontSize" Value="{DynamicResource TSize_i7}"/>
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i9}"/>
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
         </Style>
         
@@ -32,7 +31,7 @@
             Source="ic_time_circle_24x24" />
         
         <Label
-            WidthRequest="95"
+            WidthRequest="70"
             Text="{Binding DateTime, Source={RelativeSource AncestorType={x:Type controls:TimeAndDateBar}}, StringFormat={Static local:Constants+Formats.SHORT_TIME}}"/>
         
     </StackLayout>

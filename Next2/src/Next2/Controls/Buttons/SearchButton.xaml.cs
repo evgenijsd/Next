@@ -38,6 +38,19 @@ namespace Next2.Controls.Buttons
             set => SetValue(TextProperty, value);
         }
 
+        public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
+            propertyName: nameof(FontSize),
+            returnType: typeof(double),
+            declaringType: typeof(SearchButton),
+            defaultValue: 12d,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public double FontSize
+        {
+            get => (double)GetValue(FontSizeProperty);
+            set => SetValue(FontSizeProperty, value);
+        }
+
         public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
             propertyName: nameof(Placeholder),
             returnType: typeof(string),

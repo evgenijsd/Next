@@ -3,9 +3,9 @@ using Xamarin.Forms;
 
 namespace Next2.Controls
 {
-    public partial class CustomNavigationbar : Grid
+    public partial class CustomNavigationBar : StackLayout
     {
-        public CustomNavigationbar()
+        public CustomNavigationBar()
         {
             InitializeComponent();
         }
@@ -15,7 +15,7 @@ namespace Next2.Controls
         public static readonly BindableProperty HeightImageProperty = BindableProperty.Create(
             propertyName: nameof(HeightImage),
             returnType: typeof(double),
-            declaringType: typeof(CustomNavigationbar),
+            declaringType: typeof(CustomNavigationBar),
             defaultBindingMode: BindingMode.TwoWay);
 
         public double HeightImage
@@ -27,7 +27,7 @@ namespace Next2.Controls
         public static readonly BindableProperty LeftButtonCommandProperty = BindableProperty.Create(
             propertyName: nameof(LeftButtonCommand),
             returnType: typeof(ICommand),
-            declaringType: typeof(CustomNavigationbar),
+            declaringType: typeof(CustomNavigationBar),
             defaultBindingMode: BindingMode.TwoWay);
 
         public ICommand LeftButtonCommand
@@ -39,7 +39,7 @@ namespace Next2.Controls
         public static readonly BindableProperty TitleProperty = BindableProperty.Create(
             propertyName: nameof(Title),
             returnType: typeof(string),
-            declaringType: typeof(CustomNavigationbar),
+            declaringType: typeof(CustomNavigationBar),
             defaultBindingMode: BindingMode.TwoWay);
 
         public string Title
@@ -51,7 +51,7 @@ namespace Next2.Controls
         public static readonly BindableProperty TitleColorProperty = BindableProperty.Create(
             propertyName: nameof(TitleColor),
             returnType: typeof(Color),
-            declaringType: typeof(CustomNavigationbar),
+            declaringType: typeof(CustomNavigationBar),
             defaultBindingMode: BindingMode.TwoWay);
 
         public Color TitleColor
@@ -63,7 +63,7 @@ namespace Next2.Controls
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
             propertyName: nameof(FontSize),
             returnType: typeof(double),
-            declaringType: typeof(CustomNavigationbar),
+            declaringType: typeof(CustomNavigationBar),
             defaultBindingMode: BindingMode.TwoWay);
 
         public double FontSize
@@ -75,7 +75,7 @@ namespace Next2.Controls
         public static readonly BindableProperty FontFamilyProperty = BindableProperty.Create(
             propertyName: nameof(FontFamily),
             returnType: typeof(string),
-            declaringType: typeof(CustomNavigationbar),
+            declaringType: typeof(CustomNavigationBar),
             defaultValue: "Barlow-SemiBold",
             defaultBindingMode: BindingMode.TwoWay);
 

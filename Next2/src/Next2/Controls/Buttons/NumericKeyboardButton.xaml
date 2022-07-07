@@ -17,9 +17,9 @@
         HorizontalTextAlignment="Center"
         VerticalTextAlignment="Center"
         BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type buttons:NumericKeyboardButton}}}"
-        FontSize="{DynamicResource TSize_i4_5}"
+        FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type buttons:NumericKeyboardButton}}}"
         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-        FontFamily="Barlow-Bold"/>
+        FontFamily="{Binding FontFamily, Source={RelativeSource AncestorType={x:Type buttons:NumericKeyboardButton}}}"/>
     
     <controls:CustomFrame.GestureRecognizers>
     

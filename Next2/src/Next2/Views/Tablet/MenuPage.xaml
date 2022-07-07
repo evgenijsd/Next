@@ -15,7 +15,7 @@
     x:Class="Next2.Views.Tablet.MenuPage"
     x:DataType="viewModels:MenuPageViewModel">
 
-    <Grid ColumnDefinitions="100, *">
+    <Grid ColumnDefinitions="80, *">
 
         <Grid.Triggers>
             <DataTrigger TargetType="Grid" Binding="{Binding NewOrderViewModel.OrderRegistrationViewModel.IsSideMenuVisible}" Value="False">
@@ -45,7 +45,7 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        <Setter Property="ColumnDefinitions" Value="130, *" />
+                        <Setter Property="ColumnDefinitions" Value="96, *" />
                     </VisualState.Setters>
 
                 </VisualState>
@@ -58,8 +58,8 @@
         <Grid
             Grid.Row="0"
             Grid.Column="0"
-            RowDefinitions="105, *, 80"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+            RowDefinitions="auto, *, 80"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup Name="AdaptiveSideMenu">
@@ -95,7 +95,7 @@
                         </VisualState.StateTriggers>
 
                         <VisualState.Setters>
-                            <Setter Property="RowDefinitions" Value="105, *, 130" />
+                            <Setter Property="RowDefinitions" Value="auto, *, auto" />
                         </VisualState.Setters>
 
                     </VisualState>
@@ -106,9 +106,11 @@
             <ffimageloading:CachedImage
                 Grid.Row="0"
                 Grid.Column="0"
+                HeightRequest="76"
+                WidthRequest="76"
                 Source="pic_logo_small.png"
                 Margin="11, 11, 11, 0">
-
+    
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup Name="AdaptiveLogoMargin">
 
@@ -143,7 +145,7 @@
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-                                <Setter Property="Margin" Value="16, 16, 16, 0" />
+                                <Setter Property="Margin" Value="11" />
                             </VisualState.Setters>
 
                         </VisualState>
@@ -156,7 +158,6 @@
             <CollectionView
                 Grid.Row="1"
                 Grid.Column="0"
-                Margin="11, 11, 11, 0"
                 ItemsSource="{Binding MenuItems}"
                 SelectedItem="{Binding SelectedMenuItem}"
                 SelectionMode="Single">
@@ -195,7 +196,7 @@
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-                                <Setter Property="Margin" Value="16, 16, 16, 0" />
+                                <Setter Property="Margin" Value="0, 12" />
                             </VisualState.Setters>
 
                         </VisualState>
@@ -223,9 +224,9 @@
                         <templates:MenuItemTemplate
                             ImagePath="{Binding ImagePath}"
                             Text="{Binding Title}"
-                            FontSize="{DynamicResource TSize_i9}"
+                            FontSize="{DynamicResource TSize_i10}"
                             FontFamily="Barlow-Medium"/>
-
+                            
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
@@ -234,12 +235,11 @@
             <templates:MenuItemTemplate
                 Grid.Row="2"
                 Grid.Column="0"
+                Padding="0, 0, 0, 10"
                 ImagePath="ic_logout_30x30.png"
                 Text="{xct:Translate LogOut}"
                 FontSize="{DynamicResource TSize_i8}"
-                FontFamily="Barlow-SemiBold"
-                Margin="10, 0"
-                Padding="0, 15">
+                FontFamily="Barlow-SemiBold">
 
                 <templates:MenuItemTemplate.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding LogOutCommand}"/>

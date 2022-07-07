@@ -6,6 +6,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
+    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
@@ -20,7 +21,7 @@
         <ResourceDictionary>
 
             <Style x:Key="labeltSize_i4" TargetType="Label">
-
+                <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
                 <Setter Property="VisualStateManager.VisualStateGroups">
 
                     <VisualStateGroupList>
@@ -45,7 +46,7 @@
                                 </VisualState.StateTriggers>
 
                                 <VisualState.Setters>
-                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i4}" />
+                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
                                 </VisualState.Setters>
 
                             </VisualState>
@@ -70,32 +71,15 @@
         <StackLayout VerticalOptions="Start">
 
             <!--Categories header-->
-
-            <StackLayout
-                VerticalOptions="Start"
-                Orientation="Horizontal"
-                Padding="12, 11, 12, 0">
-
-                <ContentView
-                    HeightRequest="40"
-                    Padding="0, 0, 12, 0"
-                    xct:TouchEffect.Command="{prism:GoBack}"
-                    xct:TouchEffect.CommandParameter="{prism:Parameter Key={Static local:Constants+Navigations.REFRESH_ORDER}}" >
-
-                    <ffimageloading:CachedImage 
-                        Source="ic_arrow_left_tail_40x40"
-                        HeightRequest="30"/>
-
-                </ContentView>
-
-                <Label
-                    Text="{xct:Translate Categories}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    Style="{StaticResource labeltSize_i4}"
-                    FontFamily="Barlow-SemiBold"
-                    VerticalTextAlignment="Center"/>
-
-            </StackLayout>
+            <controls:CustomNavigationBar
+                HeightImage="20"
+                Padding="32, 26, 32, 0"
+                Spacing="16"
+                FontSize="{DynamicResource TSize_i6}"
+                BackgroundColor="Transparent"
+                Title="{xct:Translate Categories}"
+                xct:TouchEffect.Command="{prism:GoBack}"
+                xct:TouchEffect.CommandParameter="{prism:Parameter Key={Static local:Constants+Navigations.REFRESH_ORDER}}"/>
 
             <CollectionView
                 MinimumHeightRequest="{Binding HeightCollectionView}"
@@ -128,7 +112,7 @@
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-                                <Setter Property="Margin" Value="40, 26, 40, 32" />
+                                <Setter Property="Margin" Value="32, 26, 32, 22" />
                             </VisualState.Setters>
 
                         </VisualState>
@@ -155,10 +139,10 @@
 
                         <templates:CategoryItemTemplate
                             Text="{Binding Name}"
-                            HeightRequest="54"
+                            HeightRequest="40"
                             FontSize="{DynamicResource TSize_i8}"
                             FontFamily="Barlow-Medium"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"/>
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -168,7 +152,6 @@
             <BoxView
                 HeightRequest="1"
                 Margin="12, 0"
-                VerticalOptions="Start"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}">
 
                 <VisualStateManager.VisualStateGroups>
@@ -193,7 +176,7 @@
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-                                <Setter Property="Margin" Value="40, 0" />
+                                <Setter Property="Margin" Value="32, 0" />
                             </VisualState.Setters>
 
                         </VisualState>
@@ -235,7 +218,7 @@
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-                                <Setter Property="Padding" Value="40, 34, 40, 0" />
+                                <Setter Property="Padding" Value="32, 20, 32, 0" />
                             </VisualState.Setters>
 
                         </VisualState>
@@ -259,14 +242,19 @@
                 HorizontalOptions="EndAndExpand"
                 xct:TouchEffect.Command="{Binding TapSortCommand}">
 
+
                 <StackLayout Orientation="Horizontal">
 
-                    <ffimageloading:CachedImage Source="ic_swap_24x24"/>
+                    <ffimageloading:CachedImage 
+                        HeightRequest="20"
+                        WidthRequest="20"
+                        Source="ic_swap_24x24"/>
 
                     <Label
+                        VerticalOptions="Center"
                         Text="{xct:Translate TypeOrder}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i7}"
+                        FontSize="{DynamicResource TSize_i9}"
                         FontFamily="Barlow-Medium"
                         Margin="10, 0, 0, 0"/>
 
@@ -288,7 +276,8 @@
 
                 <GridItemsLayout
                     Orientation="Vertical"
-                    HorizontalItemSpacing="5"
+                    HorizontalItemSpacing="12"
+                    VerticalItemSpacing="12"
                     Span="5"/>
 
             </CollectionView.ItemsLayout>
@@ -315,7 +304,7 @@
                         </VisualState.StateTriggers>
 
                         <VisualState.Setters>
-                            <Setter Property="Margin" Value="40, 26, 40, 0"/>
+                            <Setter Property="Margin" Value="32, 21, 32, 0"/>
                         </VisualState.Setters>
 
                     </VisualState>
@@ -348,82 +337,89 @@
 
         <!--Tabs Subcategories Menu-->
 
-        <CollectionView
-            HeightRequest="50"
-            MinimumHeightRequest="50"
-            VerticalOptions="End"
-            ItemsSource="{Binding Subcategories}"
-            SelectedItem="{Binding SelectedSubcategoriesItem}"
-            VerticalScrollBarVisibility="Never"
-            SelectionMode="Single">
+        <Frame
+            Padding="3, 0, 0, 0"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup Name="AdaptiveSubcategoriesCollectionView">
+            <CollectionView
+                HeightRequest="50"
+                MinimumHeightRequest="50"
+                VerticalOptions="End"
+                ItemsSource="{Binding Subcategories}"
+                SelectedItem="{Binding SelectedSubcategoriesItem}"
+                VerticalScrollBarVisibility="Never"
+                SelectionMode="Single">
 
-                    <VisualState Name="minHeight">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="AdaptiveSubcategoriesCollectionView">
 
-                        <VisualState.StateTriggers>
-                            <AdaptiveTrigger MinWindowHeight="601" />
-                        </VisualState.StateTriggers>
+                        <VisualState Name="minHeight">
 
-                        <VisualState.Setters>
-                            <Setter Property="HeightRequest" Value="82" />
-                            <Setter Property="MinimumHeightRequest" Value="82" />
-                        </VisualState.Setters>
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowHeight="601" />
+                            </VisualState.StateTriggers>
 
-                    </VisualState>
+                            <VisualState.Setters>
+                                <Setter Property="HeightRequest" Value="60" />
+                                <Setter Property="MinimumHeightRequest" Value="60" />
+                            </VisualState.Setters>
 
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
+                        </VisualState>
 
-            <CollectionView.Effects>
-                <effects:NoOverScrollEffect/>
-            </CollectionView.Effects>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
 
-            <CollectionView.ItemsLayout>
+                <CollectionView.Effects>
+                    <effects:NoOverScrollEffect/>
+                </CollectionView.Effects>
 
-                <GridItemsLayout
-                    Orientation="Vertical"
-                    Span="5"
-                    HorizontalItemSpacing="2"/>
+                <CollectionView.ItemsLayout>
 
-            </CollectionView.ItemsLayout>
+                    <GridItemsLayout
+                        Orientation="Vertical"
+                        Span="5"
+                        HorizontalItemSpacing="2"/>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:SubcategoryModel">
+                </CollectionView.ItemsLayout>
 
-                    <templates:SubCategoryItemTemplate
-                        HeightRequest="50"
-                        MinimumHeightRequest="50"
-                        Text="{Binding Name}"
-                        FontSize="{DynamicResource TSize_i6}"
-                        FontFamily="Barlow-Medium">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:SubcategoryModel">
 
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup Name="AdaptiveSubCategoryItemTemplate">
+                        <templates:SubCategoryItemTemplate
+                            HeightRequest="50"
+                            MinimumHeightRequest="50"
+                            TextMargin="0, 0, 0, 26"
+                            Text="{Binding Name}"
+                            FontSize="{DynamicResource TSize_i6}"
+                            FontFamily="Barlow-Medium">
 
-                                <VisualState Name="minHeight">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="AdaptiveSubCategoryItemTemplate">
 
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowHeight="601" />
-                                    </VisualState.StateTriggers>
+                                    <VisualState Name="minHeight">
 
-                                    <VisualState.Setters>
-                                        <Setter Property="HeightRequest" Value="82" />
-                                        <Setter Property="MinimumHeightRequest" Value="82" />
-                                    </VisualState.Setters>
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="601" />
+                                        </VisualState.StateTriggers>
 
-                                </VisualState>
+                                        <VisualState.Setters>
+                                            <Setter Property="HeightRequest" Value="82" />
+                                            <Setter Property="MinimumHeightRequest" Value="82" />
+                                        </VisualState.Setters>
 
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
+                                    </VisualState>
 
-                    </templates:SubCategoryItemTemplate>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
 
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
+                        </templates:SubCategoryItemTemplate>
 
-        </CollectionView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </Frame>
 
     </StackLayout>
 

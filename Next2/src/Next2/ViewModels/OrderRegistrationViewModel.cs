@@ -659,11 +659,13 @@ namespace Next2.ViewModels
                         OnGoBackCommand();
                     }
 
+                    await PopupNavigation.PopAllAsync();
+                }
+                else
+                {
                     await PopupNavigation.PopAsync();
                 }
             }
-
-            await PopupNavigation.PopAsync();
 
             if (!App.IsTablet && !CurrentOrder.Seats.Any())
             {

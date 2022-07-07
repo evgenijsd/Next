@@ -2,7 +2,7 @@
 
 namespace Next2.Controls
 {
-    public class CustomScrollBarCollectionView : CollectionView
+    public class CustomScrollBarCollectionView : CustomCollectionView
     {
         #region -- Public properties --
 

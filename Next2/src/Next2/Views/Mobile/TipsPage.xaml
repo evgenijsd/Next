@@ -17,7 +17,7 @@
 
     <Grid RowDefinitions="70, *">
 
-        <controls:CustomNavigationbar
+        <controls:CustomNavigationBar
             Grid.Row="0"
             Title="{xct:Translate Tips}"
             HeightImage="24"
