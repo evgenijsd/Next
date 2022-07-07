@@ -59,7 +59,6 @@
 
                 <VisualState.Setters>
                     <Setter Property="WidthRequest" Value="165" />
-                    <Setter Property="BackgroundColor" Value="Orange" />
                 </VisualState.Setters>
 
             </VisualState>
