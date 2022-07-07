@@ -51,24 +51,24 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task OnGoBackCommandAsync()
+        private Task OnGoBackCommandAsync()
         {
             var param = new NavigationParameters
             {
                 { nameof(Navigations.INPUT_VALUE), _oldText },
             };
 
-            await _navigationService.GoBackAsync(param);
+            return _navigationService.GoBackAsync(param);
         }
 
-        private async Task OnReturnCommandAsync()
+        private Task OnReturnCommandAsync()
         {
             var param = new NavigationParameters
             {
                 { nameof(Navigations.INPUT_VALUE), Text },
             };
 
-            await _navigationService.GoBackAsync(param);
+            return _navigationService.GoBackAsync(param);
         }
 
         #endregion

@@ -1,9 +1,8 @@
 ﻿using Next2.Helpers.ProcessHelpers;
-using Next2.Models.API;
+using Next2.Models.API.Commands;
 using Next2.Models.API.Queries;
 using Next2.Models.API.Results;
 using Next2.Resources.Strings;
-using Next2.Services.Mock;
 using Next2.Services.Rest;
 using Next2.Services.Settings;
 using System;
@@ -14,16 +13,13 @@ namespace Next2.Services.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly IMockService _mockService;
         private readonly IRestService _restService;
         private readonly ISettingsManager _settingsManager;
 
         public AuthenticationService(
-            IMockService mockService,
             ISettingsManager settingsManager,
             IRestService restService)
         {
-            _mockService = mockService;
             _restService = restService;
             _settingsManager = settingsManager;
         }
@@ -53,7 +49,9 @@ namespace Next2.Services.Authentication
             {
                 if (int.TryParse(userId, out int id))
                 {
-                    var response = await _restService.RequestAsync<GenericExecutionResult<LoginQueryResult>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/login", employee);
+                    var query = $"{Constants.API.HOST_URL}/api/auth/login";
+
+                    var response = await _restService.RequestAsync<GenericExecutionResult<LoginQueryResult>>(HttpMethod.Post, query, employee);
 
                     if (response.Success && response.Value is not null)
                     {
@@ -82,7 +80,9 @@ namespace Next2.Services.Authentication
             {
                 if (int.TryParse(userId, out int id))
                 {
-                    var response = await _restService.RequestAsync<GenericExecutionResult<LoginQueryResult>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/login", employee);
+                    var query = $"{Constants.API.HOST_URL}/api/auth/login";
+
+                    var response = await _restService.RequestAsync<GenericExecutionResult<LoginQueryResult>>(HttpMethod.Post, query, employee);
 
                     if (response.Success)
                     {
@@ -123,15 +123,16 @@ namespace Next2.Services.Authentication
 
             try
             {
-                await _restService.RequestAsync<ExecutionResult>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/logout", employee);
+                var query = $"{Constants.API.HOST_URL}/api/auth/logout";
 
-                _settingsManager.UserId = -1;
-                _settingsManager.IsAuthorizationComplete = false;
-                _settingsManager.Token = string.Empty;
-                _settingsManager.RefreshToken = string.Empty;
-                _settingsManager.TokenExpirationDate = DateTime.Now;
+                var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Post, query, employee);
 
-                result.SetSuccess();
+                if (response.Success)
+                {
+                    _settingsManager.Clear();
+
+                    result.SetSuccess();
+                }
             }
             catch (Exception ex)
             {
@@ -139,6 +140,11 @@ namespace Next2.Services.Authentication
             }
 
             return result;
+        }
+
+        public void ClearSession()
+        {
+            _settingsManager.Clear();
         }
 
         #endregion

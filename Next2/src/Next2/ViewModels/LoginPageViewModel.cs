@@ -79,7 +79,7 @@ namespace Next2.ViewModels
 
                 EmployeeId = inputtedEmployeeId;
             }
-            else if (parameters.TryGetValue(Constants.Navigations.RESULT, out bool isUserLoggedOut))
+            else if (parameters.TryGetValue(Constants.Navigations.LOGOUT, out bool isUserLoggedOut))
             {
                 await OnClearCommandAsync();
             }

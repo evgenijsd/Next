@@ -235,7 +235,7 @@
 
         </controls:DropDownList>
 
-        <!-- SETS LIST -->
+        <!-- SEATS LIST -->
         <CollectionView
             Grid.Row="2"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
@@ -408,7 +408,7 @@
                             <FormattedString>
                                 <Span Text="{xct:Translate CurrencySign}" />
                                 <Span Text=" " />
-                                <Span Text="{Binding CurrentOrder.SubTotalPrice, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                <Span Text="{Binding CurrentOrder.DiscountPrice, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                             </FormattedString>
                         </Label.FormattedText>
 

@@ -5,6 +5,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
@@ -64,7 +65,7 @@
             ColumnDefinitions="0.35*, 0.65*"
             RowDefinitions="*">
 
-            <controls:SearchButton
+            <buttons:SearchButton
                 HeightRequest="36"
                 CornerRadius="5"
                 Placeholder="{xct:Translate SearchByNameOrPhone}"
@@ -75,10 +76,10 @@
                 CommandSearch="{Binding SearchCommand}"
                 CommandClear="{Binding ClearSearchCommand}">
 
-                <controls:SearchButton.Triggers>
+                <buttons:SearchButton.Triggers>
 
                     <DataTrigger
-                        TargetType="controls:SearchButton"
+                        TargetType="buttons:SearchButton"
                         Binding="{Binding SearchText}"
                         Value="">
                         
@@ -88,8 +89,8 @@
                         
                     </DataTrigger>
 
-                </controls:SearchButton.Triggers>
-            </controls:SearchButton>
+                </buttons:SearchButton.Triggers>
+            </buttons:SearchButton>
         </Grid>
 
         <!--  TABLE  -->

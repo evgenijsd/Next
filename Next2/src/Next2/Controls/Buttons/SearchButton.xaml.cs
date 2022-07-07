@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace Next2.Controls
+namespace Next2.Controls.Buttons
 {
     public partial class SearchButton : Grid
     {

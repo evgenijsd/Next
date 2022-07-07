@@ -2,25 +2,18 @@
 {
     public static class Constants
     {
-        public const string DEFAULT_CULTURE = "en-US";
         public const string ROLE_ADMIN = "Admin";
 
         public static class Formats
         {
             public const string DATE_FORMAT = "{0:h:mm:ss}";
-
             public const string SHORT_TIME = "{0:h:mm:ss tt}";
-
             public const string LONG_DATE = "{0:dddd, d MMMM yyyy}";
-
             public const string PRICE_FORMAT = "{0:0.00}";
-
             public const string POINT_FORMAT = "{0:D} pt";
-
             public const string CASH_FORMAT = "$ {0:#,0.#0}";
-
+            public const string PERCENT_FORMAT = "{0} %";
             public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
-
             public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
         }
 
@@ -36,25 +29,12 @@
             public const int TOAST_DURATION = 3;
             public const int SERVER_RESPONCE_DELAY = 100;
             public const int LOGIN_LENGTH = 6;
-            public const int PHONE_LENGTH = 10;
+            public const int MAX_PERCENTAGE = 100;
             public const int MIN_YEAR = 1900;
-            public const int MAX_YEAR = 2100;
+            public const int MAX_YEAR = 2032;
             public const int DAYS_IN_CALENDAR = 42;
-            public const decimal TAX_PERCENTAGE = 20;
             public const int MAXIMUM_DISCHARGE_NUMBER = 9;
-            public const int EMPLOYEE_ID_LENGTH = 6;
-            public const int COMMENT_LENGTH = 250;
             public const int MAX_QUERY_LENGTH = 100;
-        }
-
-        public static class LayoutOrderTabs
-        {
-            public const double SUMM_ROW_HEIGHT_MOBILE = 65 + 55 + 80;
-            public const double OFFSET_MOBILE = 52;
-            public const double SUMM_ROW_HEIGHT_TABLET = 75 + 2 + 95;
-            public const double OFFSET_TABLET = 70;
-            public const double BUTTONS_HEIGHT = 142;
-            public const double ROW_HEIGHT = 48 + 2;
         }
 
         public static class LayoutBonuses
@@ -66,6 +46,7 @@
         public static class Navigations
         {
             public const string SEARCH = "SEARCH";
+            public const string ORDER_ID = "ORDER_ID";
             public const string SEARCH_QUERY = "SEARCH_QUERY";
             public const string SEARCH_MEMBER = "SEARCH_MEMBER";
             public const string SEARCH_CUSTOMER = "SEARCH_CUSTOMER";
@@ -74,7 +55,6 @@
             public const string CURRENT_ORDER = "CURRENT_ORDER";
             public const string BONUS = "BONUS";
             public const string TAX_OFF = "TAX_OFF";
-            public const string IS_LAST_USER_LOGGED_OUT = "IS_LAST_USER_LOGGED_OUT";
             public const string CATEGORY = "CATEGORY";
             public const string SWITCH_PAGE = "SWITCH_PAGE";
             public const string SEATS = "SEATS";
@@ -95,8 +75,8 @@
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
             public const string CONFIRMED_APPLY_REWARD = "CONFIRM_APPLY_REWARD";
             public const string EMPLOYEE_ID = "EMPLOYEE_ID";
-            public const string RESULT = "RESULT";
-            public const string ORDER_ID = "ORDER_ID";
+            public const string LOGOUT = "LOGOUT";
+            public const string ORDER = "ORDER";
         }
 
         public static class Validators
@@ -120,18 +100,19 @@
             public const string UPDATE = "UPDATE";
             public const string TITLE = "TITLE";
             public const string DESCRIPTION = "DESCRIPTION";
+            public const string CONDITION = "CONDITION";
             public const string OK_BUTTON_TEXT = "OK_BUTTON_TEXT";
             public const string CANCEL_BUTTON_TEXT = "CANCEL_BUTTON_TEXT";
             public const string CONFIRM_MODE = "CONFIRM_MODE";
             public const string ACCEPT = "ACCEPT";
             public const string CANCEL = "CANCEL";
-            public const string SET = "SET";
             public const string PORTIONS = "PORTIONS";
-            public const string ACTION_ON_SETS = "ACTION_ON_SETS";
+            public const string ACTION_ON_DISHES = "ACTION_ON_DISHES";
             public const string REMOVAL_SEAT = "REMOVAL_SEAT";
             public const string SEAT_NUMBERS_OF_CURRENT_ORDER = "SEAT_NUMBERS_OF_CURRENT_ORDER";
             public const string DESTINATION_SEAT_NUMBER = "DESTINATION_SEAT_NUMBER";
             public const string SEATS = "SEATS";
+            public const string SPLIT_GROUPS = "SPLIT_GROUPS";
             public const string ORDER_NUMBER = "ORDER_NUMBER";
             public const string CUSTOMER_ID = "CUSTOMER_ID";
             public const string OK_BUTTON_BACKGROUND = "OK_BUTTON_BACKGROUND";
@@ -157,6 +138,12 @@
             public const string HOST_URL = "http://139.59.208.79";
 #endif
             public const int TOKEN_EXPIRATION_TIME = 12;
+        }
+
+        public static class StatusCode
+        {
+            public const string UNAUTHORIZED = "Unauthorized";
+            public const string BAD_REQUEST = "BadRequest";
         }
     }
 }

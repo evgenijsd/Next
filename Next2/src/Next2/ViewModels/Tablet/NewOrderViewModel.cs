@@ -1,17 +1,14 @@
 using Acr.UserDialogs;
-using Next2.Extensions;
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
-using Next2.Resources.Strings;
-using Next2.Services.WorkLog;
 using Next2.Services.Menu;
 using Next2.Services.Order;
+using Next2.Services.WorkLog;
 using Next2.Views.Tablet;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -28,7 +25,7 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
-        private readonly IWorkLogService _logService;
+        private readonly IWorkLogService _workLogService;
 
         private bool _shouldOrderDishesByDESC;
 
@@ -36,13 +33,13 @@ namespace Next2.ViewModels.Tablet
             INavigationService navigationService,
             IMenuService menuService,
             OrderRegistrationViewModel orderRegistrationViewModel,
-            IWorkLogService logService,
+            IWorkLogService workLogService,
             IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
             _orderService = orderService;
-            _logService = logService;
+            _workLogService = workLogService;
 
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
@@ -134,6 +131,10 @@ namespace Next2.ViewModels.Tablet
                         ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
                         : new(resultGettingDishes.Result.OrderBy(row => row.Name));
                 }
+                else
+                {
+                    await ResponseToBadRequestAsync(resultGettingDishes.Exception.Message);
+                }
             }
         }
 
@@ -169,9 +170,9 @@ namespace Next2.ViewModels.Tablet
             {
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                 {
-                    var result = await _orderService.AddDishInCurrentOrderAsync(dish);
+                    var resultOfAddingDish = await _orderService.AddDishInCurrentOrderAsync(dish);
 
-                    if (result.IsSuccess)
+                    if (resultOfAddingDish.IsSuccess)
                     {
                         await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
                         bool isOrderUpdated = await UpdateCurrentOrder();
@@ -192,6 +193,10 @@ namespace Next2.ViewModels.Tablet
                             UserDialogs.Instance.Toast(toastConfig);
                         }
                     }
+                    else
+                    {
+                        await ResponseToBadRequestAsync(resultOfAddingDish.Exception.Message);
+                    }
                 }
             }
             else
@@ -211,10 +216,14 @@ namespace Next2.ViewModels.Tablet
                     Categories = new(resultGettingCategories.Result);
                     SelectedCategoriesItem = Categories.FirstOrDefault();
                 }
+                else
+                {
+                    await ResponseToBadRequestAsync(resultGettingCategories.Exception.Message);
+                }
             }
         }
 
-        private async Task LoadSubcategoriesAsync()
+        private Task LoadSubcategoriesAsync()
         {
             if (IsInternetConnected && SelectedCategoriesItem is not null)
             {
@@ -228,6 +237,8 @@ namespace Next2.ViewModels.Tablet
 
                 SelectedSubcategoriesItem = Subcategories.FirstOrDefault();
             }
+
+            return Task.CompletedTask;
         }
 
         private Task OnTapExpandCommandAsync()
@@ -237,9 +248,11 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnOpenEmployeeWorkingHoursCommandAsync()
         {
-            return PopupNavigation
-                .PushAsync(new Views.Tablet.Dialogs
-                .EmployeeTimeClockDialog(_logService, (IDialogParameters dialogResult) => PopupNavigation.PopAsync()));
+            var popupPage = new Views.Tablet.Dialogs.EmployeeTimeClockDialog(
+                _workLogService,
+                (IDialogParameters dialogResult) => PopupNavigation.PopAsync());
+
+            return PopupNavigation.PushAsync(popupPage);
         }
 
         private async Task<bool> UpdateCurrentOrder()

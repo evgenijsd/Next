@@ -325,7 +325,7 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <templates:SetItemTemplate
+                    <templates:DishItemTemplate
                         xct:TouchEffect.Command="{Binding TapDishCommand, Source={RelativeSource AncestorType={x:Type viewModels:ExpandPageViewModel}}}"
                         xct:TouchEffect.CommandParameter="{Binding .}"
                         x:DataType="dto:DishModelDTO"/>

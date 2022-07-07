@@ -22,20 +22,23 @@ namespace Next2.ViewModels
     public class BonusPageViewModel : BaseViewModel
     {
         private readonly IMapper _mapper;
-        private readonly IEventAggregator _eventAggregator;
+        private readonly IOrderService _orderService;
         private readonly IBonusesService _bonusesService;
         private readonly double _heightBonus = App.IsTablet ? Constants.LayoutBonuses.ROW_TABLET_BONUS : Constants.LayoutBonuses.ROW_MOBILE_BONUS;
 
+        private int _indexOfSeat;
+        private int _indexOfSelectedDish = -1;
+
         public BonusPageViewModel(
             INavigationService navigationService,
-            IEventAggregator eventAggregator,
+            IOrderService orderService,
             IMapper mapper,
             IBonusesService bonusesService)
             : base(navigationService)
         {
             _mapper = mapper;
             _bonusesService = bonusesService;
-            _eventAggregator = eventAggregator;
+            _orderService = orderService;
         }
 
         #region -- Public properties --
@@ -75,15 +78,16 @@ namespace Next2.ViewModels
         {
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
-                CurrentOrder = _mapper.Map<FullOrderBindableModel>(currentOrder);
+                var seat = currentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
-                if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
+                if (seat is not null)
                 {
-                    _bonusesService.ResetСalculationBonus(CurrentOrder);
-                    Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
+                    _indexOfSeat = currentOrder.Seats.IndexOf(seat);
+                    _indexOfSelectedDish = seat.SelectedDishes.IndexOf(seat.SelectedItem);
                 }
 
-                _bonusesService.СalculationBonus(CurrentOrder);
+                CurrentOrder = _mapper.Map<FullOrderBindableModel>(currentOrder);
+
                 Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
 
                 var coupons = await GetCoupons();
@@ -149,7 +153,7 @@ namespace Next2.ViewModels
 
             if (dishes.Any())
             {
-                var dishesIds = dishes.Select(x => x.Id);
+                var dishesIds = dishes.Select(x => x.DishId);
 
                 var couponResult = await _bonusesService.GetCouponsAsync(x => x.IsActive && x.Dishes.Select(x => x.Id).Intersect(dishesIds).Any());
 
@@ -182,6 +186,11 @@ namespace Next2.ViewModels
 
         private Task OnApplyBonusCommandAsync()
         {
+            if (_indexOfSelectedDish > -1)
+            {
+                CurrentOrder.Seats[_indexOfSeat].SelectedItem = CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedDish];
+            }
+
             var parameters = new NavigationParameters
             {
                 { Constants.Navigations.BONUS, CurrentOrder },
@@ -196,30 +205,22 @@ namespace Next2.ViewModels
                 ? null
                 : bonus;
 
-            if (bonus is not null)
+            if (bonus?.Type is EBonusType.Coupon)
             {
-                if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
-                {
-                    _bonusesService.ResetСalculationBonus(CurrentOrder);
-                    Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
-                }
+                var coupon = _mapper.Map<CouponModelDTO>(bonus);
+                coupon.SeatNumbers = CurrentOrder.Seats.Count;
 
-                if (bonus.Type is EBonusType.Coupon)
-                {
-                    var coupon = _mapper.Map<CouponModelDTO>(bonus);
-                    coupon.SeatNumbers = CurrentOrder.Seats.Count;
-
-                    CurrentOrder.Discount = null;
-                    CurrentOrder.Coupon = coupon;
-                }
-                else if (bonus.Type is EBonusType.Discount)
-                {
-                    CurrentOrder.Coupon = null;
-                    CurrentOrder.Discount = _mapper.Map<DiscountModelDTO>(bonus);
-                }
+                CurrentOrder.Discount = null;
+                CurrentOrder.Coupon = coupon;
+            }
+            else if (bonus?.Type is EBonusType.Discount)
+            {
+                CurrentOrder.Coupon = null;
+                CurrentOrder.Discount = _mapper.Map<DiscountModelDTO>(bonus);
             }
 
-            _bonusesService.СalculationBonus(CurrentOrder);
+            _orderService.UpdateTotalSum(CurrentOrder);
+
             Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
         }
 

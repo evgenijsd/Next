@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:bindableModels="clr-namespace:Next2.Models.Bindables"
+    xmlns:local="clr-namespace:Next2"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    x:Class="Next2.Controls.SeatItemForSplitOrder"
+    x:DataType="bindableModels:SeatBindableModel">
+
+    <BoxView
+        Margin="0, 0, 0, 16"
+        HeightRequest="1"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+        <BoxView.Triggers>
+
+            <DataTrigger TargetType="BoxView" Binding="{Binding IsFirstSeat}" Value="True">
+
+                <Setter Property="BackgroundColor" Value="Transparent" />
+
+            </DataTrigger>
+
+        </BoxView.Triggers>
+
+    </BoxView>
+
+    <Label
+        Margin="0, 0, 0, 16"
+        Text="{Binding SeatNumber, StringFormat='Seat {0}'}" />
+
+    <CollectionView
+        HeightRequest="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}, Converter={StaticResource listHeightConverter}, ConverterParameter=95}"
+        SelectionMode="Single"
+        MinimumHeightRequest="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}, Converter={StaticResource listHeightConverter}, ConverterParameter=95}"
+        ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}}"
+        SelectedItem="{Binding SelectedItem}"
+        SelectionChangedCommand="{Binding DishSelectionCommand}"
+        SelectionChangedCommandParameter="{Binding .}">
+
+        <CollectionView.Effects>
+            <effects:NoOverScrollEffect />
+        </CollectionView.Effects>
+
+        <CollectionView.ItemTemplate>
+
+            <DataTemplate x:DataType="bindableModels:DishBindableModel">
+
+                <StackLayout
+                    Padding="0, 0, 0, 7"
+                    BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}}">
+
+                    <Frame
+                        HeightRequest="88"
+                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                        BackgroundColor="{Binding SubItemColor, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}}"
+                        CornerRadius="8"
+                        x:Name="frame">
+
+                        <StackLayout Orientation="Horizontal">
+
+                            <pancakeview:PancakeView
+                                Margin="16"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Start"
+                                HeightRequest="56"
+                                WidthRequest="56"
+                                MinimumWidthRequest="56"
+                                CornerRadius="8">
+
+                                <ffimageloading:CachedImage
+                                    Aspect="AspectFill"
+                                    Source="{Binding ImageSource}" />
+
+                            </pancakeview:PancakeView>
+
+                            <StackLayout
+                                Margin="0, 16, 16, 16"
+                                VerticalOptions="Center">
+
+                                <Label
+                                    Text="{Binding Name}"
+                                    FontSize="{DynamicResource TSize_i6}"
+                                    FontFamily="Barlow-Medium"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="1" />
+
+                                <Label
+                                    FontSize="{DynamicResource TSize_i5}"
+                                    FontFamily="Barlow-SemiBold">
+
+                                    <Label.FormattedText>
+                                        <FormattedString>
+
+                                            <Span Text="{xct:Translate CurrencySign}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+
+                                        </FormattedString>
+                                    </Label.FormattedText>
+
+                                </Label>
+
+                            </StackLayout>
+
+                            <ffimageloading:CachedImage
+                                Margin="16"
+                                VerticalOptions="Start"
+                                HorizontalOptions="EndAndExpand"
+                                Source="ic_check_box_unhecked_24x24.png"
+                                x:Name="checkBox" />
+
+                        </StackLayout>
+
+                    </Frame>
+
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup Name="CommonStates">
+
+                            <VisualState Name="Selected">
+
+                                <VisualState.Setters>
+
+                                    <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
+                                    <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24.png" />
+
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                            <VisualState Name="Normal">
+
+                                <VisualState.Setters>
+
+                                    <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                                    <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_unhecked_24x24.png" />
+
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </StackLayout>
+
+            </DataTemplate>
+
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+
+</StackLayout>

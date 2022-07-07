@@ -26,12 +26,12 @@ namespace Next2.Controls
 
             Years = new List<Year>();
 
-            for (int i = Constants.Limits.MIN_YEAR; i < Constants.Limits.MAX_YEAR; i++)
+            for (int i = Constants.Limits.MIN_YEAR; i <= Constants.Limits.MAX_YEAR; i++)
             {
                 Years.Add(new Year() { YearValue = i, Opacity = i <= DateTime.Now.Year ? 1 : 0.32 });
             }
 
-            SelectedYear = Years.FirstOrDefault(x => x.YearValue == DateTime.Now.Year);
+            SelectedYear = Years.FirstOrDefault(x => x.YearValue == DateTime.Now.Year - 1);
         }
 
         #region -- Public Properties --

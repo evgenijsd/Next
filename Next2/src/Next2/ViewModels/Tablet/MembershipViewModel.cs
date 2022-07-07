@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Next2.Enums;
-using Next2.Helpers.Events;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Services.Membership;
@@ -9,7 +8,6 @@ using Next2.Views.Tablet.Dialogs;
 using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
@@ -96,7 +94,8 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnDisappearing();
 
-            ClearSearch();
+            SetSearchQuery(string.Empty);
+
             AnyMembersLoaded = false;
         }
 
@@ -186,8 +185,6 @@ namespace Next2.ViewModels.Tablet
                     { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["NameOrPhone"] },
                 };
 
-                ClearSearch();
-
                 await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
             }
         }
@@ -202,16 +199,9 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnClearSearchCommandAsync()
         {
-            ClearSearch();
+            SetSearchQuery(string.Empty);
 
             return Task.CompletedTask;
-        }
-
-        private void ClearSearch()
-        {
-            SearchText = string.Empty;
-
-            DisplayMembers = new(GetSortedMembers(SearchMembers(SearchText)));
         }
 
         private async Task OnMembershipEditCommandAsync(MemberBindableModel? member)

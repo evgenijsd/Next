@@ -6,6 +6,7 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
@@ -80,7 +81,7 @@
                         MinimumHeightRequest="36"
                         HeightRequest="36">
 
-                        <controls:SearchButton
+                        <buttons:SearchButton
                             CornerRadius="5"
                             Text="{Binding SearchText}"
                             Placeholder="{xct:Translate SearchByNameOrPhone}"
@@ -90,9 +91,9 @@
                             CommandSearch="{Binding SearchCommand}"
                             CommandClear="{Binding ClearSearchCommand}">
 
-                            <controls:SearchButton.Triggers>
+                            <buttons:SearchButton.Triggers>
 
-                                <DataTrigger TargetType="controls:SearchButton" Binding="{Binding SearchText}" Value="">
+                                <DataTrigger TargetType="buttons:SearchButton" Binding="{Binding SearchText}" Value="">
                                     
                                     <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
                                     <Setter Property="ImageSource" Value="ic_search_24x24" />
@@ -100,9 +101,9 @@
                                     
                                 </DataTrigger>
 
-                            </controls:SearchButton.Triggers>
+                            </buttons:SearchButton.Triggers>
                             
-                        </controls:SearchButton>
+                        </buttons:SearchButton>
 
                         <StackLayout
                             Grid.Column="1"

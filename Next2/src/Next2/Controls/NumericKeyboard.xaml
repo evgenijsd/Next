@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    x:Class="Next2.Controls.NumericKeyboard">
+
+    <Grid RowDefinitions="60, *">
+
+        <controls:CustomFrame
+            Grid.Row="0"
+            Margin="0, 0, 0, 15"
+            Padding="4"
+            CornerRadius="{OnPlatform Android='5', iOS='8'}"
+            BorderWidth="3"
+            HasShadow="False"
+            BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+            BackgroundColor="{Binding ButtonBackgroundColor, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}">
+
+            <StackLayout Orientation="Horizontal">
+
+                <Label
+                    Margin="10, 0, 0, 0"
+                    VerticalTextAlignment="Center"
+                    Text="{Binding Placeholder, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i9}"
+                    FontSize="{DynamicResource TSize_i6}"
+                    FontFamily="Barlow-Regular">
+
+                    <Label.Triggers>
+
+                        <MultiTrigger TargetType="Label">
+
+                            <MultiTrigger.Conditions>
+                                
+                                <BindingCondition
+                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=IsTextRightToLeft}"
+                                    Value="True" />
+                                
+                                <BindingCondition
+                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=IsKeyboardTyped}"
+                                    Value="True" />
+                                
+                            </MultiTrigger.Conditions>
+
+                            <Setter Property="Margin" Value="10, 0" />
+                            <Setter Property="HorizontalOptions" Value="EndAndExpand" />
+
+                        </MultiTrigger>
+
+                        <DataTrigger TargetType="Label" Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=IsKeyboardTyped}" Value="True">
+
+                            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                            <Setter Property="Text" Value="{Binding ScreenKeyboard, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}" />
+
+                        </DataTrigger>
+
+                    </Label.Triggers>
+
+                </Label>
+
+            </StackLayout>
+
+        </controls:CustomFrame>
+
+        <controls:CustomKeyboard
+            Grid.Row="1"
+            ClearCommand="{Binding ButtonClearTapCommand, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
+            PressNumberButtonCommand="{Binding ButtonTapCommand, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
+            ButtonBackgroundColor="{Binding ButtonBackgroundColor, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}" />
+
+    </Grid>
+
+</ContentView>

@@ -1,409 +1,405 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:enum="clr-namespace:Next2.Enums"
-    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:Next2"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
-    xmlns:local="clr-namespace:Next2"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
     x:Class="Next2.Views.Mobile.BonusPage"
     x:DataType="viewModels:BonusPageViewModel">
 
-    <ContentPage.Content>
+    <Grid>
 
-        <Grid>
-            
-            <Grid
-                RowDefinitions="70, *"
-                IsVisible="{Binding SelectedBonus, Converter={xct:IsNullOrEmptyConverter}}">
+        <Grid
+            RowDefinitions="70, *"
+            IsVisible="{Binding SelectedBonus, Converter={xct:IsNullOrEmptyConverter}}">
 
-                <controls:CustomNavigationBar
-                    Grid.Row="0"
-                    Title="{xct:Translate CouponsAndDiscounts}"
-                    HeightImage="24"
-                    FontSize="{DynamicResource TSize_i5}"
-                    LeftButtonCommand="{prism:GoBack}"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+            <controls:CustomNavigationBar
+                Grid.Row="0"
+                Title="{xct:Translate CouponsAndDiscounts}"
+                HeightImage="24"
+                FontSize="{DynamicResource TSize_i5}"
+                LeftButtonCommand="{prism:GoBack}"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
-                <BoxView
-                    Grid.Row="0"
-                    HeightRequest="1"
-                    VerticalOptions="End"
-                    Color="{DynamicResource TextAndBackgroundColor_i2}" />
+            <BoxView
+                Grid.Row="0"
+                VerticalOptions="End"
+                HeightRequest="1"
+                Color="{DynamicResource TextAndBackgroundColor_i2}" />
 
-                <ScrollView 
-                    Grid.Row="1"
-                    VerticalScrollBarVisibility="Never">
+            <ScrollView
+                Grid.Row="1"
+                VerticalScrollBarVisibility="Never">
 
-                    <StackLayout>
+                <StackLayout>
 
-                        <Grid Margin="20, 25, 20, 0">
+                    <Grid Margin="20, 25, 20, 0">
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40" />
-                                <RowDefinition Height="{Binding HeightCoupons}" />
-                            </Grid.RowDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="{Binding HeightCoupons}" />
+                        </Grid.RowDefinitions>
 
-                            <StackLayout
-                                Grid.Row="0"
-                                Orientation="Horizontal">
+                        <StackLayout
+                            Grid.Row="0"
+                            Orientation="Horizontal">
+
+                            <Label
+                                FontFamily="Barlow-SemiBold"
+                                FontSize="{DynamicResource TSize_i5}"
+                                Text="{xct:Translate Coupons}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                            <ffimageloading:CachedImage
+                                Margin="0, 0, 0, 10"
+                                HorizontalOptions="EndAndExpand"
+                                HeightRequest="25"
+                                Source="ic_arrow_up_24x24.png">
+
+                                <ffimageloading:CachedImage.Triggers>
+
+                                    <DataTrigger Binding="{Binding HeightCoupons}" TargetType="ffimageloading:CachedImage" Value="0">
+
+                                        <Setter Property="Source" Value="ic_arrow_down_24x24" />
+
+                                    </DataTrigger>
+
+                                </ffimageloading:CachedImage.Triggers>
+
+                            </ffimageloading:CachedImage>
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding TapSelectCollapceCommand}"
+                                    CommandParameter="{x:Static enum:EBonusType.Coupon}" />
+                                    
+                            </StackLayout.GestureRecognizers>
+
+                        </StackLayout>
+
+                        <CollectionView
+                            Grid.Row="1"
+                            SelectionMode="Single"
+                            ItemsSource="{Binding Coupons}"
+                            SelectedItem="{Binding SelectedBonus}">
+
+                            <CollectionView.ItemTemplate>
+
+                                <DataTemplate x:DataType="models:BonusBindableModel">
+
+                                    <templates:BonusItemTemplate
+                                        BackColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                        BorderBonusColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                        HeightBonus="55"
+                                        ImagePath="ic_arrow_right_24x24.png"
+                                        TapSelectCommand="{Binding TapCommand}"
+                                        TapSelectCommandParameter="{Binding .}"
+                                        Text="{Binding Name}" />
+
+                                </DataTemplate>
+
+                            </CollectionView.ItemTemplate>
+
+                        </CollectionView>
+
+                    </Grid>
+
+                    <BoxView
+                        Margin="0, 5, 0, 0"
+                        VerticalOptions="End"
+                        HeightRequest="1"
+                        Color="{DynamicResource TextAndBackgroundColor_i2}" />
+
+                    <Grid Margin="20, 15, 20, 0">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="{Binding HeightDiscounts}" />
+                        </Grid.RowDefinitions>
+
+                        <StackLayout Orientation="Horizontal">
+
+                            <Label
+                                Margin="0, 3, 0, 0"
+                                FontFamily="Barlow-SemiBold"
+                                FontSize="{DynamicResource TSize_i5}"
+                                Text="{xct:Translate Discounts}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                            <ffimageloading:CachedImage
+                                Margin="0, 0, 0, 5"
+                                HorizontalOptions="EndAndExpand"
+                                HeightRequest="25"
+                                Source="ic_arrow_up_24x24">
+
+                                <ffimageloading:CachedImage.Triggers>
+
+                                    <DataTrigger Binding="{Binding HeightDiscounts}" TargetType="ffimageloading:CachedImage" Value="0">
+
+                                        <Setter Property="Source" Value="ic_arrow_down_24x24" />
+
+                                    </DataTrigger>
+
+                                </ffimageloading:CachedImage.Triggers>
+
+                            </ffimageloading:CachedImage>
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TapSelectCollapceCommand}" CommandParameter="{x:Static enum:EBonusType.Discount}" />
+
+                            </StackLayout.GestureRecognizers>
+
+                        </StackLayout>
+
+                        <CollectionView
+                            Grid.Row="1"
+                            SelectionMode="Single"
+                            ItemsSource="{Binding Discounts}"
+                            SelectedItem="{Binding SelectedBonus}">
+
+                            <CollectionView.ItemTemplate>
+
+                                <DataTemplate x:DataType="models:BonusBindableModel">
+
+                                    <templates:BonusItemTemplate
+                                        BackColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                        BorderBonusColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                        HeightBonus="55"
+                                        ImagePath="ic_arrow_right_24x24.png"
+                                        TapSelectCommand="{Binding TapCommand}"
+                                        TapSelectCommandParameter="{Binding .}"
+                                        Text="{Binding Name}" />
+
+                                </DataTemplate>
+
+                            </CollectionView.ItemTemplate>
+
+                        </CollectionView>
+
+                    </Grid>
+
+                    <BoxView
+                        Margin="0, 15, 0, 0"
+                        VerticalOptions="End"
+                        HeightRequest="1"
+                        Color="{DynamicResource TextAndBackgroundColor_i2}" />
+
+                </StackLayout>
+
+            </ScrollView>
+
+        </Grid>
+
+        <Grid
+            RowDefinitions="70, *, 75"
+            IsVisible="{Binding SelectedBonus, Converter={xct:IsNotNullOrEmptyConverter}}">
+
+            <controls:CustomNavigationBar
+                Grid.Row="0"
+                Title="{Binding SelectedBonus.Name}"
+                FontSize="{DynamicResource TSize_i5}"
+                HeightImage="24"
+                LeftButtonCommand="{Binding RemoveSelectionBonusCommand}" />
+
+            <BoxView
+                Grid.Row="0"
+                VerticalOptions="End"
+                HeightRequest="2"
+                Color="{DynamicResource TextAndBackgroundColor_i2}" />
+
+            <ScrollView
+                Grid.Row="1"
+                Margin="20, 17, 20, 0"
+                VerticalScrollBarVisibility="Never">
+
+                <StackLayout BindableLayout.ItemsSource="{Binding Seats}">
+
+                    <BindableLayout.ItemTemplate>
+
+                        <DataTemplate x:DataType="modelsBindable:SeatBindableModel">
+
+                            <StackLayout Margin="0, 0, 0, 15">
 
                                 <Label
-                                    Text="{xct:Translate Coupons}"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                    FontFamily="Barlow-SemiBold"
-                                    FontSize="{DynamicResource TSize_i5}" />
+                                    Margin="0, 0, 0, 20"
+                                    FontFamily="Barlow-Regular"
+                                    FontSize="{DynamicResource TSize_i7}"
+                                    Opacity="{DynamicResource OpacityWhenDisabled_i2}"
+                                    Text="{Binding SeatNumber, StringFormat='Seat {0}'}"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
-                                <ffimageloading:CachedImage
-                                    Margin="0, 0, 0, 10"
-                                    Source="ic_arrow_up_24x24.png"
-                                    HeightRequest="25"
-                                    HorizontalOptions="EndAndExpand">
+                                <StackLayout Orientation="Horizontal">
 
-                                    <ffimageloading:CachedImage.Triggers>
+                                    <StackLayout
+                                        HorizontalOptions="FillAndExpand"
+                                        BindableLayout.ItemsSource="{Binding SelectedDishes}">
 
-                                        <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding HeightCoupons}" Value="0">
+                                        <BindableLayout.ItemTemplate>
 
-                                            <Setter Property="Source" Value="ic_arrow_down_24x24" />
+                                            <DataTemplate x:DataType="modelsBindable:DishBindableModel">
 
-                                        </DataTrigger>
+                                                <StackLayout>
 
-                                    </ffimageloading:CachedImage.Triggers>
+                                                    <StackLayout Orientation="Horizontal">
 
-                                </ffimageloading:CachedImage>
+                                                        <Frame
+                                                            Margin="0, 0, 20, 0"
+                                                            CornerRadius="5">
 
-                                <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer
-                                        Command="{Binding TapSelectCollapceCommand}"
-                                        CommandParameter="{x:Static enum:EBonusType.Coupon}" />
-                                    
-                                </StackLayout.GestureRecognizers>
+                                                            <ffimageloading:CachedImage
+                                                                HeightRequest="50"
+                                                                WidthRequest="50"
+                                                                Aspect="AspectFill"
+                                                                Source="{Binding ImageSource}" />
 
-                            </StackLayout>
-                            
-                            <CollectionView
-                                Grid.Row="1"
-                                SelectionMode="Single"
-                                ItemsSource="{Binding Coupons}"
-                                SelectedItem="{Binding SelectedBonus}">
+                                                        </Frame>
 
-                                <CollectionView.ItemTemplate>
+                                                        <StackLayout HorizontalOptions="FillAndExpand">
 
-                                    <DataTemplate x:DataType="models:BonusBindableModel">
+                                                            <Label
+                                                                FontFamily="Barlow-Medium"
+                                                                FontSize="{DynamicResource TSize_i7}"
+                                                                LineBreakMode="TailTruncation"
+                                                                Text="{Binding Name}"
+                                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
-                                        <templates:BonusItemTemplate
-                                            Text="{Binding Name}"
-                                            TapSelectCommand="{Binding TapCommand}"
-                                            TapSelectCommandParameter="{Binding .}"
-                                            ImagePath="ic_arrow_right_24x24.png"
-                                            HeightBonus="55"
-                                            BackColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                            BorderBonusColor="{DynamicResource TextAndBackgroundColor_i3}" />
+                                                            <Label
+                                                                Margin="0, 5, 0, 0"
+                                                                HorizontalTextAlignment="Start"
+                                                                FontFamily="Barlow-Regular"
+                                                                FontSize="{DynamicResource TSize_i7}"
+                                                                LineBreakMode="TailTruncation"
+                                                                Opacity="{DynamicResource OpacityWhenDisabled_i2}"
+                                                                Text="{Binding Name}"
+                                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
-                                    </DataTemplate>
+                                                        </StackLayout>
 
-                                </CollectionView.ItemTemplate>
+                                                        <StackLayout
+                                                            HorizontalOptions="EndAndExpand"
+                                                            WidthRequest="80"
+                                                            MinimumWidthRequest="80">
 
-                            </CollectionView>
+                                                            <Label
+                                                                HorizontalOptions="End"
+                                                                FontFamily="Barlow-Medium"
+                                                                FontSize="{DynamicResource TSize_i7}"
+                                                                LineBreakMode="TailTruncation"
+                                                                TextColor="{DynamicResource IndicationColor_i1}">
 
-                        </Grid>
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="{xct:Translate CurrencySign}" />
+                                                                        <Span Text=" " />
+                                                                        <Span Text="{Binding DiscountPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
 
-                        <BoxView
-                            Margin="0, 5, 0, 0"
-                            HeightRequest="1"
-                            VerticalOptions="End"
-                            Color="{DynamicResource TextAndBackgroundColor_i2}" />
+                                                            </Label>
 
-                        <Grid Margin="20, 15, 20, 0">
-
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40" />
-                                <RowDefinition Height="{Binding HeightDiscounts}" />
-                            </Grid.RowDefinitions>
-
-                            <StackLayout Orientation="Horizontal">
-
-                                <Label
-                                    Text="{xct:Translate Discounts}"
-                                    Margin="0, 3, 0, 0"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                    FontFamily="Barlow-SemiBold"
-                                    FontSize="{DynamicResource TSize_i5}" />
-
-                                <ffimageloading:CachedImage
-                                    Margin="0, 0, 0, 5"
-                                    Source="ic_arrow_up_24x24"
-                                    HeightRequest="25"
-                                    HorizontalOptions="EndAndExpand">
-
-                                    <ffimageloading:CachedImage.Triggers>
-
-                                        <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding HeightDiscounts}" Value="0">
-
-                                            <Setter Property="Source" Value="ic_arrow_down_24x24" />
-
-                                        </DataTrigger>
-
-                                    </ffimageloading:CachedImage.Triggers>
-
-                                </ffimageloading:CachedImage>
-
-                                <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer
-                                        Command="{Binding TapSelectCollapceCommand}"
-                                        CommandParameter="{x:Static enum:EBonusType.Discount}" />
-                                    
-                                </StackLayout.GestureRecognizers>
-
-                            </StackLayout>
-                            
-                            <CollectionView
-                                Grid.Row="1"
-                                SelectionMode="Single"
-                                ItemsSource="{Binding Discounts}"
-                                SelectedItem="{Binding SelectedBonus}">
-
-                                <CollectionView.ItemTemplate>
-
-                                    <DataTemplate x:DataType="models:BonusBindableModel">
-
-                                        <templates:BonusItemTemplate
-                                            Text="{Binding Name}"
-                                            TapSelectCommand="{Binding TapCommand}"
-                                            TapSelectCommandParameter="{Binding .}"
-                                            ImagePath="ic_arrow_right_24x24.png"
-                                            HeightBonus="55"
-                                            BackColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                            BorderBonusColor="{DynamicResource TextAndBackgroundColor_i3}" />
-
-                                    </DataTemplate>
-
-                                </CollectionView.ItemTemplate>
-
-                            </CollectionView>
-
-                        </Grid>
-
-                        <BoxView
-                            Margin="0, 15, 0, 0"
-                            HeightRequest="1"
-                            VerticalOptions="End"
-                            Color="{DynamicResource TextAndBackgroundColor_i2}" />
-
-                    </StackLayout>
-
-                </ScrollView>
-
-            </Grid>
-
-            <Grid
-                RowDefinitions="70, *, 75"
-                IsVisible="{Binding SelectedBonus, Converter={xct:IsNotNullOrEmptyConverter}}">
-
-                <controls:CustomNavigationBar
-                    Grid.Row="0"
-                    Title="{Binding SelectedBonus.Name}"
-                    HeightImage="24"
-                    FontSize="{DynamicResource TSize_i5}"
-                    LeftButtonCommand="{Binding RemoveSelectionBonusCommand}" />
-
-                <BoxView
-                    Grid.Row="0"
-                    HeightRequest="2"
-                    VerticalOptions="End"
-                    Color="{DynamicResource TextAndBackgroundColor_i2}" />
-
-                <ScrollView
-                    Grid.Row="1"
-                    Margin="20, 17, 20, 0"
-                    VerticalScrollBarVisibility="Never">
-
-                    <StackLayout BindableLayout.ItemsSource="{Binding Seats}">
-                        
-                        <BindableLayout.ItemTemplate>
-
-                            <DataTemplate x:DataType="modelsBindable:SeatBindableModel">
-
-                                <StackLayout Margin="0, 0, 0, 15">
-                                    
-                                    <Label
-                                        Margin="0, 0, 0, 20"
-                                        Text="{Binding SeatNumber, StringFormat='Seat {0}'}"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                        Opacity="{DynamicResource OpacityWhenDisabled_i2}"
-                                        FontSize="{DynamicResource TSize_i7}"
-                                        FontFamily="Barlow-Regular" />
-
-                                    <StackLayout Orientation="Horizontal">
-
-                                        <StackLayout
-                                            HorizontalOptions="FillAndExpand"
-                                            BindableLayout.ItemsSource="{Binding SelectedDishes}">
-
-                                            <BindableLayout.ItemTemplate>
-
-                                                <DataTemplate x:DataType="modelsBindable:DishBindableModel">
-
-                                                    <StackLayout>
-
-                                                        <StackLayout Orientation="Horizontal">
-
-                                                            <Frame
-                                                                Margin="0, 0, 20, 0"
-                                                                CornerRadius="5">
-
-                                                                <ffimageloading:CachedImage
-                                                                    Source="{Binding ImageSource}"
-                                                                    HeightRequest="50"
-                                                                    WidthRequest="50"
-                                                                    Aspect="AspectFill" />
-                                                                
-                                                            </Frame>
-
-                                                            <StackLayout HorizontalOptions="FillAndExpand">
-
-                                                                <Label
-                                                                    Text="{Binding Name}"
-                                                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                                    FontSize="{DynamicResource TSize_i7}"
-                                                                    LineBreakMode="TailTruncation"
-                                                                    FontFamily="Barlow-Medium" />
-
-                                                                <Label
-                                                                    Text="{Binding Name}"
-                                                                    Margin="0, 5, 0, 0"
-                                                                    Opacity="{DynamicResource OpacityWhenDisabled_i2}"
-                                                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                                    FontSize="{DynamicResource TSize_i7}"
-                                                                    LineBreakMode="TailTruncation"
-                                                                    HorizontalTextAlignment="Start"
-                                                                    FontFamily="Barlow-Regular" />
-
-                                                            </StackLayout>
-
-                                                            <StackLayout
-                                                                HorizontalOptions="EndAndExpand"
-                                                                WidthRequest="80"
-                                                                MinimumWidthRequest="80">
-
-                                                                <Label
-                                                                    HorizontalOptions="End"
-                                                                    TextColor="{DynamicResource IndicationColor_i1}"
-                                                                    FontSize="{DynamicResource TSize_i7}"
-                                                                    LineBreakMode="TailTruncation"
-                                                                    FontFamily="Barlow-Medium">
+                                                            <Label
+                                                                Margin="0, 5, 0, 0"
+                                                                HorizontalOptions="End"
+                                                                FontFamily="Barlow-Medium"
+                                                                FontSize="{DynamicResource TSize_i7}"
+                                                                LineBreakMode="TailTruncation"
+                                                                Opacity="{DynamicResource OpacityWhenDisabled_i2}"
+                                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                                                TextDecorations="Strikethrough">
 
                                                                     <Label.FormattedText>
                                                                         <FormattedString>
                                                                             <Span Text="{xct:Translate CurrencySign}" />
                                                                             <Span Text=" " />
-                                                                            <Span Text="{Binding DiscountPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
-                                                                        </FormattedString>
-                                                                    </Label.FormattedText>
-                                                                    
-                                                                </Label>
-
-                                                                <Label
-                                                                    Margin="0, 5, 0, 0"
-                                                                    Opacity="{DynamicResource OpacityWhenDisabled_i2}"
-                                                                    HorizontalOptions="End"
-                                                                    TextDecorations="Strikethrough"
-                                                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                                    FontSize="{DynamicResource TSize_i7}"
-                                                                    LineBreakMode="TailTruncation"
-                                                                    FontFamily="Barlow-Medium">
-
-                                                                    <Label.FormattedText>
-                                                                        <FormattedString>
-                                                                            <Span Text="{xct:Translate CurrencySign}" />
-                                                                            <Span Text=" " />
-                                                                            <Span Text="{Binding SelectedDishProportionPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                                                            <Span Text="{Binding TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
                                                                         </FormattedString>
                                                                     </Label.FormattedText>
 
-                                                                    <Label.Triggers>
+                                                                <Label.Triggers>
 
-                                                                        <DataTrigger TargetType="Label" Value="0">
+                                                                    <DataTrigger TargetType="Label" Value="0">
 
-                                                                            <DataTrigger.Binding>
-                                                                                <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
+                                                                        <DataTrigger.Binding>
+                                                                            <MultiBinding
+                                                                                Converter="{xct:MultiMathExpressionConverter}"
+                                                                                ConverterParameter="x0 - x1">
 
-                                                                                    <Binding Path="SelectedDishProportionPrice" />
+                                                                                    <Binding Path="TotalPrice" />
                                                                                     <Binding Path="DiscountPrice" />
                                                                                     
                                                                                 </MultiBinding>
                                                                             </DataTrigger.Binding>
 
-                                                                            <Setter Property="IsVisible" Value="false" />
+                                                                        <Setter Property="IsVisible" Value="false" />
 
-                                                                        </DataTrigger>
+                                                                    </DataTrigger>
 
-                                                                    </Label.Triggers>
+                                                                </Label.Triggers>
 
-                                                                </Label>
-
-                                                            </StackLayout>
+                                                            </Label>
 
                                                         </StackLayout>
 
-                                                        <BoxView
-                                                            Margin="0, 20, 0, 15"
-                                                            HeightRequest="2"
-                                                            Color="{DynamicResource TextAndBackgroundColor_i3}" />
-
                                                     </StackLayout>
 
-                                                </DataTemplate>
+                                                    <BoxView
+                                                        Margin="0, 20, 0, 15"
+                                                        HeightRequest="2"
+                                                        Color="{DynamicResource TextAndBackgroundColor_i3}" />
 
-                                            </BindableLayout.ItemTemplate>
+                                                </StackLayout>
 
-                                        </StackLayout>
+                                            </DataTemplate>
+
+                                        </BindableLayout.ItemTemplate>
 
                                     </StackLayout>
 
                                 </StackLayout>
 
-                            </DataTemplate>
+                            </StackLayout>
 
-                        </BindableLayout.ItemTemplate>
+                        </DataTemplate>
 
-                    </StackLayout>
-
-                </ScrollView>
-
-                <StackLayout Grid.Row="2">
-
-                    <BoxView
-                        HeightRequest="2"
-                        Color="{DynamicResource TextAndBackgroundColor_i3}" />
-
-                    <buttons:BorderButton
-                        HorizontalOptions="FillAndExpand"
-                        Margin="20, 15"
-                        HeightRequest="35"
-                        Text="{xct:Translate Apply}"
-                        FontSize="{DynamicResource TSize_i5}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        BorderColor="Transparent"
-                        BackgroundColor="{DynamicResource IndicationColor_i1}"
-                        Style="{DynamicResource BorderButtonStyle_i1}"
-                        Command="{Binding ApplyBonusCommand}" />
+                    </BindableLayout.ItemTemplate>
 
                 </StackLayout>
 
-            </Grid>
+            </ScrollView>
+
+            <StackLayout Grid.Row="2">
+
+                <BoxView
+                    HeightRequest="2"
+                    Color="{DynamicResource TextAndBackgroundColor_i3}" />
+
+                <buttons:BorderButton
+                    Style="{DynamicResource BorderButtonStyle_i1}"
+                    Margin="20, 15"
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="35"
+                    BackgroundColor="{DynamicResource IndicationColor_i1}"
+                    BorderColor="Transparent"
+                    FontSize="{DynamicResource TSize_i5}"
+                    Text="{xct:Translate Apply}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    Command="{Binding ApplyBonusCommand}" />
+
+            </StackLayout>
 
         </Grid>
 
-    </ContentPage.Content>
+    </Grid>
 
 </views:BaseContentPage>

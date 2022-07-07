@@ -1,14 +1,11 @@
 using Acr.UserDialogs;
-using Next2.Extensions;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
-using Next2.Resources.Strings;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -20,7 +17,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Mobile
 {
-    public class ChooseSetPageViewModel : BaseViewModel
+    public class ChooseDishPageViewModel : BaseViewModel
     {
         private readonly IMenuService _menuService;
 
@@ -28,7 +25,7 @@ namespace Next2.ViewModels.Mobile
 
         private bool _shouldOrderDishesByDESC;
 
-        public ChooseSetPageViewModel(
+        public ChooseDishPageViewModel(
             IMenuService menuService,
             INavigationService navigationService,
             IOrderService orderService)
@@ -85,13 +82,15 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Private helpers --
 
-        private async Task OnTapSortCommandAsync()
+        private Task OnTapSortCommandAsync()
         {
             _shouldOrderDishesByDESC = !_shouldOrderDishesByDESC;
             Dishes = new(Dishes.Reverse());
+
+            return Task.CompletedTask;
         }
 
-        private async Task OnTapDishCommandAsync(DishModelDTO dish)
+        private Task OnTapDishCommandAsync(DishModelDTO dish)
         {
             var param = new DialogParameters
             {
@@ -99,7 +98,7 @@ namespace Next2.ViewModels.Mobile
                 { Constants.DialogParameterKeys.DISCOUNT_PRICE, _orderService.CurrentOrder.DiscountPrice },
             };
 
-            await PopupNavigation.PushAsync(new Views.Mobile.Dialogs.AddDishToOrderDialog(param, CloseDialogCallback));
+            return PopupNavigation.PushAsync(new Views.Mobile.Dialogs.AddDishToOrderDialog(param, CloseDialogCallback));
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
@@ -147,7 +146,7 @@ namespace Next2.ViewModels.Mobile
             }
         }
 
-        private async Task LoadSubcategoriesAsync()
+        private Task LoadSubcategoriesAsync()
         {
             if (IsInternetConnected && SelectedCategoriesItem is not null)
             {
@@ -161,6 +160,8 @@ namespace Next2.ViewModels.Mobile
 
                 SelectedSubcategoriesItem = Subcategories.FirstOrDefault();
             }
+
+            return Task.CompletedTask;
         }
 
         #endregion

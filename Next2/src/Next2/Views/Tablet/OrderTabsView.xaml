@@ -53,7 +53,7 @@
                 FontFamily="Barlow-Bold"
                 FontSize="{DynamicResource TSize_i4_5}" />
 
-            <controls:CustomButton
+            <buttons:CustomButton
                 Grid.Column="0"
                 Text="{xct:Translate Orders}"
                 CornerRadius="6, 0, 0, 0"
@@ -65,7 +65,7 @@
                 IsSelected="{Binding IsTabsModeSelected, Converter={xct:InvertedBoolConverter}}"
                 Command="{Binding SwitchToOrdersCommand}" />
 
-            <controls:CustomButton
+            <buttons:CustomButton
                 Grid.Column="1"
                 Text="{xct:Translate Tabs}"
                 CornerRadius="0, 6, 0, 0"
@@ -89,7 +89,7 @@
             Margin="32, 29, 32, 18"
             ColumnDefinitions="325, *">
 
-            <controls:SearchButton
+            <buttons:SearchButton
                 Grid.Row="0"
                 CornerRadius="5"
                 Text="{Binding SearchQuery}"
@@ -100,20 +100,20 @@
                 CommandSearch="{Binding GoToSearchQueryInputCommand}"
                 CommandClear="{Binding ClearSearchResultCommand}">
 
-                <controls:SearchButton.Triggers>
+                <buttons:SearchButton.Triggers>
 
-                    <DataTrigger TargetType="controls:SearchButton" Binding="{Binding SearchQuery}" Value="">
+                    <DataTrigger TargetType="buttons:SearchButton" Binding="{Binding SearchQuery}" Value="">
                         <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
                         <Setter Property="ImageSource" Value="ic_search_24x24" />
                     </DataTrigger>
 
-                    <DataTrigger TargetType="controls:SearchButton" Binding="{Binding IsTabsModeSelected}" Value="True">
+                    <DataTrigger TargetType="buttons:SearchButton" Binding="{Binding IsTabsModeSelected}" Value="True">
                         <Setter Property="Placeholder" Value="{xct:Translate SearchName}" />
                     </DataTrigger>
 
-                </controls:SearchButton.Triggers>
+                </buttons:SearchButton.Triggers>
                             
-            </controls:SearchButton>
+            </buttons:SearchButton>
 
             <!-- BUTTONS -->
             <StackLayout
@@ -148,7 +148,8 @@
                     CornerRadius="5"
                     BorderColor="{DynamicResource IndicationColor_i7}"
                     Text="{xct:Translate Split}"
-                    IsVisible="{Binding IsTabsModeSelected}"/>
+                    IsVisible="{Binding IsTabsModeSelected}"
+                    xct:TouchEffect.Command="{Binding SplitCommand}"/>
 
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
@@ -226,7 +227,8 @@
 
                         <ffimageloading:CachedImage
                             Source="ic_sort_primary_24x24"
-                            HeightRequest="20"                            Margin="5, 10, 5, 0"
+                            HeightRequest="20"
+                            Margin="5, 10, 5, 0"
                             VerticalOptions="StartAndExpand"/>
 
                     </StackLayout>

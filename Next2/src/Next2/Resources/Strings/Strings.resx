@@ -450,7 +450,7 @@
   <data name="Discount" xml:space="preserve">
     <value>Discount</value>
   </data>
-  <data name="ThisSetWillBeRemoved" xml:space="preserve">
+  <data name="ThisDishWillBeRemoved" xml:space="preserve">
     <value>This item will be removed from the order list.</value>
   </data>
   <data name="BecomeMember" xml:space="preserve">
@@ -603,6 +603,15 @@ A receipt has been printed for you.</value>
   <data name="All" xml:space="preserve">
     <value>All</value>
   </data>
+  <data name="SplitOrder" xml:space="preserve">
+    <value>Split Order</value>
+  </data>
+  <data name="Dollar" xml:space="preserve">
+    <value>Dollar</value>
+  </data>
+  <data name="Percentage" xml:space="preserve">
+    <value>Percentage</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
@@ -612,7 +621,28 @@ A receipt has been printed for you.</value>
   <data name="NotDefined" xml:space="preserve">
     <value>Not defined</value>
   </data>
+  <data name="SetValue" xml:space="preserve">
+    <value>Set Value</value>
+  </data>
   <data name="Off" xml:space="preserve">
     <value>Off</value>
+  </data>
+  <data name="SplitByDollar" xml:space="preserve">
+    <value>Split By Dollar</value>
+  </data>
+  <data name="SplitByPercentage" xml:space="preserve">
+    <value>Split By Percentage</value>
+  </data>
+  <data name="SplitBySeats" xml:space="preserve">
+    <value>Split By Seats</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="SelectValue" xml:space="preserve">
+    <value>Select Value</value>
+  </data>
+  <data name="SplitTotal" xml:space="preserve">
+    <value>Split Total</value>
   </data>
 </root>

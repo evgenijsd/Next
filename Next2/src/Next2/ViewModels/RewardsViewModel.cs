@@ -78,19 +78,19 @@ namespace Next2.ViewModels
             {
                 if (parameters.TryGetValue(Constants.Navigations.IS_REWARD_APPLIED, out bool isRewardApplied)
                     && parameters.TryGetValue(Constants.Navigations.REWARD, out RewardBindabledModel reward)
-                     && parameters.TryGetValue(Constants.Navigations.CONFIRMED_APPLY_REWARD, out bool isRewardConfirmedAppy))
+                    && parameters.TryGetValue(Constants.Navigations.CONFIRMED_APPLY_REWARD, out bool isRewardConfirmedAppy))
                 {
                     reward.IsApplied = isRewardApplied;
                     reward.IsConfirmedApply = isRewardConfirmedAppy;
 
-                    if (isRewardApplied && parameters.TryGetValue(Constants.Navigations.SEATS, out ObservableCollection<SeatWithFreeSetsBindableModel> seats))
+                    if (isRewardApplied && parameters.TryGetValue(Constants.Navigations.SEATS, out ObservableCollection<SeatWithFreeDishesBindableModel> seats))
                     {
                         Order.Seats = seats;
                         LockUnlockSimilarRewards(Order.Seats, reward);
                     }
                     else
                     {
-                        ApplyCancelRewardToSet(Order.Seats, reward);
+                        ApplyCancelRewardToDish(Order.Seats, reward);
                     }
                 }
                 else
@@ -136,7 +136,7 @@ namespace Next2.ViewModels
                         foreach (var reward in output)
                         {
                             reward.SelectCommand = SelectRewardCommand;
-                            reward.CanBeApplied = Order.Seats.Any(x => x.Sets.Any(x => x.Id == reward.SetId));
+                            reward.CanBeApplied = Order.Seats.Any(x => x.Dishes.Any(x => x.Id == reward.DishId));
                         }
                     }));
                 }
@@ -151,60 +151,59 @@ namespace Next2.ViewModels
 
             //foreach (var seat in bindableSeats)
             //{
-            //    var freeSets = _mapper.Map<ObservableCollection<FreeSetBindableModel>>(seat.SelectedDishes);
+            //    var freeDishes = _mapper.Map<ObservableCollection<FreeDishBindableModel>>(seat.SelectedDishes);
 
             //    if (App.IsTablet)
             //    {
-            //        SetProductsNamesForSets(seat.SelectedDishes, freeSets);
+            //        SetProductsNamesForDishes(seat.SelectedDishes, freeDishes);
             //    }
 
-            //    var newSeat = new SeatWithFreeSetsBindableModel
+            //    var newSeat = new SeatWithFreeDishesBindableModel
             //    {
             //        Id = seat.Id,
             //        SeatNumber = seat.SeatNumber,
-            //        Sets = freeSets,
+            //        Dishes = freeDishes,
             //    };
 
             //    Order.Seats.Add(newSeat);
             //}
         }
 
-        private void SetProductsNamesForSets(ObservableCollection<SetBindableModel> setBindables, ObservableCollection<FreeSetBindableModel> freeSets)
+        //private void SetProductsNamesForDishes(ObservableCollection<DishBindableModel> dishBindables, ObservableCollection<FreeDishBindableModel> freeDishes)
+        //{
+        //    //for (int i = 0; i < dishBindables.Count; i++)
+        //    //{
+        //    //    freeDishes[i].ProductNames = string.Join(", ", dishBindables[i].Products.Select(x => x.Title));
+        //    //}
+        //}
+        private void ApplyCancelRewardToDish(ObservableCollection<SeatWithFreeDishesBindableModel> seats, RewardBindabledModel reward)
         {
-            //for (int i = 0; i < setBindables.Count; i++)
-            //{
-            //    freeSets[i].ProductNames = string.Join(", ", setBindables[i].Products.Select(x => x.Title));
-            //}
-        }
-
-        private void ApplyCancelRewardToSet(ObservableCollection<SeatWithFreeSetsBindableModel> seats, RewardBindabledModel reward)
-        {
-            bool CompareSetWithRewardSet(FreeSetBindableModel set) => set.Id == reward.SetId && set.IsFree != reward.IsApplied;
+            bool CompareDishWithRewardDish(FreeDishBindableModel dish) => dish.Id == reward.DishId && dish.IsFree != reward.IsApplied;
 
             var seat = reward.IsApplied
-                ? seats.FirstOrDefault(x => x.Sets.Any(CompareSetWithRewardSet))
-                : seats.LastOrDefault(x => x.Sets.Any(CompareSetWithRewardSet));
+                ? seats.FirstOrDefault(x => x.Dishes.Any(CompareDishWithRewardDish))
+                : seats.LastOrDefault(x => x.Dishes.Any(CompareDishWithRewardDish));
 
             if (seat is not null)
             {
-                var set = reward.IsApplied
-                     ? seat.Sets.FirstOrDefault(CompareSetWithRewardSet)
-                     : seat.Sets.LastOrDefault(CompareSetWithRewardSet);
+                var dish = reward.IsApplied
+                     ? seat.Dishes.FirstOrDefault(CompareDishWithRewardDish)
+                     : seat.Dishes.LastOrDefault(CompareDishWithRewardDish);
 
-                set.IsFree = reward.IsApplied;
-                seat.Sets = new (seat.Sets);
+                dish.IsFree = reward.IsApplied;
+                seat.Dishes = new (seat.Dishes);
             }
 
             Order.IsUnsavedChangesExist = Order.Rewards.Any(x => x.IsApplied);
         }
 
-        public void LockUnlockSimilarRewards(ObservableCollection<SeatWithFreeSetsBindableModel> seats, RewardBindabledModel selectedReward)
+        public void LockUnlockSimilarRewards(ObservableCollection<SeatWithFreeDishesBindableModel> seats, RewardBindabledModel selectedReward)
         {
             foreach (var reward in Order.Rewards)
             {
-                if (!reward.IsApplied && reward.SetId == selectedReward.SetId)
+                if (!reward.IsApplied && reward.DishId == selectedReward.DishId)
                 {
-                    reward.CanBeApplied = seats.Any(seat => seat.Sets.Any(set => set.Id == selectedReward.SetId && !set.IsFree));
+                    reward.CanBeApplied = seats.Any(seat => seat.Dishes.Any(dish => dish.Id == selectedReward.DishId && !dish.IsFree));
                 }
             }
         }
@@ -244,22 +243,22 @@ namespace Next2.ViewModels
                 if (App.IsTablet)
                 {
                     selectedReward.IsApplied = !selectedReward.IsApplied;
-                    ApplyCancelRewardToSet(Order.Seats, selectedReward);
+                    ApplyCancelRewardToDish(Order.Seats, selectedReward);
                     LockUnlockSimilarRewards(Order.Seats, selectedReward);
                 }
                 else if (selectedReward.IsApplied)
                 {
                     selectedReward.IsApplied = false;
                     selectedReward.IsConfirmedApply = false;
-                    ApplyCancelRewardToSet(Order.Seats, selectedReward);
+                    ApplyCancelRewardToDish(Order.Seats, selectedReward);
                     LockUnlockSimilarRewards(Order.Seats, selectedReward);
                 }
                 else
                 {
-                    ObservableCollection<SeatWithFreeSetsBindableModel> seatsForRewardApplying = new (Order.Seats);
+                    ObservableCollection<SeatWithFreeDishesBindableModel> seatsForRewardApplying = new (Order.Seats);
 
                     selectedReward.IsApplied = true;
-                    ApplyCancelRewardToSet(seatsForRewardApplying, selectedReward);
+                    ApplyCancelRewardToDish(seatsForRewardApplying, selectedReward);
 
                     var parameters = new NavigationParameters
                     {

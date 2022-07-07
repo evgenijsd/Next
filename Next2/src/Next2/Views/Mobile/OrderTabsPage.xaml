@@ -36,14 +36,14 @@
                 VerticalOptions="Fill"
                 ColumnDefinitions="*, *">
 
-                <controls:CustomButton
+                <buttons:CustomButton
                     Grid.Column="0"
                     Text="{xct:Translate Orders}"                    
                     VerticalOptions="FillAndExpand"
                     IsSelected="{Binding IsTabsModeSelected, Converter={xct:InvertedBoolConverter}}"
                     Command="{Binding SwitchToOrdersCommand}" />
 
-                <controls:CustomButton
+                <buttons:CustomButton
                     Grid.Column="1"
                     Text="{xct:Translate Tabs}"
                     IsSelected="{Binding IsTabsModeSelected}"
@@ -52,7 +52,7 @@
 
             </Grid>
 
-            <controls:SearchButton
+            <buttons:SearchButton
                 Grid.Row="2"
                 CornerRadius="5"
                 Text="{Binding SearchQuery}"
@@ -64,10 +64,10 @@
                 CommandSearch="{Binding GoToSearchQueryInputCommand}"
                 CommandClear="{Binding ClearSearchResultCommand}">
 
-                <controls:SearchButton.Triggers>
+                <buttons:SearchButton.Triggers>
 
                     <DataTrigger
-                        TargetType="controls:SearchButton"
+                        TargetType="buttons:SearchButton"
                         Binding="{Binding SearchQuery}"
                         Value="">
 
@@ -77,7 +77,7 @@
                     </DataTrigger>
 
                     <DataTrigger
-                        TargetType="controls:SearchButton"
+                        TargetType="buttons:SearchButton"
                         Binding="{Binding IsTabsModeSelected}"
                         Value="True">
 
@@ -85,9 +85,9 @@
 
                     </DataTrigger>
 
-                </controls:SearchButton.Triggers>
+                </buttons:SearchButton.Triggers>
 
-            </controls:SearchButton>
+            </buttons:SearchButton>
 
             <yummy:PancakeView
                 Grid.Row="3"
@@ -382,7 +382,8 @@
                         BorderColor="{DynamicResource IndicationColor_i7}"
                         BackgroundColor="Transparent"
                         Style="{DynamicResource BorderButtonStyle_i1}"
-                        IsVisible="{Binding IsTabsModeSelected}" />
+                        IsVisible="{Binding IsTabsModeSelected, Converter={xct:InvertedBoolConverter}}" 
+                        xct:TouchEffect.Command="{Binding SplitCommand}" />
 
                     <buttons:BorderButton
                         HorizontalOptions="FillAndExpand"

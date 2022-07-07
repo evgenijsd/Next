@@ -93,29 +93,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Acr.UserDialogs" Version="7.2.0.562" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.2.0.564" />
     <PackageReference Include="AutoMapper" Version="11.0.1" />
-    <PackageReference Include="Fody" Version="6.6.0">
+    <PackageReference Include="Fody" Version="6.6.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.0" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.0" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.1" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Prism.Plugin.Popups" Version="8.0.76" />
     <PackageReference Include="Prism.Unity.Forms" Version="8.1.97" />
-    <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
+    <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.1.0" />
-    <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3" />
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="2.88.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.0" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.2" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2478" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
   </ItemGroup>
 
@@ -133,6 +133,9 @@
     </Compile>
     <Compile Update="Controls\CustomNavigationBar.xaml.cs">
       <DependentUpon>CustomNavigationBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\DishItemTemplate.xaml.cs">
+      <DependentUpon>DishItemTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\TimeAndDateBar.xaml.cs">
       <DependentUpon>TimeAndDateBar.xaml</DependentUpon>
@@ -155,8 +158,8 @@
     <Compile Update="Controls\ProductsDetails.xaml.cs">
       <DependentUpon>ProductsDetails.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Controls\Templates\Mobile\FreeSetItemTemplate.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
+    <Compile Update="Controls\Templates\Mobile\FreeDishItemTemplate.xaml.cs">
+      <DependentUpon>FreeDishItemTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\Templates\Mobile\RewardItemTemplate.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
@@ -167,8 +170,11 @@
     <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
       <DependentUpon>SubCategoryItemTemplate.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Controls\Templates\Tablet\FreeSetItemTemplate.xaml.cs">
-      <DependentUpon>FreeSetItemTemplate.xaml</DependentUpon>
+    <Compile Update="Controls\Templates\Tablet\FreeDishItemTemplate.xaml.cs">
+      <DependentUpon>FreeDishItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\ChooseDishPage.xaml.cs">
+      <DependentUpon>ChooseDishPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\Dialogs\AddDishToOrderDialog.xaml.cs">
       <DependentUpon>AddDishToOrderDialog.xaml</DependentUpon>
@@ -289,6 +295,9 @@
     <EmbeddedResource Update="Controls\CalendarTab.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Controls\CustomKeyboard.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Controls\TimeAndDateBar.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
@@ -313,6 +322,9 @@
     <EmbeddedResource Update="Controls\FormattedLabel.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Controls\NumericKeyboard.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\PortionItemTemplate.xaml">
           <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
@@ -324,6 +336,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\ProductsDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\SeatItemForSplitOrder.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\SeatItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
@@ -343,7 +358,7 @@
     <EmbeddedResource Update="Controls\Templates\CategoryItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\Templates\SetItemTemplate.xaml">      
+    <EmbeddedResource Update="Controls\Templates\DishItemTemplate.xaml">      
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Buttons\InputButton.xaml">
@@ -374,6 +389,9 @@
     <EmbeddedResource Update="Views\Mobile\Dialogs\PaymentCompleteDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\Dialogs\SplitOrderDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\InputCashPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
@@ -402,6 +420,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\RewardsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\SplitOrderPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\TaxRemoveConfirmPage.xaml">
@@ -446,6 +467,9 @@
     <EmbeddedResource Update="Views\Tablet\Dialogs\EmployeeTimeClockDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\SplitOrderDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\PaymentCompleteView.xaml">
           <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -487,7 +511,7 @@
     <EmbeddedResource Update="Views\HoldItemsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\ChooseSetPage.xaml">
+    <EmbeddedResource Update="Views\Mobile\ChooseDishPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\AddDishToOrderDialog.xaml">
@@ -513,6 +537,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\ModificationsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\SplitOrderPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\TaxRemoveConfirmPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

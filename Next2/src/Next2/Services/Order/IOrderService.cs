@@ -1,5 +1,4 @@
 ﻿using Next2.Helpers.ProcessHelpers;
-using Next2.Models;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
@@ -35,7 +34,7 @@ namespace Next2.Services.Order
 
         Task<AOResult> DeleteSeatFromCurrentOrder(SeatBindableModel seat);
 
-        Task<AOResult> RedirectSetsFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber);
+        Task<AOResult> RedirectDishesFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber);
 
         Task<AOResult> DeleteDishFromCurrentSeatAsync();
 
@@ -43,8 +42,12 @@ namespace Next2.Services.Order
 
         Task<AOResult> SetEmptyCurrentOrderAsync();
 
+        Task<AOResult<Guid>> UpdateTableAsync(UpdateTableCommand command);
+
         Task<AOResult> SetCurrentOrderAsync(Guid orderId);
 
         Task<AOResult<Guid>> UpdateCurrentOrderAsync();
+
+        void UpdateTotalSum(FullOrderBindableModel currentOrder);
     }
 }

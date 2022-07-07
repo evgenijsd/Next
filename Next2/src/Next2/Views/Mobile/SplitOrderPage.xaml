@@ -1,0 +1,181 @@
+﻿<views:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:Next2.Models.Bindables"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:enums="clr-namespace:Next2.Enums"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:local="clr-namespace:Next2"
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Class="Next2.Views.Mobile.SplitOrderPage"
+    x:DataType="viewModels:SplitOrderViewModel">
+
+    <!--  Seats LIST  -->
+    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+
+        <StackLayout.Resources>
+
+            <Style TargetType="Label">
+
+                <Setter Property="VerticalOptions" Value="Center" />
+
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+
+            </Style>
+
+        </StackLayout.Resources>
+
+        <!--  Navbar  -->
+        <StackLayout>
+
+            <controls:CustomNavigationBar
+                Title="{xct:Translate Cancel}"
+                HeightRequest="50"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                HeightImage="20"
+                LeftButtonCommand="{Binding GoBackCommand}">
+
+                <VisualStateManager.VisualStateGroups>
+
+                    <VisualStateGroupList>
+
+                        <VisualStateGroup Name="AdaptiveNavigationBar">
+
+                            <VisualState Name="Medium">
+
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowWidth="1024" />
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+
+                                    <Setter Property="HeightRequest" Value="70" />
+
+                                    <Setter Property="HeightImage" Value="30" />
+
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                        </VisualStateGroup>
+
+                    </VisualStateGroupList>
+
+                </VisualStateManager.VisualStateGroups>
+
+            </controls:CustomNavigationBar>
+
+        </StackLayout>
+
+        <!--  SeatList  -->
+        <CollectionView
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+            VerticalScrollBarVisibility="Always"
+            ItemsSource="{Binding Seats}">
+
+            <CollectionView.Effects>
+                <effects:NoOverScrollEffect />
+
+                <effects:ScrollBarColorEffect
+                    ScrollBarCornerRadius="9"
+                    ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                    ScrollBarThumbWidth="6"
+                    ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}" />
+
+            </CollectionView.Effects>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:SeatBindableModel">
+
+                    <controls:SeatItemForSplitOrder
+                        Padding="18, 9, 18, 0"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                        SubItemColor="{DynamicResource TextAndBackgroundColor_i5}"
+                        ItemsSource="{Binding SelectedDishes}" />
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+        <!--  Bottom Buttons  -->
+        <Grid
+            Grid.Row="1"
+            RowDefinitions="0.3*, *, 0.3*"
+            VerticalOptions="EndAndExpand"
+            HeightRequest="90"
+            IsVisible="{Binding SelectedDish, Converter={xct:IsNotNullOrEmptyConverter}}">
+
+            <Grid.Resources>
+
+                <Style TargetType="buttons:BorderButton">
+
+                    <Setter Property="Grid.Row" Value="1" />
+
+                    <Setter Property="WidthRequest" Value="156" />
+
+                    <Setter Property="HeightRequest" Value="51" />
+
+                    <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+
+                    <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+
+                    <Setter Property="Padding" Value="0" />
+
+                    <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
+
+                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                    <Setter Property="FontFamily" Value="Barlow-Semibold" />
+
+                </Style>
+
+            </Grid.Resources>
+
+            <BoxView
+                Grid.Row="0"
+                Grid.ColumnSpan="3"
+                VerticalOptions="Start"
+                HeightRequest="1"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+            <buttons:BorderButton
+                Grid.Column="0"
+                Margin="24, 0, 0, 0"
+                Background="{DynamicResource IndicationColor_i5}"
+                Text="{xct:Translate Percentage}"
+                xct:TouchEffect.Command="{Binding SplitByCommand}"
+                xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.ByPercents}" />
+
+            <buttons:BorderButton
+                Grid.Column="1"
+                Margin="12, 0"
+                Padding="0"
+                Background="{DynamicResource IndicationColor_i7}"
+                Text="{xct:Translate Dollar}"
+                xct:TouchEffect.Command="{Binding SplitByCommand}"
+                xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.ByDollar}" />
+
+            <buttons:BorderButton
+                Grid.Column="2"
+                Margin="0, 0, 24, 0"
+                Background="{DynamicResource AppColor_i1}"
+                Text="{xct:Translate Seats}"
+                xct:TouchEffect.Command="{Binding SplitByCommand}"
+                xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.BySeats}" />
+
+            <BoxView
+                Grid.Row="2"
+                Grid.ColumnSpan="3"
+                VerticalOptions="End"
+                HeightRequest="1"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
+        </Grid>
+
+    </StackLayout>
+
+</views:BaseContentPage>

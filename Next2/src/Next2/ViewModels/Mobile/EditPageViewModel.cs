@@ -1,22 +1,16 @@
-﻿using Prism.Navigation;
-using System.Windows.Input;
-using System.Threading.Tasks;
-using Xamarin.CommunityToolkit.ObjectModel;
-using Next2.Models;
-using Next2.Services.Order;
-using System.Linq;
-using Next2.Views;
-using Prism.Services.Dialogs;
-using Next2.Enums;
-using Xamarin.CommunityToolkit.Helpers;
-using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Contracts;
-using Xamarin.Forms;
-using Next2.Views.Mobile;
-using Next2.Services.Menu;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using Next2.Enums;
 using Next2.Models.Bindables;
+using Next2.Services.Menu;
+using Next2.Services.Order;
+using Next2.Views.Mobile;
+using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Pages;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Mobile
 {
@@ -57,7 +51,7 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
@@ -84,34 +78,35 @@ namespace Next2.ViewModels.Mobile
             return Task.CompletedTask;
         }
 
-        private async Task OnOpenModifyCommandAsync()
+        private Task OnOpenModifyCommandAsync()
         {
-            await _navigationService.NavigateAsync(nameof(ModificationsPage));
+            return _navigationService.NavigateAsync(nameof(ModificationsPage));
         }
 
-        private async Task OnOpenRemoveCommandAsync()
+        private Task OnOpenRemoveCommandAsync()
         {
             var confirmDialogParameters = new DialogParameters
             {
                 { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
                 { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
-                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["ThisSetWillBeRemoved"] },
+                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["ThisDishWillBeRemoved"] },
                 { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
                 { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
             };
 
-            PopupPage confirmDialog = new Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseDeleteSetDialogCallbackAsync);
+            PopupPage confirmDialog = new Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseDeleteDishDialogCallbackAsync);
 
-            await PopupNavigation.PushAsync(confirmDialog);
+            return PopupNavigation.PushAsync(confirmDialog);
         }
 
-        private async void CloseDeleteSetDialogCallbackAsync(IDialogParameters parameters)
+        private async void CloseDeleteDishDialogCallbackAsync(IDialogParameters parameters)
         {
             if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
             {
                 if (isDishRemovingAccepted)
                 {
                     var result = await _orderService.DeleteDishFromCurrentSeatAsync();
+                    await _orderService.UpdateCurrentOrderAsync();
 
                     if (result.IsSuccess)
                     {
@@ -148,6 +143,5 @@ namespace Next2.ViewModels.Mobile
         }
 
         #endregion
-
     }
 }

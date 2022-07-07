@@ -34,9 +34,11 @@ namespace Next2.Services.Bonuses
 
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<GetCouponByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/coupons/{id}");
+                var query = $"{Constants.API.HOST_URL}/api/coupons/{id}";
 
-                if (response.Success)
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetCouponByIdQueryResult>>(HttpMethod.Get, query);
+
+                if (response.Success && response.Value is not null)
                 {
                     result.SetSuccess(response.Value.Coupon);
                 }
@@ -55,7 +57,9 @@ namespace Next2.Services.Bonuses
 
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<GetCouponsListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/coupons");
+                var query = $"{Constants.API.HOST_URL}/api/coupons";
+
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetCouponsListQueryResult>>(HttpMethod.Get, query);
                 var coupons = response?.Value?.Coupons;
 
                 if (response.Success && coupons is not null)
@@ -79,7 +83,9 @@ namespace Next2.Services.Bonuses
 
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<GetDiscountsListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/discounts");
+                var query = $"{Constants.API.HOST_URL}/api/discounts";
+
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetDiscountsListQueryResult>>(HttpMethod.Get, query);
                 var discounts = response?.Value?.Discounts;
 
                 if (response.Success && discounts is not null)
@@ -95,90 +101,6 @@ namespace Next2.Services.Bonuses
             }
 
             return result;
-        }
-
-        public void ResetСalculationBonus(FullOrderBindableModel currentOrder)
-        {
-            var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
-
-            if (currentOrder.Coupon is not null)
-            {
-                decimal percentage = currentOrder.Coupon.DiscountPercentage / Convert.ToDecimal(100);
-
-                var couponDishes = currentOrder.Coupon.Dishes;
-
-                if (couponDishes is not null)
-                {
-                    foreach (var dish in dishes)
-                    {
-                        dish.DiscountPrice = couponDishes.Any(x => x.Id == dish.Id)
-                            ? percentage == 1 ? 0 : dish.TotalPrice / (1 - percentage)
-                            : dish.TotalPrice;
-
-                        dish.TotalPrice = dish.DiscountPrice;
-                    }
-                }
-            }
-            else if (currentOrder.Discount is not null)
-            {
-                decimal percentage = currentOrder.Discount.DiscountPercentage / Convert.ToDecimal(100);
-
-                foreach (var dish in dishes)
-                {
-                    dish.DiscountPrice = percentage == 1 ? 0 : dish.TotalPrice / (1 - percentage);
-                    dish.TotalPrice = dish.DiscountPrice;
-                }
-            }
-
-            currentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
-            currentOrder.SubTotalPrice = currentOrder.DiscountPrice;
-            currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
-            currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
-        }
-
-        public void СalculationBonus(FullOrderBindableModel currentOrder)
-        {
-            var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
-
-            foreach (var dish in dishes)
-            {
-                dish.SelectedDishProportionPrice = dish.TotalPrice;
-                dish.DiscountPrice = dish.TotalPrice;
-            }
-
-            if (currentOrder.Coupon is not null)
-            {
-                decimal percentage = currentOrder.Coupon.DiscountPercentage / Convert.ToDecimal(100);
-
-                var couponDishes = currentOrder.Coupon.Dishes;
-
-                if (couponDishes is not null)
-                {
-                    foreach (var dish in dishes)
-                    {
-                        dish.DiscountPrice = couponDishes.Any(x => x.Id == dish.Id)
-                            ? dish.TotalPrice - (dish.TotalPrice * percentage)
-                            : dish.TotalPrice;
-
-                        dish.TotalPrice = dish.DiscountPrice;
-                    }
-                }
-            }
-            else if (currentOrder.Discount is not null)
-            {
-                decimal percentage = currentOrder.Discount.DiscountPercentage / Convert.ToDecimal(100);
-
-                foreach (var dish in dishes)
-                {
-                    dish.DiscountPrice = dish.TotalPrice - (dish.TotalPrice * percentage);
-                    dish.TotalPrice = dish.DiscountPrice;
-                }
-            }
-
-            currentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
-            currentOrder.SubTotalPrice = currentOrder.DiscountPrice;
-            currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
-            currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
         }
 
         #endregion

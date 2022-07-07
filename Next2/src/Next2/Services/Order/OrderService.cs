@@ -43,8 +43,6 @@ namespace Next2.Services.Order
             _restService = restService;
             _authenticationService = authenticationService;
             _customersService = customersService;
-
-            CurrentOrder.Seats = new ();
         }
 
         #region -- Public properties --
@@ -56,6 +54,68 @@ namespace Next2.Services.Order
         #endregion
 
         #region -- IOrderService implementation --
+
+        public void UpdateTotalSum(FullOrderBindableModel currentOrder)
+        {
+            currentOrder.SubTotalPrice = 0;
+            currentOrder.DiscountPrice = 0;
+            var discountPercentage = currentOrder.Coupon?.DiscountPercentage ?? 0 + currentOrder.Discount?.DiscountPercentage ?? 0;
+            var couponDishes = currentOrder.Coupon?.Dishes?.ToList() ?? new();
+
+            foreach (var seat in currentOrder.Seats)
+            {
+                foreach (var dish in seat.SelectedDishes)
+                {
+                    decimal totalProductsPrice = 0;
+
+                    foreach (var product in dish.SelectedProducts)
+                    {
+                        var ingredientsPrice = product.AddedIngredients is not null
+                            ? product.AddedIngredients.Sum(row => row.Price)
+                            : 0;
+
+                        ingredientsPrice += product.ExcludedIngredients is not null
+                            ? product.ExcludedIngredients.Sum(row => row.Price)
+                            : 0;
+
+                        var productPrice = product.Price;
+                        totalProductsPrice += ingredientsPrice + productPrice;
+                    }
+
+                    var discountProductsPrice = totalProductsPrice;
+
+                    if (currentOrder.Coupon is not null)
+                    {
+                        var couponDish = couponDishes.FirstOrDefault(x => x.Id == dish.DishId);
+
+                        if (couponDish is not null)
+                        {
+                            discountProductsPrice = totalProductsPrice - (discountPercentage * totalProductsPrice / 100);
+                            couponDishes.Remove(couponDish);
+                        }
+                    }
+                    else
+                    {
+                        discountProductsPrice = totalProductsPrice - (discountPercentage * totalProductsPrice / 100);
+                    }
+
+                    dish.DiscountPrice = discountProductsPrice;
+                    dish.TotalPrice = totalProductsPrice;
+
+                    currentOrder.SubTotalPrice += dish.TotalPrice;
+                    currentOrder.DiscountPrice += dish.DiscountPrice;
+                }
+            }
+
+            if (currentOrder.DiscountPrice == currentOrder.SubTotalPrice)
+            {
+                currentOrder.Discount = null;
+                currentOrder.Coupon = null;
+            }
+
+            currentOrder.PriceTax = (decimal)currentOrder.DiscountPrice * currentOrder.TaxCoefficient;
+            currentOrder.TotalPrice = (decimal)currentOrder.DiscountPrice + currentOrder.PriceTax;
+        }
 
         public async Task<AOResult<OrderModelDTO>> CreateNewOrderAsync()
         {
@@ -71,6 +131,7 @@ namespace Next2.Services.Order
                 };
 
                 var query = $"{Constants.API.HOST_URL}/api/orders";
+
                 var creationResult = await _restService.RequestAsync<GenericExecutionResult<OrderModelResult>>(HttpMethod.Post, query, requestBody);
 
                 var order = creationResult.Value;
@@ -112,9 +173,10 @@ namespace Next2.Services.Order
             try
             {
                 var query = $"{Constants.API.HOST_URL}/api/tables/available";
+
                 var freeTables = await _restService.RequestAsync<GenericExecutionResult<GetAvailableTablesListQueryResult>>(HttpMethod.Get, query);
 
-                if (freeTables.Success && freeTables?.Value?.Tables is not null)
+                if (freeTables.Success && freeTables.Value?.Tables is not null)
                 {
                     result.SetSuccess(freeTables.Value.Tables);
                 }
@@ -133,7 +195,8 @@ namespace Next2.Services.Order
 
             try
             {
-                string query = $"{Constants.API.HOST_URL}/api/orders";
+                var query = $"{Constants.API.HOST_URL}/api/orders";
+
                 var responce = await _restService.RequestAsync<GenericExecutionResult<GetOrdersListQueryResult>>(HttpMethod.Get, query);
 
                 if (responce.Success && responce.Value?.Orders is not null)
@@ -155,7 +218,8 @@ namespace Next2.Services.Order
 
             try
             {
-                string query = $"{Constants.API.HOST_URL}/api/orders/{orderId}";
+                var query = $"{Constants.API.HOST_URL}/api/orders/{orderId}";
+
                 var responce = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, query);
 
                 if (responce.Success && responce.Value?.Order is not null)
@@ -173,19 +237,39 @@ namespace Next2.Services.Order
 
         public string ApplyNumberFilter(string text)
         {
-            Regex regexNumber = new(Constants.Validators.NUMBER);
+            var result = text;
 
-            return regexNumber.Replace(text, string.Empty);
+            try
+            {
+                Regex regexNumber = new(Constants.Validators.NUMBER);
+                result = regexNumber.Replace(text, string.Empty);
+            }
+            catch (Exception)
+            {
+            }
+
+            return result;
         }
 
         public string ApplyNameFilter(string text)
         {
-            Regex regexName = new(Constants.Validators.NAME);
-            Regex regexNumber = new(Constants.Validators.NUMBER);
-            Regex regexText = new(Constants.Validators.TEXT);
+            var result = text;
 
-            var result = regexText.Replace(text, string.Empty);
-            result = Regex.IsMatch(result, Constants.Validators.CHECK_NUMBER) ? regexNumber.Replace(result, string.Empty) : regexName.Replace(result, string.Empty);
+            try
+            {
+                Regex regexName = new(Constants.Validators.NAME);
+                Regex regexNumber = new(Constants.Validators.NUMBER);
+                Regex regexText = new(Constants.Validators.TEXT);
+
+                result = regexText.Replace(text, string.Empty);
+
+                result = Regex.IsMatch(result, Constants.Validators.CHECK_NUMBER)
+                    ? regexNumber.Replace(result, string.Empty)
+                    : regexName.Replace(result, string.Empty);
+            }
+            catch (Exception)
+            {
+            }
 
             return result;
         }
@@ -209,11 +293,11 @@ namespace Next2.Services.Order
                     {
                         var seats = resultOfGettingOrder.Result.Seats;
 
-                        if (seats?.Count() == 0)
+                        if (!IsOrderWithDishes(resultOfGettingOrder.Result) && IsOpenOrder(resultOfGettingOrder.Result))
                         {
-                            await SetCurrentOrderAsync(resultOfGettingOrder.Result);
+                            var resultOfSettingCurrentOrder = await SetCurrentOrderAsync(resultOfGettingOrder.Result);
 
-                            isCurrentOrderSet = true;
+                            isCurrentOrderSet = resultOfSettingCurrentOrder.IsSuccess;
                         }
                     }
                 }
@@ -226,9 +310,9 @@ namespace Next2.Services.Order
                     {
                         await SaveLastOrderIdToSettingsAsync(employeeId, orderCreationResult.Result.Id);
 
-                        await SetCurrentOrderAsync(orderCreationResult.Result);
+                        var resultOfSettingCurrentOrder = await SetCurrentOrderAsync(orderCreationResult.Result);
 
-                        isCurrentOrderSet = true;
+                        isCurrentOrderSet = resultOfSettingCurrentOrder.IsSuccess;
                     }
                 }
 
@@ -257,7 +341,8 @@ namespace Next2.Services.Order
                 {
                     result = await SetCurrentOrderAsync(resultOfGettingLastOrderId.Result);
                 }
-                else
+
+                if (!result.IsSuccess)
                 {
                     result = await SetEmptyCurrentOrderAsync();
                 }
@@ -291,8 +376,6 @@ namespace Next2.Services.Order
                     CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.Checked);
                 }
 
-                dish.DiscountPrice = dish.SelectedDishProportionPrice;
-
                 if (CurrentSeat is null)
                 {
                     CurrentSeat = CurrentOrder.Seats.FirstOrDefault();
@@ -300,17 +383,7 @@ namespace Next2.Services.Order
 
                 CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].SelectedDishes.Add(dish);
 
-                CurrentOrder.SubTotalPrice = CurrentOrder.Seats.Sum(row => row.SelectedDishes.Sum(row => row.TotalPrice));
-
-                CurrentOrder.PriceTax = (decimal)(CurrentOrder.SubTotalPrice * CurrentOrder.TaxCoefficient);
-
-                CurrentOrder.TotalPrice = (decimal)(CurrentOrder.SubTotalPrice + CurrentOrder.PriceTax);
-
-                if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
-                {
-                    _bonusesService.ResetСalculationBonus(CurrentOrder);
-                    _bonusesService.СalculationBonus(CurrentOrder);
-                }
+                UpdateTotalSum(CurrentOrder);
 
                 result.SetSuccess();
             }
@@ -374,9 +447,7 @@ namespace Next2.Services.Order
 
                     if (seat.SelectedDishes.Count != 0)
                     {
-                        CurrentOrder.SubTotalPrice -= seat.SelectedDishes.Sum(row => row.TotalPrice);
-                        CurrentOrder.PriceTax = (decimal)(CurrentOrder.SubTotalPrice * CurrentOrder.TaxCoefficient);
-                        CurrentOrder.TotalPrice = (decimal)(CurrentOrder.SubTotalPrice + CurrentOrder.PriceTax);
+                        UpdateTotalSum(CurrentOrder);
                     }
 
                     result.SetSuccess();
@@ -390,7 +461,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> RedirectSetsFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber)
+        public async Task<AOResult> RedirectDishesFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber)
         {
             var result = new AOResult();
 
@@ -416,7 +487,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(RedirectSetsFromSeatInCurrentOrder)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(RedirectDishesFromSeatInCurrentOrder)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -433,9 +504,7 @@ namespace Next2.Services.Order
                 if (dishTobeRemoved is not null)
                 {
                     CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).SelectedDishes.Remove(dishTobeRemoved);
-                    CurrentOrder.SubTotalPrice -= dishTobeRemoved.TotalPrice;
-                    CurrentOrder.PriceTax = (decimal)(CurrentOrder.SubTotalPrice * CurrentOrder.TaxCoefficient);
-                    CurrentOrder.TotalPrice = (decimal)(CurrentOrder.SubTotalPrice + CurrentOrder.PriceTax);
+                    UpdateTotalSum(CurrentOrder);
                 }
 
                 result.SetSuccess();
@@ -454,7 +523,9 @@ namespace Next2.Services.Order
 
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/orders", order);
+                var query = $"{Constants.API.HOST_URL}/api/orders";
+
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, query, order);
 
                 if (response.Success)
                 {
@@ -469,6 +540,27 @@ namespace Next2.Services.Order
             return result;
         }
 
+        public async Task<AOResult<Guid>> UpdateTableAsync(UpdateTableCommand command)
+        {
+            var result = new AOResult<Guid>();
+
+            try
+            {
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/tables", command);
+
+                if (response.Success)
+                {
+                    result.SetSuccess(response.Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(UpdateTableAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         public async Task<AOResult> SetCurrentOrderAsync(Guid orderId)
         {
             var result = new AOResult();
@@ -477,7 +569,7 @@ namespace Next2.Services.Order
             {
                 var orderResult = await GetOrderByIdAsync(orderId);
 
-                if (orderResult.IsSuccess)
+                if (orderResult.IsSuccess && IsOpenOrder(orderResult.Result))
                 {
                     result = await SetCurrentOrderAsync(orderResult.Result);
                 }
@@ -496,6 +588,7 @@ namespace Next2.Services.Order
 
             try
             {
+                UpdateTotalSum(CurrentOrder);
                 var orderForUpdate = CurrentOrder.ToUpdateOrderCommand();
 
                 result = await UpdateOrderAsync(orderForUpdate);
@@ -625,7 +718,7 @@ namespace Next2.Services.Order
 
             var currentOrder = order.ToFullOrderBindableModel();
 
-            if (currentOrder is not null)
+            if (currentOrder is not null && IsOpenOrder(order))
             {
                 var resultOfUpdatingDishes = await AddAdditionalDishesInformationToOrderAsync(currentOrder);
 
@@ -646,6 +739,7 @@ namespace Next2.Services.Order
 
                         CurrentOrder = currentOrder;
                         CurrentSeat = CurrentOrder.Seats.FirstOrDefault(x => x.Checked);
+
                         result.SetSuccess();
                     }
                 }
@@ -665,6 +759,23 @@ namespace Next2.Services.Order
                 currentOrder.Customer = resultOfGettingCustomer.Result;
 
                 result.SetSuccess();
+            }
+
+            return result;
+        }
+
+        private bool IsOpenOrder(OrderModelDTO order)
+        {
+            return order.OrderStatus is not EOrderStatus.Deleted or EOrderStatus.Closed or EOrderStatus.Canceled;
+        }
+
+        private bool IsOrderWithDishes(OrderModelDTO order)
+        {
+            var result = false;
+
+            if (order.Seats?.Count() > 0)
+            {
+                result = order.Seats.Any(seat => seat.SelectedDishes.Count() > 0);
             }
 
             return result;

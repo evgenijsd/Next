@@ -2,7 +2,6 @@
 {
     public enum EDayState
     {
-        Current,
         DayMonth,
         NoDayMonth,
         NameOfDay,

@@ -37,8 +37,8 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _orderService = orderService;
-
             _eventAggregator = eventAggregator;
+
             _eventAggregator.GetEvent<OrderSelectedEvent>().Subscribe(SetLastSavedOrderId);
             _eventAggregator.GetEvent<OrderMovedEvent>().Subscribe(SetOrderType);
         }
@@ -95,6 +95,9 @@ namespace Next2.ViewModels
         private ICommand _editOrderCommand;
         public ICommand EditOrderCommand => _editOrderCommand ??= new AsyncCommand(OnEditOrderCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _splitCommand;
+        public ICommand SplitCommand => _splitCommand ??= new AsyncCommand(OnSplitCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -116,6 +119,7 @@ namespace Next2.ViewModels
 
             if (App.IsTablet)
             {
+                IsTabsModeSelected = false;
                 IsSearchModeActive = false;
                 SearchQuery = string.Empty;
                 SelectedOrder = null;
@@ -199,15 +203,12 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await ShowInfoDialog(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["SomethingWentWrong"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await ResponseToBadRequestAsync(gettingOrdersResult.Exception.Message);
                 }
             }
             else
             {
-                await ShowInfoDialog(
+                await ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -380,15 +381,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await ShowInfoDialog(
-                            LocalizationResourceManager.Current["Error"],
-                            LocalizationResourceManager.Current["SomethingWentWrong"],
-                            LocalizationResourceManager.Current["Ok"]);
+                        await ResponseToBadRequestAsync(orderResult.Exception.Message);
                     }
                 }
                 else
                 {
-                    await ShowInfoDialog(
+                    await ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -449,7 +447,7 @@ namespace Next2.ViewModels
 
                             SelectedOrder = null;
                             Orders.Remove(orderToBeRemoved);
-                            Orders = new (Orders);
+                            Orders = new(Orders);
 
                             if (!Orders.Any())
                             {
@@ -458,12 +456,20 @@ namespace Next2.ViewModels
 
                             await PopupNavigation.PopAllAsync();
                         }
+                        else
+                        {
+                            await ResponseToBadRequestAsync(updateOrderResult.Exception.Message);
+                        }
+                    }
+                    else
+                    {
+                        await ResponseToBadRequestAsync(orderResult.Exception.Message);
                     }
                 }
                 else
                 {
                     await PopupNavigation.PopAsync();
-                    await ShowInfoDialog(
+                    await ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -507,15 +513,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await ShowInfoDialog(
-                            LocalizationResourceManager.Current["Error"],
-                            LocalizationResourceManager.Current["SomethingWentWrong"],
-                            LocalizationResourceManager.Current["Ok"]);
+                        await ResponseToBadRequestAsync(orderResult.Exception.Message);
                     }
                 }
                 else
                 {
-                    await ShowInfoDialog(
+                    await ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -570,8 +573,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(Views.Mobile.MenuPage)}/{nameof(Views.Mobile.OrderRegistrationPage)}");
+                        await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MenuPage)}/{nameof(OrderRegistrationPage)}");
                     }
+                }
+                else
+                {
+                    await ResponseToBadRequestAsync(resultOfSetCurrentOrder.Exception.Message);
                 }
             }
         }
@@ -596,6 +603,19 @@ namespace Next2.ViewModels
             string surname = surnames[random.Next(3)];
 
             return name + " " + surname;
+        }
+
+        private async Task OnSplitCommandAsync()
+        {
+            if (SelectedOrder.TotalPrice > 0)
+            {
+                var param = new NavigationParameters
+                {
+                    { Constants.Navigations.ORDER_ID, SelectedOrder.Id },
+                };
+
+                await _navigationService.NavigateAsync(nameof(SplitOrderPage), param);
+            }
         }
 
         #endregion
