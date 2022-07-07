@@ -148,7 +148,7 @@
                     CornerRadius="5"
                     BorderColor="{DynamicResource IndicationColor_i7}"
                     Text="{xct:Translate Split}"
-                    IsVisible="{Binding IsTabsModeSelected}"
+                    IsVisible="{Binding IsTabsModeSelected, Converter={xct:InvertedBoolConverter}}" 
                     xct:TouchEffect.Command="{Binding SplitCommand}"/>
 
                 <buttons:BorderButton
