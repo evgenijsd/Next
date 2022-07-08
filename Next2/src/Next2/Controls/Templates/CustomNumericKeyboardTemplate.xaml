@@ -210,7 +210,7 @@
                     FontFamily="Barlow-SemiBold"
                     FontSize="{DynamicResource TSize_i6}"
                     BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
-                    TapGestureRecognizerCommand="{Binding ButtonTapCommand, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"/>
+                    TapGestureRecognizerCommand="{Binding ButtonClearTapCommand, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"/>
 
             </Grid>
 

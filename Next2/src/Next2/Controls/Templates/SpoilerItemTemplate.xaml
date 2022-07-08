@@ -5,6 +5,7 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:helpers="clr-namespace:Next2.Helpers"
     Orientation="Horizontal"
+    Spacing="0"
     x:Class="Next2.Controls.Templates.SpoilerItemTemplate"
     x:DataType="helpers:SpoilerItem">
 
@@ -37,8 +38,10 @@
     </VisualStateManager.VisualStateGroups>
 
     <ffimageloading:CachedImage
-        Margin="32, 0, 0, 0"
+        Margin="22, 0, 0, 0"
         Source="{Binding ImagePath}"
+        HeightRequest="18"
+        WidthRequest="18"
         HorizontalOptions="Start"
         VerticalOptions="Center"
         x:Name="image"/>
@@ -46,9 +49,9 @@
     <Label
         HorizontalOptions="Start"
         VerticalTextAlignment="Center"
-        Padding="8"
+        Padding="8, 10, 8, 8"
         Text="{Binding Title}"
-        FontSize="{DynamicResource TSize_i5}"
+        FontSize="{DynamicResource TSize_i8}"
         FontFamily="Barlow-SemiBold"
         x:Name="label"/>
 

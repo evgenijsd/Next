@@ -5,6 +5,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     Orientation="Horizontal"
     x:Class="Next2.Controls.SortingPanel">
 
@@ -15,9 +16,9 @@
         FontFamily="{Binding FontFamily, Source={RelativeSource AncestorType={x:Type controls:SortingPanel}}}"
         VerticalTextAlignment="Center"/>
 
-    <Frame
+    <pancakeview:PancakeView
         CornerRadius="5"
-        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+        Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
         Padding="15, 5"
         HorizontalOptions="EndAndExpand"
@@ -25,17 +26,20 @@
 
         <StackLayout Orientation="Horizontal">
 
-            <ffimageloading:CachedImage Source="ic_swap_24x24"/>
+            <ffimageloading:CachedImage 
+                HeightRequest="20"
+                WidthRequest="20"
+                Source="ic_swap_24x24"/>
 
             <Label
                 Text="{xct:Translate TypeOrder}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontSize="{DynamicResource TSize_i7}"
-                FontFamily="Barlow-Medium"
+                FontSize="{DynamicResource TSize_i9}"
+                FontFamily="{OnIdiom Phone='Barlow-Medium', Tablet='Barlow-SemiBold'}"
                 Margin="10, 0, 0, 0"/>
 
         </StackLayout>
 
-    </Frame>
+    </pancakeview:PancakeView>
 
 </StackLayout>

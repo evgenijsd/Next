@@ -236,7 +236,7 @@
                                                 <VisualState.Setters>
                                                     <Setter Property="Padding" Value="24, 22, 24, 0" />
                                                 </VisualState.Setters>
-\
+
                                             </VisualState>
 
                                             <VisualState Name="moreiPadMiniPadding">

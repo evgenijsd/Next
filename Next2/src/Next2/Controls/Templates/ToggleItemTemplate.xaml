@@ -7,11 +7,12 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:pkView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     Orientation="Horizontal"
+    Spacing="0"
     Padding="0, 10"
     x:Class="Next2.Controls.Templates.ToggleItemTemplate">
 
     <pkView:PancakeView
-        CornerRadius="10"
+        CornerRadius="6"
         Margin="0, 0, 10, 0"
         IsVisible="{Binding IsVisibleImage, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}">
         
