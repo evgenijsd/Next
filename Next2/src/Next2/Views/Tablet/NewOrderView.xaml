@@ -1229,7 +1229,20 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                 SelectionMode="Single"
                 IsGrouped="True"
-                ItemsSource="{Binding OrderRegistrationViewModel.SelectedDishes}">
+                ItemsSource="{Binding OrderRegistrationViewModel.SelectedDishes}"
+                SelectedItem="{Binding OrderRegistrationViewModel.SelectedDish}">
+
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="CommonStates">
+
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                            </VisualState.Setters>
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
 
                 <CollectionView.Behaviors>
                     <behaviors:ScrollToCenterBehavior />
@@ -1245,11 +1258,11 @@
                         ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}" />
 
                 </CollectionView.Effects>
-                
+
                 <CollectionView.EmptyView>
                     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
-                        <pancakeview:PancakeView 
+                        <pancakeview:PancakeView
                             IsVisible="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"
@@ -1259,55 +1272,60 @@
                             Margin="15, 15, 15, 0"
                             CornerRadius="6">
 
-                            <StackLayout 
+                            <StackLayout
                                 Spacing="6"
                                 Padding="10">
-                                
+
                                 <StackLayout Orientation="Horizontal">
 
                                     <Label
                                         Text="{Binding OrderRegistrationViewModel.PopUpInfo}"
                                         FontFamily="Barlow-Medium"
-                                        FontSize="{DynamicResource TSize_i9}"/>
+                                        FontSize="{DynamicResource TSize_i9}" />
 
-                                    <ffimageloading:CachedImage 
+                                    <ffimageloading:CachedImage
                                         HorizontalOptions="EndAndExpand"
                                         Source="ic_close_square_24x24"
                                         HeightRequest="20"
                                         WidthRequest="20"
-                                        xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.HideOrderNotificationCommnad}"/>
-                                    
+                                        xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.HideOrderNotificationCommnad}" />
+
                                 </StackLayout>
-                                
+
                                 <StackLayout
                                     Orientation="Horizontal"
                                     Spacing="6"
                                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.GoToOrderTabsCommand}">
 
-                                    <ffimageloading:CachedImage 
+                                    <ffimageloading:CachedImage
                                         Source="ic_folder_primary_24x24"
                                         HeightRequest="20"
-                                        WidthRequest="20"/>
+                                        WidthRequest="20" />
 
                                     <Label
                                         Text="{xct:Translate OrderTabs}"
                                         FontFamily="Barlow-Medium"
                                         TextColor="{DynamicResource AppColor_i1}"
-                                        FontSize="{DynamicResource TSize_i9}"/>
-                                    
+                                        FontSize="{DynamicResource TSize_i9}" />
+
                                 </StackLayout>
-                                
+
                             </StackLayout>
-                            
+
                         </pancakeview:PancakeView>
 
-                        <StackLayout 
+                        <StackLayout
                             Margin="0, 120, 0, 0"
                             Spacing="6">
 
                             <StackLayout.Triggers>
-                                <DataTrigger TargetType="StackLayout" Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}" Value="True">
-                                    <Setter Property="Margin" Value="0, 40, 0, 0"/>
+                                <DataTrigger
+                                    TargetType="StackLayout"
+                                    Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
+                                    Value="True">
+                                    
+                                    <Setter Property="Margin" Value="0, 40, 0, 0" />
+                                    
                                 </DataTrigger>
                             </StackLayout.Triggers>
 
@@ -1323,11 +1341,11 @@
                                             <VisualState Name="Medium">
 
                                                 <VisualState.StateTriggers>
-                                                    <AdaptiveTrigger MinWindowWidth="1340"/>
+                                                    <AdaptiveTrigger MinWindowWidth="1340" />
                                                 </VisualState.StateTriggers>
 
                                                 <VisualState.Setters>
-                                                    <Setter Property="HeightRequest" Value="250"/>
+                                                    <Setter Property="HeightRequest" Value="250" />
                                                 </VisualState.Setters>
 
                                             </VisualState>
@@ -1355,115 +1373,192 @@
                 </CollectionView.EmptyView>
 
                 <CollectionView.GroupHeaderTemplate>
-                    <DataTemplate
-                        x:DataType="modelsBindable:SeatGroupBindableModel">
-                        <Label
-                            Text="{Binding SeatNumber}"
-                            BackgroundColor="LightGray"
-                            FontSize="Large"
-                            FontAttributes="Bold" />
+                    <DataTemplate x:DataType="modelsBindable:SeatGroupBindableModel">
+                        <StackLayout>
+                            <BoxView
+                                HeightRequest="1"
+                                Margin="0, 0, 0, 12"
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                IsVisible="{Binding IsFirstSeat, Converter={xct:InvertedBoolConverter}}" />
+
+                            <StackLayout
+                                Orientation="Horizontal"
+                                Margin="0, 0, 0, 6">
+
+                                <ffimageloading:CachedImage
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Center"
+                                    Source="ic_check_box_unhecked_24x24.png"
+                                    HeightRequest="20"
+                                    WidthRequest="20"
+                                    xct:TouchEffect.Command="{Binding SeatSelectionCommand}"
+                                    xct:TouchEffect.CommandParameter="{Binding .}">
+
+                                    <ffimageloading:CachedImage.Triggers>
+
+                                        <DataTrigger
+                                            TargetType="ffimageloading:CachedImage"
+                                            Binding="{Binding Checked}"
+                                            Value="True">
+
+                                            <Setter Property="Source" Value="ic_check_box_checked_primary_24x24.png" />
+
+                                        </DataTrigger>
+
+                                    </ffimageloading:CachedImage.Triggers>
+
+                                </ffimageloading:CachedImage>
+
+                                <Label
+                                    FontSize="{DynamicResource TSize_i9}"
+                                    FontFamily="Barlow-Medium"
+                                    Text="{Binding SeatNumber, StringFormat='Seat {0}'}"
+                                    Margin="10, 0, 0, 0" />
+
+                                <ffimageloading:CachedImage
+                                    HorizontalOptions="EndAndExpand"
+                                    VerticalOptions="Center"
+                                    HeightRequest="20"
+                                    WidthRequest="20"
+                                    Source="ic_outline_minus_24x24.png"
+                                    IsVisible="{Binding IsFirstSeat, Converter={xct:InvertedBoolConverter}}"
+                                    xct:TouchEffect.Command="{Binding SeatDeleteCommand}"
+                                    xct:TouchEffect.CommandParameter="{Binding .}" />
+
+                                <pancakeview:PancakeView
+                                    HorizontalOptions="EndAndExpand"
+                                    VerticalOptions="Center"
+                                    Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                                    Padding="12, 6"
+                                    CornerRadius="6"
+                                    IsVisible="{Binding IsFirstSeat}"
+                                    xct:TouchEffect.Command="{Binding RemoveOrderCommand}"
+                                    xct:TouchEffect.CommandParameter="{Binding .}">
+
+                                    <StackLayout Orientation="Horizontal">
+
+                                        <ffimageloading:CachedImage
+                                            HorizontalOptions="EndAndExpand"
+                                            VerticalOptions="Center"
+                                            HeightRequest="20"
+                                            WidthRequest="20"
+                                            Source="ic_delete_white.png" />
+
+                                        <Label
+                                            Margin="10, 0, 0, 0"
+                                            VerticalTextAlignment="Center"
+                                            Text="{xct:Translate RemoveOrder}"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                            FontSize="{DynamicResource TSize_i9}"
+                                            FontFamily="Barlow-SemiBold" />
+
+                                    </StackLayout>
+
+                                </pancakeview:PancakeView>
+
+                            </StackLayout>
+                        </StackLayout>
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
 
                 <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="modelsBindable:DishBindableModel">
 
-            <DataTemplate x:DataType="modelsBindable:DishBindableModel">
+                        <StackLayout
+                            Padding="0, 0, 0, 8"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
-                <StackLayout
-                    Padding="0, 0, 0, 8"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
 
-                    <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Normal">
 
-                            <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter TargetName="dishPancakeView" Property="pancakeview:PancakeView.BackgroundColor" Value="Transparent" />
+                                            <Setter TargetName="dishPancakeView" Property="pancakeview:PancakeView.Border">
+                                                <Setter.Value>
+                                                    <pancakeview:Border Color="{StaticResource TextAndBackgroundColor_i2}" Thickness="1" />
+                                                </Setter.Value>
+                                            </Setter>
+                                        </VisualState.Setters>
 
-                                <VisualState.Setters>
-                                    <Setter TargetName="dishPancakeView" Property="pancakeview:PancakeView.BackgroundColor" Value="Transparent" />
-                                    <Setter TargetName="dishPancakeView" Property="pancakeview:PancakeView.Border">
-                                        <Setter.Value>
-                                            <pancakeview:Border Color="{StaticResource TextAndBackgroundColor_i2}" Thickness="1"/>
-                                        </Setter.Value>
-                                    </Setter>
-                                </VisualState.Setters>
+                                    </VisualState>
 
-                            </VisualState>
+                                    <VisualState Name="Selected">
 
-                            <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter TargetName="dishPancakeView" Property="pancakeview:PancakeView.Border">
+                                                <Setter.Value>
+                                                    <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="1" />
+                                                </Setter.Value>
+                                            </Setter>
+                                        </VisualState.Setters>
 
-                                <VisualState.Setters>
-                                    <Setter TargetName="dishPancakeView" Property="pancakeview:PancakeView.Border">
-                                        <Setter.Value>
-                                            <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="1"/>
-                                        </Setter.Value>
-                                    </Setter>
-                                </VisualState.Setters>
+                                    </VisualState>
 
-                            </VisualState>
-
-                        </VisualStateGroup>
-                    </VisualStateManager.VisualStateGroups>
-
-                    <pancakeview:PancakeView
-                        CornerRadius="8"
-                        x:Name="dishPancakeView">
-
-                        <StackLayout 
-                            Orientation="Horizontal"
-                            Spacing="5">
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
 
                             <pancakeview:PancakeView
-                                HeightRequest="44"
-                                MinimumWidthRequest="44"
-                                WidthRequest="44"
                                 CornerRadius="8"
-                                HorizontalOptions="Start"
-                                VerticalOptions="Center"
-                                Margin="10">
+                                x:Name="dishPancakeView">
 
-                                <ffimageloading:CachedImage
-                                    Aspect="AspectFill"
-                                    Source="{Binding ImageSource}"/>
+                                <StackLayout
+                                    Orientation="Horizontal"
+                                    Spacing="5">
+
+                                    <pancakeview:PancakeView
+                                        HeightRequest="44"
+                                        MinimumWidthRequest="44"
+                                        WidthRequest="44"
+                                        CornerRadius="8"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center"
+                                        Margin="10">
+
+                                        <ffimageloading:CachedImage
+                                            Aspect="AspectFill"
+                                            Source="{Binding ImageSource}" />
+
+                                    </pancakeview:PancakeView>
+
+                                    <StackLayout
+                                        VerticalOptions="CenterAndExpand"
+                                        Spacing="6"
+                                        Margin="0, 14">
+
+                                        <Label
+                                            Text="{Binding Name}"
+                                            FontSize="{DynamicResource TSize_i9}"
+                                            FontFamily="Barlow-Medium"
+                                            LineBreakMode="TailTruncation"
+                                            MaxLines="1" />
+
+                                        <Label
+                                            FontSize="{DynamicResource TSize_i8}"
+                                            FontFamily="Barlow-SemiBold">
+
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{xct:Translate CurrencySign}" />
+                                                    <Span Text=" " />
+                                                    <Span Text="{Binding DiscountPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+
+                                        </Label>
+
+                                    </StackLayout>
+
+                                </StackLayout>
 
                             </pancakeview:PancakeView>
 
-                            <StackLayout
-                                VerticalOptions="CenterAndExpand"
-                                Spacing="6"
-                                Margin="0, 14">
-
-                                <Label
-                                    Text="{Binding Name}"
-                                    FontSize="{DynamicResource TSize_i9}"
-                                    FontFamily="Barlow-Medium"
-                                    LineBreakMode="TailTruncation"
-                                    MaxLines="1"/>
-
-                                <Label
-                                    FontSize="{DynamicResource TSize_i8}"
-                                    FontFamily="Barlow-SemiBold">
-
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="{xct:Translate CurrencySign}" />
-                                            <Span Text=" " />
-                                            <Span Text="{Binding DiscountPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
-
-                                </Label>
-
-                            </StackLayout>
-
                         </StackLayout>
 
-                    </pancakeview:PancakeView>
-
-                </StackLayout>
-
-            </DataTemplate>
-
-        </CollectionView.ItemTemplate>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
 
             </controls:CustomCollectionView>
             <!--<controls:CustomCollectionView
