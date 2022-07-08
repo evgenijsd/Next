@@ -17,8 +17,8 @@
         
         <ffimageloading:CachedImage
             Aspect="AspectFill"
-            HeightRequest="50"
-            WidthRequest="50"
+            HeightRequest="{Binding ImageSizes, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
+            WidthRequest="{Binding ImageSizes, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
             Source="{Binding ImagePath, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"/>
         
     </pkView:PancakeView>
@@ -28,8 +28,8 @@
         <Label
             Text="{Binding Title, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
             TextColor="{DynamicResource IndicationColor_i3}"
-            FontSize="{DynamicResource TSize_i5}"
-            FontFamily="Barlow-SemiBold">
+            FontSize="{Binding TitleFontSize, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
+            FontFamily="{Binding TitleFontFamily, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}">
 
             <Label.Triggers>
 
@@ -49,42 +49,25 @@
         <Label
             Text="{Binding Subtitle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-            FontSize="{DynamicResource TSize_i8}"
-            FontFamily="Barlow-Medium"
+            FontSize="{Binding SubtitleFontSize, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
+            FontFamily="{Binding SubtitleFontFamily, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
             Margin="0, 5, 0, 0"
-            IsVisible="{Binding IsVisibleSubtitle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}">
-
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup Name="OrientationState">
-
-                    <VisualState Name="Landscape">
-
-                        <VisualState.StateTriggers>
-                            <OrientationStateTrigger Orientation="Landscape"/>
-                        </VisualState.StateTriggers>
-
-                        <VisualState.Setters>
-                            <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
-                        </VisualState.Setters>
-
-                    </VisualState>
-
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
-
-        </Label>
+            IsVisible="{Binding IsVisibleSubtitle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"/>
 
     </StackLayout>
 
     <controls:Toggle
-        ChangingToggleCommand="{Binding ChangingToggle}"
-        ChangingToggleCommandParameter="{Binding .}"
         VerticalOptions="Start"
         HorizontalOptions="EndAndExpand"
+        WidthRequest="32"
+        HeightRequest="{OnIdiom Phone='18', Tablet='19'}"
+        ThumbSize="{OnIdiom Phone='14', Tablet='16'}"
+        ThumbColor="{DynamicResource IndicationColor_i3}"
+        OnColor="{DynamicResource IndicationColor_i4}"
         IsToggled="{Binding IsToggle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
         CanTurnOff="{Binding CanTurnOff, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
-        ThumbColor="{DynamicResource IndicationColor_i3}"
-        OnColor="{DynamicResource IndicationColor_i4}">
+        ChangingToggleCommand="{Binding ChangingToggle}"
+        ChangingToggleCommandParameter="{Binding .}">
 
         <controls:Toggle.Triggers>
 

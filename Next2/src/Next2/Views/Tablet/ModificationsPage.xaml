@@ -5,24 +5,33 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:helpers="clr-namespace:Next2.Helpers"
-    xmlns:models="clr-namespace:Next2.Models"
-    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables" 
-    xmlns:local="clr-namespace:Next2"
-    xmlns:modelsDTO="clr-namespace:Next2.Models.API.DTO"
-    xmlns:viewmodels="clr-namespace:Next2.ViewModels"
-    xmlns:views="clr-namespace:Next2.Views" 
     xmlns:modelsApi="clr-namespace:Next2.Models.API"
+    xmlns:modelsDTO="clr-namespace:Next2.Models.API.DTO"
+    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
+    xmlns:viewmodels="clr-namespace:Next2.ViewModels"
+    xmlns:views="clr-namespace:Next2.Views"
     x:Class="Next2.Views.Tablet.ModificationsPage"
     x:DataType="viewmodels:ModificationsPageViewModel">
 
+    <views:BaseContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ToggleItemTemplateStyle_i1" TargetType="templates:ToggleItemTemplate">
+                <Setter Property="TitleFontSize" Value="{DynamicResource TSize_i8}"/>
+                <Setter Property="SubtitleFontSize" Value="{DynamicResource TSize_i9}"/>
+                <Setter Property="ImageSizes" Value="50"/>
+            </Style>
+        </ResourceDictionary>
+    </views:BaseContentPage.Resources>
+    
     <Grid
-        ColumnDefinitions="300, *"
+        ColumnDefinitions="228, *"
         RowDefinitions="*, 1, 99">
 
         <StackLayout
@@ -33,9 +42,9 @@
             <Label
                 Text="{xct:Translate Modifications}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontSize="{DynamicResource TSize_i4}"
+                FontSize="{DynamicResource TSize_i6}"
                 FontFamily="Barlow-SemiBold"
-                Padding="32, 16"/>
+                Padding="24, 19, 24, 15"/>
 
             <BoxView
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
@@ -56,9 +65,9 @@
                 <Label
                     Text="{xct:Translate Proportions}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontSize="{DynamicResource TSize_i4}"
+                    FontSize="{DynamicResource TSize_i6}"
                     FontFamily="Barlow-SemiBold"
-                    Padding="32, 16">
+                    Padding="24, 13, 24, 14">
                     
                     <Label.Triggers>
 
@@ -157,13 +166,13 @@
                     <Label
                         Text="{xct:Translate AvailableOptions}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i5}"
+                        FontSize="{DynamicResource TSize_i6}"
                         FontFamily="Barlow-SemiBold"
                         VerticalTextAlignment="Center"
-                        Margin="40, 26"/>
+                        Margin="32, 19"/>
 
                     <CollectionView
-                        Margin="40, 16"
+                        Margin="32, 16"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
                         ItemsSource="{Binding PortionsDish}">
@@ -193,6 +202,8 @@
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                                     <templates:ToggleItemTemplate
+                                        Style="{DynamicResource ToggleItemTemplateStyle_i1}"
+                                        SubtitleFontSize="12"
                                         State="{Binding .}"
                                         Title="{Binding ProportionName}"
                                         IsVisibleSubtitle="True"
@@ -255,7 +266,7 @@
                                 <Label
                                     Text="{xct:Translate NoItemsInCategory}"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                    FontSize="{DynamicResource TSize_i4}"
+                                    FontSize="{DynamicResource TSize_i6}"
                                     FontFamily="Barlow-Regular"
                                     HorizontalOptions="Center"
                                     VerticalOptions="StartAndExpand"/>
@@ -275,6 +286,7 @@
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                                     <templates:ToggleItemTemplate
+                                        Style="{DynamicResource ToggleItemTemplateStyle_i1}"
                                         State="{Binding .}"
                                         Title="{Binding Name}"
                                         Subtitle="{Binding DefaultPrice, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
@@ -302,7 +314,7 @@
                     <Label
                         Text="{xct:Translate AvailableGroups}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i5}"
+                        FontSize="{DynamicResource TSize_i6}"
                         FontFamily="Barlow-SemiBold"
                         VerticalTextAlignment="Center"
                         Margin="40, 26"/>
@@ -352,7 +364,7 @@
                     <controls:SortingPanel
                         Margin="40, 26"
                         Text="{xct:Translate AvailableOptions}"
-                        FontSize="{DynamicResource TSize_i5}"
+                        FontSize="{DynamicResource TSize_i6}"
                         FontFamily="Barlow-SemiBold"
                         ChangingOrderSortCommand="{Binding ChangingOrderSortInventoryCommand}"/>
 
@@ -394,6 +406,7 @@
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                                     <templates:ToggleItemTemplate
+                                        Style="{DynamicResource ToggleItemTemplateStyle_i1}"
                                         IsToggle="{Binding IsToggled}"
                                         Title="{Binding Name}"
                                         Subtitle="{Binding Price, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
@@ -421,7 +434,7 @@
                     <Label
                         Text="{xct:Translate AvailableOptions}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i5}"
+                        FontSize="{DynamicResource TSize_i6}"
                         FontFamily="Barlow-SemiBold"
                         VerticalTextAlignment="Center"
                         Margin="40, 26"/>
@@ -457,6 +470,7 @@
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                                     <templates:ToggleItemTemplate
+                                        Style="{DynamicResource ToggleItemTemplateStyle_i1}"
                                         State="{Binding .}"
                                         Title="{Binding Name}"
                                         BindableLayout="{Binding SelectedOption, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
@@ -491,7 +505,7 @@
                 Grid.Column="0"
                 Text="{xct:Translate Cancel}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontSize="{DynamicResource TSize_i5}"
+                FontSize="{DynamicResource TSize_i8}"
                 FontFamily="Barlow-SemiBold"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                 BorderColor="{DynamicResource AppColor_i1}"
@@ -504,7 +518,7 @@
                 Grid.Column="1"
                 Text="{xct:Translate Save}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                FontSize="{DynamicResource TSize_i5}"
+                FontSize="{DynamicResource TSize_i8}"
                 FontFamily="Barlow-SemiBold"
                 BackgroundColor="{DynamicResource IndicationColor_i1}"
                 BorderColor="{DynamicResource IndicationColor_i1}"

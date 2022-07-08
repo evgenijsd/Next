@@ -1,38 +1,37 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<StackLayout
+<Grid
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Next2.Controls"
+    HeightRequest="24"
+    WidthRequest="42"
+    RowDefinitions="auto"
     x:Class="Next2.Controls.Toggle">
 
-    <StackLayout.GestureRecognizers>
+    <Grid.GestureRecognizers>
         <PanGestureRecognizer PanUpdated="PanGestureRecognizer_PanUpdated"/>
         <TapGestureRecognizer Command="{Binding TapCommand, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"/>
-    </StackLayout.GestureRecognizers>
+    </Grid.GestureRecognizers>
 
-    <Grid
-        HorizontalOptions="EndAndExpand"
-        RowDefinitions="*"
-        ColumnDefinitions="42">
+    <Frame
+        Grid.Row="0"
+        BackgroundColor="{Binding OnColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
+        BorderColor="{Binding OnColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
+        HeightRequest="{Binding HeightRequest, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
+        WidthRequest="{Binding WidthRequest, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
+        CornerRadius="10"
+        x:Name="trackFrame"/>
 
-        <Frame
-            Grid.Row="0"
-            BackgroundColor="{Binding OnColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
-            BorderColor="{Binding OnColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
-            HeightRequest="24"
-            WidthRequest="42"
-            CornerRadius="12"/>
+    <Frame
+        Grid.Row="0"
+        Margin="0, 2"
+        HeightRequest="{Binding ThumbSize, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
+        WidthRequest="{Binding ThumbSize, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
+        BackgroundColor="{Binding ThumbColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
+        BorderColor="{Binding ThumbColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
+        HorizontalOptions="Start"
+        VerticalOptions="Center"
+        CornerRadius="12"
+        x:Name="thumbFrame"/>
 
-        <Frame
-            HeightRequest="21"
-            WidthRequest="21"
-            Margin="1, 2"
-            BackgroundColor="{Binding ThumbColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
-            BorderColor="{Binding ThumbColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
-            HorizontalOptions="Start"
-            CornerRadius="11"
-            x:Name="runningFrame"/>
-
-    </Grid>
-
-</StackLayout>
+</Grid>
