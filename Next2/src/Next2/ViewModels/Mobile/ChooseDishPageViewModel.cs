@@ -51,6 +51,9 @@ namespace Next2.ViewModels.Mobile
         private ICommand _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _refreshDishesCommand;
+        public ICommand RefreshDishesCommand => _refreshDishesCommand ??= new AsyncCommand(OnRefreshDishesCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -129,6 +132,15 @@ namespace Next2.ViewModels.Mobile
             {
                 await PopupNavigation.PopAsync();
             }
+        }
+
+        private async Task OnRefreshDishesCommandAsync()
+        {
+            IsActivityIndicatorRunning = true;
+
+            await LoadDishesAsync();
+
+            IsActivityIndicatorRunning = false;
         }
 
         private async Task LoadDishesAsync()

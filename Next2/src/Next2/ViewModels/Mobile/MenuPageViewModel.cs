@@ -7,6 +7,7 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -46,6 +47,8 @@ namespace Next2.ViewModels.Mobile
 
         public bool CanShowOrder { get; set; }
 
+        public bool StateLoadCategories { get; set; } = true;
+
         public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
 
         public MenuItemBindableModel SelectedMenuItem { get; set; }
@@ -59,6 +62,9 @@ namespace Next2.ViewModels.Mobile
 
         private ICommand _goToSettingsCommand;
         public ICommand GoToSettingsCommand => _goToSettingsCommand ??= new AsyncCommand(GoToSettingsCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _refreshCategoriesCommand;
+        public ICommand RefreshCategoriesCommand => _refreshCategoriesCommand ??= new AsyncCommand(OnRefreshCategoriesCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -143,6 +149,15 @@ namespace Next2.ViewModels.Mobile
             SelectedMenuItem = _oldSelectedMenuItem;
         }
 
+        private async Task OnRefreshCategoriesCommandAsync()
+        {
+            IsActivityIndicatorRunning = true;
+
+            await LoadCategoriesAsync();
+
+            IsActivityIndicatorRunning = false;
+        }
+
         private async Task LoadCategoriesAsync()
         {
             if (IsInternetConnected)
@@ -152,10 +167,11 @@ namespace Next2.ViewModels.Mobile
                 if (resultCategories.IsSuccess)
                 {
                     Categories = new(resultCategories.Result);
+                    StateLoadCategories = true;
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(resultCategories.Exception.Message);
+                    StateLoadCategories = false;
                 }
             }
         }

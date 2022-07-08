@@ -29,6 +29,8 @@ namespace Next2.ViewModels
         private IPopupNavigation _popupNavigation;
         public IPopupNavigation PopupNavigation => _popupNavigation ??= App.Resolve<IPopupNavigation>();
 
+        public bool IsActivityIndicatorRunning { get; set; }
+
         #endregion
 
         #region -- Protected helpers --

@@ -93,6 +93,22 @@
                     HorizontalItemSpacing="8"/>
 
             </CollectionView.ItemsLayout>
+            
+            <CollectionView.EmptyView>
+
+                <StackLayout>
+
+                    <Label
+                        Text="{xct:Translate LoadingData}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontSize="{DynamicResource TSize_i7}"
+                        FontFamily="Barlow-Medium"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"/>
+
+                </StackLayout>
+
+            </CollectionView.EmptyView>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="dto:DishModelDTO">
