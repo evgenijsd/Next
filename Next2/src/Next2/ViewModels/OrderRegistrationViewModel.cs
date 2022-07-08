@@ -94,6 +94,8 @@ namespace Next2.ViewModels
 
         public DishBindableModel? SelectedDish { get; set; }
 
+        public ObservableCollection<SeatGroupBindableModel> SelectedDishes { get; set; } = new();
+
         public SeatBindableModel SeatWithSelectedDish { get; set; }
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new();
@@ -323,6 +325,13 @@ namespace Next2.ViewModels
 
             SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder.OrderType);
             NumberOfSeats = CurrentOrder.Seats.Count;
+
+            SelectedDishes = new();
+
+            foreach (var seat in _orderService.CurrentOrder.Seats)
+            {
+                SelectedDishes.Add(new($"Seat {seat.SeatNumber}", seat.SelectedDishes.ToList()));
+            }
 
             return RefreshTablesAsync();
         }
