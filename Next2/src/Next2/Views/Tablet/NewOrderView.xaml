@@ -12,10 +12,11 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
+    xmlns:tabletViewModels="clr-namespace:Next2.ViewModels.Tablet"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Views.Tablet.NewOrderView"
-    x:DataType="viewModels:NewOrderViewModel">
+    x:DataType="tabletViewModels:NewOrderViewModel">
 
     <ContentView.Resources>
         <ResourceDictionary>
@@ -522,7 +523,7 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <templates:DishItemTemplate
-                                        xct:TouchEffect.Command="{Binding TapDishCommand, Source={RelativeSource AncestorType={x:Type viewModels:NewOrderViewModel}}}"
+                                        xct:TouchEffect.Command="{Binding TapDishCommand, Source={RelativeSource AncestorType={x:Type tabletViewModels:NewOrderViewModel}}}"
                                         xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                                 </DataTemplate>
@@ -904,7 +905,7 @@
             Grid.Column="1"
             RowDefinitions="auto, auto, auto, auto, 74"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-            x:DataType="viewModels:NewOrderViewModel">
+            x:DataType="tabletViewModels:NewOrderViewModel">
 
             <Grid.Resources>
                 <Style TargetType="Label">
@@ -1223,7 +1224,7 @@
             </controls:DropDownList>
 
             <!-- MEALS LIST -->
-            <controls:CustomCollectionView
+            <CollectionView
                 Grid.Row="2"
                 VerticalScrollBarVisibility="Always"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
@@ -1245,7 +1246,7 @@
                 </VisualStateManager.VisualStateGroups>
 
                 <CollectionView.Behaviors>
-                    <behaviors:ScrollToCenterBehavior />
+                    <behaviors:ScrollToDishGroupCenterBehavior />
                 </CollectionView.Behaviors>
 
                 <CollectionView.Effects>
@@ -1374,7 +1375,8 @@
 
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate x:DataType="modelsBindable:SeatGroupBindableModel">
-                        <StackLayout>
+                        <StackLayout Padding="16, 13, 16, 0">
+                            
                             <BoxView
                                 HeightRequest="1"
                                 Margin="0, 0, 0, 12"
@@ -1466,7 +1468,7 @@
                     <DataTemplate x:DataType="modelsBindable:DishBindableModel">
 
                         <StackLayout
-                            Padding="0, 0, 0, 8"
+                            Padding="16, 6, 16, 0"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                             <VisualStateManager.VisualStateGroups>
@@ -1502,7 +1504,9 @@
 
                             <pancakeview:PancakeView
                                 CornerRadius="8"
-                                x:Name="dishPancakeView">
+                                xct:TouchEffect.Command="{Binding DishSelectionCommand}"
+                                xct:TouchEffect.CommandParameter="{Binding .}"
+                                x:Name="dishPancakeView" >
 
                                 <StackLayout
                                     Orientation="Horizontal"
@@ -1560,7 +1564,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
-            </controls:CustomCollectionView>
+            </CollectionView>
             <!--<controls:CustomCollectionView
                 Grid.Row="2"
                 VerticalScrollBarVisibility="Always"
