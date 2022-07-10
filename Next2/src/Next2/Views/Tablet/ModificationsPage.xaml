@@ -132,7 +132,7 @@
                                 <controls:Spoiler.ItemTemplate>
 
                                     <DataTemplate x:DataType="helpers:SpoilerItem">
-                                        <templates:SpoilerItemTemplate HeightRequest="48"/>
+                                        <templates:SpoilerItemTemplate HeightRequest="46"/>
                                     </DataTemplate>
 
                                 </controls:Spoiler.ItemTemplate>
