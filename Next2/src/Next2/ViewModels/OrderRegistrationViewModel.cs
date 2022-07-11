@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -70,7 +69,7 @@ namespace Next2.ViewModels
 
             _orderPaymentStatus = EOrderStatus.Closed;
 
-            CurrentState = LayoutState.Loading;
+            CurrentState = LayoutState.Error;
 
             _seatSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
             _deleteSeatCommand = new AsyncCommand<SeatBindableModel>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
@@ -397,7 +396,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            CurrentState = LayoutState.Loading;
+            CurrentState = LayoutState.Error;
             //Thread.Sleep(80); // It suspends the thread to hide unwanted animation
             IsSideMenuVisible = true;
         }

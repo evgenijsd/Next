@@ -51,6 +51,8 @@ namespace Next2.ViewModels.Tablet
 
         public EStateLoad DishesLoadingState { get; set; } = EStateLoad.Loading;
 
+        public EStateLoad CategoriesLoadingState { get; set; } = EStateLoad.Loading;
+
         public DateTime CurrentDateTime { get; set; } = DateTime.Now;
 
         public ObservableCollection<CategoryModel> Categories { get; set; }
@@ -80,6 +82,9 @@ namespace Next2.ViewModels.Tablet
         private ICommand _refreshDishesCommand;
         public ICommand RefreshDishesCommand => _refreshDishesCommand ??= new AsyncCommand(OnRefreshDishesCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _refreshCategoriesCommand;
+        public ICommand RefreshCategoriesCommand => _refreshCategoriesCommand ??= new AsyncCommand(OnRefreshCategoriesCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -89,7 +94,7 @@ namespace Next2.ViewModels.Tablet
             base.OnAppearing();
 
             _shouldOrderDishesByDESC = false;
-            Task.Run(LoadCategoriesAsync);
+            Task.Run(OnRefreshCategoriesCommandAsync);
 
             OrderRegistrationViewModel.InitializeAsync(null);
         }
@@ -97,6 +102,8 @@ namespace Next2.ViewModels.Tablet
         public override void OnDisappearing()
         {
             base.OnDisappearing();
+
+            OrderRegistrationViewModel.CurrentState = Xamarin.CommunityToolkit.UI.Views.LayoutState.Error;
 
             SelectedSubcategoriesItem = null;
             SelectedCategoriesItem = null;
@@ -188,9 +195,11 @@ namespace Next2.ViewModels.Tablet
             }
         }
 
-        private async Task LoadCategoriesAsync()
+        private async Task OnRefreshCategoriesCommandAsync()
         {
-            DishesLoadingState = EStateLoad.Loading;
+            OrderRegistrationViewModel.CurrentState = Xamarin.CommunityToolkit.UI.Views.LayoutState.Error;
+
+            CategoriesLoadingState = EStateLoad.Loading;
 
             if (IsInternetConnected)
             {
@@ -201,16 +210,17 @@ namespace Next2.ViewModels.Tablet
                     Categories = new(resultGettingCategories.Result);
                     SelectedCategoriesItem = Categories.FirstOrDefault();
 
-                    DishesLoadingState = EStateLoad.Loaded;
+                    CategoriesLoadingState = EStateLoad.Loaded;
+                    OrderRegistrationViewModel.CurrentState = Xamarin.CommunityToolkit.UI.Views.LayoutState.Loading;
                 }
                 else
                 {
-                    DishesLoadingState = EStateLoad.Error;
+                    CategoriesLoadingState = EStateLoad.Error;
                 }
             }
             else
             {
-                DishesLoadingState = EStateLoad.NoInternet;
+                CategoriesLoadingState = EStateLoad.NoInternet;
             }
         }
 

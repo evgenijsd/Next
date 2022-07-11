@@ -166,7 +166,7 @@ namespace Next2.ViewModels.Mobile
 
         private Task LoadSubcategoriesAsync()
         {
-            if (IsInternetConnected && SelectedCategoriesItem is not null)
+            if (SelectedCategoriesItem is not null)
             {
                 Subcategories = new(SelectedCategoriesItem.Subcategories);
 
@@ -177,10 +177,6 @@ namespace Next2.ViewModels.Mobile
                 });
 
                 SelectedSubcategoriesItem = Subcategories.FirstOrDefault();
-            }
-            else
-            {
-                DishesLoadingState = EStateLoad.NoInternet;
             }
 
             return Task.CompletedTask;

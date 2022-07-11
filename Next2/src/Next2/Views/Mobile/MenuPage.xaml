@@ -102,7 +102,9 @@
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 VerticalTextAlignment="Center" />
 
-            <sc:StateContainer State="{Binding CategoriesLoadingState}">
+            <sc:StateContainer
+                State="{Binding CategoriesLoadingState}"
+                VerticalOptions="FillAndExpand">
 
                 <sc:StateCondition NotState="Loaded">
 
@@ -190,6 +192,7 @@
             Grid.Row="2"
             Grid.Column="0"
             Padding="0"
+            VerticalOptions="End"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             Orientation="Vertical">
 

@@ -76,7 +76,9 @@
 
         <!--Menu-->
 
-        <sc:StateContainer State="{Binding DishesLoadingState}">
+        <sc:StateContainer
+            State="{Binding DishesLoadingState}"
+            VerticalOptions="FillAndExpand">
 
             <sc:StateCondition NotState="Loaded">
 
@@ -93,7 +95,7 @@
                 <CollectionView
                     IsVisible="{Binding DishesLoadingState, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:EStateLoad.Loaded}}"
                     Margin="15, 10, 15, 0"
-                    VerticalOptions="FillAndExpand"
+                    VerticalOptions="Fill"
                     VerticalScrollBarVisibility="Never"
                     ItemsSource="{Binding Dishes}">
 

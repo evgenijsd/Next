@@ -253,7 +253,7 @@ namespace Next2.ViewModels.Tablet
 
                     if (logoutResult.IsSuccess)
                     {
-                        NewOrderViewModel.OrderRegistrationViewModel.CurrentState = LayoutState.Loading;
+                        NewOrderViewModel.OrderRegistrationViewModel.CurrentState = LayoutState.Error;
 
                         _orderService.CurrentOrder = new();
 
