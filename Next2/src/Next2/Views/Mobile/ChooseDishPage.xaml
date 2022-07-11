@@ -82,7 +82,7 @@
 
             <sc:StateCondition NotState="Loaded">
 
-                <controls:StateSomethingWentWrong
+                <controls:DataLoadingState
                     LayoutState="{Binding DishesLoadingState}"
                     Margin="15, 10, 15, 0"
                     VerticalOptions="FillAndExpand"

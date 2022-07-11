@@ -108,7 +108,7 @@
 
                 <sc:StateCondition NotState="Loaded">
 
-                    <controls:StateSomethingWentWrong
+                    <controls:DataLoadingState
                         LayoutState="{Binding CategoriesLoadingState}"
                         Command="{Binding RefreshCategoriesCommand}"/>
 

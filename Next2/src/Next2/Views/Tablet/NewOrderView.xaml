@@ -134,7 +134,7 @@
 
             <sc:StateCondition State="Error">
                 
-                <controls:StateSomethingWentWrong
+                <controls:DataLoadingState
                     VerticalOptions="FillAndExpand"
                     LayoutState="{Binding CategoriesLoadingState}"
                     Command="{Binding RefreshCategoriesCommand}"/>
@@ -469,7 +469,7 @@
 
                         <sc:StateCondition NotState="Loaded">
 
-                            <controls:StateSomethingWentWrong
+                            <controls:DataLoadingState
                                 VerticalOptions="FillAndExpand"
                                 LayoutState="{Binding DishesLoadingState}"
                                 Command="{Binding RefreshDishesCommand}"/>

@@ -3,9 +3,9 @@ using Xamarin.Forms;
 
 namespace Next2.Controls
 {
-    public partial class StateSomethingWentWrong : RefreshView
+    public partial class DataLoadingState : RefreshView
     {
-        public StateSomethingWentWrong()
+        public DataLoadingState()
         {
             InitializeComponent();
         }
@@ -16,7 +16,7 @@ namespace Next2.Controls
             propertyName: nameof(LayoutState),
             returnType: typeof(EStateLoad),
             defaultValue: EStateLoad.Loading,
-            declaringType: typeof(StateSomethingWentWrong));
+            declaringType: typeof(DataLoadingState));
 
         public EStateLoad LayoutState
         {

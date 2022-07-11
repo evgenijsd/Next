@@ -134,6 +134,9 @@
     <Compile Update="Controls\CustomNavigationBar.xaml.cs">
       <DependentUpon>CustomNavigationBar.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\DataLoadingState.xaml.cs">
+      <DependentUpon>DataLoadingState.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\Templates\DishItemTemplate.xaml.cs">
       <DependentUpon>DishItemTemplate.xaml</DependentUpon>
     </Compile>
@@ -298,7 +301,7 @@
     <EmbeddedResource Update="Controls\CustomKeyboard.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\StateSomethingWentWrong.xaml">
+    <EmbeddedResource Update="Controls\DataLoadingState.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\TimeAndDateBar.xaml">
