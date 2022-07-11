@@ -99,7 +99,13 @@
                 Command="{Binding GoToStartPageCommand}"/>
             
         </Grid>
-        
+
+        <ActivityIndicator
+            Grid.RowSpan="2"
+            Grid.Column="2"
+            VerticalOptions="Center"
+            IsRunning="{Binding IsActivityIndicatorRunning}"/>
+
     </Grid>
     
 </views:BaseContentPage>

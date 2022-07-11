@@ -7,7 +7,6 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -40,14 +39,12 @@ namespace Next2.ViewModels.Mobile
             CanShowOrder = _orderService.CurrentOrder.Seats.Count > 0;
 
             InitMenuItems();
-            Task.Run(LoadCategoriesAsync);
+            Task.Run(OnRefreshCategoriesCommandAsync);
         }
 
         #region -- Public properties --
 
         public bool CanShowOrder { get; set; }
-
-        public bool StateLoadCategories { get; set; } = true;
 
         public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
 
@@ -151,15 +148,8 @@ namespace Next2.ViewModels.Mobile
 
         private async Task OnRefreshCategoriesCommandAsync()
         {
-            IsActivityIndicatorRunning = true;
+            DataLoadingState = EStateLoad.Loading;
 
-            await LoadCategoriesAsync();
-
-            IsActivityIndicatorRunning = false;
-        }
-
-        private async Task LoadCategoriesAsync()
-        {
             if (IsInternetConnected)
             {
                 var resultCategories = await _menuService.GetAllCategoriesAsync();
@@ -167,12 +157,16 @@ namespace Next2.ViewModels.Mobile
                 if (resultCategories.IsSuccess)
                 {
                     Categories = new(resultCategories.Result);
-                    StateLoadCategories = true;
+                    DataLoadingState = EStateLoad.Loaded;
                 }
                 else
                 {
-                    StateLoadCategories = false;
+                    DataLoadingState = EStateLoad.Error;
                 }
+            }
+            else
+            {
+                DataLoadingState = EStateLoad.NoInternet;
             }
         }
 

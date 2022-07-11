@@ -1,4 +1,5 @@
 using Acr.UserDialogs;
+using Next2.Enums;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
@@ -52,7 +53,7 @@ namespace Next2.ViewModels.Mobile
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _refreshDishesCommand;
-        public ICommand RefreshDishesCommand => _refreshDishesCommand ??= new AsyncCommand(OnRefreshDishesCommandAsync, allowsMultipleExecutions: false);
+        public ICommand RefreshDishesCommand => _refreshDishesCommand ??= new AsyncCommand(OnLoadDishesCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -76,7 +77,7 @@ namespace Next2.ViewModels.Mobile
                     Task.Run(LoadSubcategoriesAsync);
                     break;
                 case nameof(SelectedSubcategoriesItem):
-                    Task.Run(LoadDishesAsync);
+                    Task.Run(OnLoadDishesCommandAsync);
                     break;
             }
         }
@@ -134,17 +135,10 @@ namespace Next2.ViewModels.Mobile
             }
         }
 
-        private async Task OnRefreshDishesCommandAsync()
+        private async Task OnLoadDishesCommandAsync()
         {
-            IsActivityIndicatorRunning = true;
+            DataLoadingState = EStateLoad.Loading;
 
-            await LoadDishesAsync();
-
-            IsActivityIndicatorRunning = false;
-        }
-
-        private async Task LoadDishesAsync()
-        {
             if (IsInternetConnected)
             {
                 var resultGettingDishes = await _menuService.GetDishesAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
@@ -154,7 +148,17 @@ namespace Next2.ViewModels.Mobile
                     Dishes = _shouldOrderDishesByDESC
                         ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
                         : new(resultGettingDishes.Result.OrderBy(row => row.Name));
+
+                    DataLoadingState = EStateLoad.Loaded;
                 }
+                else
+                {
+                    DataLoadingState = EStateLoad.Error;
+                }
+            }
+            else
+            {
+                DataLoadingState = EStateLoad.NoInternet;
             }
         }
 
@@ -171,6 +175,10 @@ namespace Next2.ViewModels.Mobile
                 });
 
                 SelectedSubcategoriesItem = Subcategories.FirstOrDefault();
+            }
+            else
+            {
+                DataLoadingState = EStateLoad.NoInternet;
             }
 
             return Task.CompletedTask;

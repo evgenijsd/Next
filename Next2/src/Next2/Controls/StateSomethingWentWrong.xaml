@@ -4,26 +4,61 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:local="clr-namespace:Next2.Controls"
+    xmlns:enums="clr-namespace:Next2.Enums"
     x:Class="Next2.Controls.StateSomethingWentWrong">
 
-    <Label
-        Text="{xct:Translate LoadingData}"
-        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-        FontSize="{DynamicResource TSize_i7}"
-        FontFamily="Barlow-Medium"
-        VerticalOptions="StartAndExpand"
-        HorizontalOptions="Center">
+    <ScrollView>
 
-        <Label.Triggers>
+        <StackLayout>
 
-            <DataTrigger TargetType="Label" Binding="{Binding LayoutState, Source={RelativeSource AncestorType={x:Type local:StateSomethingWentWrong}}}" Value="Error">
+            <ActivityIndicator
+                VerticalOptions="EndAndExpand"
+                Color="{DynamicResource IndicationColor_i5}"
+                IsRunning="{Binding LayoutState,
+                    Source={RelativeSource AncestorType={x:Type local:StateSomethingWentWrong}},
+                    Converter={xct:EqualConverter},
+                    ConverterParameter={x:Static enums:EStateLoad.Loading}}"/>
 
-                <Setter Property="Text" Value="{xct:Translate SomethingWentWrong}"/>
+            <Label
+                Text="{xct:Translate LoadingData}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontSize="{DynamicResource TSize_i7}"
+                FontFamily="Barlow-Medium"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="Center">
 
-            </DataTrigger>
-            
-        </Label.Triggers>
-        
-    </Label>
+                <Label.Triggers>
+
+                    <DataTrigger
+                        TargetType="Label"
+                        Binding="{Binding LayoutState,
+                            Source={RelativeSource AncestorType={x:Type local:StateSomethingWentWrong}},
+                            Converter={xct:EqualConverter},
+                            ConverterParameter={x:Static enums:EStateLoad.Error}}"
+                        Value="True">
+
+                        <Setter Property="Text" Value="{xct:Translate SomethingWentWrong}"/>
+
+                    </DataTrigger>
+
+                    <DataTrigger
+                        TargetType="Label"
+                        Binding="{Binding LayoutState,
+                            Source={RelativeSource AncestorType={x:Type local:StateSomethingWentWrong}},
+                            Converter={xct:EqualConverter},
+                            ConverterParameter={x:Static enums:EStateLoad.NoInternet}}"
+                        Value="True">
+
+                        <Setter Property="Text" Value="{xct:Translate NoInternetConnection}"/>
+
+                    </DataTrigger>
+
+                </Label.Triggers>
+
+            </Label>
+
+        </StackLayout>
+
+    </ScrollView>
 
 </RefreshView>

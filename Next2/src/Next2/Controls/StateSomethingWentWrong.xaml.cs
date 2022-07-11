@@ -1,4 +1,4 @@
-﻿using Xamarin.CommunityToolkit.UI.Views;
+﻿using Next2.Enums;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -14,13 +14,13 @@ namespace Next2.Controls
 
         public static readonly BindableProperty LayoutStateProperty = BindableProperty.Create(
             propertyName: nameof(LayoutState),
-            returnType: typeof(LayoutState),
-            defaultValue: LayoutState.Loading,
+            returnType: typeof(EStateLoad),
+            defaultValue: EStateLoad.Loading,
             declaringType: typeof(StateSomethingWentWrong));
 
-        public LayoutState LayoutState
+        public EStateLoad LayoutState
         {
-            get => (LayoutState)GetValue(LayoutStateProperty);
+            get => (EStateLoad)GetValue(LayoutStateProperty);
             set => SetValue(LayoutStateProperty, value);
         }
 

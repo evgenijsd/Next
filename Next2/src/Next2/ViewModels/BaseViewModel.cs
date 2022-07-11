@@ -1,4 +1,5 @@
-﻿using Next2.Interfaces;
+﻿using Next2.Enums;
+using Next2.Interfaces;
 using Next2.Services.Authentication;
 using Next2.Views.Mobile;
 using Prism.Mvvm;
@@ -9,7 +10,6 @@ using Rg.Plugins.Popup.Pages;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -29,7 +29,7 @@ namespace Next2.ViewModels
         private IPopupNavigation _popupNavigation;
         public IPopupNavigation PopupNavigation => _popupNavigation ??= App.Resolve<IPopupNavigation>();
 
-        public bool IsActivityIndicatorRunning { get; set; }
+        public EStateLoad DataLoadingState { get; set; } = EStateLoad.Loading;
 
         #endregion
 

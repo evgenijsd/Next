@@ -398,7 +398,7 @@ namespace Next2.ViewModels
             }
 
             CurrentState = LayoutState.Loading;
-            Thread.Sleep(80); // It suspends the thread to hide unwanted animation
+            //Thread.Sleep(80); // It suspends the thread to hide unwanted animation
             IsSideMenuVisible = true;
         }
 
@@ -450,7 +450,7 @@ namespace Next2.ViewModels
                 if (App.IsTablet)
                 {
                     CurrentState = LayoutState.Success;
-                    Thread.Sleep(100); // It suspend the thread to hide unwanted animation
+                    //Thread.Sleep(100); // It suspend the thread to hide unwanted animation
                     IsSideMenuVisible = false;
                 }
                 else

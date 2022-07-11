@@ -231,6 +231,7 @@
 
         <ActivityIndicator
             Grid.Row="0"
+            VerticalOptions="CenterAndExpand"
             IsRunning="{Binding IsActivityIndicatorRunning}"/>
 
     </Grid>
