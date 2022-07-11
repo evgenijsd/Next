@@ -477,7 +477,7 @@ namespace Next2.ViewModels
             var countItemsInRow = App.IsTablet ? 6 : 2;
             var countRow = Math.Ceiling((double)IngredientCategories.Count / countItemsInRow);
 
-            HeightIngredientCategories = (int)(((countRow > 2 ? 2 : countRow) * (44 + 8)) - 6);
+            HeightIngredientCategories = (int)(((countRow > 2 ? 2 : countRow) * (40 + 8)) - 6);
         }
 
         private Task InitIngredientsByCategoryAsync(Guid categoryId)

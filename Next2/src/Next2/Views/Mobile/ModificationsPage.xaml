@@ -69,10 +69,10 @@
                         FontSize="{DynamicResource TSize_i5}"
                         FontFamily="Barlow-SemiBold"
                         VerticalTextAlignment="Center"
-                        Margin="18, 24, 16, 0"/>
+                        Margin="18, 24, 18, 0"/>
 
                     <CollectionView
-                        Margin="18, 16, 16, 0"
+                        Margin="18, 16, 18, 0"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
                         ItemsSource="{Binding PortionsDish}">
@@ -127,7 +127,7 @@
                 <StackLayout>
 
                     <controls:SortingPanel
-                        Margin="16, 24, 16, 0"
+                        Margin="18, 24, 18, 0"
                         Text="{xct:Translate AvailableOptions}"
                         FontSize="{DynamicResource TSize_i5}"
                         FontFamily="Barlow-SemiBold"
@@ -135,7 +135,7 @@
                         IsVisible="{Binding ReplacementProducts.Count, Converter={xct:IntToBoolConverter}}"/>
 
                     <CollectionView
-                        Margin="16, 16, 16, 0"
+                        Margin="18, 16, 18, 0"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
                         ItemsSource="{Binding ReplacementProducts}">
@@ -184,7 +184,7 @@
                                     Padding="16, 4"
                                     CornerRadius="8"
                                     BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                                     <templates:ToggleItemTemplate
                                         State="{Binding .}"
@@ -220,13 +220,13 @@
                             FontFamily="Barlow-SemiBold"
                             VerticalTextAlignment="Center"
                             VerticalOptions="Center"
-                            Margin="16, 16, 16, 0"/>
+                            Margin="18, 20, 18, 8"/>
 
                         <ffimageloading:CachedImage
                             Source="ic_arrow_up_24x24.png"
                             HorizontalOptions="EndAndExpand"
                             VerticalOptions="Center"
-                            Margin="0, 16, 16, 0"
+                            Margin="0, 16, 18, 0"
                             xct:TouchEffect.Command="{Binding ExpandIngredientCategoriesCommand}">
 
                             <ffimageloading:CachedImage.Triggers>
@@ -249,7 +249,7 @@
                     <CollectionView
                         MinimumHeightRequest="{Binding HeightIngredientCategories}"
                         HeightRequest="{Binding HeightIngredientCategories}"
-                        Margin="12, 10"
+                        Margin="18, 10"
                         VerticalOptions="Start"
                         SelectionMode="Single"
                         ItemsSource="{Binding IngredientCategories}"
@@ -273,10 +273,11 @@
                             <DataTemplate x:DataType="modelsDTO:IngredientsCategoryModelDTO">
 
                                 <templates:CategoryItemTemplate
+                                    HeightRequest="40"
+                                    CornerRadius="5"
                                     Text="{Binding Name}"
-                                    HeightRequest="44"
                                     FontSize="{DynamicResource TSize_i8}"
-                                    FontFamily="Barlow-Medium"/>
+                                    FontFamily="Barlow-SemiBold"/>
 
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
@@ -319,17 +320,20 @@
                                 <StackLayout Margin="0, 0, 0, 8">
 
                                     <Frame
-                                        Padding="12, 2"
+                                        Padding="14, 4"
                                         CornerRadius="8"
                                         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                                         <templates:ToggleItemTemplate
                                             IsToggle="{Binding IsToggled}"
                                             Title="{Binding Name}"
+                                            TitleFontFamily="Barlow-Medium"
                                             Subtitle="{Binding Price, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
+                                            SubtitleFontSize="{DynamicResource TSize_i8}"
                                             ImagePath="{Binding ImageSource}"
                                             IsVisibleSubtitle="True"
+                                            ImageSizes="46"
                                             IsVisibleImage="True"
                                             CanTurnOff="True"/>
 
@@ -356,10 +360,10 @@
                         FontSize="{DynamicResource TSize_i5}"
                         FontFamily="Barlow-SemiBold"
                         VerticalTextAlignment="Center"
-                        Margin="16, 24, 16, 0"/>
+                        Margin="18, 24, 18, 0"/>
 
                     <CollectionView
-                        Margin="16, 16, 16, 0"
+                        Margin="18, 16, 18, 0"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
                         ItemsSource="{Binding OptionsProduct}">
@@ -383,14 +387,16 @@
                             <DataTemplate x:DataType="modelsDTO:OptionModelDTO">
 
                                 <Frame
-                                    Padding="16, 4"
-                                    CornerRadius="8"
+                                    Padding="16, 2"
+                                    CornerRadius="6"
                                     BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                                     <templates:ToggleItemTemplate
                                         State="{Binding .}"
                                         Title="{Binding Name}"
+                                        TitleFontFamily="Barlow-Medium"
+                                        TitleFontSize="{DynamicResource TSize_i5}"
                                         BindableLayout="{Binding SelectedOption, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
 
                                 </Frame>
