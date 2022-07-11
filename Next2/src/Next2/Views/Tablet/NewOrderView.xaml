@@ -1223,14 +1223,14 @@
 
             </controls:DropDownList>
 
-            <!-- MEALS LIST -->
+            <!-- SEATS LIST -->
             <CollectionView
                 Grid.Row="2"
                 VerticalScrollBarVisibility="Always"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                 SelectionMode="Single"
                 IsGrouped="True"
-                ItemsSource="{Binding OrderRegistrationViewModel.SelectedDishes}"
+                ItemsSource="{Binding OrderRegistrationViewModel.SelectedDishesForSeats}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedDish}">
 
                 <VisualStateManager.VisualStateGroups>

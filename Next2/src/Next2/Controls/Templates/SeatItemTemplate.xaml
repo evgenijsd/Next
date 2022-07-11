@@ -68,9 +68,9 @@
             HeightRequest="20"
             WidthRequest="20"
             Source="ic_outline_minus_24x24.png"
-            IsVisible="{Binding IsFirstSeat, Converter={xct:InvertedBoolConverter}}"
-            xct:TouchEffect.Command="{Binding SeatDeleteCommand}"
-            xct:TouchEffect.CommandParameter="{Binding .}" />
+            IsVisible="{Binding IsFirstSeat, Converter={xct:InvertedBoolConverter}}" />
+        <!--xct:TouchEffect.Command="{Binding SeatDeleteCommand}"
+            xct:TouchEffect.CommandParameter="{Binding .}" />-->
 
         <pancakeview:PancakeView
             HorizontalOptions="EndAndExpand"
@@ -79,9 +79,9 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
             Padding="12, 6"
             CornerRadius="6"
-            IsVisible="{Binding IsFirstSeat}"
-            xct:TouchEffect.Command="{Binding RemoveOrderCommand}"
-            xct:TouchEffect.CommandParameter="{Binding .}">
+            IsVisible="{Binding IsFirstSeat}">
+            <!--xct:TouchEffect.Command="{Binding RemoveOrderCommand}"
+            xct:TouchEffect.CommandParameter="{Binding .}">-->
 
             <StackLayout Orientation="Horizontal">
 
