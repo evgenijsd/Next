@@ -117,6 +117,7 @@ namespace Next2.ViewModels
                 await SplitSelectedDish(seats);
                 await RemoveNullPriceDishes();
                 await RefreshDisplay();
+                await UpdateOrderAsync();
 
                 SelectFirstDish();
             }
@@ -130,6 +131,18 @@ namespace Next2.ViewModels
             if (_popupNavigation.PopupStack.Count > 0)
             {
                 await _popupNavigation.PopAsync();
+            }
+        }
+
+        private async Task UpdateOrderAsync()
+        {
+            var seats = Seats.ToSeatsModelsDTO();
+            Order.Seats = Seats.ToSeatsModelsDTO();
+            var updateOrderCommand = Order.ToUpdateOrderCommand();
+
+            var res = await _orderService.UpdateOrderAsync(updateOrderCommand);
+            if (res.IsSuccess)
+            {
             }
         }
 
