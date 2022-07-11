@@ -330,7 +330,7 @@ namespace Next2.ViewModels
             var countItemsInRow = App.IsTablet ? 6 : 2;
             var countRow = Math.Ceiling((double)IngredientCategories.Count / countItemsInRow);
 
-            HeightIngredientCategories = (int)(((IsExpandedIngredientCategories ? countRow : 2) * 52) - 6);
+            HeightIngredientCategories = (int)(((IsExpandedIngredientCategories ? countRow : 2) * 48) - 6);
 
             return Task.CompletedTask;
         }
@@ -477,7 +477,7 @@ namespace Next2.ViewModels
             var countItemsInRow = App.IsTablet ? 6 : 2;
             var countRow = Math.Ceiling((double)IngredientCategories.Count / countItemsInRow);
 
-            HeightIngredientCategories = (int)(((countRow > 2 ? 2 : countRow) * (40 + 8)) - 6);
+            HeightIngredientCategories = (int)(((countRow > 2 ? 2 : countRow) * 48) - 6);
         }
 
         private Task InitIngredientsByCategoryAsync(Guid categoryId)
