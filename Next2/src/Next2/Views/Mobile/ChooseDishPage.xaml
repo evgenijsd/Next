@@ -6,6 +6,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
@@ -75,61 +76,72 @@
 
         <!--Menu-->
 
-        <controls:StateSomethingWentWrong
-            IsVisible="{Binding DataLoadingState, Converter={xct:NotEqualConverter}, ConverterParameter={x:Static enums:EStateLoad.Loaded}}"
-            LayoutState="{Binding DataLoadingState}"
-            Margin="15, 10, 15, 0"
-            VerticalOptions="FillAndExpand"
-            Command="{Binding RefreshDishesCommand}"/>
-        
-        <CollectionView
-            IsVisible="{Binding DataLoadingState, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:EStateLoad.Loaded}}"
-            Margin="15, 10, 15, 0"
-            VerticalOptions="FillAndExpand"
-            VerticalScrollBarVisibility="Never"
-            ItemsSource="{Binding Dishes}">
+        <sc:StateContainer State="{Binding DishesLoadingState}">
 
-            <CollectionView.Effects>
-                <effects:NoOverScrollEffect/>
-            </CollectionView.Effects>
+            <sc:StateCondition NotState="Loaded">
 
-            <CollectionView.ItemsLayout>
+                <controls:StateSomethingWentWrong
+                    LayoutState="{Binding DishesLoadingState}"
+                    Margin="15, 10, 15, 0"
+                    VerticalOptions="FillAndExpand"
+                    Command="{Binding RefreshDishesCommand}"/>
 
-                <GridItemsLayout
-                    Orientation="Vertical"
-                    Span="2"
-                    VerticalItemSpacing="3"
-                    HorizontalItemSpacing="8"/>
+            </sc:StateCondition>
 
-            </CollectionView.ItemsLayout>
-            
-            <CollectionView.EmptyView>
+            <sc:StateCondition State="Loaded">
 
-                <StackLayout>
+                <CollectionView
+                    IsVisible="{Binding DishesLoadingState, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:EStateLoad.Loaded}}"
+                    Margin="15, 10, 15, 0"
+                    VerticalOptions="FillAndExpand"
+                    VerticalScrollBarVisibility="Never"
+                    ItemsSource="{Binding Dishes}">
 
-                    <Label
-                        Text="{xct:Translate NoItemsInCategory}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i7}"
-                        FontFamily="Barlow-Medium"
-                        VerticalOptions="CenterAndExpand"
-                        HorizontalOptions="Center"/>
+                    <CollectionView.Effects>
+                        <effects:NoOverScrollEffect/>
+                    </CollectionView.Effects>
 
-                </StackLayout>
+                    <CollectionView.ItemsLayout>
 
-            </CollectionView.EmptyView>
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="2"
+                            VerticalItemSpacing="3"
+                            HorizontalItemSpacing="8"/>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="dto:DishModelDTO">
+                    </CollectionView.ItemsLayout>
 
-                    <templates:DishItemTemplate
-                        xct:TouchEffect.Command="{Binding TapDishCommand, Source={RelativeSource AncestorType={x:Type viewModels:ChooseDishPageViewModel}}}"
-                        xct:TouchEffect.CommandParameter="{Binding .}"/>
+                    <CollectionView.EmptyView>
 
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
+                        <StackLayout>
 
-        </CollectionView>
+                            <Label
+                                Text="{xct:Translate NoItemsInCategory}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                FontSize="{DynamicResource TSize_i7}"
+                                FontFamily="Barlow-Medium"
+                                VerticalOptions="CenterAndExpand"
+                                HorizontalOptions="Center"/>
+
+                        </StackLayout>
+
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="dto:DishModelDTO">
+
+                            <templates:DishItemTemplate
+                                xct:TouchEffect.Command="{Binding TapDishCommand, Source={RelativeSource AncestorType={x:Type viewModels:ChooseDishPageViewModel}}}"
+                                xct:TouchEffect.CommandParameter="{Binding .}"/>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+                
+            </sc:StateCondition>
+
+        </sc:StateContainer>
 
         <!--Tabs Subcategories Menu-->
 

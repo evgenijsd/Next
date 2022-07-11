@@ -29,8 +29,6 @@ namespace Next2.ViewModels
         private IPopupNavigation _popupNavigation;
         public IPopupNavigation PopupNavigation => _popupNavigation ??= App.Resolve<IPopupNavigation>();
 
-        public EStateLoad DataLoadingState { get; set; } = EStateLoad.Loading;
-
         #endregion
 
         #region -- Protected helpers --

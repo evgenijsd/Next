@@ -11,7 +11,6 @@
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:dto="clr-namespace:Next2.Models.API.DTO"
     xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
@@ -455,14 +454,14 @@
                     <!--Menu-->
 
                     <sc:StateContainer
-                        State="{Binding DataLoadingState}"
+                        State="{Binding DishesLoadingState}"
                         VerticalOptions="FillAndExpand">
 
                         <sc:StateCondition NotState="Loaded">
 
                             <controls:StateSomethingWentWrong
                                 VerticalOptions="FillAndExpand"
-                                LayoutState="{Binding DataLoadingState}"
+                                LayoutState="{Binding DishesLoadingState}"
                                 Command="{Binding RefreshDishesCommand}">
                                 
                                 <VisualStateManager.VisualStateGroups>

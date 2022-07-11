@@ -49,6 +49,8 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Public properties --
 
+        public EStateLoad DishesLoadingState { get; set; } = EStateLoad.Loading;
+
         public DateTime CurrentDateTime { get; set; } = DateTime.Now;
 
         public ObservableCollection<CategoryModel> Categories { get; set; }
@@ -188,7 +190,7 @@ namespace Next2.ViewModels.Tablet
 
         private async Task LoadCategoriesAsync()
         {
-            DataLoadingState = EStateLoad.Loading;
+            DishesLoadingState = EStateLoad.Loading;
 
             if (IsInternetConnected)
             {
@@ -199,16 +201,16 @@ namespace Next2.ViewModels.Tablet
                     Categories = new(resultGettingCategories.Result);
                     SelectedCategoriesItem = Categories.FirstOrDefault();
 
-                    DataLoadingState = EStateLoad.Loaded;
+                    DishesLoadingState = EStateLoad.Loaded;
                 }
                 else
                 {
-                    DataLoadingState = EStateLoad.Error;
+                    DishesLoadingState = EStateLoad.Error;
                 }
             }
             else
             {
-                DataLoadingState = EStateLoad.NoInternet;
+                DishesLoadingState = EStateLoad.NoInternet;
             }
         }
 
@@ -232,7 +234,7 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnRefreshDishesCommandAsync()
         {
-            DataLoadingState = EStateLoad.Loading;
+            DishesLoadingState = EStateLoad.Loading;
 
             if (IsInternetConnected && SelectedCategoriesItem is not null && SelectedSubcategoriesItem is not null)
             {
@@ -244,16 +246,16 @@ namespace Next2.ViewModels.Tablet
                         ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
                         : new(resultGettingDishes.Result.OrderBy(row => row.Name));
 
-                    DataLoadingState = EStateLoad.Loaded;
+                    DishesLoadingState = EStateLoad.Loaded;
                 }
                 else
                 {
-                    DataLoadingState = EStateLoad.Error;
+                    DishesLoadingState = EStateLoad.Error;
                 }
             }
             else
             {
-                DataLoadingState = EStateLoad.NoInternet;
+                DishesLoadingState = EStateLoad.NoInternet;
             }
         }
 

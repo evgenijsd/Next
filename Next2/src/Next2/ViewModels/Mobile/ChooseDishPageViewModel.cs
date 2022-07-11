@@ -38,6 +38,8 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Public properties --
 
+        public EStateLoad DishesLoadingState { get; set; } = EStateLoad.Loading;
+
         public CategoryModel SelectedCategoriesItem { get; set; }
 
         public ObservableCollection<DishModelDTO> Dishes { get; set; }
@@ -137,7 +139,7 @@ namespace Next2.ViewModels.Mobile
 
         private async Task OnLoadDishesCommandAsync()
         {
-            DataLoadingState = EStateLoad.Loading;
+            DishesLoadingState = EStateLoad.Loading;
 
             if (IsInternetConnected)
             {
@@ -149,16 +151,16 @@ namespace Next2.ViewModels.Mobile
                         ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
                         : new(resultGettingDishes.Result.OrderBy(row => row.Name));
 
-                    DataLoadingState = EStateLoad.Loaded;
+                    DishesLoadingState = EStateLoad.Loaded;
                 }
                 else
                 {
-                    DataLoadingState = EStateLoad.Error;
+                    DishesLoadingState = EStateLoad.Error;
                 }
             }
             else
             {
-                DataLoadingState = EStateLoad.NoInternet;
+                DishesLoadingState = EStateLoad.NoInternet;
             }
         }
 
@@ -178,7 +180,7 @@ namespace Next2.ViewModels.Mobile
             }
             else
             {
-                DataLoadingState = EStateLoad.NoInternet;
+                DishesLoadingState = EStateLoad.NoInternet;
             }
 
             return Task.CompletedTask;

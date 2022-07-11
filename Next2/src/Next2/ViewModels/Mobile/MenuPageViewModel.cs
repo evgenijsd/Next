@@ -44,6 +44,8 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Public properties --
 
+        public EStateLoad CategoriesLoadingState { get; set; } = EStateLoad.Loading;
+
         public bool CanShowOrder { get; set; }
 
         public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
@@ -148,7 +150,7 @@ namespace Next2.ViewModels.Mobile
 
         private async Task OnRefreshCategoriesCommandAsync()
         {
-            DataLoadingState = EStateLoad.Loading;
+            CategoriesLoadingState = EStateLoad.Loading;
 
             if (IsInternetConnected)
             {
@@ -157,16 +159,16 @@ namespace Next2.ViewModels.Mobile
                 if (resultCategories.IsSuccess)
                 {
                     Categories = new(resultCategories.Result);
-                    DataLoadingState = EStateLoad.Loaded;
+                    CategoriesLoadingState = EStateLoad.Loaded;
                 }
                 else
                 {
-                    DataLoadingState = EStateLoad.Error;
+                    CategoriesLoadingState = EStateLoad.Error;
                 }
             }
             else
             {
-                DataLoadingState = EStateLoad.NoInternet;
+                CategoriesLoadingState = EStateLoad.NoInternet;
             }
         }
 
