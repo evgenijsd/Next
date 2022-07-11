@@ -38,7 +38,6 @@
     </VisualStateManager.VisualStateGroups>
 
     <ffimageloading:CachedImage
-        Margin="22, 0, 0, 0"
         Source="{Binding ImagePath}"
         HeightRequest="18"
         WidthRequest="18"

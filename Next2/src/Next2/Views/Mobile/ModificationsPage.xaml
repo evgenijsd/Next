@@ -459,9 +459,9 @@
                 <Label
                     Text="{xct:Translate Modifications}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontSize="{DynamicResource TSize_i3}"
+                    FontSize="{DynamicResource TSize_i5}"
                     FontFamily="Barlow-Bold"
-                    Padding="32, 16"/>
+                    Padding="18, 22"/>
 
                 <BoxView
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
@@ -482,9 +482,9 @@
                     <Label
                         Text="{xct:Translate Proportions}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i4}"
-                        FontFamily="Barlow-SemiBold"
-                        Padding="32, 16">
+                        FontSize="{DynamicResource TSize_i5}"
+                        FontFamily="Barlow-Medium"
+                        Padding="18, 11">
 
                         <Label.Triggers>
 
@@ -536,10 +536,10 @@
                                     <controls:Spoiler.HeaderTemplate>
 
                                         <Label
-                                            Padding="32, 16"
+                                            Padding="18, 11"
                                             Text="{Binding Title}"
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                            FontSize="{DynamicResource TSize_i4}"
+                                            FontSize="{DynamicResource TSize_i5}"
                                             FontFamily="Barlow-Medium"
                                             VerticalTextAlignment="Center"/>
 
@@ -548,7 +548,9 @@
                                     <controls:Spoiler.ItemTemplate>
 
                                         <DataTemplate x:DataType="helpers:SpoilerItem">
-                                            <templates:SpoilerItemTemplate HeightRequest="59"/>
+                                            <templates:SpoilerItemTemplate
+                                                Padding="18, 0, 0, 0"
+                                                HeightRequest="44"/>
                                         </DataTemplate>
 
                                     </controls:Spoiler.ItemTemplate>
