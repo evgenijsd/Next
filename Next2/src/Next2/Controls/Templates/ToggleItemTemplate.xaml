@@ -24,7 +24,9 @@
         
     </pkView:PancakeView>
 
-    <StackLayout HorizontalOptions="StartAndExpand">
+    <StackLayout
+        Spacing="{OnIdiom Phone=2, Tablet=5}"        
+        HorizontalOptions="StartAndExpand">
 
         <Label
             Text="{Binding Title, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
@@ -52,7 +54,6 @@
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
             FontSize="{Binding SubtitleFontSize, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
             FontFamily="{Binding SubtitleFontFamily, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
-            Margin="0, 5, 0, 0"
             IsVisible="{Binding IsVisibleSubtitle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"/>
 
     </StackLayout>
@@ -61,6 +62,7 @@
         VerticalOptions="Start"
         HorizontalOptions="EndAndExpand"
         WidthRequest="32"
+        Margin="{OnIdiom Phone='0, 5, 0, 0'}"
         HeightRequest="{OnIdiom Phone='18', Tablet='19'}"
         ThumbSize="{OnIdiom Phone='14', Tablet='16'}"
         ThumbColor="{DynamicResource IndicationColor_i3}"
