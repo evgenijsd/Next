@@ -351,10 +351,11 @@ namespace Next2.ViewModels
 
                 SelectedDishesForSeats.Add(new(seat.SeatNumber, selectedDishes));
                 var seatGroup = SelectedDishesForSeats.Last();
-                seatGroup.Checked = seat.Checked;
+                var check = seat.Checked;
+                seatGroup.Checked = check;
                 seatGroup.IsFirstSeat = seat.IsFirstSeat;
 
-                if (seatGroup.Checked)
+                if (check)
                 {
                     SelectedDish = seatGroup.FirstOrDefault();
                 }
@@ -365,7 +366,7 @@ namespace Next2.ViewModels
                     dish.SeatNumber = seatGroup.SeatNumber;
                     dish.DishSelectionCommand = _selectDishCommand;
 
-                    if (index == indexSelected)
+                    if (check && index == indexSelected)
                     {
                         SelectedDish = dish;
                     }
@@ -373,7 +374,7 @@ namespace Next2.ViewModels
                     index++;
                 }
 
-                if (seat.SelectedItem is null)
+                if (check && seat.SelectedItem is null)
                 {
                     SelectedDish = null;
                 }
@@ -500,6 +501,7 @@ namespace Next2.ViewModels
 
                 if (seat is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && SelectedDish is not null)
                 {
+                    seat.SelectedItem = seat.SelectedDishes.FirstOrDefault(x => x.Index == (dish?.Index ?? -1));
                     _seatWithSelectedDish = seat;
                     seat.Checked = true;
 
