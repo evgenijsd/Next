@@ -323,14 +323,13 @@
                         VerticalTextAlignment="Center"
                         Margin="32, 18"/>
 
-                    <CollectionView
-                        MinimumHeightRequest="{Binding HeightIngredientCategories}"
-                        HeightRequest="{Binding HeightIngredientCategories}"
+                    <controls:ExpandedGridCollectionView
                         Margin="32, 4, 32, 10"
                         VerticalOptions="Start"
                         SelectionMode="Single"
                         ItemsSource="{Binding IngredientCategories}"
-                        SelectedItem="{Binding SelectedIngredientCategory}">
+                        SelectedItem="{Binding SelectedIngredientCategory}"
+                        IsExpanded="{Binding IsExpandedIngredientCategories}">
 
                         <CollectionView.ItemsLayout>
 
@@ -358,7 +357,7 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
 
-                    </CollectionView>
+                    </controls:ExpandedGridCollectionView>
 
                     <BoxView
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"

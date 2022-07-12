@@ -327,11 +327,6 @@ namespace Next2.ViewModels
         {
             IsExpandedIngredientCategories = !IsExpandedIngredientCategories;
 
-            var countItemsInRow = App.IsTablet ? 6 : 2;
-            var countRow = Math.Ceiling((double)IngredientCategories.Count / countItemsInRow);
-
-            HeightIngredientCategories = (int)(((IsExpandedIngredientCategories ? countRow : 2) * 48) - 6);
-
             return Task.CompletedTask;
         }
 
@@ -472,12 +467,7 @@ namespace Next2.ViewModels
 
             SelectedIngredientCategory = IngredientCategories.FirstOrDefault();
 
-            IsExpandedIngredientCategories = false;
-
-            var countItemsInRow = App.IsTablet ? 6 : 2;
-            var countRow = Math.Ceiling((double)IngredientCategories.Count / countItemsInRow);
-
-            HeightIngredientCategories = (int)(((countRow > 2 ? 2 : countRow) * 48) - 6);
+            IsExpandedIngredientCategories = App.IsTablet;
         }
 
         private Task InitIngredientsByCategoryAsync(Guid categoryId)
