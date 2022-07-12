@@ -9,97 +9,97 @@ namespace Next2.Services.Mock
         {
             return new List<CustomerBindableModel>()
             {
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 221,
                     Rewards = 4,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 22,
                     Rewards = 3,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 108,
                     Rewards = 2,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 451,
                     Rewards = 0,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 22,
                     Rewards = 0,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 34,
                     Rewards = 0,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 35,
                     Rewards = 0,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 123,
                     Rewards = 0,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 221,
                     Rewards = 0,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 22,
                     Rewards = 0,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 108,
                     Rewards = 0,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 451,
                     Rewards = 0,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 22,
                     Rewards = 0,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 34,
                     Rewards = 0,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 35,
                     Rewards = 0,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 123,
                     Rewards = 0,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 221,
                     Rewards = 0,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 22,
                     Rewards = 0,
                 },
-                new CustomerBindableModel()
+                new()
                 {
                     Points = 108,
                     Rewards = 0,

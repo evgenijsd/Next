@@ -1,5 +1,4 @@
 ﻿using Prism.Navigation;
-using Rg.Plugins.Popup.Contracts;
 
 namespace Next2.ViewModels
 {
