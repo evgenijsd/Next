@@ -1,4 +1,5 @@
 using Acr.UserDialogs;
+using Next2.Enums;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
@@ -37,6 +38,8 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Public properties --
 
+        public ELoadingState DishesLoadingState { get; set; } = ELoadingState.InProgress;
+
         public CategoryModel SelectedCategoriesItem { get; set; }
 
         public ObservableCollection<DishModelDTO> Dishes { get; set; }
@@ -50,6 +53,9 @@ namespace Next2.ViewModels.Mobile
 
         private ICommand _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _refreshDishesCommand;
+        public ICommand RefreshDishesCommand => _refreshDishesCommand ??= new AsyncCommand(OnRefreshDishesCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -73,7 +79,7 @@ namespace Next2.ViewModels.Mobile
                     Task.Run(LoadSubcategoriesAsync);
                     break;
                 case nameof(SelectedSubcategoriesItem):
-                    Task.Run(LoadDishesAsync);
+                    Task.Run(OnRefreshDishesCommandAsync);
                     break;
             }
         }
@@ -131,8 +137,10 @@ namespace Next2.ViewModels.Mobile
             }
         }
 
-        private async Task LoadDishesAsync()
+        private async Task OnRefreshDishesCommandAsync()
         {
+            DishesLoadingState = ELoadingState.InProgress;
+
             if (IsInternetConnected)
             {
                 var resultGettingDishes = await _menuService.GetDishesAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
@@ -142,13 +150,23 @@ namespace Next2.ViewModels.Mobile
                     Dishes = _shouldOrderDishesByDESC
                         ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
                         : new(resultGettingDishes.Result.OrderBy(row => row.Name));
+
+                    DishesLoadingState = ELoadingState.Completed;
                 }
+                else
+                {
+                    DishesLoadingState = ELoadingState.Error;
+                }
+            }
+            else
+            {
+                DishesLoadingState = ELoadingState.NoInternet;
             }
         }
 
         private Task LoadSubcategoriesAsync()
         {
-            if (IsInternetConnected && SelectedCategoriesItem is not null)
+            if (SelectedCategoriesItem is not null)
             {
                 Subcategories = new(SelectedCategoriesItem.Subcategories);
 

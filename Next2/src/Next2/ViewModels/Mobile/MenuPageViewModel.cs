@@ -39,10 +39,12 @@ namespace Next2.ViewModels.Mobile
             CanShowOrder = _orderService.CurrentOrder.Seats.Count > 0;
 
             InitMenuItems();
-            Task.Run(LoadCategoriesAsync);
+            Task.Run(OnRefreshCategoriesCommandAsync);
         }
 
         #region -- Public properties --
+
+        public ELoadingState CategoriesLoadingState { get; set; } = ELoadingState.InProgress;
 
         public bool CanShowOrder { get; set; }
 
@@ -59,6 +61,9 @@ namespace Next2.ViewModels.Mobile
 
         private ICommand _goToSettingsCommand;
         public ICommand GoToSettingsCommand => _goToSettingsCommand ??= new AsyncCommand(GoToSettingsCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _refreshCategoriesCommand;
+        public ICommand RefreshCategoriesCommand => _refreshCategoriesCommand ??= new AsyncCommand(OnRefreshCategoriesCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -143,8 +148,10 @@ namespace Next2.ViewModels.Mobile
             SelectedMenuItem = _oldSelectedMenuItem;
         }
 
-        private async Task LoadCategoriesAsync()
+        private async Task OnRefreshCategoriesCommandAsync()
         {
+            CategoriesLoadingState = ELoadingState.InProgress;
+
             if (IsInternetConnected)
             {
                 var resultCategories = await _menuService.GetAllCategoriesAsync();
@@ -152,11 +159,16 @@ namespace Next2.ViewModels.Mobile
                 if (resultCategories.IsSuccess)
                 {
                     Categories = new(resultCategories.Result);
+                    CategoriesLoadingState = ELoadingState.Completed;
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(resultCategories.Exception.Message);
+                    CategoriesLoadingState = ELoadingState.Error;
                 }
+            }
+            else
+            {
+                CategoriesLoadingState = ELoadingState.NoInternet;
             }
         }
 

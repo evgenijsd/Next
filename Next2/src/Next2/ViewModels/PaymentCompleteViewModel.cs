@@ -186,6 +186,11 @@ namespace Next2.ViewModels
             {
                 if (decimal.TryParse(InputTip, out decimal tip))
                 {
+                    if (SelectedTipItem?.TipType != ETipType.Other)
+                    {
+                        SelectedTipItem = TipValueItems.FirstOrDefault(x => x.TipType == ETipType.Other);
+                    }
+
                     Order.Tip = tip / 100;
                     SelectedTipItem.Text = LocalizationResourceManager.Current["CurrencySign"] + $" {Order.Tip:F2}";
                 }
@@ -248,7 +253,7 @@ namespace Next2.ViewModels
                 },
             };
 
-            SelectedPaymentOption = PaymentOptionsItems[3];
+            SelectedPaymentOption = PaymentOptionsItems[0];
 
             return Task.CompletedTask;
         }
@@ -310,10 +315,10 @@ namespace Next2.ViewModels
             {
                 IsClearedTip = true;
                 Order.Tip = item.Value;
+                IsClearedTip = false;
             }
             else
             {
-                IsClearedTip = false;
                 Order.Tip = 0;
             }
 

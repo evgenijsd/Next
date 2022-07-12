@@ -645,4 +645,13 @@ A receipt has been printed for you.</value>
   <data name="SplitTotal" xml:space="preserve">
     <value>Split Total</value>
   </data>
+  <data name="RequestTimedOut" xml:space="preserve">
+    <value>Request timed out</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="LoadingData" xml:space="preserve">
+    <value>Loading data</value>
+  </data>
 </root>

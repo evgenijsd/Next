@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet
@@ -132,7 +131,6 @@ namespace Next2.ViewModels.Tablet
                 if (parameters.TryGetValue(Constants.Navigations.BONUS, out FullOrderBindableModel currentOrder))
                 {
                     await NewOrderViewModel.OrderRegistrationViewModel.UpdateOrderWithBonusAsync(currentOrder);
-                    await NewOrderViewModel.LoadDishesAsync();
                 }
             }
         }
@@ -254,7 +252,7 @@ namespace Next2.ViewModels.Tablet
 
                     if (logoutResult.IsSuccess)
                     {
-                        NewOrderViewModel.OrderRegistrationViewModel.CurrentState = LayoutState.Loading;
+                        NewOrderViewModel.OrderRegistrationViewModel.CurrentState = ENewOrderViewState.InProgress;
 
                         _orderService.CurrentOrder = new();
 

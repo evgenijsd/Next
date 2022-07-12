@@ -1,4 +1,5 @@
-﻿using Next2.Interfaces;
+﻿using Next2.Enums;
+using Next2.Interfaces;
 using Next2.Services.Authentication;
 using Next2.Views.Mobile;
 using Prism.Mvvm;
@@ -9,7 +10,6 @@ using Rg.Plugins.Popup.Pages;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -48,7 +48,14 @@ namespace Next2.ViewModels
 
                 await _navigationService.NavigateAsync($"{nameof(LoginPage)}", navigationParameters);
             }
-            else if (statusCode == Constants.StatusCode.BAD_REQUEST)
+            else if (statusCode == Constants.StatusCode.SOCKET_CLOSED)
+            {
+                await ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["RequestTimedOut"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
+            else
             {
                 await ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],

@@ -78,6 +78,8 @@ namespace Next2.Services.Rest
         {
             var client = new HttpClient();
 
+            client.Timeout = TimeSpan.FromSeconds(Constants.API.REQUEST_TIMEOUT);
+
             var request = new HttpRequestMessage(method, requestUrl);
 
             if (requestBody is not null)
