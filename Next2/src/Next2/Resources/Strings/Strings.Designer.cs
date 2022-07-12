@@ -908,6 +908,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The order has been successfully splitted.
+        /// </summary>
+        internal static string OrderSplitted {
+            get {
+                return ResourceManager.GetString("OrderSplitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Order Status.
         /// </summary>
         internal static string OrderStatus {

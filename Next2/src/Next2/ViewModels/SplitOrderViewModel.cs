@@ -64,6 +64,19 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out Guid orderId))
             {
+                if (OldSeats is not null)
+                {
+                    var seats = OldSeats.ToSeatsBindableModels();
+                    Seats = new(seats);
+
+                    foreach (var seat in Seats)
+                    {
+                        seat.DishSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand);
+                    }
+
+                    SelectFirstDish();
+                }
+
                 var resultOfGettingOrder = await _orderService.GetOrderByIdAsync(orderId);
 
                 if (resultOfGettingOrder.IsSuccess)
@@ -89,18 +102,6 @@ namespace Next2.ViewModels
                     {
                         OnGoBackCommandAsync();
                     }
-                }
-                else if (OldSeats is not null)
-                {
-                    var seats = OldSeats.ToSeatsBindableModels();
-                    Seats = new(seats);
-
-                    foreach (var seat in Seats)
-                    {
-                        seat.DishSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand);
-                    }
-
-                    SelectFirstDish();
                 }
             }
         }
@@ -148,8 +149,6 @@ namespace Next2.ViewModels
             if (parameters.TryGetValue(Constants.DialogParameterKeys.SPLIT_GROUPS, out List<int[]> groupList))
             {
                 await SplitOrderBySeats(groupList);
-                await OnGoBackCommandAsync();
-                await _popupNavigation.PopAsync();
             }
         }
 
@@ -162,6 +161,8 @@ namespace Next2.ViewModels
 
             if (res.IsSuccess)
             {
+                OldSeats = Order.Seats;
+
                 var toastConfig = new ToastConfig(LocalizationResourceManager.Current["OrderUpdated"])
                 {
                     Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
@@ -172,14 +173,19 @@ namespace Next2.ViewModels
             }
             else
             {
-                await ShowInfoDialogAsync(string.Empty, LocalizationResourceManager.Current["SomethingWentWrong"], LocalizationResourceManager.Current["Ok"]);
-                await _popupNavigation.PopAllAsync();
-                ReloadOrderAsync();
+                await EmergencyReloadOrderAsync();
             }
         }
 
-        private void ReloadOrderAsync()
+        private async Task EmergencyReloadOrderAsync()
         {
+            if (_popupNavigation.PopupStack.Count > 0)
+            {
+                await _popupNavigation.PopAllAsync();
+            }
+
+            await ShowInfoDialogAsync(string.Empty, LocalizationResourceManager.Current["SomethingWentWrong"], LocalizationResourceManager.Current["Ok"]);
+
             var param = new NavigationParameters
                 {
                     { Constants.Navigations.ORDER_ID, Order.Id },
@@ -190,6 +196,13 @@ namespace Next2.ViewModels
 
         private async Task SplitOrderBySeats(IList<int[]> groupList)
         {
+            int goodUpdateCounter = 0;
+
+            if (_popupNavigation.PopupStack.Count > 0)
+            {
+                await _popupNavigation.PopAsync();
+            }
+
             foreach (var group in groupList)
             {
                 var seats = Seats.Where(s => group.Any(x => x == s.SeatNumber));
@@ -203,7 +216,13 @@ namespace Next2.ViewModels
 
                     var updateResult = await _orderService.UpdateOrderAsync(Order.ToUpdateOrderCommand());
 
-                    if (!updateResult.IsSuccess)
+                    if (updateResult.IsSuccess)
+                    {
+                        OldSeats = Order.Seats;
+                        Seats = new(Order.Seats.ToSeatsBindableModels());
+                        goodUpdateCounter++;
+                    }
+                    else
                     {
                         break;
                     }
@@ -235,17 +254,32 @@ namespace Next2.ViewModels
 
                         var updateResult = await _orderService.UpdateOrderAsync(order.ToUpdateOrderCommand());
 
-                        if (!updateResult.IsSuccess)
+                        if (updateResult.IsSuccess)
                         {
-                            await ShowInfoDialogAsync(string.Empty, LocalizationResourceManager.Current["SomethingWentWrong"], LocalizationResourceManager.Current["Ok"]);
-                            ReloadOrderAsync();
+                            goodUpdateCounter++;
+                        }
+                        else
+                        {
                             break;
                         }
                     }
                 }
             }
 
-            await OnGoBackCommandAsync();
+            if (goodUpdateCounter == groupList.Count)
+            {
+                var toastConfig = new ToastConfig(LocalizationResourceManager.Current["OrderSplitted"])
+                {
+                    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                    Position = ToastPosition.Bottom,
+                };
+
+                UserDialogs.Instance.Toast(toastConfig);
+            }
+            else
+            {
+                await EmergencyReloadOrderAsync();
+            }
         }
 
         private void CalculateOrderPrices(OrderModelDTO order)
@@ -312,6 +346,7 @@ namespace Next2.ViewModels
             if (App.IsTablet)
             {
                 var firstSeat = Seats.FirstOrDefault(x => x.SelectedDishes.Count > 0);
+                _selectedSeatNumber = firstSeat.SeatNumber;
                 firstSeat.SelectedItem = firstSeat.SelectedDishes.FirstOrDefault();
                 SelectedDish = firstSeat.SelectedItem;
                 firstSeat.Checked = true;
@@ -320,6 +355,7 @@ namespace Next2.ViewModels
             else
             {
                 Seats.First().IsFirstSeat = true;
+                _selectedSeatNumber = Seats.First().SeatNumber;
             }
         }
 
@@ -339,6 +375,8 @@ namespace Next2.ViewModels
                     }
                 }
             }
+
+            SelectedDish.HasSplittedPrice = true;
 
             return Task.CompletedTask;
         }
