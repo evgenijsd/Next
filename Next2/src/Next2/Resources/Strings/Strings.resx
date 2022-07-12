@@ -654,4 +654,10 @@ A receipt has been printed for you.</value>
   <data name="LoadingData" xml:space="preserve">
     <value>Loading data</value>
   </data>
+  <data name="Reservations" xml:space="preserve">
+    <value>Reservations</value>
+  </data>
+  <data name="Assign" xml:space="preserve">
+    <value>Assign</value>
+  </data>
 </root>

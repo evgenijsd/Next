@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -12,9 +12,10 @@
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:bindableModels="clr-namespace:Next2.Models.Bindables"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:viewModelsTablet="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    x:Class="Next2.Views.Tablet.OrderTabsView"
-    x:DataType="viewModels:OrderTabsViewModel">
+    x:Class="Next2.Views.Tablet.ReservationsView"
+    x:DataType="viewModelsTablet:ReservationsViewModel">
 
     <ContentView.Resources>
 
@@ -24,7 +25,7 @@
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
             <Setter Property="Margin" Value="15, 11, 0, 0"/>
         </Style>
-        
+
         <Style x:Key="BorderButtonStyle_i1_1" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i1}">
             <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
@@ -33,51 +34,26 @@
         </Style>
         
     </ContentView.Resources>
-    
+
     <Grid
         RowDefinitions="auto, 2, 83"
         HorizontalOptions="Fill"
         VerticalOptions="Fill"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
-        <!-- PAGE HEADER --> 
+        <!-- PAGE HEADER -->
         <Grid
             Grid.Row="0"
-            ColumnDefinitions="520, *"
-            IsEnabled="{Binding IsOrdersRefreshing, Converter={xct:InvertedBoolConverter}}">
+            ColumnDefinitions="520, *">
 
             <Label
                 Grid.Column="0"
-                Text="{xct:Translate OrderTabs}"
+                Text="{xct:Translate Reservations}"
                 Padding="32, 18"
                 VerticalOptions="CenterAndExpand"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 FontFamily="Barlow-Bold"
                 FontSize="{DynamicResource TSize_i4_5}" />
-
-            <buttons:CustomButton
-                Grid.Column="0"
-                Text="{xct:Translate Orders}"
-                CornerRadius="6, 0, 0, 0"
-                HeightRequest="44"
-                WidthRequest="250"
-                HorizontalOptions="End"
-                VerticalOptions="End"
-                FontSize="{DynamicResource TSize_i9}"
-                IsSelected="{Binding IsTabsModeSelected, Converter={xct:InvertedBoolConverter}}"
-                Command="{Binding SwitchToOrdersCommand}" />
-
-            <buttons:CustomButton
-                Grid.Column="1"
-                Text="{xct:Translate Tabs}"
-                CornerRadius="0, 6, 0, 0"
-                HeightRequest="44"
-                WidthRequest="250"
-                HorizontalOptions="Start"
-                VerticalOptions="End"
-                FontSize="{DynamicResource TSize_i9}"
-                IsSelected="{Binding IsTabsModeSelected}"
-                Command="{Binding SwitchToTabsComamnd}" />
 
         </Grid>
 
@@ -95,7 +71,7 @@
                 Grid.Row="0"
                 CornerRadius="5"
                 Text="{Binding SearchQuery}"
-                Placeholder="{xct:Translate SearchTableNumber}"
+                Placeholder="{xct:Translate SearchByNameOrPhone}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 BackColor="Transparent"
                 BorderColor="{DynamicResource AppColor_i1}"
@@ -104,17 +80,13 @@
 
                 <buttons:SearchButton.Triggers>
 
-                    <DataTrigger TargetType="buttons:SearchButton" Binding="{Binding SearchQuery}" Value="">
+                    <DataTrigger TargetType="buttons:SearchButton" Binding="{Binding SearchQuery, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
                         <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
                         <Setter Property="ImageSource" Value="ic_search_24x24" />
                     </DataTrigger>
 
-                    <DataTrigger TargetType="buttons:SearchButton" Binding="{Binding IsTabsModeSelected}" Value="True">
-                        <Setter Property="Placeholder" Value="{xct:Translate SearchName}" />
-                    </DataTrigger>
-
                 </buttons:SearchButton.Triggers>
-                            
+
             </buttons:SearchButton>
 
             <!-- BUTTONS -->
@@ -124,7 +96,7 @@
                 Spacing="12">
 
                 <StackLayout.Triggers>
-                    <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedOrder, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedReservation, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
                         <Setter Property="IsEnabled" Value="False"/>
                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
                     </DataTrigger>
@@ -134,24 +106,20 @@
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
                     HorizontalOptions="EndAndExpand"
                     BorderColor="{DynamicResource IndicationColor_i3}"
-                    Text="{xct:Translate Remove}"
-                    CornerRadius="5"
-                    xct:TouchEffect.Command="{Binding RemoveOrderCommand}"/>
-                    
+                    Text="{xct:Translate Info}"
+                    CornerRadius="5"/>
+
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
                     CornerRadius="5"
                     BorderColor="{DynamicResource IndicationColor_i5}"
-                    Text="{xct:Translate Edit}"
-                    xct:TouchEffect.Command="{Binding EditOrderCommand}" />
+                    Text="{xct:Translate Remove}" />
 
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
                     CornerRadius="5"
                     BorderColor="{DynamicResource IndicationColor_i7}"
-                    Text="{xct:Translate Split}"
-                    IsVisible="{Binding IsTabsModeSelected, Converter={xct:InvertedBoolConverter}}" 
-                    xct:TouchEffect.Command="{Binding SplitCommand}"/>
+                    Text="{xct:Translate Assign}"/>
 
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
@@ -159,8 +127,7 @@
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    Text="{xct:Translate Print}"
-                    xct:TouchEffect.Command="{Binding PrintCommand}"/>
+                    Text="{xct:Translate AddNew}"/>
 
             </StackLayout>
 
@@ -173,7 +140,7 @@
             <!-- TABLE HEADER -->
 
             <yummy:PancakeView CornerRadius="7, 7, 0, 0">
-                
+
                 <Grid
                     ColumnDefinitions="50, *, *, *, *"
                     VerticalOptions="Start"
@@ -185,26 +152,11 @@
                         Grid.Column="1"
                         Orientation="Horizontal"
                         xct:TouchEffect.Command="{Binding ChangeSortOrderCommand}"
-                        xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByCustomerName}">
+                        xct:TouchEffect.CommandParameter="{x:Static enums:EReservationsSortingType.ByCustomerName}">
 
                         <Label
                             Style="{DynamicResource TableCellLabelStyle}"
-                            Text="{xct:Translate TableNumber}">
-
-                            <Label.Triggers>
-                                    
-                                <DataTrigger
-                                    TargetType="Label"
-                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=IsTabsModeSelected}"
-                                    Value="True">
-                                        
-                                    <Setter Property="Text" Value="{xct:Translate CustomerName}" />
-                                        
-                                </DataTrigger>
-
-                            </Label.Triggers>
-
-                        </Label>
+                            Text="{xct:Translate CustomerName}"/>
 
                         <ffimageloading:CachedImage
                             Source="ic_sort_primary_24x24"
@@ -218,7 +170,7 @@
                         Grid.Column="2"
                         Orientation="Horizontal"
                         xct:TouchEffect.Command="{Binding ChangeSortOrderCommand}"
-                        xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByOrderNumber}">
+                        xct:TouchEffect.CommandParameter="{x:Static enums:EReservationsSortingType.ByOrderNumber}">
 
                         <Label
                             Style="{DynamicResource TableCellLabelStyle}"
@@ -246,32 +198,32 @@
                     <Label
                         Grid.Column="5"
                         Style="{DynamicResource TableCellLabelStyle}"
-                        Text="{xct:Translate OrderType}" />
+                        Text="{xct:Translate OrderType}"/>
 
                 </Grid>
-                
+
             </yummy:PancakeView>
-            
+
             <!-- TABLE CONTENT -->
             <yummy:PancakeView 
                 VerticalOptions="FillAndExpand"
                 CornerRadius="0, 0, 7, 7">
 
                 <RefreshView
-                    IsRefreshing="{Binding IsOrdersRefreshing}"
+                    IsRefreshing="{Binding IsReservationsRefreshing}"
                     Command="{Binding RefreshOrdersCommand}">
 
                     <StackLayout>
-                                                    
+
                         <controls:CustomCollectionView
-                            HeightRequest="{Binding Orders, Converter={StaticResource listHeightConverter}, ConverterParameter=40}"
+                            HeightRequest="{Binding Reservations, Converter={StaticResource listHeightConverter}, ConverterParameter=40}"
                             Style="{DynamicResource CustomScrollBarCollectionView_i1}"
-                            ItemsSource="{Binding Orders}"
-                            SelectedItem="{Binding SelectedOrder}"
+                            ItemsSource="{Binding Reservations}"
+                            SelectedItem="{Binding SelectedReservation}"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                             <CollectionView.Effects>
-                                
+
                                 <effects:NoOverScrollEffect />
 
                                 <effects:ScrollBarColorEffect
@@ -279,16 +231,16 @@
                                     ScrollBarCornerRadius="9"
                                     ScrollBarThumbColor="{StaticResource AppColor_i1}"
                                     ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
-                                
+
                             </CollectionView.Effects>
 
                             <CollectionView.Behaviors>
                                 <behaviors:ScrollToCenterBehavior/>
                             </CollectionView.Behaviors>
-                        
+
                             <CollectionView.ItemTemplate>
 
-                                <DataTemplate x:DataType="bindableModels:SimpleOrderBindableModel">
+                                <DataTemplate x:DataType="bindableModels:ReservationBindableModel">
 
                                     <Grid
                                         HorizontalOptions="Fill"
@@ -298,23 +250,23 @@
                                         <VisualStateManager.VisualStateGroups>
 
                                             <VisualStateGroup Name="CommonStates">
-                                                
+
                                                 <VisualState Name="Normal">
-                                                    
+
                                                     <VisualState.Setters>
                                                         <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
                                                     </VisualState.Setters>
-                                                    
+
                                                 </VisualState>
 
                                                 <VisualState Name="Selected">
-                                                    
+
                                                     <VisualState.Setters>
                                                         <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
                                                         <Setter TargetName="orderStatusLabel" Property="Label.TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
                                                         <Setter TargetName="checkBoxImage" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white" />
                                                     </VisualState.Setters>
-                                                    
+
                                                 </VisualState>
 
                                             </VisualStateGroup>
@@ -324,7 +276,7 @@
                                         <BoxView
                                             Grid.Row="0"
                                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
-                                        
+
                                         <Grid
                                             Grid.Row="1"
                                             ColumnDefinitions="50, *, *, *, *">
@@ -344,7 +296,7 @@
                                                 Text="{Binding TableNumberOrName}"
                                                 HeightRequest="{DynamicResource TSize_i8}"
                                                 LineBreakMode="TailTruncation">
-                                                
+
                                                 <Label.Triggers>
 
                                                     <DataTrigger TargetType="Label" Binding="{Binding TableNumberOrName}" Value="''">
@@ -352,7 +304,7 @@
                                                     </DataTrigger>
 
                                                 </Label.Triggers>
-                                                
+
                                             </Label>
 
                                             <Label
@@ -390,7 +342,7 @@
                                                 <TapGestureRecognizer
                                                     Command="{Binding SelectOrderCommand, Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}}"
                                                     CommandParameter="{Binding .}" />
-                                                
+
                                             </Grid.GestureRecognizers>
 
                                         </Grid>
@@ -402,7 +354,7 @@
                             </CollectionView.ItemTemplate>
 
                         </controls:CustomCollectionView>
-                                                
+
                         <!-- NOTHING FOUND STATE -->
                         <yummy:PancakeView
                             VerticalOptions="FillAndExpand"
@@ -419,7 +371,7 @@
                                 HorizontalOptions="Center" />
 
                         </yummy:PancakeView>
-                    
+
                         <!-- ORDER PRELODING STATE -->
                         <yummy:PancakeView
                             VerticalOptions="FillAndExpand"
@@ -427,21 +379,21 @@
                             IsVisible="{Binding IsPreloadStateActive}"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                             CornerRadius="0, 0, 7, 7">
-                        
+
                             <StackLayout>
-                            
+
                                 <BoxView
                                     HeightRequest="1"
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
-                            
+
                             </StackLayout>
-                        
+
                         </yummy:PancakeView>
 
                     </StackLayout>
 
                 </RefreshView>
-                
+
             </yummy:PancakeView>
 
         </StackLayout>
