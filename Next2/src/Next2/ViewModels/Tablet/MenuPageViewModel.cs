@@ -126,7 +126,7 @@ namespace Next2.ViewModels.Tablet
 
                 if (parameters.ContainsKey(Constants.Navigations.TAX_OFF))
                 {
-                    NewOrderViewModel.OrderRegistrationViewModel.RemoveTax();
+                    await NewOrderViewModel.OrderRegistrationViewModel.RemoveTaxAsync();
                 }
 
                 if (parameters.TryGetValue(Constants.Navigations.BONUS, out FullOrderBindableModel currentOrder))

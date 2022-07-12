@@ -1,4 +1,5 @@
 using Acr.UserDialogs;
+using AutoMapper;
 using Next2.Enums;
 using Next2.Models;
 using Next2.Models.API.DTO;
@@ -24,16 +25,23 @@ namespace Next2.ViewModels.Mobile
 
         private readonly IOrderService _orderService;
 
+        private readonly IMapper _mapper;
+
+        private FullOrderBindableModel _tempCurrentOrder;
+        private SeatBindableModel _tempCurrentSeat;
+
         private bool _shouldOrderDishesByDESC;
 
         public ChooseDishPageViewModel(
             IMenuService menuService,
             INavigationService navigationService,
-            IOrderService orderService)
+            IOrderService orderService,
+            IMapper mapper)
             : base(navigationService)
         {
             _menuService = menuService;
             _orderService = orderService;
+            _mapper = mapper;
         }
 
         #region -- Public properties --
@@ -109,31 +117,78 @@ namespace Next2.ViewModels.Mobile
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
+            if (IsInternetConnected)
             {
-                var resultOfAddingDishToCurrentOrder = await _orderService.AddDishInCurrentOrderAsync(dish);
-
-                if (resultOfAddingDishToCurrentOrder.IsSuccess)
+                if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                 {
-                    await _orderService.UpdateCurrentOrderAsync();
+                    _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
+                    _tempCurrentSeat = _mapper.Map<SeatBindableModel>(_orderService.CurrentSeat);
+                    var resultOfAddingDishToOrder = await _orderService.AddDishInCurrentOrderAsync(dish);
 
+                    if (resultOfAddingDishToOrder.IsSuccess)
+                    {
+                        var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
+
+                        if (resultOfUpdatingOrder.IsSuccess)
+                        {
+                            if (PopupNavigation.PopupStack.Any())
+                            {
+                                await PopupNavigation.PopAsync();
+                            }
+
+                            var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
+                            {
+                                Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                                Position = ToastPosition.Bottom,
+                            };
+
+                            UserDialogs.Instance.Toast(toastConfig);
+                        }
+                        else
+                        {
+                            if (PopupNavigation.PopupStack.Any())
+                            {
+                                await PopupNavigation.PopAsync();
+                            }
+
+                            _orderService.CurrentOrder = _tempCurrentOrder;
+                            _orderService.CurrentSeat = _tempCurrentSeat;
+                            _orderService.UpdateTotalSum(_orderService.CurrentOrder);
+                            await ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
+                        }
+                    }
+                    else
+                    {
+                        if (PopupNavigation.PopupStack.Any())
+                        {
+                            await PopupNavigation.PopAsync();
+                        }
+
+                        await ShowInfoDialogAsync(
+                            LocalizationResourceManager.Current["Error"],
+                            LocalizationResourceManager.Current["SomethingWentWrong"],
+                            LocalizationResourceManager.Current["Ok"]);
+                    }
+                }
+                else
+                {
                     if (PopupNavigation.PopupStack.Any())
                     {
                         await PopupNavigation.PopAsync();
                     }
-
-                    var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
-                    {
-                        Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-                        Position = ToastPosition.Bottom,
-                    };
-
-                    UserDialogs.Instance.Toast(toastConfig);
                 }
             }
             else
             {
-                await PopupNavigation.PopAsync();
+                if (PopupNavigation.PopupStack.Any())
+                {
+                    await PopupNavigation.PopAsync();
+                }
+
+                await ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
             }
         }
 

@@ -381,7 +381,7 @@ namespace Next2.Services.Order
                     CurrentSeat = CurrentOrder.Seats.FirstOrDefault();
                 }
 
-                CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].SelectedDishes.Add(dish);
+                CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == CurrentSeat.SeatNumber).SelectedDishes.Add(dish);
 
                 UpdateTotalSum(CurrentOrder);
 
