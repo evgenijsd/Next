@@ -132,7 +132,7 @@
             <!--StateCustomKey Doesn't work that's why I had to used Loading & Succes insted -->
             <!--StateKeys: Loading - NewOrderPage, Success - EditPage -->
 
-            <sc:StateCondition State="Error">
+            <sc:StateCondition State="InProgress">
                 
                 <controls:DataLoadingState
                     VerticalOptions="FillAndExpand"
@@ -140,8 +140,8 @@
                     Command="{Binding RefreshCategoriesCommand}"/>
                 
             </sc:StateCondition>
-            
-            <sc:StateCondition State="Loading">
+
+            <sc:StateCondition State="Default">
 
                 <StackLayout>
 
@@ -668,7 +668,7 @@
 
             </sc:StateCondition>
 
-            <sc:StateCondition State="Success">
+            <sc:StateCondition State="Edit">
 
                 <Grid 
                     RowDefinitions="*, auto"
@@ -683,7 +683,7 @@
                             <!--CANCEL BUTTON -->
                             <Frame
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                                xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.GoBackCommand}">
+                                xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.CloseEditStateCommand}">
 
                                 <StackLayout 
                                     Margin="32, 24, 32, 20"

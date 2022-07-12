@@ -23,7 +23,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 using TabletViews = Next2.Views.Tablet;
 
@@ -69,7 +68,7 @@ namespace Next2.ViewModels
 
             _orderPaymentStatus = EOrderStatus.Closed;
 
-            CurrentState = LayoutState.Error;
+            CurrentState = ENewOrderViewState.InProgress;
 
             _seatSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
             _deleteSeatCommand = new AsyncCommand<SeatBindableModel>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
@@ -81,7 +80,7 @@ namespace Next2.ViewModels
 
         public bool IsClockRunning { get; set; }
 
-        public LayoutState CurrentState { get; set; }
+        public ENewOrderViewState CurrentState { get; set; }
 
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
@@ -109,8 +108,8 @@ namespace Next2.ViewModels
 
         public bool IsOrderSavingAndPaymentEnabled { get; set; }
 
-        private ICommand _goBackCommand;
-        public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommand);
+        private ICommand _closeEditStateCommand;
+        public ICommand CloseEditStateCommand => _closeEditStateCommand ??= new Command(OnCloseEditStateCommand);
 
         private ICommand _openModifyCommand;
         public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync, allowsMultipleExecutions: false);
@@ -251,7 +250,7 @@ namespace Next2.ViewModels
 
                     if (SelectedDish is null)
                     {
-                        OnGoBackCommand();
+                        OnCloseEditStateCommand();
                     }
 
                     break;
@@ -386,7 +385,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private void OnGoBackCommand()
+        private void OnCloseEditStateCommand()
         {
             if (SelectedDish is not null)
             {
@@ -396,7 +395,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            CurrentState = LayoutState.Error;
+            CurrentState = ENewOrderViewState.Default;
             //25.07.22 можна удалить, если не будет крашей
             //Thread.Sleep(80); // It suspends the thread to hide unwanted animation
             IsSideMenuVisible = true;
@@ -449,7 +448,7 @@ namespace Next2.ViewModels
 
                 if (App.IsTablet)
                 {
-                    CurrentState = LayoutState.Success;
+                    CurrentState = ENewOrderViewState.Edit;
                     //25.07.22 можна удалить, если не будет крашей
                     //Thread.Sleep(100); // It suspend the thread to hide unwanted animation
                     IsSideMenuVisible = false;
@@ -500,7 +499,7 @@ namespace Next2.ViewModels
 
                     if (!_isAnyDishChosen)
                     {
-                        OnGoBackCommand();
+                        OnCloseEditStateCommand();
                     }
                 }
             }
@@ -527,7 +526,7 @@ namespace Next2.ViewModels
 
                         await SelectSeatAsync(_firstSeat);
 
-                        OnGoBackCommand();
+                        OnCloseEditStateCommand();
                     }
                 }
                 else if (actionOnDishes is EActionOnDishes.RedirectDishes
@@ -549,7 +548,7 @@ namespace Next2.ViewModels
 
                             await SelectSeatAsync(destinationSeat);
 
-                            if (App.IsTablet && CurrentState == LayoutState.Success)
+                            if (App.IsTablet && CurrentState == ENewOrderViewState.Edit)
                             {
                                 SelectedDish = destinationSeat.SelectedItem = destinationSeat.SelectedDishes.FirstOrDefault();
                             }
@@ -657,7 +656,7 @@ namespace Next2.ViewModels
 
                     if (App.IsTablet)
                     {
-                        OnGoBackCommand();
+                        OnCloseEditStateCommand();
                     }
 
                     await PopupNavigation.PopAllAsync();
@@ -739,7 +738,7 @@ namespace Next2.ViewModels
 
                     CurrentOrder.Seats = new();
 
-                    OnGoBackCommand();
+                    OnCloseEditStateCommand();
                 }
             }
             else
@@ -823,7 +822,7 @@ namespace Next2.ViewModels
 
                         await _orderService.UpdateCurrentOrderAsync();
 
-                        if (CurrentState == LayoutState.Success)
+                        if (CurrentState == ENewOrderViewState.Edit)
                         {
                             if (_seatWithSelectedDish.SelectedDishes.Any())
                             {
@@ -842,7 +841,7 @@ namespace Next2.ViewModels
                             {
                                 if (App.IsTablet)
                                 {
-                                    OnGoBackCommand();
+                                    OnCloseEditStateCommand();
                                 }
                             }
                         }
@@ -873,7 +872,7 @@ namespace Next2.ViewModels
             if (App.IsTablet)
             {
                 IsSideMenuVisible = true;
-                CurrentState = LayoutState.Loading;
+                CurrentState = ENewOrderViewState.Default;
 
                 MessagingCenter.Send<MenuPageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
             }
