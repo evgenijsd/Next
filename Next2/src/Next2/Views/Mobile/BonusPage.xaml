@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:enum="clr-namespace:Next2.Enums"
+    xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
     xmlns:models="clr-namespace:Next2.Models"
@@ -82,7 +82,7 @@
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer
                                     Command="{Binding TapSelectCollapceCommand}"
-                                    CommandParameter="{x:Static enum:EBonusType.Coupon}" />
+                                    CommandParameter="{x:Static enums:EBonusType.Coupon}" />
                                     
                             </StackLayout.GestureRecognizers>
 
@@ -156,7 +156,7 @@
                             </ffimageloading:CachedImage>
 
                             <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding TapSelectCollapceCommand}" CommandParameter="{x:Static enum:EBonusType.Discount}" />
+                                <TapGestureRecognizer Command="{Binding TapSelectCollapceCommand}" CommandParameter="{x:Static enums:EBonusType.Discount}" />
 
                             </StackLayout.GestureRecognizers>
 

@@ -4,7 +4,7 @@ namespace Next2.Controls
 {
     public class CustomCollectionView : CollectionView
     {
-        #region -- Public Properties --
+        #region -- Public properties --
 
         public static readonly BindableProperty IndexLastVisibleProperty = BindableProperty.Create(
             propertyName: nameof(IndexLastVisible),

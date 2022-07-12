@@ -7,6 +7,8 @@ namespace Next2.Controls.StateContainer
     {
         public object State { get; set; }
 
+        public object NotState { get; set; }
+
         public View Content { get; set; }
     }
 }

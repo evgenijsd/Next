@@ -611,6 +611,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading data.
+        /// </summary>
+        internal static string LoadingData {
+            get {
+                return ResourceManager.GetString("LoadingData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         internal static string Login {
@@ -1057,6 +1066,15 @@ namespace Next2.Resources.Strings {
         internal static string ReAssignTable {
             get {
                 return ResourceManager.GetString("ReAssignTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        internal static string Refresh {
+            get {
+                return ResourceManager.GetString("Refresh", resourceCulture);
             }
         }
         

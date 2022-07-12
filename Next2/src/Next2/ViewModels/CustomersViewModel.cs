@@ -42,7 +42,7 @@ namespace Next2.ViewModels
             _orderService = orderService;
         }
 
-        #region -- Public Properties --
+        #region -- Public properties --
 
         public int IndexLastVisibleElement { get; set; }
 

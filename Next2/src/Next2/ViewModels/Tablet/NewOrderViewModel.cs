@@ -1,4 +1,5 @@
 using Acr.UserDialogs;
+using Next2.Enums;
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
@@ -18,6 +19,7 @@ using System.Timers;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.CommunityToolkit.UI.Views;
 
 namespace Next2.ViewModels.Tablet
 {
@@ -48,6 +50,10 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Public properties --
 
+        public ELoadingState DishesLoadingState { get; set; } = ELoadingState.InProgress;
+
+        public ELoadingState CategoriesLoadingState { get; set; } = ELoadingState.InProgress;
+
         public DateTime CurrentDateTime { get; set; } = DateTime.Now;
 
         public ObservableCollection<CategoryModel> Categories { get; set; }
@@ -74,6 +80,12 @@ namespace Next2.ViewModels.Tablet
         private ICommand _openEmployeeWorkingHoursCommand;
         public ICommand OpenEmployeeWorkingHoursCommand => _openEmployeeWorkingHoursCommand ??= new AsyncCommand(OnOpenEmployeeWorkingHoursCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _refreshDishesCommand;
+        public ICommand RefreshDishesCommand => _refreshDishesCommand ??= new AsyncCommand(OnRefreshDishesCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _refreshCategoriesCommand;
+        public ICommand RefreshCategoriesCommand => _refreshCategoriesCommand ??= new AsyncCommand(OnRefreshCategoriesCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -83,7 +95,7 @@ namespace Next2.ViewModels.Tablet
             base.OnAppearing();
 
             _shouldOrderDishesByDESC = false;
-            Task.Run(LoadCategoriesAsync);
+            Task.Run(OnRefreshCategoriesCommandAsync);
 
             OrderRegistrationViewModel.InitializeAsync(null);
         }
@@ -91,6 +103,8 @@ namespace Next2.ViewModels.Tablet
         public override void OnDisappearing()
         {
             base.OnDisappearing();
+
+            OrderRegistrationViewModel.CurrentState = LayoutState.Error;
 
             SelectedSubcategoriesItem = null;
             SelectedCategoriesItem = null;
@@ -110,31 +124,8 @@ namespace Next2.ViewModels.Tablet
                     Task.Run(LoadSubcategoriesAsync);
                     break;
                 case nameof(SelectedSubcategoriesItem):
-                    Task.Run(LoadDishesAsync);
+                    Task.Run(OnRefreshDishesCommandAsync);
                     break;
-            }
-        }
-
-        #endregion
-
-        #region -- Public helpers --
-
-        public async Task LoadDishesAsync()
-        {
-            if (IsInternetConnected && SelectedCategoriesItem is not null && SelectedSubcategoriesItem is not null)
-            {
-                var resultGettingDishes = await _menuService.GetDishesAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
-
-                if (resultGettingDishes.IsSuccess)
-                {
-                    Dishes = _shouldOrderDishesByDESC
-                        ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
-                        : new(resultGettingDishes.Result.OrderBy(row => row.Name));
-                }
-                else
-                {
-                    await ResponseToBadRequestAsync(resultGettingDishes.Exception.Message);
-                }
             }
         }
 
@@ -205,8 +196,12 @@ namespace Next2.ViewModels.Tablet
             }
         }
 
-        private async Task LoadCategoriesAsync()
+        private async Task OnRefreshCategoriesCommandAsync()
         {
+            OrderRegistrationViewModel.CurrentState = LayoutState.Error;
+
+            CategoriesLoadingState = ELoadingState.InProgress;
+
             if (IsInternetConnected)
             {
                 var resultGettingCategories = await _menuService.GetAllCategoriesAsync();
@@ -215,17 +210,24 @@ namespace Next2.ViewModels.Tablet
                 {
                     Categories = new(resultGettingCategories.Result);
                     SelectedCategoriesItem = Categories.FirstOrDefault();
+
+                    CategoriesLoadingState = ELoadingState.Completed;
+                    OrderRegistrationViewModel.CurrentState = LayoutState.Loading;
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(resultGettingCategories.Exception.Message);
+                    CategoriesLoadingState = ELoadingState.Error;
                 }
+            }
+            else
+            {
+                CategoriesLoadingState = ELoadingState.NoInternet;
             }
         }
 
         private Task LoadSubcategoriesAsync()
         {
-            if (IsInternetConnected && SelectedCategoriesItem is not null)
+            if (SelectedCategoriesItem is not null)
             {
                 Subcategories = new(SelectedCategoriesItem.Subcategories);
 
@@ -239,6 +241,33 @@ namespace Next2.ViewModels.Tablet
             }
 
             return Task.CompletedTask;
+        }
+
+        private async Task OnRefreshDishesCommandAsync()
+        {
+            DishesLoadingState = ELoadingState.InProgress;
+
+            if (IsInternetConnected && SelectedCategoriesItem is not null && SelectedSubcategoriesItem is not null)
+            {
+                var resultGettingDishes = await _menuService.GetDishesAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
+
+                if (resultGettingDishes.IsSuccess)
+                {
+                    Dishes = _shouldOrderDishesByDESC
+                        ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
+                        : new(resultGettingDishes.Result.OrderBy(row => row.Name));
+
+                    DishesLoadingState = ELoadingState.Completed;
+                }
+                else
+                {
+                    DishesLoadingState = ELoadingState.Error;
+                }
+            }
+            else
+            {
+                DishesLoadingState = ELoadingState.NoInternet;
+            }
         }
 
         private Task OnTapExpandCommandAsync()

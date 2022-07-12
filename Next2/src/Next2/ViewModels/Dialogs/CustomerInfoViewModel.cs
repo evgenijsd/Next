@@ -17,7 +17,7 @@ namespace Next2.ViewModels.Dialogs
             DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
         }
 
-        #region -- Public Properties --
+        #region -- Public properties --
 
         public string CancelButtonText { get; set; }
 
