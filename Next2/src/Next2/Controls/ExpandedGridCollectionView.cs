@@ -68,9 +68,20 @@ namespace Next2.Controls
         {
             if (ItemsLayout is GridItemsLayout gridItemsLayout && ItemTemplate?.CreateContent() is View item)
             {
-                var visibleRowsAmount = IsExpanded
-                    ? Math.Ceiling((double)((ICollection)ItemsSource).Count / gridItemsLayout.Span)
-                    : MinimumVisibleRows;
+                double visibleRowsAmount = 0d;
+
+                if (IsExpanded)
+                {
+                    var tempVisibleRowsAmount = Math.Ceiling((double)((ICollection)ItemsSource).Count / gridItemsLayout.Span);
+
+                    visibleRowsAmount = tempVisibleRowsAmount < MaximumVisibleRows
+                        ? tempVisibleRowsAmount
+                        : MaximumVisibleRows;
+                }
+                else
+                {
+                    visibleRowsAmount = MinimumVisibleRows;
+                }
 
                 HeightRequest = MinimumHeightRequest = visibleRowsAmount * (item.HeightRequest + gridItemsLayout.VerticalItemSpacing);
             }
