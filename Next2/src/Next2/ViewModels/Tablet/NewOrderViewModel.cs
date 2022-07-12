@@ -89,14 +89,15 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Overrides --
 
-        public override void OnAppearing()
+        public override async void OnAppearing()
         {
             base.OnAppearing();
 
             _shouldOrderDishesByDESC = false;
-            Task.Run(OnRefreshCategoriesCommandAsync);
 
-            OrderRegistrationViewModel.InitializeAsync(null);
+            await OrderRegistrationViewModel.InitializeAsync(null);
+
+            await OnRefreshCategoriesCommandAsync();
         }
 
         public override void OnDisappearing()

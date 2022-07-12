@@ -8,6 +8,7 @@
     xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
@@ -132,7 +133,7 @@
             <!--StateCustomKey Doesn't work that's why I had to used Loading & Succes insted -->
             <!--StateKeys: Loading - NewOrderPage, Success - EditPage -->
 
-            <sc:StateCondition State="InProgress">
+            <sc:StateCondition State="{x:Static enums:ENewOrderViewState.InProgress}">
                 
                 <controls:DataLoadingState
                     VerticalOptions="FillAndExpand"
@@ -141,7 +142,7 @@
                 
             </sc:StateCondition>
 
-            <sc:StateCondition State="Default">
+            <sc:StateCondition State="{x:Static enums:ENewOrderViewState.Default}">
 
                 <StackLayout>
 
@@ -668,7 +669,7 @@
 
             </sc:StateCondition>
 
-            <sc:StateCondition State="Edit">
+            <sc:StateCondition State="{x:Static enums:ENewOrderViewState.Edit}">
 
                 <Grid 
                     RowDefinitions="*, auto"

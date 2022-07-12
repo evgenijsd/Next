@@ -109,7 +109,7 @@ namespace Next2.ViewModels
         public bool IsOrderSavingAndPaymentEnabled { get; set; }
 
         private ICommand _closeEditStateCommand;
-        public ICommand CloseEditStateCommand => _closeEditStateCommand ??= new Command(OnCloseEditStateCommand);
+        public ICommand CloseEditStateCommand => _closeEditStateCommand ??= new AsyncCommand(OnCloseEditStateCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _openModifyCommand;
         public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync, allowsMultipleExecutions: false);
@@ -250,7 +250,7 @@ namespace Next2.ViewModels
 
                     if (SelectedDish is null)
                     {
-                        OnCloseEditStateCommand();
+                        await OnCloseEditStateCommandAsync();
                     }
 
                     break;
@@ -385,7 +385,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private void OnCloseEditStateCommand()
+        private Task OnCloseEditStateCommandAsync()
         {
             if (SelectedDish is not null)
             {
@@ -395,10 +395,14 @@ namespace Next2.ViewModels
                 }
             }
 
-            CurrentState = ENewOrderViewState.Default;
-            //25.07.22 можна удалить, если не будет крашей
-            //Thread.Sleep(80); // It suspends the thread to hide unwanted animation
+            if (CurrentState == ENewOrderViewState.Edit)
+            {
+                CurrentState = ENewOrderViewState.Default;
+            }
+
             IsSideMenuVisible = true;
+
+            return Task.CompletedTask;
         }
 
         private Task OnSeatSelectionCommandAsync(SeatBindableModel seat)
@@ -449,8 +453,6 @@ namespace Next2.ViewModels
                 if (App.IsTablet)
                 {
                     CurrentState = ENewOrderViewState.Edit;
-                    //25.07.22 можна удалить, если не будет крашей
-                    //Thread.Sleep(100); // It suspend the thread to hide unwanted animation
                     IsSideMenuVisible = false;
                 }
                 else
@@ -499,7 +501,7 @@ namespace Next2.ViewModels
 
                     if (!_isAnyDishChosen)
                     {
-                        OnCloseEditStateCommand();
+                        await OnCloseEditStateCommandAsync();
                     }
                 }
             }
@@ -526,7 +528,7 @@ namespace Next2.ViewModels
 
                         await SelectSeatAsync(_firstSeat);
 
-                        OnCloseEditStateCommand();
+                        await OnCloseEditStateCommandAsync();
                     }
                 }
                 else if (actionOnDishes is EActionOnDishes.RedirectDishes
@@ -656,7 +658,7 @@ namespace Next2.ViewModels
 
                     if (App.IsTablet)
                     {
-                        OnCloseEditStateCommand();
+                        await OnCloseEditStateCommandAsync();
                     }
 
                     await PopupNavigation.PopAllAsync();
@@ -738,7 +740,7 @@ namespace Next2.ViewModels
 
                     CurrentOrder.Seats = new();
 
-                    OnCloseEditStateCommand();
+                    await OnCloseEditStateCommandAsync();
                 }
             }
             else
@@ -841,7 +843,7 @@ namespace Next2.ViewModels
                             {
                                 if (App.IsTablet)
                                 {
-                                    OnCloseEditStateCommand();
+                                    await OnCloseEditStateCommandAsync();
                                 }
                             }
                         }
