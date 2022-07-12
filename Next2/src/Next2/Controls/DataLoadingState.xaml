@@ -17,7 +17,7 @@
                 IsRunning="{Binding LayoutState,
                     Source={RelativeSource AncestorType={x:Type local:DataLoadingState}},
                     Converter={xct:EqualConverter},
-                    ConverterParameter={x:Static enums:EStateLoad.Loading}}"/>
+                    ConverterParameter={x:Static enums:ELoadingState.InProgress}}"/>
 
             <Label
                 Text="{xct:Translate LoadingData}"
@@ -34,7 +34,7 @@
                         Binding="{Binding LayoutState,
                             Source={RelativeSource AncestorType={x:Type local:DataLoadingState}},
                             Converter={xct:EqualConverter},
-                            ConverterParameter={x:Static enums:EStateLoad.Error}}"
+                            ConverterParameter={x:Static enums:ELoadingState.Error}}"
                         Value="True">
 
                         <Setter Property="Text" Value="{xct:Translate SomethingWentWrong}"/>
@@ -46,7 +46,7 @@
                         Binding="{Binding LayoutState,
                             Source={RelativeSource AncestorType={x:Type local:DataLoadingState}},
                             Converter={xct:EqualConverter},
-                            ConverterParameter={x:Static enums:EStateLoad.NoInternet}}"
+                            ConverterParameter={x:Static enums:ELoadingState.NoInternet}}"
                         Value="True">
 
                         <Setter Property="Text" Value="{xct:Translate NoInternetConnection}"/>

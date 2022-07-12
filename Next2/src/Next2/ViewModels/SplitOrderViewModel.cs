@@ -36,7 +36,7 @@ namespace Next2.ViewModels
             _popupNavigation = popupNavigation;
         }
 
-        #region -- Public Properties --
+        #region -- Public properties --
 
         public OrderModelDTO Order { get; set; }
 

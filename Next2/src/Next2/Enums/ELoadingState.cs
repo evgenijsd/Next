@@ -1,9 +1,9 @@
 ﻿namespace Next2.Enums
 {
-    public enum EStateLoad
+    public enum ELoadingState
     {
-        Loading,
-        Loaded,
+        InProgress,
+        Completed,
         Error,
         NoInternet,
     }

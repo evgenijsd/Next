@@ -397,6 +397,7 @@ namespace Next2.ViewModels
             }
 
             CurrentState = LayoutState.Error;
+            //25.07.22 можна удалить, если не будет крашей
             //Thread.Sleep(80); // It suspends the thread to hide unwanted animation
             IsSideMenuVisible = true;
         }
@@ -449,6 +450,7 @@ namespace Next2.ViewModels
                 if (App.IsTablet)
                 {
                     CurrentState = LayoutState.Success;
+                    //25.07.22 можна удалить, если не будет крашей
                     //Thread.Sleep(100); // It suspend the thread to hide unwanted animation
                     IsSideMenuVisible = false;
                 }

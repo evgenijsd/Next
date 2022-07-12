@@ -34,7 +34,7 @@ namespace Next2.Controls
             SelectedYear = Years.FirstOrDefault(x => x.YearValue == DateTime.Now.Year - 1);
         }
 
-        #region -- Public Properties --
+        #region -- Public properties --
 
         public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create(
             propertyName: nameof(SelectedDate),

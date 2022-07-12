@@ -467,7 +467,7 @@
                         State="{Binding DishesLoadingState}"
                         VerticalOptions="FillAndExpand">
 
-                        <sc:StateCondition NotState="Loaded">
+                        <sc:StateCondition NotState="Completed">
 
                             <controls:DataLoadingState
                                 VerticalOptions="FillAndExpand"
@@ -476,7 +476,7 @@
 
                         </sc:StateCondition>
 
-                        <sc:StateCondition State="Loaded">
+                        <sc:StateCondition State="Completed">
 
                             <CollectionView
                                 ItemsSource="{Binding Dishes}"

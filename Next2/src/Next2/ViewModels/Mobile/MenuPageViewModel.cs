@@ -44,7 +44,7 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Public properties --
 
-        public EStateLoad CategoriesLoadingState { get; set; } = EStateLoad.Loading;
+        public ELoadingState CategoriesLoadingState { get; set; } = ELoadingState.InProgress;
 
         public bool CanShowOrder { get; set; }
 
@@ -150,7 +150,7 @@ namespace Next2.ViewModels.Mobile
 
         private async Task OnRefreshCategoriesCommandAsync()
         {
-            CategoriesLoadingState = EStateLoad.Loading;
+            CategoriesLoadingState = ELoadingState.InProgress;
 
             if (IsInternetConnected)
             {
@@ -159,16 +159,16 @@ namespace Next2.ViewModels.Mobile
                 if (resultCategories.IsSuccess)
                 {
                     Categories = new(resultCategories.Result);
-                    CategoriesLoadingState = EStateLoad.Loaded;
+                    CategoriesLoadingState = ELoadingState.Completed;
                 }
                 else
                 {
-                    CategoriesLoadingState = EStateLoad.Error;
+                    CategoriesLoadingState = ELoadingState.Error;
                 }
             }
             else
             {
-                CategoriesLoadingState = EStateLoad.NoInternet;
+                CategoriesLoadingState = ELoadingState.NoInternet;
             }
         }
 

@@ -19,6 +19,7 @@ using System.Timers;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.CommunityToolkit.UI.Views;
 
 namespace Next2.ViewModels.Tablet
 {
@@ -49,9 +50,9 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Public properties --
 
-        public EStateLoad DishesLoadingState { get; set; } = EStateLoad.Loading;
+        public ELoadingState DishesLoadingState { get; set; } = ELoadingState.InProgress;
 
-        public EStateLoad CategoriesLoadingState { get; set; } = EStateLoad.Loading;
+        public ELoadingState CategoriesLoadingState { get; set; } = ELoadingState.InProgress;
 
         public DateTime CurrentDateTime { get; set; } = DateTime.Now;
 
@@ -103,7 +104,7 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnDisappearing();
 
-            OrderRegistrationViewModel.CurrentState = Xamarin.CommunityToolkit.UI.Views.LayoutState.Error;
+            OrderRegistrationViewModel.CurrentState = LayoutState.Error;
 
             SelectedSubcategoriesItem = null;
             SelectedCategoriesItem = null;
@@ -197,9 +198,9 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnRefreshCategoriesCommandAsync()
         {
-            OrderRegistrationViewModel.CurrentState = Xamarin.CommunityToolkit.UI.Views.LayoutState.Error;
+            OrderRegistrationViewModel.CurrentState = LayoutState.Error;
 
-            CategoriesLoadingState = EStateLoad.Loading;
+            CategoriesLoadingState = ELoadingState.InProgress;
 
             if (IsInternetConnected)
             {
@@ -210,17 +211,17 @@ namespace Next2.ViewModels.Tablet
                     Categories = new(resultGettingCategories.Result);
                     SelectedCategoriesItem = Categories.FirstOrDefault();
 
-                    CategoriesLoadingState = EStateLoad.Loaded;
-                    OrderRegistrationViewModel.CurrentState = Xamarin.CommunityToolkit.UI.Views.LayoutState.Loading;
+                    CategoriesLoadingState = ELoadingState.Completed;
+                    OrderRegistrationViewModel.CurrentState = LayoutState.Loading;
                 }
                 else
                 {
-                    CategoriesLoadingState = EStateLoad.Error;
+                    CategoriesLoadingState = ELoadingState.Error;
                 }
             }
             else
             {
-                CategoriesLoadingState = EStateLoad.NoInternet;
+                CategoriesLoadingState = ELoadingState.NoInternet;
             }
         }
 
@@ -244,7 +245,7 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnRefreshDishesCommandAsync()
         {
-            DishesLoadingState = EStateLoad.Loading;
+            DishesLoadingState = ELoadingState.InProgress;
 
             if (IsInternetConnected && SelectedCategoriesItem is not null && SelectedSubcategoriesItem is not null)
             {
@@ -256,16 +257,16 @@ namespace Next2.ViewModels.Tablet
                         ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
                         : new(resultGettingDishes.Result.OrderBy(row => row.Name));
 
-                    DishesLoadingState = EStateLoad.Loaded;
+                    DishesLoadingState = ELoadingState.Completed;
                 }
                 else
                 {
-                    DishesLoadingState = EStateLoad.Error;
+                    DishesLoadingState = ELoadingState.Error;
                 }
             }
             else
             {
-                DishesLoadingState = EStateLoad.NoInternet;
+                DishesLoadingState = ELoadingState.NoInternet;
             }
         }
 

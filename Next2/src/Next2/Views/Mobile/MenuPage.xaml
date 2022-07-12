@@ -106,7 +106,7 @@
                 State="{Binding CategoriesLoadingState}"
                 VerticalOptions="FillAndExpand">
 
-                <sc:StateCondition NotState="Loaded">
+                <sc:StateCondition NotState="Completed">
 
                     <controls:DataLoadingState
                         LayoutState="{Binding CategoriesLoadingState}"
@@ -114,7 +114,7 @@
 
                 </sc:StateCondition>
 
-                <sc:StateCondition State="Loaded">
+                <sc:StateCondition State="Completed">
 
                     <CollectionView
                         Margin="0, 0, 20, 0"

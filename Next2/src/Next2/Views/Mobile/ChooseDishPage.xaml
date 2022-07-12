@@ -80,7 +80,7 @@
             State="{Binding DishesLoadingState}"
             VerticalOptions="FillAndExpand">
 
-            <sc:StateCondition NotState="Loaded">
+            <sc:StateCondition NotState="Completed">
 
                 <controls:DataLoadingState
                     LayoutState="{Binding DishesLoadingState}"
@@ -90,10 +90,10 @@
 
             </sc:StateCondition>
 
-            <sc:StateCondition State="Loaded">
+            <sc:StateCondition State="Completed">
 
                 <CollectionView
-                    IsVisible="{Binding DishesLoadingState, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:EStateLoad.Loaded}}"
+                    IsVisible="{Binding DishesLoadingState, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:ELoadingState.Completed}}"
                     Margin="15, 10, 15, 0"
                     VerticalOptions="Fill"
                     VerticalScrollBarVisibility="Never"

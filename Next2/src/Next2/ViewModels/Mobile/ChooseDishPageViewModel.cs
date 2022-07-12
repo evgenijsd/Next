@@ -38,7 +38,7 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Public properties --
 
-        public EStateLoad DishesLoadingState { get; set; } = EStateLoad.Loading;
+        public ELoadingState DishesLoadingState { get; set; } = ELoadingState.InProgress;
 
         public CategoryModel SelectedCategoriesItem { get; set; }
 
@@ -55,7 +55,7 @@ namespace Next2.ViewModels.Mobile
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _refreshDishesCommand;
-        public ICommand RefreshDishesCommand => _refreshDishesCommand ??= new AsyncCommand(OnLoadDishesCommandAsync, allowsMultipleExecutions: false);
+        public ICommand RefreshDishesCommand => _refreshDishesCommand ??= new AsyncCommand(OnRefreshDishesCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -79,7 +79,7 @@ namespace Next2.ViewModels.Mobile
                     Task.Run(LoadSubcategoriesAsync);
                     break;
                 case nameof(SelectedSubcategoriesItem):
-                    Task.Run(OnLoadDishesCommandAsync);
+                    Task.Run(OnRefreshDishesCommandAsync);
                     break;
             }
         }
@@ -137,9 +137,9 @@ namespace Next2.ViewModels.Mobile
             }
         }
 
-        private async Task OnLoadDishesCommandAsync()
+        private async Task OnRefreshDishesCommandAsync()
         {
-            DishesLoadingState = EStateLoad.Loading;
+            DishesLoadingState = ELoadingState.InProgress;
 
             if (IsInternetConnected)
             {
@@ -151,16 +151,16 @@ namespace Next2.ViewModels.Mobile
                         ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
                         : new(resultGettingDishes.Result.OrderBy(row => row.Name));
 
-                    DishesLoadingState = EStateLoad.Loaded;
+                    DishesLoadingState = ELoadingState.Completed;
                 }
                 else
                 {
-                    DishesLoadingState = EStateLoad.Error;
+                    DishesLoadingState = ELoadingState.Error;
                 }
             }
             else
             {
-                DishesLoadingState = EStateLoad.NoInternet;
+                DishesLoadingState = ELoadingState.NoInternet;
             }
         }
 
