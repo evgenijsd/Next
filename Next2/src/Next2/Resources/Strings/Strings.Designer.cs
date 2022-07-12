@@ -935,6 +935,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The order has been successfully updated..
+        /// </summary>
+        internal static string OrderUpdated {
+            get {
+                return ResourceManager.GetString("OrderUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This order will be removed..
         /// </summary>
         internal static string OrderWillBeRemoved {
@@ -1318,6 +1327,15 @@ namespace Next2.Resources.Strings {
         internal static string SplitOrder {
             get {
                 return ResourceManager.GetString("SplitOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to splitted.
+        /// </summary>
+        internal static string splitted {
+            get {
+                return ResourceManager.GetString("splitted", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
-﻿using Next2.Enums;
+﻿using Acr.UserDialogs;
+using Next2.Enums;
 using Next2.Extensions;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
@@ -14,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels
@@ -44,6 +46,8 @@ namespace Next2.ViewModels
 
         public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
+        public IEnumerable<SeatModelDTO> OldSeats { get; set; }
+
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
@@ -68,6 +72,8 @@ namespace Next2.ViewModels
                     {
                         Order = resultOfGettingOrder.Result;
 
+                        OldSeats = Order.Seats;
+
                         var seats = Order.Seats.ToSeatsBindableModels();
 
                         Seats = new(seats);
@@ -84,6 +90,18 @@ namespace Next2.ViewModels
                         OnGoBackCommandAsync();
                     }
                 }
+                else if (OldSeats is not null)
+                {
+                    var seats = OldSeats.ToSeatsBindableModels();
+                    Seats = new(seats);
+
+                    foreach (var seat in Seats)
+                    {
+                        seat.DishSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand);
+                    }
+
+                    SelectFirstDish();
+                }
             }
         }
 
@@ -95,18 +113,21 @@ namespace Next2.ViewModels
         {
             if (Seats.Count > 1)
             {
-                var param = new DialogParameters
+                if (condition == ESplitOrderConditions.BySeats || !SelectedDish.HasSplittedPrice)
                 {
-                    { Constants.DialogParameterKeys.CONDITION, condition },
-                    { Constants.DialogParameterKeys.SEATS, Seats },
-                    { Constants.DialogParameterKeys.DISH, SelectedDish },
-                };
+                    var param = new DialogParameters
+                    {
+                        { Constants.DialogParameterKeys.CONDITION, condition },
+                        { Constants.DialogParameterKeys.SEATS, Seats },
+                        { Constants.DialogParameterKeys.DISH, SelectedDish },
+                    };
 
-                PopupPage popupPage = App.IsTablet
-                    ? new Views.Tablet.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack)
-                    : new Views.Mobile.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack);
+                    PopupPage popupPage = App.IsTablet
+                        ? new Views.Tablet.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack)
+                        : new Views.Mobile.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack);
 
-                await _popupNavigation.PushAsync(popupPage);
+                    await _popupNavigation.PushAsync(popupPage);
+                }
             }
         }
 
@@ -117,33 +138,54 @@ namespace Next2.ViewModels
                 await SplitSelectedDish(seats);
                 await RemoveNullPriceDishes();
                 await RefreshDisplay();
-                await UpdateOrderAsync();
+                await _popupNavigation.PopAsync();
 
                 SelectFirstDish();
+
+                await UpdateOrderAsync();
             }
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.SPLIT_GROUPS, out List<int[]> groupList))
             {
                 await SplitOrderBySeats(groupList);
                 await OnGoBackCommandAsync();
-            }
-
-            if (_popupNavigation.PopupStack.Count > 0)
-            {
                 await _popupNavigation.PopAsync();
             }
         }
 
         private async Task UpdateOrderAsync()
         {
-            var seats = Seats.ToSeatsModelsDTO();
             Order.Seats = Seats.ToSeatsModelsDTO();
             var updateOrderCommand = Order.ToUpdateOrderCommand();
 
             var res = await _orderService.UpdateOrderAsync(updateOrderCommand);
+
             if (res.IsSuccess)
             {
+                var toastConfig = new ToastConfig(LocalizationResourceManager.Current["OrderUpdated"])
+                {
+                    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                    Position = ToastPosition.Bottom,
+                };
+
+                UserDialogs.Instance.Toast(toastConfig);
             }
+            else
+            {
+                await ShowInfoDialogAsync(string.Empty, LocalizationResourceManager.Current["SomethingWentWrong"], LocalizationResourceManager.Current["Ok"]);
+                await _popupNavigation.PopAllAsync();
+                ReloadOrderAsync();
+            }
+        }
+
+        private void ReloadOrderAsync()
+        {
+            var param = new NavigationParameters
+                {
+                    { Constants.Navigations.ORDER_ID, Order.Id },
+                };
+
+            OnNavigatedTo(param);
         }
 
         private async Task SplitOrderBySeats(IList<int[]> groupList)
@@ -195,6 +237,8 @@ namespace Next2.ViewModels
 
                         if (!updateResult.IsSuccess)
                         {
+                            await ShowInfoDialogAsync(string.Empty, LocalizationResourceManager.Current["SomethingWentWrong"], LocalizationResourceManager.Current["Ok"]);
+                            ReloadOrderAsync();
                             break;
                         }
                     }
@@ -290,6 +334,7 @@ namespace Next2.ViewModels
                     if (SelectedDish.Clone() is DishBindableModel dish)
                     {
                         dish.TotalPrice = incomingSeat.SelectedItem.TotalPrice;
+                        dish.HasSplittedPrice = true;
                         seat.SelectedDishes.Add(dish);
                     }
                 }
