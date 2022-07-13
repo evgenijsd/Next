@@ -247,8 +247,8 @@
                     </StackLayout>
 
                     <controls:ExpandedGridCollectionView
-                        MinimumVisibleRows="2"
-                        MaximumVisibleRows="5"
+                        MinimumVisibleRowsNumber="2"
+                        MaximumVisibleRowsNumber="5"
                         Margin="18, 10"
                         VerticalOptions="Start"
                         SelectionMode="Single"

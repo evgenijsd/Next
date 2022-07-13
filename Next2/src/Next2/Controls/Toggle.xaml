@@ -3,9 +3,9 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Next2.Controls"
+    RowDefinitions="auto"
     HeightRequest="24"
     WidthRequest="42"
-    RowDefinitions="auto"
     x:Class="Next2.Controls.Toggle">
 
     <Grid.GestureRecognizers>
@@ -25,13 +25,13 @@
     <Frame
         Grid.Row="0"
         Margin="0, 2"
+        HorizontalOptions="Start"
+        VerticalOptions="Center"
+        CornerRadius="12"
         HeightRequest="{Binding ThumbSize, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
         WidthRequest="{Binding ThumbSize, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
         BackgroundColor="{Binding ThumbColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
         BorderColor="{Binding ThumbColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
-        HorizontalOptions="Start"
-        VerticalOptions="Center"
-        CornerRadius="12"
         x:Name="thumbFrame"/>
 
 </Grid>
