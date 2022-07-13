@@ -1,4 +1,5 @@
-﻿using Next2.Enums;
+﻿using Acr.UserDialogs;
+using Next2.Enums;
 using Next2.Extensions;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
@@ -14,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels
@@ -44,6 +46,8 @@ namespace Next2.ViewModels
 
         public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
+        public IEnumerable<SeatModelDTO> OldSeats { get; set; }
+
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
@@ -60,6 +64,19 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out Guid orderId))
             {
+                if (OldSeats is not null)
+                {
+                    var seats = OldSeats.ToSeatsBindableModels();
+                    Seats = new(seats);
+
+                    foreach (var seat in Seats)
+                    {
+                        seat.DishSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand);
+                    }
+
+                    SelectFirstDish();
+                }
+
                 var resultOfGettingOrder = await _orderService.GetOrderByIdAsync(orderId);
 
                 if (resultOfGettingOrder.IsSuccess)
@@ -67,6 +84,8 @@ namespace Next2.ViewModels
                     if (resultOfGettingOrder.Result?.Seats?.Count() > 0)
                     {
                         Order = resultOfGettingOrder.Result;
+
+                        OldSeats = Order.Seats;
 
                         var seats = Order.Seats.ToSeatsBindableModels();
 
@@ -95,18 +114,21 @@ namespace Next2.ViewModels
         {
             if (Seats.Count > 1)
             {
-                var param = new DialogParameters
+                if (condition == ESplitOrderConditions.BySeats || !SelectedDish.HasSplittedPrice)
                 {
-                    { Constants.DialogParameterKeys.CONDITION, condition },
-                    { Constants.DialogParameterKeys.SEATS, Seats },
-                    { Constants.DialogParameterKeys.DISH, SelectedDish },
-                };
+                    var param = new DialogParameters
+                    {
+                        { Constants.DialogParameterKeys.CONDITION, condition },
+                        { Constants.DialogParameterKeys.SEATS, Seats },
+                        { Constants.DialogParameterKeys.DISH, SelectedDish },
+                    };
 
-                PopupPage popupPage = App.IsTablet
-                    ? new Views.Tablet.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack)
-                    : new Views.Mobile.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack);
+                    PopupPage popupPage = App.IsTablet
+                        ? new Views.Tablet.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack)
+                        : new Views.Mobile.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack);
 
-                await _popupNavigation.PushAsync(popupPage);
+                    await _popupNavigation.PushAsync(popupPage);
+                }
             }
         }
 
@@ -117,24 +139,79 @@ namespace Next2.ViewModels
                 await SplitSelectedDish(seats);
                 await RemoveNullPriceDishes();
                 await RefreshDisplay();
+                await _popupNavigation.PopAsync();
 
                 SelectFirstDish();
-            }
 
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.SPLIT_GROUPS, out List<int[]> groupList))
+                await UpdateOrderAsync();
+            }
+            else if (parameters.TryGetValue(Constants.DialogParameterKeys.SPLIT_GROUPS, out List<int[]> groupList))
             {
                 await SplitOrderBySeats(groupList);
-                await OnGoBackCommandAsync();
             }
+            else
+            {
+                if (_popupNavigation.PopupStack.Count > 0)
+                {
+                    await _popupNavigation.PopAllAsync();
+                }
+            }
+        }
+
+        private async Task UpdateOrderAsync()
+        {
+            Order.Seats = Seats.ToSeatsModelsDTO();
+            var updateOrderCommand = Order.ToUpdateOrderCommand();
+
+            var res = await _orderService.UpdateOrderAsync(updateOrderCommand);
+
+            if (res.IsSuccess)
+            {
+                OldSeats = Order.Seats;
+
+                var toastConfig = new ToastConfig(LocalizationResourceManager.Current["OrderUpdated"])
+                {
+                    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                    Position = ToastPosition.Bottom,
+                };
+
+                UserDialogs.Instance.Toast(toastConfig);
+            }
+            else
+            {
+                await EmergencyReloadOrderAsync();
+            }
+        }
+
+        private async Task EmergencyReloadOrderAsync()
+        {
+            if (_popupNavigation.PopupStack.Count > 0)
+            {
+                await _popupNavigation.PopAllAsync();
+            }
+
+            await ShowInfoDialogAsync(
+                LocalizationResourceManager.Current["Error"],
+                LocalizationResourceManager.Current["NoInternetConnection"],
+                LocalizationResourceManager.Current["Ok"]);
+
+            var param = new NavigationParameters
+                {
+                    { Constants.Navigations.ORDER_ID, Order.Id },
+                };
+
+            OnNavigatedTo(param);
+        }
+
+        private async Task SplitOrderBySeats(IList<int[]> groupList)
+        {
+            int goodUpdateCounter = 0;
 
             if (_popupNavigation.PopupStack.Count > 0)
             {
                 await _popupNavigation.PopAsync();
             }
-        }
 
-        private async Task SplitOrderBySeats(IList<int[]> groupList)
-        {
             foreach (var group in groupList)
             {
                 var seats = Seats.Where(s => group.Any(x => x == s.SeatNumber));
@@ -148,7 +225,13 @@ namespace Next2.ViewModels
 
                     var updateResult = await _orderService.UpdateOrderAsync(Order.ToUpdateOrderCommand());
 
-                    if (!updateResult.IsSuccess)
+                    if (updateResult.IsSuccess)
+                    {
+                        OldSeats = Order.Seats;
+                        Seats = new(Order.Seats.ToSeatsBindableModels());
+                        goodUpdateCounter++;
+                    }
+                    else
                     {
                         break;
                     }
@@ -180,7 +263,11 @@ namespace Next2.ViewModels
 
                         var updateResult = await _orderService.UpdateOrderAsync(order.ToUpdateOrderCommand());
 
-                        if (!updateResult.IsSuccess)
+                        if (updateResult.IsSuccess)
+                        {
+                            goodUpdateCounter++;
+                        }
+                        else
                         {
                             break;
                         }
@@ -188,7 +275,20 @@ namespace Next2.ViewModels
                 }
             }
 
-            await OnGoBackCommandAsync();
+            if (goodUpdateCounter == groupList.Count)
+            {
+                var toastConfig = new ToastConfig(LocalizationResourceManager.Current["OrderSplitted"])
+                {
+                    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                    Position = ToastPosition.Bottom,
+                };
+
+                UserDialogs.Instance.Toast(toastConfig);
+            }
+            else
+            {
+                await EmergencyReloadOrderAsync();
+            }
         }
 
         private void CalculateOrderPrices(OrderModelDTO order)
@@ -255,6 +355,7 @@ namespace Next2.ViewModels
             if (App.IsTablet)
             {
                 var firstSeat = Seats.FirstOrDefault(x => x.SelectedDishes.Count > 0);
+                _selectedSeatNumber = firstSeat.SeatNumber;
                 firstSeat.SelectedItem = firstSeat.SelectedDishes.FirstOrDefault();
                 SelectedDish = firstSeat.SelectedItem;
                 firstSeat.Checked = true;
@@ -263,6 +364,7 @@ namespace Next2.ViewModels
             else
             {
                 Seats.First().IsFirstSeat = true;
+                _selectedSeatNumber = Seats.First().SeatNumber;
             }
         }
 
@@ -277,10 +379,13 @@ namespace Next2.ViewModels
                     if (SelectedDish.Clone() is DishBindableModel dish)
                     {
                         dish.TotalPrice = incomingSeat.SelectedItem.TotalPrice;
+                        dish.HasSplittedPrice = true;
                         seat.SelectedDishes.Add(dish);
                     }
                 }
             }
+
+            SelectedDish.HasSplittedPrice = true;
 
             return Task.CompletedTask;
         }

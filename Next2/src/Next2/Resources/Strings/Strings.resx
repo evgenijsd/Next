@@ -648,6 +648,15 @@ A receipt has been printed for you.</value>
   <data name="RequestTimedOut" xml:space="preserve">
     <value>Request timed out</value>
   </data>
+  <data name="OrderSplitted" xml:space="preserve">
+    <value>The order has been successfully splitted</value>
+  </data>
+  <data name="OrderUpdated" xml:space="preserve">
+    <value>The order has been successfully updated.</value>
+  </data>
+  <data name="splitted" xml:space="preserve">
+    <value>splitted</value>
+  </data>
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>
   </data>
