@@ -201,15 +201,15 @@ namespace Next2.ViewModels
                     if (SelectedTable is not null && SelectedTable.TableNumber != CurrentOrder.Table?.Number)
                     {
                         _orderService.CurrentOrder.Table = _mapper.Map<SimpleTableModelDTO>(SelectedTable);
-                        await _orderService.UpdateCurrentOrderAsync();
                         await UpdateDishGroups();
+                        await _orderService.UpdateCurrentOrderAsync();
                     }
 
                     break;
                 case nameof(SelectedOrderType):
                     _orderService.CurrentOrder.OrderType = SelectedOrderType.OrderType;
-                    await _orderService.UpdateCurrentOrderAsync();
                     await UpdateDishGroups();
+                    await _orderService.UpdateCurrentOrderAsync();
                     break;
                 case nameof(NumberOfSeats):
                     if (NumberOfSeats <= SelectedTable.SeatNumbers && CurrentOrder.Seats.Count != NumberOfSeats)
@@ -218,8 +218,8 @@ namespace Next2.ViewModels
 
                         await _orderService.AddSeatInCurrentOrderAsync();
                         AddSeatsAdditional();
-                        await _orderService.UpdateCurrentOrderAsync();
                         await UpdateDishGroups();
+                        await _orderService.UpdateCurrentOrderAsync();
                     }
 
                     break;
@@ -244,8 +244,8 @@ namespace Next2.ViewModels
                         }
 
                         CurrentOrder.PriceTax = 0;
-                        await _orderService.UpdateCurrentOrderAsync();
                         await UpdateDishGroups();
+                        await _orderService.UpdateCurrentOrderAsync();
                     }
 
                     break;
@@ -261,7 +261,7 @@ namespace Next2.ViewModels
 
         #region -- Public helpers --
 
-        public Task UpdateOrderWithBonusAsync(FullOrderBindableModel currentOrder)
+        public async Task UpdateOrderWithBonusAsync(FullOrderBindableModel currentOrder)
         {
             CurrentOrder = currentOrder;
             _orderService.CurrentOrder = CurrentOrder;
@@ -273,7 +273,8 @@ namespace Next2.ViewModels
             _orderService.CurrentSeat = _orderService.CurrentOrder.Seats?.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
             SeatWithSelectedDish = currentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
-            return _orderService.UpdateCurrentOrderAsync();
+            await RefreshCurrentOrderAsync();
+            await _orderService.UpdateCurrentOrderAsync();
         }
 
         public async Task RemoveTax()
@@ -456,7 +457,7 @@ namespace Next2.ViewModels
 
             IsSideMenuVisible = true;
 
-            return Task.CompletedTask;
+            return UpdateDishGroups();
         }
 
         private Task OnSeatSelectionCommandAsync(SeatGroupBindableModel? seatGroup)
@@ -640,6 +641,7 @@ namespace Next2.ViewModels
                 await _navigationService.GoBackAsync();
             }
 
+            await UpdateDishGroups();
             await _orderService.UpdateCurrentOrderAsync();
         }
 
@@ -748,8 +750,8 @@ namespace Next2.ViewModels
                 await _navigationService.GoBackAsync();
             }
 
-            await _orderService.UpdateCurrentOrderAsync();
             await UpdateDishGroups();
+            await _orderService.UpdateCurrentOrderAsync();
         }
 
         private async Task RemoveOrderAsync()
@@ -897,8 +899,6 @@ namespace Next2.ViewModels
 
                         await RefreshCurrentOrderAsync();
 
-                        await _orderService.UpdateCurrentOrderAsync();
-
                         if (CurrentState == ENewOrderViewState.Edit)
                         {
                             if (_seatWithSelectedDish.SelectedDishes.Any())
@@ -913,6 +913,7 @@ namespace Next2.ViewModels
                                 }
 
                                 _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.SelectedDishes.FirstOrDefault();
+                                await UpdateDishGroups();
                             }
                             else
                             {
@@ -922,6 +923,8 @@ namespace Next2.ViewModels
                                 }
                             }
                         }
+
+                        await _orderService.UpdateCurrentOrderAsync();
                     }
 
                     if (!App.IsTablet)
