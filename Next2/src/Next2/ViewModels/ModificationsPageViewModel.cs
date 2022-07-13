@@ -463,7 +463,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            IngredientCategories = new(_allIngredientCategories);
+            IngredientCategories = new (_allIngredientCategories);
 
             SelectedIngredientCategory = IngredientCategories.FirstOrDefault();
 

@@ -327,7 +327,7 @@
                         Margin="32, 4, 32, 10"
                         VerticalOptions="Start"
                         SelectionMode="Single"
-                        MaximumVisibleRowsNumber="4"
+                        MaximumNumberVisibleRows="4"
                         ItemsSource="{Binding IngredientCategories}"
                         SelectedItem="{Binding SelectedIngredientCategory}"
                         IsExpanded="{Binding IsExpandedIngredientCategories}">

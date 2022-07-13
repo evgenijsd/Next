@@ -166,13 +166,13 @@ namespace Next2.Controls.Templates
         }
 
         public static readonly BindableProperty SubtitleFontFamilyProperty = BindableProperty.Create(
-            propertyName: nameof(ToggleItemTemplate),
+            propertyName: nameof(SubtitleFontFamily),
             returnType: typeof(string),
-            declaringType: typeof(SubCategoryItemTemplate),
+            declaringType: typeof(ToggleItemTemplate),
             defaultValue: "Barlow-SemiBold",
             defaultBindingMode: BindingMode.TwoWay);
 
-        public string SubitleFontFamily
+        public string SubtitleFontFamily
         {
             get => (string)GetValue(SubtitleFontFamilyProperty);
             set => SetValue(SubtitleFontFamilyProperty, value);
