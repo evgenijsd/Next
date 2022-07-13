@@ -336,7 +336,7 @@ namespace Next2.ViewModels
         private void UpdateDishGroups()
         {
             SelectedDishesForSeats = new();
-            SelectedDish = null;
+            var selectedDish = SelectedDish = null;
 
             foreach (var seat in _orderService.CurrentOrder.Seats)
             {
@@ -349,36 +349,32 @@ namespace Next2.ViewModels
                     ? seat.SelectedDishes.IndexOf(seat.SelectedItem ?? new())
                     : -1;
 
-                SelectedDishesForSeats.Add(new(seat.SeatNumber, selectedDishes));
-                var seatGroup = SelectedDishesForSeats.Last();
-                var check = seat.Checked;
-                seatGroup.Checked = check;
-                seatGroup.IsFirstSeat = seat.IsFirstSeat;
-
-                if (check)
-                {
-                    SelectedDish = seatGroup.FirstOrDefault();
-                }
-
-                foreach (var dish in seatGroup)
+                foreach (var dish in selectedDishes)
                 {
                     dish.Index = index;
-                    dish.SeatNumber = seatGroup.SeatNumber;
+                    dish.SeatNumber = seat.SeatNumber;
                     dish.DishSelectionCommand = _selectDishCommand;
 
-                    if (check && index == indexSelected)
+                    if (index == indexSelected || (seat.Checked && index == 0))
                     {
-                        SelectedDish = dish;
+                        selectedDish = dish;
                     }
 
                     index++;
                 }
 
-                if (check && seat.SelectedItem is null)
+                SelectedDishesForSeats.Add(new(seat.SeatNumber, selectedDishes));
+                var seatGroup = SelectedDishesForSeats.Last();
+                seatGroup.Checked = seat.Checked;
+                seatGroup.IsFirstSeat = seat.IsFirstSeat;
+                SelectedDish = selectedDish;
+
+                if (seat.Checked && seat.SelectedItem is null)
                 {
-                    SelectedDish = null;
+                    selectedDish = null;
                 }
 
+                SelectedDish = selectedDish;
                 seatGroup.SeatSelectionCommand = _seatSelectionCommand;
                 seatGroup.SeatDeleteCommand = _deleteSeatCommand;
                 seatGroup.RemoveOrderCommand = _removeOrderCommand;
@@ -445,8 +441,10 @@ namespace Next2.ViewModels
 
         private void OnGoBackCommand()
         {
-            if (SelectedDish is not null && SelectedDish.Id != Guid.Empty)
+            if (SelectedDish is not null)
             {
+                SelectedDish = null;
+
                 foreach (var item in CurrentOrder.Seats)
                 {
                     item.SelectedItem = null;
@@ -792,7 +790,7 @@ namespace Next2.ViewModels
 
             if (isUserAdmin)
             {
-                RemoveTax();
+                await RemoveTax();
             }
             else
             {
