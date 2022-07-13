@@ -320,7 +320,17 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnTapExpandCommandAsync()
         {
-            return _navigationService.NavigateAsync(nameof(ExpandPage));
+            if (IsInternetConnected)
+            {
+                return _navigationService.NavigateAsync(nameof(ExpandPage));
+            }
+            else
+            {
+                return ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
         }
 
         private Task OnOpenEmployeeWorkingHoursCommandAsync()
