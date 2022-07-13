@@ -6,13 +6,15 @@ using Xamarin.Forms;
 
 namespace Next2.Controls
 {
-    public partial class Toggle : StackLayout
+    public partial class Toggle : Grid
     {
         private double _valueX;
 
         public Toggle()
         {
             InitializeComponent();
+
+            thumbFrame.TranslationX = ThumbOffset;
         }
 
         #region -- Public properties --
@@ -52,6 +54,30 @@ namespace Next2.Controls
             set => SetValue(ThumbColorProperty, value);
         }
 
+        public static readonly BindableProperty ThumbSizeProperty = BindableProperty.Create(
+            propertyName: nameof(ThumbSize),
+            returnType: typeof(double),
+            declaringType: typeof(Toggle),
+            defaultValue: 21d);
+
+        public double ThumbSize
+        {
+            get => (double)GetValue(ThumbSizeProperty);
+            set => SetValue(ThumbSizeProperty, value);
+        }
+
+        public static readonly BindableProperty ThumbOffsetProperty = BindableProperty.Create(
+            propertyName: nameof(ThumbOffset),
+            returnType: typeof(double),
+            declaringType: typeof(Toggle),
+            defaultValue: 2d);
+
+        public double ThumbOffset
+        {
+            get => (double)GetValue(ThumbOffsetProperty);
+            set => SetValue(ThumbOffsetProperty, value);
+        }
+
         public static readonly BindableProperty OnColorProperty = BindableProperty.Create(
             propertyName: nameof(OnColor),
             returnType: typeof(Color),
@@ -62,9 +88,6 @@ namespace Next2.Controls
             get => (Color)GetValue(OnColorProperty);
             set => SetValue(OnColorProperty, value);
         }
-
-        private ICommand _tapCommand;
-        public ICommand TapCommand => _tapCommand ??= new AsyncCommand(OnTapCommandAsync, allowsMultipleExecutions: false);
 
         public static readonly BindableProperty ChangingToggleCommandProperty = BindableProperty.Create(
             propertyName: nameof(ChangingToggleCommand),
@@ -88,6 +111,9 @@ namespace Next2.Controls
             set => SetValue(ChangingToggleCommandParameterProperty, value);
         }
 
+        private ICommand _tapCommand;
+        public ICommand TapCommand => _tapCommand ??= new AsyncCommand(OnTapCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -109,10 +135,10 @@ namespace Next2.Controls
         private async Task StartAnimationAsync()
         {
             var x = IsToggled
-                ? runningFrame.X + 17
-                : runningFrame.X;
+                ? thumbFrame.X + trackFrame.WidthRequest - thumbFrame.WidthRequest - ThumbOffset
+                : thumbFrame.X + ThumbOffset;
 
-            await runningFrame.TranslateTo(x, 0, 100, Easing.CubicInOut);
+            await thumbFrame.TranslateTo(x, 0, 100, Easing.CubicInOut);
         }
 
         private Task OnTapCommandAsync()
