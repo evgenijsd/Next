@@ -8,8 +8,6 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects" 
     xmlns:models="clr-namespace:Next2.Models"
-    MinimumHeightRequest="58"
-    VerticalOptions="Start"
     Spacing="15"
     Orientation="Horizontal"
     x:Class="Next2.Controls.StepperCarousel"
@@ -22,24 +20,6 @@
         CornerRadius="5"
         xct:TouchEffect.Command="{Binding ScrollRightCommand, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}">
 
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup Name="AdaptiveStepperCarousel">
-
-                <VisualState Name="minHeight">
-
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="601" />
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Property="HeightRequest" Value="116" />
-                    </VisualState.Setters>
-
-                </VisualState>
-
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-
         <ffimageloading:CachedImage 
             HeightRequest="20"
             WidthRequest="20"
@@ -49,7 +29,6 @@
 
     <CollectionView
         HorizontalOptions="StartAndExpand"
-        HeightRequest="150"
         VerticalScrollBarVisibility="Never"
         HorizontalScrollBarVisibility="Never"
         SelectionMode="Single"
@@ -57,35 +36,6 @@
         SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=SelectedItem}"
         Scrolled="collectionView_Scrolled"
         x:Name="collectionView">
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup Name="AdaptiveStepperCarousel">
-
-                <VisualState Name="minHeight">
-
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="601" />
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Property="HeightRequest" Value="116" />
-                        <Setter Property="ItemsLayout">
-
-                            <GridItemsLayout
-                                Orientation="Horizontal"
-                                Span="2"
-                                SnapPointsType="Mandatory" 
-                                SnapPointsAlignment="Start"
-                                VerticalItemSpacing="8"
-                                HorizontalItemSpacing="8"/>
-
-                        </Setter>
-                    </VisualState.Setters>
-
-                </VisualState>
-
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
 
         <CollectionView.ItemsLayout>
 
@@ -110,7 +60,6 @@
                     Text="{Binding Name}"
                     FontSize="{DynamicResource TSize_i9}"
                     FontFamily="Barlow-Medium"
-                    HeightRequest="25"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"/>
 
             </DataTemplate>
@@ -119,30 +68,11 @@
     </CollectionView>
 
     <Frame
-        HeightRequest="100"
         Padding="5"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
         BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
         CornerRadius="5"
         xct:TouchEffect.Command="{Binding ScrollLeftCommand, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}">
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup Name="AdaptiveStepperCarousel">
-
-                <VisualState Name="minHeight">
-
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="601" />
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Property="HeightRequest" Value="116" />
-                    </VisualState.Setters>
-
-                </VisualState>
-
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
 
         <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png"/>
 

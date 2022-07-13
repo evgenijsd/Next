@@ -38,7 +38,12 @@ namespace Next2.Controls.StateContainer
 
         private Task ChooseStateAsync(object newValue)
         {
-            var currentCondition = Conditions?.FirstOrDefault(condition => condition?.State?.ToString() == newValue?.ToString());
+            var currentCondition = Conditions?.FirstOrDefault(condition => condition.State?.ToString() == newValue?.ToString());
+
+            if (currentCondition is null)
+            {
+                currentCondition = Conditions?.FirstOrDefault(condition => condition.NotState is not null && condition.NotState?.ToString() != newValue?.ToString());
+            }
 
             var view = currentCondition?.Content;
 

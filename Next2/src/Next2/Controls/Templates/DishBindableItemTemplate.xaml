@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:Next2"
+    xmlns:models="clr-namespace:Next2.Models.Bindables"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    Padding="16, 6, 16, 0"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+    x:Class="Next2.Controls.Templates.DishBindableItemTemplate"
+    x:DataType="models:DishBindableModel">
+
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup Name="CommonStates">
+
+            <VisualState Name="Normal">
+
+                <VisualState.Setters>
+                    <Setter TargetName="dishPancakeView" Property="pancakeview:PancakeView.BackgroundColor" Value="Transparent" />
+                    <Setter
+                        TargetName="dishPancakeView"
+                        Property="pancakeview:PancakeView.Border">
+                        <Setter.Value>
+                            <pancakeview:Border Color="{StaticResource TextAndBackgroundColor_i2}" Thickness="1" />
+                        </Setter.Value>
+                    </Setter>
+                </VisualState.Setters>
+
+            </VisualState>
+
+            <VisualState Name="Selected">
+
+                <VisualState.Setters>
+                    <Setter TargetName="dishPancakeView" Property="pancakeview:PancakeView.Border">
+                        <Setter.Value>
+                            <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="1" />
+                        </Setter.Value>
+                    </Setter>
+                </VisualState.Setters>
+
+            </VisualState>
+
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+
+    <pancakeview:PancakeView
+        CornerRadius="8"
+        xct:TouchEffect.Command="{Binding DishSelectionCommand}"
+        xct:TouchEffect.CommandParameter="{Binding .}"
+        x:Name="dishPancakeView">
+
+        <pancakeview:PancakeView.Triggers>
+
+            <DataTrigger
+                TargetType="pancakeview:PancakeView"
+                Binding="{Binding IsSelectedSeat}"
+                Value="True">
+
+                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
+
+            </DataTrigger>
+
+        </pancakeview:PancakeView.Triggers>
+
+        <StackLayout
+            Orientation="Horizontal"
+            Spacing="5">
+
+            <StackLayout.Triggers>
+
+                <DataTrigger
+                    TargetType="StackLayout"
+                    Binding="{Binding Id}"
+                    Value="{x:Static sys:Guid.Empty}">
+
+                    <Setter Property="IsVisible" Value="False" />
+
+                </DataTrigger>
+
+            </StackLayout.Triggers>
+
+            <pancakeview:PancakeView
+                HeightRequest="44"
+                MinimumWidthRequest="44"
+                WidthRequest="44"
+                CornerRadius="8"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Margin="10">
+
+                <ffimageloading:CachedImage
+                    Aspect="AspectFill"
+                    Source="{Binding ImageSource}" />
+
+            </pancakeview:PancakeView>
+
+            <StackLayout
+                VerticalOptions="CenterAndExpand"
+                Spacing="6"
+                Margin="0, 14">
+
+                <Label
+                    Text="{Binding Name}"
+                    FontSize="{DynamicResource TSize_i9}"
+                    FontFamily="Barlow-Medium"
+                    LineBreakMode="TailTruncation"
+                    MaxLines="1" />
+
+                <Label
+                    FontSize="{DynamicResource TSize_i8}"
+                    FontFamily="Barlow-SemiBold">
+
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span
+                                Text="{xct:Translate CurrencySign}" />
+                            <Span
+                                Text=" " />
+                            <Span
+                                Text="{Binding DiscountPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+
+                </Label>
+
+            </StackLayout>
+
+        </StackLayout>
+
+    </pancakeview:PancakeView>
+
+</StackLayout>

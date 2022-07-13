@@ -29,7 +29,7 @@ namespace Next2.ViewModels.Dialogs
             LoadData(param);
         }
 
-        #region -- Public Properties --
+        #region -- Public properties --
 
         public OrderModelDTO Order { get; set; }
 

@@ -13,6 +13,8 @@ namespace Next2.Models.Bindables
     {
         public int SeatNumber { get; set; }
 
+        public bool IsSelectedSeat { get; set; }
+
         public int Index { get; set; }
 
         public Guid Id { get; set; }

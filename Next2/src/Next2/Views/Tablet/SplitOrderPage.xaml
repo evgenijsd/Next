@@ -1,17 +1,16 @@
 ﻿<views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:Next2.Views"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:local="clr-namespace:Next2"
-    xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:models="clr-namespace:Next2.Models.API.DTO"
+    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models1="clr-namespace:Next2.Models.Bindables"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:views="clr-namespace:Next2.Views"
     x:Class="Next2.Views.Tablet.SplitOrderPage"
     x:DataType="viewModels:SplitOrderViewModel">
 

@@ -10,7 +10,7 @@ namespace Next2.Controls
             InitializeComponent();
         }
 
-        #region -- Public Properties --
+        #region -- Public properties --
 
         public static readonly BindableProperty ButtonBackgroundColorProperty = BindableProperty.Create(
              propertyName: nameof(ButtonBackgroundColor),

@@ -4,12 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
-    xmlns:views="clr-namespace:Next2.Views" 
-    xmlns:bindableModels="clr-namespace:Next2.Models" 
+    xmlns:bindableModels="clr-namespace:Next2.Models"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
+    xmlns:views="clr-namespace:Next2.Views"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
     x:Class="Next2.Views.Mobile.MenuPage"
     x:DataType="viewModels:MenuPageViewModel">
@@ -100,55 +102,89 @@
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 VerticalTextAlignment="Center" />
 
-            <CollectionView
-                Margin="0, 0, 20, 0"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                HorizontalScrollBarVisibility="Never"
-                ItemsSource="{Binding Categories}"
-                VerticalScrollBarVisibility="Never">
+            <sc:StateContainer
+                State="{Binding CategoriesLoadingState}"
+                VerticalOptions="FillAndExpand">
 
-                <CollectionView.Effects>
-                    <effects:NoOverScrollEffect />
-                </CollectionView.Effects>
+                <sc:StateCondition NotState="Completed">
 
-                <CollectionView.ItemsLayout>
+                    <controls:DataLoadingState
+                        LayoutState="{Binding CategoriesLoadingState}"
+                        Command="{Binding RefreshCategoriesCommand}"/>
 
-                    <GridItemsLayout
-                        HorizontalItemSpacing="2"
-                        Orientation="Vertical"
-                        Span="2"
-                        VerticalItemSpacing="2" />
+                </sc:StateCondition>
 
-                </CollectionView.ItemsLayout>
+                <sc:StateCondition State="Completed">
 
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:CategoryModel">
+                    <CollectionView
+                        Margin="0, 0, 20, 0"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                        HorizontalScrollBarVisibility="Never"
+                        ItemsSource="{Binding Categories}"
+                        VerticalScrollBarVisibility="Never">
 
-                        <Frame
-                            Padding="4"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            CornerRadius="5"
-                            HeightRequest="55"
-                            WidthRequest="162"
-                            xct:TouchEffect.Command="{Binding TapCategoryCommand, Source={RelativeSource AncestorType={x:Type viewModels:MenuPageViewModel}}}"
-                            xct:TouchEffect.CommandParameter="{Binding .}">
+                        <CollectionView.Effects>
+                            <effects:NoOverScrollEffect />
+                        </CollectionView.Effects>
 
-                            <Label
-                                FontSize="{DynamicResource TSize_i9}"
-                                HorizontalTextAlignment="Center"
-                                LineBreakMode="TailTruncation"
-                                MaxLines="1"
-                                Style="{DynamicResource BaseContent_i1}"
-                                Text="{Binding Name}"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                VerticalTextAlignment="Center" />
+                        <CollectionView.ItemsLayout>
 
-                        </Frame>
+                            <GridItemsLayout
+                                HorizontalItemSpacing="2"
+                                Orientation="Vertical"
+                                Span="2"
+                                VerticalItemSpacing="2" />
 
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+                        </CollectionView.ItemsLayout>
 
-            </CollectionView>
+                        <CollectionView.EmptyView>
+
+                            <StackLayout>
+
+                                <Label
+                                    Text="{xct:Translate NoItemsInCategory}"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                    FontSize="{DynamicResource TSize_i7}"
+                                    FontFamily="Barlow-Medium"
+                                    VerticalOptions="CenterAndExpand"
+                                    HorizontalOptions="Center"/>
+
+                            </StackLayout>
+
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:CategoryModel">
+
+                                <Frame
+                                    Padding="4"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                    CornerRadius="5"
+                                    HeightRequest="55"
+                                    WidthRequest="162"
+                                    xct:TouchEffect.Command="{Binding TapCategoryCommand, Source={RelativeSource AncestorType={x:Type viewModels:MenuPageViewModel}}}"
+                                    xct:TouchEffect.CommandParameter="{Binding .}">
+
+                                    <Label
+                                        FontSize="{DynamicResource TSize_i9}"
+                                        HorizontalTextAlignment="Center"
+                                        LineBreakMode="TailTruncation"
+                                        MaxLines="1"
+                                        Style="{DynamicResource BaseContent_i1}"
+                                        Text="{Binding Name}"
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                        VerticalTextAlignment="Center" />
+
+                                </Frame>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+                    
+                </sc:StateCondition>
+
+            </sc:StateContainer>
 
         </StackLayout>
 
@@ -156,6 +192,7 @@
             Grid.Row="2"
             Grid.Column="0"
             Padding="0"
+            VerticalOptions="End"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             Orientation="Vertical">
 
