@@ -89,22 +89,8 @@
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             BackColor="Transparent"
                             BorderColor="{DynamicResource AppColor_i1}"
-                            CommandSearch="{Binding SearchCommand}"
-                            CommandClear="{Binding ClearSearchCommand}">
-
-                            <buttons:SearchButton.Triggers>
-
-                                <DataTrigger TargetType="buttons:SearchButton" Binding="{Binding SearchText}" Value="">
-                                    
-                                    <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
-                                    <Setter Property="ImageSource" Value="ic_search_24x24" />
-                                    <Setter Property="CommandClear" Value="{Binding SearchCommand}" />
-                                    
-                                </DataTrigger>
-
-                            </buttons:SearchButton.Triggers>
-                            
-                        </buttons:SearchButton>
+                            SearchCommand="{Binding SearchCommand}"
+                            ClearCommand="{Binding ClearSearchCommand}"/>
 
                         <StackLayout
                             Grid.Column="1"

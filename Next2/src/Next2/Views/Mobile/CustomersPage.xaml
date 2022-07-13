@@ -64,28 +64,8 @@
                     Margin="24, 20"
                     HeightRequest="40"
                     MinimumHeightRequest="40"
-                    CommandSearch="{Binding SearchCommand}"
-                    CommandClear="{Binding ClearSearchCommand}">
-
-                    <buttons:SearchButton.Triggers>
-                        
-                        <DataTrigger TargetType="buttons:SearchButton" Binding="{Binding SearchText}" Value="">
-
-                            <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
-                            <Setter Property="ImageSource" Value="ic_search_24x24" />
-                            <Setter Property="CommandClear" Value="{Binding SearchCommand}" />
-
-                        </DataTrigger>
-
-                        <DataTrigger TargetType="buttons:SearchButton" Binding="{Binding IsOrderTabsSelected}" Value="True">
-
-                            <Setter Property="Placeholder" Value="{xct:Translate SearchTableNumber}" />
-
-                        </DataTrigger>
-
-                    </buttons:SearchButton.Triggers>
-
-                </buttons:SearchButton>
+                    SearchCommand="{Binding SearchCommand}"
+                    ClearCommand="{Binding ClearSearchCommand}"/>
 
                 <StackLayout
                     HorizontalOptions="FillAndExpand"

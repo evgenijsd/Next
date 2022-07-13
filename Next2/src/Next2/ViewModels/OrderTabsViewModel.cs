@@ -301,16 +301,9 @@ namespace Next2.ViewModels
 
         private async Task OnClearSearchResultCommandAsync()
         {
-            if (SearchQuery != string.Empty)
-            {
-                SearchQuery = string.Empty;
-                IsSearchModeActive = false;
-                IsOrdersRefreshing = true;
-            }
-            else
-            {
-                await OnGoToSearchQueryInputCommandAsync();
-            }
+            SearchQuery = string.Empty;
+            IsSearchModeActive = false;
+            IsOrdersRefreshing = true;
         }
 
         private IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders)

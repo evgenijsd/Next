@@ -113,28 +113,28 @@ namespace Next2.Controls.Buttons
             set => SetValue(TextColorProperty, value);
         }
 
-        public static readonly BindableProperty CommandSearchProperty = BindableProperty.Create(
-            propertyName: nameof(CommandSearch),
+        public static readonly BindableProperty SearchCommandProperty = BindableProperty.Create(
+            propertyName: nameof(SearchCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(SearchButton),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public ICommand CommandSearch
+        public ICommand SearchCommand
         {
-            get => (ICommand)GetValue(CommandSearchProperty);
-            set => SetValue(CommandSearchProperty, value);
+            get => (ICommand)GetValue(SearchCommandProperty);
+            set => SetValue(SearchCommandProperty, value);
         }
 
-        public static readonly BindableProperty CommandClearProperty = BindableProperty.Create(
-            propertyName: nameof(CommandClear),
+        public static readonly BindableProperty ClearCommandProperty = BindableProperty.Create(
+            propertyName: nameof(ClearCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(SearchButton),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public ICommand CommandClear
+        public ICommand ClearCommand
         {
-            get => (ICommand)GetValue(CommandClearProperty);
-            set => SetValue(CommandClearProperty, value);
+            get => (ICommand)GetValue(ClearCommandProperty);
+            set => SetValue(ClearCommandProperty, value);
         }
 
         #endregion

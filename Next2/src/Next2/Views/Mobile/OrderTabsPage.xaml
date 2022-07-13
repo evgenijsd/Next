@@ -61,20 +61,10 @@
                 BackColor="Transparent"
                 BorderColor="{DynamicResource AppColor_i1}"
                 Margin="17, 20"
-                CommandSearch="{Binding GoToSearchQueryInputCommand}"
-                CommandClear="{Binding ClearSearchResultCommand}">
+                SearchCommand="{Binding GoToSearchQueryInputCommand}"
+                ClearCommand="{Binding ClearSearchResultCommand}">
 
                 <buttons:SearchButton.Triggers>
-
-                    <DataTrigger
-                        TargetType="buttons:SearchButton"
-                        Binding="{Binding SearchQuery}"
-                        Value="">
-
-                        <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
-                        <Setter Property="ImageSource" Value="ic_search_24x24" />
-
-                    </DataTrigger>
 
                     <DataTrigger
                         TargetType="buttons:SearchButton"
