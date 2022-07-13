@@ -130,13 +130,13 @@ namespace Next2.ViewModels.Mobile
                     {
                         var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
 
+                        if (PopupNavigation.PopupStack.Any())
+                        {
+                            await PopupNavigation.PopAsync();
+                        }
+
                         if (resultOfUpdatingOrder.IsSuccess)
                         {
-                            if (PopupNavigation.PopupStack.Any())
-                            {
-                                await PopupNavigation.PopAsync();
-                            }
-
                             var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
                             {
                                 Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
@@ -147,11 +147,6 @@ namespace Next2.ViewModels.Mobile
                         }
                         else
                         {
-                            if (PopupNavigation.PopupStack.Any())
-                            {
-                                await PopupNavigation.PopAsync();
-                            }
-
                             _orderService.CurrentOrder = _tempCurrentOrder;
                             _orderService.CurrentSeat = _tempCurrentSeat;
                             _orderService.UpdateTotalSum(_orderService.CurrentOrder);
