@@ -145,10 +145,16 @@ namespace Next2.ViewModels
 
                 await UpdateOrderAsync();
             }
-
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.SPLIT_GROUPS, out List<int[]> groupList))
+            else if (parameters.TryGetValue(Constants.DialogParameterKeys.SPLIT_GROUPS, out List<int[]> groupList))
             {
                 await SplitOrderBySeats(groupList);
+            }
+            else
+            {
+                if (_popupNavigation.PopupStack.Count > 0)
+                {
+                    await _popupNavigation.PopAllAsync();
+                }
             }
         }
 
@@ -184,7 +190,10 @@ namespace Next2.ViewModels
                 await _popupNavigation.PopAllAsync();
             }
 
-            await ShowInfoDialogAsync(string.Empty, LocalizationResourceManager.Current["SomethingWentWrong"], LocalizationResourceManager.Current["Ok"]);
+            await ShowInfoDialogAsync(
+                LocalizationResourceManager.Current["Error"],
+                LocalizationResourceManager.Current["NoInternetConnection"],
+                LocalizationResourceManager.Current["Ok"]);
 
             var param = new NavigationParameters
                 {
