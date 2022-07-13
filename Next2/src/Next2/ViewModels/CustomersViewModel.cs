@@ -105,13 +105,6 @@ namespace Next2.ViewModels
                 case nameof(DisplayedCustomers):
                     AnyCustomersLoaded = _allCustomers.Any();
                     break;
-                case nameof(SearchText):
-                    if (App.IsTablet && SearchText == string.Empty)
-                    {
-                        SetSearchQuery(string.Empty);
-                    }
-
-                    break;
             }
         }
 

@@ -80,13 +80,6 @@ namespace Next2.ViewModels.Tablet
                 case nameof(DisplayMembers):
                     AnyMembersLoaded = _allMembers.Any();
                     break;
-                case nameof(SearchText):
-                    if (SearchText == string.Empty)
-                    {
-                        SetSearchQuery(string.Empty);
-                    }
-
-                    break;
             }
         }
 
@@ -104,6 +97,7 @@ namespace Next2.ViewModels.Tablet
             base.OnDisappearing();
 
             SearchText = string.Empty;
+            DisplayMembers = new();
         }
 
         #endregion
@@ -159,9 +153,9 @@ namespace Next2.ViewModels.Tablet
             }
         }
 
-        private async Task OnRefreshMembersCommandAsync()
+        private Task OnRefreshMembersCommandAsync()
         {
-            await RefreshMembersAsync();
+            return RefreshMembersAsync();
         }
 
         private Task OnMemberSortingChangeCommandAsync(EMemberSorting memberSorting)

@@ -11,7 +11,7 @@ namespace Next2.Controls.Buttons
         {
             InitializeComponent();
 
-            ClearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync, allowsMultipleExecutions: false);
+            ClearCommand ??= new AsyncCommand(OnClearCommandAsync, allowsMultipleExecutions: false);
         }
 
         #region -- Public properties --
@@ -116,23 +116,46 @@ namespace Next2.Controls.Buttons
             set => SetValue(CommandProperty, value);
         }
 
-        public static readonly BindableProperty ClearSearchCommandProperty = BindableProperty.Create(
-            propertyName: nameof(ClearSearchCommand),
+        public static readonly BindableProperty ClearCommandProperty = BindableProperty.Create(
+            propertyName: nameof(ClearCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(SearchButton),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public ICommand ClearSearchCommand
+        public ICommand ClearCommand
         {
-            get => (ICommand)GetValue(ClearSearchCommandProperty);
-            set => SetValue(ClearSearchCommandProperty, value);
+            get => (ICommand)GetValue(ClearCommandProperty);
+            set => SetValue(ClearCommandProperty, value);
         }
+
+        private ICommand _tapButtonCommand;
+        public ICommand TapButtonCommand => _tapButtonCommand ??= new AsyncCommand(OnTapButtonCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
         #region -- Private helpers --
 
-        private Task OnClearSearchCommandAsync()
+        private Task OnTapButtonCommandAsync()
+        {
+            if (string.IsNullOrEmpty(Text))
+            {
+                if (Command is not null && Command.CanExecute(null))
+                {
+                    Command.Execute(null);
+                }
+            }
+            else
+            {
+                if (ClearCommand is not null && ClearCommand.CanExecute(null))
+                {
+                    ClearCommand.Execute(null);
+                }
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnClearCommandAsync()
         {
             Text = string.Empty;
 

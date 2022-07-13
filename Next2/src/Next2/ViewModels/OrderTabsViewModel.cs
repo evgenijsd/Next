@@ -96,6 +96,9 @@ namespace Next2.ViewModels
         private ICommand _splitCommand;
         public ICommand SplitCommand => _splitCommand ??= new AsyncCommand(OnSplitCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _clearSearchCommand;
+        public ICommand ClearSearchCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -121,6 +124,7 @@ namespace Next2.ViewModels
                 IsSearchModeActive = false;
                 SearchQuery = string.Empty;
                 SelectedOrder = null;
+                Orders = new();
                 _lastSavedOrderId = Guid.Empty;
             }
         }
@@ -135,17 +139,6 @@ namespace Next2.ViewModels
             }
 
             IsOrdersRefreshing = true;
-        }
-
-        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
-        {
-            base.OnPropertyChanged(args);
-
-            if (args.PropertyName == nameof(SearchQuery) && SearchQuery == string.Empty)
-            {
-                IsSearchModeActive = false;
-                IsOrdersRefreshing = true;
-            }
         }
 
         #endregion
@@ -601,6 +594,13 @@ namespace Next2.ViewModels
 
                 await _navigationService.NavigateAsync(nameof(SplitOrderPage), param);
             }
+        }
+
+        private Task OnClearSearchCommandAsync()
+        {
+            SetSearchQuery(string.Empty);
+
+            return Task.CompletedTask;
         }
 
         #endregion

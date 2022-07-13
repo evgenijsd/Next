@@ -62,27 +62,14 @@
 
     </StackLayout>
 
-    <StackLayout 
+    <StackLayout
         BackgroundColor="Transparent"
         HorizontalOptions="EndAndExpand"
         WidthRequest="40"
         xct:TouchEffect.AnimationDuration="0"
         xct:TouchEffect.NativeAnimation="False"
-        xct:TouchEffect.Command="{Binding Command, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}">
+        xct:TouchEffect.Command="{Binding TapButtonCommand, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}">
 
-        <StackLayout.Triggers>
-
-            <DataTrigger
-                TargetType="StackLayout"
-                Binding="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Converter={xct:IsNotNullOrEmptyConverter}}"
-                Value="True">
-
-                <Setter Property="xct:TouchEffect.Command" Value="{Binding ClearSearchCommand, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}" />
-
-            </DataTrigger>
-
-        </StackLayout.Triggers>
-        
         <ffimageloading:CachedImage
             Source="ic_search_24x24"
             HeightRequest="20"

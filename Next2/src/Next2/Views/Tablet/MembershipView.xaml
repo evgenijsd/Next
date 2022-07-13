@@ -73,7 +73,8 @@
                 BackColor="Transparent"
                 BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                 Text="{Binding SearchText}"
-                Command="{Binding SearchCommand}"/>
+                Command="{Binding SearchCommand}"
+                ClearCommand="{Binding ClearSearchCommand}"/>
             
         </Grid>
 
