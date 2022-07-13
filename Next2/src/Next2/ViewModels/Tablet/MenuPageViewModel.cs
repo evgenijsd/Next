@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet
@@ -253,7 +252,7 @@ namespace Next2.ViewModels.Tablet
 
                     if (logoutResult.IsSuccess)
                     {
-                        NewOrderViewModel.OrderRegistrationViewModel.CurrentState = LayoutState.Error;
+                        NewOrderViewModel.OrderRegistrationViewModel.CurrentState = ENewOrderViewState.InProgress;
 
                         _orderService.CurrentOrder = new();
 

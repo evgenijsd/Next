@@ -20,7 +20,6 @@ using System.Timers;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.CommunityToolkit.UI.Views;
 
 namespace Next2.ViewModels.Tablet
 {
@@ -97,21 +96,22 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Overrides --
 
-        public override void OnAppearing()
+        public override async void OnAppearing()
         {
             base.OnAppearing();
 
             _shouldOrderDishesByDESC = false;
-            Task.Run(OnRefreshCategoriesCommandAsync);
 
-            OrderRegistrationViewModel.InitializeAsync(null);
+            await OrderRegistrationViewModel.InitializeAsync(null);
+
+            await OnRefreshCategoriesCommandAsync();
         }
 
         public override void OnDisappearing()
         {
             base.OnDisappearing();
 
-            OrderRegistrationViewModel.CurrentState = LayoutState.Error;
+            OrderRegistrationViewModel.CurrentState = ENewOrderViewState.InProgress;
 
             SelectedSubcategoriesItem = null;
             SelectedCategoriesItem = null;
@@ -246,7 +246,7 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnRefreshCategoriesCommandAsync()
         {
-            OrderRegistrationViewModel.CurrentState = LayoutState.Error;
+            OrderRegistrationViewModel.CurrentState = ENewOrderViewState.InProgress;
 
             CategoriesLoadingState = ELoadingState.InProgress;
 
@@ -260,7 +260,7 @@ namespace Next2.ViewModels.Tablet
                     SelectedCategoriesItem = Categories.FirstOrDefault();
 
                     CategoriesLoadingState = ELoadingState.Completed;
-                    OrderRegistrationViewModel.CurrentState = LayoutState.Loading;
+                    OrderRegistrationViewModel.CurrentState = ENewOrderViewState.Default;
                 }
                 else
                 {
