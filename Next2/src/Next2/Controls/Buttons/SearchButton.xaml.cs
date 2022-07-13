@@ -10,8 +10,6 @@ namespace Next2.Controls.Buttons
         public SearchButton()
         {
             InitializeComponent();
-
-            ClearCommand ??= new AsyncCommand(OnClearCommandAsync, allowsMultipleExecutions: false);
         }
 
         #region -- Public properties --
@@ -137,27 +135,18 @@ namespace Next2.Controls.Buttons
 
         private Task OnTapButtonCommandAsync()
         {
-            if (string.IsNullOrEmpty(Text))
+            var command = Command;
+
+            if (!string.IsNullOrEmpty(Text))
             {
-                if (Command is not null && Command.CanExecute(null))
-                {
-                    Command.Execute(null);
-                }
-            }
-            else
-            {
-                if (ClearCommand is not null && ClearCommand.CanExecute(null))
-                {
-                    ClearCommand.Execute(null);
-                }
+                Text = string.Empty;
+                command = ClearCommand;
             }
 
-            return Task.CompletedTask;
-        }
-
-        private Task OnClearCommandAsync()
-        {
-            Text = string.Empty;
+            if (command is not null && command.CanExecute(null))
+            {
+                command.Execute(null);
+            }
 
             return Task.CompletedTask;
         }
