@@ -25,7 +25,7 @@ namespace Next2.ViewModels.Dialogs
             CloseCommand = new DelegateCommand(() => RequestClose(null));
         }
 
-        #region -- Public Properties --
+        #region -- Public properties --
 
         public Action<IDialogParameters> RequestClose;
 

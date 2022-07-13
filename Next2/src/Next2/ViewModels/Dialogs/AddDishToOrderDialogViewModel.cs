@@ -1,17 +1,12 @@
-﻿using AutoMapper;
-using Next2.Models;
-using Next2.Models.API;
+﻿using Next2.Models.API;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Next2.ViewModels
@@ -135,7 +130,7 @@ namespace Next2.ViewModels
             }
         }
 
-        #region -- Public Properties --
+        #region -- Public properties --
 
         public DishBindableModel Dish { get; }
 

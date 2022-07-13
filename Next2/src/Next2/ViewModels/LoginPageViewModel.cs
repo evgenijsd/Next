@@ -3,6 +3,7 @@ using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
+using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -30,6 +31,8 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
+        public bool IsActivityIndicatorRunning { get; set; }
+
         public bool IsUserLogIn { get; set; }
 
         public bool IsInvalidEmployeeId { get; set; }
@@ -53,7 +56,7 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (App.IsTablet && args.PropertyName == nameof(EmployeeId))
+            if (args.PropertyName == nameof(EmployeeId))
             {
                 IsInvalidEmployeeId = false;
             }
@@ -61,7 +64,7 @@ namespace Next2.ViewModels
 
         public override async Task InitializeAsync(INavigationParameters parameters)
         {
-            base.InitializeAsync(parameters);
+            await base.InitializeAsync(parameters);
 
             if (_authenticationService.IsAuthorizationComplete)
             {
@@ -98,7 +101,7 @@ namespace Next2.ViewModels
 
         private Task OnClearCommandAsync()
         {
-            IsInvalidEmployeeId = false;
+            EmployeeId = string.Empty;
 
             return Task.CompletedTask;
         }
@@ -122,11 +125,15 @@ namespace Next2.ViewModels
         {
             if (!IsInvalidEmployeeId && EmployeeId != string.Empty)
             {
+                IsActivityIndicatorRunning = true;
+
                 var result = await _authenticationService.AuthorizeUserAsync(EmployeeId);
 
                 if (result.IsSuccess)
                 {
                     await _orderService.OpenLastOrCreateNewOrderAsync();
+
+                    IsActivityIndicatorRunning = false;
 
                     await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
 
@@ -135,6 +142,7 @@ namespace Next2.ViewModels
                 else
                 {
                     IsInvalidEmployeeId = true;
+                    IsActivityIndicatorRunning = false;
                 }
             }
         }
