@@ -16,13 +16,24 @@
     xmlns:modelsDTO="clr-namespace:Next2.Models.API.DTO"
     xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
-    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:views="clr-namespace:Next2.Views" 
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Views.Tablet.ModificationsPage"
     x:DataType="viewmodels:ModificationsPageViewModel">
 
+    <views:BaseContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ToggleItemTemplateStyle_i1" TargetType="templates:ToggleItemTemplate">
+                <Setter Property="TitleFontSize" Value="{DynamicResource TSize_i8}"/>
+                <Setter Property="SubtitleFontSize" Value="{DynamicResource TSize_i9}"/>
+                <Setter Property="ImageSizes" Value="40"/>
+            </Style>
+        </ResourceDictionary>
+    </views:BaseContentPage.Resources>
+    
     <Grid
-        ColumnDefinitions="300, *"
-        RowDefinitions="*, 1, 99">
+        ColumnDefinitions="228, *"
+        RowDefinitions="*, 1, auto">
 
         <StackLayout
             Grid.Column="0"
@@ -32,9 +43,9 @@
             <Label
                 Text="{xct:Translate Modifications}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontSize="{DynamicResource TSize_i4}"
+                FontSize="{DynamicResource TSize_i6}"
                 FontFamily="Barlow-SemiBold"
-                Padding="32, 16"/>
+                Padding="24, 19, 24, 15"/>
 
             <BoxView
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
@@ -55,9 +66,9 @@
                 <Label
                     Text="{xct:Translate Proportions}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontSize="{DynamicResource TSize_i4}"
+                    FontSize="{DynamicResource TSize_i6}"
                     FontFamily="Barlow-SemiBold"
-                    Padding="32, 16">
+                    Padding="24, 13, 24, 14">
                     
                     <Label.Triggers>
 
@@ -109,10 +120,10 @@
                                 <controls:Spoiler.HeaderTemplate>
 
                                     <Label
-                                        Padding="32, 16"
+                                        Padding="24, 14"
                                         Text="{Binding Title}"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                        FontSize="{DynamicResource TSize_i4}"
+                                        FontSize="{DynamicResource TSize_i6}"
                                         FontFamily="Barlow-Medium"
                                         VerticalTextAlignment="Center"/>
 
@@ -121,7 +132,11 @@
                                 <controls:Spoiler.ItemTemplate>
 
                                     <DataTemplate x:DataType="helpers:SpoilerItem">
-                                        <templates:SpoilerItemTemplate HeightRequest="59"/>
+                                        
+                                        <templates:SpoilerItemTemplate 
+                                            Padding="22, 0, 0, 0"
+                                            HeightRequest="46"/>
+                                        
                                     </DataTemplate>
 
                                 </controls:Spoiler.ItemTemplate>
@@ -156,13 +171,13 @@
                     <Label
                         Text="{xct:Translate AvailableOptions}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i5}"
+                        FontSize="{DynamicResource TSize_i6}"
                         FontFamily="Barlow-SemiBold"
                         VerticalTextAlignment="Center"
-                        Margin="40, 26"/>
+                        Margin="32, 19"/>
 
                     <CollectionView
-                        Margin="40, 16"
+                        Margin="32, 16"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
                         ItemsSource="{Binding PortionsDish}">
@@ -185,20 +200,21 @@
 
                             <DataTemplate x:DataType="modelsApi:ProportionModel">
 
-                                <Frame
-                                    Padding="16, 4"
-                                    CornerRadius="8"
-                                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                <pancakeview:PancakeView
+                                    Padding="12, 4"
+                                    CornerRadius="6"
+                                    Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                                     <templates:ToggleItemTemplate
+                                        Style="{DynamicResource ToggleItemTemplateStyle_i1}"
                                         State="{Binding .}"
                                         Title="{Binding ProportionName}"
                                         IsVisibleSubtitle="True"
                                         Subtitle="{Binding Price, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                                         BindableLayout="{Binding SelectedProportion, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
                                     
-                                </Frame>
+                                </pancakeview:PancakeView>
 
                             </DataTemplate>
                         
@@ -214,15 +230,15 @@
                 <StackLayout>
 
                     <controls:SortingPanel
-                        Margin="40, 26"
+                        Margin="32, 14"
                         Text="{xct:Translate AvailableOptions}"
-                        FontSize="{DynamicResource TSize_i5}"
+                        FontSize="{DynamicResource TSize_i6}"
                         FontFamily="Barlow-SemiBold"
                         ChangingOrderSortCommand="{Binding ChangingOrderSortReplacementProductsCommand}"
                         IsVisible="{Binding ReplacementProducts.Count, Converter={xct:IntToBoolConverter}}"/>
 
                     <CollectionView
-                        Margin="40, 16"
+                        Margin="32, 4"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
                         ItemsSource="{Binding ReplacementProducts}">
@@ -254,7 +270,7 @@
                                 <Label
                                     Text="{xct:Translate NoItemsInCategory}"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                    FontSize="{DynamicResource TSize_i4}"
+                                    FontSize="{DynamicResource TSize_i6}"
                                     FontFamily="Barlow-Regular"
                                     HorizontalOptions="Center"
                                     VerticalOptions="StartAndExpand"/>
@@ -267,13 +283,14 @@
 
                             <DataTemplate x:DataType="modelsDTO:SimpleProductModelDTO">
 
-                                <Frame
-                                    Padding="16, 4"
-                                    CornerRadius="8"
-                                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                <pancakeview:PancakeView
+                                    Padding="12, 4"
+                                    CornerRadius="6"
+                                    Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                                     <templates:ToggleItemTemplate
+                                        Style="{DynamicResource ToggleItemTemplateStyle_i1}"
                                         State="{Binding .}"
                                         Title="{Binding Name}"
                                         Subtitle="{Binding DefaultPrice, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
@@ -282,7 +299,7 @@
                                         IsVisibleImage="True"
                                         BindableLayout="{Binding SelectedReplacementProduct, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
 
-                                </Frame>
+                                </pancakeview:PancakeView>
 
                             </DataTemplate>
 
@@ -301,19 +318,19 @@
                     <Label
                         Text="{xct:Translate AvailableGroups}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i5}"
+                        FontSize="{DynamicResource TSize_i6}"
                         FontFamily="Barlow-SemiBold"
                         VerticalTextAlignment="Center"
-                        Margin="40, 26"/>
+                        Margin="32, 18"/>
 
-                    <CollectionView
-                        MinimumHeightRequest="{Binding HeightIngredientCategories}"
-                        HeightRequest="{Binding HeightIngredientCategories}"
-                        Margin="40, 0, 40, 26"
+                    <controls:ExpandedGridCollectionView
+                        Margin="32, 4, 32, 10"
                         VerticalOptions="Start"
                         SelectionMode="Single"
+                        MaximumNumberVisibleRows="4"
                         ItemsSource="{Binding IngredientCategories}"
-                        SelectedItem="{Binding SelectedIngredientCategory}">
+                        SelectedItem="{Binding SelectedIngredientCategory}"
+                        IsExpanded="{Binding IsExpandedIngredientCategories}">
 
                         <CollectionView.ItemsLayout>
 
@@ -334,29 +351,28 @@
 
                                 <templates:CategoryItemTemplate
                                     Text="{Binding Name}"
-                                    HeightRequest="44"
+                                    HeightRequest="40"
                                     FontSize="{DynamicResource TSize_i8}"
-                                    FontFamily="Barlow-Medium"
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"/>
+                                    FontFamily="Barlow-Medium"/>
 
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
 
-                    </CollectionView>
+                    </controls:ExpandedGridCollectionView>
 
                     <BoxView
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                         HeightRequest="1"/>
 
                     <controls:SortingPanel
-                        Margin="40, 26"
+                        Margin="32, 26"
                         Text="{xct:Translate AvailableOptions}"
-                        FontSize="{DynamicResource TSize_i5}"
+                        FontSize="{DynamicResource TSize_i6}"
                         FontFamily="Barlow-SemiBold"
                         ChangingOrderSortCommand="{Binding ChangingOrderSortInventoryCommand}"/>
 
                     <CollectionView
-                        Margin="40, 0"
+                        Margin="32, 0"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
                         ItemsSource="{Binding Ingredients}">
@@ -366,14 +382,15 @@
                             <GridItemsLayout
                                 Orientation="Vertical"
                                 Span="2"
-                                VerticalItemSpacing="8"
-                                HorizontalItemSpacing="15"/>
+                                VerticalItemSpacing="12"
+                                HorizontalItemSpacing="16"/>
 
                         </CollectionView.ItemsLayout>
 
                         <CollectionView.Effects>
                             
                             <effects:NoOverScrollEffect/>
+                            
                             <effects:ScrollBarColorEffect
                                 ScrollBarThumbWidth="6"
                                 ScrollBarCornerRadius="9"
@@ -386,13 +403,14 @@
 
                             <DataTemplate x:DataType="modelsBindable:IngredientBindableModel">
 
-                                <Frame
-                                    Padding="16, 4"
-                                    CornerRadius="8"
-                                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                <pancakeview:PancakeView
+                                    Padding="12, 4"
+                                    CornerRadius="6"
+                                    Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                                     <templates:ToggleItemTemplate
+                                        Style="{DynamicResource ToggleItemTemplateStyle_i1}"
                                         IsToggle="{Binding IsToggled}"
                                         Title="{Binding Name}"
                                         Subtitle="{Binding Price, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
@@ -401,7 +419,7 @@
                                         IsVisibleImage="True"
                                         CanTurnOff="True"/>
 
-                                </Frame>
+                                </pancakeview:PancakeView>
 
                             </DataTemplate>
 
@@ -420,13 +438,13 @@
                     <Label
                         Text="{xct:Translate AvailableOptions}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i5}"
+                        FontSize="{DynamicResource TSize_i6}"
                         FontFamily="Barlow-SemiBold"
                         VerticalTextAlignment="Center"
-                        Margin="40, 26"/>
+                        Margin="32, 18"/>
 
                     <CollectionView
-                        Margin="16, 16, 16, 0"
+                        Margin="32, 16, 32, 0"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
                         ItemsSource="{Binding OptionsProduct}">
@@ -437,7 +455,7 @@
                                 Orientation="Vertical"
                                 Span="3"
                                 VerticalItemSpacing="8"
-                                HorizontalItemSpacing="15"/>
+                                HorizontalItemSpacing="18"/>
 
                         </CollectionView.ItemsLayout>
 
@@ -449,18 +467,19 @@
 
                             <DataTemplate x:DataType="modelsDTO:OptionModelDTO">
 
-                                <Frame
+                                <pancakeview:PancakeView
                                     Padding="16, 4"
-                                    CornerRadius="8"
-                                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                    CornerRadius="6"
+                                    Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                                     <templates:ToggleItemTemplate
+                                        Style="{DynamicResource ToggleItemTemplateStyle_i1}"
                                         State="{Binding .}"
                                         Title="{Binding Name}"
                                         BindableLayout="{Binding SelectedOption, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
 
-                                </Frame>
+                                </pancakeview:PancakeView>
 
                             </DataTemplate>
 
@@ -483,14 +502,14 @@
         <Grid
             Grid.Row="2"
             Grid.Column="1"
-            ColumnSpacing="10"
-            Padding="24">
+            ColumnSpacing="12"
+            Padding="18">
 
             <buttons:BorderButton
                 Grid.Column="0"
                 Text="{xct:Translate Cancel}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontSize="{DynamicResource TSize_i5}"
+                FontSize="{DynamicResource TSize_i8}"
                 FontFamily="Barlow-SemiBold"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                 BorderColor="{DynamicResource AppColor_i1}"
@@ -503,7 +522,7 @@
                 Grid.Column="1"
                 Text="{xct:Translate Save}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                FontSize="{DynamicResource TSize_i5}"
+                FontSize="{DynamicResource TSize_i8}"
                 FontFamily="Barlow-SemiBold"
                 BackgroundColor="{DynamicResource IndicationColor_i1}"
                 BorderColor="{DynamicResource IndicationColor_i1}"

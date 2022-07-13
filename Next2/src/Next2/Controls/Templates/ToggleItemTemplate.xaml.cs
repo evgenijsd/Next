@@ -91,6 +91,19 @@ namespace Next2.Controls.Templates
             set => SetValue(ImagePathProperty, value);
         }
 
+        public static readonly BindableProperty ImageSizesProperty = BindableProperty.Create(
+            propertyName: nameof(ImageSizes),
+            returnType: typeof(double),
+            declaringType: typeof(ToggleItemTemplate),
+            defaultValue: 50d,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public double ImageSizes
+        {
+            get => (double)GetValue(ImageSizesProperty);
+            set => SetValue(ImageSizesProperty, value);
+        }
+
         public static readonly BindableProperty TitleProperty = BindableProperty.Create(
             propertyName: nameof(Title),
             returnType: typeof(string),
@@ -102,6 +115,32 @@ namespace Next2.Controls.Templates
             set => SetValue(TitleProperty, value);
         }
 
+        public static readonly BindableProperty TitleFontSizeProperty = BindableProperty.Create(
+            propertyName: nameof(TitleFontSize),
+            returnType: typeof(double),
+            declaringType: typeof(ToggleItemTemplate),
+            defaultValue: 20d,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public double TitleFontSize
+        {
+            get => (double)GetValue(TitleFontSizeProperty);
+            set => SetValue(TitleFontSizeProperty, value);
+        }
+
+        public static readonly BindableProperty TitleFontFamilyProperty = BindableProperty.Create(
+            propertyName: nameof(TitleFontFamily),
+            returnType: typeof(string),
+            declaringType: typeof(ToggleItemTemplate),
+            defaultValue: "Barlow-SemiBold",
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public string TitleFontFamily
+        {
+            get => (string)GetValue(TitleFontFamilyProperty);
+            set => SetValue(TitleFontFamilyProperty, value);
+        }
+
         public static readonly BindableProperty SubtitleProperty = BindableProperty.Create(
             propertyName: nameof(Subtitle),
             returnType: typeof(string),
@@ -111,6 +150,32 @@ namespace Next2.Controls.Templates
         {
             get => (string)GetValue(SubtitleProperty);
             set => SetValue(SubtitleProperty, value);
+        }
+
+        public static readonly BindableProperty SubtitleFontSizeProperty = BindableProperty.Create(
+            propertyName: nameof(SubtitleFontSize),
+            returnType: typeof(double),
+            declaringType: typeof(ToggleItemTemplate),
+            defaultValue: 14d,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public double SubtitleFontSize
+        {
+            get => (double)GetValue(SubtitleFontSizeProperty);
+            set => SetValue(SubtitleFontSizeProperty, value);
+        }
+
+        public static readonly BindableProperty SubtitleFontFamilyProperty = BindableProperty.Create(
+            propertyName: nameof(SubtitleFontFamily),
+            returnType: typeof(string),
+            declaringType: typeof(ToggleItemTemplate),
+            defaultValue: "Barlow-SemiBold",
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public string SubtitleFontFamily
+        {
+            get => (string)GetValue(SubtitleFontFamilyProperty);
+            set => SetValue(SubtitleFontFamilyProperty, value);
         }
 
         #endregion
