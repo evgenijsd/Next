@@ -155,12 +155,7 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private Task OnRefreshOrdersCommandAsync()
-        {
-            return LoadOrdersAsync();
-        }
-
-        public async Task LoadOrdersAsync()
+        private async Task OnRefreshOrdersCommandAsync()
         {
             bool isOrdersLoaded = false;
 

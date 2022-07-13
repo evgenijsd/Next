@@ -1,6 +1,10 @@
-﻿using Next2.Models.Bindables;
+﻿using AutoMapper;
+using Next2.Enums;
+using Next2.Models;
+using Next2.Models.Bindables;
 using Next2.Services.Reservation;
 using Prism.Navigation;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,13 +15,16 @@ namespace Next2.ViewModels.Tablet
 {
     public class ReservationsViewModel : BaseViewModel
     {
+        private readonly IMapper _mapper;
         private readonly IReservationService _reservationService;
 
         public ReservationsViewModel(
             IReservationService reservationService,
+            IMapper mapper,
             INavigationService navigationService)
             : base(navigationService)
         {
+            _mapper = mapper;
             _reservationService = reservationService;
         }
 
@@ -30,6 +37,8 @@ namespace Next2.ViewModels.Tablet
         public bool IsNothingFound => !string.IsNullOrEmpty(SearchQuery) && !Reservations.Any();
 
         public bool IsPreloadStateActive => !string.IsNullOrEmpty(SearchQuery) && (!IsInternetConnected || (IsReservationsRefreshing && !Reservations.Any()));
+
+        public EReservationsSortingType ReservationSortingType { get; set; }
 
         public ReservationBindableModel? SelectedReservation { get; set; }
 
@@ -120,9 +129,16 @@ namespace Next2.ViewModels.Tablet
             }
         }
 
-        private Task OnRefreshReservationsCommandAsync()
+        private async Task OnRefreshReservationsCommandAsync()
         {
-            return Task.CompletedTask;
+            var resultOfGettingReservations = await _reservationService.GetReservationsListAsync(SearchQuery);
+
+            if (resultOfGettingReservations.IsSuccess)
+            {
+                var reservations = _mapper.Map<ObservableCollection<ReservationBindableModel>>(resultOfGettingReservations.Result);
+
+                Reservations = new(reservations);
+            }
         }
 
         private Task OnChangeSortReservationCommand()
