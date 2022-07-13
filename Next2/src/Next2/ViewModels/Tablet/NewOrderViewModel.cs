@@ -172,6 +172,7 @@ namespace Next2.ViewModels.Tablet
                     {
                         _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
                         _tempCurrentSeat = _mapper.Map<SeatBindableModel>(_orderService.CurrentSeat);
+
                         var resultOfAddingDish = await _orderService.AddDishInCurrentOrderAsync(dish);
 
                         if (resultOfAddingDish.IsSuccess)
@@ -192,6 +193,7 @@ namespace Next2.ViewModels.Tablet
                                 };
 
                                 UserDialogs.Instance.Toast(toastConfig);
+
                                 await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
                             }
                             else
@@ -320,17 +322,12 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnTapExpandCommandAsync()
         {
-            if (IsInternetConnected)
-            {
-                return _navigationService.NavigateAsync(nameof(ExpandPage));
-            }
-            else
-            {
-                return ShowInfoDialogAsync(
+            return IsInternetConnected
+                ? _navigationService.NavigateAsync(nameof(ExpandPage))
+                : ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
-            }
         }
 
         private Task OnOpenEmployeeWorkingHoursCommandAsync()

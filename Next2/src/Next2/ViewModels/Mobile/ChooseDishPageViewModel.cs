@@ -123,6 +123,7 @@ namespace Next2.ViewModels.Mobile
                 {
                     _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
                     _tempCurrentSeat = _mapper.Map<SeatBindableModel>(_orderService.CurrentSeat);
+
                     var resultOfAddingDishToOrder = await _orderService.AddDishInCurrentOrderAsync(dish);
 
                     if (resultOfAddingDishToOrder.IsSuccess)
@@ -154,6 +155,7 @@ namespace Next2.ViewModels.Mobile
                             _orderService.CurrentOrder = _tempCurrentOrder;
                             _orderService.CurrentSeat = _tempCurrentSeat;
                             _orderService.UpdateTotalSum(_orderService.CurrentOrder);
+
                             await ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
                         }
                     }

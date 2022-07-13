@@ -175,42 +175,37 @@ namespace Next2.ViewModels.Mobile
 
         private Task OnOpenNewOrderPageCommandAsync()
         {
-            if (IsInternetConnected)
-            {
-                return CanShowOrder ? _navigationService.NavigateAsync(nameof(OrderRegistrationPage)) : Task.CompletedTask;
-            }
-            else
-            {
-                return ShowInfoDialogAsync(
+            return CanShowOrder && IsInternetConnected
+                ? _navigationService.NavigateAsync(nameof(OrderRegistrationPage))
+                : ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
-            }
         }
 
         private Task OnTapCategoryCommandAsync(CategoryModel category)
         {
-            if (IsInternetConnected)
+            var navigationParams = new NavigationParameters
             {
-                var navigationParams = new NavigationParameters
-                {
-                    { Constants.Navigations.CATEGORY, category },
-                };
+                { Constants.Navigations.CATEGORY, category },
+            };
 
-                return _navigationService.NavigateAsync(nameof(ChooseDishPage), navigationParams);
-            }
-            else
-            {
-                return ShowInfoDialogAsync(
+            return IsInternetConnected
+                ? _navigationService.NavigateAsync(nameof(ChooseDishPage), navigationParams)
+                : ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
-            }
         }
 
         private Task GoToSettingsCommandAsync()
         {
-            return _navigationService.NavigateAsync($"{nameof(SettingsPage)}");
+            return IsInternetConnected
+                ? _navigationService.NavigateAsync($"{nameof(SettingsPage)}")
+                : ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
         }
 
         #endregion
