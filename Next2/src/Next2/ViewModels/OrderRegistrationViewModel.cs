@@ -281,7 +281,7 @@ namespace Next2.ViewModels
 
                                             if (!_isAnyDishChosen)
                                             {
-                                                OnGoBackCommand();
+                                                await OnCloseEditStateCommandAsync();
                                             }
                                         }
 
@@ -614,22 +614,16 @@ namespace Next2.ViewModels
                     _orderService.CurrentSeat = seat;
                     SelectedDish = seat.SelectedItem;
 
-                if (App.IsTablet)
-                {
-                    CurrentState = ENewOrderViewState.Edit;
-                    IsSideMenuVisible = false;
+                    if (App.IsTablet)
+                    {
+                        CurrentState = ENewOrderViewState.Edit;
+                        IsSideMenuVisible = false;
+                    }
+                    else
+                    {
+                        await _navigationService.NavigateAsync(nameof(EditPage));
+                    }
                 }
-                else
-                {
-                    await _navigationService.NavigateAsync(nameof(EditPage));
-                }
-            }
-            else
-            {
-                await ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
             }
         }
 
@@ -655,10 +649,10 @@ namespace Next2.ViewModels
                     IEnumerable<int> seatNumbersOfCurrentOrder = CurrentOrder.Seats.Select(x => x.SeatNumber);
 
                     var param = new DialogParameters
-                    {
-                        { Constants.DialogParameterKeys.REMOVAL_SEAT, seat },
-                        { Constants.DialogParameterKeys.SEAT_NUMBERS_OF_CURRENT_ORDER, seatNumbersOfCurrentOrder },
-                    };
+                {
+                    { Constants.DialogParameterKeys.REMOVAL_SEAT, seat },
+                    { Constants.DialogParameterKeys.SEAT_NUMBERS_OF_CURRENT_ORDER, seatNumbersOfCurrentOrder },
+                };
 
                     PopupPage deleteSeatDialog = App.IsTablet
                         ? new Views.Tablet.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback)
@@ -834,15 +828,15 @@ namespace Next2.ViewModels
                     List<SeatBindableModel> seats = CurrentOrder.Seats.Where(x => x.SelectedDishes.Any()).ToList();
 
                     var param = new DialogParameters
-                    {
-                        { Constants.DialogParameterKeys.ORDER_NUMBER, CurrentOrder.Number },
-                        { Constants.DialogParameterKeys.SEATS, seats },
-                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Remove"] },
-                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
-                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
-                        { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i3"] },
-                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i1"] },
-                    };
+                {
+                    { Constants.DialogParameterKeys.ORDER_NUMBER, CurrentOrder.Number },
+                    { Constants.DialogParameterKeys.SEATS, seats },
+                    { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Remove"] },
+                    { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                    { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+                    { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i3"] },
+                    { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i1"] },
+                };
 
                     PopupPage removeOrderDialog = App.IsTablet
                         ? new Views.Tablet.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync)
@@ -873,13 +867,13 @@ namespace Next2.ViewModels
                     }
 
                     var confirmDialogParameters = new DialogParameters
-                    {
-                        { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
-                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
-                        { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["OrderWillBeRemoved"] },
-                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
-                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
-                    };
+                {
+                    { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                    { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                    { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["OrderWillBeRemoved"] },
+                    { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                    { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+                };
 
                     PopupPage orderDeletionConfirmationDialog = App.IsTablet
                         ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseOrderDeletionConfirmationDialogCallback)
@@ -974,9 +968,19 @@ namespace Next2.ViewModels
 
         private Task OnOpenDiscountSelectionCommandAsync()
         {
-            var parameters = new NavigationParameters { { Constants.Navigations.CURRENT_ORDER, CurrentOrder } };
+            if (IsInternetConnected)
+            {
+                var parameters = new NavigationParameters { { Constants.Navigations.CURRENT_ORDER, CurrentOrder } };
 
-            return _navigationService.NavigateAsync(nameof(TabletViews.BonusPage), parameters);
+                return _navigationService.NavigateAsync(nameof(TabletViews.BonusPage), parameters);
+            }
+            else
+            {
+                return ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
         }
 
         private async Task OnRemoveTaxFromOrderCommandAsync()
@@ -1070,12 +1074,12 @@ namespace Next2.ViewModels
         private Task OnTabCommandAsync()
         {
             var parameters = new DialogParameters
-            {
-                { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["NeedCard"] },
-                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["SwipeTheCard"] },
-                { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
-                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Complete"] },
-            };
+        {
+            { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["NeedCard"] },
+            { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["SwipeTheCard"] },
+            { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+            { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Complete"] },
+        };
 
             PopupPage confirmDialog = App.IsTablet
                 ? new Next2.Views.Tablet.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync)
@@ -1135,12 +1139,12 @@ namespace Next2.ViewModels
         private Task OnOpenRemoveCommandAsync()
         {
             var parameters = new DialogParameters
-            {
-                { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
-                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["ThisDishWillBeRemoved"] },
-                { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
-                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
-            };
+        {
+            { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+            { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["ThisDishWillBeRemoved"] },
+            { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+            { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+        };
 
             PopupPage confirmDialog = App.IsTablet
                 ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(parameters, CloseDeleteDishDialogCallbackAsync)
@@ -1159,12 +1163,9 @@ namespace Next2.ViewModels
                     {
                         _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
                         var resultOfDeletingDishFromCurrentSeat = await _orderService.DeleteDishFromCurrentSeatAsync();
-                        var isDishDeletingResultIsSuccess = false; //remove?
 
                         if (resultOfDeletingDishFromCurrentSeat.IsSuccess)
                         {
-                            isDishDeletingResultIsSuccess = true; //remove?
-
                             _orderService.UpdateTotalSum(CurrentOrder);
 
                             await RefreshCurrentOrderAsync();
@@ -1204,8 +1205,7 @@ namespace Next2.ViewModels
                                 await RefreshCurrentOrderAsync();
                             }
                         }
-
-                        if (!resultOfDeletingDishFromCurrentSeat.IsSuccess || isDishDeletingResultIsSuccess == false) //remove?
+                        else
                         {
                             if (PopupNavigation.PopupStack.Any())
                             {

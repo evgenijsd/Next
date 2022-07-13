@@ -190,12 +190,22 @@ namespace Next2.ViewModels.Mobile
 
         private Task OnTapCategoryCommandAsync(CategoryModel category)
         {
-            var navigationParams = new NavigationParameters
+            if (IsInternetConnected)
             {
-                { Constants.Navigations.CATEGORY, category },
-            };
+                var navigationParams = new NavigationParameters
+                {
+                    { Constants.Navigations.CATEGORY, category },
+                };
 
-            return _navigationService.NavigateAsync(nameof(ChooseDishPage), navigationParams);
+                return _navigationService.NavigateAsync(nameof(ChooseDishPage), navigationParams);
+            }
+            else
+            {
+                return ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
         }
 
         private Task GoToSettingsCommandAsync()
