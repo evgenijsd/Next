@@ -64,7 +64,8 @@
                     Margin="24, 20"
                     HeightRequest="40"
                     MinimumHeightRequest="40"
-                    Command="{Binding SearchCommand}"/>
+                    Command="{Binding SearchCommand}"
+                    ClearCommand="{Binding ClearSearchCommand}"/>
 
                 <StackLayout
                     HorizontalOptions="FillAndExpand"

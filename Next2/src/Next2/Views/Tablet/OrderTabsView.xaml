@@ -98,7 +98,8 @@
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 BackColor="Transparent"
                 BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                Command="{Binding GoToSearchQueryInputCommand}">
+                Command="{Binding GoToSearchQueryInputCommand}"
+                ClearCommand="{Binding ClearSearchCommand}">
 
                 <buttons:SearchButton.Triggers>
 
