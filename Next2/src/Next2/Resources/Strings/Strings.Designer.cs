@@ -331,6 +331,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Date / Time.
+        /// </summary>
+        internal static string DateTime {
+            get {
+                return ResourceManager.GetString("DateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Delete Items.
         /// </summary>
         internal static string DeleteItems {

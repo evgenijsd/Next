@@ -660,4 +660,7 @@ A receipt has been printed for you.</value>
   <data name="Assign" xml:space="preserve">
     <value>Assign</value>
   </data>
+  <data name="DateTime" xml:space="preserve">
+    <value>Date / Time</value>
+  </data>
 </root>

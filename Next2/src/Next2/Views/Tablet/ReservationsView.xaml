@@ -151,7 +151,7 @@
                     <StackLayout
                         Grid.Column="1"
                         Orientation="Horizontal"
-                        xct:TouchEffect.Command="{Binding ChangeSortOrderCommand}"
+                        xct:TouchEffect.Command="{Binding ChangeSortReservationCommand}"
                         xct:TouchEffect.CommandParameter="{x:Static enums:EReservationsSortingType.ByCustomerName}">
 
                         <Label
@@ -169,13 +169,13 @@
                     <StackLayout
                         Grid.Column="2"
                         Orientation="Horizontal"
-                        xct:TouchEffect.Command="{Binding ChangeSortOrderCommand}"
-                        xct:TouchEffect.CommandParameter="{x:Static enums:EReservationsSortingType.ByOrderNumber}">
+                        xct:TouchEffect.Command="{Binding ChangeSortReservationCommand}"
+                        xct:TouchEffect.CommandParameter="{x:Static enums:EReservationsSortingType.ByTableNumber}">
 
                         <Label
                             Style="{DynamicResource TableCellLabelStyle}"
                             HorizontalOptions="Start"
-                            Text="{xct:Translate OrderNumber}"/>
+                            Text="{xct:Translate TableNumber}"/>
 
                         <ffimageloading:CachedImage
                             Source="ic_sort_primary_24x24"
@@ -188,17 +188,12 @@
                     <Label
                         Grid.Column="3"
                         Style="{DynamicResource TableCellLabelStyle}"
-                        Text="{xct:Translate Total}"/>
+                        Text="{xct:Translate Phone}"/>
 
                     <Label
                         Grid.Column="4"
                         Style="{DynamicResource TableCellLabelStyle}"
-                        Text="{xct:Translate OrderStatus}"/>
-
-                    <Label
-                        Grid.Column="5"
-                        Style="{DynamicResource TableCellLabelStyle}"
-                        Text="{xct:Translate OrderType}"/>
+                        Text="{xct:Translate DateTime}"/>
 
                 </Grid>
 
@@ -211,7 +206,7 @@
 
                 <RefreshView
                     IsRefreshing="{Binding IsReservationsRefreshing}"
-                    Command="{Binding RefreshOrdersCommand}">
+                    Command="{Binding RefreshReservationsCommand}">
 
                     <StackLayout>
 
@@ -263,7 +258,6 @@
 
                                                     <VisualState.Setters>
                                                         <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-                                                        <Setter TargetName="orderStatusLabel" Property="Label.TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
                                                         <Setter TargetName="checkBoxImage" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white" />
                                                     </VisualState.Setters>
 
@@ -293,54 +287,29 @@
                                             <Label
                                                 Grid.Column="1"
                                                 Style="{DynamicResource TableCellLabelStyle}"
-                                                Text="{Binding TableNumberOrName}"
+                                                Text="{Binding CustomerName}"
                                                 HeightRequest="{DynamicResource TSize_i8}"
-                                                LineBreakMode="TailTruncation">
-
-                                                <Label.Triggers>
-
-                                                    <DataTrigger TargetType="Label" Binding="{Binding TableNumberOrName}" Value="''">
-                                                        <Setter Property="Text" Value="NoName"/>
-                                                    </DataTrigger>
-
-                                                </Label.Triggers>
-
-                                            </Label>
+                                                LineBreakMode="TailTruncation"/>
 
                                             <Label
                                                 Grid.Column="2"
                                                 Style="{DynamicResource TableCellLabelStyle}"
-                                                Text="{Binding Number}" />
+                                                Text="{Binding TableNumber}" />
 
                                             <Label
                                                 Grid.Column="3"
-                                                Style="{DynamicResource TableCellLabelStyle}" >
-
-                                                <Label.FormattedText>
-                                                    <FormattedString>
-                                                        <Span Text="{xct:Translate CurrencySign}" />
-                                                        <Span Text=" " />
-                                                        <Span Text="{Binding TotalPrice, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
-                                                    </FormattedString>
-                                                </Label.FormattedText>
-
-                                            </Label>
+                                                Style="{DynamicResource TableCellLabelStyle}"
+                                                Text="{Binding Phone, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
 
                                             <Label
                                                 Grid.Column="4"
                                                 Style="{DynamicResource TableCellLabelStyle}"
                                                 TextColor="{DynamicResource IndicationColor_i5}"
-                                                Text="{Binding OrderStatus}"
-                                                x:Name="orderStatusLabel"/>
-
-                                            <Label
-                                                Grid.Column="5"
-                                                Style="{DynamicResource TableCellLabelStyle}"
-                                                Text="{Binding OrderType}" />
+                                                Text="{Binding DateTime}"/>
 
                                             <Grid.GestureRecognizers>
                                                 <TapGestureRecognizer
-                                                    Command="{Binding SelectOrderCommand, Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}}"
+                                                    Command="{Binding SelectReservationCommand, Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}}"
                                                     CommandParameter="{Binding .}" />
 
                                             </Grid.GestureRecognizers>

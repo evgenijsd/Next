@@ -10,7 +10,7 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
-    xmlns:bindableModels="clr-namespace:Next2.Models.Bindables"
+    xmlns:models="clr-namespace:Next2.Models.Bindables"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Views.Tablet.OrderTabsView"
@@ -288,7 +288,7 @@
                         
                             <CollectionView.ItemTemplate>
 
-                                <DataTemplate x:DataType="bindableModels:SimpleOrderBindableModel">
+                                <DataTemplate x:DataType="models:SimpleOrderBindableModel">
 
                                     <Grid
                                         HorizontalOptions="Fill"

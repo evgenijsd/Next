@@ -29,8 +29,6 @@ namespace Next2.ViewModels.Tablet
 
         public bool IsNothingFound => !string.IsNullOrEmpty(SearchQuery) && !Reservations.Any();
 
-        public bool IsTabsModeSelected { get; set; }
-
         public bool IsPreloadStateActive => !string.IsNullOrEmpty(SearchQuery) && (!IsInternetConnected || (IsReservationsRefreshing && !Reservations.Any()));
 
         public ReservationBindableModel? SelectedReservation { get; set; }
@@ -43,14 +41,43 @@ namespace Next2.ViewModels.Tablet
         private ICommand _clearSearchCommand;
         public ICommand ClearSearchResultCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchResultCommandAsync);
 
-        private ICommand _refreshOrdersCommand;
-        public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _refreshReservationsCommand;
+        public ICommand RefreshReservationsCommand => _refreshReservationsCommand ??= new AsyncCommand(OnRefreshReservationsCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _changeSortOrderCommand;
-        public ICommand ChangeSortOrderCommand => _changeSortOrderCommand ??= new AsyncCommand(OnChangeSortOrderCommand, allowsMultipleExecutions: false);
+        private ICommand _changeSortReservationCommand;
+        public ICommand ChangeSortReservationCommand => _changeSortReservationCommand ??= new AsyncCommand(OnChangeSortReservationCommand, allowsMultipleExecutions: false);
 
-        private ICommand _selectOrderCommand;
-        public ICommand SelectOrderCommand => _selectOrderCommand ??= new AsyncCommand(OnSelectOrderCommand);
+        private ICommand _selectReservationCommand;
+        public ICommand SelectReservationCommand => _selectReservationCommand ??= new AsyncCommand(OnSelectReservationCommand);
+
+        #endregion
+
+        #region -- Overrides --
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            IsReservationsRefreshing = true;
+        }
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            SearchQuery = string.Empty;
+            SelectedReservation = null;
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            if (parameters.TryGetValue(Constants.Navigations.SEARCH_QUERY, out string searchQuery))
+            {
+                //SearchOrders(searchQuery);
+            }
+        }
 
         #endregion
 
@@ -93,12 +120,12 @@ namespace Next2.ViewModels.Tablet
             }
         }
 
-        private Task OnRefreshOrdersCommandAsync()
+        private Task OnRefreshReservationsCommandAsync()
         {
             return Task.CompletedTask;
         }
 
-        private Task OnChangeSortOrderCommand()
+        private Task OnChangeSortReservationCommand()
         {
             //if (OrderSortingType == orderSortingType)
             //{
@@ -113,7 +140,7 @@ namespace Next2.ViewModels.Tablet
             return Task.CompletedTask;
         }
 
-        private Task OnSelectOrderCommand()
+        private Task OnSelectReservationCommand()
         {
             //SelectedOrder = order == SelectedOrder ? null : order;
             return Task.CompletedTask;
