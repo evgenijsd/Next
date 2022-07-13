@@ -59,10 +59,9 @@
                 Placeholder="{xct:Translate SearchTableNumber}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 BackColor="Transparent"
-                BorderColor="{DynamicResource AppColor_i1}"
+                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                 Margin="17, 20"
-                SearchCommand="{Binding GoToSearchQueryInputCommand}"
-                ClearCommand="{Binding ClearSearchResultCommand}">
+                Command="{Binding GoToSearchQueryInputCommand}">
 
                 <buttons:SearchButton.Triggers>
 

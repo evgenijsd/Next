@@ -1,4 +1,6 @@
-﻿using System.Windows.Input;
+﻿using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Next2.Controls.Buttons
@@ -8,6 +10,8 @@ namespace Next2.Controls.Buttons
         public SearchButton()
         {
             InitializeComponent();
+
+            ClearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync, allowsMultipleExecutions: false);
         }
 
         #region -- Public properties --
@@ -64,19 +68,6 @@ namespace Next2.Controls.Buttons
             set => SetValue(PlaceholderProperty, value);
         }
 
-        public static readonly BindableProperty ImageSourceProperty = BindableProperty.Create(
-            propertyName: nameof(ImageSource),
-            returnType: typeof(string),
-            declaringType: typeof(SearchButton),
-            defaultValue: "ic_close_square_24x24",
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public string ImageSource
-        {
-            get => (string)GetValue(ImageSourceProperty);
-            set => SetValue(ImageSourceProperty, value);
-        }
-
         public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(
             propertyName: nameof(BorderColor),
             returnType: typeof(Color),
@@ -113,28 +104,39 @@ namespace Next2.Controls.Buttons
             set => SetValue(TextColorProperty, value);
         }
 
-        public static readonly BindableProperty SearchCommandProperty = BindableProperty.Create(
-            propertyName: nameof(SearchCommand),
+        public static readonly BindableProperty CommandProperty = BindableProperty.Create(
+            propertyName: nameof(Command),
             returnType: typeof(ICommand),
             declaringType: typeof(SearchButton),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public ICommand SearchCommand
+        public ICommand Command
         {
-            get => (ICommand)GetValue(SearchCommandProperty);
-            set => SetValue(SearchCommandProperty, value);
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
         }
 
-        public static readonly BindableProperty ClearCommandProperty = BindableProperty.Create(
-            propertyName: nameof(ClearCommand),
+        public static readonly BindableProperty ClearSearchCommandProperty = BindableProperty.Create(
+            propertyName: nameof(ClearSearchCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(SearchButton),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public ICommand ClearCommand
+        public ICommand ClearSearchCommand
         {
-            get => (ICommand)GetValue(ClearCommandProperty);
-            set => SetValue(ClearCommandProperty, value);
+            get => (ICommand)GetValue(ClearSearchCommandProperty);
+            set => SetValue(ClearSearchCommandProperty, value);
+        }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private Task OnClearSearchCommandAsync()
+        {
+            Text = string.Empty;
+
+            return Task.CompletedTask;
         }
 
         #endregion

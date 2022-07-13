@@ -10,19 +10,6 @@
     x:Class="Next2.Controls.Buttons.SearchButton"
     x:DataType="buttons:SearchButton">
 
-    <Grid.Triggers>
-
-        <DataTrigger
-            TargetType="buttons:SearchButton"
-            Binding="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
-            Value="">
-
-            <Setter Property="ClearCommand" Value="{Binding SearchCommand, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}" />
-
-        </DataTrigger>
-
-    </Grid.Triggers>
-
     <Frame
         BorderColor="{Binding BorderColor, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
         BackgroundColor="{Binding BackColor, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
@@ -33,10 +20,10 @@
 
             <DataTrigger
                 TargetType="Frame"
-                Binding="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
-                Value="">
+                Binding="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Converter={xct:IsNotNullOrEmptyConverter}}"
+                Value="True">
 
-                <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
+                <Setter Property="BorderColor" Value="{DynamicResource AppColor_i1}" />
 
             </DataTrigger>
 
@@ -48,7 +35,7 @@
         BackgroundColor="Transparent"
         Margin="0, 0, 40, 0"
         xct:TouchEffect.AnimationDuration="0"
-        xct:TouchEffect.Command="{Binding SearchCommand, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}">
+        xct:TouchEffect.Command="{Binding Command, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}">
 
         <Label
             Text="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
@@ -81,10 +68,23 @@
         WidthRequest="40"
         xct:TouchEffect.AnimationDuration="0"
         xct:TouchEffect.NativeAnimation="False"
-        xct:TouchEffect.Command="{Binding ClearCommand, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}">
+        xct:TouchEffect.Command="{Binding Command, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}">
 
+        <StackLayout.Triggers>
+
+            <DataTrigger
+                TargetType="StackLayout"
+                Binding="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Converter={xct:IsNotNullOrEmptyConverter}}"
+                Value="True">
+
+                <Setter Property="xct:TouchEffect.Command" Value="{Binding ClearSearchCommand, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}" />
+
+            </DataTrigger>
+
+        </StackLayout.Triggers>
+        
         <ffimageloading:CachedImage
-            Source="{Binding ImageSource, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
+            Source="ic_search_24x24"
             HeightRequest="20"
             Margin="0, 0, 10, 0"
             VerticalOptions="CenterAndExpand"
@@ -94,10 +94,10 @@
 
                 <DataTrigger
                     TargetType="ffimageloading:CachedImage"
-                    Binding="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
-                    Value="">
+                    Binding="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Converter={xct:IsNotNullOrEmptyConverter}}"
+                    Value="True">
 
-                    <Setter Property="Source" Value="ic_search_24x24" />
+                    <Setter Property="Source" Value="ic_close_square_24x24"/>
 
                 </DataTrigger>
 

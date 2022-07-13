@@ -60,12 +60,11 @@
                     Placeholder="{xct:Translate SearchByNameOrPhone}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     BackColor="Transparent"
-                    BorderColor="{DynamicResource AppColor_i1}"
+                    BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
                     Margin="24, 20"
                     HeightRequest="40"
                     MinimumHeightRequest="40"
-                    SearchCommand="{Binding SearchCommand}"
-                    ClearCommand="{Binding ClearSearchCommand}"/>
+                    Command="{Binding SearchCommand}"/>
 
                 <StackLayout
                     HorizontalOptions="FillAndExpand"
