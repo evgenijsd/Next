@@ -75,9 +75,18 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName is nameof(DisplayMembers))
+            switch (args.PropertyName)
             {
-                AnyMembersLoaded = _allMembers.Any();
+                case nameof(DisplayMembers):
+                    AnyMembersLoaded = _allMembers.Any();
+                    break;
+                case nameof(SearchText):
+                    if (SearchText == string.Empty)
+                    {
+                        SetSearchQuery(string.Empty);
+                    }
+
+                    break;
             }
         }
 
@@ -94,9 +103,7 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnDisappearing();
 
-            SetSearchQuery(string.Empty);
-
-            AnyMembersLoaded = false;
+            SearchText = string.Empty;
         }
 
         #endregion

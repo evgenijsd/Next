@@ -90,8 +90,7 @@ namespace Next2.ViewModels
         {
             if (App.IsTablet)
             {
-                SetSearchQuery(string.Empty);
-
+                SearchText = string.Empty;
                 SelectedCustomer = null;
                 AnyCustomersLoaded = false;
             }
@@ -101,9 +100,18 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName is nameof(DisplayedCustomers))
+            switch (args.PropertyName)
             {
-                AnyCustomersLoaded = _allCustomers.Any();
+                case nameof(DisplayedCustomers):
+                    AnyCustomersLoaded = _allCustomers.Any();
+                    break;
+                case nameof(SearchText):
+                    if (App.IsTablet && SearchText == string.Empty)
+                    {
+                        SetSearchQuery(string.Empty);
+                    }
+
+                    break;
             }
         }
 
