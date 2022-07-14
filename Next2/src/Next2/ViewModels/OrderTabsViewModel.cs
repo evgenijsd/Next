@@ -14,6 +14,7 @@ using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -74,9 +75,6 @@ namespace Next2.ViewModels
         private ICommand _goToSearchQueryInputCommand;
         public ICommand GoToSearchQueryInputCommand => _goToSearchQueryInputCommand ??= new AsyncCommand(OnGoToSearchQueryInputCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _clearSearchCommand;
-        public ICommand ClearSearchResultCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchResultCommandAsync);
-
         private ICommand _refreshOrdersCommand;
         public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
 
@@ -97,6 +95,9 @@ namespace Next2.ViewModels
 
         private ICommand _splitCommand;
         public ICommand SplitCommand => _splitCommand ??= new AsyncCommand(OnSplitCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _clearSearchCommand;
+        public ICommand ClearSearchCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -123,6 +124,7 @@ namespace Next2.ViewModels
                 IsSearchModeActive = false;
                 SearchQuery = string.Empty;
                 SelectedOrder = null;
+                Orders = new();
                 _lastSavedOrderId = Guid.Empty;
             }
         }
@@ -133,19 +135,17 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.SEARCH_QUERY, out string searchQuery))
             {
-                SearchOrders(searchQuery);
+                SearchQuery = searchQuery;
             }
-            else
-            {
-                IsOrdersRefreshing = true;
-            }
+
+            IsOrdersRefreshing = true;
         }
 
         #endregion
 
         #region -- Public helpers --
 
-        public void SearchOrders(string searchQuery)
+        public void SetSearchQuery(string searchQuery)
         {
             SearchQuery = searchQuery;
             IsOrdersRefreshing = true;
@@ -269,43 +269,26 @@ namespace Next2.ViewModels
             IsOrdersRefreshing = true;
         }
 
-        private async Task OnGoToSearchQueryInputCommandAsync()
+        private Task OnGoToSearchQueryInputCommandAsync()
         {
-            if (Orders.Any() || !string.IsNullOrEmpty(SearchQuery))
+            Func<string, string> searchValidator = IsTabsModeSelected
+                ? _orderService.ApplyNameFilter
+                : _orderService.ApplyNumberFilter;
+
+            var searchHint = IsTabsModeSelected
+                ? LocalizationResourceManager.Current["NameOrOrder"]
+                : LocalizationResourceManager.Current["TableNumberOrOrder"];
+
+            var parameters = new NavigationParameters()
             {
-                Func<string, string> searchValidator = IsTabsModeSelected
-                    ? _orderService.ApplyNameFilter
-                    : _orderService.ApplyNumberFilter;
+                { Constants.Navigations.SEARCH, SearchQuery },
+                { Constants.Navigations.FUNC, searchValidator },
+                { Constants.Navigations.PLACEHOLDER, searchHint },
+            };
 
-                var searchHint = IsTabsModeSelected
-                    ? LocalizationResourceManager.Current["NameOrOrder"]
-                    : LocalizationResourceManager.Current["TableNumberOrOrder"];
+            IsSearchModeActive = true;
 
-                var parameters = new NavigationParameters()
-                {
-                    { Constants.Navigations.SEARCH, SearchQuery },
-                    { Constants.Navigations.FUNC, searchValidator },
-                    { Constants.Navigations.PLACEHOLDER, searchHint },
-                };
-
-                IsSearchModeActive = true;
-
-                await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
-            }
-        }
-
-        private async Task OnClearSearchResultCommandAsync()
-        {
-            if (SearchQuery != string.Empty)
-            {
-                SearchQuery = string.Empty;
-                IsSearchModeActive = false;
-                IsOrdersRefreshing = true;
-            }
-            else
-            {
-                await OnGoToSearchQueryInputCommandAsync();
-            }
+            return _navigationService.NavigateAsync(nameof(SearchPage), parameters);
         }
 
         private IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders)
@@ -443,11 +426,6 @@ namespace Next2.ViewModels
                             SelectedOrder = null;
                             Orders.Remove(orderToBeRemoved);
                             Orders = new(Orders);
-
-                            if (!Orders.Any())
-                            {
-                                await OnClearSearchResultCommandAsync();
-                            }
 
                             await PopupNavigation.PopAllAsync();
                         }
@@ -611,6 +589,13 @@ namespace Next2.ViewModels
 
                 await _navigationService.NavigateAsync(nameof(SplitOrderPage), param);
             }
+        }
+
+        private Task OnClearSearchCommandAsync()
+        {
+            IsOrdersRefreshing = true;
+
+            return Task.CompletedTask;
         }
 
         #endregion

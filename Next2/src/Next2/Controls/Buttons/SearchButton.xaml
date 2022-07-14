@@ -14,13 +14,28 @@
         BorderColor="{Binding BorderColor, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
         BackgroundColor="{Binding BackColor, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
         CornerRadius="{Binding CornerRadius, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
-        VerticalOptions="FillAndExpand"/>
+        VerticalOptions="FillAndExpand">
+        
+        <Frame.Triggers>
+
+            <DataTrigger
+                TargetType="Frame"
+                Binding="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Converter={xct:IsNotNullOrEmptyConverter}}"
+                Value="True">
+
+                <Setter Property="BorderColor" Value="{DynamicResource AppColor_i1}" />
+
+            </DataTrigger>
+
+        </Frame.Triggers>
+        
+    </Frame>
 
     <StackLayout
         BackgroundColor="Transparent"
         Margin="0, 0, 40, 0"
         xct:TouchEffect.AnimationDuration="0"
-        xct:TouchEffect.Command="{Binding CommandSearch, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}">
+        xct:TouchEffect.Command="{Binding Command, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}">
 
         <Label
             Text="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
@@ -47,20 +62,35 @@
 
     </StackLayout>
 
-    <StackLayout 
+    <StackLayout
         BackgroundColor="Transparent"
         HorizontalOptions="EndAndExpand"
         WidthRequest="40"
         xct:TouchEffect.AnimationDuration="0"
         xct:TouchEffect.NativeAnimation="False"
-        xct:TouchEffect.Command="{Binding CommandClear, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}">
+        xct:TouchEffect.Command="{Binding TapButtonCommand, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}">
 
         <ffimageloading:CachedImage
-            Source="{Binding ImageSource, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}}"
+            Source="ic_search_24x24"
             HeightRequest="20"
             Margin="0, 0, 10, 0"
             VerticalOptions="CenterAndExpand"
-            HorizontalOptions="EndAndExpand" />
+            HorizontalOptions="EndAndExpand">
+
+            <ffimageloading:CachedImage.Triggers>
+
+                <DataTrigger
+                    TargetType="ffimageloading:CachedImage"
+                    Binding="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Converter={xct:IsNotNullOrEmptyConverter}}"
+                    Value="True">
+
+                    <Setter Property="Source" Value="ic_close_square_24x24"/>
+
+                </DataTrigger>
+
+            </ffimageloading:CachedImage.Triggers>
+            
+        </ffimageloading:CachedImage>
 
     </StackLayout>
 

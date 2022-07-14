@@ -110,7 +110,7 @@ namespace Next2.ViewModels.Tablet
 
                 if (parameters.TryGetValue(Constants.Navigations.SEARCH_QUERY, out string searchQuery))
                 {
-                    OrderTabsViewModel.SearchOrders(searchQuery);
+                    OrderTabsViewModel.SetSearchQuery(searchQuery);
                 }
 
                 if (parameters.TryGetValue(Constants.Navigations.SEARCH_MEMBER, out string searchMember))

@@ -73,7 +73,7 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName == nameof(SearchLine))
+            if (args.PropertyName == nameof(SearchLine) && !string.IsNullOrEmpty(SearchLine))
             {
                 SearchLine = ApplySearchFilter(SearchLine);
             }

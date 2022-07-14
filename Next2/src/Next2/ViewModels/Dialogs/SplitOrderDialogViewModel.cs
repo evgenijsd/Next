@@ -31,8 +31,6 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Public properties --
 
-        public OrderModelDTO Order { get; set; }
-
         public ObservableCollection<SeatBindableModel> Seats { get; set; }
 
         public DishBindableModel SelectedDish { get; set; }

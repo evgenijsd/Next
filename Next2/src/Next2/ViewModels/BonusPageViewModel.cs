@@ -143,7 +143,7 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task<IEnumerable<CouponModelDTO>>? GetCoupons()
+        private async Task<IEnumerable<CouponModelDTO>?> GetCoupons()
         {
             IEnumerable<CouponModelDTO>? coupons = null;
             var dishes = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes);
@@ -163,7 +163,7 @@ namespace Next2.ViewModels
             return coupons;
         }
 
-        private async Task<IEnumerable<DiscountModelDTO>> GetDiscounts()
+        private async Task<IEnumerable<DiscountModelDTO>?> GetDiscounts()
         {
             IEnumerable<DiscountModelDTO>? discounts = null;
             var dishes = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes);
