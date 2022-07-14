@@ -103,6 +103,7 @@ namespace Next2
                 containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
                 containerRegistry.RegisterSingleton<OrderRegistrationViewModel>();
+                containerRegistry.RegisterSingleton<PrintReceiptViewModel>();
 
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.ConfirmDialog, ConfirmViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.InfoDialog, InfoDialogViewModel>();
@@ -137,6 +138,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.WaitingSignaturePage, WaitingSignaturePageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.TaxRemoveConfirmPage, TaxRemoveConfirmPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SplitOrderPage, SplitOrderViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.PrintReceiptPage, PrintReceiptViewModel>();
 
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.ConfirmDialog, ConfirmViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();

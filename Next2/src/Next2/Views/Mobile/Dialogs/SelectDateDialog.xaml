@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:models="clr-namespace:Next2.Models.Bindables"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:local="clr-namespace:Next2"
+    xmlns:enums="clr-namespace:Next2.Enums"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    x:Class="Next2.Views.Mobile.Dialogs.SelectDateDialog"
+    x:DataType="dialogs:SelectDateDialogViewModel">
+
+</rg:PopupPage>
