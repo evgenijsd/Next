@@ -59,22 +59,12 @@
                 Placeholder="{xct:Translate SearchTableNumber}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 BackColor="Transparent"
-                BorderColor="{DynamicResource AppColor_i1}"
+                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                 Margin="17, 20"
-                CommandSearch="{Binding GoToSearchQueryInputCommand}"
-                CommandClear="{Binding ClearSearchResultCommand}">
+                Command="{Binding GoToSearchQueryInputCommand}"
+                ClearCommand="{Binding ClearSearchCommand}">
 
                 <buttons:SearchButton.Triggers>
-
-                    <DataTrigger
-                        TargetType="buttons:SearchButton"
-                        Binding="{Binding SearchQuery}"
-                        Value="">
-
-                        <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
-                        <Setter Property="ImageSource" Value="ic_search_24x24" />
-
-                    </DataTrigger>
 
                     <DataTrigger
                         TargetType="buttons:SearchButton"
