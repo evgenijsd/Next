@@ -209,12 +209,7 @@ namespace Next2.ViewModels
                 case nameof(NumberOfSeats):
                     if (NumberOfSeats <= SelectedTable.SeatNumbers && CurrentOrder.Seats.Count != NumberOfSeats)
                     {
-                        IsOrderSavedNotificationVisible = false;
-
-                        await _orderService.AddSeatInCurrentOrderAsync();
-                        AddSeatsAdditional();
-                        await UpdateDishGroups();
-                        await _orderService.UpdateCurrentOrderAsync();
+                        await AddSeat();
                     }
 
                     break;
@@ -297,16 +292,7 @@ namespace Next2.ViewModels
             }));
         }
 
-        public async Task LaunchRefreshOrder()
-        {
-            await RefreshCurrentOrderAsync();
-        }
-
-        #endregion
-
-        #region -- Private helpers --
-
-        private async Task RefreshCurrentOrderAsync()
+        public async Task RefreshCurrentOrderAsync()
         {
             IsOrderSavedNotificationVisible = false;
 
@@ -329,6 +315,10 @@ namespace Next2.ViewModels
             await RefreshTablesAsync();
         }
 
+        #endregion
+
+        #region -- Private helpers --
+
         private Task UpdateDishGroups()
         {
             SelectedDishesForSeats = new();
@@ -349,8 +339,8 @@ namespace Next2.ViewModels
                 {
                     dish.Index = index;
                     dish.SeatNumber = seat.SeatNumber;
-                    dish.IsSelectedSeat = seat.Checked;
-                    dish.DishSelectionCommand = _selectDishCommand;
+                    dish.IsSeatSelected = seat.Checked;
+                    dish.SelectDishCommand = _selectDishCommand;
 
                     if (index == indexSelected || (seat.Checked && index == 0))
                     {
@@ -372,8 +362,8 @@ namespace Next2.ViewModels
                 }
 
                 SelectedDish = selectedDish;
-                seatGroup.SeatSelectionCommand = _seatSelectionCommand;
-                seatGroup.SeatDeleteCommand = _deleteSeatCommand;
+                seatGroup.SelectSeatCommand = _seatSelectionCommand;
+                seatGroup.DeleteSeatCommand = _deleteSeatCommand;
                 seatGroup.RemoveOrderCommand = _removeOrderCommand;
             }
 
@@ -420,8 +410,12 @@ namespace Next2.ViewModels
             }
         }
 
-        private void AddSeatsAdditional()
+        private async Task AddSeat()
         {
+            IsOrderSavedNotificationVisible = false;
+
+            await _orderService.AddSeatInCurrentOrderAsync();
+
             foreach (var seat in CurrentOrder.Seats)
             {
                 if (seat.SelectedItem is not null)
@@ -429,6 +423,9 @@ namespace Next2.ViewModels
                     seat.SelectedItem = null;
                 }
             }
+
+            await UpdateDishGroups();
+            await _orderService.UpdateCurrentOrderAsync();
         }
 
         private Task DeleteSeatsAdditional()

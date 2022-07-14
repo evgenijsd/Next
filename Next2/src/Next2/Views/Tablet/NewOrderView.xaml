@@ -1280,11 +1280,9 @@
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedDish}">
 
                 <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup
-                        Name="CommonStates">
+                    <VisualStateGroup Name="CommonStates">
 
-                        <VisualState
-                            Name="Selected">
+                        <VisualState Name="Selected">
                             <VisualState.Setters>
                                 <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
                             </VisualState.Setters>
@@ -1424,13 +1422,13 @@
 
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate>
-                        <templates:SeatBindableItemTemplate />
+                        <templates:SeatGroupItemTemplate />
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <templates:DishBindableItemTemplate />
+                        <templates:DishGroupItemTemplate />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 

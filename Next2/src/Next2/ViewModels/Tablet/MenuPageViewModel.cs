@@ -105,7 +105,7 @@ namespace Next2.ViewModels.Tablet
 
                 if (parameters.ContainsKey(Constants.Navigations.REFRESH_ORDER))
                 {
-                    await NewOrderViewModel.OrderRegistrationViewModel.LaunchRefreshOrder();
+                    await NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
                 }
 
                 if (parameters.TryGetValue(Constants.Navigations.SEARCH_QUERY, out string searchQuery))

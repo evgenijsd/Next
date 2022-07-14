@@ -19,9 +19,9 @@ namespace Next2.Models.Bindables
 
         public bool IsFirstSeat { get; set; }
 
-        public ICommand? SeatSelectionCommand { get; set; }
+        public ICommand? SelectSeatCommand { get; set; }
 
-        public ICommand? SeatDeleteCommand { get; set; }
+        public ICommand? DeleteSeatCommand { get; set; }
 
         public ICommand? RemoveOrderCommand { get; set; }
     }

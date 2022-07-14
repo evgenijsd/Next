@@ -44,7 +44,7 @@ namespace Next2.ViewModels.Tablet
 
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
-            orderRegistrationViewModel.LaunchRefreshOrder();
+            orderRegistrationViewModel?.RefreshCurrentOrderAsync();
         }
 
         #region -- Public properties --
@@ -165,7 +165,7 @@ namespace Next2.ViewModels.Tablet
 
                     if (resultOfAddingDish.IsSuccess)
                     {
-                        await OrderRegistrationViewModel.LaunchRefreshOrder();
+                        await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
                         bool isOrderUpdated = await UpdateCurrentOrder();
 
                         if (isOrderUpdated)

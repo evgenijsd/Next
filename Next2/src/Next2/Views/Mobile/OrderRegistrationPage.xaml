@@ -352,13 +352,13 @@
 
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate>
-                    <templates:SeatBindableItemTemplate />
+                    <templates:SeatGroupItemTemplate />
                 </DataTemplate>
             </CollectionView.GroupHeaderTemplate>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <templates:DishBindableItemTemplate />
+                    <templates:DishGroupItemTemplate />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 

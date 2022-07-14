@@ -7,8 +7,20 @@
     xmlns:models="clr-namespace:Next2.Models.Bindables"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     Padding="16, 13, 16, 0"
-    x:Class="Next2.Controls.Templates.SeatBindableItemTemplate"
+    x:Class="Next2.Controls.Templates.SeatGroupItemTemplate"
     x:DataType="models:SeatGroupBindableModel">
+
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup Name="CommonStates">
+
+            <VisualState Name="Selected">
+                <VisualState.Setters>
+                    <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                </VisualState.Setters>
+            </VisualState>
+
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
 
     <BoxView
         HeightRequest="1"
@@ -26,7 +38,7 @@
             Source="ic_check_box_unhecked_24x24.png"
             HeightRequest="20"
             WidthRequest="20"
-            xct:TouchEffect.Command="{Binding SeatSelectionCommand}"
+            xct:TouchEffect.Command="{Binding SelectSeatCommand}"
             xct:TouchEffect.CommandParameter="{Binding .}">
 
             <ffimageloading:CachedImage.Triggers>
@@ -57,7 +69,7 @@
             WidthRequest="20"
             Source="ic_outline_minus_24x24.png"
             IsVisible="{Binding IsFirstSeat, Converter={xct:InvertedBoolConverter}}"
-            xct:TouchEffect.Command="{Binding SeatDeleteCommand}"
+            xct:TouchEffect.Command="{Binding DeleteSeatCommand}"
             xct:TouchEffect.CommandParameter="{Binding .}" />
 
         <pancakeview:PancakeView

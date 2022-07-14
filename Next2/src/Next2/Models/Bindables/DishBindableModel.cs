@@ -13,7 +13,7 @@ namespace Next2.Models.Bindables
     {
         public int SeatNumber { get; set; }
 
-        public bool IsSelectedSeat { get; set; }
+        public bool IsSeatSelected { get; set; }
 
         public int Index { get; set; }
 
@@ -37,7 +37,7 @@ namespace Next2.Models.Bindables
 
         public ObservableCollection<ProductBindableModel>? SelectedProducts { get; set; }
 
-        public ICommand? DishSelectionCommand { get; set; }
+        public ICommand? SelectDishCommand { get; set; }
 
         public object Clone()
         {

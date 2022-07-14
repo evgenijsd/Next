@@ -2,9 +2,9 @@
 
 namespace Next2.Controls.Templates
 {
-    public partial class DishBindableItemTemplate : StackLayout
+    public partial class DishGroupItemTemplate : StackLayout
     {
-        public DishBindableItemTemplate()
+        public DishGroupItemTemplate()
         {
             InitializeComponent();
         }
