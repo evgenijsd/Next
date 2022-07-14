@@ -1279,18 +1279,6 @@
                 ItemsSource="{Binding OrderRegistrationViewModel.SelectedDishesForSeats}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedDish}">
 
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup Name="CommonStates">
-
-                        <VisualState Name="Selected">
-                            <VisualState.Setters>
-                                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
-                            </VisualState.Setters>
-                        </VisualState>
-
-                    </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>
-
                 <CollectionView.Behaviors>
                     <behaviors:ScrollToDishGroupCenterBehavior />
                 </CollectionView.Behaviors>
