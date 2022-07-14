@@ -352,6 +352,7 @@ namespace Next2.ViewModels
 
                 DishesGroupedBySeats.Add(new(seat.SeatNumber, selectedDishes));
                 var seatGroup = DishesGroupedBySeats.Last();
+
                 seatGroup.Checked = seat.Checked;
                 seatGroup.IsFirstSeat = seat.IsFirstSeat;
                 SelectedDish = selectedDish;
