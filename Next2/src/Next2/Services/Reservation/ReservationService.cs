@@ -33,7 +33,7 @@ namespace Next2.Services.Reservation
                     bool containsName(ReservationModel x) => x.CustomerName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase);
                     bool containsPhone(ReservationModel x) => x.Phone.Contains(searchQuery);
 
-                    var reservations = searchQuery is null
+                    var reservations = string.IsNullOrEmpty(searchQuery)
                         ? resultOfGettingReservations.Result
                         : resultOfGettingReservations.Result.Where(x => containsName(x) || containsPhone(x));
 

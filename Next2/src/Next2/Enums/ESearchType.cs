@@ -5,5 +5,6 @@
         Order,
         Member,
         Customer,
+        Reservation,
     }
 }

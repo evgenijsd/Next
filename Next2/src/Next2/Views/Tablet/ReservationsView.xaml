@@ -10,7 +10,7 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
-    xmlns:bindableModels="clr-namespace:Next2.Models.Bindables"
+    xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:viewModelsTablet="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
@@ -31,6 +31,8 @@
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
             <Setter Property="BackgroundColor" Value="Transparent"/>
             <Setter Property="WidthRequest" Value="100"/>
+            <Setter Property="IsEnabled" Value="False"/>
+            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
         </Style>
         
     </ContentView.Resources>
@@ -41,7 +43,6 @@
         VerticalOptions="Fill"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
-        <!-- PAGE HEADER -->
         <Grid
             Grid.Row="0"
             ColumnDefinitions="520, *">
@@ -61,7 +62,6 @@
             Grid.Row="1"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
-        <!-- OPTIONS -->
         <Grid
             Grid.Row="2"
             Margin="32, 29, 32, 18"
@@ -74,31 +74,19 @@
                 Placeholder="{xct:Translate SearchByNameOrPhone}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 BackColor="Transparent"
-                BorderColor="{DynamicResource AppColor_i1}"
-                CommandSearch="{Binding GoToSearchQueryInputCommand}"
-                CommandClear="{Binding ClearSearchResultCommand}">
+                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                Command="{Binding GoToSearchQueryInputCommand}"
+                ClearCommand="{Binding ClearSearchResultCommand}"/>
 
-                <buttons:SearchButton.Triggers>
-
-                    <DataTrigger TargetType="buttons:SearchButton" Binding="{Binding SearchQuery, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
-                        <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
-                        <Setter Property="ImageSource" Value="ic_search_24x24" />
-                    </DataTrigger>
-
-                </buttons:SearchButton.Triggers>
-
-            </buttons:SearchButton>
-
-            <!-- BUTTONS -->
             <StackLayout
                 Grid.Column="1"
                 Orientation="Horizontal"
                 Spacing="12">
 
                 <StackLayout.Triggers>
-                    <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedReservation, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
-                        <Setter Property="IsEnabled" Value="False"/>
-                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
+                        <Setter Property="IsEnabled" Value="True"/>
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenEnabled_i1}"/>
                     </DataTrigger>
                 </StackLayout.Triggers>
 
@@ -127,7 +115,9 @@
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    Text="{xct:Translate AddNew}"/>
+                    Text="{xct:Translate AddNew}"
+                    Opacity="{DynamicResource OpacityWhenEnabled_i1}"
+                    IsEnabled="True"/>
 
             </StackLayout>
 
@@ -136,8 +126,6 @@
         <StackLayout
             Grid.Row="3"
             Margin="32, 0, 32, 16">
-
-            <!-- TABLE HEADER -->
 
             <yummy:PancakeView CornerRadius="7, 7, 0, 0">
 
@@ -199,7 +187,6 @@
 
             </yummy:PancakeView>
 
-            <!-- TABLE CONTENT -->
             <yummy:PancakeView 
                 VerticalOptions="FillAndExpand"
                 CornerRadius="0, 0, 7, 7">
@@ -235,7 +222,7 @@
 
                             <CollectionView.ItemTemplate>
 
-                                <DataTemplate x:DataType="bindableModels:ReservationBindableModel">
+                                <DataTemplate x:DataType="models:ReservationModel">
 
                                     <Grid
                                         HorizontalOptions="Fill"
@@ -324,7 +311,6 @@
 
                         </controls:CustomCollectionView>
 
-                        <!-- NOTHING FOUND STATE -->
                         <yummy:PancakeView
                             VerticalOptions="FillAndExpand"
                             HorizontalOptions="FillAndExpand"
@@ -341,7 +327,6 @@
 
                         </yummy:PancakeView>
 
-                        <!-- ORDER PRELODING STATE -->
                         <yummy:PancakeView
                             VerticalOptions="FillAndExpand"
                             HorizontalOptions="FillAndExpand"

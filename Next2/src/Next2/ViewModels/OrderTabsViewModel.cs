@@ -14,7 +14,6 @@ using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -272,8 +271,8 @@ namespace Next2.ViewModels
         private Task OnGoToSearchQueryInputCommandAsync()
         {
             Func<string, string> searchValidator = IsTabsModeSelected
-                ? _orderService.ApplyNameFilter
-                : _orderService.ApplyNumberFilter;
+                ? Filters.ApplyNameFilter
+                : Filters.ApplyNumberFilter;
 
             var searchHint = IsTabsModeSelected
                 ? LocalizationResourceManager.Current["NameOrOrder"]
@@ -324,7 +323,9 @@ namespace Next2.ViewModels
 
         private void OnSelectOrderCommand(SimpleOrderBindableModel? order)
         {
-            SelectedOrder = order == SelectedOrder ? null : order;
+            SelectedOrder = order == SelectedOrder
+                ? null
+                : order;
         }
 
         private async Task OnRemoveOrderCommandAsync()

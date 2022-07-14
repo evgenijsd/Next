@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Next2.Enums;
-using Next2.Models.Bindables;
+using Next2.Helpers;
+using Next2.Models;
 using Next2.Services.Reservation;
+using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Tablet
@@ -40,9 +43,9 @@ namespace Next2.ViewModels.Tablet
 
         public EReservationsSortingType ReservationSortingType { get; set; }
 
-        public ReservationBindableModel? SelectedReservation { get; set; }
+        public ReservationModel? SelectedReservation { get; set; }
 
-        public ObservableCollection<ReservationBindableModel> Reservations { get; set; } = new();
+        public ObservableCollection<ReservationModel> Reservations { get; set; } = new();
 
         private ICommand _goToSearchQueryInputCommand;
         public ICommand GoToSearchQueryInputCommand => _goToSearchQueryInputCommand ??= new AsyncCommand(OnGoToSearchQueryInputCommandAsync, allowsMultipleExecutions: false);
@@ -57,7 +60,7 @@ namespace Next2.ViewModels.Tablet
         public ICommand ChangeSortReservationCommand => _changeSortReservationCommand ??= new AsyncCommand<EReservationsSortingType>(OnChangeSortReservationCommand, allowsMultipleExecutions: false);
 
         private ICommand _selectReservationCommand;
-        public ICommand SelectReservationCommand => _selectReservationCommand ??= new AsyncCommand(OnSelectReservationCommand);
+        public ICommand SelectReservationCommand => _selectReservationCommand ??= new AsyncCommand<ReservationModel>(OnSelectReservationCommand);
 
         #endregion
 
@@ -92,29 +95,31 @@ namespace Next2.ViewModels.Tablet
 
         #endregion
 
+        #region -- Public helpers --
+
+        public void SetSearchQuery(string searchQuery)
+        {
+            SearchQuery = searchQuery;
+
+            IsReservationsRefreshing = true;
+        }
+
+        #endregion
+
         #region -- Private helpers --
 
         private async Task OnGoToSearchQueryInputCommandAsync()
         {
-            //if (Orders.Any() || !string.IsNullOrEmpty(SearchQuery))
-            //{
-            //    Func<string, string> searchValidator = _orderService.ApplyNameFilter;
+            Func<string, string> searchValidator = Filters.ApplyNameFilter;
 
-            //    var searchHint = IsTabsModeSelected
-            //        ? LocalizationResourceManager.Current["NameOrOrder"]
-            //        : LocalizationResourceManager.Current["TableNumberOrOrder"];
+            var parameters = new NavigationParameters()
+            {
+                { Constants.Navigations.SEARCH_RESERVATION, SearchQuery },
+                { Constants.Navigations.FUNC, searchValidator },
+                { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["SearchByNameOrPhone"] },
+            };
 
-            //    var parameters = new NavigationParameters()
-            //    {
-            //        { Constants.Navigations.SEARCH, SearchQuery },
-            //        { Constants.Navigations.FUNC, searchValidator },
-            //        { Constants.Navigations.PLACEHOLDER, searchHint },
-            //    };
-
-            //    IsSearchModeActive = true;
-
-            //    await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
-            //}
+            await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
         }
 
         private async Task OnClearSearchResultCommandAsync()
@@ -128,9 +133,11 @@ namespace Next2.ViewModels.Tablet
 
             if (resultOfGettingReservations.IsSuccess)
             {
-                var reservations = _mapper.Map<ObservableCollection<ReservationBindableModel>>(resultOfGettingReservations.Result);
-
-                Reservations = new(reservations);
+                Reservations = new(GetSortedOrders(resultOfGettingReservations.Result));
+            }
+            else
+            {
+                await ResponseToBadRequestAsync(resultOfGettingReservations.Exception.Message);
             }
         }
 
@@ -150,9 +157,9 @@ namespace Next2.ViewModels.Tablet
             return Task.CompletedTask;
         }
 
-        private IEnumerable<ReservationBindableModel> GetSortedOrders(IEnumerable<ReservationBindableModel> reservations)
+        private IEnumerable<ReservationModel> GetSortedOrders(IEnumerable<ReservationModel> reservations)
         {
-            Func<ReservationBindableModel, object> sortingSelector = ReservationSortingType switch
+            Func<ReservationModel, object> sortingSelector = ReservationSortingType switch
             {
                 EReservationsSortingType.ByCustomerName => x => x.CustomerName,
                 EReservationsSortingType.ByTableNumber => x => x.TableNumber,
@@ -162,9 +169,12 @@ namespace Next2.ViewModels.Tablet
             return reservations.OrderBy(sortingSelector);
         }
 
-        private Task OnSelectReservationCommand()
+        private Task OnSelectReservationCommand(ReservationModel reservation)
         {
-            //SelectedOrder = order == SelectedOrder ? null : order;
+            SelectedReservation = reservation == SelectedReservation
+                ? null
+                : reservation;
+
             return Task.CompletedTask;
         }
 

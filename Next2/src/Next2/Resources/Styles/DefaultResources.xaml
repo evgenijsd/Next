@@ -37,6 +37,7 @@
     
     <x:Double x:Key="OpacityWhenDisabled_i1">0.5</x:Double>
     <x:Double x:Key="OpacityWhenDisabled_i2">0.6</x:Double>
+    <x:Double x:Key="OpacityWhenEnabled_i1">1</x:Double>
 
     <Style TargetType="Frame">
         <Setter Property="HasShadow" Value="False" />

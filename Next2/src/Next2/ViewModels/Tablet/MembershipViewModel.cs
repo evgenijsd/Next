@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Services.Membership;
@@ -178,7 +179,8 @@ namespace Next2.ViewModels.Tablet
         {
             if (DisplayMembers.Any() || !string.IsNullOrEmpty(SearchText))
             {
-                Func<string, string> searchValidator = _membershipService.ApplyNameFilter;
+                Func<string, string> searchValidator = Filters.ApplyNameFilter;
+
                 var parameters = new NavigationParameters()
                 {
                     { Constants.Navigations.SEARCH_MEMBER, SearchText },
