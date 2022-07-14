@@ -1358,11 +1358,11 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to splitted.
+        ///   Looks up a localized string similar to Splitted.
         /// </summary>
-        internal static string splitted {
+        internal static string Splitted {
             get {
-                return ResourceManager.GetString("splitted", resourceCulture);
+                return ResourceManager.GetString("Splitted", resourceCulture);
             }
         }
         

@@ -654,8 +654,8 @@ A receipt has been printed for you.</value>
   <data name="OrderUpdated" xml:space="preserve">
     <value>The order has been successfully updated.</value>
   </data>
-  <data name="splitted" xml:space="preserve">
-    <value>splitted</value>
+  <data name="Splitted" xml:space="preserve">
+    <value>Splitted</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>

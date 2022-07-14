@@ -123,7 +123,7 @@
                                                 <FormattedString>
 
                                                     <Span Text="   " />
-                                                    <Span Text="{xct:Translate splitted}" />
+                                                    <Span Text="{xct:Translate Splitted}" />
                                                     <Span Text="   " />
 
                                                 </FormattedString>
