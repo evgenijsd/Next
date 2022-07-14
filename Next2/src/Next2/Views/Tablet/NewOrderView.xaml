@@ -1269,7 +1269,7 @@
 
             </controls:DropDownList>
 
-            <!-- SEATS LIST -->
+            <!-- SEATS_DISHES LIST -->
             <CollectionView
                 Grid.Row="2"
                 VerticalScrollBarVisibility="Always"
@@ -1309,8 +1309,7 @@
                 </CollectionView.Effects>
 
                 <CollectionView.EmptyView>
-                    <StackLayout
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+                    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                         <pancakeview:PancakeView
                             IsVisible="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
@@ -1326,8 +1325,7 @@
                                 Spacing="6"
                                 Padding="10">
 
-                                <StackLayout
-                                    Orientation="Horizontal">
+                                <StackLayout Orientation="Horizontal">
 
                                     <Label
                                         Text="{Binding OrderRegistrationViewModel.PopUpInfo}"
@@ -1375,9 +1373,7 @@
                                     Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
                                     Value="True">
 
-                                    <Setter
-                                        Property="Margin"
-                                        Value="0, 40, 0, 0" />
+                                    <Setter Property="Margin" Value="0, 40, 0, 0" />
 
                                 </DataTrigger>
                             </StackLayout.Triggers>
@@ -1392,18 +1388,14 @@
                                         <VisualStateGroup
                                             Name="AdaptivePic_payment">
 
-                                            <VisualState
-                                                Name="Medium">
+                                            <VisualState Name="Medium">
 
                                                 <VisualState.StateTriggers>
-                                                    <AdaptiveTrigger
-                                                        MinWindowWidth="1340" />
+                                                    <AdaptiveTrigger MinWindowWidth="1340" />
                                                 </VisualState.StateTriggers>
 
                                                 <VisualState.Setters>
-                                                    <Setter
-                                                        Property="HeightRequest"
-                                                        Value="250" />
+                                                    <Setter Property="HeightRequest" Value="250" />
                                                 </VisualState.Setters>
 
                                             </VisualState>

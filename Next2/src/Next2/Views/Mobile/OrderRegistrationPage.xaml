@@ -236,7 +236,7 @@
 
         </controls:DropDownList>
 
-        <!-- SEATS LIST -->
+        <!-- SEATS_DISHES LIST -->
         <CollectionView
             Grid.Row="2"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"

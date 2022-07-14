@@ -36,9 +36,7 @@
                     Binding="{Binding Checked}"
                     Value="True">
 
-                    <Setter
-                        Property="Source"
-                        Value="ic_check_box_checked_primary_24x24.png" />
+                    <Setter Property="Source" Value="ic_check_box_checked_primary_24x24.png" />
 
                 </DataTrigger>
 
@@ -73,8 +71,7 @@
             xct:TouchEffect.Command="{Binding RemoveOrderCommand}"
             xct:TouchEffect.CommandParameter="{Binding .}">
 
-            <StackLayout
-                Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal">
 
                 <ffimageloading:CachedImage
                     HorizontalOptions="EndAndExpand"
