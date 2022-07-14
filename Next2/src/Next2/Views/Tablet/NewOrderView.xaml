@@ -1269,14 +1269,14 @@
 
             </controls:DropDownList>
 
-            <!-- SEATS_DISHES LIST -->
+            <!-- DISHES_GROUP LIST -->
             <CollectionView
                 Grid.Row="2"
                 VerticalScrollBarVisibility="Always"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                 SelectionMode="Single"
                 IsGrouped="True"
-                ItemsSource="{Binding OrderRegistrationViewModel.SelectedDishesForSeats}"
+                ItemsSource="{Binding OrderRegistrationViewModel.DishesGroupedBySeats}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedDish}">
 
                 <CollectionView.Behaviors>
@@ -1410,13 +1410,13 @@
 
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate>
-                        <templates:SeatGroupItemTemplate />
+                        <templates:SeatHeaderItemTemplate />
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <templates:DishGroupItemTemplate />
+                        <templates:DishesGroupedBySeatItemTemplate />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 

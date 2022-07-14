@@ -7,8 +7,8 @@
     xmlns:models="clr-namespace:Next2.Models.Bindables"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     Padding="16, 13, 16, 0"
-    x:Class="Next2.Controls.Templates.SeatGroupItemTemplate"
-    x:DataType="models:SeatGroupBindableModel">
+    x:Class="Next2.Controls.Templates.SeatHeaderItemTemplate"
+    x:DataType="models:DishesGroupedBySeat">
 
     <VisualStateManager.VisualStateGroups>
         <VisualStateGroup Name="CommonStates">

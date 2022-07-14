@@ -2,9 +2,9 @@
 
 namespace Next2.Controls.Templates
 {
-    public partial class SeatGroupItemTemplate : StackLayout
+    public partial class DishesGroupedBySeatItemTemplate : StackLayout
     {
-        public SeatGroupItemTemplate()
+        public DishesGroupedBySeatItemTemplate()
         {
             InitializeComponent();
         }

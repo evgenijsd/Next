@@ -5,9 +5,9 @@ using System.Windows.Input;
 
 namespace Next2.Models.Bindables
 {
-    public class SeatGroupBindableModel : List<DishBindableModel>
+    public class DishesGroupedBySeat : List<DishBindableModel>
     {
-        public SeatGroupBindableModel(int seatNumber, List<DishBindableModel> dishes)
+        public DishesGroupedBySeat(int seatNumber, List<DishBindableModel> dishes)
             : base(dishes)
         {
             SeatNumber = seatNumber;

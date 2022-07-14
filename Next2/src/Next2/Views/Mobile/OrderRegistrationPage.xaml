@@ -236,26 +236,14 @@
 
         </controls:DropDownList>
 
-        <!-- SEATS_DISHES LIST -->
+        <!-- DISHES_GROUP LIST -->
         <CollectionView
             Grid.Row="2"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
             SelectionMode="Single"
             IsGrouped="True"
-            ItemsSource="{Binding SelectedDishesForSeats}"
+            ItemsSource="{Binding DishesGroupedBySeats}"
             SelectedItem="{Binding SelectedDish}">
-
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup Name="CommonStates">
-
-                    <VisualState Name="Selected">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
-                        </VisualState.Setters>
-                    </VisualState>
-
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
 
             <CollectionView.Effects>
                 <effects:NoOverScrollEffect />
@@ -352,13 +340,13 @@
 
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate>
-                    <templates:SeatGroupItemTemplate />
+                    <templates:SeatHeaderItemTemplate />
                 </DataTemplate>
             </CollectionView.GroupHeaderTemplate>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <templates:DishGroupItemTemplate />
+                    <templates:DishesGroupedBySeatItemTemplate />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
