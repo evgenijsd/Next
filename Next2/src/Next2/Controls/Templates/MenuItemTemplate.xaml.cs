@@ -33,6 +33,18 @@ namespace Next2.Controls.Templates
             set => SetValue(ImagePathProperty, value);
         }
 
+        public static readonly BindableProperty ImageSizesProperty = BindableProperty.Create(
+            propertyName: nameof(ImageSizes),
+            returnType: typeof(Size),
+            defaultValue: new Size(22, 22),
+            declaringType: typeof(MenuItemTemplate));
+
+        public Size ImageSizes
+        {
+            get => (Size)GetValue(ImageSizesProperty);
+            set => SetValue(ImageSizesProperty, value);
+        }
+
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
@@ -46,14 +58,14 @@ namespace Next2.Controls.Templates
 
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
             propertyName: nameof(FontSize),
-            returnType: typeof(float),
+            returnType: typeof(double),
             declaringType: typeof(MenuItemTemplate),
-            defaultValue: 12f,
+            defaultValue: 12d,
             defaultBindingMode: BindingMode.TwoWay);
 
-        public float FontSize
+        public double FontSize
         {
-            get => (float)GetValue(FontSizeProperty);
+            get => (double)GetValue(FontSizeProperty);
             set => SetValue(FontSizeProperty, value);
         }
 

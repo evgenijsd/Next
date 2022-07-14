@@ -20,7 +20,6 @@ using Next2.Services.Rewards;
 using Next2.Services.Settings;
 using Next2.Services.WorkLog;
 using Next2.ViewModels;
-using Next2.ViewModels.Dialogs;
 using Next2.ViewModels.Mobile;
 using Next2.ViewModels.Tablet;
 using Next2.Views;
@@ -103,14 +102,6 @@ namespace Next2
                 containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
                 containerRegistry.RegisterSingleton<OrderRegistrationViewModel>();
-
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.ConfirmDialog, ConfirmViewModel>();
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.InfoDialog, InfoDialogViewModel>();
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.MembershipEditDialog, MembershipEditDialogViewModel>();
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.EmployeeTimeClockDialog, EmployeeTimeClockViewModel>();
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.FinishPaymentDialog, FinishPaymentDialogViewModel>();
             }
             else
             {
@@ -137,11 +128,6 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.WaitingSignaturePage, WaitingSignaturePageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.TaxRemoveConfirmPage, TaxRemoveConfirmPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SplitOrderPage, SplitOrderViewModel>();
-
-                containerRegistry.RegisterDialog<MobileViews.Dialogs.ConfirmDialog, ConfirmViewModel>();
-                containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
-                containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
-                containerRegistry.RegisterDialog<MobileViews.Dialogs.FinishPaymentDialog, FinishPaymentDialogViewModel>();
             }
         }
 
