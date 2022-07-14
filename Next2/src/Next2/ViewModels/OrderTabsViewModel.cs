@@ -274,7 +274,7 @@ namespace Next2.ViewModels
             IsOrdersRefreshing = true;
         }
 
-        private async Task OnGoToSearchQueryInputCommandAsync()
+        private Task OnGoToSearchQueryInputCommandAsync()
         {
             Func<string, string> searchValidator = IsTabsModeSelected
                 ? _orderService.ApplyNameFilter
@@ -293,7 +293,7 @@ namespace Next2.ViewModels
 
             IsSearchModeActive = true;
 
-            await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
+            return _navigationService.NavigateAsync(nameof(SearchPage), parameters);
         }
 
         private IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders)
@@ -598,7 +598,7 @@ namespace Next2.ViewModels
 
         private Task OnClearSearchCommandAsync()
         {
-            SetSearchQuery(string.Empty);
+            IsOrdersRefreshing = true;
 
             return Task.CompletedTask;
         }
