@@ -216,23 +216,7 @@ namespace Next2.ViewModels
                     break;
                 case nameof(IsOrderWithTax):
 
-                    if (!IsOrderWithTax && CurrentOrder.DiscountPrice is not null && CurrentOrder.SubTotalPrice is not null)
-                    {
-                        if (CurrentOrder.Coupon != null || CurrentOrder.Discount != null)
-                        {
-                            CurrentOrder.TotalPrice = CurrentOrder.DiscountPrice is not null
-                                ? (decimal)CurrentOrder.DiscountPrice
-                                : 0;
-                        }
-                        else
-                        {
-                            CurrentOrder.TotalPrice = CurrentOrder.SubTotalPrice is not null
-                                ? (decimal)CurrentOrder.SubTotalPrice
-                                : 0;
-                        }
-
-                        CurrentOrder.PriceTax = 0;
-                    }
+                    UpdateTotalOrderPrice();
 
                     break;
 
@@ -1247,6 +1231,27 @@ namespace Next2.ViewModels
 
                     await RefreshCurrentOrderAsync();
                 }
+            }
+        }
+
+        private void UpdateTotalOrderPrice()
+        {
+            if (!IsOrderWithTax && CurrentOrder.DiscountPrice is not null && CurrentOrder.SubTotalPrice is not null)
+            {
+                if (CurrentOrder.Coupon != null || CurrentOrder.Discount != null)
+                {
+                    CurrentOrder.TotalPrice = CurrentOrder.DiscountPrice is not null
+                        ? (decimal)CurrentOrder.DiscountPrice
+                        : 0;
+                }
+                else
+                {
+                    CurrentOrder.TotalPrice = CurrentOrder.SubTotalPrice is not null
+                        ? (decimal)CurrentOrder.SubTotalPrice
+                        : 0;
+                }
+
+                CurrentOrder.PriceTax = 0;
             }
         }
 
