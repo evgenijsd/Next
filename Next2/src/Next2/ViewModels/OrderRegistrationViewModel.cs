@@ -575,9 +575,9 @@ namespace Next2.ViewModels
 
         private async void CloseDeleteSeatDialogCallback(IDialogParameters dialogResult)
         {
-            var isDeleteSets = false;
-            var isRedirectSets = false;
-            var isDeleteSeat = false;
+            var isDeletedSets = false;
+            var isRedirectedSets = false;
+            var isDeletedSeat = false;
 
             if (dialogResult is not null
                 && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_DISHES, out EActionOnDishes actionOnDishes)
@@ -589,7 +589,7 @@ namespace Next2.ViewModels
 
                     if (deleteDishesResult.IsSuccess)
                     {
-                        isDeleteSets = true;
+                        isDeletedSets = true;
 
                         IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 
@@ -612,13 +612,13 @@ namespace Next2.ViewModels
 
                     if (redirectSetsResult.IsSuccess)
                     {
-                        isRedirectSets = true;
+                        isRedirectedSets = true;
 
                         var deleteSeatResult = await _orderService.DeleteSeatFromCurrentOrder(removalSeat);
 
                         if (deleteSeatResult.IsSuccess)
                         {
-                            isDeleteSeat = true;
+                            isDeletedSeat = true;
 
                             var updatedDestinationSeatNumber = (destinationSeatNumber < removalSeat.SeatNumber)
                                 ? destinationSeatNumber
@@ -635,7 +635,7 @@ namespace Next2.ViewModels
                         }
                     }
 
-                    if (!isRedirectSets || !isDeleteSeat)
+                    if (!isRedirectedSets || !isDeletedSeat)
                     {
                         await ShowInfoDialogAsync(
                             LocalizationResourceManager.Current["Error"],
@@ -652,7 +652,7 @@ namespace Next2.ViewModels
                 await _navigationService.GoBackAsync();
             }
 
-            if (isDeleteSets || (isRedirectSets && isDeleteSeat))
+            if (isDeletedSets || (isRedirectedSets && isDeletedSeat))
             {
                 var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
 
