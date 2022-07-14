@@ -173,16 +173,22 @@ namespace Next2.ViewModels.Mobile
             }
         }
 
-        private Task OnOpenNewOrderPageCommandAsync()
+        private async Task OnOpenNewOrderPageCommandAsync()
         {
-            return !IsInternetConnected
-                ? ShowInfoDialogAsync(
+            if (IsInternetConnected)
+            {
+                if (CanShowOrder)
+                {
+                    await _navigationService.NavigateAsync(nameof(OrderRegistrationPage));
+                }
+            }
+            else
+            {
+                await ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"])
-                        : CanShowOrder
-                            ? _navigationService.NavigateAsync(nameof(OrderRegistrationPage))
-                            : Task.CompletedTask;
+                    LocalizationResourceManager.Current["Ok"]);
+            }
         }
 
         private Task OnTapCategoryCommandAsync(CategoryModel category)

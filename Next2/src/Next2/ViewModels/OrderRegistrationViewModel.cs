@@ -327,7 +327,7 @@ namespace Next2.ViewModels
             }));
         }
 
-        public Task RefreshCurrentOrderAsync()
+        public async Task RefreshCurrentOrderAsync()
         {
             if (IsInternetConnected)
             {
@@ -351,11 +351,11 @@ namespace Next2.ViewModels
                 SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder.OrderType);
                 NumberOfSeats = CurrentOrder.Seats.Count;
 
-                return RefreshTablesAsync();
+                await RefreshTablesAsync();
             }
             else
             {
-                return ShowInfoDialogAsync(
+                await ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
