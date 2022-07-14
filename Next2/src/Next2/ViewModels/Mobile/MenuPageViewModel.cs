@@ -175,12 +175,14 @@ namespace Next2.ViewModels.Mobile
 
         private Task OnOpenNewOrderPageCommandAsync()
         {
-            return CanShowOrder && IsInternetConnected
-                ? _navigationService.NavigateAsync(nameof(OrderRegistrationPage))
-                : ShowInfoDialogAsync(
+            return !IsInternetConnected
+                ? ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                    LocalizationResourceManager.Current["Ok"])
+                        : CanShowOrder
+                            ? _navigationService.NavigateAsync(nameof(OrderRegistrationPage))
+                            : Task.CompletedTask;
         }
 
         private Task OnTapCategoryCommandAsync(CategoryModel category)

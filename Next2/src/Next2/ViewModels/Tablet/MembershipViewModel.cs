@@ -218,7 +218,7 @@ namespace Next2.ViewModels.Tablet
 
         private async void MembershipEditDialogCallBack(IDialogParameters parameters)
         {
-            await PopupNavigation.PopAsync();
+            await CloseAllPopupAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.UPDATE, out MemberBindableModel member))
             {
@@ -246,7 +246,7 @@ namespace Next2.ViewModels.Tablet
                 await RefreshMembersAsync();
             }
 
-            await PopupNavigation.PopAsync();
+            await CloseAllPopupAsync();
         }
 
         #endregion

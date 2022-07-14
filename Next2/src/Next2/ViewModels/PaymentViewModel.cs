@@ -232,7 +232,7 @@ namespace Next2.ViewModels
         {
             if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isExitConfirmed))
             {
-                await PopupNavigation.PopAsync();
+                await CloseAllPopupAsync();
 
                 if (isExitConfirmed)
                 {

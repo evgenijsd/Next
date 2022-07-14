@@ -130,10 +130,7 @@ namespace Next2.ViewModels.Mobile
                     {
                         var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
 
-                        if (PopupNavigation.PopupStack.Any())
-                        {
-                            await PopupNavigation.PopAsync();
-                        }
+                        await CloseAllPopupAsync();
 
                         if (resultOfUpdatingOrder.IsSuccess)
                         {
@@ -156,10 +153,7 @@ namespace Next2.ViewModels.Mobile
                     }
                     else
                     {
-                        if (PopupNavigation.PopupStack.Any())
-                        {
-                            await PopupNavigation.PopAsync();
-                        }
+                        await CloseAllPopupAsync();
 
                         await ShowInfoDialogAsync(
                             LocalizationResourceManager.Current["Error"],
@@ -169,18 +163,12 @@ namespace Next2.ViewModels.Mobile
                 }
                 else
                 {
-                    if (PopupNavigation.PopupStack.Any())
-                    {
-                        await PopupNavigation.PopAsync();
-                    }
+                    await CloseAllPopupAsync();
                 }
             }
             else
             {
-                if (PopupNavigation.PopupStack.Any())
-                {
-                    await PopupNavigation.PopAsync();
-                }
+                await CloseAllPopupAsync();
 
                 await ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],

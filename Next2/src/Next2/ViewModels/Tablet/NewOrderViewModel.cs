@@ -15,6 +15,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
@@ -181,10 +182,7 @@ namespace Next2.ViewModels.Tablet
 
                             if (resultOfUpdatingOrder.IsSuccess)
                             {
-                                if (PopupNavigation.PopupStack.Any())
-                                {
-                                    await PopupNavigation.PopAsync();
-                                }
+                                await CloseAllPopupAsync();
 
                                 var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
                                 {
@@ -198,10 +196,7 @@ namespace Next2.ViewModels.Tablet
                             }
                             else
                             {
-                                if (PopupNavigation.PopupStack.Any())
-                                {
-                                    await PopupNavigation.PopAsync();
-                                }
+                                await CloseAllPopupAsync();
 
                                 _orderService.CurrentOrder = _tempCurrentOrder;
                                 _orderService.CurrentSeat = _tempCurrentSeat;
@@ -212,10 +207,7 @@ namespace Next2.ViewModels.Tablet
                         }
                         else
                         {
-                            if (PopupNavigation.PopupStack.Any())
-                            {
-                                await PopupNavigation.PopAsync();
-                            }
+                            await CloseAllPopupAsync();
 
                             await ShowInfoDialogAsync(
                                 LocalizationResourceManager.Current["Error"],
@@ -226,18 +218,12 @@ namespace Next2.ViewModels.Tablet
                 }
                 else
                 {
-                    if (PopupNavigation.PopupStack.Any())
-                    {
-                        await PopupNavigation.PopAsync();
-                    }
+                    await CloseAllPopupAsync();
                 }
             }
             else
             {
-                if (PopupNavigation.PopupStack.Any())
-                {
-                    await PopupNavigation.PopAsync();
-                }
+                await CloseAllPopupAsync();
 
                 await ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],

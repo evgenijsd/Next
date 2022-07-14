@@ -419,7 +419,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await PopupNavigation.PopAsync();
+                await CloseAllPopupAsync();
             }
         }
 
@@ -454,7 +454,7 @@ namespace Next2.ViewModels
                                 await OnClearSearchResultCommandAsync();
                             }
 
-                            await PopupNavigation.PopAllAsync();
+                            await CloseAllPopupAsync();
                         }
                         else
                         {
@@ -468,7 +468,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await PopupNavigation.PopAsync();
+                    await CloseAllPopupAsync();
                     await ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
@@ -477,7 +477,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await PopupNavigation.PopAsync();
+                await CloseAllPopupAsync();
             }
         }
 
@@ -532,12 +532,12 @@ namespace Next2.ViewModels
             {
                 if (isOrderPrintingAccepted && SelectedOrder is not null)
                 {
-                    await PopupNavigation.PopAsync();
+                    await CloseAllPopupAsync();
                 }
             }
             else
             {
-                await PopupNavigation.PopAsync();
+                await CloseAllPopupAsync();
             }
         }
 

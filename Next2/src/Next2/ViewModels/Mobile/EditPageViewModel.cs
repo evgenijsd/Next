@@ -110,7 +110,7 @@ namespace Next2.ViewModels.Mobile
 
                     if (result.IsSuccess)
                     {
-                        await PopupNavigation.PopAsync();
+                        await CloseAllPopupAsync();
 
                         var navigationParameters = new NavigationParameters
                         {
@@ -121,12 +121,12 @@ namespace Next2.ViewModels.Mobile
                 }
                 else
                 {
-                    await PopupNavigation.PopAsync();
+                    await CloseAllPopupAsync();
                 }
             }
             else
             {
-                await PopupNavigation.PopAsync();
+                await CloseAllPopupAsync();
             }
         }
 

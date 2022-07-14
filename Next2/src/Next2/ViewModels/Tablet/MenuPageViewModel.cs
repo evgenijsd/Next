@@ -246,7 +246,7 @@ namespace Next2.ViewModels.Tablet
             {
                 if (result)
                 {
-                    await PopupNavigation.PopAsync();
+                    await CloseAllPopupAsync();
 
                     var logoutResult = await _authenticationService.LogoutAsync();
 
@@ -266,7 +266,7 @@ namespace Next2.ViewModels.Tablet
                 }
                 else
                 {
-                    await PopupNavigation.PopAsync();
+                    await CloseAllPopupAsync();
                 }
             }
         }
