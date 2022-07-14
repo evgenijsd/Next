@@ -40,7 +40,7 @@ namespace Next2.Behaviors
         {
             if (e.CurrentSelection.FirstOrDefault() is DishBindableModel dish)
             {
-                _collection.ScrollTo(dish.Index, dish.SeatNumber - 1, ScrollToPosition.Center, animate: false);
+                _collection.ScrollTo(dish, dish, ScrollToPosition.Center, animate: false);
             }
         }
 

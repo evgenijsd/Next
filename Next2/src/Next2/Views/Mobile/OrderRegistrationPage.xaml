@@ -236,7 +236,6 @@
 
         </controls:DropDownList>
 
-        <!-- DISHES_GROUP LIST -->
         <CollectionView
             Grid.Row="2"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"

@@ -15,8 +15,6 @@ namespace Next2.Models.Bindables
 
         public bool IsSeatSelected { get; set; }
 
-        public int Index { get; set; }
-
         public Guid Id { get; set; }
 
         public Guid DishId { get; set; }

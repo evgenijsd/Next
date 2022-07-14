@@ -326,28 +326,22 @@ namespace Next2.ViewModels
 
             foreach (var seat in _orderService.CurrentOrder.Seats)
             {
-                int index = 0;
                 bool isSelectedDishes = seat.SelectedDishes.Any();
                 var selectedDishes = isSelectedDishes
                     ? seat.SelectedDishes.ToList()
                     : new() { new(), };
-                int indexSelected = isSelectedDishes
-                    ? seat.SelectedDishes.IndexOf(seat.SelectedItem ?? new())
-                    : -1;
+                var dishFirst = selectedDishes.FirstOrDefault();
 
                 foreach (var dish in selectedDishes)
                 {
-                    dish.Index = index;
                     dish.SeatNumber = seat.SeatNumber;
                     dish.IsSeatSelected = seat.Checked;
                     dish.SelectDishCommand = _selectDishCommand;
 
-                    if (index == indexSelected || (seat.Checked && index == 0))
+                    if (dish == seat.SelectedItem || (seat.Checked && dish == dishFirst))
                     {
                         selectedDish = dish;
                     }
-
-                    index++;
                 }
 
                 DishesGroupedBySeats.Add(new(seat.SeatNumber, selectedDishes));
@@ -476,7 +470,7 @@ namespace Next2.ViewModels
 
                     foreach (var item in CurrentOrder.Seats)
                     {
-                        if (item.SeatNumber != seat.SeatNumber)
+                        if (item.SeatNumber != seatNumber)
                         {
                             item.Checked = false;
                         }
@@ -498,13 +492,13 @@ namespace Next2.ViewModels
 
                 if (seat is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && SelectedDish is not null)
                 {
-                    seat.SelectedItem = seat.SelectedDishes.FirstOrDefault(x => x.Index == (dish?.Index ?? -1));
+                    seat.SelectedItem = seat.SelectedDishes.FirstOrDefault(x => x == dish);
                     _seatWithSelectedDish = seat;
                     seat.Checked = true;
 
                     foreach (var item in CurrentOrder.Seats)
                     {
-                        if (item.SeatNumber != seat.SeatNumber)
+                        if (item.SeatNumber != seatNumber)
                         {
                             item.SelectedItem = null;
                             item.Checked = false;
@@ -647,6 +641,7 @@ namespace Next2.ViewModels
             foreach (var seat in CurrentOrder.Seats)
             {
                 seat.Checked = false;
+                seat.SelectedItem = null;
             }
 
             seatToBeSelected.Checked = true;
