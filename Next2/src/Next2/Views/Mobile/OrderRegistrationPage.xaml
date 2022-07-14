@@ -6,6 +6,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
+    xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
@@ -259,6 +260,10 @@
             <CollectionView.Effects>
                 <effects:NoOverScrollEffect />
             </CollectionView.Effects>
+
+            <CollectionView.Behaviors>
+                <behaviors:ScrollToDishGroupCenterBehavior />
+            </CollectionView.Behaviors>
 
             <CollectionView.EmptyView>
                 <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">

@@ -46,7 +46,6 @@ namespace Next2.ViewModels
         private SeatBindableModel _firstSeat;
         private SeatBindableModel _firstNotEmptySeat;
         private SeatBindableModel _seatWithSelectedDish;
-        private EOrderStatus _orderPaymentStatus;
         private bool _isAnyDishChosen;
 
         public OrderRegistrationViewModel(
@@ -152,13 +151,9 @@ namespace Next2.ViewModels
         {
             if (!App.IsTablet)
             {
-                foreach (var seat in _orderService.CurrentOrder.Seats)
-                {
-                    seat.SelectedItem = null;
-                }
-
                 CurrentOrder = _orderService.CurrentOrder;
                 IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
+                await UpdateDishGroups();
             }
 
             if (parameters.ContainsKey(Constants.Navigations.DISH_MODIFIED))
@@ -386,6 +381,10 @@ namespace Next2.ViewModels
             {
                 CurrentState = ENewOrderViewState.Default;
                 IsSideMenuVisible = true;
+            }
+            else if (!App.IsTablet)
+            {
+                SelectedDish = null;
             }
 
             return Task.CompletedTask;
