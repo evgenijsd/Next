@@ -10,7 +10,8 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:views="clr-namespace:Next2.Views"
-    xmlns:viewsTablet="clr-namespace:Next2.Views.Tablet" xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:viewsTablet="clr-namespace:Next2.Views.Tablet"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
     x:Class="Next2.Views.Tablet.MenuPage"
     x:DataType="viewModels:MenuPageViewModel">
@@ -34,6 +35,24 @@
                 <Setter Property="ImageSizes" Value="20, 20"/>
                 <Setter Property="FontFamily" Value="Barlow-Medium"/>
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i10}"/>
+            </Style>
+
+            <Style x:Key="MenuItemTemplateStyle_i3" TargetType="templates:MenuItemTemplate">
+                <Setter Property="Padding" Value="14, 0"/>
+                <Setter Property="WidthRequest" Value="82"/>
+                <Setter Property="HeightRequest" Value="82"/>
+                <Setter Property="ImageSizes" Value="24, 24"/>
+                <Setter Property="FontFamily" Value="Barlow-Medium"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i10}"/>
+            </Style>
+
+            <Style x:Key="MenuItemTemplateStyle_i4" TargetType="templates:MenuItemTemplate">
+                <Setter Property="Padding" Value="15, 0"/>
+                <Setter Property="WidthRequest" Value="98"/>
+                <Setter Property="HeightRequest" Value="98"/>
+                <Setter Property="ImageSizes" Value="30, 30"/>
+                <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i9}"/>
             </Style>
 
             <Style TargetType="templates:MenuItemTemplate">
@@ -65,7 +84,7 @@
                             <VisualState Name="SamsungTabA7">
 
                                 <VisualState.StateTriggers>
-                                    <AdaptiveTrigger MinWindowWidth="500" />
+                                    <AdaptiveTrigger MinWindowWidth="1006" />
                                 </VisualState.StateTriggers>
 
                                 <VisualState.Setters>
@@ -85,7 +104,31 @@
                                 </VisualState.Setters>
                                 
                             </VisualState>
-                            
+                                                        
+                            <VisualState Name="IPadPro11">
+
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowWidth="1194" />
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+                                    <Setter Property="Style" Value="{DynamicResource MenuItemTemplateStyle_i3}"/>
+                                </VisualState.Setters>
+                                
+                            </VisualState>
+
+                            <VisualState Name="IPadPro12_9">
+
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowWidth="1366"/>
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+                                    <Setter Property="Style" Value="{DynamicResource MenuItemTemplateStyle_i4}"/>
+                                </VisualState.Setters>
+
+                            </VisualState>
+
                         </VisualStateGroup>
                     </VisualStateGroupList>
                 </Setter>
@@ -103,7 +146,6 @@
         </Grid.Triggers>
 
         <VisualStateManager.VisualStateGroups>
-            
             <VisualStateGroup Name="AdaptiveSideMenu">
 
                 <VisualState Name="IPadMini">
@@ -131,10 +173,10 @@
 
                 </VisualState>
 
-                <VisualState Name="IPadPro11">
+                <VisualState Name="IPadPro12_9">
 
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1195" />
+                        <AdaptiveTrigger MinWindowWidth="1366" />
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
@@ -183,7 +225,7 @@
                     <VisualState Name="moreiPadPro11">
 
                         <VisualState.StateTriggers>
-                            <AdaptiveTrigger MinWindowWidth="1195" />
+                            <AdaptiveTrigger MinWindowWidth="1194" />
                         </VisualState.StateTriggers>
 
                         <VisualState.Setters>
@@ -208,6 +250,7 @@
                     <VisualStateGroupList>
                         
                         <VisualStateGroup Name="AdaptiveLogo">
+                            
                             <VisualState Name="IPadMini">
                                 
                                 <VisualState.StateTriggers>
@@ -221,6 +264,35 @@
                                 </VisualState.Setters>
                                 
                             </VisualState>
+                            
+                            <VisualState Name="IPadPro11">
+                                
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowWidth="1194" />
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+                                    <Setter Property="HeightRequest" Value="86"/>
+                                    <Setter Property="WidthRequest" Value="86"/>
+                                    <Setter Property="Margin" Value="0, 12, 0, 24"/>
+                                </VisualState.Setters>
+                                
+                            </VisualState>
+                            
+                            <VisualState Name="IPadPro12_9">
+                                
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowWidth="1366" />
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+                                    <Setter Property="HeightRequest" Value="98"/>
+                                    <Setter Property="WidthRequest" Value="98"/>
+                                    <Setter Property="Margin" Value="0, 16, 0, 32"/>
+                                </VisualState.Setters>
+                                
+                            </VisualState>
+                            
                         </VisualStateGroup>
                         
                     </VisualStateGroupList>
@@ -254,29 +326,8 @@
 
                         <templates:MenuItemTemplate
                             ImagePath="{Binding ImagePath}"
-                            Text="{Binding Title}">
-                            <!--Style="{DynamicResource MenuItemTemplateStyle_i1}"-->
+                            Text="{Binding Title}"/>
 
-                            <!--<VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="AdaptiveMenuItem">
-
-                                    <VisualState Name="IPadMini">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowWidth="1024" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="Style" Value="{DynamicResource MenuItemTemplateStyle_i2}"/>
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>-->
-                            
-                        </templates:MenuItemTemplate>
-                            
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
@@ -286,18 +337,12 @@
                 Grid.Row="2"
                 Grid.Column="0"
                 ImagePath="ic_logout_30x30.png"
-                Text="{xct:Translate LogOut}">
-
-                <templates:MenuItemTemplate.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding LogOutCommand}"/>
-                </templates:MenuItemTemplate.GestureRecognizers>
-
-            </templates:MenuItemTemplate>
+                Text="{xct:Translate LogOut}"
+                xct:TouchEffect.Command="{Binding LogOutCommand}"/>
 
         </Grid>
 
         <!--  TABS PAGES  -->
-
         <sc:StateContainer
             Grid.Row="0"
             Grid.Column="1"
