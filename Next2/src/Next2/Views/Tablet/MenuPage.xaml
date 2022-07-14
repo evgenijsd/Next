@@ -24,7 +24,6 @@
                 <Setter Property="WidthRequest" Value="66"/>
                 <Setter Property="HeightRequest" Value="66"/>
                 <Setter Property="ImageSizes" Value="16, 16"/>
-                <Setter Property="FontFamily" Value="Barlow-Medium"/>
                 <Setter Property="FontSize" Value="{StaticResource TSize_i12}"/>
             </Style>
             
@@ -33,7 +32,6 @@
                 <Setter Property="WidthRequest" Value="76"/>
                 <Setter Property="HeightRequest" Value="76"/>
                 <Setter Property="ImageSizes" Value="20, 20"/>
-                <Setter Property="FontFamily" Value="Barlow-Medium"/>
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i10}"/>
             </Style>
 
@@ -42,7 +40,6 @@
                 <Setter Property="WidthRequest" Value="82"/>
                 <Setter Property="HeightRequest" Value="82"/>
                 <Setter Property="ImageSizes" Value="24, 24"/>
-                <Setter Property="FontFamily" Value="Barlow-Medium"/>
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i10}"/>
             </Style>
 
@@ -57,9 +54,11 @@
 
             <Style TargetType="templates:MenuItemTemplate">
                 <Setter Property="VisualStateManager.VisualStateGroups">
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="Adaptive">
 
+                    <VisualStateGroupList>
+                        
+                        <VisualStateGroup Name="CommonStates">
+                            
                             <VisualState Name="Normal">
 
                                 <VisualState.Setters>
@@ -80,6 +79,9 @@
                                 </VisualState.Setters>
 
                             </VisualState>
+                        </VisualStateGroup>
+                        
+                        <VisualStateGroup x:Name="AdaptiveStyles">
                             
                             <VisualState Name="SamsungTabA7">
 
@@ -130,7 +132,9 @@
                             </VisualState>
 
                         </VisualStateGroup>
+                        
                     </VisualStateGroupList>
+                    
                 </Setter>
             </Style>
             

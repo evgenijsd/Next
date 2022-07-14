@@ -73,7 +73,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(FontFamily),
             returnType: typeof(string),
             declaringType: typeof(MenuItemTemplate),
-            defaultValue: string.Empty,
+            defaultValue: "Barlow-Medium",
             defaultBindingMode: BindingMode.TwoWay);
 
         public string FontFamily

@@ -12,11 +12,55 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
     xmlns:views="clr-namespace:Next2.Views"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
     x:Class="Next2.Views.Mobile.MenuPage"
     x:DataType="viewModels:MenuPageViewModel">
 
-    <Grid RowDefinitions="90, *, 80">
+    <views:BaseContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="templates:MenuItemTemplate">
+                <Setter Property="HeightRequest" Value="57"/>
+                <Setter Property="Padding" Value="0, 3, 0, 4"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i10}"/>
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <Setter.Value>
+                        <VisualStateGroupList>
+
+                            <VisualStateGroup x:Name="CommonStates">
+
+                                <VisualState Name="Normal">
+
+                                    <VisualState.Setters>
+                                        <Setter TargetName="pancakeView" Property="pancakeview:PancakeView.BackgroundColor" Value="Transparent" />
+                                    </VisualState.Setters>
+
+                                </VisualState>
+
+                                <VisualState Name="Selected">
+
+                                    <VisualState.Setters>
+                                        <Setter TargetName="pancakeView" Property="pancakeview:PancakeView.BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+                                        <Setter TargetName="pancakeView" Property="pancakeview:PancakeView.Border">
+                                            <Setter.Value>
+                                                <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="1"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </VisualState.Setters>
+
+                                </VisualState>
+
+                            </VisualStateGroup>
+
+                        </VisualStateGroupList>
+
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </views:BaseContentPage.Resources>
+    
+    <Grid RowDefinitions="90, *, 76">
 
         <StackLayout
             Grid.Row="0"
@@ -224,9 +268,6 @@
                     <DataTemplate x:DataType="bindableModels:MenuItemBindableModel">
 
                         <templates:MenuItemTemplate
-                            FontFamily="Barlow-Medium"
-                            FontSize="{DynamicResource TSize_i5}"
-                            HeightRequest="62"
                             ImagePath="{Binding ImagePath}"
                             Text="{Binding Title}" />
 
