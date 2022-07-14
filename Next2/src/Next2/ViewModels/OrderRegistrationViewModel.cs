@@ -1135,8 +1135,13 @@ namespace Next2.ViewModels
 
                         if (!resultOfUpdatingOrderTable.IsSuccess)
                         {
-                            _orderService.CurrentOrder.Table = _mapper.Map<SimpleTableModelDTO>(Tables.FirstOrDefault(row => row.TableNumber == tempCurrentTableNumber));
-                            SelectedTable = Tables.FirstOrDefault(row => row.TableNumber == CurrentOrder?.Table?.Number);
+                            var tempCurrentTable = Tables.FirstOrDefault(row => row.TableNumber == tempCurrentTableNumber);
+
+                            if (tempCurrentTable is not null)
+                            {
+                                _orderService.CurrentOrder.Table = _mapper.Map<SimpleTableModelDTO>(tempCurrentTable);
+                                SelectedTable = tempCurrentTable;
+                            }
 
                             await ResponseToBadRequestAsync(resultOfUpdatingOrderTable.Exception?.Message);
                         }
