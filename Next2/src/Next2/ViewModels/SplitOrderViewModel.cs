@@ -54,8 +54,8 @@ namespace Next2.ViewModels
         private ICommand _splitByCommand;
         public ICommand SplitByCommand => _splitByCommand ??= new AsyncCommand<ESplitOrderConditions>(OnSplitByCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _dishSelectionCommand;
-        public ICommand DishSelectionCommand => _dishSelectionCommand ??= new AsyncCommand<object?>(OnDishSelectionCommandAsync);
+        private ICommand _selectDishCommand;
+        public ICommand SelectDishCommand => _selectDishCommand ??= new AsyncCommand<object?>(OnDishSelectionCommandAsync);
 
         #endregion
 
@@ -67,9 +67,9 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out Guid orderId))
             {
-                var isLoadOrder = await LoadOrderAndInit(orderId);
+                var isOrderLoaded = await LoadOrderAndInitAsync(orderId);
 
-                if (!isLoadOrder)
+                if (!isOrderLoaded)
                 {
                     await OnGoBackCommandAsync();
                 }
@@ -78,31 +78,25 @@ namespace Next2.ViewModels
 
         #endregion
 
-        #region -- Private Helpers --
+        #region -- Private helpers --
 
         private void RestoreOrder()
         {
             if (OriginalSeats is not null)
             {
                 var seats = OriginalSeats.ToSeatsBindableModels();
-                Seats = new(seats);
 
-                foreach (var seat in Seats)
-                {
-                    seat.DishSelectionCommand = DishSelectionCommand;
-                }
-
-                SelectFirstDish();
+                InitSeats(seats);
             }
         }
 
-        private async Task<bool> LoadOrderAndInit(Guid orderId)
+        private async Task<bool> LoadOrderAndInitAsync(Guid orderId)
         {
             var resultOfGettingOrder = await _orderService.GetOrderByIdAsync(orderId);
 
-            var isloadSuccess = resultOfGettingOrder.IsSuccess;
+            var isloadedSuccess = resultOfGettingOrder.IsSuccess;
 
-            if (isloadSuccess)
+            if (isloadedSuccess)
             {
                 if (resultOfGettingOrder.Result?.Seats?.Count() > 0)
                 {
@@ -112,18 +106,23 @@ namespace Next2.ViewModels
 
                     var seats = Order.Seats.ToSeatsBindableModels();
 
-                    Seats = new(seats);
-
-                    foreach (var seat in Seats)
-                    {
-                        seat.DishSelectionCommand = DishSelectionCommand;
-                    }
-
-                    SelectFirstDish();
+                    InitSeats(seats);
                 }
             }
 
-            return isloadSuccess;
+            return isloadedSuccess;
+        }
+
+        private void InitSeats(IEnumerable<SeatBindableModel> seats)
+        {
+            Seats = new(seats);
+
+            foreach (var seat in Seats)
+            {
+                seat.DishSelectionCommand = SelectDishCommand;
+            }
+
+            SelectFirstDish();
         }
 
         private async Task OnSplitByCommandAsync(ESplitOrderConditions condition)
@@ -165,12 +164,9 @@ namespace Next2.ViewModels
             {
                 await SplitOrderBySeats(groupList);
             }
-            else
+            else if (_popupNavigation.PopupStack.Count > 0)
             {
-                if (_popupNavigation.PopupStack.Count > 0)
-                {
-                    await _popupNavigation.PopAllAsync();
-                }
+                await _popupNavigation.PopAllAsync();
             }
         }
 
@@ -226,7 +222,7 @@ namespace Next2.ViewModels
 
             RestoreOrder();
 
-            await LoadOrderAndInit(Order.Id);
+            await LoadOrderAndInitAsync(Order.Id);
         }
 
         private async Task SplitOrderBySeats(IList<int[]> groupList)
@@ -245,9 +241,9 @@ namespace Next2.ViewModels
 
                 if (group.Contains(_selectedSeatNumber))
                 {
-                    var updateResult = await UpdateSplittedOrderAsync(outSeats);
+                    var isOrderUpdated = await UpdateSplittedOrderAsync(outSeats);
 
-                    if (updateResult)
+                    if (isOrderUpdated)
                     {
                         successfulUpdatesCounter++;
                     }
@@ -289,7 +285,7 @@ namespace Next2.ViewModels
         private async Task<bool> CreateNewSplittedOrderAsync(IEnumerable<SeatModelDTO> seats)
         {
             var createOrderResult = await _orderService.CreateNewOrderAsync();
-            bool successResult = false;
+            bool isOrderUpdated = false;
 
             if (createOrderResult.IsSuccess)
             {
@@ -303,9 +299,9 @@ namespace Next2.ViewModels
                 CalculateOrderPrices(order);
 
                 var updateResult = await _orderService.UpdateOrderAsync(order.ToUpdateOrderCommand());
-                successResult = updateResult.IsSuccess;
+                isOrderUpdated = updateResult.IsSuccess;
 
-                if (!successResult)
+                if (!isOrderUpdated)
                 {
                     await EmergencyReloadOrderAsync(updateResult.Exception.Message);
                 }
@@ -315,7 +311,7 @@ namespace Next2.ViewModels
                 await EmergencyReloadOrderAsync(createOrderResult.Exception.Message);
             }
 
-            return successResult;
+            return isOrderUpdated;
         }
 
         private void CalculateOrderPrices(OrderModelDTO order)
