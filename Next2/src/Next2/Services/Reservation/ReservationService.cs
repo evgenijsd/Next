@@ -20,7 +20,7 @@ namespace Next2.Services.Reservation
 
         #region -- IReservationService implementation --
 
-        public async Task<AOResult<IEnumerable<ReservationModel>>> GetReservationsAsync(string searchQuery = null)
+        public async Task<AOResult<IEnumerable<ReservationModel>>> GetReservationsAsync(string? searchQuery = null)
         {
             var result = new AOResult<IEnumerable<ReservationModel>>();
 
