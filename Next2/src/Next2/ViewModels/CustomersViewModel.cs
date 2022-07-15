@@ -90,8 +90,7 @@ namespace Next2.ViewModels
         {
             if (App.IsTablet)
             {
-                SetSearchQuery(string.Empty);
-
+                SearchText = string.Empty;
                 SelectedCustomer = null;
                 AnyCustomersLoaded = false;
             }
@@ -101,9 +100,11 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName is nameof(DisplayedCustomers))
+            switch (args.PropertyName)
             {
-                AnyCustomersLoaded = _allCustomers.Any();
+                case nameof(DisplayedCustomers):
+                    AnyCustomersLoaded = _allCustomers.Any();
+                    break;
             }
         }
 
@@ -282,7 +283,7 @@ namespace Next2.ViewModels
         {
             if (DisplayedCustomers.Any() || !string.IsNullOrEmpty(SearchText))
             {
-                Func<string, string> searchValidator = _orderService.ApplyNameFilter;
+                Func<string, string> searchValidator = Filters.StripInvalidNameCharacters;
 
                 var parameters = new NavigationParameters()
                 {

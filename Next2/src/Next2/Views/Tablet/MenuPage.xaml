@@ -276,7 +276,7 @@
 
             <sc:StateCondition State="Reservations">
 
-                <views:ReservationsView BindingContext="{Binding ReservationsViewModel}" />
+                <viewsTablet:ReservationsView BindingContext="{Binding ReservationsViewModel}" />
 
             </sc:StateCondition>
 

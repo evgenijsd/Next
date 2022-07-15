@@ -63,6 +63,13 @@ namespace Next2.ViewModels
                 _searchType = ESearchType.Customer;
             }
 
+            if (parameters.TryGetValue(Constants.Navigations.SEARCH_RESERVATION, out string searchReservation))
+            {
+                SearchLine = searchReservation ?? string.Empty;
+                CursorPosition = SearchLine.Length;
+                _searchType = ESearchType.Reservation;
+            }
+
             if (parameters.TryGetValue(Constants.Navigations.PLACEHOLDER, out string placeholder))
             {
                 Placeholder = placeholder;
@@ -73,7 +80,7 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName == nameof(SearchLine))
+            if (args.PropertyName == nameof(SearchLine) && !string.IsNullOrEmpty(SearchLine))
             {
                 SearchLine = ApplySearchFilter(SearchLine);
             }
@@ -95,6 +102,10 @@ namespace Next2.ViewModels
             else if (_searchType == ESearchType.Customer)
             {
                 constantNavigation = Constants.Navigations.SEARCH_CUSTOMER;
+            }
+            else if (_searchType == ESearchType.Reservation)
+            {
+                constantNavigation = Constants.Navigations.SEARCH_RESERVATION;
             }
             else
             {

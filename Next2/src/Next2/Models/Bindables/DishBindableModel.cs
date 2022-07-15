@@ -5,11 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 
 namespace Next2.Models.Bindables
 {
     public class DishBindableModel : BindableBase, IBaseApiModel, ICloneable
     {
+        public int SeatNumber { get; set; }
+
+        public bool IsSeatSelected { get; set; }
+
         public Guid Id { get; set; }
 
         public Guid DishId { get; set; }
@@ -31,6 +36,8 @@ namespace Next2.Models.Bindables
         public ObservableCollection<SimpleProductModelDTO>? Products { get; set; } = new();
 
         public ObservableCollection<ProductBindableModel>? SelectedProducts { get; set; }
+
+        public ICommand? SelectDishCommand { get; set; }
 
         public object Clone()
         {
