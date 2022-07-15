@@ -92,7 +92,7 @@
                     <buttons:BorderButton.Triggers>
                         <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
                             <Setter Property="IsEnabled" Value="True"/>
-                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenEnabled_i1}"/>
+                            <Setter Property="Opacity" Value="1"/>
                         </DataTrigger>
                     </buttons:BorderButton.Triggers>
                     
@@ -106,7 +106,7 @@
                     <buttons:BorderButton.Triggers>
                         <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
                             <Setter Property="IsEnabled" Value="True"/>
-                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenEnabled_i1}"/>
+                            <Setter Property="Opacity" Value="1"/>
                         </DataTrigger>
                     </buttons:BorderButton.Triggers>
 
@@ -120,7 +120,7 @@
                     <buttons:BorderButton.Triggers>
                         <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
                             <Setter Property="IsEnabled" Value="True"/>
-                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenEnabled_i1}"/>
+                            <Setter Property="Opacity" Value="1"/>
                         </DataTrigger>
                     </buttons:BorderButton.Triggers>
 
@@ -129,7 +129,7 @@
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
                     IsEnabled="True"
-                    Opacity="{DynamicResource OpacityWhenEnabled_i1}"
+                    Opacity="1"
                     BorderColor="{DynamicResource AppColor_i1}"
                     BackgroundColor="{DynamicResource AppColor_i1}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"

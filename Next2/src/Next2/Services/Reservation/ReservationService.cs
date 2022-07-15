@@ -20,7 +20,7 @@ namespace Next2.Services.Reservation
 
         #region -- IReservationService implementation --
 
-        public async Task<AOResult<IEnumerable<ReservationModel>>> GetReservationsListAsync(string searchQuery = null)
+        public async Task<AOResult<IEnumerable<ReservationModel>>> GetReservationsAsync(string searchQuery = null)
         {
             var result = new AOResult<IEnumerable<ReservationModel>>();
 
@@ -42,7 +42,7 @@ namespace Next2.Services.Reservation
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetReservationsListAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetReservationsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -58,11 +58,11 @@ namespace Next2.Services.Reservation
 
             try
             {
-                var resultOfGettingReservations = await _mockService.GetAllAsync<ReservationModel>();
+                var allReservations = await _mockService.GetAllAsync<ReservationModel>();
 
-                if (resultOfGettingReservations is not null)
+                if (allReservations is not null)
                 {
-                    result.SetSuccess(resultOfGettingReservations);
+                    result.SetSuccess(allReservations);
                 }
             }
             catch (Exception ex)

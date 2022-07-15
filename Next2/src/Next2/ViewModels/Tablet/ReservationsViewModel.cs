@@ -21,6 +21,8 @@ namespace Next2.ViewModels.Tablet
         private readonly IMapper _mapper;
         private readonly IReservationService _reservationService;
 
+        private EReservationsSortingType _reservationsSortingType;
+
         public ReservationsViewModel(
             IReservationService reservationService,
             IMapper mapper,
@@ -41,8 +43,6 @@ namespace Next2.ViewModels.Tablet
 
         public bool IsPreloadStateActive => !string.IsNullOrEmpty(SearchQuery) && (!IsInternetConnected || (IsReservationsRefreshing && !Reservations.Any()));
 
-        public EReservationsSortingType ReservationSortingType { get; set; }
-
         public ReservationModel? SelectedReservation { get; set; }
 
         public ObservableCollection<ReservationModel> Reservations { get; set; } = new();
@@ -50,8 +50,8 @@ namespace Next2.ViewModels.Tablet
         private ICommand _goToSearchQueryInputCommand;
         public ICommand GoToSearchQueryInputCommand => _goToSearchQueryInputCommand ??= new AsyncCommand(OnGoToSearchQueryInputCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _clearSearchCommand;
-        public ICommand ClearSearchResultCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchResultCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _clearSearchResultCommand;
+        public ICommand ClearSearchResultCommand => _clearSearchResultCommand ??= new AsyncCommand(OnClearSearchResultCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _refreshReservationsCommand;
         public ICommand RefreshReservationsCommand => _refreshReservationsCommand ??= new AsyncCommand(OnRefreshReservationsCommandAsync, allowsMultipleExecutions: false);
@@ -107,7 +107,7 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Private helpers --
 
-        private async Task OnGoToSearchQueryInputCommandAsync()
+        private Task OnGoToSearchQueryInputCommandAsync()
         {
             Func<string, string> searchValidator = Filters.ApplyNameFilter;
 
@@ -118,20 +118,23 @@ namespace Next2.ViewModels.Tablet
                 { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["SearchByNameOrPhone"] },
             };
 
-            await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
+            return _navigationService.NavigateAsync(nameof(SearchPage), parameters);
         }
 
-        private async Task OnClearSearchResultCommandAsync()
+        private Task OnClearSearchResultCommandAsync()
         {
             IsReservationsRefreshing = true;
+
+            return Task.CompletedTask;
         }
 
         private async Task OnRefreshReservationsCommandAsync()
         {
-            var resultOfGettingReservations = await _reservationService.GetReservationsListAsync(SearchQuery);
+            var resultOfGettingReservations = await _reservationService.GetReservationsAsync(SearchQuery);
 
             if (resultOfGettingReservations.IsSuccess)
             {
+                SelectedReservation = null;
                 Reservations = new(GetSortedOrders(resultOfGettingReservations.Result));
             }
             else
@@ -142,13 +145,13 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnChangeSortReservationCommand(EReservationsSortingType reservationsSortingType)
         {
-            if (ReservationSortingType == reservationsSortingType)
+            if (_reservationsSortingType == reservationsSortingType)
             {
                 Reservations = new(Reservations.Reverse());
             }
             else
             {
-                ReservationSortingType = reservationsSortingType;
+                _reservationsSortingType = reservationsSortingType;
 
                 Reservations = new(GetSortedOrders(Reservations));
             }
@@ -158,7 +161,7 @@ namespace Next2.ViewModels.Tablet
 
         private IEnumerable<ReservationModel> GetSortedOrders(IEnumerable<ReservationModel> reservations)
         {
-            Func<ReservationModel, object> sortingSelector = ReservationSortingType switch
+            Func<ReservationModel, object> sortingSelector = _reservationsSortingType switch
             {
                 EReservationsSortingType.ByCustomerName => x => x.CustomerName,
                 EReservationsSortingType.ByTableNumber => x => x.TableNumber,

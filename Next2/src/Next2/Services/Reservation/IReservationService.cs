@@ -7,6 +7,6 @@ namespace Next2.Services.Reservation
 {
     public interface IReservationService
     {
-        Task<AOResult<IEnumerable<ReservationModel>>> GetReservationsListAsync(string searchQuery = null);
+        Task<AOResult<IEnumerable<ReservationModel>>> GetReservationsAsync(string searchQuery = null);
     }
 }
