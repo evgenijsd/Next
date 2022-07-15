@@ -14,6 +14,31 @@ namespace Next2.Controls
 
         #region -- Public properties --
 
+        public static readonly BindableProperty IconsSizeProperty = BindableProperty.Create(
+            propertyName: nameof(IconsSize),
+            returnType: typeof(Size),
+            defaultValue: new Size(18, 18),
+            declaringType: typeof(TimeAndDateBar));
+
+        public Size IconsSize
+        {
+            get => (Size)GetValue(IconsSizeProperty);
+            set => SetValue(IconsSizeProperty, value);
+        }
+
+        public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
+            propertyName: nameof(FontSize),
+            returnType: typeof(double),
+            defaultValue: 14d,
+            declaringType: typeof(TimeAndDateBar),
+            defaultBindingMode: BindingMode.OneWay);
+
+        public double FontSize
+        {
+            get => (double)GetValue(FontSizeProperty);
+            set => SetValue(FontSizeProperty, value);
+        }
+
         public static readonly BindableProperty IsRunningProperty = BindableProperty.Create(
             propertyName: nameof(IsRunning),
             returnType: typeof(bool),

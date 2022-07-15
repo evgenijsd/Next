@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:local="clr-namespace:Next2"
     Orientation="Horizontal"
+    Spacing="16"
     x:Class="Next2.Controls.TimeAndDateBar">
     
     <StackLayout.Resources>
@@ -13,7 +14,7 @@
         <Style TargetType="Label">
             <Setter Property="VerticalOptions" Value="Center"/>
             <Setter Property="FontFamily" Value="Barlow-Medium"/>
-            <Setter Property="FontSize" Value="{DynamicResource TSize_i9}"/>
+            <Setter Property="FontSize" Value="{Binding FontSize, Source={RelativeSource AncestorType={x:Type controls:TimeAndDateBar}}}"/>
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
         </Style>
         
@@ -21,26 +22,27 @@
             <Setter Property="Orientation" Value="Horizontal"/>
             <Setter Property="Spacing" Value="8"/>
         </Style>
+
+        <Style TargetType="ffimageloading:CachedImage">
+            <Setter Property="HeightRequest" Value="{Binding IconsSize.Height, Source={RelativeSource AncestorType={x:Type controls:TimeAndDateBar}}}"/>
+            <Setter Property="WidthRequest" Value="{Binding IconsSize.Width, Source={RelativeSource AncestorType={x:Type controls:TimeAndDateBar}}}"/>
+        </Style>
         
     </StackLayout.Resources>
     
     <StackLayout>
         
-        <ffimageloading:CachedImage
-            HeightRequest="20"
-            Source="ic_time_circle_24x24" />
+        <ffimageloading:CachedImage Source="ic_time_circle_24x24" />
         
         <Label
-            WidthRequest="70"
+            WidthRequest="80"
             Text="{Binding DateTime, Source={RelativeSource AncestorType={x:Type controls:TimeAndDateBar}}, StringFormat={Static local:Constants+Formats.SHORT_TIME}}"/>
         
     </StackLayout>
 
     <StackLayout>
         
-        <ffimageloading:CachedImage
-            HeightRequest="20"
-            Source="ic_calendar_24x24" />
+        <ffimageloading:CachedImage Source="ic_calendar_24x24" />
 
         <Label Text="{Binding DateTime, Source={RelativeSource AncestorType={x:Type controls:TimeAndDateBar}}, StringFormat={Static local:Constants+Formats.LONG_DATE}}"/>
         
