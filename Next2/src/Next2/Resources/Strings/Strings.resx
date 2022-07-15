@@ -663,4 +663,13 @@ A receipt has been printed for you.</value>
   <data name="LoadingData" xml:space="preserve">
     <value>Loading data</value>
   </data>
+  <data name="CannotSplitWithoutSeats" xml:space="preserve">
+    <value>You cannot split an order with less than two seats</value>
+  </data>
+  <data name="CannotSplitWithZeroCost" xml:space="preserve">
+    <value>You cannot split an order with a zero total cost</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
 </root>

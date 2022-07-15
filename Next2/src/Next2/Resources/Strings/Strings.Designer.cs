@@ -178,6 +178,24 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You cannot split an order with less than two seats.
+        /// </summary>
+        internal static string CannotSplitWithoutSeats {
+            get {
+                return ResourceManager.GetString("CannotSplitWithoutSeats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You cannot split an order with a zero total cost.
+        /// </summary>
+        internal static string CannotSplitWithZeroCost {
+            get {
+                return ResourceManager.GetString("CannotSplitWithZeroCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Card.
         /// </summary>
         internal static string Card {
@@ -1671,6 +1689,15 @@ namespace Next2.Resources.Strings {
         internal static string WantToLogOut {
             get {
                 return ResourceManager.GetString("WantToLogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
         

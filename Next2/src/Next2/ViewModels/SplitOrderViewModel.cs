@@ -46,7 +46,7 @@ namespace Next2.ViewModels
 
         public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
-        public IEnumerable<SeatModelDTO> OriginalSeats { get; set; }
+        public IEnumerable<SeatModelDTO>? OriginalSeats { get; set; }
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
@@ -61,18 +61,17 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out Guid orderId))
+            if (parameters.TryGetValue(Constants.Navigations.ORDER, out OrderModelDTO order))
             {
-                var isOrderLoaded = await LoadOrderAndInitAsync(orderId);
+                Order = order;
 
-                if (!isOrderLoaded)
-                {
-                    await OnGoBackCommandAsync();
-                }
+                OriginalSeats = Order.Seats;
+
+                InitSeats();
             }
         }
 
@@ -80,7 +79,7 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private void RestoreOrder()
+        private void RestoreSeats()
         {
             if (OriginalSeats is not null)
             {
@@ -90,31 +89,32 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task<bool> LoadOrderAndInitAsync(Guid orderId)
+        private async Task<bool> LoadOrderAndInitAsync()
         {
+            var orderId = Order.Id;
             var resultOfGettingOrder = await _orderService.GetOrderByIdAsync(orderId);
 
             var isloadedSuccess = resultOfGettingOrder.IsSuccess;
 
             if (isloadedSuccess)
             {
-                if (resultOfGettingOrder.Result?.Seats?.Count() > 0)
-                {
-                    Order = resultOfGettingOrder.Result;
+                Order = resultOfGettingOrder.Result;
 
-                    OriginalSeats = Order.Seats;
+                OriginalSeats = Order.Seats;
 
-                    var seats = Order.Seats.ToSeatsBindableModels();
-
-                    InitSeats(seats);
-                }
+                InitSeats();
             }
 
             return isloadedSuccess;
         }
 
-        private void InitSeats(IEnumerable<SeatBindableModel> seats)
+        private void InitSeats(IEnumerable<SeatBindableModel>? seats = null)
         {
+            if (seats is null)
+            {
+                seats = Order.Seats.ToSeatsBindableModels();
+            }
+
             Seats = new(seats);
 
             foreach (var seat in Seats)
@@ -220,9 +220,9 @@ namespace Next2.ViewModels
 
             await ResponseToBadRequestAsync(exeptionMessage);
 
-            RestoreOrder();
+            RestoreSeats();
 
-            await LoadOrderAndInitAsync(Order.Id);
+            await LoadOrderAndInitAsync();
         }
 
         private async Task SplitOrderBySeats(IList<int[]> groupList)
