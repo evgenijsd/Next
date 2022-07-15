@@ -42,11 +42,11 @@ namespace Next2.ViewModels
 
         public OrderModelDTO Order { get; set; }
 
-        public DishBindableModel SelectedDish { get; set; }
-
         public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
         public IEnumerable<SeatModelDTO>? OriginalSeats { get; set; }
+
+        public DishBindableModel SelectedDish { get; set; }
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
@@ -106,25 +106,41 @@ namespace Next2.ViewModels
             SelectFirstDish();
         }
 
-        private async Task OnSplitByCommandAsync(ESplitOrderConditions condition)
+        private void CalculateOrderPrices(OrderModelDTO order)
         {
-            if (Seats.Count > 1)
+            var dishes = order.Seats.SelectMany(x => x.SelectedDishes);
+
+            foreach (var dish in dishes)
             {
-                if (condition == ESplitOrderConditions.BySeats || !SelectedDish.HasSplittedPrice)
-                {
-                    var param = new DialogParameters
-                    {
-                        { Constants.DialogParameterKeys.CONDITION, condition },
-                        { Constants.DialogParameterKeys.SEATS, Seats },
-                        { Constants.DialogParameterKeys.DISH, SelectedDish },
-                    };
+                dish.DiscountPrice = dish.TotalPrice;
+            }
 
-                    PopupPage popupPage = App.IsTablet
-                        ? new Views.Tablet.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack)
-                        : new Views.Mobile.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack);
+            order.TotalPrice = dishes.Sum(x => x.TotalPrice);
+            order.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
+        }
 
-                    await _popupNavigation.PushAsync(popupPage);
-                }
+        private void SelectFirstDish()
+        {
+            foreach (var seat in Seats)
+            {
+                seat.IsFirstSeat = false;
+                seat.Checked = false;
+                seat.SelectedItem = null;
+            }
+
+            if (App.IsTablet)
+            {
+                var firstSeat = Seats.FirstOrDefault(x => x.SelectedDishes.Count > 0);
+                _selectedSeatNumber = firstSeat.SeatNumber;
+                firstSeat.SelectedItem = firstSeat.SelectedDishes.FirstOrDefault();
+                SelectedDish = firstSeat.SelectedItem;
+                firstSeat.Checked = true;
+                firstSeat.IsFirstSeat = true;
+            }
+            else
+            {
+                Seats.First().IsFirstSeat = true;
+                _selectedSeatNumber = Seats.First().SeatNumber;
             }
         }
 
@@ -151,6 +167,28 @@ namespace Next2.ViewModels
             }
         }
 
+        private async Task OnSplitByCommandAsync(ESplitOrderConditions condition)
+        {
+            if (Seats.Count > 1)
+            {
+                if (condition == ESplitOrderConditions.BySeats || !SelectedDish.HasSplittedPrice)
+                {
+                    var param = new DialogParameters
+                    {
+                        { Constants.DialogParameterKeys.CONDITION, condition },
+                        { Constants.DialogParameterKeys.SEATS, Seats },
+                        { Constants.DialogParameterKeys.DISH, SelectedDish },
+                    };
+
+                    PopupPage popupPage = App.IsTablet
+                        ? new Views.Tablet.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack)
+                        : new Views.Mobile.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack);
+
+                    await _popupNavigation.PushAsync(popupPage);
+                }
+            }
+        }
+
         private async Task UpdateOrderAsync()
         {
             Order.Seats = Seats.ToSeatsModelsDTO();
@@ -174,22 +212,6 @@ namespace Next2.ViewModels
             {
                 await EmergencyRestoreSeatsAsync(orderUpdateResult.Exception.Message);
             }
-        }
-
-        private async Task<bool> UpdateSplittedOrderAsync(IEnumerable<SeatModelDTO> seats)
-        {
-            Order.Seats = seats;
-
-            CalculateOrderPrices(Order);
-
-            var updateResult = await _orderService.UpdateOrderAsync(Order.ToUpdateOrderCommand());
-
-            if (!updateResult.IsSuccess)
-            {
-                await EmergencyRestoreSeatsAsync(updateResult.Exception.Message);
-            }
-
-            return updateResult.IsSuccess;
         }
 
         private async Task EmergencyRestoreSeatsAsync(string exeptionMessage)
@@ -261,6 +283,30 @@ namespace Next2.ViewModels
             }
         }
 
+        private async Task CopyCurrentOrderTo(OrderModelDTO order)
+        {
+            var isTableUpdated = await UpdateTableAsync();
+
+            if (isTableUpdated)
+            {
+                order.IsCashPayment = Order.IsCashPayment;
+                order.IsTab = Order.IsTab;
+                order.Open = Order.Open;
+                order.OrderStatus = Order.OrderStatus;
+                order.TaxCoefficient = Order.TaxCoefficient;
+                order.OrderType = Order.OrderType;
+                order.Coupon = Order.Coupon;
+                order.Discount = Order.Discount;
+                order.TotalPrice = Order.TotalPrice;
+                order.Table = new SimpleTableModelDTO
+                {
+                    Id = Order.Table.Id,
+                    Number = Order.Table.Number,
+                    SeatNumbers = Order.Table.SeatNumbers,
+                };
+            }
+        }
+
         private async Task<bool> CreateNewSplittedOrderAsync(IEnumerable<SeatModelDTO> seats)
         {
             var createOrderResult = await _orderService.CreateNewOrderAsync();
@@ -293,41 +339,20 @@ namespace Next2.ViewModels
             return isOrderUpdated;
         }
 
-        private void CalculateOrderPrices(OrderModelDTO order)
+        private async Task<bool> UpdateSplittedOrderAsync(IEnumerable<SeatModelDTO> seats)
         {
-            var dishes = order.Seats.SelectMany(x => x.SelectedDishes);
+            Order.Seats = seats;
 
-            foreach (var dish in dishes)
+            CalculateOrderPrices(Order);
+
+            var updateResult = await _orderService.UpdateOrderAsync(Order.ToUpdateOrderCommand());
+
+            if (!updateResult.IsSuccess)
             {
-                dish.DiscountPrice = dish.TotalPrice;
+                await EmergencyRestoreSeatsAsync(updateResult.Exception.Message);
             }
 
-            order.TotalPrice = dishes.Sum(x => x.TotalPrice);
-            order.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
-        }
-
-        private async Task CopyCurrentOrderTo(OrderModelDTO order)
-        {
-            var isTableUpdated = await UpdateTableAsync();
-
-            if (isTableUpdated)
-            {
-                order.IsCashPayment = Order.IsCashPayment;
-                order.IsTab = Order.IsTab;
-                order.Open = Order.Open;
-                order.OrderStatus = Order.OrderStatus;
-                order.TaxCoefficient = Order.TaxCoefficient;
-                order.OrderType = Order.OrderType;
-                order.Coupon = Order.Coupon;
-                order.Discount = Order.Discount;
-                order.TotalPrice = Order.TotalPrice;
-                order.Table = new SimpleTableModelDTO
-                {
-                    Id = Order.Table.Id,
-                    Number = Order.Table.Number,
-                    SeatNumbers = Order.Table.SeatNumbers,
-                };
-            }
+            return updateResult.IsSuccess;
         }
 
         private async Task<bool> UpdateTableAsync()
@@ -343,31 +368,6 @@ namespace Next2.ViewModels
             var createTableResult = await _orderService.UpdateTableAsync(command);
 
             return createTableResult.IsSuccess;
-        }
-
-        private void SelectFirstDish()
-        {
-            foreach (var seat in Seats)
-            {
-                seat.IsFirstSeat = false;
-                seat.Checked = false;
-                seat.SelectedItem = null;
-            }
-
-            if (App.IsTablet)
-            {
-                var firstSeat = Seats.FirstOrDefault(x => x.SelectedDishes.Count > 0);
-                _selectedSeatNumber = firstSeat.SeatNumber;
-                firstSeat.SelectedItem = firstSeat.SelectedDishes.FirstOrDefault();
-                SelectedDish = firstSeat.SelectedItem;
-                firstSeat.Checked = true;
-                firstSeat.IsFirstSeat = true;
-            }
-            else
-            {
-                Seats.First().IsFirstSeat = true;
-                _selectedSeatNumber = Seats.First().SeatNumber;
-            }
         }
 
         private Task SplitSelectedDish(List<SeatBindableModel> seats)
