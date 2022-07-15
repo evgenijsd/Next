@@ -1,4 +1,5 @@
-﻿using Next2.Helpers.ProcessHelpers;
+﻿using Next2.Enums;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
@@ -46,6 +47,18 @@ namespace Next2.Services.Reservation
             }
 
             return result;
+        }
+
+        public IEnumerable<ReservationModel> GetSortedReservations(EReservationsSortingType typeSort, IEnumerable<ReservationModel> reservations)
+        {
+            Func<ReservationModel, object> sortingSelector = typeSort switch
+            {
+                EReservationsSortingType.ByCustomerName => x => x.CustomerName,
+                EReservationsSortingType.ByTableNumber => x => x.TableNumber,
+                _ => throw new NotImplementedException(),
+            };
+
+            return reservations.OrderBy(sortingSelector);
         }
 
         #endregion

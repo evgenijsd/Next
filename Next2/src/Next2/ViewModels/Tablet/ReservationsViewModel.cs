@@ -57,10 +57,10 @@ namespace Next2.ViewModels.Tablet
         public ICommand RefreshReservationsCommand => _refreshReservationsCommand ??= new AsyncCommand(OnRefreshReservationsCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _changeSortReservationCommand;
-        public ICommand ChangeSortReservationCommand => _changeSortReservationCommand ??= new AsyncCommand<EReservationsSortingType>(OnChangeSortReservationCommand, allowsMultipleExecutions: false);
+        public ICommand ChangeSortReservationCommand => _changeSortReservationCommand ??= new AsyncCommand<EReservationsSortingType>(OnChangeSortReservationCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _selectReservationCommand;
-        public ICommand SelectReservationCommand => _selectReservationCommand ??= new AsyncCommand<ReservationModel>(OnSelectReservationCommand);
+        public ICommand SelectReservationCommand => _selectReservationCommand ??= new AsyncCommand<ReservationModel>(OnSelectReservationCommandAsync);
 
         #endregion
 
@@ -135,7 +135,10 @@ namespace Next2.ViewModels.Tablet
             if (resultOfGettingReservations.IsSuccess)
             {
                 SelectedReservation = null;
-                Reservations = new(GetSortedOrders(resultOfGettingReservations.Result));
+
+                var sortedReservations = _reservationService.GetSortedReservations(_reservationsSortingType, resultOfGettingReservations.Result);
+
+                Reservations = new(sortedReservations);
             }
             else
             {
@@ -143,7 +146,7 @@ namespace Next2.ViewModels.Tablet
             }
         }
 
-        private Task OnChangeSortReservationCommand(EReservationsSortingType reservationsSortingType)
+        private Task OnChangeSortReservationCommandAsync(EReservationsSortingType reservationsSortingType)
         {
             if (_reservationsSortingType == reservationsSortingType)
             {
@@ -153,25 +156,15 @@ namespace Next2.ViewModels.Tablet
             {
                 _reservationsSortingType = reservationsSortingType;
 
-                Reservations = new(GetSortedOrders(Reservations));
+                var sortedReservations = _reservationService.GetSortedReservations(_reservationsSortingType, Reservations);
+
+                Reservations = new(sortedReservations);
             }
 
             return Task.CompletedTask;
         }
 
-        private IEnumerable<ReservationModel> GetSortedOrders(IEnumerable<ReservationModel> reservations)
-        {
-            Func<ReservationModel, object> sortingSelector = _reservationsSortingType switch
-            {
-                EReservationsSortingType.ByCustomerName => x => x.CustomerName,
-                EReservationsSortingType.ByTableNumber => x => x.TableNumber,
-                _ => throw new NotImplementedException(),
-            };
-
-            return reservations.OrderBy(sortingSelector);
-        }
-
-        private Task OnSelectReservationCommand(ReservationModel reservation)
+        private Task OnSelectReservationCommandAsync(ReservationModel reservation)
         {
             SelectedReservation = reservation == SelectedReservation
                 ? null
