@@ -89,25 +89,6 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task<bool> LoadOrderAndInitAsync()
-        {
-            var orderId = Order.Id;
-            var resultOfGettingOrder = await _orderService.GetOrderByIdAsync(orderId);
-
-            var isloadedSuccess = resultOfGettingOrder.IsSuccess;
-
-            if (isloadedSuccess)
-            {
-                Order = resultOfGettingOrder.Result;
-
-                OriginalSeats = Order.Seats;
-
-                InitSeats();
-            }
-
-            return isloadedSuccess;
-        }
-
         private void InitSeats(IEnumerable<SeatBindableModel>? seats = null)
         {
             if (seats is null)
@@ -191,7 +172,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await EmergencyReloadOrderAsync(orderUpdateResult.Exception.Message);
+                await EmergencyRestoreSeatsAsync(orderUpdateResult.Exception.Message);
             }
         }
 
@@ -205,13 +186,13 @@ namespace Next2.ViewModels
 
             if (!updateResult.IsSuccess)
             {
-                await EmergencyReloadOrderAsync(updateResult.Exception.Message);
+                await EmergencyRestoreSeatsAsync(updateResult.Exception.Message);
             }
 
             return updateResult.IsSuccess;
         }
 
-        private async Task EmergencyReloadOrderAsync(string exeptionMessage)
+        private async Task EmergencyRestoreSeatsAsync(string exeptionMessage)
         {
             if (_popupNavigation.PopupStack.Count > 0)
             {
@@ -221,8 +202,6 @@ namespace Next2.ViewModels
             await ResponseToBadRequestAsync(exeptionMessage);
 
             RestoreSeats();
-
-            await LoadOrderAndInitAsync();
         }
 
         private async Task SplitOrderBySeats(IList<int[]> groupList)
@@ -303,12 +282,12 @@ namespace Next2.ViewModels
 
                 if (!isOrderUpdated)
                 {
-                    await EmergencyReloadOrderAsync(updateResult.Exception.Message);
+                    await EmergencyRestoreSeatsAsync(updateResult.Exception.Message);
                 }
             }
             else
             {
-                await EmergencyReloadOrderAsync(createOrderResult.Exception.Message);
+                await EmergencyRestoreSeatsAsync(createOrderResult.Exception.Message);
             }
 
             return isOrderUpdated;
