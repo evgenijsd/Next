@@ -88,8 +88,7 @@ namespace Next2.ViewModels.Tablet
 
             if (parameters.TryGetValue(Constants.Navigations.SEARCH_QUERY, out string searchQuery))
             {
-                SearchQuery = searchQuery;
-                IsReservationsRefreshing = true;
+                SetSearchQuery(searchQuery);
             }
         }
 
