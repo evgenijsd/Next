@@ -205,7 +205,7 @@ namespace Next2.ViewModels
             if (bonus?.Type is EBonusType.Coupon)
             {
                 var coupon = _mapper.Map<CouponModelDTO>(bonus);
-                coupon.SeatNumbers = CurrentOrder.Seats.Count;
+                coupon.SeatNumber = CurrentOrder.Seats.Count;
 
                 CurrentOrder.Discount = null;
                 CurrentOrder.Coupon = coupon;

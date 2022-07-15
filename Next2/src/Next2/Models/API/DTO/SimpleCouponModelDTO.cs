@@ -9,6 +9,6 @@ namespace Next2.Models.API.DTO
 
         public string? Name { get; set; }
 
-        public int SeatNumbers { get; set; }
+        public int SeatNumber { get; set; }
     }
 }
