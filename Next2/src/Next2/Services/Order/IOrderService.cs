@@ -22,10 +22,6 @@ namespace Next2.Services.Order
 
         Task<AOResult<OrderModelDTO>> GetOrderByIdAsync(Guid orderId);
 
-        string ApplyNumberFilter(string text);
-
-        string ApplyNameFilter(string text);
-
         Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish);
 
         Task<AOResult<Guid>> UpdateOrderAsync(UpdateOrderCommand order);
