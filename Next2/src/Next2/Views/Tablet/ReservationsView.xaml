@@ -30,6 +30,9 @@
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
             <Setter Property="BackgroundColor" Value="Transparent"/>
             <Setter Property="WidthRequest" Value="100"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="IsEnabled" Value="False"/>
+            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
         </Style>
         
     </ContentView.Resources>
@@ -80,35 +83,53 @@
                 Orientation="Horizontal"
                 Spacing="12">
 
-                <StackLayout.Triggers>
-                    <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedReservation, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
-                        <Setter Property="IsEnabled" Value="False"/>
-                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
-                    </DataTrigger>
-                </StackLayout.Triggers>
-
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
                     HorizontalOptions="EndAndExpand"
                     BorderColor="{DynamicResource IndicationColor_i3}"
-                    Text="{xct:Translate Info}"
-                    CornerRadius="5"/>
+                    Text="{xct:Translate Info}">
+
+                    <buttons:BorderButton.Triggers>
+                        <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenEnabled_i1}"/>
+                        </DataTrigger>
+                    </buttons:BorderButton.Triggers>
+                    
+                </buttons:BorderButton>
 
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
-                    CornerRadius="5"
                     BorderColor="{DynamicResource IndicationColor_i5}"
-                    Text="{xct:Translate Remove}" />
+                    Text="{xct:Translate Remove}">
+
+                    <buttons:BorderButton.Triggers>
+                        <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenEnabled_i1}"/>
+                        </DataTrigger>
+                    </buttons:BorderButton.Triggers>
+
+                </buttons:BorderButton>
 
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
-                    CornerRadius="5"
                     BorderColor="{DynamicResource IndicationColor_i7}"
-                    Text="{xct:Translate Assign}"/>
+                    Text="{xct:Translate Assign}">
+
+                    <buttons:BorderButton.Triggers>
+                        <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenEnabled_i1}"/>
+                        </DataTrigger>
+                    </buttons:BorderButton.Triggers>
+
+                </buttons:BorderButton>
 
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
-                    CornerRadius="5"
+                    IsEnabled="True"
+                    Opacity="{DynamicResource OpacityWhenEnabled_i1}"
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}"
