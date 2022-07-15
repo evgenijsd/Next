@@ -5,7 +5,7 @@ namespace Next2.Helpers
 {
     public static class Filters
     {
-        public static string ApplyNumberFilter(string text)
+        public static string StripInvalidNumberCharacters(string text)
         {
             var result = text;
 
@@ -21,7 +21,7 @@ namespace Next2.Helpers
             return result;
         }
 
-        public static string ApplyNameFilter(string text)
+        public static string StripInvalidNameCharacters(string text)
         {
             var result = text;
 

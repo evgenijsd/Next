@@ -179,7 +179,7 @@ namespace Next2.ViewModels.Tablet
         {
             if (DisplayMembers.Any() || !string.IsNullOrEmpty(SearchText))
             {
-                Func<string, string> searchValidator = Filters.ApplyNameFilter;
+                Func<string, string> searchValidator = Filters.StripInvalidNameCharacters;
 
                 var parameters = new NavigationParameters()
                 {

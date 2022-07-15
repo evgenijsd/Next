@@ -109,7 +109,7 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnGoToSearchQueryInputCommandAsync()
         {
-            Func<string, string> searchValidator = Filters.ApplyNameFilter;
+            Func<string, string> searchValidator = Filters.StripInvalidNameCharacters;
 
             var parameters = new NavigationParameters()
             {

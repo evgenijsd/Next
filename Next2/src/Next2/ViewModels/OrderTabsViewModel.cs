@@ -271,8 +271,8 @@ namespace Next2.ViewModels
         private Task OnGoToSearchQueryInputCommandAsync()
         {
             Func<string, string> searchValidator = IsTabsModeSelected
-                ? Filters.ApplyNameFilter
-                : Filters.ApplyNumberFilter;
+                ? Filters.StripInvalidNameCharacters
+                : Filters.StripInvalidNumberCharacters;
 
             var searchHint = IsTabsModeSelected
                 ? LocalizationResourceManager.Current["NameOrOrder"]
