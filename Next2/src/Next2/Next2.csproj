@@ -541,7 +541,7 @@
     <EmbeddedResource Update="Views\OrderTabsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ReservationsView.xaml">
+    <EmbeddedResource Update="Views\Tablet\ReservationsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsView.xaml">
