@@ -60,7 +60,7 @@
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
             </Style>
 
-            <Style x:Key="IconBorderButtonStyle_i2" TargetType="buttons:IconBorderButton" BasedOn="{StaticResource IconBorderButtonStyle_i1}">
+            <Style x:Key="IconButtonStyle_i2" TargetType="buttons:IconButton" BasedOn="{StaticResource IconButtonStyle_i1}">
                 <Setter Property="Padding" Value="10" />
                 <Setter Property="Border">
                     <Setter.Value>
@@ -368,20 +368,20 @@
 
                 </StackLayout>
 
-                <buttons:IconBorderButton
-                    Style="{DynamicResource IconBorderButtonStyle_i2}"
+                <buttons:IconButton
+                    Style="{DynamicResource IconButtonStyle_i2}"
                     HorizontalOptions="EndAndExpand"
                     IconSource="ic_time_circle_40x40"
                     Command="{Binding OpenHoldSelectionCommand}" />
 
-                <buttons:IconBorderButton
-                    Style="{DynamicResource IconBorderButtonStyle_i2}"
+                <buttons:IconButton
+                    Style="{DynamicResource IconButtonStyle_i2}"
                     IconSource="ic_discount_48x48"
                     Command="{Binding OpenDiscountSelectionCommand}" />
 
-                <buttons:IconBorderButton
+                <buttons:IconButton
                     IsVisible="{Binding IsOrderWithTax}"
-                    Style="{DynamicResource IconBorderButtonStyle_i2}"
+                    Style="{DynamicResource IconButtonStyle_i2}"
                     IconSource="ic_tax"
                     Command="{Binding RemoveTaxFromOrderCommand}"/>
 

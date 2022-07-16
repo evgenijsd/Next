@@ -112,7 +112,7 @@
         <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
     </Style>  
     
-    <Style x:Key="IconBorderButtonStyle_i1" TargetType="buttons:IconBorderButton">
+    <Style x:Key="IconButtonStyle_i1" TargetType="buttons:IconButton">
         <Setter Property="IconWidth" Value="26"/>
         <Setter Property="IconHeight" Value="26"/>
         <Setter Property="CornerRadius" Value="3"/>

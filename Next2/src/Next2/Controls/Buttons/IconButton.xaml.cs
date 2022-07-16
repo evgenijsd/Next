@@ -4,9 +4,9 @@ using Xamarin.Forms.PancakeView;
 
 namespace Next2.Controls.Buttons
 {
-    public partial class IconBorderButton : PancakeView
+    public partial class IconButton : PancakeView
     {
-        public IconBorderButton()
+        public IconButton()
         {
             InitializeComponent();
         }
@@ -16,7 +16,7 @@ namespace Next2.Controls.Buttons
         public static readonly BindableProperty IconSourceProperty = BindableProperty.Create(
             propertyName: nameof(IconSource),
             returnType: typeof(string),
-            declaringType: typeof(IconBorderButton),
+            declaringType: typeof(IconButton),
             defaultBindingMode: BindingMode.TwoWay);
 
         public string IconSource
@@ -28,7 +28,7 @@ namespace Next2.Controls.Buttons
         public static readonly BindableProperty IconWidthProperty = BindableProperty.Create(
             propertyName: nameof(IconWidth),
             returnType: typeof(int),
-            declaringType: typeof(IconBorderButton),
+            declaringType: typeof(IconButton),
             defaultBindingMode: BindingMode.TwoWay);
 
         public int IconWidth
@@ -40,7 +40,7 @@ namespace Next2.Controls.Buttons
         public static readonly BindableProperty IconHeightProperty = BindableProperty.Create(
             propertyName: nameof(IconHeight),
             returnType: typeof(int),
-            declaringType: typeof(IconBorderButton),
+            declaringType: typeof(IconButton),
             defaultBindingMode: BindingMode.TwoWay);
 
         public int IconHeight
@@ -52,7 +52,7 @@ namespace Next2.Controls.Buttons
         public static readonly BindableProperty CommandProperty = BindableProperty.Create(
             propertyName: nameof(Command),
             returnType: typeof(ICommand),
-            declaringType: typeof(IconBorderButton),
+            declaringType: typeof(IconButton),
             defaultBindingMode: BindingMode.TwoWay);
 
         public ICommand Command

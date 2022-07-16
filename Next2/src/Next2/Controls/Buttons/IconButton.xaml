@@ -5,15 +5,15 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    x:Class="Next2.Controls.Buttons.IconBorderButton">
+    x:Class="Next2.Controls.Buttons.IconButton">
 
     <pancakeview:PancakeView.GestureRecognizers>
-        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:IconBorderButton}}, Path=Command}" />
+        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:IconButton}}, Path=Command}" />
     </pancakeview:PancakeView.GestureRecognizers>
 
     <ffimageloading:CachedImage
-        HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type buttons:IconBorderButton}}, Path=IconHeight}"
-        WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type buttons:IconBorderButton}}, Path=IconWidth}"
-        Source="{Binding Source={RelativeSource AncestorType={x:Type buttons:IconBorderButton}}, Path=IconSource}"/>
+        HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type buttons:IconButton}}, Path=IconHeight}"
+        WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type buttons:IconButton}}, Path=IconWidth}"
+        Source="{Binding Source={RelativeSource AncestorType={x:Type buttons:IconButton}}, Path=IconSource}"/>
     
 </pancakeview:PancakeView>
