@@ -736,16 +736,11 @@
                     <Setter Property="BackgroundColor" Value="Transparent"/>
                 </Style>
 
-                <Style x:Key="IconButtonStyle_i2" TargetType="buttons:IconButton" BasedOn="{StaticResource IconButtonStyle_i1}">
+                <Style x:Key="IconButtonStyle_i2" TargetType="buttons:IconButton">
                     <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
                     <Setter Property="CornerRadius" Value="6"/>
-                    <Setter Property="Padding" Value="8, 6"/>
-                    <Setter Property="IconHeight" Value="18"/>
-                    <Setter Property="Border">
-                        <Setter.Value>
-                            <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="1" />
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="Padding" Value="12, 6"/>
+                    <Setter Property="IconSize" Value="20, 20"/>
                 </Style>
 
                 <Style x:Key="CustomStepperStyle_i1" TargetType="controls:CustomStepper">
@@ -1165,7 +1160,7 @@
                 <StackLayout 
                     Orientation="Horizontal"
                     Margin="18, 8"
-                    Spacing="12">
+                    Spacing="14">
 
                     <StackLayout HeightRequest="50">
 
@@ -1187,18 +1182,18 @@
                         Style="{DynamicResource IconButtonStyle_i2}"
                         HorizontalOptions="EndAndExpand"
                         IconSource="ic_time_circle_40x40"
-                        Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}"/>
+                        xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}"/>
 
                     <buttons:IconButton
                         Style="{DynamicResource IconButtonStyle_i2}"
                         IconSource="ic_discount_48x48"
-                        Command="{Binding OrderRegistrationViewModel.OpenDiscountSelectionCommand}" />
+                        xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OpenDiscountSelectionCommand}" />
 
                     <buttons:IconButton
                         IsVisible="{Binding OrderRegistrationViewModel.IsOrderWithTax}"
                         Style="{DynamicResource IconButtonStyle_i2}"
                         IconSource="ic_tax"
-                        Command="{Binding OrderRegistrationViewModel.RemoveTaxFromOrderCommand}"/>
+                        xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.RemoveTaxFromOrderCommand}"/>
 
                 </StackLayout>
 

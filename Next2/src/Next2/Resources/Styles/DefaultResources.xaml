@@ -111,14 +111,6 @@
         <Setter Property="CornerRadius" Value="7"/>
         <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
     </Style>  
-    
-    <Style x:Key="IconButtonStyle_i1" TargetType="buttons:IconButton">
-        <Setter Property="IconWidth" Value="26"/>
-        <Setter Property="IconHeight" Value="26"/>
-        <Setter Property="CornerRadius" Value="3"/>
-        <Setter Property="Padding" Value="10"/>
-        <Setter Property="BackgroundColor" Value="Transparent"/>
-    </Style>
  
     <Style x:Key="CustomScrollBarCollectionView_i1" TargetType="controls:CustomScrollBarCollectionView">
         <Setter Property="VerticalScrollBarVisibility" Value="Always"/>

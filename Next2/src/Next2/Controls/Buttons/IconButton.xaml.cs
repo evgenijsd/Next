@@ -1,5 +1,4 @@
-﻿using System.Windows.Input;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.PancakeView;
 
 namespace Next2.Controls.Buttons
@@ -25,40 +24,16 @@ namespace Next2.Controls.Buttons
             set => SetValue(IconSourceProperty, value);
         }
 
-        public static readonly BindableProperty IconWidthProperty = BindableProperty.Create(
-            propertyName: nameof(IconWidth),
-            returnType: typeof(int),
-            declaringType: typeof(IconButton),
-            defaultBindingMode: BindingMode.TwoWay);
+        public static readonly BindableProperty IconSizeProperty = BindableProperty.Create(
+            propertyName: nameof(IconSize),
+            returnType: typeof(Size),
+            defaultValue: new Size(28, 28),
+            declaringType: typeof(IconButton));
 
-        public int IconWidth
+        public Size IconSize
         {
-            get => (int)GetValue(IconWidthProperty);
-            set => SetValue(IconWidthProperty, value);
-        }
-
-        public static readonly BindableProperty IconHeightProperty = BindableProperty.Create(
-            propertyName: nameof(IconHeight),
-            returnType: typeof(int),
-            declaringType: typeof(IconButton),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public int IconHeight
-        {
-            get => (int)GetValue(IconHeightProperty);
-            set => SetValue(IconHeightProperty, value);
-        }
-
-        public static readonly BindableProperty CommandProperty = BindableProperty.Create(
-            propertyName: nameof(Command),
-            returnType: typeof(ICommand),
-            declaringType: typeof(IconButton),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public ICommand Command
-        {
-            get => (ICommand)GetValue(CommandProperty);
-            set => SetValue(CommandProperty, value);
+            get => (Size)GetValue(IconSizeProperty);
+            set => SetValue(IconSizeProperty, value);
         }
 
         #endregion
