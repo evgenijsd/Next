@@ -123,31 +123,11 @@
                                 Style="{StaticResource LabelStyle_i1}"
                                 Text="{xct:Translate Categories}"/>
 
-                            <pancakeview:PancakeView
+                            <buttons:IconTextButton 
                                 HorizontalOptions="EndAndExpand"
-                                Padding="16, 9"
-                                CornerRadius="7"
-                                Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i4}, Thickness=2}"
-                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
-                                xct:TouchEffect.Command="{Binding TapExpandCommand}">
-
-                                <StackLayout
-                                    Orientation="Horizontal"
-                                    Spacing="4">
-
-                                    <ffimageloading:CachedImage 
-                                        HeightRequest="18"
-                                        WidthRequest="18"
-                                        Source="ic_category_24x24"/>
-
-                                    <Label
-                                        Style="{DynamicResource LabelStyle_i2}"
-                                        Text="{xct:Translate Expand}"
-                                        Margin="10, 0, 0, 0"/>
-
-                                </StackLayout>
-
-                            </pancakeview:PancakeView>
+                                IconSource="ic_category_24x24"
+                                Text="{xct:Translate Expand}"
+                                xct:TouchEffect.Command="{Binding TapExpandCommand}"/>
 
                         </StackLayout>
 
@@ -177,31 +157,11 @@
                             Style="{StaticResource LabelStyle_i1}"
                             Text="{xct:Translate Menu}"/>
 
-                        <pancakeview:PancakeView
-                            CornerRadius="7"
-                            Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i4}, Thickness=2}"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
-                            Padding="16, 9"
+                        <buttons:IconTextButton 
                             HorizontalOptions="EndAndExpand"
-                            xct:TouchEffect.Command="{Binding TapSortCommand}">
-
-                            <StackLayout
-                                Orientation="Horizontal"
-                                Spacing="4">
-
-                                <ffimageloading:CachedImage 
-                                    HeightRequest="18"
-                                    WidthRequest="18"
-                                    Source="ic_swap_24x24"/>
-
-                                <Label
-                                    Style="{DynamicResource LabelStyle_i2}"
-                                    Text="{xct:Translate TypeOrder}"
-                                    Margin="10, 0, 0, 0"/>
-
-                            </StackLayout>
-
-                        </pancakeview:PancakeView>
+                            IconSource="ic_swap_24x24"
+                            Text="{xct:Translate TypeOrder}"
+                            xct:TouchEffect.Command="{Binding TapSortCommand}"/>
 
                     </StackLayout>
 
