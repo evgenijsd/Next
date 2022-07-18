@@ -681,4 +681,7 @@ A receipt has been printed for you.</value>
   <data name="Warning" xml:space="preserve">
     <value>Warning</value>
   </data>
+  <data name="ThisDishAlreadySplitted" xml:space="preserve">
+    <value>This dish is already splitted</value>
+  </data>
 </root>

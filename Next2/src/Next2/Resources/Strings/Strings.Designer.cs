@@ -1594,6 +1594,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This dish is already splitted.
+        /// </summary>
+        internal static string ThisDishAlreadySplitted {
+            get {
+                return ResourceManager.GetString("ThisDishAlreadySplitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This item will be removed from the order list..
         /// </summary>
         internal static string ThisDishWillBeRemoved {

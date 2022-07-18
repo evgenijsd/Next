@@ -234,7 +234,14 @@ namespace Next2.ViewModels
         {
             if (Seats.Count > 1)
             {
-                if (condition == ESplitOrderConditions.BySeats || !SelectedDish.HasSplittedPrice)
+                if (SelectedDish.HasSplittedPrice && condition is not ESplitOrderConditions.BySeats)
+                {
+                    await ShowInfoDialogAsync(
+                            LocalizationResourceManager.Current["Warning"],
+                            LocalizationResourceManager.Current["ThisDishAlreadySplitted"],
+                            LocalizationResourceManager.Current["Ok"]);
+                }
+                else
                 {
                     var param = new DialogParameters
                     {
@@ -249,6 +256,13 @@ namespace Next2.ViewModels
 
                     await _popupNavigation.PushAsync(popupPage);
                 }
+            }
+            else
+            {
+                await ShowInfoDialogAsync(
+                            LocalizationResourceManager.Current["Warning"],
+                            LocalizationResourceManager.Current["CannotSplitWithoutSeats"],
+                            LocalizationResourceManager.Current["Ok"]);
             }
         }
 
