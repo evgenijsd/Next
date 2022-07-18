@@ -30,6 +30,8 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
+        public ESettingsPageState PageState { get; set; } = ESettingsPageState.Default;
+
         private ICommand _logOutCommand;
         public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync, allowsMultipleExecutions: false);
 
