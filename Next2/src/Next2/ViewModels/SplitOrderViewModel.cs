@@ -348,7 +348,8 @@ namespace Next2.ViewModels
             if (successfullUpdatesCounter == groupList.Count)
             {
                 OriginalSeats = Order.Seats;
-                Seats = new(Order.Seats.ToSeatsBindableModels());
+                var seatsNumbers = Order.Seats.Select(x => x.Number);
+                Seats = new(Seats.Where(x => seatsNumbers.Contains(x.SeatNumber)));
 
                 var toastConfig = new ToastConfig(LocalizationResourceManager.Current["OrderSplitted"])
                 {
