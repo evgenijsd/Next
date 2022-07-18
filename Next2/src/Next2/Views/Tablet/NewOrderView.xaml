@@ -346,16 +346,17 @@
                         <sc:StateCondition State="Completed">
 
                             <CollectionView
+                                Margin="24, 14, 24, 0"
                                 ItemsSource="{Binding Dishes}"
                                 VerticalOptions="FillAndExpand"
-                                VerticalScrollBarVisibility="Always"
-                                x:Name="menuCollectionView">
+                                VerticalScrollBarVisibility="Always">
 
                                 <CollectionView.ItemsLayout>
 
                                     <GridItemsLayout
                                         Orientation="Vertical"
-                                        HorizontalItemSpacing="5"
+                                        HorizontalItemSpacing="12"
+                                        VerticalItemSpacing="12"
                                         Span="2"/>
 
                                 </CollectionView.ItemsLayout>
@@ -363,22 +364,10 @@
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup Name="AdaptiveColumn">
 
-                                        <VisualState Name="minHeight">
-
-                                            <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowHeight="601" />
-                                            </VisualState.StateTriggers>
-
-                                            <VisualState.Setters>
-                                                <Setter Property="Margin" Value="24, 16, 24, 0"/>
-                                            </VisualState.Setters>
-
-                                        </VisualState>
-
                                         <VisualState Name="moreiPadMiniColumn">
 
                                             <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601" />
+                                                <AdaptiveTrigger MinWindowWidth="1195"/>
                                             </VisualState.StateTriggers>
 
                                             <VisualState.Setters>
@@ -392,7 +381,7 @@
 
                                                 </Setter>
 
-                                                <Setter Property="Margin" Value="40, 26, 40, 0"/>
+                                                <!--<Setter Property="Margin" Value="40, 26, 40, 0"/>-->
 
                                             </VisualState.Setters>
 
@@ -498,7 +487,7 @@
                                     <templates:SubCategoryItemTemplate
                                         HeightRequest="50"
                                         MinimumHeightRequest="50"
-                                        TextMargin="0, 0, 0, 26"
+                                        TextMargin="0, 0, 0, 8"
                                         Text="{Binding Name}"
                                         FontSize="{DynamicResource TSize_i6}"
                                         FontFamily="Barlow-Medium">
@@ -515,6 +504,7 @@
                                                     <VisualState.Setters>
                                                         <Setter Property="HeightRequest" Value="82" />
                                                         <Setter Property="MinimumHeightRequest" Value="82" />
+                                                        <Setter Property="TextMargin" Value="0, 0, 0, 26" />
                                                     </VisualState.Setters>
 
                                                 </VisualState>
