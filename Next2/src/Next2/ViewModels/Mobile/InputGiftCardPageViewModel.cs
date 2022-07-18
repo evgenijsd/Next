@@ -113,7 +113,7 @@ namespace Next2.ViewModels.Mobile
 
         private async void AddGiftCardDialogCallback(IDialogParameters parameters)
         {
-            await PopupNavigation.PopAsync();
+            await CloseAllPopupAsync();
 
             if (_orderService.CurrentOrder.Customer is not null)
             {

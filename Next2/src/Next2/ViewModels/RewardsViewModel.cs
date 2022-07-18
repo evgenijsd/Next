@@ -210,7 +210,7 @@ namespace Next2.ViewModels
 
         private async void AddNewCustomerDialogCallBackAsync(IDialogParameters parameters)
         {
-            await PopupNavigation.PopAsync();
+            await CloseAllPopupAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out Guid newCustomerId))
             {

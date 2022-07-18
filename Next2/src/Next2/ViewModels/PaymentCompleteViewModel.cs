@@ -493,7 +493,7 @@ namespace Next2.ViewModels
 
         private async void GiftCardViewDialogCallBack(IDialogParameters parameters)
         {
-            await PopupNavigation.PopAsync();
+            await CloseAllPopupAsync();
 
             if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
             {
