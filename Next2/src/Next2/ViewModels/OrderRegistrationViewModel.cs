@@ -1065,6 +1065,7 @@ namespace Next2.ViewModels
                                     }
 
                                     _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.SelectedDishes.FirstOrDefault();
+
                                     await UpdateDishGroupsAsync();
                                 }
                                 else
