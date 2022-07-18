@@ -15,10 +15,10 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:dto="clr-namespace:Next2.Models.API.DTO"
     xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
-    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:tabletViewModels="clr-namespace:Next2.ViewModels.Tablet"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"    
     x:Class="Next2.Views.Tablet.NewOrderView"
-    x:DataType="viewModels:NewOrderViewModel">
+    x:DataType="tabletViewModels:NewOrderViewModel">
 
     <ContentView.Resources>
         <ResourceDictionary>
@@ -566,7 +566,7 @@
                                     <DataTemplate>
                                         <templates:DishItemTemplate
                                             x:DataType="dto:DishModelDTO"
-                                            xct:TouchEffect.Command="{Binding TapDishCommand, Source={RelativeSource AncestorType={x:Type viewModels:NewOrderViewModel}}}"
+                                            xct:TouchEffect.Command="{Binding TapDishCommand, Source={RelativeSource AncestorType={x:Type tabletViewModels:NewOrderViewModel}}}"
                                             xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                                     </DataTemplate>
@@ -951,7 +951,7 @@
             Grid.Column="1"
             RowDefinitions="auto, auto, auto, auto, 74"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-            x:DataType="viewModels:NewOrderViewModel">
+            x:DataType="tabletViewModels:NewOrderViewModel">
 
             <Grid.Resources>
                 <Style TargetType="Label">
@@ -1269,34 +1269,35 @@
 
             </controls:DropDownList>
 
-            <!-- MEALS LIST -->
-            <controls:CustomCollectionView
+            <!-- DISHES_GROUP LIST -->
+            <CollectionView
                 Grid.Row="2"
                 VerticalScrollBarVisibility="Always"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-                ItemsSource="{Binding OrderRegistrationViewModel.CurrentOrder.Seats}"
-                SelectedItem="{Binding OrderRegistrationViewModel.SeatWithSelectedDish}"
-                SelectionMode="Single">
+                SelectionMode="Single"
+                IsGrouped="True"
+                ItemsSource="{Binding OrderRegistrationViewModel.DishesGroupedBySeats}"
+                SelectedItem="{Binding OrderRegistrationViewModel.SelectedDish}">
 
                 <CollectionView.Behaviors>
-                    <behaviors:ScrollToCenterBehavior />
+                    <behaviors:ScrollToDishGroupCenterBehavior />
                 </CollectionView.Behaviors>
 
                 <CollectionView.Effects>
-                    <effects:NoOverScrollEffect/>
+                    <effects:NoOverScrollEffect />
 
                     <effects:ScrollBarColorEffect
                         ScrollBarThumbWidth="6"
                         ScrollBarCornerRadius="9"
                         ScrollBarThumbColor="{StaticResource AppColor_i1}"
-                        ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
-                    
+                        ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}" />
+
                 </CollectionView.Effects>
 
                 <CollectionView.EmptyView>
                     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
-                        <pancakeview:PancakeView 
+                        <pancakeview:PancakeView
                             IsVisible="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"
@@ -1306,55 +1307,60 @@
                             Margin="15, 15, 15, 0"
                             CornerRadius="6">
 
-                            <StackLayout 
+                            <StackLayout
                                 Spacing="6"
                                 Padding="10">
-                                
+
                                 <StackLayout Orientation="Horizontal">
 
                                     <Label
                                         Text="{Binding OrderRegistrationViewModel.PopUpInfo}"
                                         FontFamily="Barlow-Medium"
-                                        FontSize="{DynamicResource TSize_i9}"/>
+                                        FontSize="{DynamicResource TSize_i9}" />
 
-                                    <ffimageloading:CachedImage 
+                                    <ffimageloading:CachedImage
                                         HorizontalOptions="EndAndExpand"
                                         Source="ic_close_square_24x24"
                                         HeightRequest="20"
                                         WidthRequest="20"
-                                        xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.HideOrderNotificationCommnad}"/>
-                                    
+                                        xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.HideOrderNotificationCommnad}" />
+
                                 </StackLayout>
-                                
+
                                 <StackLayout
                                     Orientation="Horizontal"
                                     Spacing="6"
                                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.GoToOrderTabsCommand}">
 
-                                    <ffimageloading:CachedImage 
+                                    <ffimageloading:CachedImage
                                         Source="ic_folder_primary_24x24"
                                         HeightRequest="20"
-                                        WidthRequest="20"/>
+                                        WidthRequest="20" />
 
                                     <Label
                                         Text="{xct:Translate OrderTabs}"
                                         FontFamily="Barlow-Medium"
                                         TextColor="{DynamicResource AppColor_i1}"
-                                        FontSize="{DynamicResource TSize_i9}"/>
-                                    
+                                        FontSize="{DynamicResource TSize_i9}" />
+
                                 </StackLayout>
-                                
+
                             </StackLayout>
-                            
+
                         </pancakeview:PancakeView>
 
-                        <StackLayout 
+                        <StackLayout
                             Margin="0, 120, 0, 0"
                             Spacing="6">
 
                             <StackLayout.Triggers>
-                                <DataTrigger TargetType="StackLayout" Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}" Value="True">
-                                    <Setter Property="Margin" Value="0, 40, 0, 0"/>
+                                <DataTrigger
+                                    TargetType="StackLayout"
+                                    Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
+                                    Value="True">
+
+                                    <Setter Property="Margin" Value="0, 40, 0, 0" />
+
                                 </DataTrigger>
                             </StackLayout.Triggers>
 
@@ -1365,16 +1371,17 @@
 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroupList>
-                                        <VisualStateGroup Name="AdaptivePic_payment">
+                                        <VisualStateGroup
+                                            Name="AdaptivePic_payment">
 
                                             <VisualState Name="Medium">
 
                                                 <VisualState.StateTriggers>
-                                                    <AdaptiveTrigger MinWindowWidth="1340"/>
+                                                    <AdaptiveTrigger MinWindowWidth="1340" />
                                                 </VisualState.StateTriggers>
 
                                                 <VisualState.Setters>
-                                                    <Setter Property="HeightRequest" Value="250"/>
+                                                    <Setter Property="HeightRequest" Value="250" />
                                                 </VisualState.Setters>
 
                                             </VisualState>
@@ -1401,15 +1408,19 @@
                     </StackLayout>
                 </CollectionView.EmptyView>
 
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <templates:SeatHeaderItemTemplate />
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="modelsBindable:SeatBindableModel">
-
-                        <templates:SeatItemTemplate ItemsSource="{Binding SelectedDishes}"/>
-
+                    <DataTemplate>
+                        <templates:DishesGroupedBySeatItemTemplate />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
-            </controls:CustomCollectionView>
+            </CollectionView>
 
             <!-- SUMMARY -->
             <StackLayout 

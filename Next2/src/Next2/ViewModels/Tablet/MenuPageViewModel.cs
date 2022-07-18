@@ -123,6 +123,11 @@ namespace Next2.ViewModels.Tablet
                     CustomersViewModel.SetSearchQuery(searchCustomer);
                 }
 
+                if (parameters.TryGetValue(Constants.Navigations.SEARCH_RESERVATION, out string searchReservation))
+                {
+                    ReservationsViewModel.SetSearchQuery(searchReservation);
+                }
+
                 if (parameters.ContainsKey(Constants.Navigations.TAX_OFF))
                 {
                     await NewOrderViewModel.OrderRegistrationViewModel.RemoveTaxAsync();

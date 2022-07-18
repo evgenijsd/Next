@@ -47,7 +47,6 @@ namespace Next2.ViewModels
         private SeatBindableModel _firstSeat;
         private SeatBindableModel _firstNotEmptySeat;
         private SeatBindableModel _seatWithSelectedDish;
-        private EOrderStatus _orderPaymentStatus;
         private bool _isAnyDishChosen;
 
         public OrderRegistrationViewModel(
@@ -67,14 +66,12 @@ namespace Next2.ViewModels
             _menuService = menuService;
             _bonusesService = bonusesService;
 
-            _orderPaymentStatus = EOrderStatus.Closed;
-
             CurrentState = ENewOrderViewState.InProgress;
 
-            _seatSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
-            _deleteSeatCommand = new AsyncCommand<SeatBindableModel>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
+            _seatSelectionCommand = new AsyncCommand<DishesGroupedBySeat>(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
+            _deleteSeatCommand = new AsyncCommand<DishesGroupedBySeat>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
             _removeOrderCommand = new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
-            _selectDishCommand = new AsyncCommand<SeatBindableModel>(OnSelectDishCommandAsync, allowsMultipleExecutions: false);
+            _selectDishCommand = new AsyncCommand<DishBindableModel>(OnSelectDishCommandAsync, allowsMultipleExecutions: false);
         }
 
         #region -- Public properties --
@@ -92,6 +89,8 @@ namespace Next2.ViewModels
         public OrderTypeBindableModel SelectedOrderType { get; set; }
 
         public DishBindableModel? SelectedDish { get; set; }
+
+        public ObservableCollection<DishesGroupedBySeat> DishesGroupedBySeats { get; set; } = new();
 
         public SeatBindableModel SeatWithSelectedDish { get; set; }
 
@@ -153,13 +152,9 @@ namespace Next2.ViewModels
         {
             if (!App.IsTablet)
             {
-                foreach (var seat in _orderService.CurrentOrder.Seats)
-                {
-                    seat.SelectedItem = null;
-                }
-
                 CurrentOrder = _orderService.CurrentOrder;
                 IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
+                await UpdateDishGroupsAsync();
             }
 
             if (parameters.ContainsKey(Constants.Navigations.DISH_MODIFIED))
@@ -180,6 +175,7 @@ namespace Next2.ViewModels
             if (parameters.TryGetValue(Constants.Navigations.BONUS, out FullOrderBindableModel currentOrder))
             {
                 await UpdateOrderWithBonusAsync(currentOrder);
+                await RefreshCurrentOrderAsync();
             }
         }
 
@@ -207,7 +203,7 @@ namespace Next2.ViewModels
 
                     break;
                 case nameof(NumberOfSeats):
-                    await SelectSeatsNumber();
+                    await AddSeatAsync();
 
                     break;
                 case nameof(CurrentOrder):
@@ -222,11 +218,6 @@ namespace Next2.ViewModels
 
                 case nameof(SelectedDish):
                     IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
-
-                    if (SelectedDish is null)
-                    {
-                        await OnCloseEditStateCommandAsync();
-                    }
 
                     break;
             }
@@ -250,11 +241,11 @@ namespace Next2.ViewModels
                 _orderService.CurrentSeat = _orderService?.CurrentOrder?.Seats?.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
                 SeatWithSelectedDish = currentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
-                var resultOfUpdatingOrderBonus = await _orderService.UpdateCurrentOrderAsync();
+                var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
 
-                if (!resultOfUpdatingOrderBonus.IsSuccess)
+                if (!resultOfUpdatingOrder.IsSuccess)
                 {
-                    await ResponseToBadRequestAsync(resultOfUpdatingOrderBonus.Exception.Message);
+                    await ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
                 }
             }
             else
@@ -286,10 +277,10 @@ namespace Next2.ViewModels
 
                     _orderService.CurrentOrder = _tempCurrentOrder;
 
-                    await RefreshCurrentOrderAsync();
-
                     await ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
                 }
+
+                await RefreshCurrentOrderAsync();
             }
             else
             {
@@ -321,19 +312,19 @@ namespace Next2.ViewModels
 
                 _firstSeat = CurrentOrder.Seats.FirstOrDefault();
 
-                _seatWithSelectedDish = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null);
+                var seatNumber = SelectedDish?.SeatNumber ?? 0;
 
-                SelectedDish = new();
-                SelectedDish = _seatWithSelectedDish?.SelectedItem;
+                _seatWithSelectedDish = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == seatNumber);
 
                 _isAnyDishChosen = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 
                 _firstNotEmptySeat = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedDishes.Any());
 
-                AddSeatsCommands();
-
                 SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder.OrderType);
+
                 NumberOfSeats = CurrentOrder.Seats.Count;
+
+                await UpdateDishGroupsAsync();
 
                 await RefreshTablesAsync();
             }
@@ -349,6 +340,62 @@ namespace Next2.ViewModels
         #endregion
 
         #region -- Private helpers --
+
+        private Task UpdateDishGroupsAsync()
+        {
+            DishesGroupedBySeats = new();
+            var selectedDish = SelectedDish = null;
+
+            foreach (var seat in _orderService.CurrentOrder.Seats)
+            {
+                bool isSelectedDishes = seat.SelectedDishes.Any();
+                var selectedDishes = isSelectedDishes
+                    ? seat.SelectedDishes.ToList()
+                    : new() { new(), };
+                var dishFirst = selectedDishes.FirstOrDefault();
+
+                foreach (var dish in selectedDishes)
+                {
+                    dish.SeatNumber = seat.SeatNumber;
+                    dish.IsSeatSelected = seat.Checked;
+                    dish.SelectDishCommand = _selectDishCommand;
+
+                    if (dish == seat.SelectedItem || (seat.Checked && dish == dishFirst))
+                    {
+                        selectedDish = dish;
+                    }
+                }
+
+                DishesGroupedBySeats.Add(new(seat.SeatNumber, selectedDishes));
+                var seatGroup = DishesGroupedBySeats.Last();
+
+                seatGroup.Checked = seat.Checked;
+                seatGroup.IsFirstSeat = seat.IsFirstSeat;
+                SelectedDish = selectedDish;
+
+                if (seat.Checked && seat.SelectedItem is null)
+                {
+                    selectedDish = null;
+                }
+
+                SelectedDish = selectedDish;
+                seatGroup.SelectSeatCommand = _seatSelectionCommand;
+                seatGroup.DeleteSeatCommand = _deleteSeatCommand;
+                seatGroup.RemoveOrderCommand = _removeOrderCommand;
+            }
+
+            if (SelectedDish is null)
+            {
+                CurrentState = ENewOrderViewState.Default;
+                IsSideMenuVisible = true;
+            }
+            else if (!App.IsTablet)
+            {
+                SelectedDish = null;
+            }
+
+            return Task.CompletedTask;
+        }
 
         private async Task RefreshTablesAsync()
         {
@@ -381,36 +428,18 @@ namespace Next2.ViewModels
             }
         }
 
-        private void AddSeatsCommands()
+        private Task DeleteSeatsAdditional()
         {
-            foreach (var seat in CurrentOrder.Seats)
-            {
-                seat.SeatSelectionCommand = _seatSelectionCommand;
-                seat.SeatDeleteCommand = _deleteSeatCommand;
-                seat.RemoveOrderCommand = _removeOrderCommand;
-                seat.DishSelectionCommand = _selectDishCommand;
-
-                if (seat.SelectedItem is not null)
-                {
-                    seat.SelectedItem = null;
-                }
-            }
-        }
-
-        private void DeleteSeatsCommands()
-        {
-            foreach (var seat in CurrentOrder.Seats)
-            {
-                seat.SeatSelectionCommand = null;
-                seat.SeatDeleteCommand = null;
-                seat.DishSelectionCommand = null;
-            }
+            SelectedDish = null;
+            return UpdateDishGroupsAsync();
         }
 
         private Task OnCloseEditStateCommandAsync()
         {
             if (SelectedDish is not null)
             {
+                SelectedDish = null;
+
                 foreach (var item in CurrentOrder.Seats)
                 {
                     item.SelectedItem = null;
@@ -424,18 +453,21 @@ namespace Next2.ViewModels
 
             IsSideMenuVisible = true;
 
-            return Task.CompletedTask;
+            return UpdateDishGroupsAsync();
         }
 
-        private async Task OnSeatSelectionCommandAsync(SeatBindableModel seat)
+        private async Task OnSeatSelectionCommandAsync(DishesGroupedBySeat? seatGroup)
         {
             if (IsInternetConnected)
             {
-                if (CurrentOrder.Seats is not null)
+                var seatNumber = seatGroup?.SeatNumber ?? 0;
+                var seat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == seatNumber);
+
+                if (seat is not null)
                 {
                     seat.Checked = true;
 
-                    if (_seatWithSelectedDish is not null && _seatWithSelectedDish.SeatNumber != seat.SeatNumber)
+                    if (_seatWithSelectedDish is not null && _seatWithSelectedDish.SeatNumber != seatNumber)
                     {
                         _seatWithSelectedDish.SelectedItem = null;
                         SelectedDish = null;
@@ -443,13 +475,15 @@ namespace Next2.ViewModels
 
                     foreach (var item in CurrentOrder.Seats)
                     {
-                        if (item.SeatNumber != seat.SeatNumber)
+                        if (item.SeatNumber != seatNumber)
                         {
                             item.Checked = false;
                         }
                     }
 
                     _orderService.CurrentSeat = seat;
+
+                    await UpdateDishGroupsAsync();
                 }
             }
             else
@@ -461,18 +495,22 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnSelectDishCommandAsync(SeatBindableModel seat)
+        private async Task OnSelectDishCommandAsync(DishBindableModel? dish)
         {
-            if (IsInternetConnected)
+            if (CurrentOrder is not null && CurrentOrder.Seats is not null)
             {
-                if (CurrentOrder.Seats is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && seat.SelectedItem is not null)
+                var seatNumber = dish?.SeatNumber ?? 0;
+                var seat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == seatNumber);
+
+                if (seat is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && SelectedDish is not null)
                 {
+                    seat.SelectedItem = seat.SelectedDishes.FirstOrDefault(x => x == dish);
                     _seatWithSelectedDish = seat;
                     seat.Checked = true;
 
                     foreach (var item in CurrentOrder.Seats)
                     {
-                        if (item.SeatNumber != seat.SeatNumber)
+                        if (item.SeatNumber != seatNumber)
                         {
                             item.SelectedItem = null;
                             item.Checked = false;
@@ -480,37 +518,41 @@ namespace Next2.ViewModels
                     }
 
                     _orderService.CurrentSeat = seat;
-                    SelectedDish = seat.SelectedItem;
+                    await UpdateDishGroupsAsync();
 
-                    if (App.IsTablet)
+                    if (dish?.Id != Guid.Empty)
                     {
-                        CurrentState = ENewOrderViewState.Edit;
-                        IsSideMenuVisible = false;
-                    }
-                    else
-                    {
-                        await _navigationService.NavigateAsync(nameof(EditPage));
+                        if (App.IsTablet)
+                        {
+                            CurrentState = ENewOrderViewState.Edit;
+                            IsSideMenuVisible = false;
+                        }
+                        else
+                        {
+                            await _navigationService.NavigateAsync(nameof(EditPage));
+                        }
                     }
                 }
             }
         }
 
-        private Task OnDeleteSeatCommandAsync(SeatBindableModel seat) => DeleteSeatAsync(seat);
+        private Task OnDeleteSeatCommandAsync(DishesGroupedBySeat? seat) => DeleteSeatAsync(seat);
 
         private Task OnDeleteLastSeatCommandAsync()
         {
-            var lastSeat = CurrentOrder.Seats.LastOrDefault();
+            var lastSeat = DishesGroupedBySeats.LastOrDefault();
 
             return lastSeat is null
                 ? Task.CompletedTask
                 : DeleteSeatAsync(lastSeat);
         }
 
-        private async Task DeleteSeatAsync(SeatBindableModel seat)
+        private async Task DeleteSeatAsync(DishesGroupedBySeat? seatGroup)
         {
             if (IsInternetConnected)
             {
                 _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
+                var seat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == seatGroup?.SeatNumber);
 
                 if (seat.SelectedDishes.Any())
                 {
@@ -542,6 +584,8 @@ namespace Next2.ViewModels
                         }
                     }
                 }
+
+                await UpdateDishGroupsAsync();
 
                 if (!App.IsTablet && !CurrentOrder.Seats.Any())
                 {
@@ -614,7 +658,7 @@ namespace Next2.ViewModels
 
                             if (App.IsTablet && CurrentState == ENewOrderViewState.Edit)
                             {
-                                SelectedDish = destinationSeat.SelectedItem = destinationSeat.SelectedDishes.FirstOrDefault();
+                                destinationSeat.SelectedItem = SelectedDish = destinationSeat.SelectedDishes.FirstOrDefault();
                             }
                         }
                     }
@@ -646,7 +690,7 @@ namespace Next2.ViewModels
 
                     _orderService.CurrentOrder = _tempCurrentOrder;
 
-                    await RefreshCurrentOrderAsync();
+                    await UpdateDishGroupsAsync();
                 }
             }
         }
@@ -656,11 +700,12 @@ namespace Next2.ViewModels
             foreach (var seat in CurrentOrder.Seats)
             {
                 seat.Checked = false;
+                seat.SelectedItem = null;
             }
 
             seatToBeSelected.Checked = true;
 
-            DeleteSeatsCommands();
+            DeleteSeatsAdditional();
 
             return RefreshCurrentOrderAsync();
         }
@@ -766,6 +811,9 @@ namespace Next2.ViewModels
             {
                 await _navigationService.GoBackAsync();
             }
+
+            await UpdateDishGroupsAsync();
+            await _orderService.UpdateCurrentOrderAsync();
         }
 
         private async Task RemoveOrderAsync()
@@ -1003,35 +1051,34 @@ namespace Next2.ViewModels
 
                             await RefreshCurrentOrderAsync();
 
-                            var resultOfUpdatingCurrentOrder = await _orderService.UpdateCurrentOrderAsync();
-
-                            if (resultOfUpdatingCurrentOrder.IsSuccess)
+                            if (CurrentState == ENewOrderViewState.Edit)
                             {
-                                if (CurrentState == ENewOrderViewState.Edit)
+                                if (_seatWithSelectedDish.SelectedDishes.Any())
                                 {
-                                    if (_seatWithSelectedDish.SelectedDishes.Any())
+                                    _seatWithSelectedDish.SelectedItem = _seatWithSelectedDish.SelectedDishes.FirstOrDefault();
+                                }
+                                else if (_isAnyDishChosen)
+                                {
+                                    foreach (var set in CurrentOrder.Seats)
                                     {
-                                        _seatWithSelectedDish.SelectedItem = _seatWithSelectedDish.SelectedDishes.FirstOrDefault();
+                                        set.SelectedItem = null;
                                     }
-                                    else if (_isAnyDishChosen)
-                                    {
-                                        foreach (var set in CurrentOrder.Seats)
-                                        {
-                                            set.SelectedItem = null;
-                                        }
 
-                                        _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.SelectedDishes.FirstOrDefault();
-                                    }
-                                    else
+                                    _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.SelectedDishes.FirstOrDefault();
+                                    await UpdateDishGroupsAsync();
+                                }
+                                else
+                                {
+                                    if (App.IsTablet)
                                     {
-                                        if (App.IsTablet)
-                                        {
-                                            await OnCloseEditStateCommandAsync();
-                                        }
+                                        await OnCloseEditStateCommandAsync();
                                     }
                                 }
                             }
-                            else
+
+                            var resultOfUpdatingCurrentOrder = await _orderService.UpdateCurrentOrderAsync();
+
+                            if (!resultOfUpdatingCurrentOrder.IsSuccess)
                             {
                                 _orderService.CurrentOrder = _tempCurrentOrder;
 
@@ -1129,6 +1176,8 @@ namespace Next2.ViewModels
 
                             await ResponseToBadRequestAsync(resultOfUpdatingOrderTable.Exception?.Message);
                         }
+
+                        await UpdateDishGroupsAsync();
                     }
                 }
                 else
@@ -1161,6 +1210,8 @@ namespace Next2.ViewModels
 
                         await ResponseToBadRequestAsync(resultOfUpdatingOrderType.Exception?.Message);
                     }
+
+                    await UpdateDishGroupsAsync();
                 }
                 else
                 {
@@ -1174,7 +1225,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task SelectSeatsNumber()
+        private async Task AddSeatAsync()
         {
             if (NumberOfSeats != CurrentOrder.Seats.Count())
             {
@@ -1188,7 +1239,13 @@ namespace Next2.ViewModels
 
                         if (resultOfAddingSeatInOrder.IsSuccess)
                         {
-                            AddSeatsCommands();
+                            foreach (var seat in CurrentOrder.Seats)
+                            {
+                                if (seat.SelectedItem is not null)
+                                {
+                                    seat.SelectedItem = null;
+                                }
+                            }
 
                             var resultOfUpdatingCurrentOrder = await _orderService.UpdateCurrentOrderAsync();
 
@@ -1198,7 +1255,7 @@ namespace Next2.ViewModels
 
                                 if (deleteLastSeatResult.IsSuccess)
                                 {
-                                    NumberOfSeats = CurrentOrder.Seats.Count;
+                                    _orderService.CurrentOrder.Seats.LastOrDefault().Checked = true;
 
                                     if (!_isAnyDishChosen)
                                     {
@@ -1213,6 +1270,8 @@ namespace Next2.ViewModels
 
                                 await ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
                             }
+
+                            await UpdateDishGroupsAsync();
                         }
                         else
                         {

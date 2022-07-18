@@ -52,7 +52,7 @@ namespace Next2.ViewModels.Tablet
 
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
-            orderRegistrationViewModel.RefreshCurrentOrderAsync();
+            orderRegistrationViewModel?.RefreshCurrentOrderAsync();
         }
 
         #region -- Public properties --

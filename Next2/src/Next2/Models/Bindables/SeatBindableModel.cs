@@ -18,10 +18,6 @@ namespace Next2.Models.Bindables
 
         public ICommand SeatSelectionCommand { get; set; }
 
-        public ICommand SeatDeleteCommand { get; set; }
-
-        public ICommand RemoveOrderCommand { get; set; }
-
         public ObservableCollection<DishBindableModel> SelectedDishes { get; set; } = new();
     }
 }
