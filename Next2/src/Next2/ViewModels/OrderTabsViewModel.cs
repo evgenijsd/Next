@@ -591,7 +591,12 @@ namespace Next2.ViewModels
                     {
                         var order = resultOfGettingOrder.Result;
 
-                        await _navigationService.NavigateAsync(nameof(SplitOrderPage), new NavigationParameters { { Constants.Navigations.ORDER, order } });
+                        var param = new NavigationParameters
+                        {
+                            { Constants.Navigations.ORDER, order },
+                        };
+
+                        await _navigationService.NavigateAsync(nameof(SplitOrderPage), param);
                     }
                     else
                     {

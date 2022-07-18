@@ -55,7 +55,7 @@ namespace Next2.ViewModels
         public ICommand SplitByCommand => _splitByCommand ??= new AsyncCommand<ESplitOrderConditions>(OnSplitByCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _selectDishCommand;
-        public ICommand SelectDishCommand => _selectDishCommand ??= new AsyncCommand<object?>(OnDishSelectionCommandAsync);
+        public ICommand SelectDishCommand => _selectDishCommand ??= new AsyncCommand<object?>(OnSelectDishCommandAsync);
 
         #endregion
 
@@ -237,9 +237,9 @@ namespace Next2.ViewModels
                 if (SelectedDish.HasSplittedPrice && condition is not ESplitOrderConditions.BySeats)
                 {
                     await ShowInfoDialogAsync(
-                            LocalizationResourceManager.Current["Warning"],
-                            LocalizationResourceManager.Current["ThisDishAlreadySplitted"],
-                            LocalizationResourceManager.Current["Ok"]);
+                        LocalizationResourceManager.Current["Warning"],
+                        LocalizationResourceManager.Current["ThisDishAlreadySplitted"],
+                        LocalizationResourceManager.Current["Ok"]);
                 }
                 else
                 {
@@ -260,9 +260,9 @@ namespace Next2.ViewModels
             else
             {
                 await ShowInfoDialogAsync(
-                            LocalizationResourceManager.Current["Warning"],
-                            LocalizationResourceManager.Current["CannotSplitWithoutSeats"],
-                            LocalizationResourceManager.Current["Ok"]);
+                    LocalizationResourceManager.Current["Warning"],
+                    LocalizationResourceManager.Current["CannotSplitWithoutSeats"],
+                    LocalizationResourceManager.Current["Ok"]);
             }
         }
 
@@ -305,7 +305,7 @@ namespace Next2.ViewModels
 
         private async Task SplitOrderBySeatsAsync(IList<int[]> groupList)
         {
-            int successfullUpdatesCounter = 0;
+            int successfullCounter = 0;
 
             if (_popupNavigation.PopupStack.Count > 0)
             {
@@ -316,36 +316,28 @@ namespace Next2.ViewModels
             {
                 var seats = Seats.Where(s => group.Any(x => x == s.SeatNumber));
                 var outSeats = seats.ToSeatsModelsDTO();
+                bool isSuccessfull = false;
 
                 if (group.Contains(_selectedSeatNumber))
                 {
-                    var isOrderUpdated = await UpdateSplittedOrderAsync(outSeats);
-
-                    if (isOrderUpdated)
-                    {
-                        successfullUpdatesCounter++;
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    isSuccessfull = await UpdateSplittedOrderAsync(outSeats);
                 }
                 else
                 {
-                    var createResult = await CreateNewSplittedOrderAsync(outSeats);
+                    isSuccessfull = await CreateNewSplittedOrderAsync(outSeats);
+                }
 
-                    if (createResult)
-                    {
-                        successfullUpdatesCounter++;
-                    }
-                    else
-                    {
-                        break;
-                    }
+                if (isSuccessfull)
+                {
+                    successfullCounter++;
+                }
+                else
+                {
+                    break;
                 }
             }
 
-            if (successfullUpdatesCounter == groupList.Count)
+            if (successfullCounter == groupList.Count)
             {
                 OriginalSeats = Order.Seats;
                 var seatsNumbers = Order.Seats.Select(x => x.Number);
@@ -417,7 +409,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnDishSelectionCommandAsync(object? sender)
+        private Task OnSelectDishCommandAsync(object? sender)
         {
             if (_isOneTime)
             {

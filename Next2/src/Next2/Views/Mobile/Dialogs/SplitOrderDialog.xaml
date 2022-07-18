@@ -472,24 +472,25 @@
 
                         </Label>
 
-                        <Image Source="ic_arrow_right_24x24.png">
+                        <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png">
 
-                            <Image.Triggers>
-                                <DataTrigger Binding="{Binding PopupNavigationStep}" TargetType="Image" Value="{Static enums:EStep.Second}">
-
-                                    <Setter Property="IsVisible" Value="false" />
-
-                                </DataTrigger>
-
-                                <DataTrigger Binding="{Binding SplitCondition}" TargetType="Image" Value="{Static enums:ESplitOrderConditions.BySeats}">
+                            <ffimageloading:CachedImage.Triggers>
+                                
+                                <DataTrigger Binding="{Binding PopupNavigationStep}" TargetType="ffimageloading:CachedImage" Value="{Static enums:EStep.Second}">
 
                                     <Setter Property="IsVisible" Value="false" />
 
                                 </DataTrigger>
 
-                            </Image.Triggers>
+                                <DataTrigger Binding="{Binding SplitCondition}" TargetType="ffimageloading:CachedImage" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
-                        </Image>
+                                    <Setter Property="IsVisible" Value="false" />
+
+                                </DataTrigger>
+
+                            </ffimageloading:CachedImage.Triggers>
+
+                        </ffimageloading:CachedImage>
 
                     </StackLayout>
 
