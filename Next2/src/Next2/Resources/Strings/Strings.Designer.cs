@@ -124,6 +124,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assign.
+        /// </summary>
+        internal static string Assign {
+            get {
+                return ResourceManager.GetString("Assign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Available Groups.
         /// </summary>
         internal static string AvailableGroups {
@@ -318,6 +327,15 @@ namespace Next2.Resources.Strings {
         internal static string Customers {
             get {
                 return ResourceManager.GetString("Customers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date / Time.
+        /// </summary>
+        internal static string DateTime {
+            get {
+                return ResourceManager.GetString("DateTime", resourceCulture);
             }
         }
         
@@ -1120,6 +1138,15 @@ namespace Next2.Resources.Strings {
         internal static string Required {
             get {
                 return ResourceManager.GetString("Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reservations.
+        /// </summary>
+        internal static string Reservations {
+            get {
+                return ResourceManager.GetString("Reservations", resourceCulture);
             }
         }
         

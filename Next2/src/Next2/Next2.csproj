@@ -137,8 +137,14 @@
     <Compile Update="Controls\DataLoadingState.xaml.cs">
       <DependentUpon>DataLoadingState.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\Templates\DishesGroupedBySeatItemTemplate.xaml.cs">
+      <DependentUpon>DishesGroupedBySeatItemTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\Templates\DishItemTemplate.xaml.cs">
       <DependentUpon>DishItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\SeatHeaderItemTemplate.xaml.cs">
+      <DependentUpon>SeatHeaderItemTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\TimeAndDateBar.xaml.cs">
       <DependentUpon>TimeAndDateBar.xaml</DependentUpon>
@@ -346,7 +352,7 @@
     <EmbeddedResource Update="Controls\SeatItemForSplitOrder.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\Templates\SeatItemTemplate.xaml">
+    <EmbeddedResource Update="Controls\Templates\SeatHeaderItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\Tablet\RewardItemTemplate.xaml">
@@ -541,7 +547,7 @@
     <EmbeddedResource Update="Views\OrderTabsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ReservationsView.xaml">
+    <EmbeddedResource Update="Views\Tablet\ReservationsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsView.xaml">

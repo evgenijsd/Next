@@ -54,29 +54,6 @@ namespace Next2.Services.Membership
             return result;
         }
 
-        public string ApplyNameFilter(string text)
-        {
-            var result = text;
-
-            try
-            {
-                Regex regexName = new(Constants.Validators.NAME);
-                Regex regexNumber = new(Constants.Validators.NUMBER);
-                Regex regexText = new(Constants.Validators.TEXT);
-
-                result = regexText.Replace(text, string.Empty);
-
-                result = Regex.IsMatch(result, Constants.Validators.CHECK_NUMBER)
-                    ? regexNumber.Replace(result, string.Empty)
-                    : regexName.Replace(result, string.Empty);
-            }
-            catch (Exception)
-            {
-            }
-
-            return result;
-        }
-
         public async Task<AOResult> UpdateMemberAsync(MembershipModelDTO member)
         {
             var result = new AOResult();
