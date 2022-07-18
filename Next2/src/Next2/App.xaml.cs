@@ -37,6 +37,8 @@ using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
 using Next2.Services.Reservation;
+using Next2.Services.Messages;
+using Next2.Services.HoldItem;
 
 namespace Next2
 {
@@ -66,6 +68,7 @@ namespace Next2
             containerRegistry.RegisterInstance(mapper);
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<IMockService, MockService>();
+            containerRegistry.RegisterSingleton<IMessagesService, MessagesService>();
             containerRegistry.RegisterSingleton<IRestService, RestService>();
             containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
@@ -76,6 +79,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<IBonusesService, BonusesService>();
             containerRegistry.RegisterSingleton<IWorkLogService, WorkLogService>();
             containerRegistry.RegisterSingleton<IReservationService, ReservationService>();
+            containerRegistry.RegisterSingleton<IHoldItemService, HoldItemService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
@@ -205,7 +209,7 @@ namespace Next2
                     .ForMember(x => x.OrderType, x => x.MapFrom(s => (EOrderType)Enum.Parse(typeof(EOrderType), s.OrderType)));
                 cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
                 cfg.CreateMap<SeatBindableModel, SeatBindableModel>();
-                cfg.CreateMap<Models.Bindables.DishBindableModel, Models.Bindables.DishBindableModel>();
+                cfg.CreateMap<DishBindableModel, DishBindableModel>();
                 cfg.CreateMap<ProductBindableModel, ProductBindableModel>()
                     .AfterMap((s, d) => d.Product = s.Product);
                 cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();
@@ -215,11 +219,12 @@ namespace Next2
                 cfg.CreateMap<SimpleIngredientsCategoryModelDTO, SimpleIngredientsCategoryModelDTO>();
                 cfg.CreateMap<TableBindableModel, SimpleTableModelDTO>()
                     .ForMember(x => x.Number, s => s.MapFrom(x => x.TableNumber));
-                cfg.CreateMap<DishModelDTO, Models.Bindables.DishBindableModel>();
+                cfg.CreateMap<DishModelDTO, DishBindableModel>();
                 cfg.CreateMap<SimpleIngredientsCategoryModelDTO, IngredientsCategoryModelDTO>();
                 cfg.CreateMap<ProductBindableModel, SimpleProductModelDTO>().ReverseMap();
                 cfg.CreateMap<GiftCardModelDTO, UpdateGiftCardCommand>().ReverseMap();
                 cfg.CreateMap<SimpleProductModelDTO, SimpleProductModelDTO>();
+                cfg.CreateMap<HoldItemModel, HoldItemBindableModel>().ReverseMap();
             }).CreateMapper();
         }
 

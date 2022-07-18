@@ -565,6 +565,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hold Items.
+        /// </summary>
+        internal static string HoldItems {
+            get {
+                return ResourceManager.GetString("HoldItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incorrect email.
         /// </summary>
         internal static string IncorrectEmail {

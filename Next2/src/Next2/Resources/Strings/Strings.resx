@@ -663,4 +663,7 @@ A receipt has been printed for you.</value>
   <data name="DateTime" xml:space="preserve">
     <value>Date / Time</value>
   </data>
+  <data name="HoldItems" xml:space="preserve">
+    <value>Hold Items</value>
+  </data>
 </root>
