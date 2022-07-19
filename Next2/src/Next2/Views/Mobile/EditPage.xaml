@@ -1,21 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:local="clr-namespace:Next2"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
     xmlns:views="clr-namespace:Next2.Views"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
     x:Class="Next2.Views.Mobile.EditPage"
     x:DataType="viewModels:EditPageViewModel">
 
-    <Grid RowDefinitions="0.10*, *, 0.30*">
+    <Grid
+        RowDefinitions="0.10*, *, 0.30*"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
         <controls:CustomNavigationBar 
             Grid.Row="0"
@@ -27,20 +28,21 @@
 
         <BoxView
             Grid.Row="0"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             HeightRequest="1"
             VerticalOptions="EndAndExpand"/>
 
         <ScrollView Grid.Row="1">
 
             <ScrollView.Effects>
+
                 <effects:NoOverScrollEffect/>
 
                 <effects:ScrollBarColorEffect
-                        ScrollBarThumbWidth="6"
-                        ScrollBarCornerRadius="9"
-                        ScrollBarThumbColor="{StaticResource AppColor_i1}"
-                        ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+                    ScrollBarThumbWidth="6"
+                    ScrollBarCornerRadius="9"
+                    ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                    ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
                 
             </ScrollView.Effects>
 
@@ -49,36 +51,29 @@
                 RowDefinitions="auto, auto, auto, *"
                 Margin="20, 0, 20, 0">
 
-                <!--Row 1 Image & Title-->
-
                 <StackLayout 
                     Grid.Row="0"
+                    Margin="0, 15, 0, 15"
+                    Spacing="20"
                     VerticalOptions="Start"
                     Orientation="Horizontal">
 
-                    <StackLayout 
-                        HorizontalOptions="Start"
-                        VerticalOptions="Center"
-                        Margin="0, 15, 0, 15"
-                        Orientation="Vertical">
+                    <Frame
+                        CornerRadius="{OnPlatform iOS=8, Android=10}"
+                        HeightRequest="60"
+                        WidthRequest="60"
+                        BackgroundColor="Transparent"
+                        IsClippedToBounds="True">
 
-                        <Frame 
-                            CornerRadius="10"
-                            Padding="0"
-                            BorderColor="Transparent"
-                            HeightRequest="80"
-                            WidthRequest="80">
+                        <ffimageloading:CachedImage 
+                            HeightRequest="60"
+                            WidthRequest="60"
+                            Source="{Binding SelectedDish.ImageSource}"                            
+                            Aspect="AspectFill"/>
 
-                            <ffimageloading:CachedImage 
-                                Source="{Binding SelectedDish.ImageSource}"
-                                Aspect="AspectFill"/>
-
-                        </Frame>
-
-                    </StackLayout>
+                    </Frame>
 
                     <StackLayout
-                        Margin="20, 0, 0, 0"
                         VerticalOptions="Center"
                         Orientation="Vertical">
 

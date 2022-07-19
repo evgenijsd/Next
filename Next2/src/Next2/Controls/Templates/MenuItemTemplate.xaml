@@ -8,6 +8,9 @@
     VerticalOptions="CenterAndExpand"
     HorizontalOptions="CenterAndExpand"
     BackgroundColor="Transparent"
+    HasShadow="False"
+    CornerRadius="{OnIdiom Tablet='6', Phone='5'}"
+    IsClippedToBounds="true"
     x:Class="Next2.Controls.Templates.MenuItemTemplate">
 
     <pancakeview:PancakeView

@@ -21,7 +21,7 @@
         <ResourceDictionary>
             <Style TargetType="templates:MenuItemTemplate">
                 <Setter Property="HeightRequest" Value="57"/>
-                <Setter Property="Padding" Value="0, 3, 0, 4"/>
+                <Setter Property="Padding" Value="0"/>
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i10}"/>
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <Setter.Value>

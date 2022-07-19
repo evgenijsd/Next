@@ -293,7 +293,7 @@
                                     FontSize="{DynamicResource TSize_i8}"
                                     VerticalOptions="Start"
                                     VerticalTextAlignment="Center"
-                                    Margin="5, 5, 0, 0"/>
+                                    Margin="{OnPlatform Android='5, 5, 0, 0', iOS='5, 9, 0, 0'}"/>
                                 
                             </StackLayout>
 
