@@ -199,7 +199,7 @@ namespace Next2.ViewModels
 
         private async void CloseCustomerInfoDialogCallback(IDialogParameters parameters)
         {
-            await PopupNavigation.PopAsync();
+            await CloseAllPopupAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isCustomerSelected) && isCustomerSelected)
             {
@@ -244,7 +244,7 @@ namespace Next2.ViewModels
 
         private async void AddCustomerDialogCallBack(IDialogParameters param)
         {
-            await PopupNavigation.PopAsync();
+            await CloseAllPopupAsync();
 
             if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out Guid customerId))
             {

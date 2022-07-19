@@ -129,7 +129,7 @@ namespace Next2.ViewModels
 
             if (_popupNavigation.PopupStack.Count > 0)
             {
-                await _popupNavigation.PopAsync();
+                await CloseAllPopupAsync();
             }
         }
 
