@@ -181,6 +181,7 @@
                 MaxValue="{Binding SelectedTable.SeatNumbers}"
                 Value="{Binding NumberOfSeats}"
                 IsEnabled="{Binding IsOrderSavedNotificationVisible, Converter={xct:InvertedBoolConverter}}"
+                IncrementCommand="{Binding AddNewSeatCommand}"
                 DecrementCommand="{Binding DeleteLastSeatCommand}"/>
 
         </StackLayout>
