@@ -143,7 +143,7 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task<IEnumerable<CouponModelDTO>>? GetCoupons()
+        private async Task<IEnumerable<CouponModelDTO>?> GetCoupons()
         {
             IEnumerable<CouponModelDTO>? coupons = null;
             var dishes = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes);
@@ -163,7 +163,7 @@ namespace Next2.ViewModels
             return coupons;
         }
 
-        private async Task<IEnumerable<DiscountModelDTO>> GetDiscounts()
+        private async Task<IEnumerable<DiscountModelDTO>?> GetDiscounts()
         {
             IEnumerable<DiscountModelDTO>? discounts = null;
             var dishes = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes);
@@ -205,7 +205,7 @@ namespace Next2.ViewModels
             if (bonus?.Type is EBonusType.Coupon)
             {
                 var coupon = _mapper.Map<CouponModelDTO>(bonus);
-                coupon.SeatNumbers = CurrentOrder.Seats.Count;
+                coupon.SeatNumber = CurrentOrder.Seats.Count;
 
                 CurrentOrder.Discount = null;
                 CurrentOrder.Coupon = coupon;

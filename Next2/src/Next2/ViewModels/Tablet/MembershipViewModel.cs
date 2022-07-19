@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Services.Membership;
@@ -75,9 +76,11 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName is nameof(DisplayMembers))
+            switch (args.PropertyName)
             {
-                AnyMembersLoaded = _allMembers.Any();
+                case nameof(DisplayMembers):
+                    AnyMembersLoaded = _allMembers.Any();
+                    break;
             }
         }
 
@@ -94,9 +97,8 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnDisappearing();
 
-            SetSearchQuery(string.Empty);
-
-            AnyMembersLoaded = false;
+            SearchText = string.Empty;
+            DisplayMembers = new();
         }
 
         #endregion
@@ -152,9 +154,9 @@ namespace Next2.ViewModels.Tablet
             }
         }
 
-        private async Task OnRefreshMembersCommandAsync()
+        private Task OnRefreshMembersCommandAsync()
         {
-            await RefreshMembersAsync();
+            return RefreshMembersAsync();
         }
 
         private Task OnMemberSortingChangeCommandAsync(EMemberSorting memberSorting)
@@ -177,7 +179,8 @@ namespace Next2.ViewModels.Tablet
         {
             if (DisplayMembers.Any() || !string.IsNullOrEmpty(SearchText))
             {
-                Func<string, string> searchValidator = _membershipService.ApplyNameFilter;
+                Func<string, string> searchValidator = Filters.StripInvalidNameCharacters;
+
                 var parameters = new NavigationParameters()
                 {
                     { Constants.Navigations.SEARCH_MEMBER, SearchText },
@@ -218,7 +221,7 @@ namespace Next2.ViewModels.Tablet
 
         private async void MembershipEditDialogCallBack(IDialogParameters parameters)
         {
-            await PopupNavigation.PopAsync();
+            await CloseAllPopupAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.UPDATE, out MemberBindableModel member))
             {
@@ -246,7 +249,7 @@ namespace Next2.ViewModels.Tablet
                 await RefreshMembersAsync();
             }
 
-            await PopupNavigation.PopAsync();
+            await CloseAllPopupAsync();
         }
 
         #endregion

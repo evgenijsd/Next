@@ -35,6 +35,7 @@ using MobileViewModels = Next2.ViewModels.Mobile;
 using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
+using Next2.Services.Reservation;
 
 namespace Next2
 {
@@ -73,6 +74,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
             containerRegistry.RegisterSingleton<IBonusesService, BonusesService>();
             containerRegistry.RegisterSingleton<IWorkLogService, WorkLogService>();
+            containerRegistry.RegisterSingleton<IReservationService, ReservationService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();

@@ -110,7 +110,7 @@ namespace Next2.ViewModels.Tablet
 
                 if (parameters.TryGetValue(Constants.Navigations.SEARCH_QUERY, out string searchQuery))
                 {
-                    OrderTabsViewModel.SearchOrders(searchQuery);
+                    OrderTabsViewModel.SetSearchQuery(searchQuery);
                 }
 
                 if (parameters.TryGetValue(Constants.Navigations.SEARCH_MEMBER, out string searchMember))
@@ -123,9 +123,14 @@ namespace Next2.ViewModels.Tablet
                     CustomersViewModel.SetSearchQuery(searchCustomer);
                 }
 
+                if (parameters.TryGetValue(Constants.Navigations.SEARCH_RESERVATION, out string searchReservation))
+                {
+                    ReservationsViewModel.SetSearchQuery(searchReservation);
+                }
+
                 if (parameters.ContainsKey(Constants.Navigations.TAX_OFF))
                 {
-                    NewOrderViewModel.OrderRegistrationViewModel.RemoveTax();
+                    await NewOrderViewModel.OrderRegistrationViewModel.RemoveTaxAsync();
                 }
 
                 if (parameters.TryGetValue(Constants.Navigations.BONUS, out FullOrderBindableModel currentOrder))
@@ -246,7 +251,7 @@ namespace Next2.ViewModels.Tablet
             {
                 if (result)
                 {
-                    await PopupNavigation.PopAsync();
+                    await CloseAllPopupAsync();
 
                     var logoutResult = await _authenticationService.LogoutAsync();
 
@@ -266,7 +271,7 @@ namespace Next2.ViewModels.Tablet
                 }
                 else
                 {
-                    await PopupNavigation.PopAsync();
+                    await CloseAllPopupAsync();
                 }
             }
         }

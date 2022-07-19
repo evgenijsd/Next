@@ -1,4 +1,5 @@
 using Acr.UserDialogs;
+using AutoMapper;
 using Next2.Enums;
 using Next2.Interfaces;
 using Next2.Models;
@@ -14,6 +15,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
@@ -27,6 +29,10 @@ namespace Next2.ViewModels.Tablet
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
         private readonly IWorkLogService _workLogService;
+        private readonly IMapper _mapper;
+
+        private FullOrderBindableModel _tempCurrentOrder;
+        private SeatBindableModel _tempCurrentSeat;
 
         private bool _shouldOrderDishesByDESC;
 
@@ -35,16 +41,18 @@ namespace Next2.ViewModels.Tablet
             IMenuService menuService,
             OrderRegistrationViewModel orderRegistrationViewModel,
             IWorkLogService workLogService,
-            IOrderService orderService)
+            IOrderService orderService,
+            IMapper mapper)
             : base(navigationService)
         {
             _menuService = menuService;
             _orderService = orderService;
             _workLogService = workLogService;
+            _mapper = mapper;
 
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
-            orderRegistrationViewModel.RefreshCurrentOrderAsync();
+            orderRegistrationViewModel?.RefreshCurrentOrderAsync();
         }
 
         #region -- Public properties --
@@ -132,12 +140,6 @@ namespace Next2.ViewModels.Tablet
         #endregion
 
         #region -- Private methods --
-
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            Task.Run(() => { CurrentDateTime = DateTime.Now; });
-        }
-
         private async Task OnTapSortCommandAsync()
         {
             _shouldOrderDishesByDESC = !_shouldOrderDishesByDESC;
@@ -157,42 +159,70 @@ namespace Next2.ViewModels.Tablet
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.DISH))
+            if (IsInternetConnected)
             {
-                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
+                if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.DISH))
                 {
-                    var resultOfAddingDish = await _orderService.AddDishInCurrentOrderAsync(dish);
-
-                    if (resultOfAddingDish.IsSuccess)
+                    if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                     {
-                        await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
-                        bool isOrderUpdated = await UpdateCurrentOrder();
+                        _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
+                        _tempCurrentSeat = _mapper.Map<SeatBindableModel>(_orderService.CurrentSeat);
 
-                        if (isOrderUpdated)
+                        var resultOfAddingDish = await _orderService.AddDishInCurrentOrderAsync(dish);
+
+                        if (resultOfAddingDish.IsSuccess)
                         {
-                            if (PopupNavigation.PopupStack.Any())
+                            var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
+
+                            if (resultOfUpdatingOrder.IsSuccess)
                             {
-                                await PopupNavigation.PopAsync();
+                                await CloseAllPopupAsync();
+
+                                var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
+                                {
+                                    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                                    Position = ToastPosition.Bottom,
+                                };
+
+                                UserDialogs.Instance.Toast(toastConfig);
+
+                                await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
                             }
-
-                            var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
+                            else
                             {
-                                Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-                                Position = ToastPosition.Bottom,
-                            };
+                                await CloseAllPopupAsync();
 
-                            UserDialogs.Instance.Toast(toastConfig);
+                                _orderService.CurrentOrder = _tempCurrentOrder;
+                                _orderService.CurrentSeat = _tempCurrentSeat;
+
+                                await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                                await ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
+                            }
+                        }
+                        else
+                        {
+                            await CloseAllPopupAsync();
+
+                            await ShowInfoDialogAsync(
+                                LocalizationResourceManager.Current["Error"],
+                                LocalizationResourceManager.Current["SomethingWentWrong"],
+                                LocalizationResourceManager.Current["Ok"]);
                         }
                     }
-                    else
-                    {
-                        await ResponseToBadRequestAsync(resultOfAddingDish.Exception.Message);
-                    }
+                }
+                else
+                {
+                    await CloseAllPopupAsync();
                 }
             }
             else
             {
-                await PopupNavigation.PopAsync();
+                await CloseAllPopupAsync();
+
+                await ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
             }
         }
 
@@ -272,7 +302,12 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnTapExpandCommandAsync()
         {
-            return _navigationService.NavigateAsync(nameof(ExpandPage));
+            return IsInternetConnected
+                ? _navigationService.NavigateAsync(nameof(ExpandPage))
+                : ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
         }
 
         private Task OnOpenEmployeeWorkingHoursCommandAsync()
@@ -282,13 +317,6 @@ namespace Next2.ViewModels.Tablet
                 (IDialogParameters dialogResult) => PopupNavigation.PopAsync());
 
             return PopupNavigation.PushAsync(popupPage);
-        }
-
-        private async Task<bool> UpdateCurrentOrder()
-        {
-            var updateOrderResult = await _orderService.UpdateCurrentOrderAsync();
-
-            return updateOrderResult.IsSuccess;
         }
 
         #endregion

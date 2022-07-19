@@ -90,8 +90,7 @@ namespace Next2.ViewModels
         {
             if (App.IsTablet)
             {
-                SetSearchQuery(string.Empty);
-
+                SearchText = string.Empty;
                 SelectedCustomer = null;
                 AnyCustomersLoaded = false;
             }
@@ -101,9 +100,11 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName is nameof(DisplayedCustomers))
+            switch (args.PropertyName)
             {
-                AnyCustomersLoaded = _allCustomers.Any();
+                case nameof(DisplayedCustomers):
+                    AnyCustomersLoaded = _allCustomers.Any();
+                    break;
             }
         }
 
@@ -197,7 +198,7 @@ namespace Next2.ViewModels
 
         private async void CloseCustomerInfoDialogCallback(IDialogParameters parameters)
         {
-            await PopupNavigation.PopAsync();
+            await CloseAllPopupAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isCustomerSelected) && isCustomerSelected)
             {
@@ -242,7 +243,7 @@ namespace Next2.ViewModels
 
         private async void AddCustomerDialogCallBack(IDialogParameters param)
         {
-            await PopupNavigation.PopAsync();
+            await CloseAllPopupAsync();
 
             if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out Guid customerId))
             {
@@ -282,7 +283,7 @@ namespace Next2.ViewModels
         {
             if (DisplayedCustomers.Any() || !string.IsNullOrEmpty(SearchText))
             {
-                Func<string, string> searchValidator = _orderService.ApplyNameFilter;
+                Func<string, string> searchValidator = Filters.StripInvalidNameCharacters;
 
                 var parameters = new NavigationParameters()
                 {
