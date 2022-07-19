@@ -8,12 +8,14 @@
         {
             public const string DATE_FORMAT = "{0:h:mm:ss}";
             public const string SHORT_TIME = "{0:h:mm:ss tt}";
+            public const string SIMPLE_TIME = "{0:h:mm tt}";
             public const string LONG_DATE = "{0:dddd, d MMMM yyyy}";
             public const string PRICE_FORMAT = "{0:0.00}";
             public const string POINT_FORMAT = "{0:D} pt";
             public const string CASH_FORMAT = "$ {0:#,0.#0}";
             public const string PERCENT_FORMAT = "{0} %";
             public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
+            public const string DATE_FORMAT_ = "dd.MM.yyyy";
             public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
         }
 

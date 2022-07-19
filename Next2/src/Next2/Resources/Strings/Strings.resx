@@ -672,4 +672,7 @@ A receipt has been printed for you.</value>
   <data name="ProgramDevice" xml:space="preserve">
     <value>Program Device</value>
   </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
 </root>

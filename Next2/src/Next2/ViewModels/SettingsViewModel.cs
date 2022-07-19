@@ -22,13 +22,14 @@ namespace Next2.ViewModels
         public SettingsViewModel(
             INavigationService navigationService,
             IAuthenticationService authenticationService,
+            PrintReceiptViewModel printReceiptViewModel,
             IOrderService orderService)
             : base(navigationService)
         {
             _authenticationService = authenticationService;
             _orderService = orderService;
 
-            PrintReceiptViewModel = new(navigationService);
+            PrintReceiptViewModel = printReceiptViewModel;
         }
 
         #region -- Public properties --
