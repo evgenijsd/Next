@@ -20,14 +20,14 @@
 
     <ContentView.Resources>
 
-        <Style TargetType="Label" x:Key="TableCellLabelStyle">
+        <Style x:Key="TableCellLabelStyle" TargetType="Label">
             <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
             <Setter Property="FontFamily" Value="Barlow-Medium" />
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             <Setter Property="Margin" Value="15, 11, 0, 0" />
         </Style>
 
-        <Style TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i1}" x:Key="BorderButtonStyle_i1_1">
+        <Style BasedOn="{StaticResource BorderButtonStyle_i1}" x:Key="BorderButtonStyle_i1_1" TargetType="buttons:BorderButton">
             <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             <Setter Property="BackgroundColor" Value="Transparent" />
@@ -36,34 +36,50 @@
 
     </ContentView.Resources>
 
-    <StackLayout Margin="32, 0, 32, 16">
+    <StackLayout Margin="32, 30, 32, 16">
 
         <StackLayout
+            Padding="0, 0, 0, 18"
             HorizontalOptions="FillAndExpand"
             Orientation="Horizontal">
 
             <Frame
                 HorizontalOptions="StartAndExpand"
+                VerticalOptions="End"
+                CornerRadius="6"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                 BorderColor="{DynamicResource TextAndBackgroundColor_i2}">
 
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="{Binding SelectedDate, StringFormat={x:Static local:Constants+Formats.DATE_FORMAT_}}">
+                <StackLayout
+                    Orientation="Horizontal"
+                    Padding="16, 8"
+                    Spacing="32">
 
-                    </Label>
-                    <ffimageloading:CachedImage Source="ic_calendar_24x24.png"/>
+                    <Label
+                        VerticalTextAlignment="Center"
+                        FontSize="18"
+                        FontFamily="Barlow-Medium"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        Text="{Binding SelectedDate, StringFormat={x:Static local:Constants+Formats.SHORT_DATE_FORMAT}}" />
+
+                    <ffimageloading:CachedImage
+                        Source="ic_calendar_24x24.png" />
+
                 </StackLayout>
-                
+
             </Frame>
 
             <buttons:BorderButton
                 Style="{DynamicResource BorderButtonStyle_i1_1}"
                 HorizontalOptions="EndAndExpand"
+                WidthRequest="118"
+                HeightRequest="30"
+                VerticalOptions="End"
                 CornerRadius="5"
                 BorderColor="{DynamicResource IndicationColor_i1}"
                 BackgroundColor="{DynamicResource IndicationColor_i1}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                Text="{xct:Translate Print}"/>
+                Text="{xct:Translate Print}" />
 
         </StackLayout>
 
@@ -228,7 +244,7 @@
 
                                             <Label.Triggers>
 
-                                                <DataTrigger TargetType="Label" Binding="{Binding TableNumberOrName}" Value="''">
+                                                <DataTrigger Binding="{Binding TableNumberOrName}" TargetType="Label" Value="''">
                                                     <Setter Property="Text" Value="NoName" />
                                                 </DataTrigger>
 

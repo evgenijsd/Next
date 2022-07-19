@@ -29,6 +29,7 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _orderService = orderService;
+           // OnRefreshOrdersCommandAsync();
         }
 
         #region -- Public properties --

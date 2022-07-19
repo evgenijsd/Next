@@ -15,7 +15,7 @@
             public const string CASH_FORMAT = "$ {0:#,0.#0}";
             public const string PERCENT_FORMAT = "{0} %";
             public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
-            public const string DATE_FORMAT_ = "dd.MM.yyyy";
+            public const string SHORT_DATE_FORMAT = "{0:dd.MM.yyyy}";
             public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
         }
 
