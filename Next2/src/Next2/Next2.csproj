@@ -244,6 +244,9 @@
     <Compile Update="Views\Tablet\Dialogs\AddDishToOrderDialog.xaml.cs">
       <DependentUpon>AddDishToOrderDialog.xaml</DependentUpon>
 	</Compile>
+    <Compile Update="Views\Tablet\Dialogs\AddNewReservationDialog.xaml.cs">
+      <DependentUpon>AddNewReservationDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Tablet\Dialogs\InfoDialog.xaml.cs">
       <DependentUpon>InfoDialog.xaml</DependentUpon>
     </Compile>
@@ -308,6 +311,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\DataLoadingState.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\NumericPicker.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\TimeAndDateBar.xaml">
@@ -468,6 +474,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\InputTextPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\AddNewReservationDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\FinishPaymentDialog.xaml">

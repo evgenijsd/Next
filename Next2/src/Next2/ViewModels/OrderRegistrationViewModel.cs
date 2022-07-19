@@ -399,7 +399,7 @@ namespace Next2.ViewModels
                     if (!tableBindableModels.Any(x => x.TableNumber == SelectedTable.TableNumber))
                     {
                         Tables.Add(SelectedTable);
-                        Tables = new(Tables.OrderBy(x => x.TableNumber));
+                        Tables = new(Tables.OrderBy(x => x?.TableNumber));
                     }
                 }
             }

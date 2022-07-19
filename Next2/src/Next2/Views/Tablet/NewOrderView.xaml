@@ -480,6 +480,7 @@
                         <sc:StateCondition State="Completed">
 
                             <CollectionView
+                                ItemSizingStrategy="MeasureFirstItem"
                                 ItemsSource="{Binding Dishes}"
                                 VerticalOptions="FillAndExpand"
                                 VerticalScrollBarVisibility="Always"

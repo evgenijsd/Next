@@ -6,6 +6,7 @@
 
         public static class Formats
         {
+            public const string NUMERIC_FORMAT = "00";
             public const string DATE_FORMAT = "{0:h:mm:ss}";
             public const string SHORT_TIME = "{0:h:mm:ss tt}";
             public const string LONG_DATE = "{0:dddd, d MMMM yyyy}";
@@ -14,7 +15,7 @@
             public const string CASH_FORMAT = "$ {0:#,0.#0}";
             public const string PERCENT_FORMAT = "{0} %";
             public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
-            public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
+            public const string PHONE_MASK = "(_ _ _) _ _ _-_ _ _ _";
         }
 
         public static class Analytics

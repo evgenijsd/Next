@@ -663,4 +663,13 @@ A receipt has been printed for you.</value>
   <data name="DateTime" xml:space="preserve">
     <value>Date / Time</value>
   </data>
+  <data name="NewReservation" xml:space="preserve">
+    <value>New Reservation</value>
+  </data>
+  <data name="AM" xml:space="preserve">
+    <value>AM</value>
+  </data>
+  <data name="PM" xml:space="preserve">
+    <value>PM</value>
+  </data>
 </root>

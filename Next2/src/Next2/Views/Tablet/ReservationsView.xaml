@@ -133,7 +133,8 @@
                     BorderColor="{DynamicResource AppColor_i1}"
                     BackgroundColor="{DynamicResource AppColor_i1}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    Text="{xct:Translate AddNew}"/>
+                    Text="{xct:Translate AddNew}"
+                    Command="{Binding AddNewReservationCommand}"/>
 
             </StackLayout>
 
@@ -214,6 +215,7 @@
                     <StackLayout>
 
                         <controls:CustomCollectionView
+                            ItemSizingStrategy="MeasureFirstItem"
                             HeightRequest="{Binding Reservations, Converter={StaticResource listHeightConverter}, ConverterParameter=40}"
                             Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                             ItemsSource="{Binding Reservations}"
