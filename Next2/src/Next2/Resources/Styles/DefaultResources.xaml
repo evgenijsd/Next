@@ -191,6 +191,5 @@
     <converters:DecimalToBoolConverter x:Key="decimalToBoolConverter" />
     <converters:GuidToBoolConverter x:Key="guidToBoolConverter" />
     <converters:FormattedPhoneConverter x:Key="formattedPhoneConverter" />
-    <converters:IntToBoolInvertedConverter x:Key="intToBoolInvertedConverter" />
 
 </ResourceDictionary>

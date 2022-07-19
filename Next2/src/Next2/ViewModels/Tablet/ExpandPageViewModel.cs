@@ -117,7 +117,7 @@ namespace Next2.ViewModels.Tablet
                     {
                         await _orderService.UpdateCurrentOrderAsync();
 
-                        await PopupNavigation.PopAsync();
+                        await CloseAllPopupAsync();
 
                         var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
                         {
@@ -131,7 +131,7 @@ namespace Next2.ViewModels.Tablet
             }
             else
             {
-                await PopupNavigation.PopAsync();
+                await CloseAllPopupAsync();
             }
         }
 

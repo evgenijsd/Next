@@ -3,6 +3,7 @@ using Next2.Models.Bindables;
 using Next2.Services.HoldItem;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -18,20 +19,37 @@ namespace Next2.ViewModels
             INavigationService navigationService)
             : base(navigationService)
         {
-            Text = "HoldItems";
             _holdItemService = holdItemService;
         }
 
         #region -- Public properties --
 
-        public string? Text { get; set; }
-
         public bool IsHoldItemsRefreshing { get; set; }
+
+        public bool IsNothingFound { get; set; }
 
         public ObservableCollection<HoldItemBindableModel> HoldItems { get; set; } = new();
 
         private ICommand _refreshHoldItemsCommand;
         public ICommand RefreshHoldItemsCommand => _refreshHoldItemsCommand ??= new AsyncCommand(OnRefreshHoldItemsCommandAsync, allowsMultipleExecutions: false);
+
+        #endregion
+
+        #region -- Overrides --
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            IsHoldItemsRefreshing = true;
+        }
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            HoldItems = new();
+        }
 
         #endregion
 
@@ -42,6 +60,9 @@ namespace Next2.ViewModels
             var holdItems = await _holdItemService.GetHoldItems();
 
             HoldItems = holdItems;
+
+            IsHoldItemsRefreshing = false;
+            IsNothingFound = !HoldItems.Any();
         }
 
         #endregion

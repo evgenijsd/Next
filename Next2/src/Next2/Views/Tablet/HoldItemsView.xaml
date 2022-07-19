@@ -349,7 +349,7 @@
                             CornerRadius="0, 0, 7, 7"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                             Border="{yummy:BorderMarkup Thickness=2, Color={StaticResource TextAndBackgroundColor_i3}}"
-                            IsVisible="{Binding HoldItems.Count, Converter={StaticResource intToBoolInvertedConverter}}">
+                            IsVisible="false">
 
                             <ffimageloading:CachedImage
                                 Source="pic_nothing_found"

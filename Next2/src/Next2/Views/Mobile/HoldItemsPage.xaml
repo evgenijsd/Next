@@ -29,12 +29,6 @@
             Grid.Row="1"
             Grid.Column="0">
 
-            <Label
-                Text="{Binding Text}"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                VerticalOptions="CenterAndExpand"
-                VerticalTextAlignment="Center"
-                HorizontalTextAlignment="Center"/>
 
         </StackLayout>
 
