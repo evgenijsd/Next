@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Models.Bindables;
@@ -8,6 +9,7 @@ using Next2.Services.Mock;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Next2.Services.HoldItem
@@ -17,6 +19,8 @@ namespace Next2.Services.HoldItem
         private readonly IMockService _mockService;
         private readonly IMapper _mapper;
         private readonly IMessagesService _messagesService;
+
+        private IEnumerable<HoldItemBindableModel> _holdItems = Enumerable.Empty<HoldItemBindableModel>();
 
         public HoldItemService(
             IMockService mockService,
@@ -30,21 +34,33 @@ namespace Next2.Services.HoldItem
 
         #region -- IHoldItemService implementation --
 
-        public async Task<ObservableCollection<HoldItemBindableModel>> GetHoldItems()
+        public async Task<IEnumerable<HoldItemBindableModel>> GetHoldItems()
         {
             var holdItems = await GetAllHoldItemsAsync();
-            var result = new ObservableCollection<HoldItemBindableModel>();
 
             if (holdItems.IsSuccess)
             {
-                result = _mapper.Map<ObservableCollection<HoldItemBindableModel>>(holdItems.Result);
+                _holdItems = _mapper.Map<List<HoldItemBindableModel>>(holdItems.Result);
+                await _messagesService.ResponseToBadRequestAsync(Constants.StatusCode.SOCKET_CLOSED);
             }
             else
             {
                 await _messagesService.ResponseToBadRequestAsync(holdItems.Exception.Message);
             }
 
-            return result;
+            return _holdItems;
+        }
+
+        public IEnumerable<HoldItemBindableModel> GetSortedHoldItems(EHoldItemsSortingType typeSort, IEnumerable<HoldItemBindableModel> holdItems)
+        {
+            Func<HoldItemBindableModel, object> sortingSelector = typeSort switch
+            {
+                EHoldItemsSortingType.ByTableName => x => x.TableNumber,
+                EHoldItemsSortingType.ByItem => x => x.Item,
+                _ => throw new NotImplementedException(),
+            };
+
+            return holdItems.OrderBy(sortingSelector);
         }
 
         #endregion

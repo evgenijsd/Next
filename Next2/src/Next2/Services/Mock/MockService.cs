@@ -420,105 +420,105 @@ namespace Next2.Services.Mock
                 {
                     Id = 1,
                     TableNumber = 12,
-                    Item = "Big Mak",
+                    Item = "bBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 2,
                     TableNumber = 19,
-                    Item = "Big Mak",
+                    Item = "cBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 3,
                     TableNumber = 9,
-                    Item = "Big Mak",
+                    Item = "dBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 4,
                     TableNumber = 21,
-                    Item = "Big Mak",
+                    Item = "eBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 5,
                     TableNumber = 10,
-                    Item = "Big Mak",
+                    Item = "rBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 6,
                     TableNumber = 20,
-                    Item = "Big Mak",
+                    Item = "tBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 7,
                     TableNumber = 2,
-                    Item = "Big Mak",
+                    Item = "yBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 8,
                     TableNumber = 6,
-                    Item = "Big Mak",
+                    Item = "uBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 9,
                     TableNumber = 13,
-                    Item = "Big Mak",
+                    Item = "iBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 10,
                     TableNumber = 4,
-                    Item = "Big Mak",
+                    Item = "oBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 11,
                     TableNumber = 16,
-                    Item = "Big Mak",
+                    Item = "pBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 12,
                     TableNumber = 12,
-                    Item = "Big Mak",
+                    Item = "qBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 13,
                     TableNumber = 7,
-                    Item = "Big Mak",
+                    Item = "wBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 14,
                     TableNumber = 10,
-                    Item = "Big Mak",
+                    Item = "zBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 15,
                     TableNumber = 18,
-                    Item = "Big Mak",
+                    Item = "xBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
             };

@@ -1,7 +1,9 @@
-﻿using Next2.Models;
+﻿using Next2.Enums;
+using Next2.Models;
 using Next2.Models.Bindables;
 using Next2.Services.HoldItem;
 using Prism.Navigation;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +15,8 @@ namespace Next2.ViewModels
     public class HoldItemsViewModel : BaseViewModel
     {
         private readonly IHoldItemService _holdItemService;
+
+        private EHoldItemsSortingType _holdItemsSortingType;
 
         public HoldItemsViewModel(
             IHoldItemService holdItemService,
@@ -32,6 +36,9 @@ namespace Next2.ViewModels
 
         private ICommand _refreshHoldItemsCommand;
         public ICommand RefreshHoldItemsCommand => _refreshHoldItemsCommand ??= new AsyncCommand(OnRefreshHoldItemsCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _changeSortHoldItemsCommand;
+        public ICommand ChangeSortHoldItemsCommand => _changeSortHoldItemsCommand ??= new AsyncCommand<EHoldItemsSortingType>(OnChangeSortHoldItemsCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -57,12 +64,34 @@ namespace Next2.ViewModels
 
         private async Task OnRefreshHoldItemsCommandAsync()
         {
+            IsHoldItemsRefreshing = true;
+            _holdItemsSortingType = EHoldItemsSortingType.None;
             var holdItems = await _holdItemService.GetHoldItems();
 
-            HoldItems = holdItems;
+            HoldItems = new(holdItems);
+            HoldItems = new(HoldItems.Where(x => x.Id < 9));
+            await OnChangeSortHoldItemsCommandAsync(EHoldItemsSortingType.ByTableName);
 
             IsHoldItemsRefreshing = false;
             IsNothingFound = !HoldItems.Any();
+        }
+
+        private Task OnChangeSortHoldItemsCommandAsync(EHoldItemsSortingType holdItemsSortingType)
+        {
+            if (_holdItemsSortingType == holdItemsSortingType)
+            {
+                HoldItems = new(HoldItems.Reverse());
+            }
+            else
+            {
+                _holdItemsSortingType = holdItemsSortingType;
+
+                var sortedHoldItems = _holdItemService.GetSortedHoldItems(_holdItemsSortingType, HoldItems);
+
+                HoldItems = new(sortedHoldItems);
+            }
+
+            return Task.CompletedTask;
         }
 
         #endregion

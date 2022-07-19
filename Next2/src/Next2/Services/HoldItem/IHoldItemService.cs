@@ -1,4 +1,5 @@
-﻿using Next2.Models;
+﻿using Next2.Enums;
+using Next2.Models;
 using Next2.Models.Bindables;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace Next2.Services.HoldItem
 {
     public interface IHoldItemService
     {
-        Task<ObservableCollection<HoldItemBindableModel>> GetHoldItems();
+        Task<IEnumerable<HoldItemBindableModel>> GetHoldItems();
+
+        IEnumerable<HoldItemBindableModel> GetSortedHoldItems(EHoldItemsSortingType typeSort, IEnumerable<HoldItemBindableModel> reservations);
     }
 }

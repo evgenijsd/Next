@@ -12,7 +12,7 @@ namespace Next2.Models.Bindables
 
         public int TableNumber { get; set; }
 
-        public string? Item { get; set; }
+        public string Item { get; set; } = string.Empty;
 
         public DateTime ReleaseTime { get; set; }
     }

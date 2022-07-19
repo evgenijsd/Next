@@ -83,26 +83,9 @@
 
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
-                    HorizontalOptions="EndAndExpand"
-                    BorderColor="{DynamicResource IndicationColor_i7}"
-                    Text="{xct:Translate Info}">
-
-                    <buttons:BorderButton.Triggers>
-                        <DataTrigger
-                            TargetType="buttons:BorderButton"
-                            Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}"
-                            Value="True">
-                            <Setter Property="IsEnabled" Value="True" />
-                            <Setter Property="Opacity" Value="1" />
-                        </DataTrigger>
-                    </buttons:BorderButton.Triggers>
-
-                </buttons:BorderButton>
-
-                <buttons:BorderButton
-                    Style="{DynamicResource BorderButtonStyle_i1_1}"
                     BorderColor="{DynamicResource IndicationColor_i3}"
-                    Text="{xct:Translate Remove}">
+                    HorizontalOptions="EndAndExpand"
+                    Text="{xct:Translate Extend}">
 
                     <buttons:BorderButton.Triggers>
                         <DataTrigger
@@ -119,7 +102,7 @@
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
                     BorderColor="{DynamicResource IndicationColor_i1}"
-                    Text="{xct:Translate Assign}">
+                    Text="{xct:Translate Release}">
 
                     <buttons:BorderButton.Triggers>
                         <DataTrigger
@@ -133,15 +116,6 @@
 
                 </buttons:BorderButton>
 
-                <buttons:BorderButton
-                    Style="{DynamicResource BorderButtonStyle_i1_1}"
-                    IsEnabled="True"
-                    Opacity="1"
-                    BorderColor="{DynamicResource AppColor_i1}"
-                    BackgroundColor="{DynamicResource AppColor_i1}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    Text="{xct:Translate AddNew}" />
-
             </StackLayout>
 
         </Grid>
@@ -153,21 +127,30 @@
             <yummy:PancakeView CornerRadius="7, 7, 0, 0">
 
                 <Grid
-                    ColumnDefinitions="50, *, *, *, *"
+                    ColumnDefinitions="50, *, *, *"
                     VerticalOptions="Start"
                     HeightRequest="42"
                     MinimumHeightRequest="42"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-                    <!--<StackLayout
+                    <ffimageloading:CachedImage
+                        Source="ic_check_box_unchecked_white"
+                        Grid.Column="0"
+                        HeightRequest="20"
+                        HorizontalOptions="CenterAndExpand"
+                        Margin="20, 0, 0, 0"
+                        Opacity="{DynamicResource OpacityWhenDisabled_i1}"
+                        VerticalOptions="CenterAndExpand" />
+
+                    <StackLayout
                         Grid.Column="1"
                         Orientation="Horizontal"
-                        xct:TouchEffect.Command="{Binding ChangeSortReservationCommand}"
-                        xct:TouchEffect.CommandParameter="{x:Static enums:EReservationsSortingType.ByCustomerName}">
+                        xct:TouchEffect.Command="{Binding ChangeSortHoldItemsCommand}"
+                        xct:TouchEffect.CommandParameter="{x:Static enums:EHoldItemsSortingType.ByTableName}">
 
                         <Label
                             Style="{DynamicResource TableCellLabelStyle}"
-                            Text="{xct:Translate CustomerName}" />
+                            Text="{xct:Translate TableName}" />
 
                         <ffimageloading:CachedImage
                             Source="ic_sort_primary_24x24"
@@ -175,18 +158,18 @@
                             Margin="5, 10, 5, 0"
                             VerticalOptions="StartAndExpand" />
 
-                    </StackLayout>-->
+                    </StackLayout>
 
-                    <!--<StackLayout
+                    <StackLayout
                         Grid.Column="2"
                         Orientation="Horizontal"
-                        xct:TouchEffect.Command="{Binding ChangeSortReservationCommand}"
-                        xct:TouchEffect.CommandParameter="{x:Static enums:EReservationsSortingType.ByTableNumber}">
+                        xct:TouchEffect.Command="{Binding ChangeSortHoldItemsCommand}"
+                        xct:TouchEffect.CommandParameter="{x:Static enums:EHoldItemsSortingType.ByItem}">
 
                         <Label
                             Style="{DynamicResource TableCellLabelStyle}"
                             HorizontalOptions="Start"
-                            Text="{xct:Translate TableNumber}" />
+                            Text="{xct:Translate Item}" />
 
                         <ffimageloading:CachedImage
                             Source="ic_sort_primary_24x24"
@@ -194,17 +177,12 @@
                             Margin="5, 10, 5, 0"
                             VerticalOptions="StartAndExpand" />
 
-                    </StackLayout>-->
+                    </StackLayout>
 
                     <Label
                         Grid.Column="3"
                         Style="{DynamicResource TableCellLabelStyle}"
-                        Text="{xct:Translate Phone}" />
-
-                    <Label
-                        Grid.Column="4"
-                        Style="{DynamicResource TableCellLabelStyle}"
-                        Text="{xct:Translate DateTime}" />
+                        Text="{xct:Translate ReleaseTime}" />
 
                 </Grid>
 
@@ -243,49 +221,30 @@
                             </CollectionView.Behaviors>
 
                             <CollectionView.ItemTemplate>
-
-                                <DataTemplate
-                                    x:DataType="models:HoldItemBindableModel">
+                                <DataTemplate x:DataType="models:HoldItemBindableModel">
 
                                     <Grid
                                         HorizontalOptions="Fill"
                                         VerticalOptions="Fill"
                                         RowDefinitions="2, 38">
 
-                                        <Grid.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding SelectReservationCommand, Source={RelativeSource AncestorType={x:Type viewModelsTablet:ReservationsViewModel}}}"
-                                                CommandParameter="{Binding .}" />
-
-                                        </Grid.GestureRecognizers>
-
                                         <VisualStateManager.VisualStateGroups>
 
-                                            <VisualStateGroup
-                                                Name="CommonStates">
+                                            <VisualStateGroup Name="CommonStates">
 
-                                                <VisualState
-                                                    Name="Normal">
+                                                <VisualState Name="Normal">
 
                                                     <VisualState.Setters>
-                                                        <Setter
-                                                            Property="BackgroundColor"
-                                                            Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                                                        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
                                                     </VisualState.Setters>
 
                                                 </VisualState>
 
-                                                <VisualState
-                                                    Name="Selected">
+                                                <VisualState Name="Selected">
 
                                                     <VisualState.Setters>
-                                                        <Setter
-                                                            Property="BackgroundColor"
-                                                            Value="{DynamicResource AppColor_i4}" />
-                                                        <Setter
-                                                            TargetName="checkBoxImage"
-                                                            Property="ffimageloading:CachedImage.Source"
-                                                            Value="ic_check_box_checked_white" />
+                                                        <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+                                                        <Setter TargetName="checkBoxImage" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white" />
                                                     </VisualState.Setters>
 
                                                 </VisualState>
@@ -300,7 +259,7 @@
 
                                         <Grid
                                             Grid.Row="1"
-                                            ColumnDefinitions="50, *, *, *, *">
+                                            ColumnDefinitions="50, *, *, *">
 
                                             <ffimageloading:CachedImage
                                                 Source="ic_check_box_unchecked_white"
@@ -314,22 +273,27 @@
                                             <Label
                                                 Grid.Column="1"
                                                 Style="{DynamicResource TableCellLabelStyle}"
-                                                Text="{Binding Item}"
                                                 HeightRequest="{DynamicResource TSize_i8}"
-                                                LineBreakMode="TailTruncation" />
+                                                LineBreakMode="TailTruncation">
+                                                
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{xct:Translate Table}" />
+                                                        <Span Text=" " />
+                                                        <Span Text="{Binding TableNumber}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                                
+                                            </Label>
 
                                             <Label
                                                 Grid.Column="2"
                                                 Style="{DynamicResource TableCellLabelStyle}"
-                                                Text="{Binding Id}" />
+                                                Text="{Binding Item}"
+                                                LineBreakMode="TailTruncation" />
 
                                             <Label
                                                 Grid.Column="3"
-                                                Style="{DynamicResource TableCellLabelStyle}"
-                                                Text="{Binding TableNumber}" />
-
-                                            <Label
-                                                Grid.Column="4"
                                                 Style="{DynamicResource TableCellLabelStyle}"
                                                 Text="{Binding ReleaseTime}" />
 
@@ -338,7 +302,6 @@
                                     </Grid>
 
                                 </DataTemplate>
-
                             </CollectionView.ItemTemplate>
 
                         </controls:CustomCollectionView>
@@ -349,13 +312,44 @@
                             CornerRadius="0, 0, 7, 7"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                             Border="{yummy:BorderMarkup Thickness=2, Color={StaticResource TextAndBackgroundColor_i3}}"
-                            IsVisible="false">
+                            IsVisible="{Binding IsNothingFound}">
 
                             <ffimageloading:CachedImage
                                 Source="pic_nothing_found"
                                 HeightRequest="250"
                                 VerticalOptions="Center"
                                 HorizontalOptions="Center" />
+
+                        </yummy:PancakeView>
+
+                        <yummy:PancakeView
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            IsVisible="false"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                            CornerRadius="0, 0, 7, 7">
+
+                            <yummy:PancakeView.Triggers>
+
+                                <MultiTrigger TargetType="yummy:PancakeView">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding IsNothingFound}" Value="false" />
+                                        <BindingCondition Binding="{Binding HoldItems.Count}" Value="0" />
+                                    </MultiTrigger.Conditions>
+
+                                    <Setter Property="IsVisible" Value="true" />
+
+                                </MultiTrigger>
+
+                            </yummy:PancakeView.Triggers>
+
+                            <StackLayout>
+
+                                <BoxView 
+                                    HeightRequest="1" 
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
+                            </StackLayout>
 
                         </yummy:PancakeView>
 
