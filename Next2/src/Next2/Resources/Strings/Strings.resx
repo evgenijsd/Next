@@ -666,4 +666,10 @@ A receipt has been printed for you.</value>
   <data name="aa" xml:space="preserve">
     <value />
   </data>
+  <data name="BackOffice" xml:space="preserve">
+    <value>Back Office</value>
+  </data>
+  <data name="ProgramDevice" xml:space="preserve">
+    <value>Program Device</value>
+  </data>
 </root>

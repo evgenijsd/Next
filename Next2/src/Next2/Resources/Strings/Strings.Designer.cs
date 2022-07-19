@@ -169,6 +169,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back Office.
+        /// </summary>
+        internal static string BackOffice {
+            get {
+                return ResourceManager.GetString("BackOffice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Become a Member.
         /// </summary>
         internal static string BecomeMember {
@@ -1075,6 +1084,15 @@ namespace Next2.Resources.Strings {
         internal static string PrintReceipt {
             get {
                 return ResourceManager.GetString("PrintReceipt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Program Device.
+        /// </summary>
+        internal static string ProgramDevice {
+            get {
+                return ResourceManager.GetString("ProgramDevice", resourceCulture);
             }
         }
         

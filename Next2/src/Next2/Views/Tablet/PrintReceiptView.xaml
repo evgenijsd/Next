@@ -5,4 +5,10 @@
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     x:Class="Next2.Views.Tablet.PrintReceiptView"
-    x:DataType="viewmodels:PrintReceiptViewModel" />
+    x:DataType="viewmodels:PrintReceiptViewModel">
+
+    <Label Text="Print Receipt View" FontSize="36">
+        
+    </Label>
+    
+</ContentView>
