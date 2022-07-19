@@ -1197,7 +1197,7 @@
                     Spacing="10"
                     Style="{DynamicResource CustomStepperStyle_i1}"
                     MaxValue="{Binding OrderRegistrationViewModel.SelectedTable.SeatNumbers}"
-                    IncrementCommand="{Binding OrderRegistrationViewModel.IncrementSeatCommand}"
+                    IncrementCommand="{Binding OrderRegistrationViewModel.AddNewSeatCommand}"
                     DecrementCommand="{Binding OrderRegistrationViewModel.DeleteLastSeatCommand}"
                     FontSize="{DynamicResource TSize_i8}"
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}">
