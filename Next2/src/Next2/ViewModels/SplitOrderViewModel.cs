@@ -3,6 +3,7 @@ using Next2.Extensions;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -21,19 +22,19 @@ namespace Next2.ViewModels
     public class SplitOrderViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
-        private readonly IPopupNavigation _popupNavigation;
+        private readonly INotificationsService _notificationsService;
 
         private bool _isOneTime = true;
         private int _selectedSeatNumber = 0;
 
         public SplitOrderViewModel(
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
+            INotificationsService notificationsService,
             IOrderService orderService)
             : base(navigationService)
         {
             _orderService = orderService;
-            _popupNavigation = popupNavigation;
+            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -106,7 +107,7 @@ namespace Next2.ViewModels
                     ? new Views.Tablet.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack)
                     : new Views.Mobile.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack);
 
-                await _popupNavigation.PushAsync(popupPage);
+                await PopupNavigation.PushAsync(popupPage);
             }
         }
 
@@ -127,9 +128,9 @@ namespace Next2.ViewModels
                 await OnGoBackCommandAsync();
             }
 
-            if (_popupNavigation.PopupStack.Count > 0)
+            if (PopupNavigation.PopupStack.Count > 0)
             {
-                await CloseAllPopupAsync();
+                await _notificationsService.CloseAllPopupAsync();
             }
         }
 

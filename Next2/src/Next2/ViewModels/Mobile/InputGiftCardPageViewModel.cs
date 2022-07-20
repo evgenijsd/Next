@@ -1,5 +1,6 @@
 ﻿using Next2.Models;
 using Next2.Services.Customers;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -17,15 +18,18 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly IOrderService _orderService;
         private readonly ICustomersService _customersService;
+        private readonly INotificationsService _notificationsService;
 
         public InputGiftCardPageViewModel(
             INavigationService navigationService,
             IOrderService orderService,
+            INotificationsService notificationsService,
             ICustomersService customersService)
             : base(navigationService)
         {
             _orderService = orderService;
             _customersService = customersService;
+            _notificationsService = notificationsService;
 
             Customer = _orderService.CurrentOrder.Customer;
 
@@ -113,7 +117,7 @@ namespace Next2.ViewModels.Mobile
 
         private async void AddGiftCardDialogCallback(IDialogParameters parameters)
         {
-            await CloseAllPopupAsync();
+            await _notificationsService.CloseAllPopupAsync();
 
             if (_orderService.CurrentOrder.Customer is not null)
             {

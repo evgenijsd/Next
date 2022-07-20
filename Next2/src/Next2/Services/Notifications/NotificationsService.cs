@@ -6,19 +6,20 @@ using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Helpers;
 
-namespace Next2.Services.Messages
+namespace Next2.Services.Notifications
 {
-    public class MessagesService : IMessagesService
+    public class NotificationsService : INotificationsService
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IPopupNavigation _popupNavigation;
         private readonly INavigationService _navigationService;
 
-        public MessagesService(
+        public NotificationsService(
             IAuthenticationService authenticationService,
             INavigationService navigationService,
             IPopupNavigation popupNavigation)
@@ -28,7 +29,7 @@ namespace Next2.Services.Messages
             _popupNavigation = popupNavigation;
         }
 
-        #region -- IMessagesService implementation --
+        #region -- INotificationsService implementation --
 
         public async Task ResponseToBadRequestAsync(string statusCode)
         {
@@ -73,6 +74,14 @@ namespace Next2.Services.Messages
                 : new Views.Mobile.Dialogs.InfoDialog(parameters, () => _popupNavigation.PopAsync());
 
             return _popupNavigation.PushAsync(infoDialog);
+        }
+
+        public async Task CloseAllPopupAsync()
+        {
+            if (_popupNavigation.PopupStack.Any())
+            {
+                await _popupNavigation.PopAllAsync();
+            }
         }
 
         #endregion

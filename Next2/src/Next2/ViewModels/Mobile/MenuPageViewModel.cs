@@ -1,6 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Models;
 using Next2.Services.Menu;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
@@ -22,20 +23,20 @@ namespace Next2.ViewModels.Mobile
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
 
-        private readonly IPopupNavigation _popupNavigation;
+        private readonly INotificationsService _notificationsService;
 
         private MenuItemBindableModel _oldSelectedMenuItem;
 
         public MenuPageViewModel(
             INavigationService navigationService,
             IMenuService menuService,
-            IPopupNavigation popupNavigation,
+            INotificationsService notificationsService,
             IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
             _orderService = orderService;
-            _popupNavigation = popupNavigation;
+            _notificationsService = notificationsService;
 
             CanShowOrder = _orderService.CurrentOrder.Seats.Count > 0;
 
@@ -74,7 +75,7 @@ namespace Next2.ViewModels.Mobile
         {
             if (parameters is not null && parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
             {
-                PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog((IDialogParameters par) => _popupNavigation.PopAsync());
+                PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog((IDialogParameters par) => PopupNavigation.PopAsync());
 
                 await PopupNavigation.PushAsync(confirmDialog);
             }
@@ -184,7 +185,7 @@ namespace Next2.ViewModels.Mobile
             }
             else
             {
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -200,7 +201,7 @@ namespace Next2.ViewModels.Mobile
 
             return IsInternetConnected
                 ? _navigationService.NavigateAsync(nameof(ChooseDishPage), navigationParams)
-                : ShowInfoDialogAsync(
+                : _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -210,7 +211,7 @@ namespace Next2.ViewModels.Mobile
         {
             return IsInternetConnected
                 ? _navigationService.NavigateAsync($"{nameof(SettingsPage)}")
-                : ShowInfoDialogAsync(
+                : _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);

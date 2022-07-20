@@ -37,8 +37,8 @@ using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
 using Next2.Services.Reservation;
-using Next2.Services.Messages;
 using Next2.Services.HoldItem;
+using Next2.Services.Notifications;
 
 namespace Next2
 {
@@ -68,7 +68,7 @@ namespace Next2
             containerRegistry.RegisterInstance(mapper);
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<IMockService, MockService>();
-            containerRegistry.RegisterSingleton<IMessagesService, MessagesService>();
+            containerRegistry.RegisterSingleton<INotificationsService, NotificationsService>();
             containerRegistry.RegisterSingleton<IRestService, RestService>();
             containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
@@ -225,6 +225,8 @@ namespace Next2
                 cfg.CreateMap<GiftCardModelDTO, UpdateGiftCardCommand>().ReverseMap();
                 cfg.CreateMap<SimpleProductModelDTO, SimpleProductModelDTO>();
                 cfg.CreateMap<HoldItemModel, HoldItemBindableModel>().ReverseMap();
+                cfg.CreateMap<HoldItemBindableModel, TableBindableModel>()
+                    .ForMember(x => x.Id, s => s.Ignore());
             }).CreateMapper();
         }
 

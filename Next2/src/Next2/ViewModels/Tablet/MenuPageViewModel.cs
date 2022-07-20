@@ -3,6 +3,7 @@ using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.Bindables;
 using Next2.Services.Authentication;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
@@ -23,6 +24,7 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IOrderService _orderService;
+        private readonly INotificationsService _notificationsService;
 
         public MenuPageViewModel(
             INavigationService navigationService,
@@ -34,6 +36,7 @@ namespace Next2.ViewModels.Tablet
             MembershipViewModel membershipViewModel,
             CustomersViewModel customersViewModel,
             SettingsViewModel settingsViewModel,
+            INotificationsService notificationsService,
             IOrderService orderService)
             : base(navigationService)
         {
@@ -46,6 +49,7 @@ namespace Next2.ViewModels.Tablet
             SettingsViewModel = settingsViewModel;
             _authenticationService = authenticationService;
             _orderService = orderService;
+            _notificationsService = notificationsService;
 
             InitMenuItems();
 
@@ -251,7 +255,7 @@ namespace Next2.ViewModels.Tablet
             {
                 if (result)
                 {
-                    await CloseAllPopupAsync();
+                    await _notificationsService.CloseAllPopupAsync();
 
                     var logoutResult = await _authenticationService.LogoutAsync();
 
@@ -271,7 +275,7 @@ namespace Next2.ViewModels.Tablet
                 }
                 else
                 {
-                    await CloseAllPopupAsync();
+                    await _notificationsService.CloseAllPopupAsync();
                 }
             }
         }

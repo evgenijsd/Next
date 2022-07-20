@@ -433,14 +433,14 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = 3,
-                    TableNumber = 9,
+                    TableNumber = 12,
                     Item = "dBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 4,
-                    TableNumber = 21,
+                    TableNumber = 19,
                     Item = "eBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
@@ -454,21 +454,21 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = 6,
-                    TableNumber = 20,
+                    TableNumber = 21,
                     Item = "tBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 7,
-                    TableNumber = 2,
+                    TableNumber = 10,
                     Item = "yBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 8,
-                    TableNumber = 6,
+                    TableNumber = 21,
                     Item = "uBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
@@ -489,14 +489,14 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = 11,
-                    TableNumber = 16,
+                    TableNumber = 13,
                     Item = "pBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 12,
-                    TableNumber = 12,
+                    TableNumber = 4,
                     Item = "qBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
@@ -517,7 +517,7 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = 15,
-                    TableNumber = 18,
+                    TableNumber = 7,
                     Item = "xBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },

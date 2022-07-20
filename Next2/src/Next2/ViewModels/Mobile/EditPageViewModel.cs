@@ -1,6 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Models.Bindables;
 using Next2.Services.Menu;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
@@ -18,6 +19,8 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly IOrderService _orderService;
         private readonly IMenuService _menuService;
+        private readonly INotificationsService _notificationsService;
+
         private int _indexOfSeat;
         private bool _isModifiedDish;
 
@@ -110,7 +113,7 @@ namespace Next2.ViewModels.Mobile
 
                     if (result.IsSuccess)
                     {
-                        await CloseAllPopupAsync();
+                        await _notificationsService.CloseAllPopupAsync();
 
                         var navigationParameters = new NavigationParameters
                         {
@@ -121,12 +124,12 @@ namespace Next2.ViewModels.Mobile
                 }
                 else
                 {
-                    await CloseAllPopupAsync();
+                    await _notificationsService.CloseAllPopupAsync();
                 }
             }
             else
             {
-                await CloseAllPopupAsync();
+                await _notificationsService.CloseAllPopupAsync();
             }
         }
 

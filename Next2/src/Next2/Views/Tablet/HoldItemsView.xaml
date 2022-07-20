@@ -69,12 +69,64 @@
             Margin="32, 29, 32, 18"
             ColumnDefinitions="325, *">
 
-            <buttons:SearchButton
-                Grid.Row="0"
-                CornerRadius="5"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                BackColor="Transparent"
-                BorderColor="{DynamicResource TextAndBackgroundColor_i2}" />
+            <controls:DropDownList
+                Grid.Column="0"
+                Style="{DynamicResource DropDownListStyle_i1}"
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
+                Margin="18, 13"
+                WidthRequest="135"
+                ScrollBarVisibility="Never"
+                HeaderText="{Binding SelectedTable.TableNumber, StringFormat='Table {0}'}"
+                SelectedItem="{Binding SelectedTable}"
+                ItemsSource="{Binding Tables}">
+
+                <controls:DropDownList.Triggers>
+
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
+                        Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
+                        Value="True">
+
+                        <Setter
+                            Property="IsEnabled"
+                            Value="False" />
+                        <Setter
+                            Property="Opacity"
+                            Value="{StaticResource OpacityWhenDisabled_i1}" />
+
+                    </DataTrigger>
+
+                </controls:DropDownList.Triggers>
+
+                <controls:DropDownList.DataTemplate>
+                    <DataTemplate>
+                        <StackLayout
+                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}">
+
+                            <BoxView
+                                Style="{DynamicResource SeparatorStyle_i3}" />
+
+                            <StackLayout
+                                Padding="14, 9"
+                                HeightRequest="21"
+                                Orientation="Horizontal"
+                                x:DataType="models:TableBindableModel">
+
+                                <Label
+                                    FontFamily="Barlow-Medium"
+                                    FontSize="{DynamicResource TSize_i8}"
+                                    HorizontalOptions="FillAndExpand"
+                                    Text="{Binding TableNumber, StringFormat='Table {0}'}" />
+
+                            </StackLayout>
+
+                        </StackLayout>
+                    </DataTemplate>
+                </controls:DropDownList.DataTemplate>
+
+            </controls:DropDownList>
 
             <StackLayout
                 Grid.Column="1"
@@ -190,6 +242,7 @@
 
             <yummy:PancakeView
                 VerticalOptions="FillAndExpand"
+                BackgroundColor="BlanchedAlmond"
                 CornerRadius="0, 0, 7, 7">
 
                 <RefreshView
@@ -201,7 +254,9 @@
                         <controls:CustomCollectionView
                             HeightRequest="{Binding HoldItems, Converter={StaticResource listHeightConverter}, ConverterParameter=40}"
                             Style="{DynamicResource CustomScrollBarCollectionView_i1}"
+                            SelectionMode="Multiple"
                             ItemsSource="{Binding HoldItems}"
+                            SelectedItems="{Binding SelectedHoldItems}"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                             <CollectionView.Effects>

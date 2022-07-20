@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Services.Notifications;
 using Next2.Services.Reservation;
 using Next2.Views.Mobile;
 using Prism.Navigation;
@@ -20,17 +21,20 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMapper _mapper;
         private readonly IReservationService _reservationService;
+        private readonly INotificationsService _notificationsService;
 
         private EReservationsSortingType _reservationsSortingType;
 
         public ReservationsViewModel(
             IReservationService reservationService,
             IMapper mapper,
+            INotificationsService notificationsService,
             INavigationService navigationService)
             : base(navigationService)
         {
             _mapper = mapper;
             _reservationService = reservationService;
+            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -142,7 +146,7 @@ namespace Next2.ViewModels.Tablet
             }
             else
             {
-                await ResponseToBadRequestAsync(resultOfGettingReservations.Exception.Message);
+                await _notificationsService.ResponseToBadRequestAsync(resultOfGettingReservations.Exception.Message);
             }
         }
 
