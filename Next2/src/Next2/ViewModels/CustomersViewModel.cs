@@ -135,30 +135,44 @@ namespace Next2.ViewModels
 
         private async Task RefreshAsync()
         {
-            IsRefreshing = true;
-
-            var resultOfGettingCustomers = await _customersService.GetCustomersAsync();
-
-            if (resultOfGettingCustomers.IsSuccess)
+            if (IsInternetConnected)
             {
-                var customers = resultOfGettingCustomers.Result.ToList();
+                IsRefreshing = true;
 
-                foreach (var item in customers)
+                var resultOfGettingCustomers = await _customersService.GetCustomersAsync();
+
+                if (resultOfGettingCustomers.IsSuccess)
                 {
-                    item.ShowInfoCommand = ShowInfoCommand;
-                    item.SelectItemCommand = new Command<CustomerBindableModel>(SelectDeselectItem);
+                    var customers = resultOfGettingCustomers.Result.ToList();
+
+                    foreach (var item in customers)
+                    {
+                        item.ShowInfoCommand = ShowInfoCommand;
+                        item.SelectItemCommand = new Command<CustomerBindableModel>(SelectDeselectItem);
+                    }
+
+                    if (customers.Any())
+                    {
+                        _allCustomers = customers;
+                        DisplayedCustomers = SearchCustomers(SearchText);
+
+                        SelectCurrentCustomer();
+                    }
+                }
+                else
+                {
+                    await ResponseToBadRequestAsync(resultOfGettingCustomers.Exception?.Message);
                 }
 
-                if (customers.Any())
-                {
-                    _allCustomers = customers;
-                    DisplayedCustomers = SearchCustomers(SearchText);
-
-                    SelectCurrentCustomer();
-                }
+                IsRefreshing = false;
             }
-
-            IsRefreshing = false;
+            else
+            {
+                await ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
         }
 
         private void SelectCurrentCustomer()
@@ -210,22 +224,43 @@ namespace Next2.ViewModels
         {
             if (SelectedCustomer is not null)
             {
-                _orderService.CurrentOrder.Customer = SelectedCustomer;
-
-                if (App.IsTablet)
+                if (IsInternetConnected)
                 {
-                    MessagingCenter.Send<MenuPageSwitchingMessage>(new (EMenuItems.NewOrder), Constants.Navigations.SWITCH_PAGE);
+                    _orderService.CurrentOrder.Customer = SelectedCustomer;
+
+                    var resultOfUpdatingCurrentOrder = await _orderService.UpdateCurrentOrderAsync();
+
+                    if (resultOfUpdatingCurrentOrder.IsSuccess)
+                    {
+                        if (App.IsTablet)
+                        {
+                            MessagingCenter.Send<MenuPageSwitchingMessage>(new(EMenuItems.NewOrder), Constants.Navigations.SWITCH_PAGE);
+                        }
+                        else
+                        {
+                            string path = $"/{nameof(NavigationPage)}/{nameof(MenuPage)}";
+
+                            if (_orderService.CurrentOrder.Seats.Any())
+                            {
+                                path += $"/{nameof(OrderRegistrationPage)}";
+                            }
+
+                            await _navigationService.NavigateAsync(path);
+                        }
+                    }
+                    else
+                    {
+                        _orderService.CurrentOrder.Customer = new();
+
+                        await ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
+                    }
                 }
                 else
                 {
-                    string path = $"/{nameof(NavigationPage)}/{nameof(MenuPage)}";
-
-                    if (_orderService.CurrentOrder.Seats.Any())
-                    {
-                        path += $"/{nameof(OrderRegistrationPage)}";
-                    }
-
-                    await _navigationService.NavigateAsync(path);
+                    await ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["NoInternetConnection"],
+                        LocalizationResourceManager.Current["Ok"]);
                 }
             }
         }
@@ -252,6 +287,19 @@ namespace Next2.ViewModels
                 int index = DisplayedCustomers.IndexOf(DisplayedCustomers.FirstOrDefault(x => x.Id == customerId));
 
                 DisplayedCustomers.Move(index, 0);
+            }
+            else
+            {
+                if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isCustomerCreationConfirmationRequestAccepted))
+                {
+                    if (isCustomerCreationConfirmationRequestAccepted && !param.ContainsKey(Constants.DialogParameterKeys.CUSTOMER_ID))
+                    {
+                        await ShowInfoDialogAsync(
+                            LocalizationResourceManager.Current["Error"],
+                            LocalizationResourceManager.Current["SomethingWentWrong"],
+                            LocalizationResourceManager.Current["Ok"]);
+                    }
+                }
             }
         }
 

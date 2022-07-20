@@ -231,6 +231,7 @@ namespace Next2.ViewModels
         {
             if (IsInternetConnected)
             {
+                _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
                 CurrentOrder = currentOrder;
                 _orderService.CurrentOrder = CurrentOrder;
 
@@ -245,7 +246,9 @@ namespace Next2.ViewModels
 
                 if (!resultOfUpdatingOrder.IsSuccess)
                 {
-                    await ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
+                    _orderService.CurrentOrder = _tempCurrentOrder;
+                    await RefreshCurrentOrderAsync();
+                    await ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                 }
             }
             else

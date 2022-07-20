@@ -96,19 +96,21 @@ namespace Next2.ViewModels.Dialogs
                     Birthday = SelectedDate,
                 };
 
-                var result = await _customersService.CreateCustomerAsync(newCustomer);
+                var resultOfCreatingNewCustomer = await _customersService.CreateCustomerAsync(newCustomer);
 
-                if (result.IsSuccess)
+                var parameters = new DialogParameters();
+
+                if (resultOfCreatingNewCustomer.IsSuccess)
                 {
-                    var parameters = new DialogParameters()
-                    {
-                        { Constants.DialogParameterKeys.ACCEPT, true },
-                        { Constants.DialogParameterKeys.CUSTOMER_ID, result.Result },
-                    };
-
-                    AcceptCommand = new DelegateCommand(() => RequestClose(parameters));
+                    parameters.Add(Constants.DialogParameterKeys.ACCEPT, true);
+                    parameters.Add(Constants.DialogParameterKeys.CUSTOMER_ID, resultOfCreatingNewCustomer.Result);
+                }
+                else
+                {
+                    parameters.Add(Constants.DialogParameterKeys.ACCEPT, true);
                 }
 
+                AcceptCommand = new DelegateCommand(() => RequestClose(parameters));
                 AcceptCommand.Execute();
             }
         }

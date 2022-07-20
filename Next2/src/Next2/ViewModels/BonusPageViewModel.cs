@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels
@@ -75,56 +76,66 @@ namespace Next2.ViewModels
         {
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
-                var seat = currentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
-
-                if (seat is not null)
+                if (IsInternetConnected)
                 {
-                    _indexOfSeat = currentOrder.Seats.IndexOf(seat);
-                    _indexOfSelectedDish = seat.SelectedDishes.IndexOf(seat.SelectedItem);
-                }
+                    var seat = currentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
-                CurrentOrder = _mapper.Map<FullOrderBindableModel>(currentOrder);
-
-                Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
-
-                var coupons = await GetCoupons();
-
-                if (coupons is not null)
-                {
-                    Coupons = _mapper.Map<IEnumerable<CouponModelDTO>, ObservableCollection<BonusBindableModel>>(coupons);
-
-                    foreach (var coupon in Coupons)
+                    if (seat is not null)
                     {
-                        coupon.TapCommand = TapSelectBonusCommand;
-                        coupon.Type = EBonusType.Coupon;
+                        _indexOfSeat = currentOrder.Seats.IndexOf(seat);
+                        _indexOfSelectedDish = seat.SelectedDishes.IndexOf(seat.SelectedItem);
+                    }
+
+                    CurrentOrder = _mapper.Map<FullOrderBindableModel>(currentOrder);
+
+                    Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
+
+                    var coupons = await GetCoupons();
+
+                    if (coupons is not null)
+                    {
+                        Coupons = _mapper.Map<IEnumerable<CouponModelDTO>, ObservableCollection<BonusBindableModel>>(coupons);
+
+                        foreach (var coupon in Coupons)
+                        {
+                            coupon.TapCommand = TapSelectBonusCommand;
+                            coupon.Type = EBonusType.Coupon;
+                        }
+                    }
+
+                    var discounts = await GetDiscounts();
+
+                    if (discounts is not null)
+                    {
+                        Discounts = _mapper.Map<IEnumerable<DiscountModelDTO>, ObservableCollection<BonusBindableModel>>(discounts);
+
+                        foreach (var discount in Discounts)
+                        {
+                            discount.TapCommand = TapSelectBonusCommand;
+                            discount.Type = EBonusType.Discount;
+                        }
+                    }
+
+                    HeightCoupons = Coupons.Count * _heightBonus;
+                    HeightDiscounts = Discounts.Count * _heightBonus;
+
+                    if (CurrentOrder.Coupon is not null)
+                    {
+                        var couponId = CurrentOrder.Coupon.Id;
+                        SelectedBonus = Coupons.FirstOrDefault(row => row.Id == couponId);
+                    }
+                    else if (CurrentOrder.Discount is not null)
+                    {
+                        var discountId = CurrentOrder.Discount.Id;
+                        SelectedBonus = Discounts.FirstOrDefault(row => row.Id == discountId);
                     }
                 }
-
-                var discounts = await GetDiscounts();
-
-                if (discounts is not null)
+                else
                 {
-                    Discounts = _mapper.Map<IEnumerable<DiscountModelDTO>, ObservableCollection<BonusBindableModel>>(discounts);
-
-                    foreach (var discount in Discounts)
-                    {
-                        discount.TapCommand = TapSelectBonusCommand;
-                        discount.Type = EBonusType.Discount;
-                    }
-                }
-
-                HeightCoupons = Coupons.Count * _heightBonus;
-                HeightDiscounts = Discounts.Count * _heightBonus;
-
-                if (CurrentOrder.Coupon is not null)
-                {
-                    var couponId = CurrentOrder.Coupon.Id;
-                    SelectedBonus = Coupons.FirstOrDefault(row => row.Id == couponId);
-                }
-                else if (CurrentOrder.Discount is not null)
-                {
-                    var discountId = CurrentOrder.Discount.Id;
-                    SelectedBonus = Discounts.FirstOrDefault(row => row.Id == discountId);
+                    await ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["NoInternetConnection"],
+                        LocalizationResourceManager.Current["Ok"]);
                 }
             }
         }
@@ -158,6 +169,10 @@ namespace Next2.ViewModels
                 {
                     coupons = couponResult.Result;
                 }
+                else
+                {
+                    await ResponseToBadRequestAsync(couponResult.Exception?.Message);
+                }
             }
 
             return coupons;
@@ -175,6 +190,10 @@ namespace Next2.ViewModels
                 if (discountResult.IsSuccess)
                 {
                     discounts = discountResult.Result;
+                }
+                else
+                {
+                    await ResponseToBadRequestAsync(discountResult.Exception?.Message);
                 }
             }
 
