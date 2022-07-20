@@ -1204,7 +1204,7 @@ namespace Next2.ViewModels
                                 await _navigationService.GoBackAsync();
                             }
 
-                            await ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
+                            await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
 
                             await RefreshCurrentOrderAsync();
                         }
@@ -1215,7 +1215,7 @@ namespace Next2.ViewModels
                     {
                         NumberOfSeats = CurrentOrder.Seats.Count;
 
-                        await ShowInfoDialogAsync(
+                        await _notificationsService.ShowInfoDialogAsync(
                             LocalizationResourceManager.Current["Error"],
                             LocalizationResourceManager.Current["SomethingWentWrong"],
                             LocalizationResourceManager.Current["Ok"]);
@@ -1224,7 +1224,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
