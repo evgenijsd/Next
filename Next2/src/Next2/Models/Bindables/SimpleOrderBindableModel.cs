@@ -23,7 +23,7 @@ namespace Next2.Models.Bindables
 
         public int TableNumber { get; set; }
 
-        public DateTime Close { get; set; } = DateTime.Now;
+        public DateTime Close { get; set; }
 
         public decimal TotalPrice { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Interfaces;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Next2.Services.Order;
@@ -17,10 +18,11 @@ using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
-    public class PrintReceiptViewModel : BaseViewModel
+    public class PrintReceiptViewModel : BaseViewModel, IPageActionsHandler
     {
         private readonly IOrderService _orderService;
 
+        private IEnumerable<SimpleOrderBindableModel> _allClosedOrders;
         private Guid _lastSavedOrderId;
 
         public PrintReceiptViewModel(
@@ -29,7 +31,6 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _orderService = orderService;
-           // OnRefreshOrdersCommandAsync();
         }
 
         #region -- Public properties --
@@ -38,7 +39,19 @@ namespace Next2.ViewModels
 
         public SimpleOrderBindableModel? SelectedOrder { get; set; }
 
-        public DateTime? SelectedDate { get; set; } = DateTime.Now;
+        private DateTime _selectedDate = DateTime.Now;
+        public DateTime SelectedDate
+        {
+            get => _selectedDate;
+            set
+            {
+                if (_selectedDate != value)
+                {
+                    _selectedDate = value;
+                    FilterOrdersByDateAsync(value);
+                }
+            }
+        }
 
         public bool IsNothingFound => IsSearchModeActive && !Orders.Any();
 
@@ -111,6 +124,10 @@ namespace Next2.ViewModels
 
                     Orders = mapper.Map<IEnumerable<SimpleOrderModelDTO>, ObservableCollection<SimpleOrderBindableModel>>(closedOrders);
 
+                    _allClosedOrders = Orders.Select(x => x);
+                    await MockCloseDateToOrders();
+                    await FilterOrdersByDateAsync(SelectedDate);
+
                     isOrdersLoaded = true;
 
                     SelectedOrder = _lastSavedOrderId == Guid.Empty
@@ -136,6 +153,42 @@ namespace Next2.ViewModels
             }
 
             IsOrdersRefreshing = false;
+        }
+
+        private Task MockCloseDateToOrders()
+        {
+            var ordersCount = _allClosedOrders.Count();
+            var ordersArray = _allClosedOrders.ToArray();
+
+            var now = DateTime.Now;
+            var rand = new Random();
+
+            for (int i = 0; i < ordersCount; i++)
+            {
+                var randomHours = rand.Next(0, 23);
+                var randomMinutes = rand.Next(0, 59);
+
+                if (i < ordersCount / 3)
+                {
+                    ordersArray[i].Close = new DateTime(now.Year, now.Month, now.Day, randomHours, randomMinutes, 0);
+                }
+                else if (i < ordersCount / 2)
+                {
+                    ordersArray[i].Close = new DateTime(now.Year, now.Month, now.Day - 1, randomHours, randomMinutes, 0);
+                }
+                else
+                {
+                    ordersArray[i].Close = new DateTime(now.Year, now.Month, now.Day - 2, randomHours, randomMinutes, 0);
+                }
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private Task FilterOrdersByDateAsync(DateTime date)
+        {
+            Orders = new(_allClosedOrders.Where(x => x.Close.ToShortDateString() == date.ToShortDateString()));
+            return Task.CompletedTask;
         }
 
         private string GetTableName(int? tableNumber)

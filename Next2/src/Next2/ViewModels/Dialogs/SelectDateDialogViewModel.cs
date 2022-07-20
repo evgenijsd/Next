@@ -3,6 +3,8 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
 {
@@ -18,7 +20,15 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Public Properties --
 
+        public DateTime? SelectedDate { get; set; }
+
         public Action<IDialogParameters> RequestClose;
+
+        private ICommand _cancelCommand;
+        public ICommand CancelCommand => _cancelCommand ??= new Command(() => RequestClose(new DialogParameters { }));
+
+        private ICommand _selectCommand;
+        public ICommand SelectCommand => _selectCommand ??= new Command(OnSelectCommand);
 
         #endregion
 
@@ -26,7 +36,19 @@ namespace Next2.ViewModels.Dialogs
 
         private void LoadData(DialogParameters param)
         {
-            throw new NotImplementedException();
+        }
+
+        private void OnSelectCommand()
+        {
+            if (SelectedDate is not null)
+            {
+                var parameters = new DialogParameters()
+                {
+                    { Constants.DialogParameterKeys.SELECTED_DATE, SelectedDate },
+                };
+
+                RequestClose(parameters);
+            }
         }
 
         #endregion

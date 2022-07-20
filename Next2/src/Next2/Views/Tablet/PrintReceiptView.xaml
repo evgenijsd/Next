@@ -20,14 +20,14 @@
 
     <ContentView.Resources>
 
-        <Style x:Key="TableCellLabelStyle" TargetType="Label">
+        <Style TargetType="Label" x:Key="TableCellLabelStyle">
             <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
             <Setter Property="FontFamily" Value="Barlow-Medium" />
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             <Setter Property="Margin" Value="15, 11, 0, 0" />
         </Style>
 
-        <Style BasedOn="{StaticResource BorderButtonStyle_i1}" x:Key="BorderButtonStyle_i1_1" TargetType="buttons:BorderButton">
+        <Style BasedOn="{StaticResource BorderButtonStyle_i1}" TargetType="buttons:BorderButton" x:Key="BorderButtonStyle_i1_1">
             <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             <Setter Property="BackgroundColor" Value="Transparent" />
@@ -43,38 +43,17 @@
             HorizontalOptions="FillAndExpand"
             Orientation="Horizontal">
 
-            <Frame
-                HorizontalOptions="StartAndExpand"
+            <controls:DatePicker
                 VerticalOptions="End"
-                CornerRadius="6"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                BorderColor="{DynamicResource TextAndBackgroundColor_i2}">
-
-                <StackLayout
-                    Orientation="Horizontal"
-                    Padding="16, 8"
-                    Spacing="32">
-
-                    <Label
-                        VerticalTextAlignment="Center"
-                        FontSize="18"
-                        FontFamily="Barlow-Medium"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        Text="{Binding SelectedDate, StringFormat={x:Static local:Constants+Formats.SHORT_DATE_FORMAT}}" />
-
-                    <ffimageloading:CachedImage
-                        Source="ic_calendar_24x24.png" />
-
-                </StackLayout>
-
-            </Frame>
+                HorizontalOptions="StartAndExpand"
+                DateLabel="{Binding SelectedDate, Mode=TwoWay}"/>
 
             <buttons:BorderButton
                 Style="{DynamicResource BorderButtonStyle_i1_1}"
-                HorizontalOptions="EndAndExpand"
-                WidthRequest="118"
-                HeightRequest="30"
                 VerticalOptions="End"
+                HorizontalOptions="EndAndExpand"
+                HeightRequest="30"
+                WidthRequest="118"
                 CornerRadius="5"
                 BorderColor="{DynamicResource IndicationColor_i1}"
                 BackgroundColor="{DynamicResource IndicationColor_i1}"

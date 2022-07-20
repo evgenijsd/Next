@@ -12,7 +12,98 @@
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:behaviors="clr-namespace:Next2.Behaviors"
     x:Class="Next2.Views.Mobile.Dialogs.SelectDateDialog"
     x:DataType="dialogs:SelectDateDialogViewModel">
+
+    <rg:PopupPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="BorderButton_i1_1" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i1}">
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
+            </Style>
+
+        </ResourceDictionary>
+    </rg:PopupPage.Resources>
+
+    <Frame
+        Padding="1.5, 3"
+        VerticalOptions="CenterAndExpand"
+        HorizontalOptions="CenterAndExpand"
+        HeightRequest="488"
+        WidthRequest="363"
+        CornerRadius="6"
+        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+        <Grid
+            RowDefinitions="0.131*, *, 0.155*"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+            <!--  HEADER  -->
+            <Label
+                Grid.Row="0"
+                Margin="24, 0, 0, 3"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Start"
+                FontFamily="Barlow-Bold"
+                FontSize="{DynamicResource TSize_i5}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                Text="Select Date" />
+
+            <BoxView
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                VerticalOptions="End"
+                HorizontalOptions="FillAndExpand"
+                HeightRequest="0.3"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
+
+            <!--  calendar  -->
+            <controls:Calendar
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                SelectedDate="{Binding SelectedDate, Mode=TwoWay}" />
+
+
+            <!--  buttons  -->
+            <BoxView
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                VerticalOptions="Start"
+                HeightRequest="1"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+            <buttons:BorderButton
+                Grid.Row="2"
+                Grid.Column="0"
+                Style="{DynamicResource BorderButton_i1_1}"
+                Margin="18, 12, 6, 12"
+                CornerRadius="5"
+                BorderColor="{DynamicResource AppColor_i1}"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                Text="{xct:Translate Cancel}"
+                Command="{Binding CancelCommand}" />
+
+            <buttons:BorderButton
+                Grid.Row="2"
+                Grid.Column="1"
+                Style="{DynamicResource BorderButton_i1_1}"
+                Margin="6, 12, 18, 12"
+                Opacity="{DynamicResource OpacityWhenDisabled_i1}"
+                CornerRadius="5"
+                BorderColor="{DynamicResource IndicationColor_i1}"
+                BackgroundColor="{DynamicResource IndicationColor_i1}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i6}"
+                Text="{xct:Translate Select}"
+                Command="{Binding SelectCommand}" />
+
+        </Grid>
+
+    </Frame>
 
 </rg:PopupPage>
