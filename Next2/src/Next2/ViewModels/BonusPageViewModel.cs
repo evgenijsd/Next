@@ -22,7 +22,6 @@ namespace Next2.ViewModels
         private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
         private readonly IBonusesService _bonusesService;
-        private readonly double _heightBonus = App.IsTablet ? Constants.LayoutBonuses.ROW_TABLET_BONUS : Constants.LayoutBonuses.ROW_MOBILE_BONUS;
 
         private int _indexOfSeat;
         private int _indexOfSelectedDish = -1;
@@ -55,6 +54,10 @@ namespace Next2.ViewModels
         public double HeightCoupons { get; set; } = 0;
 
         public double HeightDiscounts { get; set; } = 0;
+
+        public bool IsCouponsVisible { get; set; } = true;
+
+        public bool IsDiscountsVisible { get; set; } = true;
 
         private ICommand _ApplyBonusCommand;
         public ICommand ApplyBonusCommand => _ApplyBonusCommand ??= new AsyncCommand(OnApplyBonusCommandAsync, allowsMultipleExecutions: false);
@@ -90,7 +93,7 @@ namespace Next2.ViewModels
 
                     Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
 
-                    var coupons = await GetCoupons();
+                    var coupons = await GetCouponsAsync();
 
                     if (coupons is not null)
                     {
@@ -103,7 +106,7 @@ namespace Next2.ViewModels
                         }
                     }
 
-                    var discounts = await GetDiscounts();
+                    var discounts = await GetDiscountsAsync();
 
                     if (discounts is not null)
                     {
@@ -115,9 +118,6 @@ namespace Next2.ViewModels
                             discount.Type = EBonusType.Discount;
                         }
                     }
-
-                    HeightCoupons = Coupons.Count * _heightBonus;
-                    HeightDiscounts = Discounts.Count * _heightBonus;
 
                     if (CurrentOrder.Coupon is not null)
                     {
@@ -154,7 +154,7 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task<IEnumerable<CouponModelDTO>?> GetCoupons()
+        private async Task<IEnumerable<CouponModelDTO>?> GetCouponsAsync()
         {
             IEnumerable<CouponModelDTO>? coupons = null;
             var dishes = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes);
@@ -178,7 +178,7 @@ namespace Next2.ViewModels
             return coupons;
         }
 
-        private async Task<IEnumerable<DiscountModelDTO>?> GetDiscounts()
+        private async Task<IEnumerable<DiscountModelDTO>?> GetDiscountsAsync()
         {
             IEnumerable<DiscountModelDTO>? discounts = null;
             var dishes = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes);
@@ -244,15 +244,11 @@ namespace Next2.ViewModels
         {
             if (bonusType == EBonusType.Coupon)
             {
-                HeightCoupons = HeightCoupons == 0
-                    ? Coupons.Count * _heightBonus
-                    : 0;
+                IsCouponsVisible = !IsCouponsVisible;
             }
             else
             {
-                HeightDiscounts = HeightDiscounts == 0
-                    ? Discounts.Count * _heightBonus
-                    : 0;
+                IsDiscountsVisible = !IsDiscountsVisible;
             }
 
             return Task.CompletedTask;

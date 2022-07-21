@@ -1,4 +1,5 @@
 ﻿using Next2.Helpers.ProcessHelpers;
+using Next2.Models.API;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
@@ -43,6 +44,8 @@ namespace Next2.Services.Order
         Task<AOResult> SetCurrentOrderAsync(Guid orderId);
 
         Task<AOResult<Guid>> UpdateCurrentOrderAsync();
+
+        Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients);
 
         void UpdateTotalSum(FullOrderBindableModel currentOrder);
     }

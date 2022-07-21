@@ -100,14 +100,11 @@ namespace Next2.ViewModels.Dialogs
 
                 var parameters = new DialogParameters();
 
+                parameters.Add(Constants.DialogParameterKeys.ACCEPT, true);
+
                 if (resultOfCreatingNewCustomer.IsSuccess)
                 {
-                    parameters.Add(Constants.DialogParameterKeys.ACCEPT, true);
                     parameters.Add(Constants.DialogParameterKeys.CUSTOMER_ID, resultOfCreatingNewCustomer.Result);
-                }
-                else
-                {
-                    parameters.Add(Constants.DialogParameterKeys.ACCEPT, true);
                 }
 
                 AcceptCommand = new DelegateCommand(() => RequestClose(parameters));

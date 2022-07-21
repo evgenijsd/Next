@@ -134,6 +134,7 @@ namespace Next2.ViewModels.Mobile
                                 {
                                     { nameof(Constants.Navigations.DELETE_DISH), Constants.Navigations.DELETE_DISH },
                                 };
+
                                 await _navigationService.GoBackAsync(navigationParameters);
                             }
                             else

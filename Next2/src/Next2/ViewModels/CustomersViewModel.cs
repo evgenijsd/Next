@@ -77,6 +77,9 @@ namespace Next2.ViewModels
         private ICommand _clearSearchCommand;
         public ICommand ClearSearchCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _selectDeselectItemCommand;
+        public ICommand SelectDeselectItemCommand => _selectDeselectItemCommand ??= new AsyncCommand<CustomerBindableModel>(OnSelectDeselectItemAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -148,7 +151,7 @@ namespace Next2.ViewModels
                     foreach (var item in customers)
                     {
                         item.ShowInfoCommand = ShowInfoCommand;
-                        item.SelectItemCommand = new Command<CustomerBindableModel>(SelectDeselectItem);
+                        item.SelectItemCommand = SelectDeselectItemCommand;
                     }
 
                     if (customers.Any())
@@ -187,11 +190,13 @@ namespace Next2.ViewModels
             }
         }
 
-        private void SelectDeselectItem(CustomerBindableModel customer)
+        private Task OnSelectDeselectItemAsync(CustomerBindableModel customer)
         {
             SelectedCustomer = SelectedCustomer == customer
                 ? null
                 : customer;
+
+            return Task.CompletedTask;
         }
 
         private async Task ShowCustomerInfoAsync(CustomerBindableModel customer)
@@ -290,15 +295,14 @@ namespace Next2.ViewModels
             }
             else
             {
-                if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isCustomerCreationConfirmationRequestAccepted))
+                if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isCustomerCreationConfirmationRequestAccepted)
+                    && isCustomerCreationConfirmationRequestAccepted
+                    && !param.ContainsKey(Constants.DialogParameterKeys.CUSTOMER_ID))
                 {
-                    if (isCustomerCreationConfirmationRequestAccepted && !param.ContainsKey(Constants.DialogParameterKeys.CUSTOMER_ID))
-                    {
-                        await ShowInfoDialogAsync(
-                            LocalizationResourceManager.Current["Error"],
-                            LocalizationResourceManager.Current["SomethingWentWrong"],
-                            LocalizationResourceManager.Current["Ok"]);
-                    }
+                    await ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["SomethingWentWrong"],
+                        LocalizationResourceManager.Current["Ok"]);
                 }
             }
         }

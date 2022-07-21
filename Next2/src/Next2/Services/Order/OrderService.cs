@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Extensions;
 using Next2.Helpers.ProcessHelpers;
+using Next2.Models.API;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
@@ -557,6 +558,60 @@ namespace Next2.Services.Order
             catch (Exception ex)
             {
                 result.SetError($"{nameof(UpdateCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients)
+        {
+            var result = new AOResult<DishBindableModel>();
+
+            try
+            {
+                dish.SelectedDishProportion = new DishProportionModelDTO()
+                {
+                    Id = selectedProportion.Id,
+                    PriceRatio = selectedProportion.PriceRatio,
+                    Proportion = new ProportionModelDTO()
+                    {
+                        Id = selectedProportion.ProportionId,
+                        Name = selectedProportion.ProportionName,
+                    },
+                };
+
+                foreach (var product in dish.SelectedProducts ?? new())
+                {
+                    product.Price = selectedProportion.PriceRatio == 1
+                        ? product.Product.DefaultPrice
+                        : product.Product.DefaultPrice * (1 + selectedProportion.PriceRatio);
+
+                    if (product.AddedIngredients is not null)
+                    {
+                        foreach (var addedIngredient in product.AddedIngredients)
+                        {
+                            addedIngredient.Price = selectedProportion.PriceRatio == 1
+                                ? ingredients.FirstOrDefault(row => row.Id == addedIngredient.Id).Price
+                                : ingredients.FirstOrDefault(row => row.Id == addedIngredient.Id).Price * (1 + selectedProportion.PriceRatio);
+                        }
+                    }
+
+                    if (product.ExcludedIngredients is not null)
+                    {
+                        foreach (var excludedIngredient in product.ExcludedIngredients)
+                        {
+                            excludedIngredient.Price = selectedProportion.PriceRatio == 1
+                                ? ingredients.FirstOrDefault(row => row.Id == excludedIngredient.Id).Price
+                                : ingredients.FirstOrDefault(row => row.Id == excludedIngredient.Id).Price * (1 + selectedProportion.PriceRatio);
+                        }
+                    }
+                }
+
+                result.SetSuccess(dish);
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(ChangeDishProportionAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

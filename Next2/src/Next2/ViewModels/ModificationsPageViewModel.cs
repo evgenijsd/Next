@@ -139,19 +139,9 @@ namespace Next2.ViewModels
         {
             await base.InitializeAsync(parameters);
 
-            if (IsInternetConnected)
-            {
-                await InitIngredientsAsync();
+            await InitIngredientsAsync();
 
-                InitProportionDish();
-            }
-            else
-            {
-                ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]).RunSynchronously();
-            }
+            InitProportionDish();
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
@@ -178,7 +168,7 @@ namespace Next2.ViewModels
             switch (args.PropertyName)
             {
                 case nameof(SelectedProportion):
-                    SelectProportion();
+                    ChangeDishProportion();
 
                     break;
                 case nameof(SelectedReplacementProduct):
@@ -431,15 +421,25 @@ namespace Next2.ViewModels
         {
             if (_allIngredients is null)
             {
-                var ingredientsResult = await _menuService.GetIngredientsAsync();
-
-                if (ingredientsResult.IsSuccess)
+                if (IsInternetConnected)
                 {
-                    _allIngredients = ingredientsResult.Result;
+                    var ingredientsResult = await _menuService.GetIngredientsAsync();
+
+                    if (ingredientsResult.IsSuccess)
+                    {
+                        _allIngredients = ingredientsResult.Result;
+                    }
+                    else
+                    {
+                        await ResponseToBadRequestAsync(ingredientsResult.Exception.Message);
+                    }
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(ingredientsResult.Exception.Message);
+                    await ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["NoInternetConnection"],
+                        LocalizationResourceManager.Current["Ok"]);
                 }
             }
         }
@@ -612,12 +612,17 @@ namespace Next2.ViewModels
                     _orderService.CurrentSeat = _tempCurrentSeat;
 
                     var selectedSeat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.Checked == true);
+
                     var dishesInSelectedSeat = selectedSeat.SelectedDishes;
 
+                    var selectedDishId = selectedSeat.SelectedItem?.DishId;
+                    var selectedDishTotalPrice = selectedSeat.SelectedItem?.TotalPrice;
+                    var selectedDishProportionId = selectedSeat.SelectedItem?.SelectedDishProportion.Id;
+
                     var selectedDishInSelectedSeat = dishesInSelectedSeat.FirstOrDefault(
-                        row => row.DishId == selectedSeat.SelectedItem?.DishId
-                        && row.TotalPrice == selectedSeat.SelectedItem?.TotalPrice
-                        && row.SelectedDishProportion.Id == selectedSeat.SelectedItem?.SelectedDishProportion.Id);
+                        row => row.DishId == selectedDishId
+                        && row.TotalPrice == selectedDishTotalPrice
+                        && row.SelectedDishProportion.Id == selectedDishProportionId);
 
                     _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == selectedSeat.SeatNumber).SelectedItem = selectedDishInSelectedSeat;
 
@@ -660,50 +665,6 @@ namespace Next2.ViewModels
             return dishPrice = priceRatio == 1
                 ? dishPrice
                 : dishPrice * (1 + priceRatio);
-        }
-
-        private void SelectProportion()
-        {
-            if (SelectedProportion is not null && SelectedProportion.PriceRatio != _currentDish.SelectedDishProportion.PriceRatio)
-            {
-                _currentDish.SelectedDishProportion = new DishProportionModelDTO()
-                {
-                    Id = SelectedProportion.Id,
-                    PriceRatio = SelectedProportion.PriceRatio,
-                    Proportion = new ProportionModelDTO()
-                    {
-                        Id = SelectedProportion.ProportionId,
-                        Name = SelectedProportion.ProportionName,
-                    },
-                };
-
-                foreach (var product in _currentDish.SelectedProducts ?? new())
-                {
-                    product.Price = SelectedProportion.PriceRatio == 1
-                        ? product.Product.DefaultPrice
-                        : product.Product.DefaultPrice * (1 + SelectedProportion.PriceRatio);
-
-                    if (product.AddedIngredients is not null)
-                    {
-                        foreach (var addedIngredient in product.AddedIngredients)
-                        {
-                            addedIngredient.Price = SelectedProportion.PriceRatio == 1
-                                ? _allIngredients.FirstOrDefault(row => row.Id == addedIngredient.Id).Price
-                                : _allIngredients.FirstOrDefault(row => row.Id == addedIngredient.Id).Price * (1 + SelectedProportion.PriceRatio);
-                        }
-                    }
-
-                    if (product.ExcludedIngredients is not null)
-                    {
-                        foreach (var excludedIngredient in product.ExcludedIngredients)
-                        {
-                            excludedIngredient.Price = SelectedProportion.PriceRatio == 1
-                                ? _allIngredients.FirstOrDefault(row => row.Id == excludedIngredient.Id).Price
-                                : _allIngredients.FirstOrDefault(row => row.Id == excludedIngredient.Id).Price * (1 + SelectedProportion.PriceRatio);
-                        }
-                    }
-                }
-            }
         }
 
         private void SelectReplacementProduct()
@@ -761,6 +722,26 @@ namespace Next2.ViewModels
                     }
 
                     _currentDish.SelectedProducts[selectedProductIndex] = selectedProductCurrent;
+                }
+            }
+        }
+
+        private void ChangeDishProportion()
+        {
+            if (SelectedProportion is not null && _allIngredients is not null && SelectedProportion.PriceRatio != _currentDish.SelectedDishProportion.PriceRatio)
+            {
+                var resultOfChangingProportionDish = Task.Run(() => _orderService.ChangeDishProportionAsync(SelectedProportion, _currentDish, _allIngredients)).Result;
+
+                if (resultOfChangingProportionDish.IsSuccess)
+                {
+                    _currentDish = resultOfChangingProportionDish.Result;
+                }
+                else
+                {
+                    ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["SomethingWentWrong"],
+                        LocalizationResourceManager.Current["Ok"]).RunSynchronously();
                 }
             }
         }
