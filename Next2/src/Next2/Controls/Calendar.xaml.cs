@@ -1,6 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Resources.Strings;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,7 +11,7 @@ using Xamarin.Forms;
 
 namespace Next2.Controls
 {
-    public partial class Calendar : Grid
+    public partial class Calendar : ContentView
     {
         private bool _isFutureYearSelected = false;
 
@@ -37,12 +38,83 @@ namespace Next2.Controls
 
         #region -- Public properties --
 
+        public static readonly BindableProperty BackGroundColorProperty = BindableProperty.Create(
+            propertyName: nameof(BackGroundColor),
+            returnType: typeof(Color),
+            defaultValue: Color.FromHex("#2E3143"),
+            declaringType: typeof(Calendar),
+            defaultBindingMode: BindingMode.TwoWay);
+        public Color BackGroundColor
+        {
+            get => (Color)GetValue(BackGroundColorProperty);
+            set => SetValue(BackGroundColorProperty, value);
+        }
+
+        public static readonly BindableProperty DropdownListBackGroundColorProperty = BindableProperty.Create(
+            propertyName: nameof(DropdownListBackGroundColor),
+            returnType: typeof(Color),
+            defaultValue: Color.FromHex("#34374C"),
+            declaringType: typeof(Calendar),
+            defaultBindingMode: BindingMode.TwoWay);
+        public Color DropdownListBackGroundColor
+        {
+            get => (Color)GetValue(DropdownListBackGroundColorProperty);
+            set => SetValue(DropdownListBackGroundColorProperty, value);
+        }
+
+        public static readonly BindableProperty DropdownHeadDroppedBackGroundColorProperty = BindableProperty.Create(
+            propertyName: nameof(DropdownHeadDroppedBackGroundColor),
+            returnType: typeof(Color),
+            defaultValue: Color.FromHex("#252836"),
+            declaringType: typeof(Calendar),
+            defaultBindingMode: BindingMode.TwoWay);
+        public Color DropdownHeadDroppedBackGroundColor
+        {
+            get => (Color)GetValue(DropdownHeadDroppedBackGroundColorProperty);
+            set => SetValue(DropdownHeadDroppedBackGroundColorProperty, value);
+        }
+
+        public static readonly BindableProperty MonthLabelFontFamilyProperty = BindableProperty.Create(
+            propertyName: nameof(MonthLabelFontFamily),
+            returnType: typeof(string),
+            defaultValue: "Barlow-Bold",
+            declaringType: typeof(Calendar),
+            defaultBindingMode: BindingMode.TwoWay);
+        public string MonthLabelFontFamily
+        {
+            get => (string)GetValue(MonthLabelFontFamilyProperty);
+            set => SetValue(MonthLabelFontFamilyProperty, value);
+        }
+
+        public static readonly BindableProperty DropdownListLabelsFontFamilyProperty = BindableProperty.Create(
+            propertyName: nameof(DropdownListLabelsFontFamily),
+            returnType: typeof(string),
+            defaultValue: "Barlow-Regular",
+            declaringType: typeof(Calendar),
+            defaultBindingMode: BindingMode.TwoWay);
+        public string DropdownListLabelsFontFamily
+        {
+            get => (string)GetValue(DropdownListLabelsFontFamilyProperty);
+            set => SetValue(DropdownListLabelsFontFamilyProperty, value);
+        }
+
+        public static readonly BindableProperty TitleProperty = BindableProperty.Create(
+           propertyName: nameof(Title),
+           returnType: typeof(string),
+           declaringType: typeof(Calendar),
+           defaultValue: string.Empty,
+           defaultBindingMode: BindingMode.TwoWay);
+        public string Title
+        {
+            get => (string)GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
+        }
+
         public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create(
             propertyName: nameof(SelectedDate),
             returnType: typeof(DateTime?),
-            declaringType: typeof(CalendarGridCollectionView),
+            declaringType: typeof(Calendar),
             defaultBindingMode: BindingMode.TwoWay);
-
         public DateTime? SelectedDate
         {
             get => (DateTime?)GetValue(SelectedDateProperty);
@@ -55,7 +127,6 @@ namespace Next2.Controls
             declaringType: typeof(Calendar),
             defaultValue: 3,
             defaultBindingMode: BindingMode.TwoWay);
-
         public int SelectedMonth
         {
             get => (int)GetValue(SelectedMonthProperty);
@@ -67,11 +138,36 @@ namespace Next2.Controls
             returnType: typeof(Year),
             declaringType: typeof(Calendar),
             defaultBindingMode: BindingMode.TwoWay);
-
         public Year SelectedYear
         {
             get => (Year)GetValue(SelectedYearProperty);
             set => SetValue(SelectedYearProperty, value);
+        }
+
+        public static readonly BindableProperty DropdownHeadLabelFontSizeProperty = BindableProperty.Create(
+           propertyName: nameof(DropdownHeadLabelFontSize),
+           returnType: typeof(double),
+           defaultValue: 20d,
+           declaringType: typeof(Calendar),
+           defaultBindingMode: BindingMode.TwoWay);
+
+        public double DropdownHeadLabelFontSize
+        {
+            get => (double)GetValue(DropdownHeadLabelFontSizeProperty);
+            set => SetValue(DropdownHeadLabelFontSizeProperty, value);
+        }
+
+        public static readonly BindableProperty MonthLabelFontSizeProperty = BindableProperty.Create(
+           propertyName: nameof(MonthLabelFontSize),
+           returnType: typeof(double),
+           defaultValue: 26d,
+           declaringType: typeof(Calendar),
+           defaultBindingMode: BindingMode.TwoWay);
+
+        public double MonthLabelFontSize
+        {
+            get => (double)GetValue(MonthLabelFontSizeProperty);
+            set => SetValue(MonthLabelFontSizeProperty, value);
         }
 
         public List<Month> Months { get; set; }
@@ -109,7 +205,7 @@ namespace Next2.Controls
             if (propertyName == nameof(SelectedDay) && dropdownFrame.IsVisible)
             {
                 dropdownFrame.IsVisible = false;
-                yearDropdownFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
+                yearDropdownFrame.BackgroundColor = BackGroundColor;
                 yearDropdownIcon.Source = "ic_arrow_down_primary_24x24";
             }
             else if (propertyName == nameof(SelectedYear))
@@ -137,13 +233,13 @@ namespace Next2.Controls
             {
                 dropdownFrame.IsVisible = true;
                 yearsCollectionView.ScrollTo(SelectedYear, -1, ScrollToPosition.Center, false);
-                yearDropdownFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i5"];
+                yearDropdownFrame.BackgroundColor = DropdownHeadDroppedBackGroundColor;
                 yearDropdownIcon.Source = "ic_arrow_up_24x24";
             }
             else
             {
                 dropdownFrame.IsVisible = false;
-                yearDropdownFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
+                yearDropdownFrame.BackgroundColor = BackGroundColor;
                 yearDropdownIcon.Source = "ic_arrow_down_primary_24x24";
             }
         }

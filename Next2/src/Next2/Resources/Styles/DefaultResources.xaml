@@ -185,6 +185,16 @@
         <Setter Property="Margin" Value="0, 2" />
     </Style>
 
+    <Style x:Key="CalendarTabletStyle" TargetType="controls:Calendar">
+        <Setter Property="BackGroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
+        <Setter Property="DropdownListBackGroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
+        <Setter Property="DropdownHeadDroppedBackGroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>
+        <Setter Property="MonthLabelFontFamily" Value="Barlow-Regular"/>
+        <Setter Property="DropdownListLabelsFontFamily" Value="Barlow-Medium"/>
+        <Setter Property="DropdownHeadLabelFontSize" Value="{DynamicResource TSize_i8}"/>
+        <Setter Property="MonthLabelFontSize" Value="{DynamicResource TSize_i6}"/>
+    </Style>
+
     <!-- CONVERTERS -->
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
     <converters:ListHeightConverter x:Key="listHeightConverter" />

@@ -29,14 +29,14 @@
     </rg:PopupPage.Resources>
 
     <Frame
-        Padding="1.5, 3"
+        Padding="3"
         VerticalOptions="CenterAndExpand"
         HorizontalOptions="CenterAndExpand"
         HeightRequest="488"
         WidthRequest="363"
         CornerRadius="6"
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i1}">
 
         <Grid
             RowDefinitions="0.131*, *, 0.155*"
@@ -58,14 +58,14 @@
                 Grid.ColumnSpan="2"
                 VerticalOptions="End"
                 HorizontalOptions="FillAndExpand"
-                HeightRequest="0.3"
+                HeightRequest="2"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
 
             <!--  calendar  -->
             <controls:Calendar
+                Style="{DynamicResource CalendarTabletStyle}"
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                 SelectedDate="{Binding SelectedDate, Mode=TwoWay}" />
 
 

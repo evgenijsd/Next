@@ -35,7 +35,7 @@
                 VerticalTextAlignment="Center" 
                 Margin="10, 6, 0, 6"
                 FontSize="{DynamicResource TSize_i8}"
-                FontFamily="Barlow-Regular"
+                FontFamily="Barlow-Medium"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 Text="{Binding SelectedYear.YearValue, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"/>
 
