@@ -117,14 +117,14 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnDisappearing();
 
-            OrderRegistrationViewModel.CurrentState = ENewOrderViewState.InProgress;
-
             SelectedSubcategoriesItem = null;
             SelectedCategoriesItem = null;
 
             Dishes = new();
             Subcategories = new();
             Categories = new();
+
+            OrderRegistrationViewModel.CurrentState = ENewOrderViewState.InProgress;
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
