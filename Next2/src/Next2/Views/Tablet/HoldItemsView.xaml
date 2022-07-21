@@ -69,64 +69,61 @@
             Margin="32, 29, 32, 18"
             ColumnDefinitions="325, *">
 
-            <controls:DropDownList
-                Grid.Column="0"
-                Style="{DynamicResource DropDownListStyle_i1}"
-                HorizontalOptions="Start"
-                VerticalOptions="Start"
-                Margin="18, 13"
-                WidthRequest="135"
-                ScrollBarVisibility="Never"
-                HeaderText="{Binding SelectedTable.TableNumber, StringFormat='Table {0}'}"
-                SelectedItem="{Binding SelectedTable}"
-                ItemsSource="{Binding Tables}">
+            <StackLayout>
+                
+                <controls:DropDownList
+                    Style="{DynamicResource DropDownListStyle_i1}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    WidthRequest="125"
+                    ScrollBarVisibility="Never"
+                    HeaderText="{Binding SelectedTable.TableNumber, StringFormat='Table {0}'}"
+                    SelectedItem="{Binding SelectedTable}"
+                    ItemsSource="{Binding Tables}">
 
-                <controls:DropDownList.Triggers>
+                    <controls:DropDownList.Triggers>
 
-                    <DataTrigger
-                        TargetType="controls:DropDownList"
-                        Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
-                        Value="True">
+                        <DataTrigger
+                            TargetType="controls:DropDownList"
+                            Binding="{Binding IsOrderSavedNotificationVisible}"
+                            Value="True">
 
-                        <Setter
-                            Property="IsEnabled"
-                            Value="False" />
-                        <Setter
-                            Property="Opacity"
-                            Value="{StaticResource OpacityWhenDisabled_i1}" />
+                            <Setter Property="IsEnabled" Value="False" />
+                            <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
 
-                    </DataTrigger>
+                        </DataTrigger>
 
-                </controls:DropDownList.Triggers>
+                    </controls:DropDownList.Triggers>
 
-                <controls:DropDownList.DataTemplate>
-                    <DataTemplate>
-                        <StackLayout
-                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}">
-
-                            <BoxView
-                                Style="{DynamicResource SeparatorStyle_i3}" />
-
+                    <controls:DropDownList.DataTemplate>
+                        <DataTemplate>
                             <StackLayout
-                                Padding="14, 9"
-                                HeightRequest="21"
-                                Orientation="Horizontal"
-                                x:DataType="models:TableBindableModel">
+                                Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                                xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}">
 
-                                <Label
-                                    FontFamily="Barlow-Medium"
-                                    FontSize="{DynamicResource TSize_i8}"
-                                    HorizontalOptions="FillAndExpand"
-                                    Text="{Binding TableNumber, StringFormat='Table {0}'}" />
+                                <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+
+                                <StackLayout
+                                    Padding="14, 9"
+                                    HeightRequest="21"
+                                    Orientation="Horizontal"
+                                    x:DataType="models:TableBindableModel">
+
+                                    <Label
+                                        FontFamily="Barlow-Medium"
+                                        FontSize="{DynamicResource TSize_i8}"
+                                        HorizontalOptions="FillAndExpand"
+                                        Text="{Binding TableNumber, StringFormat='Table {0}'}" />
+
+                                </StackLayout>
 
                             </StackLayout>
+                        </DataTemplate>
+                    </controls:DropDownList.DataTemplate>
 
-                        </StackLayout>
-                    </DataTemplate>
-                </controls:DropDownList.DataTemplate>
-
-            </controls:DropDownList>
+                </controls:DropDownList>
+                
+            </StackLayout>
 
             <StackLayout
                 Grid.Column="1"
@@ -241,9 +238,25 @@
             </yummy:PancakeView>
 
             <yummy:PancakeView
-                VerticalOptions="FillAndExpand"
-                BackgroundColor="BlanchedAlmond"
+                VerticalOptions="Start"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                 CornerRadius="0, 0, 7, 7">
+
+                <yummy:PancakeView.Triggers>
+
+                    <MultiTrigger
+                        TargetType="yummy:PancakeView">
+                        <MultiTrigger.Conditions>
+                            <BindingCondition Binding="{Binding IsNothingFound}" Value="false" />
+                            <BindingCondition Binding="{Binding HoldItems.Count}" Value="0" />
+                        </MultiTrigger.Conditions>
+
+                        <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+
+                    </MultiTrigger>
+
+                </yummy:PancakeView.Triggers>
 
                 <RefreshView
                     IsRefreshing="{Binding IsHoldItemsRefreshing}"
@@ -274,6 +287,16 @@
                             <CollectionView.Behaviors>
                                 <behaviors:ScrollToCenterBehavior />
                             </CollectionView.Behaviors>
+
+                            <CollectionView.EmptyView>
+                                <StackLayout>
+
+                                    <BoxView
+                                        HeightRequest="3"
+                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
+                                </StackLayout>
+                            </CollectionView.EmptyView>
 
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:HoldItemBindableModel">
@@ -377,7 +400,7 @@
 
                         </yummy:PancakeView>
 
-                        <yummy:PancakeView
+                        <!--<yummy:PancakeView
                             VerticalOptions="FillAndExpand"
                             HorizontalOptions="FillAndExpand"
                             IsVisible="false"
@@ -406,7 +429,7 @@
 
                             </StackLayout>
 
-                        </yummy:PancakeView>
+                        </yummy:PancakeView>-->
 
                         <!--<yummy:PancakeView
                             VerticalOptions="FillAndExpand"
