@@ -106,6 +106,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Tables.
+        /// </summary>
+        internal static string AllTables {
+            get {
+                return ResourceManager.GetString("AllTables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Apply.
         /// </summary>
         internal static string Apply {

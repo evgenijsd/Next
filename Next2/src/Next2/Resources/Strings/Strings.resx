@@ -681,4 +681,7 @@ A receipt has been printed for you.</value>
   <data name="Release" xml:space="preserve">
     <value>Release</value>
   </data>
+  <data name="AllTables" xml:space="preserve">
+    <value>All Tables</value>
+  </data>
 </root>

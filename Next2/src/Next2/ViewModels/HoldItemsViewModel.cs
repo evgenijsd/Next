@@ -8,6 +8,7 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -73,20 +74,29 @@ namespace Next2.ViewModels
             HoldItems = new();
         }
 
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName is nameof(SelectedTable))
+            {
+                int i = 0;
+            }
+        }
+
         #endregion
 
         #region -- Private helpers --
 
         private async Task OnRefreshHoldItemsCommandAsync()
         {
-            IsHoldItemsRefreshing = true;
             _holdItemsSortingType = EHoldItemsSortingType.None;
             HoldItems = await GetHoldItemsAsync();
 
             Tables = GetHoldTables(HoldItems);
             SelectedTable = Tables.FirstOrDefault();
 
-            HoldItems = new(HoldItems.Where(x => x.Id < 9));
+            //HoldItems = new(HoldItems.Where(x => x.Id < 9));
             await OnChangeSortHoldItemsCommandAsync(EHoldItemsSortingType.ByTableName);
 
             IsHoldItemsRefreshing = false;
@@ -117,9 +127,16 @@ namespace Next2.ViewModels
 
             if (holdItems.Any())
             {
-                var tables = holdItems.GroupBy(x => x.TableNumber).Select(y => y.First()).OrderBy(z => z.TableNumber);
+                var tables = holdItems.GroupBy(x => x.TableNumber).Select(y => y.First());
 
                 result = _mapper.Map<ObservableCollection<TableBindableModel>>(tables);
+                result.Add(new TableBindableModel { TableNumber = 0, });
+                foreach (var table in result)
+                {
+                    table.Id = Guid.NewGuid();
+                }
+
+                result = new(result.OrderBy(x => x.TableNumber));
             }
 
             return result;
