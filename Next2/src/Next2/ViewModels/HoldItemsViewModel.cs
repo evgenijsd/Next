@@ -78,9 +78,9 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName is nameof(SelectedTable))
+            if (args.PropertyName is nameof(SelectedTable) && SelectedTable is not null)
             {
-                int i = 0;
+                HoldItems = GetHoldItemsByTableNumber(SelectedTable.TableNumber);
             }
         }
 
@@ -90,17 +90,22 @@ namespace Next2.ViewModels
 
         private async Task OnRefreshHoldItemsCommandAsync()
         {
-            _holdItemsSortingType = EHoldItemsSortingType.None;
+            _holdItemsSortingType = EHoldItemsSortingType.ByTableName;
             HoldItems = await GetHoldItemsAsync();
 
             Tables = GetHoldTables(HoldItems);
             SelectedTable = Tables.FirstOrDefault();
 
-            //HoldItems = new(HoldItems.Where(x => x.Id < 9));
-            await OnChangeSortHoldItemsCommandAsync(EHoldItemsSortingType.ByTableName);
-
             IsHoldItemsRefreshing = false;
-            IsNothingFound = !HoldItems.Any();
+        }
+
+        private ObservableCollection<HoldItemBindableModel> GetHoldItemsByTableNumber(int tableNumber)
+        {
+            var holdItems = _holdItemService.GetHoldItemsByTableNumber(tableNumber);
+
+            IsNothingFound = !holdItems.Any();
+
+            return _mapper.Map<ObservableCollection<HoldItemBindableModel>>(holdItems);
         }
 
         private Task OnChangeSortHoldItemsCommandAsync(EHoldItemsSortingType holdItemsSortingType)
@@ -131,10 +136,6 @@ namespace Next2.ViewModels
 
                 result = _mapper.Map<ObservableCollection<TableBindableModel>>(tables);
                 result.Add(new TableBindableModel { TableNumber = 0, });
-                foreach (var table in result)
-                {
-                    table.Id = Guid.NewGuid();
-                }
 
                 result = new(result.OrderBy(x => x.TableNumber));
             }
@@ -155,6 +156,8 @@ namespace Next2.ViewModels
             {
                 await _notificationsService.ResponseToBadRequestAsync(holdItems.Exception.Message);
             }
+
+            IsNothingFound = !result.Any();
 
             return result;
         }

@@ -15,9 +15,8 @@ namespace Next2.Services.HoldItem
     public class HoldItemService : IHoldItemService
     {
         private readonly IMockService _mockService;
-        private readonly IMapper _mapper;
 
-        private IEnumerable<HoldItemBindableModel> _holdItems = Enumerable.Empty<HoldItemBindableModel>();
+        private IEnumerable<HoldItemModel> _allHoldItems = Enumerable.Empty<HoldItemModel>();
 
         public HoldItemService(IMockService mockService)
         {
@@ -25,6 +24,18 @@ namespace Next2.Services.HoldItem
         }
 
         #region -- IHoldItemService implementation --
+
+        public IEnumerable<HoldItemModel> GetHoldItemsByTableNumber(int tableNumber)
+        {
+            var result = _allHoldItems;
+
+            if (tableNumber != 0)
+            {
+                result = _allHoldItems.Where(x => x.TableNumber == tableNumber);
+            }
+
+            return result;
+        }
 
         public IEnumerable<HoldItemBindableModel> GetSortedHoldItems(EHoldItemsSortingType typeSort, IEnumerable<HoldItemBindableModel> holdItems)
         {
@@ -44,11 +55,13 @@ namespace Next2.Services.HoldItem
 
             try
             {
-                var allHoldItems = await _mockService.GetAllAsync<HoldItemModel>();
+                _allHoldItems = await _mockService.GetAllAsync<HoldItemModel>();
 
-                if (allHoldItems is not null)
+                if (_allHoldItems is not null)
                 {
-                    result.SetSuccess(allHoldItems);
+                    _allHoldItems = _allHoldItems.OrderBy(x => x.TableNumber);
+
+                    result.SetSuccess(_allHoldItems);
                 }
             }
             catch (Exception ex)

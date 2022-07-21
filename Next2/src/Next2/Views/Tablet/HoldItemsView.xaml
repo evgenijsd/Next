@@ -215,13 +215,21 @@
                                 Property="VerticalOptions"
                                 Value="FillAndExpand" />
                             <Setter
-                                Property="HorizontalOptions"
-                                Value="FillAndExpand" />
-                            <Setter
                                 Property="Margin"
                                 Value="0,2,0,0" />
 
                         </MultiTrigger>
+
+                        <DataTrigger
+                            TargetType="yummy:PancakeView"
+                            Binding="{Binding IsNothingFound}"
+                            Value="True">
+
+                            <Setter
+                                Property="VerticalOptions"
+                                Value="FillAndExpand" />
+
+                        </DataTrigger>
 
                     </yummy:PancakeView.Triggers>
 
@@ -390,24 +398,9 @@
                 Style="{DynamicResource DropDownListStyle_i1}"                
                 WidthRequest="130"
                 ScrollBarVisibility="Never"
-                HeaderText="{xct:Translate AllTables}"
+                HeaderText="{Binding SelectedTable.TableNumber, Converter={x:StaticResource holdTableNameToStringConverter}}"
                 SelectedItem="{Binding SelectedTable}"
                 ItemsSource="{Binding Tables}">
-
-                <controls:DropDownList.Triggers>
-
-                    <DataTrigger
-                        TargetType="controls:DropDownList"
-                        Binding="{Binding SelectedTable.TableNumber, Converter={xct:IntToBoolConverter}}"
-                        Value="True">
-
-                        <Setter
-                            Property="HeaderText"
-                            Value="{Binding SelectedTable.TableNumber, StringFormat='Table {0}'}" />
-
-                    </DataTrigger>
-
-                </controls:DropDownList.Triggers>
 
                 <controls:DropDownList.DataTemplate>
                     <DataTemplate>
@@ -429,25 +422,8 @@
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                     FontSize="{DynamicResource TSize_i8}"
                                     HorizontalOptions="FillAndExpand"
-                                    Text="{xct:Translate AllTables}">
+                                    Text="{Binding TableNumber, Converter={x:StaticResource holdTableNameToStringConverter}}" />
 
-                                    <!--<Label.Triggers>
-
-                                        <DataTrigger
-                                            TargetType="Label"
-                                            Binding="{Binding TableNumber, Converter={xct:IntToBoolConverter}}"
-                                            Value="True">
-
-                                            <Setter
-                                                Property="Text"
-                                                Value="{Binding TableNumber, StringFormat='Table {0}'}" />
-
-                                        </DataTrigger>
-
-                                    </Label.Triggers>-->
-
-                                </Label>
-                                
 
                             </StackLayout>
 

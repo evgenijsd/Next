@@ -12,5 +12,7 @@ namespace Next2.Services.HoldItem
         Task<AOResult<IEnumerable<HoldItemModel>>> GetAllHoldItemsAsync();
 
         IEnumerable<HoldItemBindableModel> GetSortedHoldItems(EHoldItemsSortingType typeSort, IEnumerable<HoldItemBindableModel> reservations);
+
+        IEnumerable<HoldItemModel> GetHoldItemsByTableNumber(int tableNumber);
     }
 }
