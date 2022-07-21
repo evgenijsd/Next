@@ -55,6 +55,19 @@ namespace Next2.Services.Order
 
         #region -- IOrderService implementation --
 
+        public void CalculateOrderPrices(OrderModelDTO order)
+        {
+            var dishes = order.Seats.SelectMany(x => x.SelectedDishes);
+
+            foreach (var dish in dishes)
+            {
+                dish.DiscountPrice = dish.TotalPrice;
+            }
+
+            order.TotalPrice = dishes.Sum(x => x.TotalPrice);
+            order.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
+        }
+
         public void UpdateTotalSum(FullOrderBindableModel currentOrder)
         {
             currentOrder.SubTotalPrice = 0;
@@ -501,9 +514,17 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<Guid>> UpdateTableAsync(UpdateTableCommand command)
+        public async Task<AOResult<Guid>> UpdateTableAsync(OrderModelDTO order, bool isAvailable = false)
         {
             var result = new AOResult<Guid>();
+
+            UpdateTableCommand command = new()
+            {
+                Id = order.Table.Id,
+                Number = order.Table.Number,
+                SeatNumbers = order.Table.SeatNumbers,
+                IsAvailable = isAvailable,
+            };
 
             try
             {

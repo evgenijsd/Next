@@ -443,6 +443,37 @@
                     CornerRadius="5"
                     xct:TouchEffect.Command="{Binding NextCommand}">
 
+                    <Frame.Triggers>
+                        <DataTrigger Binding="{Binding IsNextStepAvailable}" TargetType="Frame" Value="true">
+
+                            <Setter Property="Opacity" Value="1" />
+
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding IsSplitAvailable}" TargetType="Frame" Value="true">
+
+                            <Setter Property="Opacity" Value="1" />
+
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding PopupNavigationStep}" TargetType="Frame" Value="{Static enums:EStep.Second}">
+
+                            <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i1}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
+                            <Setter Property="xct:TouchEffect.Command" Value="{Binding SplitCommand}" />
+
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding SplitCondition}" TargetType="Frame" Value="{Static enums:ESplitOrderConditions.BySeats}">
+
+                            <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i1}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
+                            <Setter Property="xct:TouchEffect.Command" Value="{Binding SplitCommand}" />
+
+                        </DataTrigger>
+
+                    </Frame.Triggers>
+
                     <StackLayout
                         VerticalOptions="Center"
                         HorizontalOptions="Center"
@@ -475,7 +506,7 @@
                         <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png">
 
                             <ffimageloading:CachedImage.Triggers>
-                                
+
                                 <DataTrigger Binding="{Binding PopupNavigationStep}" TargetType="ffimageloading:CachedImage" Value="{Static enums:EStep.Second}">
 
                                     <Setter Property="IsVisible" Value="false" />
@@ -493,37 +524,6 @@
                         </ffimageloading:CachedImage>
 
                     </StackLayout>
-
-                    <Frame.Triggers>
-                        <DataTrigger Binding="{Binding IsNextStepAvailable}" TargetType="Frame" Value="true">
-
-                            <Setter Property="Opacity" Value="1" />
-
-                        </DataTrigger>
-
-                        <DataTrigger Binding="{Binding IsSplitAvailable}" TargetType="Frame" Value="true">
-
-                            <Setter Property="Opacity" Value="1" />
-
-                        </DataTrigger>
-
-                        <DataTrigger Binding="{Binding PopupNavigationStep}" TargetType="Frame" Value="{Static enums:EStep.Second}">
-
-                            <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i1}" />
-                            <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
-                            <Setter Property="xct:TouchEffect.Command" Value="{Binding SplitCommand}" />
-
-                        </DataTrigger>
-
-                        <DataTrigger Binding="{Binding SplitCondition}" TargetType="Frame" Value="{Static enums:ESplitOrderConditions.BySeats}">
-
-                            <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i1}" />
-                            <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
-                            <Setter Property="xct:TouchEffect.Command" Value="{Binding SplitCommand}" />
-
-                        </DataTrigger>
-
-                    </Frame.Triggers>
 
                 </Frame>
 

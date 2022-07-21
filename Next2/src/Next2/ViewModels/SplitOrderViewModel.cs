@@ -106,19 +106,6 @@ namespace Next2.ViewModels
             SelectFirstDish();
         }
 
-        private void CalculateOrderPrices(OrderModelDTO order)
-        {
-            var dishes = order.Seats.SelectMany(x => x.SelectedDishes);
-
-            foreach (var dish in dishes)
-            {
-                dish.DiscountPrice = dish.TotalPrice;
-            }
-
-            order.TotalPrice = dishes.Sum(x => x.TotalPrice);
-            order.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
-        }
-
         private void SelectFirstDish()
         {
             foreach (var seat in Seats)
@@ -163,7 +150,7 @@ namespace Next2.ViewModels
             }
             else if (_popupNavigation.PopupStack.Count > 0)
             {
-                await _popupNavigation.PopAllAsync();
+                await CloseAllPopupAsync();
             }
         }
 
@@ -181,7 +168,7 @@ namespace Next2.ViewModels
                 order.Seats = seats;
                 order.Open = DateTime.Now;
 
-                CalculateOrderPrices(order);
+                _orderService.CalculateOrderPrices(order);
 
                 var updateResult = await _orderService.UpdateOrderAsync(order.ToUpdateOrderCommand());
                 isOrderUpdated = updateResult.IsSuccess;
@@ -203,7 +190,7 @@ namespace Next2.ViewModels
         {
             Order.Seats = seats;
 
-            CalculateOrderPrices(Order);
+            _orderService.CalculateOrderPrices(Order);
 
             var updateResult = await _orderService.UpdateOrderAsync(Order.ToUpdateOrderCommand());
 
@@ -213,21 +200,6 @@ namespace Next2.ViewModels
             }
 
             return updateResult.IsSuccess;
-        }
-
-        private async Task<bool> UpdateTableAsync()
-        {
-            UpdateTableCommand command = new()
-            {
-                Id = Order.Table.Id,
-                Number = Order.Table.Number,
-                SeatNumbers = Order.Table.SeatNumbers,
-                IsAvailable = true,
-            };
-
-            var createTableResult = await _orderService.UpdateTableAsync(command);
-
-            return createTableResult.IsSuccess;
         }
 
         private async Task OnSplitByCommandAsync(ESplitOrderConditions condition)
@@ -295,7 +267,7 @@ namespace Next2.ViewModels
         {
             if (_popupNavigation.PopupStack.Count > 0)
             {
-                await _popupNavigation.PopAllAsync();
+                await CloseAllPopupAsync();
             }
 
             await ResponseToBadRequestAsync(exeptionMessage);
@@ -355,9 +327,10 @@ namespace Next2.ViewModels
 
         private async Task CopyCurrentOrderTo(OrderModelDTO order)
         {
-            var isTableUpdated = await UpdateTableAsync();
+            var isTableAvailable = true;
+            var updateTableResult = await _orderService.UpdateTableAsync(Order, isTableAvailable);
 
-            if (isTableUpdated)
+            if (updateTableResult.IsSuccess)
             {
                 order.IsCashPayment = Order.IsCashPayment;
                 order.IsTab = Order.IsTab;
@@ -374,6 +347,10 @@ namespace Next2.ViewModels
                     Number = Order.Table.Number,
                     SeatNumbers = Order.Table.SeatNumbers,
                 };
+            }
+            else
+            {
+                await ResponseToBadRequestAsync(updateTableResult.Exception.Message);
             }
         }
 

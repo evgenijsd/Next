@@ -38,12 +38,14 @@ namespace Next2.Services.Order
 
         Task<AOResult> SetEmptyCurrentOrderAsync();
 
-        Task<AOResult<Guid>> UpdateTableAsync(UpdateTableCommand command);
+        Task<AOResult<Guid>> UpdateTableAsync(OrderModelDTO order, bool isAvailable = false);
 
         Task<AOResult> SetCurrentOrderAsync(Guid orderId);
 
         Task<AOResult<Guid>> UpdateCurrentOrderAsync();
 
         void UpdateTotalSum(FullOrderBindableModel currentOrder);
+
+        void CalculateOrderPrices(OrderModelDTO order);
     }
 }
