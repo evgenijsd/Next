@@ -401,7 +401,7 @@
                                             <VisualState.Setters>
 
                                                 <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
-                                                <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white.png" />
+                                                <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24.png" />
 
                                             </VisualState.Setters>
 
