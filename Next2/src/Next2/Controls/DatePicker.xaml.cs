@@ -43,7 +43,10 @@ namespace Next2.Controls
         {
             var param = new DialogParameters()
             {
-                { " ", " " },
+                {
+                    Constants.DialogParameterKeys.SELECTED_DATE,
+                    DateLabel
+                },
             };
 
             var popupPage = new SelectDateDialog(param, CloseDialogCallBack);

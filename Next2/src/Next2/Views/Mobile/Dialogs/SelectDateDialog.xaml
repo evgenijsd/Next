@@ -94,7 +94,6 @@
                 Grid.Column="1"
                 Style="{DynamicResource BorderButton_i1_1}"
                 Margin="6, 12, 18, 12"
-                Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                 CornerRadius="5"
                 BorderColor="{DynamicResource IndicationColor_i1}"
                 BackgroundColor="{DynamicResource IndicationColor_i1}"

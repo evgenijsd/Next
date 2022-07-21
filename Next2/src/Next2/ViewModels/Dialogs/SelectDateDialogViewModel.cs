@@ -36,6 +36,10 @@ namespace Next2.ViewModels.Dialogs
 
         private void LoadData(DialogParameters param)
         {
+            if (param.TryGetValue(Constants.DialogParameterKeys.SELECTED_DATE, out DateTime selectedDate))
+            {
+                SelectedDate = selectedDate;
+            }
         }
 
         private void OnSelectCommand()
