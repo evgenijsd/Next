@@ -617,6 +617,40 @@ namespace Next2.Services.Order
             return result;
         }
 
+        public decimal CalculateDishPriceBaseOnProportion(DishBindableModel dish, decimal priceRatio, IEnumerable<IngredientModelDTO> ingredients)
+        {
+            decimal ingredientsPrice = 0;
+            decimal dishPrice = 0;
+
+            try
+            {
+                foreach (var product in dish.SelectedProducts ?? new())
+                {
+                    foreach (var addedIngredient in product.AddedIngredients ?? new())
+                    {
+                        ingredientsPrice += ingredients.FirstOrDefault(row => row.Id == addedIngredient.Id).Price;
+                    }
+
+                    foreach (var excludedIngredient in product.ExcludedIngredients ?? new())
+                    {
+                        ingredientsPrice += ingredients.FirstOrDefault(row => row.Id == excludedIngredient.Id).Price;
+                    }
+                }
+
+                dishPrice = ingredientsPrice + dish.SelectedProducts.Sum(row => row.Product.DefaultPrice);
+
+                dishPrice = priceRatio == 1
+                ? dishPrice
+                : dishPrice * (1 + priceRatio);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{nameof(CalculateDishPriceBaseOnProportion)}: exception", ex);
+            }
+
+            return dishPrice;
+        }
+
         #endregion
 
         #region -- Private helpers --

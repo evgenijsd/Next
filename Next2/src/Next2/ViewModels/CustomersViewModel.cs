@@ -275,8 +275,8 @@ namespace Next2.ViewModels
             var param = new DialogParameters();
 
             PopupPage popupPage = App.IsTablet
-                ? new Views.Tablet.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack, _customersService)
-                : new Views.Mobile.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack, _customersService);
+                ? new Views.Tablet.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack)
+                : new Views.Mobile.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack);
 
             return PopupNavigation.PushAsync(popupPage);
         }
@@ -285,24 +285,21 @@ namespace Next2.ViewModels
         {
             await CloseAllPopupAsync();
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out Guid customerId))
+            if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER, out CustomerBindableModel customer))
             {
-                await RefreshAsync();
+                var resultOfCreatingNewCustomer = await _customersService.CreateCustomerAsync(customer);
 
-                int index = DisplayedCustomers.IndexOf(DisplayedCustomers.FirstOrDefault(x => x.Id == customerId));
-
-                DisplayedCustomers.Move(index, 0);
-            }
-            else
-            {
-                if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isCustomerCreationConfirmationRequestAccepted)
-                    && isCustomerCreationConfirmationRequestAccepted
-                    && !param.ContainsKey(Constants.DialogParameterKeys.CUSTOMER_ID))
+                if (resultOfCreatingNewCustomer.IsSuccess)
                 {
-                    await ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["SomethingWentWrong"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await RefreshAsync();
+
+                    int index = DisplayedCustomers.IndexOf(DisplayedCustomers.FirstOrDefault(x => x.Id == resultOfCreatingNewCustomer.Result));
+
+                    DisplayedCustomers.Move(index, 0);
+                }
+                else
+                {
+                    await ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
                 }
             }
         }

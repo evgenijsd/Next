@@ -449,14 +449,14 @@ namespace Next2.ViewModels
             var portions = _currentDish.DishProportions;
             var selectedDishProportionId = _currentDish.SelectedDishProportion.Id;
 
-            if (portions is not null)
+            if (portions is not null && _allIngredients is not null)
             {
                 PortionsDish = new(_currentDish.DishProportions.Select(row => new ProportionModel()
                 {
                     Id = row.Id,
                     ProportionId = row.ProportionId,
                     PriceRatio = row.PriceRatio,
-                    Price = CalculateDishPriceBaseOnProportion(_currentDish, row.PriceRatio),
+                    Price = _orderService.CalculateDishPriceBaseOnProportion(_currentDish, row.PriceRatio, _allIngredients),
                     ProportionName = row.ProportionName,
                 }).OrderBy(row => row.Price));
 
