@@ -208,6 +208,18 @@ namespace Next2.Controls
             set => SetValue(IsExpandedProperty, value);
         }
 
+        public static readonly BindableProperty ShouldTranslateProperty = BindableProperty.Create(
+            propertyName: nameof(ShouldTranslate),
+            returnType: typeof(bool),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public bool ShouldTranslate
+        {
+            get => (bool)GetValue(ShouldTranslateProperty);
+            set => SetValue(ShouldTranslateProperty, value);
+        }
+
         public double ListHeight { get; private set; }
 
         private ICommand _selectItemCommand;
@@ -232,7 +244,7 @@ namespace Next2.Controls
             {
                 container.RaiseChild(listHeader);
             }
-            else if (propertyName is nameof(IsExpanded) && Direction is EDropDownListDirection.Up)
+            else if (propertyName is nameof(IsExpanded) && ShouldTranslate && Direction is EDropDownListDirection.Up)
             {
                 dropDownList.TranslationY = IsExpanded
                     ? -ListHeight

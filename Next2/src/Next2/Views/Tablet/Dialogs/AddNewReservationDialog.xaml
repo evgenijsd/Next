@@ -85,30 +85,143 @@
 
                     <StackLayout Spacing="0">
 
-                        <xct:Expander>
+                        <xct:Expander IsExpanded="True">
 
                             <xct:Expander.Header>
                                 <templates:ExpanderHeaderTemplate Title="{xct:Translate RequiredInfo}"/>
+                            </xct:Expander.Header>
+
+                            <Grid>
+
+                                <Grid
+                                    RowDefinitions="auto, auto, auto, auto, auto"
+                                    Padding="18, 5">
+
+                                    <Label
+                                        Grid.Row="0"
+                                        Style="{StaticResource LabelStyle}"
+                                        Text="{xct:Translate Name}" />
+
+                                    <controls:GuardEntry
+                                        Grid.Row="1"
+                                        Margin="0, 5, 0, 0"
+                                        IsEnabled="{Binding IsEntriesEnabled}"
+                                        MaxLength="80"
+                                        Keyboard="Text"
+                                        Placeholder="{xct:Translate TypeName}"
+                                        ErrorText="{xct:Translate IncorrectName}"
+                                        IsValid="{Binding IsValidName}"
+                                        Text="{Binding Name}">
+
+                                        <controls:GuardEntry.Behavior>
+                                            <behaviors:NameValidatorBehavior />
+                                        </controls:GuardEntry.Behavior>
+
+                                    </controls:GuardEntry>
+
+                                    <Label
+                                        Grid.Row="2"
+                                        Style="{StaticResource LabelStyle}"
+                                        Text="{xct:Translate Phone}" />
+
+                                    <controls:GuardEntry
+                                        Grid.Row="3"
+                                        IsEnabled="{Binding IsEntriesEnabled}"
+                                        MaxLength="15"
+                                        Keyboard="Telephone"
+                                        Placeholder="{Static local:Constants+Formats.PHONE_MASK}"
+                                        ErrorText="{xct:Translate IncorrectNumber}"
+                                        IsValid="{Binding IsValidPhone}"
+                                        Text="{Binding Phone}">
+
+                                        <controls:GuardEntry.Behavior>
+                                            <behaviors:MaskedEntryBehavior Mask="(XXX) XXX-XXXX"/>
+                                        </controls:GuardEntry.Behavior>
+
+                                    </controls:GuardEntry>
+
+                                    <Label
+                                        Grid.Row="4"
+                                        Margin="0, 0, 0, 55"
+                                        Style="{StaticResource LabelStyle}"
+                                        Text="{xct:Translate SelectGuestsAmount}" />
+
+                                </Grid>
+
+                                <StackLayout
+                                    VerticalOptions="End"
+                                    HorizontalOptions="FillAndExpand"
+                                    Margin="18">
+
+                                    <controls:DropDownList
+                                        IsExpanded="{Binding IsExpandGuestsAmount}"
+                                        ShouldTranslate="False"
+                                        Direction="Up"
+                                        HeaderText="{xct:Translate GuestsAmount}"
+                                        Style="{DynamicResource DropDownListStyle_i1}"
+                                        HeaderTextSize="{DynamicResource TSize_i9}"
+                                        ItemsSource="{Binding GuestsAmountList}"
+                                        HorizontalOptions="Fill">
+
+                                        <controls:DropDownList.DataTemplate>
+                                            <DataTemplate>
+                                                <StackLayout 
+                                                    Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                                                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}">
+
+                                                    <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+
+                                                    <StackLayout
+                                                        Padding="14, 9"
+                                                        HeightRequest="21"
+                                                        Orientation="Horizontal"
+                                                        x:DataType="modelsBindable:TableBindableModel">
+
+                                                        <Label
+                                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                                            FontFamily="Barlow-Medium"
+                                                            FontSize="{DynamicResource TSize_i8}"
+                                                            HorizontalOptions="FillAndExpand"
+                                                            Text="{Binding TableNumber, StringFormat='Table {0}'}" />
+
+                                                    </StackLayout>
+
+                                                </StackLayout>
+                                            </DataTemplate>
+                                        </controls:DropDownList.DataTemplate>
+
+                                    </controls:DropDownList>
+                                    
+                                </StackLayout>
                                 
+                            </Grid>
+
+                        </xct:Expander>
+
+                        <BoxView
+                            HeightRequest="1"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+
+                        <xct:Expander>
+
+                            <xct:Expander.Header>
+                                <templates:ExpanderHeaderTemplate Title="{xct:Translate OptionalInfo}"/>
                             </xct:Expander.Header>
 
                             <Grid
-                                RowDefinitions="auto, auto, auto, auto, auto, auto"
-                                Padding="18, 12">
+                                RowDefinitions="auto, 40, auto, auto"
+                                Padding="18, 5">
 
                                 <Label
                                     Grid.Row="0"
                                     Style="{StaticResource LabelStyle}"
-                                    Text="{xct:Translate SelectGuestsAmount}" />
-
-                                <BoxView Grid.Row="1"/>
+                                    Text="{xct:Translate SelectTable}" />
 
                                 <controls:DropDownList
                                     Grid.Row="1"
-                                    IsExpanded="{Binding IsExpandGuestsAmount}"
-                                    HeaderText="{xct:Translate GuestsAmount}"
                                     Style="{DynamicResource DropDownListStyle_i1}"
                                     VerticalOptions="Start"
+                                    HeaderText="{xct:Translate TableNumber}"
                                     HeaderTextSize="{DynamicResource TSize_i9}"
                                     ItemsSource="{Binding GuestsAmountList}">
 
@@ -143,137 +256,23 @@
 
                                 <Label
                                     Grid.Row="2"
+                                    Padding="0, 7, 0, 0"
                                     Style="{StaticResource LabelStyle}"
-                                    Text="{xct:Translate Name}" />
+                                    Text="{xct:Translate Notes}" />
 
-                                <controls:GuardEntry
+                                <pv:PancakeView
                                     Grid.Row="3"
-                                    IsEnabled="{Binding IsEntriesEnabled}"
-                                    MaxLength="80"
-                                    Keyboard="Text"
-                                    Placeholder="{xct:Translate TypeName}"
-                                    ErrorText="{xct:Translate IncorrectName}"
-                                    IsValid="{Binding IsValidName}"
-                                    Text="{Binding Name}">
+                                    CornerRadius="5"
+                                    Padding="12, 10"
+                                    HeightRequest="65"
+                                    Border="{pv:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}">
 
-                                    <controls:GuardEntry.Behavior>
-                                        <behaviors:NameValidatorBehavior />
-                                    </controls:GuardEntry.Behavior>
-
-                                </controls:GuardEntry>
-
-                                <Label
-                                    Grid.Row="4"
-                                    Style="{StaticResource LabelStyle}"
-                                    Text="{xct:Translate Phone}" />
-
-                                <controls:GuardEntry
-                                    Grid.Row="5"
-                                    IsEnabled="{Binding IsEntriesEnabled}"
-                                    MaxLength="15"
-                                    Keyboard="Telephone"
-                                    Placeholder="{Static local:Constants+Formats.PHONE_MASK}"
-                                    ErrorText="{xct:Translate IncorrectNumber}"
-                                    IsValid="{Binding IsValidPhone}"
-                                    Text="{Binding Phone}">
-
-                                    <controls:GuardEntry.Behavior>
-                                        <behaviors:MaskedEntryBehavior Mask="(XXX) XXX-XXXX"/>
-                                    </controls:GuardEntry.Behavior>
-
-                                </controls:GuardEntry>
-
-                            </Grid>
-
-                        </xct:Expander>
-
-                        <BoxView
-                            HeightRequest="1"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
-
-                        <xct:Expander>
-
-                            <xct:Expander.Header>
-                                <templates:ExpanderHeaderTemplate
-                                    Title="{xct:Translate OptionalInfo}"
-                                    BackgroundColor="Gold"/>
-                                
-                            </xct:Expander.Header>
-
-                            <Grid
-                                RowDefinitions="auto, auto, auto, auto"
-                                Padding="18, 16">
-
-                                <Label
-                                    Grid.Row="0"
-                                    Style="{StaticResource LabelStyle}"
-                                    Text="{xct:Translate Email}" />
-
-                                <controls:GuardEntry
-                                    Grid.Row="1"
-                                    IsEnabled="{Binding IsEntriesEnabled}"
-                                    MaxLength="50"
-                                    Keyboard="Email"
-                                    Placeholder="{xct:Translate TypeEmail}"
-                                    ErrorText="{xct:Translate IncorrectEmail}"
-                                    IsValid="{Binding IsValidEmail}"
-                                    Text="{Binding Email}">
-
-                                    <controls:GuardEntry.Behavior>
-                                        <behaviors:EmailValidatorBehavior />
-                                    </controls:GuardEntry.Behavior>
-
-                                </controls:GuardEntry>
-
-                                <controls:GuardEntry
-                                    Grid.Row="2"
-                                    IsEnabled="{Binding IsEntriesEnabled}"
-                                    MaxLength="15"
-                                    Keyboard="Telephone"
-                                    Placeholder="{Static local:Constants+Formats.PHONE_MASK}"
-                                    ErrorText="{xct:Translate IncorrectNumber}"
-                                    Text="{Binding Phone}">
-
-                                    <controls:GuardEntry.Behavior>
-                                        <behaviors:MaskedEntryBehavior Mask="(XXX) XXX-XXXX"/>
-                                    </controls:GuardEntry.Behavior>
-
-                                </controls:GuardEntry>
-
-                                <controls:DropDownList
-                                    Grid.Row="3"
-                                    Style="{DynamicResource DropDownListStyle_i1}"
-                                    VerticalOptions="Start"
-                                    HeaderTextSize="{DynamicResource TSize_i9}"
-                                    ItemsSource="{Binding GuestsAmountList}">
-
-                                    <controls:DropDownList.DataTemplate>
-                                        <DataTemplate>
-                                            <StackLayout 
-                                                Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                                                xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}">
-
-                                                <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
-
-                                                <StackLayout
-                                                    Padding="14, 9"
-                                                    HeightRequest="21"
-                                                    Orientation="Horizontal"
-                                                    x:DataType="modelsBindable:TableBindableModel">
-
-                                                    <Label
-                                                        FontFamily="Barlow-Medium"
-                                                        FontSize="{DynamicResource TSize_i8}"
-                                                        HorizontalOptions="FillAndExpand"
-                                                        Text="{Binding TableNumber, StringFormat='Table {0}'}" />
-
-                                                </StackLayout>
-
-                                            </StackLayout>
-                                        </DataTemplate>
-                                    </controls:DropDownList.DataTemplate>
-
-                                </controls:DropDownList>
+                                    <Label
+                                        Text="{xct:Translate CommentForReservation}"
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                        Opacity="{DynamicResource OpacityWhenDisabled_i3}"/>
+                                    
+                                </pv:PancakeView>
 
                             </Grid>
 
