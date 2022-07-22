@@ -54,13 +54,13 @@ namespace Next2.Controls
 
         public static readonly BindableProperty HeaderTextSizeProperty = BindableProperty.Create(
             propertyName: nameof(HeaderTextSize),
-            returnType: typeof(int),
+            returnType: typeof(double),
             declaringType: typeof(DropDownList),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public int HeaderTextSize
+        public double HeaderTextSize
         {
-            get => (int)GetValue(HeaderTextSizeProperty);
+            get => (double)GetValue(HeaderTextSizeProperty);
             set => SetValue(HeaderTextSizeProperty, value);
         }
 

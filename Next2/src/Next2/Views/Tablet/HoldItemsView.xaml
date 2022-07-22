@@ -82,16 +82,11 @@
                         Text="{xct:Translate Extend}">
 
                         <buttons:BorderButton.Triggers>
-                            <DataTrigger
-                                TargetType="buttons:BorderButton"
+                            <DataTrigger TargetType="buttons:BorderButton"
                                 Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}"
                                 Value="True">
-                                <Setter
-                                    Property="IsEnabled"
-                                    Value="True" />
-                                <Setter
-                                    Property="Opacity"
-                                    Value="1" />
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Setter Property="Opacity" Value="1" />
                             </DataTrigger>
                         </buttons:BorderButton.Triggers>
 
@@ -109,12 +104,8 @@
                                 TargetType="buttons:BorderButton"
                                 Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}"
                                 Value="True">
-                                <Setter
-                                    Property="IsEnabled"
-                                    Value="True" />
-                                <Setter
-                                    Property="Opacity"
-                                    Value="1" />
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Setter Property="Opacity" Value="1" />
                             </DataTrigger>
                         </buttons:BorderButton.Triggers>
 
@@ -203,20 +194,12 @@
                         <MultiTrigger
                             TargetType="yummy:PancakeView">
                             <MultiTrigger.Conditions>
-                                <BindingCondition
-                                    Binding="{Binding IsNothingFound}"
-                                    Value="false" />
-                                <BindingCondition
-                                    Binding="{Binding HoldItems.Count}"
-                                    Value="0" />
+                                <BindingCondition Binding="{Binding IsNothingFound}" Value="false" />
+                                <BindingCondition Binding="{Binding HoldItems.Count}" Value="0" />
                             </MultiTrigger.Conditions>
 
-                            <Setter
-                                Property="VerticalOptions"
-                                Value="FillAndExpand" />
-                            <Setter
-                                Property="Margin"
-                                Value="0,2,0,0" />
+                            <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                            <Setter Property="Margin" Value="0,2,0,0" />
 
                         </MultiTrigger>
 
@@ -225,9 +208,7 @@
                             Binding="{Binding IsNothingFound}"
                             Value="True">
 
-                            <Setter
-                                Property="VerticalOptions"
-                                Value="FillAndExpand" />
+                            <Setter Property="VerticalOptions" Value="FillAndExpand" />
 
                         </DataTrigger>
 
@@ -264,8 +245,7 @@
                                 </CollectionView.Behaviors>
 
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate
-                                        x:DataType="models:HoldItemBindableModel">
+                                    <DataTemplate x:DataType="models:HoldItemBindableModel">
 
                                         <Grid
                                             HorizontalOptions="Fill"
@@ -274,31 +254,21 @@
 
                                             <VisualStateManager.VisualStateGroups>
 
-                                                <VisualStateGroup
-                                                    Name="CommonStates">
+                                                <VisualStateGroup Name="CommonStates">
 
-                                                    <VisualState
-                                                        Name="Normal">
+                                                    <VisualState Name="Normal">
 
                                                         <VisualState.Setters>
-                                                            <Setter
-                                                                Property="BackgroundColor"
-                                                                Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                                                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
                                                         </VisualState.Setters>
 
                                                     </VisualState>
 
-                                                    <VisualState
-                                                        Name="Selected">
+                                                    <VisualState Name="Selected">
 
                                                         <VisualState.Setters>
-                                                            <Setter
-                                                                Property="BackgroundColor"
-                                                                Value="{DynamicResource AppColor_i4}" />
-                                                            <Setter
-                                                                TargetName="checkBoxImage"
-                                                                Property="ffimageloading:CachedImage.Source"
-                                                                Value="ic_check_box_checked_white" />
+                                                            <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+                                                            <Setter TargetName="checkBoxImage" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white" />
                                                         </VisualState.Setters>
 
                                                     </VisualState>
@@ -332,12 +302,9 @@
 
                                                     <Label.FormattedText>
                                                         <FormattedString>
-                                                            <Span
-                                                                Text="{xct:Translate Table}" />
-                                                            <Span
-                                                                Text=" " />
-                                                            <Span
-                                                                Text="{Binding TableNumber}" />
+                                                            <Span Text="{xct:Translate Table}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding TableNumber}" />
                                                         </FormattedString>
                                                     </Label.FormattedText>
 
@@ -393,9 +360,9 @@
             Margin="32, 100, 0, 0"
             HorizontalOptions="Start"
             VerticalOptions="Start">
-            
+
             <controls:DropDownList
-                Style="{DynamicResource DropDownListStyle_i1}"                
+                Style="{DynamicResource DropDownListStyle_i1}"
                 WidthRequest="130"
                 ScrollBarVisibility="Never"
                 HeaderText="{Binding SelectedTable.TableNumber, Converter={x:StaticResource holdTableNameToStringConverter}}"
@@ -432,84 +399,9 @@
                 </controls:DropDownList.DataTemplate>
 
             </controls:DropDownList>
-            
+
         </StackLayout>
 
-
-        <!--<StackLayout
-            Margin="32, 100, 0, 0"
-            VerticalOptions="Start"
-            HorizontalOptions="Start">
-
-            <controls:DropDownList
-                Style="{DynamicResource DropDownListStyle_i1}"
-                WidthRequest="130"
-                ScrollBarVisibility="Never"
-                HeaderText="{Binding SelectedTable.TableNumber, StringFormat='Table {0:d}'}"
-                SelectedItem="{Binding SelectedTable}"
-                ItemsSource="{Binding Tables}">
-
-                <controls:DropDownList.Triggers>
-
-                    <DataTrigger
-                        TargetType="controls:DropDownList"
-                        Binding="{Binding SelectedTable.TableNumber}"
-                        Value="0">
-
-                        <Setter
-                            Property="HeaderText"
-                            Value="{xct:Translate AllTables}" />
-
-                    </DataTrigger>
-
-                </controls:DropDownList.Triggers>
-
-                <controls:DropDownList.DataTemplate>
-                    <DataTemplate>
-                        <StackLayout
-                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
-
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
-
-                            <StackLayout
-                                Padding="14, 9"
-                                HeightRequest="21"
-                                Orientation="Horizontal"
-                                x:DataType="models:TableBindableModel">
-
-                                <Label
-                                    FontFamily="Barlow-Medium"
-                                    FontSize="{DynamicResource TSize_i8}"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                    HorizontalOptions="FillAndExpand"
-                                    Text="{Binding TableNumber, StringFormat='Table {0:d}'}" >
-
-                                    <Label.Triggers>
-
-                                        <DataTrigger
-                                            TargetType="Label"
-                                            Binding="{Binding TableNumber}"
-                                            Value="0">
-
-                                            <Setter Property="Text" Value="{xct:Translate AllTables}" />
-
-                                        </DataTrigger>
-
-                                    </Label.Triggers>
-
-                                </Label>
-
-                            </StackLayout>
-
-                        </StackLayout>
-                    </DataTemplate>
-                </controls:DropDownList.DataTemplate>
-
-            </controls:DropDownList>
-
-        </StackLayout>-->
-    
     </Grid>
 
 </ContentView>

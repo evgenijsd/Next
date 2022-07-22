@@ -40,7 +40,11 @@ namespace Next2.ViewModels
 
         public bool IsHoldItemsRefreshing { get; set; }
 
+        public int Count { get; set; }
+
         public bool IsNothingFound { get; set; }
+
+        public bool IndexLastVisibleElement { get; set; }
 
         public ObservableCollection<HoldItemBindableModel> HoldItems { get; set; } = new();
 
@@ -64,14 +68,20 @@ namespace Next2.ViewModels
         {
             base.OnAppearing();
 
-            IsHoldItemsRefreshing = true;
+            if (App.IsTablet)
+            {
+                IsHoldItemsRefreshing = true;
+            }
         }
 
         public override void OnDisappearing()
         {
             base.OnDisappearing();
 
-            HoldItems = new();
+            if (App.IsTablet)
+            {
+                HoldItems = new();
+            }
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -82,6 +92,11 @@ namespace Next2.ViewModels
             {
                 HoldItems = GetHoldItemsByTableNumber(SelectedTable.TableNumber);
             }
+
+            if (args.PropertyName is nameof(HoldItems))
+            {
+                Count = HoldItems.Count;
+            }
         }
 
         #endregion
@@ -91,10 +106,9 @@ namespace Next2.ViewModels
         private async Task OnRefreshHoldItemsCommandAsync()
         {
             _holdItemsSortingType = EHoldItemsSortingType.ByTableName;
-            HoldItems = await GetHoldItemsAsync();
+            HoldItems = await GetFullHoldItemsAsync();
 
-            Tables = GetHoldTables(HoldItems);
-            SelectedTable = Tables.FirstOrDefault();
+            Tables = GetHoldTablesFromHoldItems(HoldItems);
 
             IsHoldItemsRefreshing = false;
         }
@@ -126,7 +140,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private ObservableCollection<TableBindableModel> GetHoldTables(ObservableCollection<HoldItemBindableModel> holdItems)
+        private ObservableCollection<TableBindableModel> GetHoldTablesFromHoldItems(ObservableCollection<HoldItemBindableModel> holdItems)
         {
             var result = new ObservableCollection<TableBindableModel>();
 
@@ -136,6 +150,7 @@ namespace Next2.ViewModels
 
                 result = _mapper.Map<ObservableCollection<TableBindableModel>>(tables);
                 result.Add(new TableBindableModel { TableNumber = 0, });
+                SelectedTable = result.Last();
 
                 result = new(result.OrderBy(x => x.TableNumber));
             }
@@ -143,7 +158,7 @@ namespace Next2.ViewModels
             return result;
         }
 
-        private async Task<ObservableCollection<HoldItemBindableModel>> GetHoldItemsAsync()
+        private async Task<ObservableCollection<HoldItemBindableModel>> GetFullHoldItemsAsync()
         {
             var holdItems = await _holdItemService.GetAllHoldItemsAsync();
             var result = new ObservableCollection<HoldItemBindableModel>();
