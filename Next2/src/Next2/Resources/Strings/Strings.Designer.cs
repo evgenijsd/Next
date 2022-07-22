@@ -250,6 +250,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Comment for Reservation.
+        /// </summary>
+        internal static string CommentForReservation {
+            get {
+                return ResourceManager.GetString("CommentForReservation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Complete.
         /// </summary>
         internal static string Complete {
@@ -565,6 +574,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Guests Amount.
+        /// </summary>
+        internal static string GuestsAmount {
+            get {
+                return ResourceManager.GetString("GuestsAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Hold Item.
         /// </summary>
         internal static string HoldItem {
@@ -755,6 +773,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Name.
+        /// </summary>
+        internal static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Name or Order.
         /// </summary>
         internal static string NameOrOrder {
@@ -854,6 +881,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Notes.
+        /// </summary>
+        internal static string Notes {
+            get {
+                return ResourceManager.GetString("Notes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Not found data.
         /// </summary>
         internal static string NotFoundData {
@@ -922,6 +958,15 @@ namespace Next2.Resources.Strings {
         internal static string Option {
             get {
                 return ResourceManager.GetString("Option", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Optional Info.
+        /// </summary>
+        internal static string OptionalInfo {
+            get {
+                return ResourceManager.GetString("OptionalInfo", resourceCulture);
             }
         }
         
@@ -1169,6 +1214,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Required Info.
+        /// </summary>
+        internal static string RequiredInfo {
+            get {
+                return ResourceManager.GetString("RequiredInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Reservations.
         /// </summary>
         internal static string Reservations {
@@ -1286,11 +1340,29 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Select Guests Amount.
+        /// </summary>
+        internal static string SelectGuestsAmount {
+            get {
+                return ResourceManager.GetString("SelectGuestsAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Select a reward option to use your points..
         /// </summary>
         internal static string SelectRewardOptionToUseYourPoints {
             get {
                 return ResourceManager.GetString("SelectRewardOptionToUseYourPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Select Table.
+        /// </summary>
+        internal static string SelectTable {
+            get {
+                return ResourceManager.GetString("SelectTable", resourceCulture);
             }
         }
         
@@ -1662,6 +1734,15 @@ namespace Next2.Resources.Strings {
         internal static string TypeGiftCardNumber {
             get {
                 return ResourceManager.GetString("TypeGiftCardNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Type Name.
+        /// </summary>
+        internal static string TypeName {
+            get {
+                return ResourceManager.GetString("TypeName", resourceCulture);
             }
         }
         

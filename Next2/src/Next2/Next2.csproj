@@ -316,6 +316,9 @@
     <EmbeddedResource Update="Controls\NumericPicker.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Templates\ExpanderHeaderTemplate.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Controls\TimeAndDateBar.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

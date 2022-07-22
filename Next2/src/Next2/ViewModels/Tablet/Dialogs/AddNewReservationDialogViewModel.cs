@@ -1,10 +1,12 @@
 ﻿using Next2.Enums;
 using Next2.Models;
+using Next2.Models.Bindables;
 using Next2.Services.Customers;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -27,9 +29,37 @@ namespace Next2.ViewModels.Tablet.Dialogs
             CloseCommand = new DelegateCommand(() => RequestClose(null));
             AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }));
             DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
+
+            GuestsAmountList = new()
+            {
+                new()
+                {
+                    TableNumber = 55,
+                },
+                new()
+                {
+                    TableNumber = 5455,
+                },
+                new()
+                {
+                    TableNumber = 5785,
+                },
+                new()
+                {
+                    TableNumber = 1255,
+                },
+                new()
+                {
+                    TableNumber = 33355,
+                },
+            };
         }
 
         #region -- Public properties --
+
+        public ObservableCollection<TableBindableModel> GuestsAmountList { get; set; }
+
+        public bool IsExpandGuestsAmount { get; set; }
 
         public int CurrentItem { get; set; }
 
@@ -67,9 +97,19 @@ namespace Next2.ViewModels.Tablet.Dialogs
         private ICommand _addNewCustomerCommand;
         public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _expandGuestsAmountCommand;
+        public ICommand ExpandGuestsAmountCommand => _expandGuestsAmountCommand ??= new AsyncCommand(OnExpandGuestsAmountCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
+
+        private Task OnExpandGuestsAmountCommandAsync()
+        {
+            IsExpandGuestsAmount = true;
+
+            return Task.CompletedTask;
+        }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
