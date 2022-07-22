@@ -16,6 +16,7 @@ using Next2.Services.Rest;
 using Next2.Services.Settings;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
@@ -569,10 +570,12 @@ namespace Next2.Services.Order
 
             try
             {
+                var selectedProportionPriceRatio = selectedProportion.PriceRatio;
+
                 dish.SelectedDishProportion = new DishProportionModelDTO()
                 {
                     Id = selectedProportion.Id,
-                    PriceRatio = selectedProportion.PriceRatio,
+                    PriceRatio = selectedProportionPriceRatio,
                     Proportion = new ProportionModelDTO()
                     {
                         Id = selectedProportion.ProportionId,
@@ -582,28 +585,18 @@ namespace Next2.Services.Order
 
                 foreach (var product in dish.SelectedProducts ?? new())
                 {
-                    product.Price = selectedProportion.PriceRatio == 1
+                    product.Price = selectedProportionPriceRatio == 1
                         ? product.Product.DefaultPrice
-                        : product.Product.DefaultPrice * (1 + selectedProportion.PriceRatio);
+                        : product.Product.DefaultPrice * (1 + selectedProportionPriceRatio);
 
                     if (product.AddedIngredients is not null)
                     {
-                        foreach (var addedIngredient in product.AddedIngredients)
-                        {
-                            addedIngredient.Price = selectedProportion.PriceRatio == 1
-                                ? ingredients.FirstOrDefault(row => row.Id == addedIngredient.Id).Price
-                                : ingredients.FirstOrDefault(row => row.Id == addedIngredient.Id).Price * (1 + selectedProportion.PriceRatio);
-                        }
+                        ChangeIngredientsPriceBaseOnProportion(product.AddedIngredients, selectedProportionPriceRatio);
                     }
 
                     if (product.ExcludedIngredients is not null)
                     {
-                        foreach (var excludedIngredient in product.ExcludedIngredients)
-                        {
-                            excludedIngredient.Price = selectedProportion.PriceRatio == 1
-                                ? ingredients.FirstOrDefault(row => row.Id == excludedIngredient.Id).Price
-                                : ingredients.FirstOrDefault(row => row.Id == excludedIngredient.Id).Price * (1 + selectedProportion.PriceRatio);
-                        }
+                        ChangeIngredientsPriceBaseOnProportion(product.ExcludedIngredients, selectedProportionPriceRatio);
                     }
                 }
 
@@ -640,8 +633,8 @@ namespace Next2.Services.Order
                 dishPrice = ingredientsPrice + dish.SelectedProducts.Sum(row => row.Product.DefaultPrice);
 
                 dishPrice = priceRatio == 1
-                ? dishPrice
-                : dishPrice * (1 + priceRatio);
+                    ? dishPrice
+                    : dishPrice * (1 + priceRatio);
             }
             catch (Exception ex)
             {
@@ -829,6 +822,18 @@ namespace Next2.Services.Order
             }
 
             return result;
+        }
+
+        private ObservableCollection<SimpleIngredientModelDTO> ChangeIngredientsPriceBaseOnProportion(ObservableCollection<SimpleIngredientModelDTO> ingredients, decimal priceRatio)
+        {
+            foreach (var ingredient in ingredients)
+            {
+                ingredient.Price = priceRatio == 1
+                    ? ingredients.FirstOrDefault(row => row.Id == ingredient.Id).Price
+                    : ingredients.FirstOrDefault(row => row.Id == ingredient.Id).Price * (1 + priceRatio);
+            }
+
+            return ingredients;
         }
 
         #endregion

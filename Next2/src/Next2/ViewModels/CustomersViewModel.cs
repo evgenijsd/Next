@@ -63,7 +63,7 @@ namespace Next2.ViewModels
         public ICommand SortCommand => _sortCommand ??= new AsyncCommand<ECustomersSorting>(SortAsync, allowsMultipleExecutions: false);
 
         private ICommand _refreshCommand;
-        public ICommand RefreshCommand => _refreshCommand ??= new AsyncCommand(RefreshAsync, allowsMultipleExecutions: false);
+        public ICommand RefreshCommand => _refreshCommand ??= new AsyncCommand(RefreshCustomersAsync, allowsMultipleExecutions: false);
 
         private ICommand _addNewCustomerCommand;
         public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand<CustomerBindableModel>(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
@@ -86,7 +86,7 @@ namespace Next2.ViewModels
 
         public override async void OnAppearing()
         {
-            await RefreshAsync();
+            await RefreshCustomersAsync();
         }
 
         public override void OnDisappearing()
@@ -136,7 +136,7 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task RefreshAsync()
+        private async Task RefreshCustomersAsync()
         {
             if (IsInternetConnected)
             {
@@ -148,11 +148,7 @@ namespace Next2.ViewModels
                 {
                     var customers = resultOfGettingCustomers.Result.ToList();
 
-                    foreach (var item in customers)
-                    {
-                        item.ShowInfoCommand = ShowInfoCommand;
-                        item.SelectItemCommand = SelectDeselectItemCommand;
-                    }
+                    AddCustomerCommands(customers);
 
                     if (customers.Any())
                     {
@@ -291,11 +287,11 @@ namespace Next2.ViewModels
 
                 if (resultOfCreatingNewCustomer.IsSuccess)
                 {
-                    await RefreshAsync();
+                    customer.Id = resultOfCreatingNewCustomer.Result;
 
-                    int index = DisplayedCustomers.IndexOf(DisplayedCustomers.FirstOrDefault(x => x.Id == resultOfCreatingNewCustomer.Result));
+                    AddCustomerCommands(customer);
 
-                    DisplayedCustomers.Move(index, 0);
+                    DisplayedCustomers.Insert(0, customer);
                 }
                 else
                 {
@@ -358,6 +354,27 @@ namespace Next2.ViewModels
             SetSearchQuery(string.Empty);
 
             return Task.CompletedTask;
+        }
+
+        private void AddCustomerCommands<T>(T customers)
+        {
+            if (customers is List<CustomerBindableModel>)
+            {
+                foreach (var item in customers as List<CustomerBindableModel>)
+                {
+                    item.ShowInfoCommand = ShowInfoCommand;
+                    item.SelectItemCommand = SelectDeselectItemCommand;
+                }
+            }
+            else
+            {
+                if (customers is CustomerBindableModel)
+                {
+                    var customer = customers as CustomerBindableModel;
+                    customer.ShowInfoCommand = ShowInfoCommand;
+                    customer.SelectItemCommand = SelectDeselectItemCommand;
+                }
+            }
         }
 
         #endregion

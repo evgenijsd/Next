@@ -44,7 +44,7 @@
 
                 <StackLayout>
 
-                    <Grid x:Name="gridCoupons"  Margin="20, 25, 20, 0">
+                    <Grid Margin="20, 25, 20, 0">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
@@ -54,7 +54,7 @@
                         <Grid.Triggers>
 
                             <DataTrigger TargetType="Grid" Binding="{Binding IsCouponsVisible}" Value="False">
-                                <Setter TargetName="gridCoupons"  Property="RowDefinitions" Value="40,0"/>
+                                <Setter Property="RowDefinitions" Value="40, 0"/>
                             </DataTrigger>
 
                         </Grid.Triggers>
@@ -77,7 +77,7 @@
 
                                 <ffimageloading:CachedImage.Triggers>
 
-                                    <DataTrigger Binding="{Binding IsCouponsVisible}" TargetType="ffimageloading:CachedImage" Value="False">
+                                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding IsCouponsVisible}" Value="False">
 
                                         <Setter Property="Source" Value="ic_arrow_down_24x24" />
 
@@ -129,7 +129,7 @@
                         HeightRequest="1"
                         Color="{DynamicResource TextAndBackgroundColor_i2}" />
 
-                    <Grid x:Name="gridDiscounts" Margin="20, 15, 20, 0">
+                    <Grid Margin="20, 15, 20, 0">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
@@ -139,7 +139,7 @@
                         <Grid.Triggers>
 
                             <DataTrigger TargetType="Grid" Binding="{Binding IsDiscountsVisible}" Value="False">
-                                <Setter TargetName="gridDiscounts"  Property="RowDefinitions" Value="40,0"/>
+                                <Setter Property="RowDefinitions" Value="40, 0"/>
                             </DataTrigger>
 
                         </Grid.Triggers>
@@ -161,7 +161,7 @@
 
                                 <ffimageloading:CachedImage.Triggers>
 
-                                    <DataTrigger Binding="{Binding IsDiscountsVisible}" TargetType="ffimageloading:CachedImage" Value="False">
+                                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding IsDiscountsVisible}" Value="False">
 
                                         <Setter Property="Source" Value="ic_arrow_down_24x24" />
 
