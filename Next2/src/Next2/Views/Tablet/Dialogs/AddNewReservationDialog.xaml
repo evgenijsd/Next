@@ -317,6 +317,7 @@
                         Border="{pv:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}">
                         
                         <controls:NumericPicker
+                            CurrentItem="{Binding Hours}"
                             StringFormat="{Static local:Constants+Formats.NUMERIC_FORMAT}"
                             PeekAreaInsets="10"
                             Loop="True"
@@ -333,6 +334,7 @@
                         Border="{pv:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}">
 
                         <controls:NumericPicker
+                            CurrentItem="{Binding Minutes}"
                             StringFormat="{Static local:Constants+Formats.NUMERIC_FORMAT}"
                             PeekAreaInsets="10"
                             Loop="True"
@@ -402,10 +404,10 @@
                     TextColor="{DynamicResource TextAndBackgroundColor_i6}"
                     Text="{xct:Translate Done}"
                     IsEnabled="{Binding CanAddNewCustomer}"
-                    Command="{Binding AddNewCustomerCommand}">
+                    Command="{Binding AddNewReservationCommand}">
 
                     <Frame.Triggers>
-                        <DataTrigger TargetType="Frame" Binding="{Binding CanAddNewCustomer}" Value="True">
+                        <DataTrigger TargetType="Frame" Binding="{Binding CanAddNewReservation}" Value="True">
                             <Setter Property="Opacity" Value="1"/>
                         </DataTrigger>
                     </Frame.Triggers>
