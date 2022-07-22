@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace Next2.Controls
 {
-    public partial class Calendar : ContentView
+    public partial class Calendar : Grid
     {
         private bool _isFutureYearSelected = false;
 
@@ -147,7 +147,7 @@ namespace Next2.Controls
         public static readonly BindableProperty DropdownHeadLabelFontSizeProperty = BindableProperty.Create(
            propertyName: nameof(DropdownHeadLabelFontSize),
            returnType: typeof(double),
-           defaultValue: 20d,
+           defaultValue: 18d,
            declaringType: typeof(Calendar),
            defaultBindingMode: BindingMode.TwoWay);
 
@@ -168,6 +168,71 @@ namespace Next2.Controls
         {
             get => (double)GetValue(MonthLabelFontSizeProperty);
             set => SetValue(MonthLabelFontSizeProperty, value);
+        }
+
+        public static readonly BindableProperty MonthStepperIconScaleProperty = BindableProperty.Create(
+           propertyName: nameof(MonthStepperIconScale),
+           returnType: typeof(double),
+           defaultValue: 0.6d,
+           declaringType: typeof(Calendar),
+           defaultBindingMode: BindingMode.TwoWay);
+
+        public double MonthStepperIconScale
+        {
+            get => (double)GetValue(MonthStepperIconScaleProperty);
+            set => SetValue(MonthStepperIconScaleProperty, value);
+        }
+
+        public static readonly BindableProperty DayLabelFontSizeProperty = BindableProperty.Create(
+           propertyName: nameof(DayLabelFontSize),
+           returnType: typeof(double),
+           defaultValue: 20d,
+           declaringType: typeof(Calendar),
+           defaultBindingMode: BindingMode.TwoWay);
+
+        public double DayLabelFontSize
+        {
+            get => (double)GetValue(DayLabelFontSizeProperty);
+            set => SetValue(DayLabelFontSizeProperty, value);
+        }
+
+        public static readonly BindableProperty DropdownHeadHeightRequestProperty = BindableProperty.Create(
+           propertyName: nameof(DropdownHeadHeightRequest),
+           returnType: typeof(double),
+           defaultValue: 45d,
+           declaringType: typeof(Calendar),
+           defaultBindingMode: BindingMode.TwoWay);
+
+        public double DropdownHeadHeightRequest
+        {
+            get => (double)GetValue(DropdownHeadHeightRequestProperty);
+            set => SetValue(DropdownHeadHeightRequestProperty, value);
+        }
+
+        public static readonly BindableProperty DropdownWidthRequestProperty = BindableProperty.Create(
+           propertyName: nameof(DropdownWidthRequest),
+           returnType: typeof(double),
+           defaultValue: 122d,
+           declaringType: typeof(Calendar),
+           defaultBindingMode: BindingMode.TwoWay);
+
+        public double DropdownWidthRequest
+        {
+            get => (double)GetValue(DropdownWidthRequestProperty);
+            set => SetValue(DropdownWidthRequestProperty, value);
+        }
+
+        public static readonly BindableProperty DropdownHeadWidthRequestProperty = BindableProperty.Create(
+           propertyName: nameof(DropdownHeadWidthRequest),
+           returnType: typeof(double),
+           defaultValue: 122d,
+           declaringType: typeof(Calendar),
+           defaultBindingMode: BindingMode.TwoWay);
+
+        public double DropdownHeadWidthRequest
+        {
+            get => (double)GetValue(DropdownHeadWidthRequestProperty);
+            set => SetValue(DropdownHeadWidthRequestProperty, value);
         }
 
         public List<Month> Months { get; set; }
@@ -205,8 +270,6 @@ namespace Next2.Controls
             if (propertyName == nameof(SelectedDay) && dropdownFrame.IsVisible)
             {
                 dropdownFrame.IsVisible = false;
-                yearDropdownFrame.BackgroundColor = BackGroundColor;
-                yearDropdownIcon.Source = "ic_arrow_down_primary_24x24";
             }
             else if (propertyName == nameof(SelectedYear))
             {
@@ -225,22 +288,18 @@ namespace Next2.Controls
 
         #region -- Private helpers --
 
-        private void OnSelectYearCommand() => dropdownFrame.IsVisible = false;
+        private void OnSelectYearCommand()
+        {
+            dropdownFrame.IsVisible = false;
+        }
 
         private void OnYearDropDownTapped(object sender, EventArgs arg)
         {
-            if (!dropdownFrame.IsVisible)
+            dropdownFrame.IsVisible = !dropdownFrame.IsVisible;
+
+            if (dropdownFrame.IsVisible)
             {
-                dropdownFrame.IsVisible = true;
                 yearsCollectionView.ScrollTo(SelectedYear, -1, ScrollToPosition.Center, false);
-                yearDropdownFrame.BackgroundColor = DropdownHeadDroppedBackGroundColor;
-                yearDropdownIcon.Source = "ic_arrow_up_24x24";
-            }
-            else
-            {
-                dropdownFrame.IsVisible = false;
-                yearDropdownFrame.BackgroundColor = BackGroundColor;
-                yearDropdownIcon.Source = "ic_arrow_down_primary_24x24";
             }
         }
 
