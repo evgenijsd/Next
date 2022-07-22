@@ -642,31 +642,6 @@ namespace Next2.ViewModels
             }
         }
 
-        private decimal CalculateDishPriceBaseOnProportion(DishBindableModel dish, decimal priceRatio)
-        {
-            decimal ingredientsPrice = 0;
-            decimal dishPrice = 0;
-
-            foreach (var product in dish.SelectedProducts ?? new())
-            {
-                foreach (var addedIngredient in product.AddedIngredients ?? new())
-                {
-                    ingredientsPrice += _allIngredients.FirstOrDefault(row => row.Id == addedIngredient.Id).Price;
-                }
-
-                foreach (var excludedIngredient in product.ExcludedIngredients ?? new())
-                {
-                    ingredientsPrice += _allIngredients.FirstOrDefault(row => row.Id == excludedIngredient.Id).Price;
-                }
-            }
-
-            dishPrice = ingredientsPrice + dish.SelectedProducts.Sum(row => row.Product.DefaultPrice);
-
-            return dishPrice = priceRatio == 1
-                ? dishPrice
-                : dishPrice * (1 + priceRatio);
-        }
-
         private void SelectReplacementProduct()
         {
             if (SelectedReplacementProduct is not null)
