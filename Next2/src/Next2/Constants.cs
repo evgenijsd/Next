@@ -35,6 +35,7 @@
             public const int DAYS_IN_CALENDAR = 42;
             public const int MAXIMUM_DISCHARGE_NUMBER = 9;
             public const int MAX_QUERY_LENGTH = 100;
+            public const int ALL_TABLES = 0;
         }
 
         public static class LayoutBonuses

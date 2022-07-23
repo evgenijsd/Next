@@ -75,28 +75,21 @@ namespace Next2.ViewModels
         private ICommand _tapSelectAllHoldItemsTableCommand;
         public ICommand TapSelectAllHoldItemsTableCommand => _tapSelectAllHoldItemsTableCommand ??= new AsyncCommand(OnTapSelectAllHoldItemsTableCommand, allowsMultipleExecutions: false);
 
+        private ICommand _extendCommand;
+        public ICommand ExtendCommand => _extendCommand ??= new AsyncCommand(OnExtendCommand, allowsMultipleExecutions: false);
+
+        private ICommand _releaseCommand;
+        public ICommand ReleaseCommand => _releaseCommand ??= new AsyncCommand(OnReleaseCommand, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
 
-        public override void OnAppearing()
+        public override async void OnAppearing()
         {
             base.OnAppearing();
 
-            if (App.IsTablet)
-            {
-                IsHoldItemsRefreshing = true;
-            }
-        }
-
-        public override void OnDisappearing()
-        {
-            base.OnDisappearing();
-
-            if (App.IsTablet)
-            {
-                HoldItems = new();
-            }
+            await OnRefreshHoldItemsCommandAsync();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -115,6 +108,8 @@ namespace Next2.ViewModels
 
         private async Task OnRefreshHoldItemsCommandAsync()
         {
+            IsHoldItemsRefreshing = true;
+
             _holdItemsSortingType = EHoldItemsSortingType.ByTableName;
             HoldItems = await GetFullHoldItemsAsync();
 
@@ -152,7 +147,7 @@ namespace Next2.ViewModels
 
         private Task OnTapSelectAllHoldItemsTableCommand()
         {
-            if (SelectedTable?.TableNumber != 0)
+            if (SelectedTable?.TableNumber != Constants.Limits.ALL_TABLES)
             {
                 if (SelectedHoldItems?.Count == HoldItems.Count)
                 {
@@ -167,11 +162,28 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
+        private Task OnExtendCommand()
+        {
+            return Task.CompletedTask;
+        }
+
+        private Task OnReleaseCommand()
+        {
+            return Task.CompletedTask;
+        }
+
         private Task OnGetSelectedHoldItemsCommandAsync(List<object>? selectedItems)
         {
-            if (SelectedHoldItems?.Count != selectedItems?.Count)
+            var selectedCount = selectedItems?.Count;
+
+            if (SelectedHoldItems?.Count != selectedCount && selectedCount != 0)
             {
                 SelectedHoldItems = new(selectedItems);
+            }
+
+            if (SelectedHoldItems is not null && selectedCount == 0)
+            {
+                SelectedHoldItems = null;
             }
 
             return Task.CompletedTask;
@@ -186,10 +198,14 @@ namespace Next2.ViewModels
                 var tables = holdItems.GroupBy(x => x.TableNumber).Select(y => y.First());
 
                 result = _mapper.Map<ObservableCollection<TableBindableModel>>(tables);
-                result.Add(new TableBindableModel { TableNumber = 0, });
-                SelectedTable = result.Last();
+
+                if (App.IsTablet)
+                {
+                    result.Add(new TableBindableModel { TableNumber = Constants.Limits.ALL_TABLES, });
+                }
 
                 result = new(result.OrderBy(x => x.TableNumber));
+                SelectedTable = result.FirstOrDefault();
             }
 
             return result;

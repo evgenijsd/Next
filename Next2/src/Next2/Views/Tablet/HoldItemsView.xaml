@@ -142,7 +142,6 @@
 
                             <ffimageloading:CachedImage
                                 Source="ic_check_box_unchecked_white"
-                                Grid.Column="0"
                                 HeightRequest="20"
                                 HorizontalOptions="CenterAndExpand"
                                 Margin="20, 0, 0, 0"
@@ -164,8 +163,8 @@
 
                                     <DataTrigger
                                         TargetType="ffimageloading:CachedImage"
-                                        Binding="{Binding SelectedTable.TableNumber, Converter={xct:IntToBoolConverter}}"
-                                        Value="False">
+                                        Binding="{Binding SelectedTable.TableNumber}"
+                                        Value="{x:Static local:Constants+Limits.ALL_TABLES}">
 
                                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
 
