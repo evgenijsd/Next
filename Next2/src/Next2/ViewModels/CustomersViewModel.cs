@@ -148,7 +148,11 @@ namespace Next2.ViewModels
                 {
                     var customers = resultOfGettingCustomers.Result.ToList();
 
-                    AddCustomerCommands(customers);
+                    foreach (var item in customers)
+                    {
+                        item.ShowInfoCommand = ShowInfoCommand;
+                        item.SelectItemCommand = SelectDeselectItemCommand;
+                    }
 
                     if (customers.Any())
                     {
@@ -289,7 +293,8 @@ namespace Next2.ViewModels
                 {
                     customer.Id = resultOfCreatingNewCustomer.Result;
 
-                    AddCustomerCommands(customer);
+                    customer.ShowInfoCommand = ShowInfoCommand;
+                    customer.SelectItemCommand = SelectDeselectItemCommand;
 
                     DisplayedCustomers.Insert(0, customer);
                 }
@@ -354,27 +359,6 @@ namespace Next2.ViewModels
             SetSearchQuery(string.Empty);
 
             return Task.CompletedTask;
-        }
-
-        private void AddCustomerCommands<T>(T customers)
-        {
-            if (customers is List<CustomerBindableModel>)
-            {
-                foreach (var item in customers as List<CustomerBindableModel>)
-                {
-                    item.ShowInfoCommand = ShowInfoCommand;
-                    item.SelectItemCommand = SelectDeselectItemCommand;
-                }
-            }
-            else
-            {
-                if (customers is CustomerBindableModel)
-                {
-                    var customer = customers as CustomerBindableModel;
-                    customer.ShowInfoCommand = ShowInfoCommand;
-                    customer.SelectItemCommand = SelectDeselectItemCommand;
-                }
-            }
         }
 
         #endregion

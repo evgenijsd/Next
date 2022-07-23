@@ -168,7 +168,7 @@ namespace Next2.ViewModels
             switch (args.PropertyName)
             {
                 case nameof(SelectedProportion):
-                    ChangeDishProportion();
+                    ChangeDishProportionAsync().Await();
 
                     break;
                 case nameof(SelectedReplacementProduct):
@@ -701,11 +701,11 @@ namespace Next2.ViewModels
             }
         }
 
-        private void ChangeDishProportion()
+        private async Task ChangeDishProportionAsync()
         {
             if (SelectedProportion is not null && _allIngredients is not null && SelectedProportion.PriceRatio != _currentDish.SelectedDishProportion.PriceRatio)
             {
-                var resultOfChangingProportionDish = Task.Run(() => _orderService.ChangeDishProportionAsync(SelectedProportion, _currentDish, _allIngredients)).Result;
+                var resultOfChangingProportionDish = await _orderService.ChangeDishProportionAsync(SelectedProportion, _currentDish, _allIngredients);
 
                 if (resultOfChangingProportionDish.IsSuccess)
                 {
@@ -713,10 +713,10 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    ShowInfoDialogAsync(
+                    await ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["SomethingWentWrong"],
-                        LocalizationResourceManager.Current["Ok"]).RunSynchronously();
+                        LocalizationResourceManager.Current["Ok"]);
                 }
             }
         }

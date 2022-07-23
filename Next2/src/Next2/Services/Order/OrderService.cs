@@ -589,15 +589,7 @@ namespace Next2.Services.Order
                         ? product.Product.DefaultPrice
                         : product.Product.DefaultPrice * (1 + selectedProportionPriceRatio);
 
-                    if (product.AddedIngredients is not null)
-                    {
-                        ChangeIngredientsPriceBaseOnProportion(product.AddedIngredients, selectedProportionPriceRatio);
-                    }
-
-                    if (product.ExcludedIngredients is not null)
-                    {
-                        ChangeIngredientsPriceBaseOnProportion(product.ExcludedIngredients, selectedProportionPriceRatio);
-                    }
+                    ChangeIngredientsPriceBaseOnProportion(product, selectedProportionPriceRatio);
                 }
 
                 result.SetSuccess(dish);
@@ -824,16 +816,33 @@ namespace Next2.Services.Order
             return result;
         }
 
-        private ObservableCollection<SimpleIngredientModelDTO> ChangeIngredientsPriceBaseOnProportion(ObservableCollection<SimpleIngredientModelDTO> ingredients, decimal priceRatio)
+        private void ChangeIngredientsPriceBaseOnProportion(ProductBindableModel product, decimal priceRatio)
         {
-            foreach (var ingredient in ingredients)
-            {
-                ingredient.Price = priceRatio == 1
-                    ? ingredients.FirstOrDefault(row => row.Id == ingredient.Id).Price
-                    : ingredients.FirstOrDefault(row => row.Id == ingredient.Id).Price * (1 + priceRatio);
-            }
+            var allIngredients = product?.Product?.Ingredients;
+            var addedIngredients = product?.AddedIngredients;
+            var excludedIngredients = product?.ExcludedIngredients;
 
-            return ingredients;
+            if (allIngredients.Any())
+            {
+                if (addedIngredients.Any())
+                {
+                    foreach (var ingredient in addedIngredients)
+                    {
+                        ingredient.Price = priceRatio == 1
+                            ? allIngredients.FirstOrDefault(row => row.Id == ingredient.Id).Price
+                            : allIngredients.FirstOrDefault(row => row.Id == ingredient.Id).Price * (1 + priceRatio);
+                    }
+                }
+                else if (excludedIngredients.Any())
+                {
+                    foreach (var ingredient in excludedIngredients)
+                    {
+                        ingredient.Price = priceRatio == 1
+                            ? allIngredients.FirstOrDefault(row => row.Id == ingredient.Id).Price
+                            : allIngredients.FirstOrDefault(row => row.Id == ingredient.Id).Price * (1 + priceRatio);
+                    }
+                }
+            }
         }
 
         #endregion
