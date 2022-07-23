@@ -2,6 +2,7 @@
 <ContentView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="http://prismlibrary.com"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
@@ -82,12 +83,17 @@
                         Text="{xct:Translate Extend}">
 
                         <buttons:BorderButton.Triggers>
-                            <DataTrigger TargetType="buttons:BorderButton"
+                            
+                            <DataTrigger 
+                                TargetType="buttons:BorderButton"
                                 Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}"
                                 Value="True">
+                                
                                 <Setter Property="IsEnabled" Value="True" />
                                 <Setter Property="Opacity" Value="1" />
+                                
                             </DataTrigger>
+                            
                         </buttons:BorderButton.Triggers>
 
                     </buttons:BorderButton>
@@ -100,13 +106,17 @@
                         Text="{xct:Translate Release}">
 
                         <buttons:BorderButton.Triggers>
+                            
                             <DataTrigger
                                 TargetType="buttons:BorderButton"
                                 Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}"
                                 Value="True">
+                                
                                 <Setter Property="IsEnabled" Value="True" />
                                 <Setter Property="Opacity" Value="1" />
+                                
                             </DataTrigger>
+                            
                         </buttons:BorderButton.Triggers>
 
                     </buttons:BorderButton>
@@ -119,8 +129,7 @@
                 Grid.Row="3"
                 Margin="32, 0, 32, 16">
 
-                <yummy:PancakeView
-                    CornerRadius="7, 7, 0, 0">
+                <yummy:PancakeView CornerRadius="7, 7, 0, 0">
 
                     <Grid
                         ColumnDefinitions="50, *, *, *"
@@ -129,14 +138,44 @@
                         MinimumHeightRequest="42"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-                        <ffimageloading:CachedImage
-                            Source="ic_check_box_unchecked_white"
-                            Grid.Column="0"
-                            HeightRequest="20"
-                            HorizontalOptions="CenterAndExpand"
-                            Margin="20, 0, 0, 0"
-                            Opacity="{DynamicResource OpacityWhenDisabled_i1}"
-                            VerticalOptions="CenterAndExpand" />
+                        <StackLayout xct:TouchEffect.Command="{Binding TapSelectAllHoldItemsTableCommand}">
+
+                            <ffimageloading:CachedImage
+                                Source="ic_check_box_unchecked_white"
+                                Grid.Column="0"
+                                HeightRequest="20"
+                                HorizontalOptions="CenterAndExpand"
+                                Margin="20, 0, 0, 0"
+                                VerticalOptions="CenterAndExpand">
+
+                                <ffimageloading:CachedImage.Triggers>
+
+                                    <DataTrigger TargetType="ffimageloading:CachedImage" Value="0">
+                                        <DataTrigger.Binding>
+                                            <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
+                                                <Binding Path="HoldItems.Count" />
+                                                <Binding Path="SelectedHoldItems.Count" />
+                                            </MultiBinding>
+                                        </DataTrigger.Binding>
+
+                                        <Setter Property="Source" Value="ic_check_box_checked_primary_24x24" />
+
+                                    </DataTrigger>
+
+                                    <DataTrigger
+                                        TargetType="ffimageloading:CachedImage"
+                                        Binding="{Binding SelectedTable.TableNumber, Converter={xct:IntToBoolConverter}}"
+                                        Value="False">
+
+                                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+
+                                    </DataTrigger>
+
+                                </ffimageloading:CachedImage.Triggers>
+                                
+                            </ffimageloading:CachedImage>
+                            
+                        </StackLayout>
 
                         <StackLayout
                             Grid.Column="1"
@@ -191,8 +230,7 @@
 
                     <yummy:PancakeView.Triggers>
 
-                        <MultiTrigger
-                            TargetType="yummy:PancakeView">
+                        <MultiTrigger TargetType="yummy:PancakeView">
                             <MultiTrigger.Conditions>
                                 <BindingCondition Binding="{Binding IsNothingFound}" Value="false" />
                                 <BindingCondition Binding="{Binding HoldItems.Count}" Value="0" />
@@ -241,7 +279,14 @@
                                 </CollectionView.Effects>
 
                                 <CollectionView.Behaviors>
+                                    
                                     <behaviors:ScrollToCenterBehavior />
+
+                                    <prism:EventToCommandBehavior
+                                        EventName="SelectionChanged"
+                                        Command="{Binding GetSelectedHoldItemsCommand}"
+                                        EventArgsParameterPath="CurrentSelection" />
+
                                 </CollectionView.Behaviors>
 
                                 <CollectionView.ItemTemplate>
@@ -267,8 +312,8 @@
                                                     <VisualState Name="Selected">
 
                                                         <VisualState.Setters>
-                                                            <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-                                                            <Setter TargetName="checkBoxImage" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white" />
+                                                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                                                            <Setter TargetName="checkBoxImage" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24" />
                                                         </VisualState.Setters>
 
                                                     </VisualState>
@@ -298,17 +343,8 @@
                                                     Grid.Column="1"
                                                     Style="{DynamicResource TableCellLabelStyle}"
                                                     HeightRequest="{DynamicResource TSize_i8}"
-                                                    LineBreakMode="TailTruncation">
-
-                                                    <Label.FormattedText>
-                                                        <FormattedString>
-                                                            <Span Text="{xct:Translate Table}" />
-                                                            <Span Text=" " />
-                                                            <Span Text="{Binding TableNumber}" />
-                                                        </FormattedString>
-                                                    </Label.FormattedText>
-
-                                                </Label>
+                                                    Text="{Binding TableNumber, Converter={x:StaticResource holdTableNameToStringConverter}}"
+                                                    LineBreakMode="TailTruncation" />
 
                                                 <Label
                                                     Grid.Column="2"
@@ -371,12 +407,12 @@
 
                 <controls:DropDownList.DataTemplate>
                     <DataTemplate>
+                        
                         <StackLayout
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                             xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
-                            <BoxView
-                                Style="{DynamicResource SeparatorStyle_i3}" />
+                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                             <StackLayout
                                 Padding="14, 9"
@@ -390,7 +426,6 @@
                                     FontSize="{DynamicResource TSize_i8}"
                                     HorizontalOptions="FillAndExpand"
                                     Text="{Binding TableNumber, Converter={x:StaticResource holdTableNameToStringConverter}}" />
-
 
                             </StackLayout>
 

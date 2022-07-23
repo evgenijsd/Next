@@ -40,15 +40,24 @@ namespace Next2.ViewModels
 
         public bool IsHoldItemsRefreshing { get; set; }
 
-        public int Count { get; set; }
-
         public bool IsNothingFound { get; set; }
 
         public bool IndexLastVisibleElement { get; set; }
 
         public ObservableCollection<HoldItemBindableModel> HoldItems { get; set; } = new();
 
-        public ObservableCollection<HoldItemBindableModel>? SelectedHoldItems { get; set; }
+        private ObservableCollection<object>? _selectedHoldItems;
+        public ObservableCollection<object>? SelectedHoldItems
+        {
+            get => _selectedHoldItems;
+            set
+            {
+                if (_selectedHoldItems != value)
+                {
+                    _selectedHoldItems = value;
+                }
+            }
+        }
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new();
 
@@ -59,6 +68,12 @@ namespace Next2.ViewModels
 
         private ICommand _changeSortHoldItemsCommand;
         public ICommand ChangeSortHoldItemsCommand => _changeSortHoldItemsCommand ??= new AsyncCommand<EHoldItemsSortingType>(OnChangeSortHoldItemsCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _getSelectedHoldItemsCommand;
+        public ICommand GetSelectedHoldItemsCommand => _getSelectedHoldItemsCommand ??= new AsyncCommand<List<object>?>(OnGetSelectedHoldItemsCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _tapSelectAllHoldItemsTableCommand;
+        public ICommand TapSelectAllHoldItemsTableCommand => _tapSelectAllHoldItemsTableCommand ??= new AsyncCommand(OnTapSelectAllHoldItemsTableCommand, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -91,11 +106,6 @@ namespace Next2.ViewModels
             if (args.PropertyName is nameof(SelectedTable) && SelectedTable is not null)
             {
                 HoldItems = GetHoldItemsByTableNumber(SelectedTable.TableNumber);
-            }
-
-            if (args.PropertyName is nameof(HoldItems))
-            {
-                Count = HoldItems.Count;
             }
         }
 
@@ -135,6 +145,33 @@ namespace Next2.ViewModels
                 var sortedHoldItems = _holdItemService.GetSortedHoldItems(_holdItemsSortingType, HoldItems);
 
                 HoldItems = new(sortedHoldItems);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnTapSelectAllHoldItemsTableCommand()
+        {
+            if (SelectedTable?.TableNumber != 0)
+            {
+                if (SelectedHoldItems?.Count == HoldItems.Count)
+                {
+                    SelectedHoldItems = null;
+                }
+                else
+                {
+                    SelectedHoldItems = new(HoldItems);
+                }
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnGetSelectedHoldItemsCommandAsync(List<object>? selectedItems)
+        {
+            if (SelectedHoldItems?.Count != selectedItems?.Count)
+            {
+                SelectedHoldItems = new(selectedItems);
             }
 
             return Task.CompletedTask;

@@ -147,7 +147,7 @@
                                 <DataTrigger.Binding>
                                     <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
 
-                                        <Binding Path="Count" />
+                                        <Binding Path="HoldItems.Count" />
                                         <Binding Path="IndexLastVisibleElement" />
 
                                     </MultiBinding>
