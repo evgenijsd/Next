@@ -62,7 +62,8 @@
 
                     <StackLayout
                         HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand">
+                        VerticalOptions="FillAndExpand"
+                        IsVisible="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}">
 
                         <yummy:PancakeView
                             Margin="24, 0"
@@ -82,14 +83,16 @@
                                         HeightRequest="20"
                                         HorizontalOptions="CenterAndExpand"
                                         VerticalOptions="CenterAndExpand">
-                                        
+
                                         <ffimageloading:CachedImage.Triggers>
 
                                             <DataTrigger TargetType="ffimageloading:CachedImage" Value="0">
                                                 <DataTrigger.Binding>
                                                     <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
+                                                        
                                                         <Binding Path="HoldItems.Count" />
                                                         <Binding Path="SelectedHoldItems.Count" />
+                                                        
                                                     </MultiBinding>
                                                 </DataTrigger.Binding>
 
@@ -98,9 +101,9 @@
                                             </DataTrigger>
 
                                         </ffimageloading:CachedImage.Triggers>
-                                        
+
                                     </ffimageloading:CachedImage>
-                                    
+
                                 </StackLayout>
 
                                 <Label
@@ -126,31 +129,29 @@
 
                             <yummy:PancakeView.Triggers>
 
+                                <DataTrigger TargetType="yummy:PancakeView" Value="0">
+
+                                    <DataTrigger.Binding>
+                                        <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
+
+                                            <Binding Path="HoldItems.Count" />
+                                            <Binding Path="IndexLastVisibleElement" />
+
+                                        </MultiBinding>
+                                    </DataTrigger.Binding>
+
+                                    <Setter Property="CornerRadius" Value="0, 0, 12, 12" />
+
+                                </DataTrigger>
+
                                 <DataTrigger
                                     TargetType="yummy:PancakeView"
                                     Binding="{Binding IsNothingFound}"
                                     Value="False">
 
-                                    <Setter
-                                        Property="VerticalOptions"
-                                        Value="FillAndExpand" />
+                                    <Setter Property="VerticalOptions" Value="FillAndExpand" />
 
                                 </DataTrigger>
-
-                                <!--<DataTrigger TargetType="yummy:PancakeView" Value="0">
-
-                                <DataTrigger.Binding>
-                                    <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
-
-                                        <Binding Path="HoldItems.Count" />
-                                        <Binding Path="IndexLastVisibleElement" />
-
-                                    </MultiBinding>
-                                </DataTrigger.Binding>
-
-                                <Setter Property="CornerRadius" Value="0, 0, 12, 12" />
-
-                            </DataTrigger>-->
 
                             </yummy:PancakeView.Triggers>
 
@@ -182,8 +183,7 @@
                                     </controls:CustomCollectionView.Behaviors>
 
                                     <controls:CustomCollectionView.ItemTemplate>
-                                        <DataTemplate
-                                            x:DataType="models:HoldItemBindableModel">
+                                        <DataTemplate x:DataType="models:HoldItemBindableModel">
 
                                             <Grid
                                                 RowDefinitions="0.98*, 0.02*"
@@ -220,31 +220,21 @@
                                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
                                                 <VisualStateManager.VisualStateGroups>
-                                                    <VisualStateGroup
-                                                        Name="CommonStates">
+                                                    <VisualStateGroup Name="CommonStates">
 
-                                                        <VisualState
-                                                            Name="Selected">
+                                                        <VisualState Name="Selected">
 
                                                             <VisualState.Setters>
-                                                                <Setter
-                                                                    Property="BackgroundColor"
-                                                                    Value="{DynamicResource TextAndBackgroundColor_i8}" />
-                                                                <Setter
-                                                                    TargetName="checkBoxImage"
-                                                                    Property="ffimageloading:CachedImage.Source"
-                                                                    Value="ic_check_box_checked_primary_24x24" />
+                                                                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i8}" />
+                                                                <Setter TargetName="checkBoxImage" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24" />
                                                             </VisualState.Setters>
 
                                                         </VisualState>
 
-                                                        <VisualState
-                                                            Name="Normal">
+                                                        <VisualState Name="Normal">
 
                                                             <VisualState.Setters>
-                                                                <Setter
-                                                                    Property="BackgroundColor"
-                                                                    Value="{DynamicResource TextAndBackgroundColor_i8}" />
+                                                                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i8}" />
                                                             </VisualState.Setters>
 
                                                         </VisualState>
@@ -265,40 +255,6 @@
 
                     </StackLayout>
 
-                    <!--<StackLayout
-                    Grid.Row="3"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"
-                    IsVisible="false">
-
-                    <StackLayout.Triggers>
-
-                        <MultiTrigger
-                            TargetType="StackLayout">
-                            <MultiTrigger.Conditions>
-                                <BindingCondition
-                                    Binding="{Binding AnyCustomersLoaded}"
-                                    Value="true" />
-                                <BindingCondition
-                                    Binding="{Binding DisplayedCustomers.Count}"
-                                    Value="0" />
-                            </MultiTrigger.Conditions>
-                            <Setter
-                                Property="IsVisible"
-                                Value="true" />
-                        </MultiTrigger>
-
-                    </StackLayout.Triggers>
-
-                    <ffimageloading:CachedImage
-                        Source="pic_nothing_found"
-                        HeightRequest="230"
-                        VerticalOptions="CenterAndExpand"
-                        HorizontalOptions="CenterAndExpand"
-                        Margin="0, 0, 0, 100" />
-
-                </StackLayout>-->
-
                 </StackLayout>
 
                 <StackLayout
@@ -314,7 +270,8 @@
                         ScrollBarVisibility="Never"
                         HeaderText="{Binding SelectedTable.TableNumber, Converter={x:StaticResource holdTableNameToStringConverter}}"
                         SelectedItem="{Binding SelectedTable}"
-                        ItemsSource="{Binding Tables}">
+                        ItemsSource="{Binding Tables}"
+                        IsVisible="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}">
 
                         <controls:DropDownList.DataTemplate>
                             <DataTemplate>
@@ -323,8 +280,7 @@
                                     Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                                     xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
-                                    <BoxView
-                                        Style="{DynamicResource SeparatorStyle_i3}" />
+                                    <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                                     <StackLayout
                                         Padding="14, 8"
@@ -341,8 +297,7 @@
 
                                     </StackLayout>
 
-                                    <BoxView
-                                        Style="{DynamicResource SeparatorStyle_i3}" />
+                                    <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                                 </StackLayout>
 
@@ -354,6 +309,20 @@
                 </StackLayout>
 
             </Grid>
+
+            <StackLayout
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
+                IsVisible="{Binding IsNothingFound}">
+
+                <ffimageloading:CachedImage
+                    Source="pic_nothing_found"
+                    HeightRequest="230"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    Margin="0, 0, 0, 100" />
+
+            </StackLayout>
 
             <StackLayout
                 VerticalOptions="EndAndExpand"

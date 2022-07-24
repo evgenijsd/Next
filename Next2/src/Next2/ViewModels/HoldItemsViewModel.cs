@@ -42,7 +42,7 @@ namespace Next2.ViewModels
 
         public bool IsNothingFound { get; set; }
 
-        public bool IndexLastVisibleElement { get; set; }
+        public int IndexLastVisibleElement { get; set; }
 
         public ObservableCollection<HoldItemBindableModel> HoldItems { get; set; } = new();
 
@@ -100,6 +100,13 @@ namespace Next2.ViewModels
             {
                 HoldItems = GetHoldItemsByTableNumber(SelectedTable.TableNumber);
             }
+
+            if (args.PropertyName is nameof(IndexLastVisibleElement))
+            {
+                IndexLastVisibleElement = IndexLastVisibleElement > HoldItems.Count
+                    ? HoldItems.Count
+                    : IndexLastVisibleElement;
+            }
         }
 
         #endregion
@@ -120,6 +127,11 @@ namespace Next2.ViewModels
 
         private ObservableCollection<HoldItemBindableModel> GetHoldItemsByTableNumber(int tableNumber)
         {
+            if (HoldItems.FirstOrDefault()?.TableNumber != tableNumber)
+            {
+                SelectedHoldItems = null;
+            }
+
             var holdItems = _holdItemService.GetHoldItemsByTableNumber(tableNumber);
 
             IsNothingFound = !holdItems.Any();
