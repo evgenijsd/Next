@@ -44,6 +44,8 @@ namespace Next2.ViewModels
 
         public int IndexLastVisibleElement { get; set; }
 
+        public int IndexLastItemDisplay { get; set; }
+
         public ObservableCollection<HoldItemBindableModel> HoldItems { get; set; } = new();
 
         private ObservableCollection<object>? _selectedHoldItems;
@@ -98,14 +100,15 @@ namespace Next2.ViewModels
 
             if (args.PropertyName is nameof(SelectedTable) && SelectedTable is not null)
             {
-                HoldItems = GetHoldItemsByTableNumber(SelectedTable.TableNumber);
+                //HoldItems = GetHoldItemsByTableNumber(SelectedTable.TableNumber);
             }
 
             if (args.PropertyName is nameof(IndexLastVisibleElement))
             {
-                IndexLastVisibleElement = IndexLastVisibleElement > HoldItems.Count
-                    ? HoldItems.Count
-                    : IndexLastVisibleElement;
+                if (IndexLastVisibleElement > IndexLastItemDisplay)
+                {
+                    IndexLastItemDisplay = IndexLastVisibleElement;
+                }
             }
         }
 
@@ -135,6 +138,7 @@ namespace Next2.ViewModels
             var holdItems = _holdItemService.GetHoldItemsByTableNumber(tableNumber);
 
             IsNothingFound = !holdItems.Any();
+            IndexLastItemDisplay = HoldItems.Count;
 
             return _mapper.Map<ObservableCollection<HoldItemBindableModel>>(holdItems);
         }
@@ -238,6 +242,7 @@ namespace Next2.ViewModels
             }
 
             IsNothingFound = !result.Any();
+            IndexLastItemDisplay = HoldItems.Count;
 
             return result;
         }

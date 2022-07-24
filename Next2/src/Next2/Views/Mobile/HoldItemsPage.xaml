@@ -134,7 +134,7 @@
                                     <DataTrigger.Binding>
                                         <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
 
-                                            <Binding Path="HoldItems.Count" />
+                                            <Binding Path="IndexLastItemDisplay" />
                                             <Binding Path="IndexLastVisibleElement" />
 
                                         </MultiBinding>
@@ -268,6 +268,7 @@
                         WidthRequest="110"
                         ItemHeight="46.5"
                         ScrollBarVisibility="Never"
+                        HeaderTextSize="{DynamicResource TSize_i8}"
                         HeaderText="{Binding SelectedTable.TableNumber, Converter={x:StaticResource holdTableNameToStringConverter}}"
                         SelectedItem="{Binding SelectedTable}"
                         ItemsSource="{Binding Tables}"
