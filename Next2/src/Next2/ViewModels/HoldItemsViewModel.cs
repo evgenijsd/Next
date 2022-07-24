@@ -100,7 +100,7 @@ namespace Next2.ViewModels
 
             if (args.PropertyName is nameof(SelectedTable) && SelectedTable is not null)
             {
-                //HoldItems = GetHoldItemsByTableNumber(SelectedTable.TableNumber);
+                HoldItems = GetHoldItemsByTableNumber(SelectedTable.TableNumber);
             }
 
             if (args.PropertyName is nameof(IndexLastVisibleElement))
