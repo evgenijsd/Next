@@ -39,6 +39,8 @@ using TabletViews = Next2.Views.Tablet;
 using Next2.Services.Reservation;
 using Next2.Services.HoldItem;
 using Next2.Services.Notifications;
+using Next2.Views.Mobile;
+using Prism.Navigation;
 
 namespace Next2
 {
@@ -160,7 +162,22 @@ namespace Next2
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MobileViews.LoginPage)}");
+            var navigationParameters = new NavigationParameters();
+            var navigationPath = $"{nameof(NavigationPage)}/";
+
+            IAuthenticationService authenticationService = Resolve<IAuthenticationService>();
+
+            if (authenticationService.IsAuthorizationComplete)
+            {
+                navigationParameters.Add(Constants.Navigations.IS_FIRST_ORDER_INIT, true);
+                navigationPath += nameof(MenuPage);
+            }
+            else
+            {
+                navigationPath += nameof(LoginPage);
+            }
+
+            await NavigationService.NavigateAsync(navigationPath, navigationParameters);
         }
 
         protected override void OnStart()
