@@ -71,6 +71,7 @@
             public const string EMPLOYEE_ID = "EMPLOYEE_ID";
             public const string LOGOUT = "LOGOUT";
             public const string ORDER = "ORDER";
+            public const string IS_FIRST_ORDER_INIT = "IS_FIRST_ORDER_INIT";
         }
 
         public static class Validators
