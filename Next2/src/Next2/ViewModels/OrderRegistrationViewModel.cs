@@ -340,9 +340,10 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task UpdateDishGroupsAsync()
+        private Task UpdateDishGroupsAsync()
         {
-            DishesGroupedBySeats = new();
+            var updatedDishesGroupedBySeats = new ObservableCollection<DishesGroupedBySeat>();
+
             var selectedDish = SelectedDish = null;
 
             foreach (var seat in _orderService.CurrentOrder.Seats)
@@ -351,6 +352,7 @@ namespace Next2.ViewModels
                 var selectedDishes = isSelectedDishes
                     ? seat.SelectedDishes.ToList()
                     : new() { new(), };
+
                 var dishFirst = selectedDishes.FirstOrDefault();
 
                 foreach (var dish in selectedDishes)
@@ -365,14 +367,9 @@ namespace Next2.ViewModels
                     }
                 }
 
-                if (DeviceInfo.Platform == DevicePlatform.iOS)
-                {
-                    await Task.Delay(100);
-                }
+                updatedDishesGroupedBySeats.Add(new(seat.SeatNumber, selectedDishes));
 
-                DishesGroupedBySeats.Add(new(seat.SeatNumber, selectedDishes));
-
-                var seatGroup = DishesGroupedBySeats.Last();
+                var seatGroup = updatedDishesGroupedBySeats.Last();
 
                 seatGroup.Checked = seat.Checked;
                 seatGroup.IsFirstSeat = seat.IsFirstSeat;
@@ -389,6 +386,8 @@ namespace Next2.ViewModels
                 seatGroup.RemoveOrderCommand = _removeOrderCommand;
             }
 
+            DishesGroupedBySeats = updatedDishesGroupedBySeats;
+
             if (SelectedDish is null)
             {
                 CurrentState = ENewOrderViewState.Default;
@@ -398,6 +397,8 @@ namespace Next2.ViewModels
             {
                 SelectedDish = null;
             }
+
+            return Task.CompletedTask;
         }
 
         private async Task RefreshTablesAsync()
