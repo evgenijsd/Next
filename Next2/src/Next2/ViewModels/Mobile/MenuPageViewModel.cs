@@ -22,6 +22,7 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
+        private readonly IPopupNavigation _popupNavigation;
 
         private readonly INotificationsService _notificationsService;
 
@@ -31,12 +32,14 @@ namespace Next2.ViewModels.Mobile
             INavigationService navigationService,
             IMenuService menuService,
             INotificationsService notificationsService,
+            IPopupNavigation popupNavigation,
             IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
             _orderService = orderService;
             _notificationsService = notificationsService;
+            _popupNavigation = popupNavigation;
 
             CanShowOrder = _orderService.CurrentOrder.Seats.Count > 0;
 
