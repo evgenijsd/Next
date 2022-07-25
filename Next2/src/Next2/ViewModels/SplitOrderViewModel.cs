@@ -144,11 +144,11 @@ namespace Next2.ViewModels
 
                 await UpdateOrderAsync();
             }
-            else if (parameters.TryGetValue(Constants.DialogParameterKeys.SPLIT_GROUPS, out List<int[]> groupList))
+            else if (parameters.TryGetValue(Constants.DialogParameterKeys.SPLIT_GROUPS, out List<int[]> splittedBySeatsGroups))
             {
-                await SplitOrderBySeatsAsync(groupList);
+                await SplitOrderBySeatsAsync(splittedBySeatsGroups);
             }
-            else if (_popupNavigation.PopupStack.Count > 0)
+            else
             {
                 await CloseAllPopupAsync();
             }
@@ -170,7 +170,7 @@ namespace Next2.ViewModels
 
                 _orderService.CalculateOrderPrices(order);
 
-                var updateResult = await _orderService.UpdateOrderAsync(order.ToUpdateOrderCommand());
+                var updateResult = await _orderService.UpdateOrderAsync(order);
                 isOrderUpdated = updateResult.IsSuccess;
 
                 if (!isOrderUpdated)
@@ -192,7 +192,7 @@ namespace Next2.ViewModels
 
             _orderService.CalculateOrderPrices(Order);
 
-            var updateResult = await _orderService.UpdateOrderAsync(Order.ToUpdateOrderCommand());
+            var updateResult = await _orderService.UpdateOrderAsync(Order);
 
             if (!updateResult.IsSuccess)
             {
@@ -241,9 +241,8 @@ namespace Next2.ViewModels
         private async Task UpdateOrderAsync()
         {
             Order.Seats = Seats.ToSeatsModelsDTO();
-            var updateOrderCommand = Order.ToUpdateOrderCommand();
 
-            var orderUpdateResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
+            var orderUpdateResult = await _orderService.UpdateOrderAsync(Order);
 
             if (orderUpdateResult.IsSuccess)
             {
@@ -265,26 +264,20 @@ namespace Next2.ViewModels
 
         private async Task EmergencyRestoreSeatsAsync(string exeptionMessage)
         {
-            if (_popupNavigation.PopupStack.Count > 0)
-            {
-                await CloseAllPopupAsync();
-            }
+            await CloseAllPopupAsync();
 
             await ResponseToBadRequestAsync(exeptionMessage);
 
             RestoreSeats();
         }
 
-        private async Task SplitOrderBySeatsAsync(IList<int[]> groupList)
+        private async Task SplitOrderBySeatsAsync(IList<int[]> splittedBySeatsGroups)
         {
             int successfullCounter = 0;
 
-            if (_popupNavigation.PopupStack.Count > 0)
-            {
-                await _popupNavigation.PopAsync();
-            }
+            await CloseAllPopupAsync();
 
-            foreach (var group in groupList)
+            foreach (var group in splittedBySeatsGroups)
             {
                 var seats = Seats.Where(s => group.Any(x => x == s.SeatNumber));
                 var outSeats = seats.ToSeatsModelsDTO();
@@ -309,7 +302,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            if (successfullCounter == groupList.Count)
+            if (successfullCounter == splittedBySeatsGroups.Count)
             {
                 OriginalSeats = Order.Seats;
                 var seatsNumbers = Order.Seats.Select(x => x.Number);
@@ -327,8 +320,7 @@ namespace Next2.ViewModels
 
         private async Task CopyCurrentOrderTo(OrderModelDTO order)
         {
-            var isTableAvailable = true;
-            var updateTableResult = await _orderService.UpdateTableAsync(Order, isTableAvailable);
+            var updateTableResult = await _orderService.UpdateTableAsync(Order.Table, true);
 
             if (updateTableResult.IsSuccess)
             {

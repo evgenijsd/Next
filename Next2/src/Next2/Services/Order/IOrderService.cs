@@ -24,7 +24,7 @@ namespace Next2.Services.Order
 
         Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish);
 
-        Task<AOResult<Guid>> UpdateOrderAsync(UpdateOrderCommand order);
+        Task<AOResult<Guid>> UpdateOrderAsync(object order);
 
         Task<AOResult> AddSeatInCurrentOrderAsync();
 
@@ -38,7 +38,7 @@ namespace Next2.Services.Order
 
         Task<AOResult> SetEmptyCurrentOrderAsync();
 
-        Task<AOResult<Guid>> UpdateTableAsync(OrderModelDTO order, bool isAvailable = false);
+        Task<AOResult<Guid>> UpdateTableAsync(SimpleTableModelDTO table, bool isAvailable = false);
 
         Task<AOResult> SetCurrentOrderAsync(Guid orderId);
 

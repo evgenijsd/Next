@@ -373,7 +373,7 @@
             <Grid
                 Grid.Row="1"
                 RowDefinitions="auto, auto"
-                ColumnDefinitions="0.35*, 0.29*, 0.35*"
+                ColumnDefinitions="0.35*, 0.3*, 0.35*"
                 ColumnSpacing="12"
                 VerticalOptions="EndAndExpand">
 

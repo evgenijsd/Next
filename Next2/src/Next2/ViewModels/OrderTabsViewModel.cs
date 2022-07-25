@@ -416,8 +416,7 @@ namespace Next2.ViewModels
                         var orderToBeUpdated = orderResult.Result;
                         orderToBeUpdated.OrderStatus = EOrderStatus.Deleted;
 
-                        var updateOrderCommand = orderToBeUpdated.ToUpdateOrderCommand();
-                        var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
+                        var updateOrderResult = await _orderService.UpdateOrderAsync(orderToBeUpdated);
 
                         if (updateOrderResult.IsSuccess)
                         {

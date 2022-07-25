@@ -45,7 +45,7 @@
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}">
 
         <Frame.Triggers>
-            <DataTrigger Binding="{Binding SplitCondition}" TargetType="Frame" Value="{Static enums:ESplitOrderConditions.BySeats}">
+            <DataTrigger TargetType="Frame" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
                 <Setter Property="WidthRequest" Value="363" />
                 <Setter Property="HeightRequest" Value="500" />
@@ -56,7 +56,7 @@
         <Grid RowDefinitions="0.13*, 0.13*, 0.59*, 0.15*">
 
             <Grid.Triggers>
-                <DataTrigger Binding="{Binding SplitCondition}" TargetType="Grid" Value="{Static enums:ESplitOrderConditions.BySeats}">
+                <DataTrigger TargetType="Grid" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
                     <Setter Property="RowDefinitions" Value="0.13*, 0, 0.68*, 0.15*" />
 
@@ -124,7 +124,7 @@
                 Padding="18">
 
                 <Grid.Triggers>
-                    <DataTrigger Binding="{Binding SplitCondition}" TargetType="Grid" Value="{Static enums:ESplitOrderConditions.BySeats}">
+                    <DataTrigger TargetType="Grid" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
                         <Setter Property="ColumnDefinitions" Value="*, 0" />
 
@@ -195,7 +195,9 @@
 
                                                 <DataTrigger.Binding>
 
-                                                    <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 25)">
+                                                    <MultiBinding
+                                                        Converter="{xct:MultiMathExpressionConverter}"
+                                                        ConverterParameter="min(x, 25)">
                                                         <Binding Path="AvailableValue" />
                                                     </MultiBinding>
 
@@ -221,7 +223,9 @@
                                             <DataTrigger TargetType="Frame" Value="50">
 
                                                 <DataTrigger.Binding>
-                                                    <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 50)">
+                                                    <MultiBinding
+                                                        Converter="{xct:MultiMathExpressionConverter}"
+                                                        ConverterParameter="min(x, 50)">
 
                                                         <Binding Path="AvailableValue" />
 
@@ -249,7 +253,9 @@
                                             <DataTrigger TargetType="Frame" Value="75">
 
                                                 <DataTrigger.Binding>
-                                                    <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 75)">
+                                                    <MultiBinding
+                                                        Converter="{xct:MultiMathExpressionConverter}"
+                                                        ConverterParameter="min(x, 75)">
 
                                                         <Binding Path="AvailableValue" />
 
@@ -364,7 +370,7 @@
 
                     <CollectionView.Triggers>
 
-                        <DataTrigger Binding="{Binding SplitCondition}" TargetType="CollectionView" Value="{Static enums:ESplitOrderConditions.BySeats}">
+                        <DataTrigger TargetType="CollectionView" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
                             <Setter Property="Margin" Value="0" />
 
@@ -520,6 +526,7 @@
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                     CornerRadius="5"
+                    IsEnabled="False"
                     xct:TouchEffect.Command="{Binding SplitCommand}">
 
                     <Label
@@ -529,9 +536,10 @@
                         TextColor="{DynamicResource TextAndBackgroundColor_i6}" />
 
                     <Frame.Triggers>
-                        <DataTrigger Binding="{Binding IsSplitAvailable}" TargetType="Frame" Value="true">
+                        <DataTrigger TargetType="Frame" Binding="{Binding IsSplitAvailable}" Value="true">
 
                             <Setter Property="Opacity" Value="1" />
+                            <Setter Property="IsEnabled" Value="True" />
 
                         </DataTrigger>
                     </Frame.Triggers>

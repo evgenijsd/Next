@@ -491,15 +491,30 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<Guid>> UpdateOrderAsync(UpdateOrderCommand order)
+        public async Task<AOResult<Guid>> UpdateOrderAsync(object order)
         {
             var result = new AOResult<Guid>();
+
+            UpdateOrderCommand updateOrderCommand = new ();
+
+            if (order is FullOrderBindableModel fullOrder)
+            {
+                updateOrderCommand = fullOrder.ToUpdateOrderCommand();
+            }
+            else if (order is OrderModelDTO orderModelDTO)
+            {
+                updateOrderCommand = orderModelDTO.ToUpdateOrderCommand();
+            }
+            else
+            {
+                return result;
+            }
 
             try
             {
                 var query = $"{Constants.API.HOST_URL}/api/orders";
 
-                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, query, order);
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, query, updateOrderCommand);
 
                 if (response.Success)
                 {
@@ -514,15 +529,15 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<Guid>> UpdateTableAsync(OrderModelDTO order, bool isAvailable = false)
+        public async Task<AOResult<Guid>> UpdateTableAsync(SimpleTableModelDTO table, bool isAvailable = false)
         {
             var result = new AOResult<Guid>();
 
             UpdateTableCommand command = new()
             {
-                Id = order.Table.Id,
-                Number = order.Table.Number,
-                SeatNumbers = order.Table.SeatNumbers,
+                Id = table.Id,
+                Number = table.Number,
+                SeatNumbers = table.SeatNumbers,
                 IsAvailable = isAvailable,
             };
 

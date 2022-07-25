@@ -239,7 +239,9 @@
                                                 <DataTrigger TargetType="Frame" Value="25">
 
                                                     <DataTrigger.Binding>
-                                                        <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 25)">
+                                                        <MultiBinding
+                                                            Converter="{xct:MultiMathExpressionConverter}"
+                                                            ConverterParameter="min(x, 25)">
 
                                                             <Binding Path="AvailableValue" />
 
@@ -266,7 +268,9 @@
                                                 <DataTrigger TargetType="Frame" Value="50">
 
                                                     <DataTrigger.Binding>
-                                                        <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 50)">
+                                                        <MultiBinding
+                                                            Converter="{xct:MultiMathExpressionConverter}"
+                                                            ConverterParameter="min(x, 50)">
 
                                                             <Binding Path="AvailableValue" />
 
@@ -293,7 +297,9 @@
                                                 <DataTrigger TargetType="Frame" Value="75">
 
                                                     <DataTrigger.Binding>
-                                                        <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 75)">
+                                                        <MultiBinding
+                                                            Converter="{xct:MultiMathExpressionConverter}"
+                                                            ConverterParameter="min(x, 75)">
 
                                                             <Binding Path="AvailableValue" />
 
@@ -401,15 +407,15 @@
                 HeightRequest="2"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
-            <StackLayout
+            <Grid
                 Grid.Row="2"
-                Padding="12"
-                Orientation="Horizontal"
-                Spacing="12">
+                ColumnSpacing="12"
+                Padding="12">
 
                 <Frame
+                    Grid.Column="0"
                     VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"
+                    HorizontalOptions="Start"
                     WidthRequest="216"
                     BorderColor="{DynamicResource AppColor_i1}"
                     CornerRadius="5"
@@ -418,7 +424,7 @@
 
                     <Frame.Triggers>
 
-                        <DataTrigger Binding="{Binding PopupNavigationStep}" TargetType="Frame" Value="{Static enums:EStep.Second}">
+                        <DataTrigger TargetType="Frame" Binding="{Binding PopupNavigationStep}" Value="{Static enums:EStep.Second}">
 
                             <Setter Property="xct:TouchEffect.Command" Value="{Binding GoBackCommand}" />
 
@@ -434,101 +440,87 @@
 
                 </Frame>
 
-                <Frame
+                <sc:StateContainer
+                    Grid.Column="1"
                     VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"
+                    HorizontalOptions="End"
                     WidthRequest="216"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    BorderColor="{DynamicResource IndicationColor_i1}"
-                    Opacity="{DynamicResource OpacityWhenDisabled_i1}"
-                    CornerRadius="5"
-                    xct:TouchEffect.Command="{Binding NextCommand}">
+                    State="{Binding PopupNavigationStep}">
 
-                    <Frame.Triggers>
-                        <DataTrigger Binding="{Binding IsNextStepAvailable}" TargetType="Frame" Value="true">
+                    <sc:StateCondition State="{Static enums:EStep.First}">
 
-                            <Setter Property="Opacity" Value="1" />
+                        <Frame
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                            BorderColor="{DynamicResource IndicationColor_i1}"
+                            Opacity="{DynamicResource OpacityWhenDisabled_i1}"
+                            CornerRadius="5"
+                            IsEnabled="False"
+                            xct:TouchEffect.Command="{Binding NextCommand}">
 
-                        </DataTrigger>
+                            <StackLayout
+                                VerticalOptions="Center"
+                                HorizontalOptions="CenterAndExpand"
+                                Orientation="Horizontal"
+                                Spacing="16">
 
-                        <DataTrigger Binding="{Binding IsSplitAvailable}" TargetType="Frame" Value="true">
+                                <Label
+                                    Text="{xct:Translate Next}"
+                                    FontSize="{DynamicResource TSize_i4_5}" />
 
-                            <Setter Property="Opacity" Value="1" />
+                                <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png" />
 
-                        </DataTrigger>
+                            </StackLayout>
 
-                        <DataTrigger Binding="{Binding PopupNavigationStep}" TargetType="Frame" Value="{Static enums:EStep.Second}">
+                            <Frame.Triggers>
 
-                            <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i1}" />
-                            <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
-                            <Setter Property="xct:TouchEffect.Command" Value="{Binding SplitCommand}" />
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsNextStepAvailable}" Value="true">
 
-                        </DataTrigger>
-
-                        <DataTrigger Binding="{Binding SplitCondition}" TargetType="Frame" Value="{Static enums:ESplitOrderConditions.BySeats}">
-
-                            <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i1}" />
-                            <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
-                            <Setter Property="xct:TouchEffect.Command" Value="{Binding SplitCommand}" />
-
-                        </DataTrigger>
-
-                    </Frame.Triggers>
-
-                    <StackLayout
-                        VerticalOptions="Center"
-                        HorizontalOptions="Center"
-                        Orientation="Horizontal"
-                        Spacing="16">
-
-                        <Label
-                            Text="{xct:Translate Next}"
-                            FontSize="{DynamicResource TSize_i4_5}">
-
-                            <Label.Triggers>
-                                <DataTrigger Binding="{Binding PopupNavigationStep}" TargetType="Label" Value="{Static enums:EStep.Second}">
-
-                                    <Setter Property="Text" Value="{xct:Translate Split}" />
-                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i6}" />
+                                    <Setter Property="Opacity" Value="1" />
+                                    <Setter Property="IsEnabled" Value="True" />
 
                                 </DataTrigger>
 
-                                <DataTrigger Binding="{Binding SplitCondition}" TargetType="Label" Value="{Static enums:ESplitOrderConditions.BySeats}">
+                            </Frame.Triggers>
 
-                                    <Setter Property="Text" Value="{xct:Translate Split}" />
-                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i6}" />
+                        </Frame>
+
+                    </sc:StateCondition>
+
+                    <sc:StateCondition State="{Static enums:EStep.Second}">
+
+                        <Frame
+                            BackgroundColor="{DynamicResource IndicationColor_i1}"
+                            BorderColor="{DynamicResource IndicationColor_i1}"
+                            Opacity="{DynamicResource OpacityWhenDisabled_i1}"
+                            CornerRadius="5"
+                            IsEnabled="False"
+                            xct:TouchEffect.Command="{Binding SplitCommand}">
+
+                            <Label
+                                VerticalTextAlignment="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="{xct:Translate Split}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i6}"
+                                FontSize="{DynamicResource TSize_i4_5}" />
+
+                            <Frame.Triggers>
+
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsSplitAvailable}" Value="true">
+
+                                    <Setter Property="Opacity" Value="1" />
+                                    <Setter Property="IsEnabled" Value="True" />
 
                                 </DataTrigger>
 
-                            </Label.Triggers>
+                            </Frame.Triggers>
 
-                        </Label>
+                        </Frame>
 
-                        <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png">
+                    </sc:StateCondition>
 
-                            <ffimageloading:CachedImage.Triggers>
+                </sc:StateContainer>
 
-                                <DataTrigger Binding="{Binding PopupNavigationStep}" TargetType="ffimageloading:CachedImage" Value="{Static enums:EStep.Second}">
-
-                                    <Setter Property="IsVisible" Value="false" />
-
-                                </DataTrigger>
-
-                                <DataTrigger Binding="{Binding SplitCondition}" TargetType="ffimageloading:CachedImage" Value="{Static enums:ESplitOrderConditions.BySeats}">
-
-                                    <Setter Property="IsVisible" Value="false" />
-
-                                </DataTrigger>
-
-                            </ffimageloading:CachedImage.Triggers>
-
-                        </ffimageloading:CachedImage>
-
-                    </StackLayout>
-
-                </Frame>
-
-            </StackLayout>
+            </Grid>
 
         </Grid>
 
