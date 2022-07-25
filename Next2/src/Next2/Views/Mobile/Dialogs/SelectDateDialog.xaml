@@ -4,16 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:models="clr-namespace:Next2.Models.Bindables"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:local="clr-namespace:Next2"
-    xmlns:enums="clr-namespace:Next2.Enums"
-    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:behaviors="clr-namespace:Next2.Behaviors"
     x:Class="Next2.Views.Mobile.Dialogs.SelectDateDialog"
     x:DataType="dialogs:SelectDateDialogViewModel">
 
@@ -21,8 +14,8 @@
         <ResourceDictionary>
 
             <Style x:Key="BorderButton_i1_1" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i1}">
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
             </Style>
 
         </ResourceDictionary>
@@ -63,9 +56,9 @@
 
             <!--  calendar  -->
             <controls:Calendar
-                Style="{DynamicResource CalendarTabletStyle}"
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
+                Style="{DynamicResource CalendarTabletStyle}"
                 SelectedDate="{Binding SelectedDate, Mode=TwoWay}" />
 
 

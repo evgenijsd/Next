@@ -51,6 +51,7 @@ namespace Next2.Controls
         public static readonly BindableProperty TitleColorProperty = BindableProperty.Create(
             propertyName: nameof(TitleColor),
             returnType: typeof(Color),
+            defaultValue: Color.FromHex("#FEFEFD"),
             declaringType: typeof(CustomNavigationBar),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -63,6 +64,7 @@ namespace Next2.Controls
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
             propertyName: nameof(FontSize),
             returnType: typeof(double),
+            defaultValue: 20d,
             declaringType: typeof(CustomNavigationBar),
             defaultBindingMode: BindingMode.TwoWay);
 

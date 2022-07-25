@@ -80,23 +80,17 @@ namespace Next2.ViewModels
         {
             base.OnAppearing();
 
-            if (App.IsTablet)
-            {
-                IsSearchModeActive = false;
-                IsOrdersRefreshing = true;
-            }
+            IsSearchModeActive = false;
+            IsOrdersRefreshing = true;
         }
 
         public override void OnDisappearing()
         {
             base.OnDisappearing();
 
-            if (App.IsTablet)
-            {
-                IsSearchModeActive = false;
-                SelectedOrder = null;
-                _lastSavedOrderId = Guid.Empty;
-            }
+            IsSearchModeActive = false;
+            SelectedOrder = null;
+            _lastSavedOrderId = Guid.Empty;
         }
 
         #endregion
