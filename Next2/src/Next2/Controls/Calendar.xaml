@@ -13,9 +13,9 @@
     x:Name="calendar">
 
     <Grid.RowDefinitions>
-        <RowDefinition Height="{OnIdiom Phone=0.12*, Tablet=0.134*}"/>
-        <RowDefinition Height="0.24*"/>
-        <RowDefinition Height="*"/>
+        <RowDefinition Height="{OnIdiom Phone=0.12*, Tablet=0.134*}" />
+        <RowDefinition Height="0.24*" />
+        <RowDefinition Height="*" />
     </Grid.RowDefinitions>
 
 
@@ -88,7 +88,6 @@
     <!--  grid  -->
     <controls:CalendarGridCollectionView
         Grid.Row="2"
-        Margin="16, 0, 16, 1"
         BackgroundColor="{Binding BackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
         Month="{Binding SelectedMonth, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
         Year="{Binding SelectedYear.YearValue, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
@@ -97,6 +96,15 @@
         SelectedStartDate="{Binding SelectedStartDate, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
         SelectedItem="{Binding SelectedDay, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
         x:Name="calendarGrid">
+
+        <controls:CalendarGridCollectionView.Margin>
+
+            <OnIdiom
+                x:TypeArguments="Thickness"
+                Phone="16, 0, 16, 1"
+                Tablet="6, 0, 6, 1" />
+
+        </controls:CalendarGridCollectionView.Margin>
 
         <CollectionView.ItemsLayout>
             <GridItemsLayout
@@ -115,16 +123,15 @@
 
             <DataTemplate x:DataType="helpers:Day">
 
-                <StackLayout
-                    BackgroundColor="{Binding BackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}">
+                <StackLayout BackgroundColor="{Binding BackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}">
 
                     <StackLayout.Padding>
-                        
+
                         <OnIdiom
                             x:TypeArguments="Thickness"
                             Phone="3, 2.4, 3, 2.4"
                             Tablet="0" />
-                        
+
                     </StackLayout.Padding>
 
                     <VisualStateManager.VisualStateGroups>
@@ -162,7 +169,7 @@
                             Text="{Binding DayOfMonth}">
 
                             <Label.Triggers>
-                                <DataTrigger Binding="{Binding State}" TargetType="Label" Value="NoDayMonth">
+                                <DataTrigger TargetType="Label" Binding="{Binding State}" Value="NoDayMonth">
                                     <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i11}" />
                                 </DataTrigger>
                             </Label.Triggers>
@@ -262,7 +269,7 @@
         x:Name="yearDropdownFrame">
 
         <Frame.Triggers>
-            <DataTrigger Binding="{Binding Source={x:Reference dropdownFrame}, Path=IsVisible}" TargetType="Frame" Value="True">
+            <DataTrigger TargetType="Frame" Binding="{Binding Source={x:Reference dropdownFrame}, Path=IsVisible}" Value="True">
                 <Setter Property="xct:CornerRadiusEffect.CornerRadius" Value="4, 4, 0, 0" />
                 <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i6}" />
 
@@ -274,7 +281,7 @@
             BackgroundColor="{Binding BackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}">
 
             <Frame.Triggers>
-                <DataTrigger Binding="{Binding Source={x:Reference dropdownFrame}, Path=IsVisible}" TargetType="Frame" Value="True">
+                <DataTrigger TargetType="Frame" Binding="{Binding Source={x:Reference dropdownFrame}, Path=IsVisible}" Value="True">
 
                     <Setter Property="xct:CornerRadiusEffect.CornerRadius" Value="4, 4, 0, 0" />
                     <Setter Property="BackgroundColor" Value="{Binding DropdownHeadDroppedBackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}" />
@@ -302,7 +309,7 @@
 
                     <ffimageloading:CachedImage.Triggers>
 
-                        <DataTrigger Binding="{Binding Source={x:Reference dropdownFrame}, Path=IsVisible}" TargetType="ffimageloading:CachedImage" Value="True">
+                        <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding Source={x:Reference dropdownFrame}, Path=IsVisible}" Value="True">
 
                             <Setter Property="Source" Value="ic_arrow_up_24x24" />
 

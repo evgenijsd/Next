@@ -5,4 +5,10 @@
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     x:Class="Next2.Views.Mobile.PrintReceiptPage"
-    x:DataType="viewmodels:PrintReceiptViewModel" />
+    x:DataType="viewmodels:PrintReceiptViewModel">
+
+    <Label Text="AAA" TextColor="red" FontSize="55" VerticalTextAlignment="Center" HorizontalTextAlignment="Center">
+        
+    </Label>
+    
+</views:BaseContentPage>
