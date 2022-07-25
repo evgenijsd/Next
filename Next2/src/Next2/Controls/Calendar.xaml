@@ -90,10 +90,12 @@
         Grid.Row="2"
         Margin="16, 0, 16, 1"
         BackgroundColor="{Binding BackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
-        Month="{Binding SelectedMonth, Source={x:Reference calendar}}"
-        Year="{Binding SelectedYear.YearValue, Source={x:Reference calendar}}"
-        SelectedDate="{Binding SelectedDate, Source={x:Reference calendar}, Mode=TwoWay}"
-        SelectedItem="{Binding SelectedDay, Source={x:Reference calendar}}"
+        Month="{Binding SelectedMonth, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
+        Year="{Binding SelectedYear.YearValue, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
+        OffsetYears="{Binding OffsetYears, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
+        SelectedDate="{Binding SelectedDate, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
+        SelectedStartDate="{Binding SelectedStartDate, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
+        SelectedItem="{Binding SelectedDay, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
         x:Name="calendarGrid">
 
         <CollectionView.ItemsLayout>
