@@ -86,7 +86,7 @@
                             
                             <DataTrigger 
                                 TargetType="buttons:BorderButton"
-                                Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                Binding="{Binding SelectedHoldItems, Converter={xct:IsNotNullOrEmptyConverter}}"
                                 Value="True">
                                 
                                 <Setter Property="IsEnabled" Value="True" />
@@ -109,7 +109,7 @@
                             
                             <DataTrigger
                                 TargetType="buttons:BorderButton"
-                                Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                Binding="{Binding SelectedHoldItems, Converter={xct:IsNotNullOrEmptyConverter}}"
                                 Value="True">
                                 
                                 <Setter Property="IsEnabled" Value="True" />
