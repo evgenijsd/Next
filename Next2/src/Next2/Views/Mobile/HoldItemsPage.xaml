@@ -100,6 +100,15 @@
 
                                             </DataTrigger>
 
+                                            <DataTrigger
+                                                TargetType="ffimageloading:CachedImage"
+                                                Binding="{Binding SelectedTable.TableNumber}"
+                                                Value="{x:Static local:Constants+Limits.ALL_TABLES}">
+
+                                                <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+
+                                            </DataTrigger>
+
                                         </ffimageloading:CachedImage.Triggers>
 
                                     </ffimageloading:CachedImage>
@@ -175,6 +184,8 @@
 
                                         <behaviors:GetIndexLastElementBehavior />
 
+                                        <behaviors:ScrollToCenterBehavior />
+
                                         <prism:EventToCommandBehavior
                                             EventName="SelectionChanged"
                                             Command="{Binding GetSelectedHoldItemsCommand}"
@@ -212,7 +223,7 @@
                                                     Grid.Column="2"
                                                     LineBreakMode="TailTruncation"
                                                     Style="{DynamicResource ViewCellLabelStyle}"
-                                                    Text="{Binding ReleaseTime, StringFormat={x:Static local:Constants+Formats.HOLD_DATE_FORMAT}}" />
+                                                    Text="{Binding ReleaseTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
 
                                                 <BoxView
                                                     Grid.Row="1"
@@ -269,7 +280,7 @@
                         ItemHeight="46.5"
                         ScrollBarVisibility="Never"
                         HeaderTextSize="{DynamicResource TSize_i8}"
-                        HeaderText="{Binding SelectedTable.TableNumber, Converter={x:StaticResource holdTableNameToStringConverter}}"
+                        HeaderText="{Binding SelectedTable.TableNumber, Converter={x:StaticResource tableNumberToStringConverter}}"
                         SelectedItem="{Binding SelectedTable}"
                         ItemsSource="{Binding Tables}"
                         IsVisible="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}">
@@ -294,7 +305,7 @@
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                             FontSize="{DynamicResource TSize_i7}"
                                             HorizontalOptions="FillAndExpand"
-                                            Text="{Binding TableNumber, Converter={x:StaticResource holdTableNameToStringConverter}}" />
+                                            Text="{Binding TableNumber, Converter={x:StaticResource tableNumberToStringConverter}}" />
 
                                     </StackLayout>
 

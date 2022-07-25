@@ -48,18 +48,7 @@ namespace Next2.ViewModels
 
         public ObservableCollection<HoldItemBindableModel> HoldItems { get; set; } = new();
 
-        private ObservableCollection<object>? _selectedHoldItems;
-        public ObservableCollection<object>? SelectedHoldItems
-        {
-            get => _selectedHoldItems;
-            set
-            {
-                if (_selectedHoldItems != value)
-                {
-                    _selectedHoldItems = value;
-                }
-            }
-        }
+        public List<object>? SelectedHoldItems { get; set; }
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new();
 
@@ -130,7 +119,7 @@ namespace Next2.ViewModels
 
         private ObservableCollection<HoldItemBindableModel> GetHoldItemsByTableNumber(int tableNumber)
         {
-            if (HoldItems.FirstOrDefault()?.TableNumber != tableNumber)
+            if (HoldItems.Any(x => x.TableNumber != tableNumber))
             {
                 SelectedHoldItems = null;
             }
@@ -190,11 +179,11 @@ namespace Next2.ViewModels
 
         private Task OnGetSelectedHoldItemsCommandAsync(List<object>? selectedItems)
         {
-            var selectedCount = selectedItems?.Count;
+            var selectedCount = selectedItems?.Count ?? 0;
 
-            if (SelectedHoldItems?.Count != selectedCount && selectedCount != 0)
+            if (SelectedHoldItems?.Count != selectedCount && selectedCount > 0)
             {
-                SelectedHoldItems = new(selectedItems);
+                SelectedHoldItems = selectedItems;
             }
 
             if (SelectedHoldItems is not null && selectedCount == 0)
@@ -215,10 +204,7 @@ namespace Next2.ViewModels
 
                 result = _mapper.Map<ObservableCollection<TableBindableModel>>(tables);
 
-                if (App.IsTablet)
-                {
-                    result.Add(new TableBindableModel { TableNumber = Constants.Limits.ALL_TABLES, });
-                }
+                result.Add(new TableBindableModel { TableNumber = Constants.Limits.ALL_TABLES, });
 
                 result = new(result.OrderBy(x => x.TableNumber));
                 SelectedTable = result.FirstOrDefault();

@@ -278,8 +278,6 @@
                                 </CollectionView.Effects>
 
                                 <CollectionView.Behaviors>
-                                    
-                                    <behaviors:ScrollToCenterBehavior />
 
                                     <prism:EventToCommandBehavior
                                         EventName="SelectionChanged"
@@ -342,7 +340,7 @@
                                                     Grid.Column="1"
                                                     Style="{DynamicResource TableCellLabelStyle}"
                                                     HeightRequest="{DynamicResource TSize_i8}"
-                                                    Text="{Binding TableNumber, Converter={x:StaticResource holdTableNameToStringConverter}}"
+                                                    Text="{Binding TableNumber, Converter={x:StaticResource tableNumberToStringConverter}}"
                                                     LineBreakMode="TailTruncation" />
 
                                                 <Label
@@ -354,7 +352,7 @@
                                                 <Label
                                                     Grid.Column="3"
                                                     Style="{DynamicResource TableCellLabelStyle}"
-                                                    Text="{Binding ReleaseTime, StringFormat={x:Static local:Constants+Formats.HOLD_DATE_FORMAT}}" />
+                                                    Text="{Binding ReleaseTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
 
                                             </Grid>
 
@@ -400,7 +398,7 @@
                 Style="{DynamicResource DropDownListStyle_i1}"
                 WidthRequest="130"
                 ScrollBarVisibility="Never"
-                HeaderText="{Binding SelectedTable.TableNumber, Converter={x:StaticResource holdTableNameToStringConverter}}"
+                HeaderText="{Binding SelectedTable.TableNumber, Converter={x:StaticResource tableNumberToStringConverter}}"
                 SelectedItem="{Binding SelectedTable}"
                 ItemsSource="{Binding Tables}">
 
@@ -424,7 +422,7 @@
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                     FontSize="{DynamicResource TSize_i8}"
                                     HorizontalOptions="FillAndExpand"
-                                    Text="{Binding TableNumber, Converter={x:StaticResource holdTableNameToStringConverter}}" />
+                                    Text="{Binding TableNumber, Converter={x:StaticResource tableNumberToStringConverter}}" />
 
                             </StackLayout>
 
