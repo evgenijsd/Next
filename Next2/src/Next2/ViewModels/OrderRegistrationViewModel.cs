@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using TabletViews = Next2.Views.Tablet;
 
@@ -339,7 +340,7 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private Task UpdateDishGroupsAsync()
+        private async Task UpdateDishGroupsAsync()
         {
             DishesGroupedBySeats = new();
             var selectedDish = SelectedDish = null;
@@ -364,7 +365,13 @@ namespace Next2.ViewModels
                     }
                 }
 
+                if (DeviceInfo.Platform == DevicePlatform.iOS)
+                {
+                    await Task.Delay(100);
+                }
+
                 DishesGroupedBySeats.Add(new(seat.SeatNumber, selectedDishes));
+
                 var seatGroup = DishesGroupedBySeats.Last();
 
                 seatGroup.Checked = seat.Checked;
@@ -391,8 +398,6 @@ namespace Next2.ViewModels
             {
                 SelectedDish = null;
             }
-
-            return Task.CompletedTask;
         }
 
         private async Task RefreshTablesAsync()
