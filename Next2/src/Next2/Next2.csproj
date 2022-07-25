@@ -128,9 +128,6 @@
     <Compile Update="Controls\Buttons\BorderButton.xaml.cs">
       <DependentUpon>BorderButton.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Controls\CalendarTab.xaml.cs">
-      <DependentUpon>CalendarTab2.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Controls\CustomNavigationBar.xaml.cs">
       <DependentUpon>CustomNavigationBar.xaml</DependentUpon>
     </Compile>
@@ -302,9 +299,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Calendar.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Controls\CalendarTab.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\CustomKeyboard.xaml">

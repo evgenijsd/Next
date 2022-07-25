@@ -1,7 +1,5 @@
 ﻿using Next2.Enums;
 using Next2.Helpers;
-using Next2.Models;
-using Next2.Resources.Strings;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -121,6 +119,19 @@ namespace Next2.Controls
             set => SetValue(SelectedDateProperty, value);
         }
 
+        public static readonly BindableProperty SelectedStartDateProperty = BindableProperty.Create(
+            propertyName: nameof(SelectedStartDate),
+            returnType: typeof(DateTime?),
+            declaringType: typeof(Calendar),
+            defaultValue: null,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public DateTime? SelectedStartDate
+        {
+            get => (DateTime?)GetValue(SelectedStartDateProperty);
+            set => SetValue(SelectedStartDateProperty, value);
+        }
+
         public static readonly BindableProperty SelectedMonthProperty = BindableProperty.Create(
             propertyName: nameof(SelectedMonth),
             returnType: typeof(int),
@@ -142,6 +153,19 @@ namespace Next2.Controls
         {
             get => (Year)GetValue(SelectedYearProperty);
             set => SetValue(SelectedYearProperty, value);
+        }
+
+        public static readonly BindableProperty OffsetYearsProperty = BindableProperty.Create(
+            propertyName: nameof(OffsetYears),
+            returnType: typeof(int),
+            declaringType: typeof(Calendar),
+            defaultValue: 0,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public int OffsetYears
+        {
+            get => (int)GetValue(OffsetYearsProperty);
+            set => SetValue(OffsetYearsProperty, value);
         }
 
         public static readonly BindableProperty DropdownHeadLabelFontSizeProperty = BindableProperty.Create(
@@ -246,7 +270,7 @@ namespace Next2.Controls
         public Day SelectedDay { get; set; }
 
         private ICommand _selectYearCommand;
-        public ICommand SelectYearCommand => _selectYearCommand ??= new Command(OnSelectYearCommand);
+        public ICommand SelectYearCommand => _selectYearCommand ??= new Command(() => dropdownFrame.IsVisible = false);
 
         #endregion
 
@@ -267,16 +291,46 @@ namespace Next2.Controls
                 };
             }
 
+            if (propertyName == nameof(OffsetYears))
+            {
+                if (DateTime.Now.Year + OffsetYears > Constants.Limits.MAX_YEAR)
+                {
+                    OffsetYears = Constants.Limits.MAX_YEAR - DateTime.Now.Year;
+                }
+
+                for (int i = DateTime.Now.Year; i <= DateTime.Now.Year + OffsetYears; i++)
+                {
+                    var year = Years.FirstOrDefault(x => x.YearValue == i);
+                    year.Opacity = 1;
+                }
+            }
+
+            if (propertyName == nameof(SelectedMonth) || propertyName == nameof(SelectedYear))
+            {
+                if (SelectedDate is not null && SelectedYear?.YearValue == SelectedDate.Value.Year && SelectedMonth == SelectedDate.Value.Month)
+                {
+                    SelectedDay = new Day
+                    {
+                        DayOfMonth = SelectedDate.Value.Day.ToString(),
+                        State = EDayState.DayMonth,
+                    };
+                }
+                else
+                {
+                    SelectedDay = new();
+                }
+            }
+
             if (propertyName == nameof(SelectedDay) && dropdownFrame.IsVisible)
             {
                 dropdownFrame.IsVisible = false;
             }
             else if (propertyName == nameof(SelectedYear))
             {
-                if (SelectedYear.YearValue > DateTime.Now.Year && !_isFutureYearSelected)
+                if (SelectedYear.YearValue > DateTime.Now.Year + OffsetYears && !_isFutureYearSelected)
                 {
                     _isFutureYearSelected = true;
-                    SelectedYear = Years.FirstOrDefault(x => x.YearValue == DateTime.Now.Year);
+                    SelectedYear = Years.FirstOrDefault(x => x.YearValue == DateTime.Now.Year + OffsetYears);
                     yearsCollectionView.SelectedItem = null;
                 }
 
@@ -287,11 +341,6 @@ namespace Next2.Controls
         #endregion
 
         #region -- Private helpers --
-
-        private void OnSelectYearCommand()
-        {
-            dropdownFrame.IsVisible = false;
-        }
 
         private void OnYearDropDownTapped(object sender, EventArgs arg)
         {

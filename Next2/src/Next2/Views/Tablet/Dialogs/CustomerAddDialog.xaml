@@ -79,7 +79,9 @@
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
                         <!--  calendar  -->
-                        <controls:CalendarTab
+                        <controls:Calendar
+                            Title="{xct:Translate Birthday}"
+                            Style="{DynamicResource CalendarTabletStyle}"
                             Grid.Row="1"
                             Grid.Column="1"
                             SelectedDate="{Binding SelectedDate}" />
