@@ -457,6 +457,17 @@
                             IsEnabled="False"
                             xct:TouchEffect.Command="{Binding NextCommand}">
 
+                            <Frame.Triggers>
+
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsNextStepAvailable}" Value="true">
+
+                                    <Setter Property="Opacity" Value="1" />
+                                    <Setter Property="IsEnabled" Value="True" />
+
+                                </DataTrigger>
+
+                            </Frame.Triggers>
+
                             <StackLayout
                                 VerticalOptions="Center"
                                 HorizontalOptions="CenterAndExpand"
@@ -470,17 +481,6 @@
                                 <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png" />
 
                             </StackLayout>
-
-                            <Frame.Triggers>
-
-                                <DataTrigger TargetType="Frame" Binding="{Binding IsNextStepAvailable}" Value="true">
-
-                                    <Setter Property="Opacity" Value="1" />
-                                    <Setter Property="IsEnabled" Value="True" />
-
-                                </DataTrigger>
-
-                            </Frame.Triggers>
 
                         </Frame>
 
@@ -496,13 +496,6 @@
                             IsEnabled="False"
                             xct:TouchEffect.Command="{Binding SplitCommand}">
 
-                            <Label
-                                VerticalTextAlignment="Center"
-                                HorizontalTextAlignment="Center"
-                                Text="{xct:Translate Split}"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i6}"
-                                FontSize="{DynamicResource TSize_i4_5}" />
-
                             <Frame.Triggers>
 
                                 <DataTrigger TargetType="Frame" Binding="{Binding IsSplitAvailable}" Value="true">
@@ -513,6 +506,13 @@
                                 </DataTrigger>
 
                             </Frame.Triggers>
+
+                            <Label
+                                VerticalTextAlignment="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="{xct:Translate Split}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i6}"
+                                FontSize="{DynamicResource TSize_i4_5}" />
 
                         </Frame>
 

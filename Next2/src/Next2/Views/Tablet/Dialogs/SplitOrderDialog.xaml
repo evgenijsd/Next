@@ -529,12 +529,6 @@
                     IsEnabled="False"
                     xct:TouchEffect.Command="{Binding SplitCommand}">
 
-                    <Label
-                        VerticalTextAlignment="Center"
-                        HorizontalTextAlignment="Center"
-                        Text="{xct:Translate Split}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i6}" />
-
                     <Frame.Triggers>
                         <DataTrigger TargetType="Frame" Binding="{Binding IsSplitAvailable}" Value="true">
 
@@ -543,6 +537,12 @@
 
                         </DataTrigger>
                     </Frame.Triggers>
+
+                    <Label
+                        VerticalTextAlignment="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="{xct:Translate Split}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i6}" />
 
                 </Frame>
 

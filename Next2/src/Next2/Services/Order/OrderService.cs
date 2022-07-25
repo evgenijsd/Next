@@ -491,24 +491,36 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<Guid>> UpdateOrderAsync(object order)
+        public async Task<AOResult<Guid>> UpdateOrderAsync(OrderModelDTO order)
         {
             var result = new AOResult<Guid>();
 
-            UpdateOrderCommand updateOrderCommand = new ();
+            var updateOrderCommand = order.ToUpdateOrderCommand();
 
-            if (order is FullOrderBindableModel fullOrder)
+            try
             {
-                updateOrderCommand = fullOrder.ToUpdateOrderCommand();
+                var query = $"{Constants.API.HOST_URL}/api/orders";
+
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, query, updateOrderCommand);
+
+                if (response.Success)
+                {
+                    result.SetSuccess(response.Value);
+                }
             }
-            else if (order is OrderModelDTO orderModelDTO)
+            catch (Exception ex)
             {
-                updateOrderCommand = orderModelDTO.ToUpdateOrderCommand();
+                result.SetError($"{nameof(UpdateOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
-            else
-            {
-                return result;
-            }
+
+            return result;
+        }
+
+        public async Task<AOResult<Guid>> UpdateOrderAsync(FullOrderBindableModel order)
+        {
+            var result = new AOResult<Guid>();
+
+            var updateOrderCommand = order.ToUpdateOrderCommand();
 
             try
             {

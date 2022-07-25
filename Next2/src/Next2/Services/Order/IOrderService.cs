@@ -24,7 +24,9 @@ namespace Next2.Services.Order
 
         Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish);
 
-        Task<AOResult<Guid>> UpdateOrderAsync(object order);
+        Task<AOResult<Guid>> UpdateOrderAsync(OrderModelDTO order);
+
+        Task<AOResult<Guid>> UpdateOrderAsync(FullOrderBindableModel order);
 
         Task<AOResult> AddSeatInCurrentOrderAsync();
 
