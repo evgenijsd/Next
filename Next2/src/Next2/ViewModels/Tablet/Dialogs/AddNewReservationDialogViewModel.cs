@@ -127,26 +127,17 @@ namespace Next2.ViewModels.Tablet.Dialogs
         {
             var param = new DialogParameters();
 
-            var popupPage = new Views.Tablet.Dialogs.InputDialog(param, AddNewReservationDialogCallBack)
-            {
-                Animation = new Rg.Plugins.Popup.Animations.MoveAnimation(MoveAnimationOptions.Bottom, MoveAnimationOptions.Top),
-            };
+            var popupPage = new Views.Tablet.Dialogs.InputDialog(param, AddNewReservationDialogCallBack);
 
             await PopupNavigation.PushAsync(popupPage);
-
-            //MessagingCenter.Subscribe<ReservationsViewModel, string>(this, Constants.Navigations.INPUT_NOTES, InputNotesHandler);
-
-            //var navigationParameters = new NavigationParameters()
-            //{
-            //    { Constants.Navigations.INPUT_NOTES, Notes },
-            //    { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["CommentForReservation"] },
-            //};
-
-            //await _navigationService.NavigateAsync(nameof(SearchPage), navigationParameters, true);
         }
 
         private void AddNewReservationDialogCallBack(IDialogParameters obj)
         {
+            if (PopupNavigation.PopupStack.Count > 0)
+            {
+                PopupNavigation.PopAsync();
+            }
         }
 
         private async Task OnChangeTimeFormatCommandAsync(string state)

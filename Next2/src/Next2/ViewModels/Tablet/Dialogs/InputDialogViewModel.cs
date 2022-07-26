@@ -2,6 +2,8 @@
 using Prism.Navigation;
 using Prism.Navigation.Xaml;
 using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Enums;
+using Rg.Plugins.Popup.Interfaces.Animations;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -31,6 +33,8 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public DelegateCommand DeclineCommand { get; }
 
+        public IPopupAnimation Animation { get; set; } = new Rg.Plugins.Popup.Animations.MoveAnimation(MoveAnimationOptions.Bottom, MoveAnimationOptions.Top);
+
         public int CursorPosition { get; set; }
 
         public string SearchLine { get; set; } = string.Empty;
@@ -46,6 +50,8 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         private Task OnGoBackCommandAsync()
         {
+            Animation = new Rg.Plugins.Popup.Animations.MoveAnimation(MoveAnimationOptions.Top, MoveAnimationOptions.Bottom);
+
             RequestClose(new DialogParameters());
 
             return Task.CompletedTask;
