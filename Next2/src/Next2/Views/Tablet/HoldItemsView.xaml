@@ -86,7 +86,7 @@
                             
                             <DataTrigger 
                                 TargetType="buttons:BorderButton"
-                                Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                Binding="{Binding SelectedHoldItems, Converter={xct:IsNotNullOrEmptyConverter}}"
                                 Value="True">
                                 
                                 <Setter Property="IsEnabled" Value="True" />
@@ -109,7 +109,7 @@
                             
                             <DataTrigger
                                 TargetType="buttons:BorderButton"
-                                Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                Binding="{Binding SelectedHoldItems, Converter={xct:IsNotNullOrEmptyConverter}}"
                                 Value="True">
                                 
                                 <Setter Property="IsEnabled" Value="True" />
@@ -283,7 +283,7 @@
 
                                     <prism:EventToCommandBehavior
                                         EventName="SelectionChanged"
-                                        Command="{Binding GetSelectedHoldItemsCommand}"
+                                        Command="{Binding SetSelectedHoldItemsCommand}"
                                         EventArgsParameterPath="CurrentSelection" />
 
                                 </CollectionView.Behaviors>
@@ -354,7 +354,7 @@
                                                 <Label
                                                     Grid.Column="3"
                                                     Style="{DynamicResource TableCellLabelStyle}"
-                                                    Text="{Binding ReleaseTime, StringFormat={x:Static local:Constants+Formats.HOLD_DATE_FORMAT}}" />
+                                                    Text="{Binding ReleaseTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
 
                                             </Grid>
 

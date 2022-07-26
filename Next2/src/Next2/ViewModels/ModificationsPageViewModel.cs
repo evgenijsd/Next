@@ -61,6 +61,7 @@ namespace Next2.ViewModels
             _bonusesService = bonusService;
             _notificationsService = notificationsService;
             _mapper = mapper;
+            _notificationsService = notificationsService;
 
             CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 

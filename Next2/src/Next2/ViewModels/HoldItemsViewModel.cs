@@ -44,22 +44,11 @@ namespace Next2.ViewModels
 
         public int IndexLastVisibleElement { get; set; }
 
-        public int IndexLastItemDisplay { get; set; }
+        public int IndexLastElement { get; set; }
 
         public ObservableCollection<HoldItemBindableModel> HoldItems { get; set; } = new();
 
-        private ObservableCollection<object>? _selectedHoldItems;
-        public ObservableCollection<object>? SelectedHoldItems
-        {
-            get => _selectedHoldItems;
-            set
-            {
-                if (_selectedHoldItems != value)
-                {
-                    _selectedHoldItems = value;
-                }
-            }
-        }
+        public ObservableCollection<object>? SelectedHoldItems { get; set; }
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new();
 
@@ -71,8 +60,8 @@ namespace Next2.ViewModels
         private ICommand _changeSortHoldItemsCommand;
         public ICommand ChangeSortHoldItemsCommand => _changeSortHoldItemsCommand ??= new AsyncCommand<EHoldItemsSortingType>(OnChangeSortHoldItemsCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _getSelectedHoldItemsCommand;
-        public ICommand GetSelectedHoldItemsCommand => _getSelectedHoldItemsCommand ??= new AsyncCommand<List<object>?>(OnGetSelectedHoldItemsCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _setSelectedHoldItemsCommand;
+        public ICommand SetSelectedHoldItemsCommand => _setSelectedHoldItemsCommand ??= new AsyncCommand<List<object>?>(OnSetSelectedHoldItemsCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tapSelectAllHoldItemsTableCommand;
         public ICommand TapSelectAllHoldItemsTableCommand => _tapSelectAllHoldItemsTableCommand ??= new AsyncCommand(OnTapSelectAllHoldItemsTableCommand, allowsMultipleExecutions: false);
@@ -105,9 +94,9 @@ namespace Next2.ViewModels
 
             if (args.PropertyName is nameof(IndexLastVisibleElement))
             {
-                if (IndexLastVisibleElement > IndexLastItemDisplay)
+                if (IndexLastVisibleElement > IndexLastElement)
                 {
-                    IndexLastItemDisplay = IndexLastVisibleElement;
+                    IndexLastElement = IndexLastVisibleElement;
                 }
             }
         }
@@ -130,7 +119,7 @@ namespace Next2.ViewModels
 
         private ObservableCollection<HoldItemBindableModel> GetHoldItemsByTableNumber(int tableNumber)
         {
-            if (HoldItems.FirstOrDefault()?.TableNumber != tableNumber)
+            if (HoldItems.Any(x => x.TableNumber != tableNumber))
             {
                 SelectedHoldItems = null;
             }
@@ -138,7 +127,7 @@ namespace Next2.ViewModels
             var holdItems = _holdItemService.GetHoldItemsByTableNumber(tableNumber);
 
             IsNothingFound = !holdItems.Any();
-            IndexLastItemDisplay = HoldItems.Count;
+            IndexLastElement = HoldItems.Count;
 
             return _mapper.Map<ObservableCollection<HoldItemBindableModel>>(holdItems);
         }
@@ -188,11 +177,11 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnGetSelectedHoldItemsCommandAsync(List<object>? selectedItems)
+        private Task OnSetSelectedHoldItemsCommandAsync(List<object>? selectedItems)
         {
-            var selectedCount = selectedItems?.Count;
+            var selectedCount = selectedItems?.Count ?? 0;
 
-            if (SelectedHoldItems?.Count != selectedCount && selectedCount != 0)
+            if (SelectedHoldItems?.Count != selectedCount && selectedCount > 0)
             {
                 SelectedHoldItems = new(selectedItems);
             }
@@ -215,10 +204,7 @@ namespace Next2.ViewModels
 
                 result = _mapper.Map<ObservableCollection<TableBindableModel>>(tables);
 
-                if (App.IsTablet)
-                {
-                    result.Add(new TableBindableModel { TableNumber = Constants.Limits.ALL_TABLES, });
-                }
+                result.Add(new TableBindableModel { TableNumber = Constants.Limits.ALL_TABLES, });
 
                 result = new(result.OrderBy(x => x.TableNumber));
                 SelectedTable = result.FirstOrDefault();
@@ -242,7 +228,7 @@ namespace Next2.ViewModels
             }
 
             IsNothingFound = !result.Any();
-            IndexLastItemDisplay = HoldItems.Count;
+            IndexLastElement = HoldItems.Count;
 
             return result;
         }
