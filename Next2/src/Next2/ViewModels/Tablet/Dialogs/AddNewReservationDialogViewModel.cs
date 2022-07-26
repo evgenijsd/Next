@@ -120,7 +120,10 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         private async Task OnGoBackCommandAsync()
         {
-            await _navigationService.GoBackAsync();
+            if (PopupNavigation.PopupStack.Count > 0)
+            {
+                PopupNavigation.PopAsync();
+            }
         }
 
         private async Task OnGoInputCommentCommandAsync()

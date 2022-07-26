@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Navigation.Xaml;
 using Prism.Services.Dialogs;
@@ -11,7 +12,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Tablet.Dialogs
 {
-    public class InputDialogViewModel
+    public class InputDialogViewModel : BindableBase
     {
         public InputDialogViewModel(
             DialogParameters param,
@@ -37,7 +38,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public int CursorPosition { get; set; }
 
-        public string SearchLine { get; set; } = string.Empty;
+        public string SearchLine { get; set; } = "Hello world";
 
         public string Placeholder { get; set; } = string.Empty;
 
@@ -48,13 +49,13 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         #region -- Private helpers --
 
-        private Task OnGoBackCommandAsync()
+        private async Task OnGoBackCommandAsync()
         {
             Animation = new Rg.Plugins.Popup.Animations.MoveAnimation(MoveAnimationOptions.Top, MoveAnimationOptions.Bottom);
 
-            RequestClose(new DialogParameters());
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
 
-            return Task.CompletedTask;
+            RequestClose(new DialogParameters());
         }
 
         #endregion
