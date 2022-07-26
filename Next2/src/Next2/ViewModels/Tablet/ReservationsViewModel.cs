@@ -114,7 +114,7 @@ namespace Next2.ViewModels.Tablet
         {
             Func<string, string> searchValidator = Filters.StripInvalidNameCharacters;
 
-            var parameters = new Prism.Navigation.NavigationParameters()
+            var parameters = new NavigationParameters()
             {
                 { Constants.Navigations.SEARCH_RESERVATION, SearchQuery },
                 { Constants.Navigations.FUNC, searchValidator },
@@ -187,13 +187,12 @@ namespace Next2.ViewModels.Tablet
 
         private async void AddNewReservationDialogCallBack(IDialogParameters param)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out Guid customerId))
+            if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool customerId))
             {
-            }
-
-            if (PopupNavigation.PopupStack.Count > 0)
-            {
-                await PopupNavigation.PopAsync();
+                if (PopupNavigation.PopupStack.Count > 0)
+                {
+                    await PopupNavigation.PopAsync();
+                }
             }
         }
 
