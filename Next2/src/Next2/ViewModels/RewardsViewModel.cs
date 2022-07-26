@@ -232,12 +232,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await ResponseToBadRequestAsync(resultOfGettingCustomer.Exception?.Message);
+                        await _notificationsService.ResponseToBadRequestAsync(resultOfGettingCustomer.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
                 }
             }
         }

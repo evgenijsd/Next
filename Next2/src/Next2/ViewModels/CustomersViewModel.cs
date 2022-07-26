@@ -169,14 +169,14 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(resultOfGettingCustomers.Exception?.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfGettingCustomers.Exception?.Message);
                 }
 
                 IsRefreshing = false;
             }
             else
             {
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -262,12 +262,12 @@ namespace Next2.ViewModels
                     {
                         _orderService.CurrentOrder.Customer = new();
 
-                        await ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
+                        await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await ShowInfoDialogAsync(
+                    await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -305,7 +305,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
                 }
             }
         }
