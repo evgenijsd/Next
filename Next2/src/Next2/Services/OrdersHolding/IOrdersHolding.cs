@@ -9,10 +9,10 @@ namespace Next2.Services.OrdersHolding
 {
     public interface IOrdersHolding
     {
-        Task<AOResult<IEnumerable<HoldDishModel>>> GetAllHoldItemsAsync();
+        Task<AOResult<IEnumerable<HoldDishModel>>> GetAllHoldDishesAsync();
 
-        IEnumerable<HoldDishBindableModel> GetSortedHoldItems(EHoldItemsSortingType typeSort, IEnumerable<HoldDishBindableModel> holdDihes);
+        IEnumerable<HoldDishBindableModel> GetSortedHoldDishes(EHoldDishesSortingType typeSort, IEnumerable<HoldDishBindableModel> holdDihes);
 
-        IEnumerable<HoldDishModel> GetHoldItemsByTableNumber(int tableNumber);
+        IEnumerable<HoldDishModel> GetHoldDishesByTableNumber(int tableNumber);
     }
 }

@@ -229,8 +229,8 @@
     <Compile Update="Views\Mobile\Dialogs\ConfirmDialog.xaml.cs">
       <DependentUpon>ConfirmDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Mobile\HoldItemsPage.xaml.cs">
-      <DependentUpon>HoldItemsView.xaml</DependentUpon>
+    <Compile Update="Views\Mobile\HoldDishesPage.xaml.cs">
+      <DependentUpon>HoldDishesPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\MenuPageMenuPage.xaml.cs">
       <DependentUpon>MenuPageMenuPage.xaml</DependentUpon>
@@ -268,8 +268,8 @@
     <Compile Update="Views\Tablet\Dialogs\CustomerInfoDialog.xaml.cs">
       <DependentUpon>CustomerInfoDialogxaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Tablet\HoldItemsView.xaml.cs">
-      <DependentUpon>HoldItemsView.xaml</DependentUpon>
+    <Compile Update="Views\Tablet\HoldDishesView.xaml.cs">
+      <DependentUpon>HoldDishesView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\MembershipView.xaml.cs">
       <DependentUpon>MembershipView.xaml</DependentUpon>

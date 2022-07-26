@@ -16,57 +16,57 @@ namespace Next2.Services.OrdersHolding
     {
         private readonly IMockService _mockService;
 
-        private IEnumerable<HoldDishModel> _allHoldItems = Enumerable.Empty<HoldDishModel>();
+        private IEnumerable<HoldDishModel> _allHoldDishes = Enumerable.Empty<HoldDishModel>();
 
         public OrdersHolding(IMockService mockService)
         {
             _mockService = mockService;
         }
 
-        #region -- IHoldItemService implementation --
+        #region -- IOrdersService implementation --
 
-        public IEnumerable<HoldDishModel> GetHoldItemsByTableNumber(int tableNumber)
+        public IEnumerable<HoldDishModel> GetHoldDishesByTableNumber(int tableNumber)
         {
-            var result = _allHoldItems;
+            var result = _allHoldDishes;
 
             if (tableNumber != 0)
             {
-                result = _allHoldItems.Where(x => x.TableNumber == tableNumber);
+                result = _allHoldDishes.Where(x => x.TableNumber == tableNumber);
             }
 
             return result;
         }
 
-        public IEnumerable<HoldDishBindableModel> GetSortedHoldItems(EHoldItemsSortingType typeSort, IEnumerable<HoldDishBindableModel> holdItems)
+        public IEnumerable<HoldDishBindableModel> GetSortedHoldDishes(EHoldDishesSortingType typeSort, IEnumerable<HoldDishBindableModel> holdDishes)
         {
             Func<HoldDishBindableModel, object> sortingSelector = typeSort switch
             {
-                EHoldItemsSortingType.ByTableNumber => x => x.TableNumber,
-                EHoldItemsSortingType.ByItem => x => x.DishName,
+                EHoldDishesSortingType.ByTableNumber => x => x.TableNumber,
+                EHoldDishesSortingType.ByDishName => x => x.DishName,
                 _ => throw new NotImplementedException(),
             };
 
-            return holdItems.OrderBy(sortingSelector);
+            return holdDishes.OrderBy(sortingSelector);
         }
 
-        public async Task<AOResult<IEnumerable<HoldDishModel>>> GetAllHoldItemsAsync()
+        public async Task<AOResult<IEnumerable<HoldDishModel>>> GetAllHoldDishesAsync()
         {
             var result = new AOResult<IEnumerable<HoldDishModel>>();
 
             try
             {
-                _allHoldItems = await _mockService.GetAllAsync<HoldDishModel>();
+                _allHoldDishes = await _mockService.GetAllAsync<HoldDishModel>();
 
-                if (_allHoldItems is not null)
+                if (_allHoldDishes is not null)
                 {
-                    _allHoldItems = _allHoldItems.OrderBy(x => x.TableNumber);
+                    _allHoldDishes = _allHoldDishes.OrderBy(x => x.TableNumber);
 
-                    result.SetSuccess(_allHoldItems);
+                    result.SetSuccess(_allHoldDishes);
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetAllHoldItemsAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetAllHoldDishesAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

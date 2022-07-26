@@ -50,7 +50,7 @@ namespace Next2.ViewModels
         private SeatBindableModel _firstSeat;
         private SeatBindableModel _firstNotEmptySeat;
         private SeatBindableModel _seatWithSelectedDish;
-        private DishBindableModel? _rememberSelection;
+        private DishBindableModel? _rememberPositionSelection;
         private bool _isAnyDishChosen;
 
         public OrderRegistrationViewModel(
@@ -383,9 +383,9 @@ namespace Next2.ViewModels
                 seatGroup.IsFirstSeat = seat.IsFirstSeat;
                 SelectedDish = selectedDish;
 
-                if (App.IsTablet && _rememberSelection is not null && SelectedDish is null)
+                if (App.IsTablet && _rememberPositionSelection is not null && SelectedDish is null)
                 {
-                    SelectedDish = _rememberSelection;
+                    SelectedDish = _rememberPositionSelection;
                 }
 
                 if (seat.Checked && seat.SelectedItem is null)
@@ -449,7 +449,7 @@ namespace Next2.ViewModels
         {
             if (SelectedDish is not null)
             {
-                _rememberSelection = SelectedDish;
+                _rememberPositionSelection = SelectedDish;
                 SelectedDish = null;
 
                 foreach (var item in CurrentOrder.Seats)
@@ -472,7 +472,7 @@ namespace Next2.ViewModels
         {
             if (IsInternetConnected)
             {
-                _rememberSelection = null;
+                _rememberPositionSelection = null;
                 var seatNumber = seatGroup?.SeatNumber ?? 0;
                 var seat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == seatNumber);
 
@@ -512,7 +512,7 @@ namespace Next2.ViewModels
         {
             if (CurrentOrder is not null && CurrentOrder.Seats is not null)
             {
-                _rememberSelection = null;
+                _rememberPositionSelection = null;
                 var seatNumber = dish?.SeatNumber ?? 0;
                 var seat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == seatNumber);
 
@@ -720,7 +720,7 @@ namespace Next2.ViewModels
             seatToBeSelected.Checked = true;
 
             SelectedDish = null;
-            _rememberSelection = null;
+            _rememberPositionSelection = null;
 
             return RefreshCurrentOrderAsync();
         }
@@ -845,7 +845,7 @@ namespace Next2.ViewModels
                 if (resultOfUpdatingCurrentOrder.IsSuccess)
                 {
                     var resultOfSettingEmptyCurrentOrder = await _orderService.SetEmptyCurrentOrderAsync();
-                    _rememberSelection = null;
+                    _rememberPositionSelection = null;
 
                     if (resultOfSettingEmptyCurrentOrder.IsSuccess)
                     {
@@ -1065,7 +1065,7 @@ namespace Next2.ViewModels
                         {
                             _orderService.UpdateTotalSum(CurrentOrder);
 
-                            _rememberSelection = null;
+                            _rememberPositionSelection = null;
                             await RefreshCurrentOrderAsync();
 
                             if (CurrentState == ENewOrderViewState.Edit)
@@ -1083,7 +1083,7 @@ namespace Next2.ViewModels
 
                                     _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.SelectedDishes.FirstOrDefault();
 
-                                    _rememberSelection = null;
+                                    _rememberPositionSelection = null;
                                     await UpdateDishGroupsAsync();
                                 }
                                 else

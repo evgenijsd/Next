@@ -107,7 +107,7 @@ namespace Next2.ViewModels.Mobile
                     switch (SelectedMenuItem.State)
                     {
                         case EMenuItems.HoldItems:
-                            _navigationService.NavigateAsync(nameof(HoldItemsPage));
+                            _navigationService.NavigateAsync(nameof(HoldDishesPage));
                             break;
                         case EMenuItems.OrderTabs:
                             _navigationService.NavigateAsync(nameof(OrderTabsPage));

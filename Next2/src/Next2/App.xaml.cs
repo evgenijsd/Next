@@ -104,7 +104,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<TabletViews.SplitOrderPage, SplitOrderViewModel>();
 
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
-                containerRegistry.RegisterSingleton<HoldItemsViewModel>();
+                containerRegistry.RegisterSingleton<HoldDishesViewModel>();
                 containerRegistry.RegisterSingleton<OrderTabsViewModel>();
                 containerRegistry.RegisterSingleton<ReservationsViewModel>();
                 containerRegistry.RegisterSingleton<CustomersViewModel>();
@@ -128,7 +128,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SettingsPage, SettingsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.HoldDishesPage, HoldDishesViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderRegistrationPage, OrderRegistrationViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
