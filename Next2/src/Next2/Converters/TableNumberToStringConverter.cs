@@ -7,7 +7,7 @@ using Xamarin.CommunityToolkit.Helpers;
 
 namespace Next2.Converters
 {
-    public class HoldTableNameToStringConverter : IValueConverter
+    public class TableNumberToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
