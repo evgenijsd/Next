@@ -2,7 +2,6 @@
 <CarouselView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:converters="clr-namespace:Next2.Converters"
     x:Class="Next2.Controls.NumericPicker"
     x:Name="carouselView">
 
@@ -31,7 +30,7 @@
                     <DataTrigger TargetType="Label" Value="True">
 
                         <DataTrigger.Binding>
-                            <MultiBinding Converter="{converters:EqualsMultiConverter}">
+                            <MultiBinding Converter="{StaticResource equalsMultiConverter}">
 
                                 <Binding Path="CurrentItem" Source="{x:Reference carouselView}" />
                                 <Binding Path="Text" Source="{x:Reference label}"/>

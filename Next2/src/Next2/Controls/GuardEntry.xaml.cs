@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -8,6 +10,8 @@ namespace Next2.Controls
         public GuardEntry()
         {
             InitializeComponent();
+
+            EntryBehaviors = new();
         }
 
         #region -- Public properties --
@@ -110,29 +114,104 @@ namespace Next2.Controls
             set => SetValue(IsValidProperty, value);
         }
 
-        public static readonly BindableProperty BehaviorProperty = BindableProperty.Create(
-            propertyName: nameof(Behavior),
-            returnType: typeof(Behavior<NoActionMenuEntry>),
-            declaringType: typeof(GuardEntry),
-            defaultBindingMode: BindingMode.TwoWay);
+        public static readonly BindableProperty EntryBehaviorsProperty = BindableProperty.Create(
+            nameof(EntryBehaviors),
+            typeof(ObservableCollection<Behavior<NoActionMenuEntry>>),
+            typeof(GuardEntry),
+            propertyChanged: (b, o, n) =>
+            ((GuardEntry)b).OnItemsSourcePropertyChanged((IEnumerable)o, (IEnumerable)n));
 
-        public Behavior<NoActionMenuEntry> Behavior
+        public ObservableCollection<Behavior<NoActionMenuEntry>> EntryBehaviors
         {
-            get => (Behavior<NoActionMenuEntry>)GetValue(BehaviorProperty);
-            set => SetValue(BehaviorProperty, value);
+            get => (ObservableCollection<Behavior<NoActionMenuEntry>>)GetValue(EntryBehaviorsProperty);
+            set => SetValue(EntryBehaviorsProperty, value);
         }
 
         #endregion
 
-        #region -- Overrides --
+        #region -- Private methods --
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnItemsSourcePropertyChanged(IEnumerable oldItemsSource, IEnumerable newItemsSource)
         {
-            base.OnPropertyChanged(propertyName);
-
-            if (propertyName is nameof(Behavior) && Behavior is not null)
+            if (oldItemsSource is INotifyCollectionChanged ncc)
             {
-                entry.Behaviors.Add(Behavior);
+                ncc.CollectionChanged -= OnItemsSourceCollectionChanged;
+            }
+
+            if (newItemsSource is INotifyCollectionChanged ncc1)
+            {
+                ncc1.CollectionChanged += OnItemsSourceCollectionChanged;
+            }
+
+            entry.Behaviors.Clear();
+
+            AddBehaviorItems(EntryBehaviors);
+        }
+
+        private void OnItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    if (e.NewStartingIndex == -1)
+                    {
+                        entry.Behaviors.Clear();
+                    }
+
+                    AddBehaviorItems(e.NewItems);
+
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                    if (e.OldStartingIndex == -1 || e.NewStartingIndex == -1)
+                    {
+                        entry.Behaviors.Clear();
+                    }
+
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    if (e.OldStartingIndex == -1)
+                    {
+                        entry.Behaviors.Clear();
+                    }
+
+                    RemoveBehaviorItems(e.OldItems);
+
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    if (e.OldStartingIndex == -1)
+                    {
+                        entry.Behaviors.Clear();
+                    }
+
+                    RemoveBehaviorItems(e.OldItems);
+                    AddBehaviorItems(e.NewItems);
+
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    entry.Behaviors.Clear();
+                    break;
+            }
+        }
+
+        private void RemoveBehaviorItems(IEnumerable items)
+        {
+            foreach (object item in items)
+            {
+                if (item is Behavior<NoActionMenuEntry> behavior)
+                {
+                    entry.Behaviors.Remove(behavior);
+                }
+            }
+        }
+
+        private void AddBehaviorItems(IEnumerable items)
+        {
+            foreach (object item in items)
+            {
+                if (item is Behavior<NoActionMenuEntry> behavior)
+                {
+                    entry.Behaviors.Add(behavior);
+                }
             }
         }
 

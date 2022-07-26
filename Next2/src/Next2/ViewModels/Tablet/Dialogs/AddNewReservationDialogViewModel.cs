@@ -1,55 +1,70 @@
-﻿using Next2.Enums;
-using Next2.Models;
-using Next2.Models.Bindables;
-using Next2.Services.Customers;
+﻿using Next2.Services.Customers;
+using Next2.Views.Tablet;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet.Dialogs
 {
     public class AddNewReservationDialogViewModel : BindableBase
     {
+        private readonly INavigationService _navigationService;
         private readonly ICustomersService _customersService;
 
         public AddNewReservationDialogViewModel(
             DialogParameters param,
             Action<IDialogParameters> requestClose,
+            INavigationService navigationService,
             ICustomersService customersService)
         {
+            _navigationService = navigationService;
             _customersService = customersService;
 
             RequestClose = requestClose;
             CloseCommand = new DelegateCommand(() => RequestClose(null));
             AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }));
             DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
+
+            GenerateCollection(GuestsAmount, 25);
+            GenerateCollection(Tables, 10);
+
+            SelectedDate = DateTime.Now;
+            Hours = "05";
+            Minutes = "32";
         }
 
         #region -- Public properties --
 
-        public ObservableCollection<int> GuestsAmountList { get; set; }
+        public string Name { get; set; }
 
-        public string Name { get; set; } = string.Empty;
-
-        public string Phone { get; set; } = string.Empty;
+        public string Phone { get; set; }
 
         public int SelectedAmountGuests { get; set; }
 
+        public ObservableCollection<int> GuestsAmount { get; set; } = new();
+
         public int SelectedTable { get; set; }
+
+        public ObservableCollection<int> Tables { get; set; } = new();
 
         public string Notes { get; set; } = string.Empty;
 
-        public DateTime? SelectedDate { get; set; } = null;
+        public DateTime? SelectedDate { get; set; }
 
-        public int Hours { get; set; }
+        public DateTime MinimumSelectableDate { get; set; } = DateTime.Now;
 
-        public int Minutes { get; set; }
+        public string Hours { get; set; }
+
+        public string Minutes { get; set; }
 
         public bool IsPMTimeFormat { get; set; }
 
@@ -57,7 +72,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public bool IsValidPhone { get; set; }
 
-        public bool CanAddNewReservation => IsValidName && IsValidPhone && SelectedTable > 0 && SelectedDate is not null;
+        public bool CanAddNewReservation { get; set; }
 
         public Action<IDialogParameters> RequestClose;
 
@@ -67,8 +82,11 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public DelegateCommand DeclineCommand { get; }
 
-        private ICommand _addNewReservationCommand;
-        public ICommand AddNewReservationCommand => _addNewReservationCommand ??= new AsyncCommand(OnAddNewReservationCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _changeTimeFormatCommand;
+        public ICommand ChangeTimeFormatCommand => _changeTimeFormatCommand ??= new AsyncCommand<string>(OnChangeTimeFormatCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _openPageInputCommentCommand;
+        public ICommand GoInputCommentCommand => _openPageInputCommentCommand ??= new AsyncCommand(OnGoInputCommentCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -77,23 +95,54 @@ namespace Next2.ViewModels.Tablet.Dialogs
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
+
+            if (args.PropertyName
+                is nameof(IsValidName)
+                or nameof(IsValidPhone)
+                or nameof(SelectedAmountGuests)
+                or nameof(SelectedDate))
+            {
+                CanAddNewReservation = IsValidName && IsValidPhone && SelectedAmountGuests > 0 && SelectedDate is not null;
+            }
         }
 
         #endregion
 
         #region -- Private helpers --
 
-        private async Task OnAddNewReservationCommandAsync()
+        private void InputNotesHandler(ReservationsViewModel sender, string inputNotes)
         {
+            Notes = inputNotes;
+
+            MessagingCenter.Unsubscribe<ReservationsViewModel>(this, Constants.Navigations.INPUT_NOTES);
         }
 
-        private void GenerateGuestsAmountList()
+        private async Task OnGoInputCommentCommandAsync()
         {
-            GuestsAmountList = new();
+            MessagingCenter.Subscribe<ReservationsViewModel, string>(this, Constants.Navigations.INPUT_NOTES, InputNotesHandler);
 
-            for (int i = 0; i < 25; i++)
+            var navigationParameters = new NavigationParameters()
             {
-                GuestsAmountList.Add(i);
+                { Constants.Navigations.INPUT_NOTES, Notes },
+                { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["CommentForReservation"] },
+            };
+
+            await _navigationService.NavigateAsync(nameof(SearchPage), navigationParameters);
+        }
+
+        private async Task OnChangeTimeFormatCommandAsync(string state)
+        {
+            if (bool.TryParse(state, out bool result))
+            {
+                IsPMTimeFormat = result;
+            }
+        }
+
+        private void GenerateCollection(ObservableCollection<int> collection, int count)
+        {
+            for (int i = 1; i < count; i++)
+            {
+                collection.Add(i);
             }
         }
 

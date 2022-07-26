@@ -485,6 +485,9 @@
     <EmbeddedResource Update="Views\Tablet\Dialogs\FinishPaymentDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\NoLightDismissPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\PaymentCompleteDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

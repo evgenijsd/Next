@@ -51,6 +51,7 @@
             public const string SEARCH_MEMBER = "SEARCH_MEMBER";
             public const string SEARCH_CUSTOMER = "SEARCH_CUSTOMER";
             public const string SEARCH_RESERVATION = "SEARCH_RESERVATION";
+            public const string INPUT_NOTES = "INPUT_NOTES";
             public const string FUNC = "FUNC";
             public const string REFRESH_ORDER = "REFRESH_ORDER";
             public const string CURRENT_ORDER = "CURRENT_ORDER";
@@ -89,6 +90,7 @@
             public const string PASCAL_CASE = @"\b[A-Z]{1}[a-z\d]*\b";
             public const string NUMBER = @"[\D]";
             public const string PHONE = @"^\d{10}$";
+            public const string PHONE_MASK = @"\([0-9]{3}\) [0-9]{3}-[0-9]{4}$";
             public const string CHECK_NUMBER = @"^[\d]";
             public const string EMAIL = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
            @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";

@@ -7,11 +7,13 @@
     xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:viewModelsDialogs="clr-namespace:Next2.ViewModels.Tablet.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-    xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     HasKeyboardOffset="False"
+    CloseWhenBackgroundIsClicked="False"
+    IsBusy="False"
     x:Class="Next2.Views.Tablet.Dialogs.AddNewReservationDialog"
     x:DataType="viewModelsDialogs:AddNewReservationDialogViewModel">
 
@@ -105,7 +107,6 @@
                                     <controls:GuardEntry
                                         Grid.Row="1"
                                         Margin="0, 5, 0, 0"
-                                        IsEnabled="{Binding IsEntriesEnabled}"
                                         MaxLength="80"
                                         Keyboard="Text"
                                         Placeholder="{xct:Translate TypeName}"
@@ -113,9 +114,9 @@
                                         IsValid="{Binding IsValidName}"
                                         Text="{Binding Name}">
 
-                                        <controls:GuardEntry.Behavior>
+                                        <controls:GuardEntry.EntryBehaviors>
                                             <behaviors:NameValidatorBehavior />
-                                        </controls:GuardEntry.Behavior>
+                                        </controls:GuardEntry.EntryBehaviors>
 
                                     </controls:GuardEntry>
 
@@ -126,17 +127,17 @@
 
                                     <controls:GuardEntry
                                         Grid.Row="3"
-                                        IsEnabled="{Binding IsEntriesEnabled}"
-                                        MaxLength="15"
-                                        Keyboard="Telephone"
+                                        Keyboard="Numeric"
                                         Placeholder="{Static local:Constants+Formats.PHONE_MASK}"
                                         ErrorText="{xct:Translate IncorrectNumber}"
                                         IsValid="{Binding IsValidPhone}"
+                                        MaxLength="14"
                                         Text="{Binding Phone}">
 
-                                        <controls:GuardEntry.Behavior>
+                                        <controls:GuardEntry.EntryBehaviors>
                                             <behaviors:MaskedEntryBehavior Mask="(XXX) XXX-XXXX"/>
-                                        </controls:GuardEntry.Behavior>
+                                            <behaviors:ValidatorBehavior Match="{x:Static local:Constants+Validators.PHONE_MASK}"/>
+                                        </controls:GuardEntry.EntryBehaviors>
 
                                     </controls:GuardEntry>
 
@@ -154,17 +155,32 @@
                                     Margin="18">
 
                                     <controls:DropDownList
-                                        IsExpanded="{Binding IsExpandGuestsAmount}"
                                         ShouldTranslate="False"
                                         Direction="Up"
                                         HeaderText="{xct:Translate GuestsAmount}"
+                                        HeaderTextOpacity="{DynamicResource OpacityWhenDisabled_i3}"
                                         Style="{DynamicResource DropDownListStyle_i1}"
                                         HeaderTextSize="{DynamicResource TSize_i9}"
-                                        ItemsSource="{Binding GuestsAmountList}"
+                                        SelectedItem="{Binding SelectedAmountGuests}"
+                                        ItemsSource="{Binding GuestsAmount}"
                                         HorizontalOptions="Fill">
 
+                                        <controls:DropDownList.Triggers>
+
+                                            <DataTrigger
+                                                TargetType="controls:DropDownList"
+                                                Binding="{Binding SelectedAmountGuests, Converter={xct:IntToBoolConverter}}"
+                                                Value="True">
+
+                                                <Setter Property="HeaderText" Value="{Binding SelectedAmountGuests}"/>
+                                                <Setter Property="HeaderTextOpacity" Value="1"/>
+
+                                            </DataTrigger>
+
+                                        </controls:DropDownList.Triggers>
+
                                         <controls:DropDownList.DataTemplate>
-                                            <DataTemplate>
+                                            <DataTemplate x:DataType="{x:Type x:Int32}">
                                                 <StackLayout 
                                                     Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                                                     xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}">
@@ -173,16 +189,14 @@
 
                                                     <StackLayout
                                                         Padding="14, 9"
-                                                        HeightRequest="21"
-                                                        Orientation="Horizontal"
-                                                        x:DataType="modelsBindable:TableBindableModel">
+                                                        HeightRequest="21">
 
                                                         <Label
                                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                             FontFamily="Barlow-Medium"
                                                             FontSize="{DynamicResource TSize_i8}"
                                                             HorizontalOptions="FillAndExpand"
-                                                            Text="{Binding TableNumber, StringFormat='Table {0}'}" />
+                                                            Text="{Binding .}" />
 
                                                     </StackLayout>
 
@@ -221,30 +235,44 @@
                                     Grid.Row="1"
                                     Style="{DynamicResource DropDownListStyle_i1}"
                                     VerticalOptions="Start"
-                                    HeaderText="{xct:Translate TableNumber}"
                                     HeaderTextSize="{DynamicResource TSize_i9}"
-                                    ItemsSource="{Binding GuestsAmountList}">
+                                    HeaderTextOpacity="{DynamicResource OpacityWhenDisabled_i3}"
+                                    HeaderText="{xct:Translate TableNumber}"
+                                    SelectedItem="{Binding SelectedTable}"
+                                    ItemsSource="{Binding Tables}">
+
+                                    <controls:DropDownList.Triggers>
+
+                                        <DataTrigger
+                                            TargetType="controls:DropDownList"
+                                            Binding="{Binding SelectedTable, Converter={xct:IntToBoolConverter}}"
+                                            Value="True">
+
+                                            <Setter Property="HeaderText" Value="{Binding SelectedTable, StringFormat='Table {0}'}"/>
+                                            <Setter Property="HeaderTextOpacity" Value="1"/>
+
+                                        </DataTrigger>
+
+                                    </controls:DropDownList.Triggers>
 
                                     <controls:DropDownList.DataTemplate>
-                                        <DataTemplate>
+                                        <DataTemplate x:DataType="{x:Type x:Int32}">
                                             <StackLayout 
                                                 Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                                                xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}">
+                                                xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
                                                 <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                                                 <StackLayout
                                                     Padding="14, 9"
-                                                    HeightRequest="21"
-                                                    Orientation="Horizontal"
-                                                    x:DataType="modelsBindable:TableBindableModel">
+                                                    HeightRequest="21">
 
                                                     <Label
                                                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                         FontFamily="Barlow-Medium"
                                                         FontSize="{DynamicResource TSize_i8}"
                                                         HorizontalOptions="FillAndExpand"
-                                                        Text="{Binding TableNumber, StringFormat='Table {0}'}" />
+                                                        Text="{Binding .}" />
 
                                                 </StackLayout>
 
@@ -265,13 +293,24 @@
                                     CornerRadius="5"
                                     Padding="12, 10"
                                     HeightRequest="65"
-                                    Border="{pv:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}">
+                                    Border="{pv:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"
+                                    xct:TouchEffect.Command="{Binding GoInputCommentCommand}">
 
                                     <Label
                                         Text="{xct:Translate CommentForReservation}"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                        Opacity="{DynamicResource OpacityWhenDisabled_i3}"/>
-                                    
+                                        Opacity="{DynamicResource OpacityWhenDisabled_i3}">
+
+                                        <Label.Triggers>
+
+                                            <DataTrigger TargetType="Label" Binding="{Binding Notes, Converter={xct:IsNullOrEmptyConverter}}" Value="False">
+                                                <Setter Property="Text" Value="{Binding Notes}"/>
+                                            </DataTrigger>
+                                            
+                                        </Label.Triggers>
+                                        
+                                    </Label>
+
                                 </pv:PancakeView>
 
                             </Grid>
@@ -296,6 +335,8 @@
                     Grid.Column="1"
                     Padding="10, 0"
                     IsSelectYearVisible="False"
+                    OffsetYears="1"
+                    SelectedStartDate="{Binding MinimumSelectableDate}"
                     SelectedDate="{Binding SelectedDate}"/>
 
                 <BoxView
@@ -356,7 +397,19 @@
                                 Padding="19, 0"
                                 VerticalTextAlignment="Center"
                                 HorizontalTextAlignment="Center"
-                                BackgroundColor="{DynamicResource AppColor_i1}"/>
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                xct:TouchEffect.Command="{Binding ChangeTimeFormatCommand}"
+                                xct:TouchEffect.CommandParameter="false">
+
+                                <Label.Triggers>
+
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsPMTimeFormat}" Value="False">
+                                        <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i1}"/>
+                                    </DataTrigger>
+                                    
+                                </Label.Triggers>
+
+                            </Label>
 
                             <Label
                                 Text="{xct:Translate PM}"
@@ -364,7 +417,19 @@
                                 Padding="19, 0"
                                 VerticalTextAlignment="Center"
                                 HorizontalTextAlignment="Center"
-                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                xct:TouchEffect.Command="{Binding ChangeTimeFormatCommand}"
+                                xct:TouchEffect.CommandParameter="true">
+
+                                <Label.Triggers>
+
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsPMTimeFormat}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i1}"/>
+                                    </DataTrigger>
+
+                                </Label.Triggers>
+                                
+                            </Label>
 
                         </StackLayout>
 
@@ -403,8 +468,8 @@
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i6}"
                     Text="{xct:Translate Done}"
-                    IsEnabled="{Binding CanAddNewCustomer}"
-                    Command="{Binding AddNewReservationCommand}">
+                    IsEnabled="{Binding CanAddNewReservation}"
+                    Command="{Binding AcceptCommand}">
 
                     <Frame.Triggers>
                         <DataTrigger TargetType="Frame" Binding="{Binding CanAddNewReservation}" Value="True">

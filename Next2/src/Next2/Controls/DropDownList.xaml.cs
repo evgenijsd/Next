@@ -64,6 +64,19 @@ namespace Next2.Controls
             set => SetValue(HeaderTextSizeProperty, value);
         }
 
+        public static readonly BindableProperty HeaderTextOpacityProperty = BindableProperty.Create(
+            propertyName: nameof(HeaderTextOpacity),
+            returnType: typeof(double),
+            declaringType: typeof(DropDownList),
+            defaultValue: 1d,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public double HeaderTextOpacity
+        {
+            get => (double)GetValue(HeaderTextOpacityProperty);
+            set => SetValue(HeaderTextOpacityProperty, value);
+        }
+
         public static readonly BindableProperty HeaderTextProperty = BindableProperty.Create(
             propertyName: nameof(HeaderText),
             returnType: typeof(string),

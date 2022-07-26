@@ -6,7 +6,9 @@ using Next2.Services.Customers;
 using Next2.Services.Reservation;
 using Next2.Views.Mobile;
 using Prism.Navigation;
+using Xamarin.CommunityToolkit.Extensions;
 using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,6 +16,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
+using Xamarin.CommunityToolkit.UI.Views;
+using Prism.Navigation.Xaml;
 
 namespace Next2.ViewModels.Tablet
 {
@@ -107,6 +112,11 @@ namespace Next2.ViewModels.Tablet
             IsReservationsRefreshing = true;
         }
 
+        public void SetInputNotes(string inputNotes)
+        {
+            MessagingCenter.Send(this, Constants.Navigations.INPUT_NOTES, inputNotes);
+        }
+
         #endregion
 
         #region -- Private helpers --
@@ -115,7 +125,7 @@ namespace Next2.ViewModels.Tablet
         {
             Func<string, string> searchValidator = Filters.StripInvalidNameCharacters;
 
-            var parameters = new NavigationParameters()
+            var parameters = new Prism.Navigation.NavigationParameters()
             {
                 { Constants.Navigations.SEARCH_RESERVATION, SearchQuery },
                 { Constants.Navigations.FUNC, searchValidator },
@@ -177,19 +187,39 @@ namespace Next2.ViewModels.Tablet
             return Task.CompletedTask;
         }
 
-        private Task OnAddNewReservationCommandAsync()
+        private INavigation Navigation => App.Current.MainPage.Navigation;
+
+        private async Task OnAddNewReservationCommandAsync()
         {
-            var param = new DialogParameters();
+            var page = new ContentPage()
+            {
+                Content = new StackLayout()
+                {
+                    BackgroundColor = Color.Red,
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    HeightRequest = 500,
+                    WidthRequest = 500,
+                    Children =
+                    {
+                        new Label()
+                        {
+                            Text = "sddssd",
+                        },
+                    },
+                },
+            };
 
-            var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(param, AddNewReservationDialogCallBack, App.Resolve<ICustomersService>());
+            await App.Current.MainPage.Navigation.PushAsync(page);
 
-            return PopupNavigation.PushAsync(popupPage);
+            //var param = new DialogParameters();
+
+            //var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(param, AddNewReservationDialogCallBack, _navigationService, App.Resolve<ICustomersService>());
+
+            //return PopupNavigation.PushAsync(popupPage);
         }
 
         private async void AddNewReservationDialogCallBack(IDialogParameters param)
         {
-            await PopupNavigation.PopAsync();
-
             if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out Guid customerId))
             {
             }

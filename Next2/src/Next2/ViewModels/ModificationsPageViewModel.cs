@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Next2.Enums;
-using Next2.Extensions;
 using Next2.Helpers;
 using Next2.Models.API;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
-using Next2.Resources.Strings;
 using Next2.Services.Bonuses;
 using Next2.Services.Menu;
 using Next2.Services.Order;
@@ -18,6 +16,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -585,7 +584,7 @@ namespace Next2.ViewModels
                         var navigationParameters = new NavigationParameters()
                         {
                             { Constants.Navigations.INPUT_VALUE, _currentDish.SelectedProducts?[indexProduct].Comment },
-                            { Constants.Navigations.PLACEHOLDER, Strings.CommentForOrder },
+                            { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["CommentForOrder"] },
                         };
 
                         await _navigationService.NavigateAsync(nameof(InputTextPage), navigationParameters);
