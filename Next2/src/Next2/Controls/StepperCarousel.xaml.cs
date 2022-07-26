@@ -12,8 +12,6 @@ namespace Next2.Controls
         private int _firstVisibleItemIndex;
         private int _countVisibleItems;
 
-        private double _viewItemWidth;
-
         public StepperCarousel()
         {
             InitializeComponent();
@@ -45,6 +43,19 @@ namespace Next2.Controls
             set => SetValue(SelectedItemProperty, value);
         }
 
+        public static readonly BindableProperty ItemWidthProperty = BindableProperty.Create(
+            propertyName: nameof(ItemWidth),
+            returnType: typeof(double),
+            defaultValue: 124d,
+            declaringType: typeof(StepperCarousel),
+            defaultBindingMode: BindingMode.OneWay);
+
+        public double ItemWidth
+        {
+            get => (double)GetValue(ItemWidthProperty);
+            set => SetValue(ItemWidthProperty, value);
+        }
+
         private ICommand _scrollToLeftCommand;
         public ICommand ScrollToLeftCommand => _scrollToLeftCommand ??= new Command(OnScrollToLeftCommand);
 
@@ -65,22 +76,20 @@ namespace Next2.Controls
 
         private void OnScrollToRightCommand()
         {
-            if (ItemsSource.Count - _firstVisibleItemIndex - _countVisibleItems > 1)
+            if (ItemsSource.Count - _firstVisibleItemIndex - _countVisibleItems >= 1)
             {
                 collectionView.ScrollTo(_firstVisibleItemIndex + 2, -1, ScrollToPosition.Start, true);
             }
         }
 
-        private void collectionView_Scrolled(object sender, ItemsViewScrolledEventArgs e)
+        private void OnCollectionViewScrolled(object sender, ItemsViewScrolledEventArgs e)
         {
-            if (_viewItemWidth == 0f && collectionView.ItemTemplate.CreateContent() is View view)
+            if (_countVisibleItems <= 0f)
             {
-                _viewItemWidth = view.WidthRequest;
-
-                _countVisibleItems = (int)((collectionView.Width / _viewItemWidth) * 2);
+                _countVisibleItems = (int)((collectionView.Width / ItemWidth) * 2);
             }
 
-            _firstVisibleItemIndex = (int)(e.HorizontalOffset / _viewItemWidth) * 2;
+            _firstVisibleItemIndex = (int)(e.HorizontalOffset / ItemWidth) * 2;
         }
 
         #endregion

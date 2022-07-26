@@ -43,7 +43,7 @@
         SelectionMode="Single"
         ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}"
         SelectedItem="{Binding SelectedItem, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}"
-        Scrolled="collectionView_Scrolled"
+        Scrolled="OnCollectionViewScrolled"
         x:Name="collectionView">
 
         <CollectionView.ItemsLayout>
@@ -52,7 +52,7 @@
                 Orientation="Horizontal"
                 Span="2"
                 SnapPointsType="Mandatory" 
-                SnapPointsAlignment="Center"
+                SnapPointsAlignment="Start"
                 VerticalItemSpacing="8"
                 HorizontalItemSpacing="8"/>
 
@@ -67,7 +67,9 @@
 
                 <templates:CategoryItemTemplate
                     Padding="0"
-                    WidthRequest="124"
+                    WidthRequest="{Binding ItemWidth, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}"
+                    MinimumHeightRequest="54"
+                    HeightRequest="54"
                     CornerRadius="8"
                     Text="{Binding Name}"
                     FontSize="{DynamicResource TSize_i8}"
