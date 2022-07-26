@@ -30,7 +30,7 @@ namespace Next2.ViewModels.Tablet
             INavigationService navigationService,
             IAuthenticationService authenticationService,
             NewOrderViewModel newOrderViewModel,
-            HoldItemsViewModel holdItemsViewModel,
+            HoldDishesViewModel holdDishesViewModel,
             OrderTabsViewModel orderTabsViewModel,
             ReservationsViewModel reservationsViewModel,
             MembershipViewModel membershipViewModel,
@@ -41,7 +41,7 @@ namespace Next2.ViewModels.Tablet
             : base(navigationService)
         {
             NewOrderViewModel = newOrderViewModel;
-            HoldItemsViewModel = holdItemsViewModel;
+            HoldDishesViewModel = holdDishesViewModel;
             OrderTabsViewModel = orderTabsViewModel;
             ReservationsViewModel = reservationsViewModel;
             MembershipViewModel = membershipViewModel;
@@ -78,7 +78,7 @@ namespace Next2.ViewModels.Tablet
 
         public NewOrderViewModel NewOrderViewModel { get; set; }
 
-        public HoldItemsViewModel HoldItemsViewModel { get; set; }
+        public HoldDishesViewModel HoldDishesViewModel { get; set; }
 
         public OrderTabsViewModel OrderTabsViewModel { get; set; }
 
@@ -195,7 +195,7 @@ namespace Next2.ViewModels.Tablet
                     State = EMenuItems.HoldItems,
                     Title = "Hold Items",
                     ImagePath = "ic_time_circle_30x30.png",
-                    ViewModel = HoldItemsViewModel,
+                    ViewModel = HoldDishesViewModel,
                 },
                 new MenuItemBindableModel()
                 {

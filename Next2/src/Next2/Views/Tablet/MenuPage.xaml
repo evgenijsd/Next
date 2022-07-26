@@ -264,7 +264,7 @@
 
             <sc:StateCondition State="HoldItems">
 
-                <viewsTablet:HoldItemsView BindingContext="{Binding HoldItemsViewModel}" />
+                <viewsTablet:HoldDishesView BindingContext="{Binding HoldDishesViewModel}" />
 
             </sc:StateCondition>
 

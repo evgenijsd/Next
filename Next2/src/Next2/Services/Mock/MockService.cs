@@ -17,7 +17,7 @@ namespace Next2.Services.Mock
         private IList<WorkLogRecordModel> _workLogBook;
         private IList<GiftCardModelDTO> _giftCards;
         private IList<ReservationModel> _reservationsList;
-        private IList<HoldItemModel> _holdItems;
+        private IList<HoldDishModel> _holdItems;
 
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
@@ -158,7 +158,7 @@ namespace Next2.Services.Mock
                 { typeof(WorkLogRecordModel), _workLogBook },
                 { typeof(GiftCardModelDTO), _giftCards },
                 { typeof(ReservationModel), _reservationsList },
-                { typeof(HoldItemModel), _holdItems },
+                { typeof(HoldDishModel), _holdItems },
             };
 
             _maxIdentifiers = new Dictionary<Type, int>
@@ -166,7 +166,7 @@ namespace Next2.Services.Mock
                 { typeof(RewardModel), GetMaxId(_rewards) },
                 { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
                 { typeof(ReservationModel), GetMaxId(_reservationsList) },
-                { typeof(HoldItemModel), GetMaxId(_holdItems) },
+                { typeof(HoldDishModel), GetMaxId(_holdItems) },
             };
 
             _initCompletionSource.TrySetResult(true);
@@ -414,7 +414,7 @@ namespace Next2.Services.Mock
         {
             Random random = new();
 
-            _holdItems = new List<HoldItemModel>
+            _holdItems = new List<HoldDishModel>
             {
                 new()
                 {

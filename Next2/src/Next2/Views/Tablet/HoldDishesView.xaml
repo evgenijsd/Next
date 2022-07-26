@@ -14,8 +14,8 @@
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models.Bindables"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    x:Class="Next2.Views.Tablet.HoldItemsView"
-    x:DataType="viewModels:HoldItemsViewModel">
+    x:Class="Next2.Views.Tablet.HoldDishesView"
+    x:DataType="viewModels:HoldDishesViewModel">
 
     <ContentView.Resources>
 
@@ -53,7 +53,7 @@
 
                 <Label
                     Grid.Column="0"
-                    Text="{xct:Translate HoldItems}"
+                    Text="{xct:Translate HoldDishes}"
                     Padding="32, 18"
                     VerticalOptions="CenterAndExpand"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -86,7 +86,7 @@
                             
                             <DataTrigger 
                                 TargetType="buttons:BorderButton"
-                                Binding="{Binding SelectedHoldItems, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                Binding="{Binding SelectedHoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}"
                                 Value="True">
                                 
                                 <Setter Property="IsEnabled" Value="True" />
@@ -109,7 +109,7 @@
                             
                             <DataTrigger
                                 TargetType="buttons:BorderButton"
-                                Binding="{Binding SelectedHoldItems, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                Binding="{Binding SelectedHoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}"
                                 Value="True">
                                 
                                 <Setter Property="IsEnabled" Value="True" />
@@ -138,7 +138,7 @@
                         MinimumHeightRequest="42"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-                        <StackLayout xct:TouchEffect.Command="{Binding TapSelectAllHoldItemsTableCommand}">
+                        <StackLayout xct:TouchEffect.Command="{Binding TapSelectAllHoldDishesTableCommand}">
 
                             <ffimageloading:CachedImage
                                 Source="ic_check_box_unchecked_white"
@@ -152,8 +152,10 @@
                                     <DataTrigger TargetType="ffimageloading:CachedImage" Value="0">
                                         <DataTrigger.Binding>
                                             <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
-                                                <Binding Path="HoldItems.Count" />
-                                                <Binding Path="SelectedHoldItems.Count" />
+                                                
+                                                <Binding Path="HoldDishes.Count" />
+                                                <Binding Path="SelectedHoldDishes.Count" />
+                                                
                                             </MultiBinding>
                                         </DataTrigger.Binding>
 
@@ -179,8 +181,8 @@
                         <StackLayout
                             Grid.Column="1"
                             Orientation="Horizontal"
-                            xct:TouchEffect.Command="{Binding ChangeSortHoldItemsCommand}"
-                            xct:TouchEffect.CommandParameter="{x:Static enums:EHoldItemsSortingType.ByTableName}">
+                            xct:TouchEffect.Command="{Binding ChangeSortHoldDishesCommand}"
+                            xct:TouchEffect.CommandParameter="{x:Static enums:EHoldDishesSortingType.ByTableNumber}">
 
                             <Label
                                 Style="{DynamicResource TableCellLabelStyle}"
@@ -197,8 +199,8 @@
                         <StackLayout
                             Grid.Column="2"
                             Orientation="Horizontal"
-                            xct:TouchEffect.Command="{Binding ChangeSortHoldItemsCommand}"
-                            xct:TouchEffect.CommandParameter="{x:Static enums:EHoldItemsSortingType.ByItem}">
+                            xct:TouchEffect.Command="{Binding ChangeSortHoldDishesCommand}"
+                            xct:TouchEffect.CommandParameter="{x:Static enums:EHoldDishesSortingType.ByDishName}">
 
                             <Label
                                 Style="{DynamicResource TableCellLabelStyle}"
@@ -232,7 +234,7 @@
                         <MultiTrigger TargetType="yummy:PancakeView">
                             <MultiTrigger.Conditions>
                                 <BindingCondition Binding="{Binding IsNothingFound}" Value="false" />
-                                <BindingCondition Binding="{Binding HoldItems.Count}" Value="0" />
+                                <BindingCondition Binding="{Binding HoldDishes.Count}" Value="0" />
                             </MultiTrigger.Conditions>
 
                             <Setter Property="VerticalOptions" Value="FillAndExpand" />
@@ -252,17 +254,17 @@
                     </yummy:PancakeView.Triggers>
 
                     <RefreshView
-                        IsRefreshing="{Binding IsHoldItemsRefreshing}"
-                        Command="{Binding RefreshHoldItemsCommand}">
+                        IsRefreshing="{Binding IsHoldDishesRefreshing}"
+                        Command="{Binding RefreshHoldDishesCommand}">
 
                         <StackLayout>
 
                             <controls:CustomCollectionView
-                                HeightRequest="{Binding HoldItems, Converter={StaticResource listHeightConverter}, ConverterParameter=40}"
+                                HeightRequest="{Binding HoldDishes, Converter={StaticResource listHeightConverter}, ConverterParameter=40}"
                                 Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                                 SelectionMode="Multiple"
-                                ItemsSource="{Binding HoldItems}"
-                                SelectedItems="{Binding SelectedHoldItems}"
+                                ItemsSource="{Binding HoldDishes}"
+                                SelectedItems="{Binding SelectedHoldDishes}"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                                 <CollectionView.Effects>
@@ -281,13 +283,13 @@
 
                                     <prism:EventToCommandBehavior
                                         EventName="SelectionChanged"
-                                        Command="{Binding GetSelectedHoldItemsCommand}"
+                                        Command="{Binding GetSelectedHoldDishesCommand}"
                                         EventArgsParameterPath="CurrentSelection" />
 
                                 </CollectionView.Behaviors>
 
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:HoldItemBindableModel">
+                                    <DataTemplate x:DataType="models:HoldDishBindableModel">
 
                                         <Grid
                                             HorizontalOptions="Fill"
@@ -346,7 +348,7 @@
                                                 <Label
                                                     Grid.Column="2"
                                                     Style="{DynamicResource TableCellLabelStyle}"
-                                                    Text="{Binding Item}"
+                                                    Text="{Binding DishName}"
                                                     LineBreakMode="TailTruncation" />
 
                                                 <Label

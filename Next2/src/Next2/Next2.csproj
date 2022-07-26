@@ -111,7 +111,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.4" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.2" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2478" />
@@ -229,8 +229,8 @@
     <Compile Update="Views\Mobile\Dialogs\ConfirmDialog.xaml.cs">
       <DependentUpon>ConfirmDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Mobile\HoldItemsPage.xaml.cs">
-      <DependentUpon>HoldItemsView.xaml</DependentUpon>
+    <Compile Update="Views\Mobile\HoldDishesPage.xaml.cs">
+      <DependentUpon>HoldDishesPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\MenuPageMenuPage.xaml.cs">
       <DependentUpon>MenuPageMenuPage.xaml</DependentUpon>
@@ -268,8 +268,8 @@
     <Compile Update="Views\Tablet\Dialogs\CustomerInfoDialog.xaml.cs">
       <DependentUpon>CustomerInfoDialogxaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Tablet\HoldItemsView.xaml.cs">
-      <DependentUpon>HoldItemsView.xaml</DependentUpon>
+    <Compile Update="Views\Tablet\HoldDishesView.xaml.cs">
+      <DependentUpon>HoldDishesView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\MembershipView.xaml.cs">
       <DependentUpon>MembershipView.xaml</DependentUpon>

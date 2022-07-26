@@ -25,7 +25,7 @@ namespace Next2.Converters
         {
             string result = $"{LocalizationResourceManager.Current["Table"]} {table}";
 
-            if (table == 0)
+            if (table == Constants.Limits.ALL_TABLES)
             {
                 result = $"{LocalizationResourceManager.Current["AllTables"]}";
             }

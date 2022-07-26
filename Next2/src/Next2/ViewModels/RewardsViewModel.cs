@@ -216,15 +216,28 @@ namespace Next2.ViewModels
         {
             await _notificationsService.CloseAllPopupAsync();
 
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out Guid newCustomerId))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.CUSTOMER, out CustomerBindableModel customer))
             {
-                var customerResult = await _customersService.GetCustomersAsync(x => x.Id == newCustomerId);
+                var resultOfCreatingNewCustomer = await _customersService.CreateCustomerAsync(customer);
 
-                if (customerResult.IsSuccess)
+                if (resultOfCreatingNewCustomer.IsSuccess)
                 {
-                    _orderService.CurrentOrder.Customer = customerResult.Result.FirstOrDefault();
+                    var resultOfGettingCustomer = await _customersService.GetCustomersAsync(x => x.Id == resultOfCreatingNewCustomer.Result);
 
-                    await RefreshPageDataAsync();
+                    if (resultOfGettingCustomer.IsSuccess)
+                    {
+                        _orderService.CurrentOrder.Customer = resultOfGettingCustomer.Result.FirstOrDefault();
+
+                        await RefreshPageDataAsync();
+                    }
+                    else
+                    {
+                        await _notificationsService.ResponseToBadRequestAsync(resultOfGettingCustomer.Exception?.Message);
+                    }
+                }
+                else
+                {
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
                 }
             }
         }
@@ -234,8 +247,8 @@ namespace Next2.ViewModels
             var param = new DialogParameters();
 
             PopupPage popupPage = App.IsTablet
-                ? new Views.Tablet.Dialogs.CustomerAddDialog(param, AddNewCustomerDialogCallBackAsync, _customersService)
-                : new Views.Mobile.Dialogs.CustomerAddDialog(param, AddNewCustomerDialogCallBackAsync, _customersService);
+                ? new Views.Tablet.Dialogs.CustomerAddDialog(param, AddNewCustomerDialogCallBackAsync)
+                : new Views.Mobile.Dialogs.CustomerAddDialog(param, AddNewCustomerDialogCallBackAsync);
 
             return PopupNavigation.PushAsync(popupPage);
         }

@@ -48,8 +48,16 @@
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
-                            <RowDefinition Height="{Binding HeightCoupons}" />
+                            <RowDefinition Height="{Binding Coupons, Converter={StaticResource listHeightConverter},  ConverterParameter=65}" />  
                         </Grid.RowDefinitions>
+
+                        <Grid.Triggers>
+
+                            <DataTrigger TargetType="Grid" Binding="{Binding IsCouponsVisible}" Value="False">
+                                <Setter Property="RowDefinitions" Value="40, 0"/>
+                            </DataTrigger>
+
+                        </Grid.Triggers>
 
                         <StackLayout
                             Grid.Row="0"
@@ -69,7 +77,7 @@
 
                                 <ffimageloading:CachedImage.Triggers>
 
-                                    <DataTrigger Binding="{Binding HeightCoupons}" TargetType="ffimageloading:CachedImage" Value="0">
+                                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding IsCouponsVisible}" Value="False">
 
                                         <Setter Property="Source" Value="ic_arrow_down_24x24" />
 
@@ -125,8 +133,16 @@
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
-                            <RowDefinition Height="{Binding HeightDiscounts}" />
+                            <RowDefinition Height="{Binding Discounts, Converter={StaticResource listHeightConverter},  ConverterParameter=65}" />
                         </Grid.RowDefinitions>
+
+                        <Grid.Triggers>
+
+                            <DataTrigger TargetType="Grid" Binding="{Binding IsDiscountsVisible}" Value="False">
+                                <Setter Property="RowDefinitions" Value="40, 0"/>
+                            </DataTrigger>
+
+                        </Grid.Triggers>
 
                         <StackLayout Orientation="Horizontal">
 
@@ -145,7 +161,7 @@
 
                                 <ffimageloading:CachedImage.Triggers>
 
-                                    <DataTrigger Binding="{Binding HeightDiscounts}" TargetType="ffimageloading:CachedImage" Value="0">
+                                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding IsDiscountsVisible}" Value="False">
 
                                         <Setter Property="Source" Value="ic_arrow_down_24x24" />
 

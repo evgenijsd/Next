@@ -3,7 +3,7 @@ using System;
 
 namespace Next2.Models
 {
-    public class HoldItemModel : IBaseModel
+    public class HoldDishModel : IBaseModel
     {
         public int Id { get; set; }
 

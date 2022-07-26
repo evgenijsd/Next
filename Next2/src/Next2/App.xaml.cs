@@ -37,7 +37,7 @@ using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
 using Next2.Services.Reservation;
-using Next2.Services.HoldItem;
+using Next2.Services.OrdersHolding;
 using Next2.Services.Notifications;
 using Next2.Views.Mobile;
 using Prism.Navigation;
@@ -81,7 +81,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<IBonusesService, BonusesService>();
             containerRegistry.RegisterSingleton<IWorkLogService, WorkLogService>();
             containerRegistry.RegisterSingleton<IReservationService, ReservationService>();
-            containerRegistry.RegisterSingleton<IHoldItemService, HoldItemService>();
+            containerRegistry.RegisterSingleton<IOrdersHoldingService, OrdersHoldingService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
@@ -104,7 +104,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<TabletViews.SplitOrderPage, SplitOrderViewModel>();
 
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
-                containerRegistry.RegisterSingleton<HoldItemsViewModel>();
+                containerRegistry.RegisterSingleton<HoldDishesViewModel>();
                 containerRegistry.RegisterSingleton<OrderTabsViewModel>();
                 containerRegistry.RegisterSingleton<ReservationsViewModel>();
                 containerRegistry.RegisterSingleton<CustomersViewModel>();
@@ -128,7 +128,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SettingsPage, SettingsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.HoldDishesPage, HoldDishesViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderRegistrationPage, OrderRegistrationViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
@@ -241,8 +241,8 @@ namespace Next2
                 cfg.CreateMap<ProductBindableModel, SimpleProductModelDTO>().ReverseMap();
                 cfg.CreateMap<GiftCardModelDTO, UpdateGiftCardCommand>().ReverseMap();
                 cfg.CreateMap<SimpleProductModelDTO, SimpleProductModelDTO>();
-                cfg.CreateMap<HoldItemModel, HoldItemBindableModel>().ReverseMap();
-                cfg.CreateMap<HoldItemBindableModel, TableBindableModel>()
+                cfg.CreateMap<HoldDishModel, HoldDishBindableModel>().ReverseMap();
+                cfg.CreateMap<HoldDishBindableModel, TableBindableModel>()
                     .ForMember(x => x.Id, s => s.Ignore());
             }).CreateMapper();
         }

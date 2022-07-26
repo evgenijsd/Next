@@ -15,8 +15,8 @@
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-    x:Class="Next2.Views.Mobile.HoldItemsPage"
-    x:DataType="viewModels:HoldItemsViewModel">
+    x:Class="Next2.Views.Mobile.HoldDishesPage"
+    x:DataType="viewModels:HoldDishesViewModel">
 
     <ContentPage.Resources>
         
@@ -46,7 +46,7 @@
             <Grid RowDefinitions="65, *">
 
                 <controls:CustomNavigationBar
-                    Title="{xct:Translate HoldItems}"
+                    Title="{xct:Translate HoldDishes}"
                     Padding="12, 0, 0, 0"
                     HeightImage="24"
                     FontFamily="Barlow-Bold"
@@ -76,7 +76,7 @@
                                 ColumnDefinitions="45, 0.55*, 0.45*"
                                 ColumnSpacing="0">
 
-                                <StackLayout xct:TouchEffect.Command="{Binding TapSelectAllHoldItemsTableCommand}">
+                                <StackLayout xct:TouchEffect.Command="{Binding TapSelectAllHoldDishesTableCommand}">
 
                                     <ffimageloading:CachedImage
                                         Source="ic_check_box_unchecked_white"
@@ -90,8 +90,8 @@
                                                 <DataTrigger.Binding>
                                                     <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
                                                         
-                                                        <Binding Path="HoldItems.Count" />
-                                                        <Binding Path="SelectedHoldItems.Count" />
+                                                        <Binding Path="HoldDishes.Count" />
+                                                        <Binding Path="SelectedHoldDishes.Count" />
                                                         
                                                     </MultiBinding>
                                                 </DataTrigger.Binding>
@@ -131,7 +131,7 @@
 
                         <yummy:PancakeView
                             Margin="24, 0"
-                            HeightRequest="{Binding HoldItems, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
+                            HeightRequest="{Binding HoldDishes, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
                             CornerRadius="0"
                             BackgroundColor="{StaticResource TextAndBackgroundColor_i3}"
                             VerticalOptions="Start">
@@ -143,7 +143,7 @@
                                     <DataTrigger.Binding>
                                         <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
 
-                                            <Binding Path="IndexLastItemDisplay" />
+                                            <Binding Path="IndexLastDisheDisplay" />
                                             <Binding Path="IndexLastVisibleElement" />
 
                                         </MultiBinding>
@@ -165,14 +165,14 @@
                             </yummy:PancakeView.Triggers>
 
                             <RefreshView
-                                IsRefreshing="{Binding IsHoldItemsRefreshing}"
-                                Command="{Binding RefreshHoldItemsCommand}">
+                                IsRefreshing="{Binding IsHoldDishesRefreshing}"
+                                Command="{Binding RefreshHoldDishesCommand}">
 
                                 <controls:CustomCollectionView
                                     VerticalScrollBarVisibility="Never"
                                     SelectionMode="Multiple"
-                                    ItemsSource="{Binding HoldItems}"
-                                    SelectedItems="{Binding SelectedHoldItems}"
+                                    ItemsSource="{Binding HoldDishes}"
+                                    SelectedItems="{Binding SelectedHoldDishes}"
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                                     IndexLastVisible="{Binding IndexLastVisibleElement}">
 
@@ -188,13 +188,13 @@
 
                                         <prism:EventToCommandBehavior
                                             EventName="SelectionChanged"
-                                            Command="{Binding GetSelectedHoldItemsCommand}"
+                                            Command="{Binding GetSelectedHoldDishesCommand}"
                                             EventArgsParameterPath="CurrentSelection" />
 
                                     </controls:CustomCollectionView.Behaviors>
 
                                     <controls:CustomCollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="models:HoldItemBindableModel">
+                                        <DataTemplate x:DataType="models:HoldDishBindableModel">
 
                                             <Grid
                                                 RowDefinitions="0.98*, 0.02*"
@@ -216,7 +216,7 @@
                                                     Grid.Column="1"
                                                     LineBreakMode="TailTruncation"
                                                     Style="{DynamicResource ViewCellLabelStyle}"
-                                                    Text="{Binding Item}" />
+                                                    Text="{Binding DishName}" />
 
                                                 <Label
                                                     Grid.Row="0"
@@ -341,7 +341,7 @@
                 HeightRequest="75"
                 MinimumHeightRequest="75"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                IsVisible="{Binding SelectedHoldItems, Converter={xct:IsNotNullOrEmptyConverter}}">
+                IsVisible="{Binding SelectedHoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}">
 
                 <BoxView
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
