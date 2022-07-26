@@ -27,7 +27,7 @@
         </Style>
     </StackLayout.Resources>
 
-    <pancakeview:PancakeView xct:TouchEffect.Command="{Binding ScrollRightCommand, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}">
+    <pancakeview:PancakeView xct:TouchEffect.Command="{Binding ScrollToLeftCommand, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}">
 
         <ffimageloading:CachedImage 
             HeightRequest="24"
@@ -41,8 +41,8 @@
         VerticalScrollBarVisibility="Never"
         HorizontalScrollBarVisibility="Never"
         SelectionMode="Single"
-        ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=ItemsSource}"
-        SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=SelectedItem}"
+        ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}"
+        SelectedItem="{Binding SelectedItem, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}"
         Scrolled="collectionView_Scrolled"
         x:Name="collectionView">
 
@@ -52,7 +52,7 @@
                 Orientation="Horizontal"
                 Span="2"
                 SnapPointsType="Mandatory" 
-                SnapPointsAlignment="Start"
+                SnapPointsAlignment="Center"
                 VerticalItemSpacing="8"
                 HorizontalItemSpacing="8"/>
 
@@ -79,7 +79,7 @@
 
     </CollectionView>
 
-    <pancakeview:PancakeView xct:TouchEffect.Command="{Binding ScrollLeftCommand, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}">
+    <pancakeview:PancakeView xct:TouchEffect.Command="{Binding ScrollToRightCommand, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}">
 
         <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png"/>
 

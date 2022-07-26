@@ -35,7 +35,7 @@
         <ffimageloading:CachedImage Source="ic_time_circle_24x24" />
         
         <Label
-            WidthRequest="80"
+            WidthRequest="100"
             Text="{Binding DateTime, Source={RelativeSource AncestorType={x:Type controls:TimeAndDateBar}}, StringFormat={Static local:Constants+Formats.SHORT_TIME}}"/>
         
     </StackLayout>

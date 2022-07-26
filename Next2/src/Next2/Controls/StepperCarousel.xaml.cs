@@ -1,4 +1,5 @@
 ﻿using Next2.Interfaces;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -22,13 +23,13 @@ namespace Next2.Controls
 
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
             nameof(ItemsSource),
-            typeof(IEnumerable<IBaseApiModel>),
+            typeof(IList),
             typeof(StepperCarousel),
             default(IEnumerable<IBaseApiModel>));
 
-        public IEnumerable<IBaseApiModel> ItemsSource
+        public IList ItemsSource
         {
-            get => (IEnumerable<IBaseApiModel>)GetValue(ItemsSourceProperty);
+            get => (IList)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
 
@@ -44,17 +45,17 @@ namespace Next2.Controls
             set => SetValue(SelectedItemProperty, value);
         }
 
-        private ICommand _scrollRightCommand;
-        public ICommand ScrollRightCommand => _scrollRightCommand ??= new Command(OnScrollRightCommand);
+        private ICommand _scrollToLeftCommand;
+        public ICommand ScrollToLeftCommand => _scrollToLeftCommand ??= new Command(OnScrollToLeftCommand);
 
-        private ICommand _scrollLeftCommand;
-        public ICommand ScrollLeftCommand => _scrollLeftCommand ??= new Command(OnScrollLeftCommand);
+        private ICommand _scrollToRightCommand;
+        public ICommand ScrollToRightCommand => _scrollToRightCommand ??= new Command(OnScrollToRightCommand);
 
         #endregion
 
         #region -- Private helpers --
 
-        private void OnScrollRightCommand()
+        private void OnScrollToLeftCommand()
         {
             if (_firstVisibleItemIndex > 1)
             {
@@ -62,9 +63,9 @@ namespace Next2.Controls
             }
         }
 
-        private void OnScrollLeftCommand()
+        private void OnScrollToRightCommand()
         {
-            if (ItemsSource.Count() - _firstVisibleItemIndex - _countVisibleItems > 1)
+            if (ItemsSource.Count - _firstVisibleItemIndex - _countVisibleItems > 1)
             {
                 collectionView.ScrollTo(_firstVisibleItemIndex + 2, -1, ScrollToPosition.Start, true);
             }
