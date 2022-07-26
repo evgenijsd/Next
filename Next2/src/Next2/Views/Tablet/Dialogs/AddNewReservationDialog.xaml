@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <rg:PopupPage
     xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:local="clr-namespace:Next2"
@@ -455,7 +456,7 @@
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     Text="{xct:Translate Cancel}"
-                    Command="{Binding DeclineCommand}" />
+                    Command="{Binding GoBackCommand}" />
 
                 <buttons:BorderButton
                     Grid.Row="3"

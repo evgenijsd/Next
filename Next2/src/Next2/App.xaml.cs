@@ -39,6 +39,8 @@ using TabletViews = Next2.Views.Tablet;
 using Next2.Services.Reservation;
 using Next2.Views.Mobile;
 using Prism.Navigation;
+using Next2.Views.Tablet.Dialogs;
+using Next2.ViewModels.Tablet.Dialogs;
 
 namespace Next2
 {

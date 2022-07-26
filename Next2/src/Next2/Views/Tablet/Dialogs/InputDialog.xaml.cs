@@ -5,14 +5,21 @@ using System;
 
 namespace Next2.Views.Tablet.Dialogs
 {
-    public partial class AddNewReservationDialog : PopupPage
+    public partial class InputDialog : PopupPage
     {
-        public AddNewReservationDialog(
+        public InputDialog(
             DialogParameters param,
             Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
-            BindingContext = new AddNewReservationDialogViewModel(param, requestClose);
+            BindingContext = new InputDialogViewModel(param, requestClose);
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            searchEntry.Focus();
         }
     }
 }

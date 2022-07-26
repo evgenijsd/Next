@@ -4,6 +4,8 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Enums;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -18,17 +20,11 @@ namespace Next2.ViewModels.Tablet.Dialogs
     public class AddNewReservationDialogViewModel : BindableBase
     {
         private readonly INavigationService _navigationService;
-        private readonly ICustomersService _customersService;
 
         public AddNewReservationDialogViewModel(
             DialogParameters param,
-            Action<IDialogParameters> requestClose,
-            INavigationService navigationService,
-            ICustomersService customersService)
+            Action<IDialogParameters> requestClose)
         {
-            _navigationService = navigationService;
-            _customersService = customersService;
-
             RequestClose = requestClose;
             CloseCommand = new DelegateCommand(() => RequestClose(null));
             AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }));
@@ -88,6 +84,9 @@ namespace Next2.ViewModels.Tablet.Dialogs
         private ICommand _openPageInputCommentCommand;
         public ICommand GoInputCommentCommand => _openPageInputCommentCommand ??= new AsyncCommand(OnGoInputCommentCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -117,17 +116,37 @@ namespace Next2.ViewModels.Tablet.Dialogs
             MessagingCenter.Unsubscribe<ReservationsViewModel>(this, Constants.Navigations.INPUT_NOTES);
         }
 
+        private INavigation Navigation => App.Current.MainPage.Navigation;
+
+        private async Task OnGoBackCommandAsync()
+        {
+            await _navigationService.GoBackAsync();
+        }
+
         private async Task OnGoInputCommentCommandAsync()
         {
-            MessagingCenter.Subscribe<ReservationsViewModel, string>(this, Constants.Navigations.INPUT_NOTES, InputNotesHandler);
+            var param = new DialogParameters();
 
-            var navigationParameters = new NavigationParameters()
+            var popupPage = new Views.Tablet.Dialogs.InputDialog(param, AddNewReservationDialogCallBack)
             {
-                { Constants.Navigations.INPUT_NOTES, Notes },
-                { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["CommentForReservation"] },
+                Animation = new Rg.Plugins.Popup.Animations.MoveAnimation(MoveAnimationOptions.Bottom, MoveAnimationOptions.Top),
             };
 
-            await _navigationService.NavigateAsync(nameof(SearchPage), navigationParameters);
+            await PopupNavigation.PushAsync(popupPage);
+
+            //MessagingCenter.Subscribe<ReservationsViewModel, string>(this, Constants.Navigations.INPUT_NOTES, InputNotesHandler);
+
+            //var navigationParameters = new NavigationParameters()
+            //{
+            //    { Constants.Navigations.INPUT_NOTES, Notes },
+            //    { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["CommentForReservation"] },
+            //};
+
+            //await _navigationService.NavigateAsync(nameof(SearchPage), navigationParameters, true);
+        }
+
+        private void AddNewReservationDialogCallBack(IDialogParameters obj)
+        {
         }
 
         private async Task OnChangeTimeFormatCommandAsync(string state)

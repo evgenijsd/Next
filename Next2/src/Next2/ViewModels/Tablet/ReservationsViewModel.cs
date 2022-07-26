@@ -19,6 +19,8 @@ using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.CommunityToolkit.UI.Views;
 using Prism.Navigation.Xaml;
+using Next2.Views;
+using Prism;
 
 namespace Next2.ViewModels.Tablet
 {
@@ -189,13 +191,58 @@ namespace Next2.ViewModels.Tablet
 
         private INavigation Navigation => App.Current.MainPage.Navigation;
 
-        private Task OnAddNewReservationCommandAsync()
+        private async Task OnAddNewReservationCommandAsync()
         {
+            //Navigation.ShowPopup(new Views.Tablet.Dialogs.NoLightDismissPopup());
+
+            //var navigationParameters = new Prism.Navigation.NavigationParameters()
+            //{
+            //    { Constants.Navigations.INPUT_NOTES, "Notes" },
+            //    { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["CommentForReservation"] },
+            //};
+
+            //await _navigationService.NavigateAsync(nameof(SearchPage), navigationParameters);
+            var page = new BaseContentPage()
+            {
+                BackgroundColor = Color.FromRgba(1, 0, 0, 0.5),
+                Content = new StackLayout()
+                {
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    HeightRequest = 500,
+                    WidthRequest = 500,
+                    Children =
+                    {
+                        new Label()
+                        {
+                            Text = "sddssd",
+                        },
+                    },
+                },
+            };
+
+            //await Navigation.PushModalAsync(page);
             var param = new DialogParameters();
 
-            var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(param, AddNewReservationDialogCallBack, _navigationService, App.Resolve<ICustomersService>());
+            var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(param, AddNewReservationDialogCallBack);
 
-            return PopupNavigation.PushAsync(popupPage);
+            await PopupNavigation.PushAsync(popupPage);
+            //await Navigation.PushModalAsync(popupPage);
+            IDialogService dialogService = App.Resolve<IDialogService>();
+
+            //dialogService.ShowDialog(nameof(Views.Tablet.Dialogs.DialogView));
+
+            //var navigationParameters = new Prism.Navigation.NavigationParameters()
+            //{
+            //    { Constants.Navigations.INPUT_NOTES, "df" },
+            //    { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["CommentForReservation"] },
+            //};
+
+            //await _navigationService.NavigateAsync(nameof(SearchPage), navigationParameters, true);
+            //var param = new DialogParameters();
+
+            //var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(param, AddNewReservationDialogCallBack, _navigationService, App.Resolve<ICustomersService>());
+
+            //return PopupNavigation.PushAsync(popupPage);
         }
 
         private async void AddNewReservationDialogCallBack(IDialogParameters param)

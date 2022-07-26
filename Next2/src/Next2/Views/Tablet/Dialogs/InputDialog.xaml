@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:local="clr-namespace:Next2"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet.Dialogs"
+    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    HasKeyboardOffset="False"
+    CloseWhenBackgroundIsClicked="False"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+    x:Class="Next2.Views.Tablet.Dialogs.InputDialog"
+    x:DataType="viewModels:InputDialogViewModel">
+
+    <Grid RowDefinitions="65, *">
+
+        <controls:CustomNavigationBar
+            Grid.Row="0"
+            Margin="15, 0, 0, 0"
+            VerticalOptions="Center"
+            HeightRequest="60"
+            Title="{xct:Translate Search}"
+            HeightImage="18"
+            FontSize="{DynamicResource TSize_i8}"
+            LeftButtonCommand="{Binding GoBackCommand}" />
+
+        <StackLayout
+            Grid.Row="1"
+            Padding="30, 40, 30, 20"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
+
+            <controls:NoActionMenuEntry
+                Text="{Binding SearchLine}"
+                Placeholder="{Binding Placeholder}"
+                FontSize="{DynamicResource TSize_i4_5}"
+                FontFamily="Barlow-Regular"
+                ReturnCommand="{Binding GoBackCommand}"
+                ReturnCommandParameter="{Binding SearchLine}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                ReturnType="Done"
+                MaxLength="{x:Static local:Constants+Limits.MAX_QUERY_LENGTH}"
+                PlaceholderColor="{DynamicResource TextAndBackgroundColor_i1}"
+                CursorPosition="{Binding CursorPosition}"
+                x:Name="searchEntry">
+
+                <controls:NoActionMenuEntry.Triggers>
+
+                    <DataTrigger
+                        TargetType="controls:NoActionMenuEntry"
+                        Binding="{Binding SearchLine}"
+                        Value="">
+
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+
+                    </DataTrigger>
+
+                </controls:NoActionMenuEntry.Triggers>
+
+            </controls:NoActionMenuEntry>
+
+        </StackLayout>
+
+    </Grid>
+
+</rg:PopupPage>
