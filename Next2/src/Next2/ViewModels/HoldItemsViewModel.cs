@@ -44,7 +44,7 @@ namespace Next2.ViewModels
 
         public int IndexLastVisibleElement { get; set; }
 
-        public ObservableCollection<HoldItemBindableModel> HoldItems { get; set; } = new();
+        public ObservableCollection<HoldDishBindableModel> HoldItems { get; set; } = new();
 
         public ObservableCollection<object>? SelectedHoldItems { get; set; }
 
@@ -99,7 +99,7 @@ namespace Next2.ViewModels
         {
             IsHoldItemsRefreshing = true;
 
-            _holdItemsSortingType = EHoldItemsSortingType.ByTableName;
+            _holdItemsSortingType = EHoldItemsSortingType.ByTableNumber;
             HoldItems = await GetAllHoldItemsAsync();
 
             Tables = GetHoldTablesFromHoldItems(HoldItems);
@@ -107,7 +107,7 @@ namespace Next2.ViewModels
             IsHoldItemsRefreshing = false;
         }
 
-        private ObservableCollection<HoldItemBindableModel> GetHoldItemsByTableNumber(int tableNumber)
+        private ObservableCollection<HoldDishBindableModel> GetHoldItemsByTableNumber(int tableNumber)
         {
             if (HoldItems.Any(x => x.TableNumber != tableNumber))
             {
@@ -118,7 +118,7 @@ namespace Next2.ViewModels
 
             IsNothingFound = !holdItems.Any();
 
-            return _mapper.Map<ObservableCollection<HoldItemBindableModel>>(holdItems);
+            return _mapper.Map<ObservableCollection<HoldDishBindableModel>>(holdItems);
         }
 
         private Task OnChangeSortHoldItemsCommandAsync(EHoldItemsSortingType holdItemsSortingType)
@@ -178,7 +178,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private ObservableCollection<TableBindableModel> GetHoldTablesFromHoldItems(ObservableCollection<HoldItemBindableModel> holdItems)
+        private ObservableCollection<TableBindableModel> GetHoldTablesFromHoldItems(ObservableCollection<HoldDishBindableModel> holdItems)
         {
             var result = new ObservableCollection<TableBindableModel>();
 
@@ -197,14 +197,14 @@ namespace Next2.ViewModels
             return result;
         }
 
-        private async Task<ObservableCollection<HoldItemBindableModel>> GetAllHoldItemsAsync()
+        private async Task<ObservableCollection<HoldDishBindableModel>> GetAllHoldItemsAsync()
         {
             var resultHoldItems = await _ordersHolding.GetAllHoldItemsAsync();
-            var result = new ObservableCollection<HoldItemBindableModel>();
+            var result = new ObservableCollection<HoldDishBindableModel>();
 
             if (resultHoldItems.IsSuccess)
             {
-                result = _mapper.Map<ObservableCollection<HoldItemBindableModel>>(resultHoldItems.Result);
+                result = _mapper.Map<ObservableCollection<HoldDishBindableModel>>(resultHoldItems.Result);
             }
             else
             {

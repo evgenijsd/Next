@@ -16,7 +16,7 @@ namespace Next2.Services.OrdersHolding
     {
         private readonly IMockService _mockService;
 
-        private IEnumerable<HoldItemModel> _allHoldItems = Enumerable.Empty<HoldItemModel>();
+        private IEnumerable<HoldDishModel> _allHoldItems = Enumerable.Empty<HoldDishModel>();
 
         public OrdersHolding(IMockService mockService)
         {
@@ -25,7 +25,7 @@ namespace Next2.Services.OrdersHolding
 
         #region -- IHoldItemService implementation --
 
-        public IEnumerable<HoldItemModel> GetHoldItemsByTableNumber(int tableNumber)
+        public IEnumerable<HoldDishModel> GetHoldItemsByTableNumber(int tableNumber)
         {
             var result = _allHoldItems;
 
@@ -37,25 +37,25 @@ namespace Next2.Services.OrdersHolding
             return result;
         }
 
-        public IEnumerable<HoldItemBindableModel> GetSortedHoldItems(EHoldItemsSortingType typeSort, IEnumerable<HoldItemBindableModel> holdItems)
+        public IEnumerable<HoldDishBindableModel> GetSortedHoldItems(EHoldItemsSortingType typeSort, IEnumerable<HoldDishBindableModel> holdItems)
         {
-            Func<HoldItemBindableModel, object> sortingSelector = typeSort switch
+            Func<HoldDishBindableModel, object> sortingSelector = typeSort switch
             {
-                EHoldItemsSortingType.ByTableName => x => x.TableNumber,
-                EHoldItemsSortingType.ByItem => x => x.Item,
+                EHoldItemsSortingType.ByTableNumber => x => x.TableNumber,
+                EHoldItemsSortingType.ByItem => x => x.DishName,
                 _ => throw new NotImplementedException(),
             };
 
             return holdItems.OrderBy(sortingSelector);
         }
 
-        public async Task<AOResult<IEnumerable<HoldItemModel>>> GetAllHoldItemsAsync()
+        public async Task<AOResult<IEnumerable<HoldDishModel>>> GetAllHoldItemsAsync()
         {
-            var result = new AOResult<IEnumerable<HoldItemModel>>();
+            var result = new AOResult<IEnumerable<HoldDishModel>>();
 
             try
             {
-                _allHoldItems = await _mockService.GetAllAsync<HoldItemModel>();
+                _allHoldItems = await _mockService.GetAllAsync<HoldDishModel>();
 
                 if (_allHoldItems is not null)
                 {

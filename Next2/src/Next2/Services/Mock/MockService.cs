@@ -17,7 +17,7 @@ namespace Next2.Services.Mock
         private IList<WorkLogRecordModel> _workLogBook;
         private IList<GiftCardModelDTO> _giftCards;
         private IList<ReservationModel> _reservationsList;
-        private IList<HoldItemModel> _holdItems;
+        private IList<HoldDishModel> _holdItems;
 
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
@@ -158,7 +158,7 @@ namespace Next2.Services.Mock
                 { typeof(WorkLogRecordModel), _workLogBook },
                 { typeof(GiftCardModelDTO), _giftCards },
                 { typeof(ReservationModel), _reservationsList },
-                { typeof(HoldItemModel), _holdItems },
+                { typeof(HoldDishModel), _holdItems },
             };
 
             _maxIdentifiers = new Dictionary<Type, int>
@@ -166,7 +166,7 @@ namespace Next2.Services.Mock
                 { typeof(RewardModel), GetMaxId(_rewards) },
                 { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
                 { typeof(ReservationModel), GetMaxId(_reservationsList) },
-                { typeof(HoldItemModel), GetMaxId(_holdItems) },
+                { typeof(HoldDishModel), GetMaxId(_holdItems) },
             };
 
             _initCompletionSource.TrySetResult(true);
@@ -414,111 +414,111 @@ namespace Next2.Services.Mock
         {
             Random random = new();
 
-            _holdItems = new List<HoldItemModel>
+            _holdItems = new List<HoldDishModel>
             {
                 new()
                 {
                     Id = 1,
                     TableNumber = 12,
-                    Item = "bBig Mak",
+                    DishName = "bBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 2,
                     TableNumber = 19,
-                    Item = "cBig Mak",
+                    DishName = "cBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 3,
                     TableNumber = 12,
-                    Item = "dBig Mak",
+                    DishName = "dBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 4,
                     TableNumber = 19,
-                    Item = "eBig Mak",
+                    DishName = "eBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 5,
                     TableNumber = 10,
-                    Item = "rBig Mak",
+                    DishName = "rBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 6,
                     TableNumber = 21,
-                    Item = "tBig Mak",
+                    DishName = "tBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 7,
                     TableNumber = 10,
-                    Item = "yBig Mak",
+                    DishName = "yBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 8,
                     TableNumber = 21,
-                    Item = "uBig Mak",
+                    DishName = "uBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 9,
                     TableNumber = 13,
-                    Item = "iBig Mak",
+                    DishName = "iBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 10,
                     TableNumber = 4,
-                    Item = "oBig Mak",
+                    DishName = "oBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 11,
                     TableNumber = 13,
-                    Item = "pBig Mak",
+                    DishName = "pBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 12,
                     TableNumber = 4,
-                    Item = "qBig Mak",
+                    DishName = "qBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 13,
                     TableNumber = 7,
-                    Item = "wBig Mak",
+                    DishName = "wBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 14,
                     TableNumber = 10,
-                    Item = "zBig Mak",
+                    DishName = "zBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = 15,
                     TableNumber = 7,
-                    Item = "xBig Mak",
+                    DishName = "xBig Mak",
                     ReleaseTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
             };

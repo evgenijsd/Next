@@ -11,7 +11,7 @@ namespace Next2.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return GetTableName((int)value);
+            return GetTableNumberToString((int)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -21,11 +21,11 @@ namespace Next2.Converters
 
         #region -- Private helpers --
 
-        private string GetTableName(int table)
+        private string GetTableNumberToString(int table)
         {
             string result = $"{LocalizationResourceManager.Current["Table"]} {table}";
 
-            if (table == 0)
+            if (table == Constants.Limits.ALL_TABLES)
             {
                 result = $"{LocalizationResourceManager.Current["AllTables"]}";
             }

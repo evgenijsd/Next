@@ -194,7 +194,7 @@
                                     </controls:CustomCollectionView.Behaviors>
 
                                     <controls:CustomCollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="models:HoldItemBindableModel">
+                                        <DataTemplate x:DataType="models:HoldDishBindableModel">
 
                                             <Grid
                                                 RowDefinitions="0.98*, 0.02*"
@@ -216,7 +216,7 @@
                                                     Grid.Column="1"
                                                     LineBreakMode="TailTruncation"
                                                     Style="{DynamicResource ViewCellLabelStyle}"
-                                                    Text="{Binding Item}" />
+                                                    Text="{Binding DishName}" />
 
                                                 <Label
                                                     Grid.Row="0"

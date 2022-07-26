@@ -3,13 +3,13 @@ using System;
 
 namespace Next2.Models
 {
-    public class HoldItemModel : IBaseModel
+    public class HoldDishModel : IBaseModel
     {
         public int Id { get; set; }
 
         public int TableNumber { get; set; }
 
-        public string? Item { get; set; }
+        public string? DishName { get; set; }
 
         public DateTime ReleaseTime { get; set; }
     }

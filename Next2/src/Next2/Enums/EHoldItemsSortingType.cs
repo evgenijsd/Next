@@ -3,7 +3,7 @@
     public enum EHoldItemsSortingType
     {
         None,
-        ByTableName,
+        ByTableNumber,
         ByItem,
     }
 }

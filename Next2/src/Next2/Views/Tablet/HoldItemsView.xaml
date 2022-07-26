@@ -180,7 +180,7 @@
                             Grid.Column="1"
                             Orientation="Horizontal"
                             xct:TouchEffect.Command="{Binding ChangeSortHoldItemsCommand}"
-                            xct:TouchEffect.CommandParameter="{x:Static enums:EHoldItemsSortingType.ByTableName}">
+                            xct:TouchEffect.CommandParameter="{x:Static enums:EHoldItemsSortingType.ByTableNumber}">
 
                             <Label
                                 Style="{DynamicResource TableCellLabelStyle}"
@@ -289,7 +289,7 @@
                                 </CollectionView.Behaviors>
 
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:HoldItemBindableModel">
+                                    <DataTemplate x:DataType="models:HoldDishBindableModel">
 
                                         <Grid
                                             HorizontalOptions="Fill"
@@ -348,7 +348,7 @@
                                                 <Label
                                                     Grid.Column="2"
                                                     Style="{DynamicResource TableCellLabelStyle}"
-                                                    Text="{Binding Item}"
+                                                    Text="{Binding DishName}"
                                                     LineBreakMode="TailTruncation" />
 
                                                 <Label
