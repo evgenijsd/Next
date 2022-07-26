@@ -2,7 +2,7 @@
 using Next2.Enums;
 using Next2.Models;
 using Next2.Models.Bindables;
-using Next2.Services.HoldItem;
+using Next2.Services.OrdersHolding;
 using Next2.Services.Notifications;
 using Prism.Navigation;
 using System;
@@ -18,20 +18,20 @@ namespace Next2.ViewModels
 {
     public class HoldItemsViewModel : BaseViewModel
     {
-        private readonly IHoldItemService _holdItemService;
+        private readonly IOrdersHolding _ordersHolding;
         private readonly INotificationsService _notificationsService;
         private readonly IMapper _mapper;
 
         private EHoldItemsSortingType _holdItemsSortingType;
 
         public HoldItemsViewModel(
-            IHoldItemService holdItemService,
+            IOrdersHolding ordersHolding,
             INotificationsService notificationsService,
             IMapper mapper,
             INavigationService navigationService)
             : base(navigationService)
         {
-            _holdItemService = holdItemService;
+            _ordersHolding = ordersHolding;
             _notificationsService = notificationsService;
             _mapper = mapper;
         }
@@ -43,8 +43,6 @@ namespace Next2.ViewModels
         public bool IsNothingFound { get; set; }
 
         public int IndexLastVisibleElement { get; set; }
-
-        public int IndexLastElement { get; set; }
 
         public ObservableCollection<HoldItemBindableModel> HoldItems { get; set; } = new();
 
@@ -64,13 +62,13 @@ namespace Next2.ViewModels
         public ICommand SetSelectedHoldItemsCommand => _setSelectedHoldItemsCommand ??= new AsyncCommand<List<object>?>(OnSetSelectedHoldItemsCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tapSelectAllHoldItemsTableCommand;
-        public ICommand TapSelectAllHoldItemsTableCommand => _tapSelectAllHoldItemsTableCommand ??= new AsyncCommand(OnTapSelectAllHoldItemsTableCommand, allowsMultipleExecutions: false);
+        public ICommand TapSelectAllHoldItemsTableCommand => _tapSelectAllHoldItemsTableCommand ??= new AsyncCommand(OnTapSelectAllHoldItemsTableCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _extendCommand;
-        public ICommand ExtendCommand => _extendCommand ??= new AsyncCommand(OnExtendCommand, allowsMultipleExecutions: false);
+        public ICommand ExtendCommand => _extendCommand ??= new AsyncCommand(OnExtendCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _releaseCommand;
-        public ICommand ReleaseCommand => _releaseCommand ??= new AsyncCommand(OnReleaseCommand, allowsMultipleExecutions: false);
+        public ICommand ReleaseCommand => _releaseCommand ??= new AsyncCommand(OnReleaseCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -91,14 +89,6 @@ namespace Next2.ViewModels
             {
                 HoldItems = GetHoldItemsByTableNumber(SelectedTable.TableNumber);
             }
-
-            if (args.PropertyName is nameof(IndexLastVisibleElement))
-            {
-                if (IndexLastVisibleElement > IndexLastElement)
-                {
-                    IndexLastVisibleElement = IndexLastElement;
-                }
-            }
         }
 
         #endregion
@@ -110,7 +100,7 @@ namespace Next2.ViewModels
             IsHoldItemsRefreshing = true;
 
             _holdItemsSortingType = EHoldItemsSortingType.ByTableName;
-            HoldItems = await GetFullHoldItemsAsync();
+            HoldItems = await GetAllHoldItemsAsync();
 
             Tables = GetHoldTablesFromHoldItems(HoldItems);
 
@@ -124,10 +114,9 @@ namespace Next2.ViewModels
                 SelectedHoldItems = null;
             }
 
-            var holdItems = _holdItemService.GetHoldItemsByTableNumber(tableNumber);
+            var holdItems = _ordersHolding.GetHoldItemsByTableNumber(tableNumber);
 
             IsNothingFound = !holdItems.Any();
-            IndexLastElement = holdItems.Count();
 
             return _mapper.Map<ObservableCollection<HoldItemBindableModel>>(holdItems);
         }
@@ -142,7 +131,7 @@ namespace Next2.ViewModels
             {
                 _holdItemsSortingType = holdItemsSortingType;
 
-                var sortedHoldItems = _holdItemService.GetSortedHoldItems(_holdItemsSortingType, HoldItems);
+                var sortedHoldItems = _ordersHolding.GetSortedHoldItems(_holdItemsSortingType, HoldItems);
 
                 HoldItems = new(sortedHoldItems);
             }
@@ -150,7 +139,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnTapSelectAllHoldItemsTableCommand()
+        private Task OnTapSelectAllHoldItemsTableCommandAsync()
         {
             if (SelectedTable?.TableNumber != Constants.Limits.ALL_TABLES)
             {
@@ -162,12 +151,12 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnExtendCommand()
+        private Task OnExtendCommandAsync()
         {
             return Task.CompletedTask;
         }
 
-        private Task OnReleaseCommand()
+        private Task OnReleaseCommandAsync()
         {
             return Task.CompletedTask;
         }
@@ -208,22 +197,21 @@ namespace Next2.ViewModels
             return result;
         }
 
-        private async Task<ObservableCollection<HoldItemBindableModel>> GetFullHoldItemsAsync()
+        private async Task<ObservableCollection<HoldItemBindableModel>> GetAllHoldItemsAsync()
         {
-            var holdItems = await _holdItemService.GetAllHoldItemsAsync();
+            var resultHoldItems = await _ordersHolding.GetAllHoldItemsAsync();
             var result = new ObservableCollection<HoldItemBindableModel>();
 
-            if (holdItems.IsSuccess)
+            if (resultHoldItems.IsSuccess)
             {
-                result = _mapper.Map<ObservableCollection<HoldItemBindableModel>>(holdItems.Result);
+                result = _mapper.Map<ObservableCollection<HoldItemBindableModel>>(resultHoldItems.Result);
             }
             else
             {
-                await _notificationsService.ResponseToBadRequestAsync(holdItems.Exception.Message);
+                await _notificationsService.ResponseToBadRequestAsync(resultHoldItems.Exception.Message);
             }
 
             IsNothingFound = !result.Any();
-            IndexLastElement = result.Count;
 
             return result;
         }

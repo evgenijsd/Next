@@ -37,7 +37,7 @@ using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
 using Next2.Services.Reservation;
-using Next2.Services.HoldItem;
+using Next2.Services.OrdersHolding;
 using Next2.Services.Notifications;
 using Next2.Views.Mobile;
 using Prism.Navigation;
@@ -81,7 +81,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<IBonusesService, BonusesService>();
             containerRegistry.RegisterSingleton<IWorkLogService, WorkLogService>();
             containerRegistry.RegisterSingleton<IReservationService, ReservationService>();
-            containerRegistry.RegisterSingleton<IHoldItemService, HoldItemService>();
+            containerRegistry.RegisterSingleton<IOrdersHolding, OrdersHolding>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();

@@ -5,13 +5,13 @@ using Next2.Models.Bindables;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Next2.Services.HoldItem
+namespace Next2.Services.OrdersHolding
 {
-    public interface IHoldItemService
+    public interface IOrdersHolding
     {
         Task<AOResult<IEnumerable<HoldItemModel>>> GetAllHoldItemsAsync();
 
-        IEnumerable<HoldItemBindableModel> GetSortedHoldItems(EHoldItemsSortingType typeSort, IEnumerable<HoldItemBindableModel> reservations);
+        IEnumerable<HoldItemBindableModel> GetSortedHoldItems(EHoldItemsSortingType typeSort, IEnumerable<HoldItemBindableModel> holdDihes);
 
         IEnumerable<HoldItemModel> GetHoldItemsByTableNumber(int tableNumber);
     }

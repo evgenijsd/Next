@@ -10,15 +10,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Next2.Services.HoldItem
+namespace Next2.Services.OrdersHolding
 {
-    public class HoldItemService : IHoldItemService
+    public class OrdersHolding : IOrdersHolding
     {
         private readonly IMockService _mockService;
 
         private IEnumerable<HoldItemModel> _allHoldItems = Enumerable.Empty<HoldItemModel>();
 
-        public HoldItemService(IMockService mockService)
+        public OrdersHolding(IMockService mockService)
         {
             _mockService = mockService;
         }
