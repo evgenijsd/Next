@@ -70,13 +70,6 @@ namespace Next2.ViewModels
                 _searchType = ESearchType.Reservation;
             }
 
-            if (parameters.TryGetValue(Constants.Navigations.INPUT_NOTES, out string inputNotes))
-            {
-                SearchLine = inputNotes ?? string.Empty;
-                CursorPosition = SearchLine.Length;
-                _searchType = ESearchType.Notes;
-            }
-
             if (parameters.TryGetValue(Constants.Navigations.PLACEHOLDER, out string placeholder))
             {
                 Placeholder = placeholder;
@@ -113,10 +106,6 @@ namespace Next2.ViewModels
             else if (_searchType == ESearchType.Reservation)
             {
                 constantNavigation = Constants.Navigations.SEARCH_RESERVATION;
-            }
-            else if (_searchType == ESearchType.Notes)
-            {
-                constantNavigation = Constants.Navigations.INPUT_NOTES;
             }
             else
             {

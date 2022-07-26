@@ -9,6 +9,7 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -26,6 +27,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
             Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
+
             CloseCommand = new DelegateCommand(() => RequestClose(null));
             AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }));
             DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
@@ -34,8 +36,12 @@ namespace Next2.ViewModels.Tablet.Dialogs
             GenerateCollection(Tables, 10);
 
             SelectedDate = DateTime.Now;
-            Hours = "05";
-            Minutes = "32";
+
+            Hours = SelectedDate.ToString("hh");
+            Minute = SelectedDate.ToString("mm");
+            TimeType = SelectedDate.ToString("tt");
+
+            ChangeSelectedTime();
         }
 
         #region -- Public properties --
@@ -54,15 +60,17 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public string Notes { get; set; } = string.Empty;
 
-        public DateTime? SelectedDate { get; set; }
+        public DateTime SelectedTime { get; set; } = new();
+
+        public DateTime SelectedDate { get; set; }
 
         public DateTime MinimumSelectableDate { get; set; } = DateTime.Now;
 
         public string Hours { get; set; }
 
-        public string Minutes { get; set; }
+        public string Minute { get; set; }
 
-        public bool IsPMTimeFormat { get; set; }
+        public string TimeType { get; set; } = string.Empty;
 
         public bool IsValidName { get; set; }
 
@@ -84,9 +92,6 @@ namespace Next2.ViewModels.Tablet.Dialogs
         private ICommand _openPageInputCommentCommand;
         public ICommand GoInputCommentCommand => _openPageInputCommentCommand ??= new AsyncCommand(OnGoInputCommentCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _goBackCommand;
-        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
-
         #endregion
 
         #region -- Overrides --
@@ -98,33 +103,24 @@ namespace Next2.ViewModels.Tablet.Dialogs
             if (args.PropertyName
                 is nameof(IsValidName)
                 or nameof(IsValidPhone)
-                or nameof(SelectedAmountGuests)
-                or nameof(SelectedDate))
+                or nameof(SelectedAmountGuests))
             {
-                CanAddNewReservation = IsValidName && IsValidPhone && SelectedAmountGuests > 0 && SelectedDate is not null;
+                ChangeCanAddNewReservation();
+            }
+            else if (args.PropertyName
+                is nameof(SelectedDate)
+                or nameof(Hours)
+                or nameof(Minute)
+                or nameof(TimeType))
+            {
+                ChangeSelectedTime();
+                ChangeCanAddNewReservation();
             }
         }
 
         #endregion
 
         #region -- Private helpers --
-
-        private void InputNotesHandler(ReservationsViewModel sender, string inputNotes)
-        {
-            Notes = inputNotes;
-
-            MessagingCenter.Unsubscribe<ReservationsViewModel>(this, Constants.Navigations.INPUT_NOTES);
-        }
-
-        private INavigation Navigation => App.Current.MainPage.Navigation;
-
-        private async Task OnGoBackCommandAsync()
-        {
-            if (PopupNavigation.PopupStack.Count > 0)
-            {
-                PopupNavigation.PopAsync();
-            }
-        }
 
         private async Task OnGoInputCommentCommandAsync()
         {
@@ -135,7 +131,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
             await PopupNavigation.PushAsync(popupPage);
         }
 
-        private void AddNewReservationDialogCallBack(IDialogParameters obj)
+        private void AddNewReservationDialogCallBack(IDialogParameters param)
         {
             if (PopupNavigation.PopupStack.Count > 0)
             {
@@ -145,10 +141,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         private async Task OnChangeTimeFormatCommandAsync(string state)
         {
-            if (bool.TryParse(state, out bool result))
-            {
-                IsPMTimeFormat = result;
-            }
+            TimeType = state;
         }
 
         private void GenerateCollection(ObservableCollection<int> collection, int count)
@@ -157,6 +150,20 @@ namespace Next2.ViewModels.Tablet.Dialogs
             {
                 collection.Add(i);
             }
+        }
+
+        private void ChangeSelectedTime()
+        {
+            var date = SelectedDate.ToString("MM/dd/yyyy");
+
+            var dateTime = $"{date} {Hours}:{Minute} {TimeType}";
+
+            SelectedTime = DateTime.Parse(dateTime);
+        }
+
+        private void ChangeCanAddNewReservation()
+        {
+            CanAddNewReservation = IsValidName && IsValidPhone && SelectedAmountGuests > 0 && SelectedTime > DateTime.Now;
         }
 
         #endregion

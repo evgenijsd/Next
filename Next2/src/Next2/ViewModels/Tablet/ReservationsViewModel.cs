@@ -2,13 +2,10 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
-using Next2.Services.Customers;
 using Next2.Services.Reservation;
 using Next2.Views.Mobile;
 using Prism.Navigation;
-using Xamarin.CommunityToolkit.Extensions;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,11 +13,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
-using Xamarin.CommunityToolkit.UI.Views;
-using Prism.Navigation.Xaml;
-using Next2.Views;
-using Prism;
 
 namespace Next2.ViewModels.Tablet
 {
@@ -114,11 +106,6 @@ namespace Next2.ViewModels.Tablet
             IsReservationsRefreshing = true;
         }
 
-        public void SetInputNotes(string inputNotes)
-        {
-            MessagingCenter.Send(this, Constants.Navigations.INPUT_NOTES, inputNotes);
-        }
-
         #endregion
 
         #region -- Private helpers --
@@ -189,15 +176,13 @@ namespace Next2.ViewModels.Tablet
             return Task.CompletedTask;
         }
 
-        private INavigation Navigation => App.Current.MainPage.Navigation;
-
-        private async Task OnAddNewReservationCommandAsync()
+        private Task OnAddNewReservationCommandAsync()
         {
             var param = new DialogParameters();
 
             var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(param, AddNewReservationDialogCallBack);
 
-            await PopupNavigation.PushAsync(popupPage);
+            return PopupNavigation.PushAsync(popupPage);
         }
 
         private async void AddNewReservationDialogCallBack(IDialogParameters param)

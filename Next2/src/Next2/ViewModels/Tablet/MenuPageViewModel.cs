@@ -134,11 +134,6 @@ namespace Next2.ViewModels.Tablet
                     ReservationsViewModel.SetSearchQuery(searchReservation);
                 }
 
-                if (parameters.TryGetValue(Constants.Navigations.INPUT_NOTES, out string inputNotes))
-                {
-                    ReservationsViewModel.SetInputNotes(inputNotes);
-                }
-
                 if (parameters.ContainsKey(Constants.Navigations.TAX_OFF))
                 {
                     await NewOrderViewModel.OrderRegistrationViewModel.RemoveTaxAsync();

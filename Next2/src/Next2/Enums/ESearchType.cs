@@ -6,6 +6,5 @@
         Member,
         Customer,
         Reservation,
-        Notes,
     }
 }

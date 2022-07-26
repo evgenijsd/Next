@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <rg:PopupPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:local="clr-namespace:Next2"
@@ -59,7 +58,6 @@
                 RowDefinitions="0.18*, *, 0.18*, 0.18*"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-                <!--  header  -->
                 <Label
                     Grid.Row="0"
                     Grid.ColumnSpan="2"
@@ -78,7 +76,6 @@
                     HeightRequest="1"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
-                <!--  entries  -->
                 <ScrollView
                     Grid.Row="1"
                     Grid.Column="0"
@@ -330,7 +327,6 @@
                     WidthRequest="1"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
-                <!--  calendar  -->
                 <controls:CalendarTab
                     Grid.Row="1"
                     Grid.Column="1"
@@ -363,8 +359,8 @@
                             StringFormat="{Static local:Constants+Formats.NUMERIC_FORMAT}"
                             PeekAreaInsets="10"
                             Loop="True"
-                            MinimumValue="0"
-                            MaximumValue="23"/>
+                            MinimumValue="1"
+                            MaximumValue="12"/>
                         
                     </pv:PancakeView>
 
@@ -376,7 +372,7 @@
                         Border="{pv:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}">
 
                         <controls:NumericPicker
-                            CurrentItem="{Binding Minutes}"
+                            CurrentItem="{Binding Minute}"
                             StringFormat="{Static local:Constants+Formats.NUMERIC_FORMAT}"
                             PeekAreaInsets="10"
                             Loop="True"
@@ -400,11 +396,11 @@
                                 HorizontalTextAlignment="Center"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                                 xct:TouchEffect.Command="{Binding ChangeTimeFormatCommand}"
-                                xct:TouchEffect.CommandParameter="false">
+                                xct:TouchEffect.CommandParameter="AM">
 
                                 <Label.Triggers>
 
-                                    <DataTrigger TargetType="Label" Binding="{Binding IsPMTimeFormat}" Value="False">
+                                    <DataTrigger TargetType="Label" Binding="{Binding TimeType}" Value="AM">
                                         <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i1}"/>
                                     </DataTrigger>
                                     
@@ -420,11 +416,11 @@
                                 HorizontalTextAlignment="Center"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                                 xct:TouchEffect.Command="{Binding ChangeTimeFormatCommand}"
-                                xct:TouchEffect.CommandParameter="true">
+                                xct:TouchEffect.CommandParameter="PM">
 
                                 <Label.Triggers>
 
-                                    <DataTrigger TargetType="Label" Binding="{Binding IsPMTimeFormat}" Value="True">
+                                    <DataTrigger TargetType="Label" Binding="{Binding TimeType}" Value="PM">
                                         <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i1}"/>
                                     </DataTrigger>
 
@@ -438,7 +434,6 @@
 
                 </StackLayout>
 
-                <!--  buttons  -->
                 <BoxView
                     Grid.Row="3"
                     Grid.ColumnSpan="2"
@@ -456,7 +451,7 @@
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     Text="{xct:Translate Cancel}"
-                    Command="{Binding GoBackCommand}" />
+                    Command="{Binding DeclineCommand}" />
 
                 <buttons:BorderButton
                     Grid.Row="3"
