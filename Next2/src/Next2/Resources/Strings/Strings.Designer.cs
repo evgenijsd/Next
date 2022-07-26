@@ -1684,6 +1684,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You are not yet a member!.
+        /// </summary>
+        internal static string YouAreNotMember {
+            get {
+                return ResourceManager.GetString("YouAreNotMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You don&apos;t have enough funds on your cards.
         /// </summary>
         internal static string YouDontHaveFundsOnGiftCards {

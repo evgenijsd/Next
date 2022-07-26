@@ -189,7 +189,7 @@ namespace Next2.Services.Customers
             {
                 if (!customer.GiftCardsId.Contains(giftCard.Id))
                 {
-                    customer.GiftCardsId = customer.GiftCardsId.Append(giftCard.Id);
+                    customer.GiftCards.Add(giftCard);
 
                     var updateResult = await UpdateCustomerAsync(customer);
 

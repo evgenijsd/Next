@@ -25,7 +25,7 @@ namespace Next2.ViewModels.Dialogs
         {
             _orderService = orderService;
             _customersService = customersService;
-            Customer = new();
+            Customer = _orderService.CurrentOrder.Customer;
             RequestClose = requestClose;
         }
 
@@ -80,20 +80,6 @@ namespace Next2.ViewModels.Dialogs
                     {
                         IsGiftCardNotExists = true;
                     }
-                }
-                else
-                {
-                    var tempCustomerModel = new CustomerBindableModel()
-                    {
-                        IsUpdatedCustomer = true,
-                        IsCustomerRegistrated = false,
-                    };
-
-                    tempCustomerModel.GiftCards.Add(giftCard);
-
-                    _orderService.CurrentOrder.Customer = tempCustomerModel;
-
-                    RequestClose(dialogParameters);
                 }
             }
             else

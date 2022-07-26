@@ -287,20 +287,30 @@ namespace Next2.ViewModels
 
             if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER, out CustomerBindableModel customer))
             {
-                var resultOfCreatingNewCustomer = await _customersService.CreateCustomerAsync(customer);
-
-                if (resultOfCreatingNewCustomer.IsSuccess)
+                if (IsInternetConnected)
                 {
-                    customer.Id = resultOfCreatingNewCustomer.Result;
+                    var resultOfCreatingNewCustomer = await _customersService.CreateCustomerAsync(customer);
 
-                    customer.ShowInfoCommand = ShowInfoCommand;
-                    customer.SelectItemCommand = SelectDeselectItemCommand;
+                    if (resultOfCreatingNewCustomer.IsSuccess)
+                    {
+                        customer.Id = resultOfCreatingNewCustomer.Result;
 
-                    DisplayedCustomers.Insert(0, customer);
+                        customer.ShowInfoCommand = ShowInfoCommand;
+                        customer.SelectItemCommand = SelectDeselectItemCommand;
+
+                        DisplayedCustomers.Insert(0, customer);
+                    }
+                    else
+                    {
+                        await ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
+                    }
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
+                    await ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["NoInternetConnection"],
+                        LocalizationResourceManager.Current["Ok"]);
                 }
             }
         }

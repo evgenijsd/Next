@@ -237,6 +237,7 @@ namespace Next2
                 cfg.CreateMap<ProductBindableModel, SimpleProductModelDTO>().ReverseMap();
                 cfg.CreateMap<GiftCardModelDTO, UpdateGiftCardCommand>().ReverseMap();
                 cfg.CreateMap<SimpleProductModelDTO, SimpleProductModelDTO>();
+                cfg.CreateMap<GiftCardModelDTO, GiftCardModelDTO>();
             }).CreateMapper();
         }
 

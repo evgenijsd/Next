@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Helpers;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Models.Bindables;
 using Next2.Services.Customers;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
@@ -10,6 +12,7 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -30,6 +33,8 @@ namespace Next2.ViewModels
         private ICommand _tapPaymentOptionCommand;
 
         private ICommand _tapTipItemCommand;
+
+        private FullOrderBindableModel _tempCurrentOrder;
 
         private decimal _subtotalWithBonus;
 
@@ -412,33 +417,51 @@ namespace Next2.ViewModels
 
         private async Task OnFinishPaymentCommandAsync()
         {
-            var param = new DialogParameters
+            if (IsInternetConnected)
             {
-                { Constants.DialogParameterKeys.PAID_ORDER_BINDABLE_MODEL, Order },
-            };
+                var param = new DialogParameters
+                {
+                    { Constants.DialogParameterKeys.PAID_ORDER_BINDABLE_MODEL, Order },
+                };
 
-            if (SelectedTipItem != null)
-            {
-                param.Add(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, $"+ {SelectedTipItem.Text}");
+                if (SelectedTipItem != null)
+                {
+                    param.Add(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, $"+ {SelectedTipItem.Text}");
+                }
+
+                Action<IDialogParameters> callback = async (IDialogParameters par) =>
+                {
+                    var isNoBadServerResponse = await GiftCardFinishPaymentAsync();
+
+                    if (isNoBadServerResponse)
+                    {
+                        isNoBadServerResponse = await CloseOrderAsync();
+
+                        if (isNoBadServerResponse)
+                        {
+                            var navigationParameters = await SendReceiptAsync(par)
+                            ? new NavigationParameters { { Constants.Navigations.PAYMENT_COMPLETE, string.Empty } }
+                            : null;
+
+                            await _navigationService.ClearPopupStackAsync();
+                            await _navigationService.NavigateAsync(nameof(MenuPage), navigationParameters);
+                        }
+                    }
+                };
+
+                PopupPage popupPage = App.IsTablet
+                    ? new Views.Tablet.Dialogs.FinishPaymentDialog(param, callback)
+                    : new Views.Mobile.Dialogs.FinishPaymentDialog(param, callback);
+
+                await PopupNavigation.PushAsync(popupPage);
             }
-
-            Action<IDialogParameters> callback = async (IDialogParameters par) =>
+            else
             {
-                await GiftCardFinishPaymentAsync();
-                await CloseOrderAsync();
-                var navigationParameters = await SendReceiptAsync(par)
-                    ? new NavigationParameters { { Constants.Navigations.PAYMENT_COMPLETE, string.Empty } }
-                    : null;
-
-                await _navigationService.ClearPopupStackAsync();
-                await _navigationService.NavigateAsync(nameof(MenuPage), navigationParameters);
-            };
-
-            PopupPage popupPage = App.IsTablet
-                ? new Views.Tablet.Dialogs.FinishPaymentDialog(param, callback)
-                : new Views.Mobile.Dialogs.FinishPaymentDialog(param, callback);
-
-            await PopupNavigation.PushAsync(popupPage);
+                await ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
         }
 
         private Task<bool> SendReceiptAsync(IDialogParameters par)
@@ -467,8 +490,10 @@ namespace Next2.ViewModels
             return Task.FromResult(isReceiptPrint);
         }
 
-        private async Task CloseOrderAsync()
+        private async Task<bool> CloseOrderAsync()
         {
+            _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
+
             var order = _orderService.CurrentOrder;
             order.IsCashPayment = Order.Cash > 0;
             order.OrderStatus = EOrderStatus.Closed;
@@ -480,15 +505,45 @@ namespace Next2.ViewModels
             {
                 await _orderService.SetEmptyCurrentOrderAsync();
             }
+            else
+            {
+                await CloseAllPopupAsync();
+
+                _orderService.CurrentOrder = _tempCurrentOrder;
+
+                await ResponseToBadRequestAsync(updateResult.Exception?.Message);
+            }
+
+            return updateResult.IsSuccess;
         }
 
         private async Task OnAddGiftCardCommandAsync()
         {
-            IsInsufficientGiftCardFunds = false;
+            if (IsInternetConnected)
+            {
+                if (Order.Customer is not null)
+                {
+                    IsInsufficientGiftCardFunds = false;
 
-            PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, GiftCardViewDialogCallBack);
+                    PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, GiftCardViewDialogCallBack);
 
-            await PopupNavigation.PushAsync(popupPage);
+                    await PopupNavigation.PushAsync(popupPage);
+                }
+                else
+                {
+                    await ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["YouAreNotMember"],
+                        LocalizationResourceManager.Current["Ok"]);
+                }
+            }
+            else
+            {
+                await ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
         }
 
         private async void GiftCardViewDialogCallBack(IDialogParameters parameters)
@@ -567,15 +622,39 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task GiftCardFinishPaymentAsync()
+        private async Task<bool> GiftCardFinishPaymentAsync()
         {
+            bool isNoBadServerResponse = true;
+
             if (Order.Customer is not null && Order.Customer.GiftCards.Any())
             {
+                List<GiftCardModelDTO> tempCustomersGiftCards = new();
+
+                foreach (var giftCard in Order.Customer.GiftCards)
+                {
+                    tempCustomersGiftCards.Add(_mapper.Map<GiftCardModelDTO>(giftCard));
+                }
+
                 RecalculateCustomerGiftCardFounds(Order.Customer);
 
                 if (Order.Customer.IsCustomerRegistrated)
                 {
-                    await _customersService.UpdateCustomerAsync(Order.Customer);
+                    var resultOfUpdatingCustomer = await _customersService.UpdateCustomerAsync(Order.Customer);
+
+                    if (!resultOfUpdatingCustomer.IsSuccess)
+                    {
+                        await CloseAllPopupAsync();
+
+                        await ResponseToBadRequestAsync(resultOfUpdatingCustomer.Exception?.Message);
+
+                        Order.Customer.GiftCards = tempCustomersGiftCards;
+
+                        isNoBadServerResponse = resultOfUpdatingCustomer.IsSuccess;
+                    }
+                    else
+                    {
+                        isNoBadServerResponse = resultOfUpdatingCustomer.IsSuccess;
+                    }
                 }
                 else
                 {
@@ -583,14 +662,33 @@ namespace Next2.ViewModels
                     {
                         if (giftCardModel.TotalBalance > 0)
                         {
-                            await UpdateGiftCardAsync(giftCardModel);
+                            var resultOfUpdatingGiftCard = await UpdateGiftCardAsync(giftCardModel);
+
+                            if (resultOfUpdatingGiftCard.IsSuccess)
+                            {
+                                isNoBadServerResponse = resultOfUpdatingGiftCard.IsSuccess;
+                            }
+                            else
+                            {
+                                await CloseAllPopupAsync();
+
+                                await ResponseToBadRequestAsync(resultOfUpdatingGiftCard.Exception?.Message);
+
+                                isNoBadServerResponse = resultOfUpdatingGiftCard.IsSuccess;
+
+                                Order.Customer.GiftCards = tempCustomersGiftCards;
+
+                                break;
+                            }
                         }
                     }
                 }
             }
+
+            return isNoBadServerResponse;
         }
 
-        private Task UpdateGiftCardAsync(GiftCardModelDTO giftCardModel)
+        private Task<AOResult> UpdateGiftCardAsync(GiftCardModelDTO giftCardModel)
         {
             return _customersService.UpdateGiftCardAsync(giftCardModel);
         }

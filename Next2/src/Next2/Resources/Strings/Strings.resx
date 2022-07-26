@@ -663,4 +663,7 @@ A receipt has been printed for you.</value>
   <data name="DateTime" xml:space="preserve">
     <value>Date / Time</value>
   </data>
+  <data name="YouAreNotMember" xml:space="preserve">
+    <value>You are not yet a member!</value>
+  </data>
 </root>
