@@ -1,4 +1,5 @@
-﻿using Next2.Enums;
+﻿using AutoMapper;
+using Next2.Enums;
 using Next2.Models.Bindables;
 using Next2.Services.Menu;
 using Next2.Services.Notifications;
@@ -17,6 +18,7 @@ namespace Next2.ViewModels.Mobile
 {
     public class EditPageViewModel : BaseViewModel
     {
+        private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
         private readonly IMenuService _menuService;
         private readonly INotificationsService _notificationsService;
@@ -24,14 +26,18 @@ namespace Next2.ViewModels.Mobile
         private int _indexOfSeat;
         private bool _isModifiedDish;
 
+        private FullOrderBindableModel _tempCurrentOrder;
+
         public EditPageViewModel(
             INavigationService navigationService,
             IOrderService orderService,
-            IMenuService menuService)
+            IMenuService menuService,
+            IMapper mapper)
           : base(navigationService)
         {
             _orderService = orderService;
             _menuService = menuService;
+            _mapper = mapper;
         }
 
         #region -- Public properties --
@@ -83,7 +89,12 @@ namespace Next2.ViewModels.Mobile
 
         private Task OnOpenModifyCommandAsync()
         {
-            return _navigationService.NavigateAsync(nameof(ModificationsPage));
+            return IsInternetConnected
+                ? _navigationService.NavigateAsync(nameof(ModificationsPage))
+                : ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
         }
 
         private Task OnOpenRemoveCommandAsync()
@@ -104,32 +115,56 @@ namespace Next2.ViewModels.Mobile
 
         private async void CloseDeleteDishDialogCallbackAsync(IDialogParameters parameters)
         {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
+            if (IsInternetConnected)
             {
-                if (isDishRemovingAccepted)
-                {
-                    var result = await _orderService.DeleteDishFromCurrentSeatAsync();
-                    await _orderService.UpdateCurrentOrderAsync();
+                await CloseAllPopupAsync();
 
-                    if (result.IsSuccess)
+                if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
+                {
+                    if (isDishRemovingAccepted)
                     {
-                        await _notificationsService.CloseAllPopupAsync();
+                        _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 
-                        var navigationParameters = new NavigationParameters
+                        var result = await _orderService.DeleteDishFromCurrentSeatAsync();
+
+                        if (result.IsSuccess)
                         {
-                            { nameof(Constants.Navigations.DELETE_DISH), Constants.Navigations.DELETE_DISH },
-                        };
-                        await _navigationService.GoBackAsync(navigationParameters);
+                            var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
+
+                            if (resultOfUpdatingOrder.IsSuccess)
+                            {
+                                var navigationParameters = new NavigationParameters
+                                {
+                                    { nameof(Constants.Navigations.DELETE_DISH), Constants.Navigations.DELETE_DISH },
+                                };
+
+                                await _navigationService.GoBackAsync(navigationParameters);
+                            }
+                            else
+                            {
+                                _orderService.CurrentOrder = _tempCurrentOrder;
+
+                                await ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+                            }
+                        }
+                        else
+                        {
+                            await ShowInfoDialogAsync(
+                                LocalizationResourceManager.Current["Error"],
+                                LocalizationResourceManager.Current["SomethingWentWrong"],
+                                LocalizationResourceManager.Current["Ok"]);
+                        }
                     }
-                }
-                else
-                {
-                    await _notificationsService.CloseAllPopupAsync();
                 }
             }
             else
             {
-                await _notificationsService.CloseAllPopupAsync();
+                await CloseAllPopupAsync();
+
+                await _notificationsService.ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
             }
         }
 

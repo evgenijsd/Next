@@ -38,12 +38,6 @@
             public const int ALL_TABLES = 0;
         }
 
-        public static class LayoutBonuses
-        {
-            public const double ROW_TABLET_BONUS = 57;
-            public const double ROW_MOBILE_BONUS = 65;
-        }
-
         public static class Navigations
         {
             public const string SEARCH = "SEARCH";
@@ -79,6 +73,7 @@
             public const string EMPLOYEE_ID = "EMPLOYEE_ID";
             public const string LOGOUT = "LOGOUT";
             public const string ORDER = "ORDER";
+            public const string IS_FIRST_ORDER_INIT = "IS_FIRST_ORDER_INIT";
         }
 
         public static class Validators
@@ -116,7 +111,7 @@
             public const string SEATS = "SEATS";
             public const string SPLIT_GROUPS = "SPLIT_GROUPS";
             public const string ORDER_NUMBER = "ORDER_NUMBER";
-            public const string CUSTOMER_ID = "CUSTOMER_ID";
+            public const string CUSTOMER = "CUSTOMER";
             public const string OK_BUTTON_BACKGROUND = "OK_BUTTON_BACKGROUND";
             public const string OK_BUTTON_TEXT_COLOR = "OK_BUTTON_TEXT_COLOR";
             public const string TIP_VALUE_DIALOG = "TIP_VALUE_DIALOG";

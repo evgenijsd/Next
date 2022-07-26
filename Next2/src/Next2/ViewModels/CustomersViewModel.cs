@@ -68,7 +68,7 @@ namespace Next2.ViewModels
         public ICommand SortCommand => _sortCommand ??= new AsyncCommand<ECustomersSorting>(SortAsync, allowsMultipleExecutions: false);
 
         private ICommand _refreshCommand;
-        public ICommand RefreshCommand => _refreshCommand ??= new AsyncCommand(RefreshAsync, allowsMultipleExecutions: false);
+        public ICommand RefreshCommand => _refreshCommand ??= new AsyncCommand(RefreshCustomersAsync, allowsMultipleExecutions: false);
 
         private ICommand _addNewCustomerCommand;
         public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand<CustomerBindableModel>(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
@@ -82,13 +82,16 @@ namespace Next2.ViewModels
         private ICommand _clearSearchCommand;
         public ICommand ClearSearchCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _selectDeselectItemCommand;
+        public ICommand SelectDeselectItemCommand => _selectDeselectItemCommand ??= new AsyncCommand<CustomerBindableModel>(OnSelectDeselectItemAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
 
         public override async void OnAppearing()
         {
-            await RefreshAsync();
+            await RefreshCustomersAsync();
         }
 
         public override void OnDisappearing()
@@ -138,32 +141,46 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task RefreshAsync()
+        private async Task RefreshCustomersAsync()
         {
-            IsRefreshing = true;
-
-            var resultOfGettingCustomers = await _customersService.GetCustomersAsync();
-
-            if (resultOfGettingCustomers.IsSuccess)
+            if (IsInternetConnected)
             {
-                var customers = resultOfGettingCustomers.Result.ToList();
+                IsRefreshing = true;
 
-                foreach (var item in customers)
+                var resultOfGettingCustomers = await _customersService.GetCustomersAsync();
+
+                if (resultOfGettingCustomers.IsSuccess)
                 {
-                    item.ShowInfoCommand = ShowInfoCommand;
-                    item.SelectItemCommand = new Command<CustomerBindableModel>(SelectDeselectItem);
+                    var customers = resultOfGettingCustomers.Result.ToList();
+
+                    foreach (var item in customers)
+                    {
+                        item.ShowInfoCommand = ShowInfoCommand;
+                        item.SelectItemCommand = SelectDeselectItemCommand;
+                    }
+
+                    if (customers.Any())
+                    {
+                        _allCustomers = customers;
+                        DisplayedCustomers = SearchCustomers(SearchText);
+
+                        SelectCurrentCustomer();
+                    }
+                }
+                else
+                {
+                    await ResponseToBadRequestAsync(resultOfGettingCustomers.Exception?.Message);
                 }
 
-                if (customers.Any())
-                {
-                    _allCustomers = customers;
-                    DisplayedCustomers = SearchCustomers(SearchText);
-
-                    SelectCurrentCustomer();
-                }
+                IsRefreshing = false;
             }
-
-            IsRefreshing = false;
+            else
+            {
+                await ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
         }
 
         private void SelectCurrentCustomer()
@@ -178,11 +195,13 @@ namespace Next2.ViewModels
             }
         }
 
-        private void SelectDeselectItem(CustomerBindableModel customer)
+        private Task OnSelectDeselectItemAsync(CustomerBindableModel customer)
         {
             SelectedCustomer = SelectedCustomer == customer
                 ? null
                 : customer;
+
+            return Task.CompletedTask;
         }
 
         private async Task ShowCustomerInfoAsync(CustomerBindableModel customer)
@@ -215,22 +234,43 @@ namespace Next2.ViewModels
         {
             if (SelectedCustomer is not null)
             {
-                _orderService.CurrentOrder.Customer = SelectedCustomer;
-
-                if (App.IsTablet)
+                if (IsInternetConnected)
                 {
-                    MessagingCenter.Send<MenuPageSwitchingMessage>(new (EMenuItems.NewOrder), Constants.Navigations.SWITCH_PAGE);
+                    _orderService.CurrentOrder.Customer = SelectedCustomer;
+
+                    var resultOfUpdatingCurrentOrder = await _orderService.UpdateCurrentOrderAsync();
+
+                    if (resultOfUpdatingCurrentOrder.IsSuccess)
+                    {
+                        if (App.IsTablet)
+                        {
+                            MessagingCenter.Send<MenuPageSwitchingMessage>(new(EMenuItems.NewOrder), Constants.Navigations.SWITCH_PAGE);
+                        }
+                        else
+                        {
+                            string path = $"/{nameof(NavigationPage)}/{nameof(MenuPage)}";
+
+                            if (_orderService.CurrentOrder.Seats.Any())
+                            {
+                                path += $"/{nameof(OrderRegistrationPage)}";
+                            }
+
+                            await _navigationService.NavigateAsync(path);
+                        }
+                    }
+                    else
+                    {
+                        _orderService.CurrentOrder.Customer = new();
+
+                        await ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
+                    }
                 }
                 else
                 {
-                    string path = $"/{nameof(NavigationPage)}/{nameof(MenuPage)}";
-
-                    if (_orderService.CurrentOrder.Seats.Any())
-                    {
-                        path += $"/{nameof(OrderRegistrationPage)}";
-                    }
-
-                    await _navigationService.NavigateAsync(path);
+                    await ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["NoInternetConnection"],
+                        LocalizationResourceManager.Current["Ok"]);
                 }
             }
         }
@@ -240,8 +280,8 @@ namespace Next2.ViewModels
             var param = new DialogParameters();
 
             PopupPage popupPage = App.IsTablet
-                ? new Views.Tablet.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack, _customersService)
-                : new Views.Mobile.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack, _customersService);
+                ? new Views.Tablet.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack)
+                : new Views.Mobile.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack);
 
             return PopupNavigation.PushAsync(popupPage);
         }
@@ -250,13 +290,23 @@ namespace Next2.ViewModels
         {
             await _notificationsService.CloseAllPopupAsync();
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out Guid customerId))
+            if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER, out CustomerBindableModel customer))
             {
-                await RefreshAsync();
+                var resultOfCreatingNewCustomer = await _customersService.CreateCustomerAsync(customer);
 
-                int index = DisplayedCustomers.IndexOf(DisplayedCustomers.FirstOrDefault(x => x.Id == customerId));
+                if (resultOfCreatingNewCustomer.IsSuccess)
+                {
+                    customer.Id = resultOfCreatingNewCustomer.Result;
 
-                DisplayedCustomers.Move(index, 0);
+                    customer.ShowInfoCommand = ShowInfoCommand;
+                    customer.SelectItemCommand = SelectDeselectItemCommand;
+
+                    DisplayedCustomers.Insert(0, customer);
+                }
+                else
+                {
+                    await ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
+                }
             }
         }
 
