@@ -675,4 +675,7 @@ A receipt has been printed for you.</value>
   <data name="Time" xml:space="preserve">
     <value>Time</value>
   </data>
+  <data name="SelectDate" xml:space="preserve">
+    <value>Select Date</value>
+  </data>
 </root>

@@ -1286,6 +1286,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Date.
+        /// </summary>
+        internal static string SelectDate {
+            get {
+                return ResourceManager.GetString("SelectDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select a reward option to use your points..
         /// </summary>
         internal static string SelectRewardOptionToUseYourPoints {

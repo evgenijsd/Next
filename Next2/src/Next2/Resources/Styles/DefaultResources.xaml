@@ -74,6 +74,16 @@
         <Setter Property="HeightRequest" Value="4"/>
     </Style>
 
+    <Style x:Key="SeparatorStyle_i5" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="{OnPlatform Android=1.5, iOS=2}" />
+        <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i6}" />
+    </Style>
+
+    <Style x:Key="SeparatorStyle_i6" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="{OnPlatform Android=1.5, iOS=2}" />
+        <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+    </Style>
+
     <!-- CONTROLS -->
     <Style TargetType="controls:LineSpacingLabel">
         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>

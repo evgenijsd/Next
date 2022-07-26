@@ -22,6 +22,8 @@ namespace Next2.ViewModels.Dialogs
 
         public DateTime? SelectedDate { get; set; }
 
+        public bool isTablet => App.IsTablet;
+
         public Action<IDialogParameters> RequestClose;
 
         private ICommand _cancelCommand;

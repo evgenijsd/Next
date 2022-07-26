@@ -20,8 +20,7 @@
 
     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
-        <Grid
-            RowDefinitions="0.1*, 0.13*, 0.77*">
+        <Grid RowDefinitions="0.1*, 0.13*, 0.77*">
 
             <controls:CustomNavigationBar
                 Title="{xct:Translate PrintReceipt}"
@@ -34,68 +33,92 @@
 
             <controls:DatePicker
                 Grid.Row="1"
-                Margin="24, 30, 24, 24"
+                Margin="24, 0, 0, 24"
+                VerticalOptions="End"
                 HorizontalOptions="Start"
                 DateLabel="{Binding SelectedDate, Mode=TwoWay}" />
 
             <yummy:PancakeView
                 Grid.Row="2"
                 Margin="24, 0"
-                CornerRadius="10"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                CornerRadius="10, 10, 0, 0"
                 IsVisible="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}">
 
-                <StackLayout>
+                <yummy:PancakeView.Triggers>
+
+                    <DataTrigger TargetType="yummy:PancakeView" Value="0">
+
+                        <DataTrigger.Binding>
+                            <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
+
+                                <Binding Path="Orders.Count" />
+                                <Binding Path="IndexLastVisibleElement" />
+
+                            </MultiBinding>
+                        </DataTrigger.Binding>
+
+                        <Setter Property="CornerRadius" Value="10" />
+
+                    </DataTrigger>
+
+                </yummy:PancakeView.Triggers>
+
+                <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
                     <!--  TABLE  -->
-                    <Grid
-                        ColumnDefinitions="*, *, *"
-                        Margin="20, 15, 0, 0"
-                        VerticalOptions="Start"
-                        HeightRequest="35"
-                        MinimumHeightRequest="35">
 
-                        <Label
-                            Grid.Column="0"
-                            VerticalOptions="FillAndExpand"
-                            HorizontalOptions="FillAndExpand"
-                            HeightRequest="{DynamicResource TSize_i8}"
-                            Text="{xct:Translate TableNumber}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            LineBreakMode="TailTruncation"
-                            FontSize="{DynamicResource TSize_i8}"
-                            FontFamily="Barlow-Medium" />
+                    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-                        <Label
-                            Grid.Column="1"
-                            VerticalOptions="FillAndExpand"
-                            HorizontalOptions="FillAndExpand"
-                            HeightRequest="{DynamicResource TSize_i8}"
-                            LineBreakMode="TailTruncation"
-                            Text="{xct:Translate OrderNumber}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontSize="{DynamicResource TSize_i8}"
-                            FontFamily="Barlow-Medium">
+                        <Grid
+                            ColumnDefinitions="*, *, *"
+                            Margin="20, 15, 0, 0"
+                            VerticalOptions="Start"
+                            HeightRequest="35"
+                            MinimumHeightRequest="35">
 
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ChangeSortOrderCommand}" CommandParameter="{x:Static enums:EOrdersSortingType.ByOrderNumber}" />
+                            <Label
+                                Grid.Column="0"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                HeightRequest="{DynamicResource TSize_i8}"
+                                Text="{xct:Translate Order}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                LineBreakMode="TailTruncation"
+                                FontSize="{DynamicResource TSize_i8}"
+                                FontFamily="Barlow-Medium" />
 
-                            </Label.GestureRecognizers>
+                            <Label
+                                Grid.Column="1"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                HeightRequest="{DynamicResource TSize_i8}"
+                                LineBreakMode="TailTruncation"
+                                Text="{xct:Translate Total}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                FontSize="{DynamicResource TSize_i8}"
+                                FontFamily="Barlow-Medium">
 
-                        </Label>
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ChangeSortOrderCommand}" CommandParameter="{x:Static enums:EOrdersSortingType.ByOrderNumber}" />
 
-                        <Label
-                            Grid.Column="2"
-                            HorizontalOptions="FillAndExpand"
-                            Text="{xct:Translate Total}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontSize="{DynamicResource TSize_i8}"
-                            FontFamily="Barlow-Medium" />
+                                </Label.GestureRecognizers>
 
-                    </Grid>
+                            </Label>
+
+                            <Label
+                                Grid.Column="2"
+                                HorizontalOptions="FillAndExpand"
+                                Text="{xct:Translate Time}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                FontSize="{DynamicResource TSize_i8}"
+                                FontFamily="Barlow-Medium" />
+
+                        </Grid>
+
+                    </StackLayout>
 
                     <BoxView
-                        VerticalOptions="FillAndExpand"
+                        VerticalOptions="Start"
                         HorizontalOptions="FillAndExpand"
                         HeightRequest="1"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
@@ -111,6 +134,7 @@
                             SelectionMode="Single"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                             VerticalScrollBarVisibility="Never"
+                            IndexLastVisible="{Binding IndexLastVisibleElement}"
                             ItemsSource="{Binding Orders}"
                             SelectedItem="{Binding SelectedOrder}">
 
@@ -160,7 +184,7 @@
                                             Margin="20, 15, 0, 0"
                                             HorizontalOptions="FillAndExpand"
                                             HeightRequest="{DynamicResource TSize_i8}"
-                                            Text="{Binding TableNumberOrName}"
+                                            Text="{Binding Number}"
                                             LineBreakMode="TailTruncation"
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                             FontSize="{DynamicResource TSize_i8}"
@@ -170,15 +194,7 @@
                                             Grid.Column="1"
                                             Margin="15, 15, 0, 0"
                                             HorizontalOptions="FillAndExpand"
-                                            Text="{Binding Number}"
-                                            FontFamily="Barlow-Regular"
-                                            FontSize="{DynamicResource TSize_i8}"
-                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
-
-                                        <Label
-                                            Grid.Column="2"
-                                            Margin="10, 15, 0, 0"
-                                            HorizontalOptions="FillAndExpand"
+                                            Text="{Binding TotalPrice}"
                                             FontFamily="Barlow-Regular"
                                             FontSize="{DynamicResource TSize_i8}"
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}">
@@ -192,6 +208,15 @@
                                             </Label.FormattedText>
 
                                         </Label>
+
+                                        <Label
+                                            Grid.Column="2"
+                                            Margin="10, 15, 0, 0"
+                                            HorizontalOptions="FillAndExpand"
+                                            FontFamily="Barlow-Regular"
+                                            Text="{Binding Close}"
+                                            FontSize="{DynamicResource TSize_i8}"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                                         <BoxView
                                             Grid.Row="1"
@@ -247,8 +272,6 @@
             </StackLayout>
 
         </Grid>
-
-
 
     </StackLayout>
 

@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace Next2.Controls
 {
-    public partial class Calendar : Grid
+    public partial class Calendar : StackLayout
     {
         private bool _isFutureYearSelected = false;
 

@@ -35,6 +35,8 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
+        public int IndexLastVisibleElement { get; set; }
+
         public ObservableCollection<SimpleOrderBindableModel> Orders { get; set; } = new();
 
         public SimpleOrderBindableModel? SelectedOrder { get; set; }
