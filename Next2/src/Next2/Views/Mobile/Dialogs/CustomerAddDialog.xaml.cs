@@ -10,11 +10,10 @@ namespace Next2.Views.Mobile.Dialogs
     {
         public CustomerAddDialog(
             DialogParameters param,
-            Action<IDialogParameters> requestClose,
-            ICustomersService customersService)
+            Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
-            BindingContext = new CustomerAddViewModel(param, requestClose, customersService);
+            BindingContext = new CustomerAddViewModel(param, requestClose);
         }
     }
 }

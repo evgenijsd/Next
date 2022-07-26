@@ -15,15 +15,10 @@ namespace Next2.ViewModels.Dialogs
 {
     public class CustomerAddViewModel : BindableBase
     {
-        private readonly ICustomersService _customersService;
-
         public CustomerAddViewModel(
             DialogParameters param,
-            Action<IDialogParameters> requestClose,
-            ICustomersService customersService)
+            Action<IDialogParameters> requestClose)
         {
-            _customersService = customersService;
-
             RequestClose = requestClose;
             CloseCommand = new DelegateCommand(() => RequestClose(null));
             AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }));
@@ -96,19 +91,13 @@ namespace Next2.ViewModels.Dialogs
                     Birthday = SelectedDate,
                 };
 
-                var result = await _customersService.CreateCustomerAsync(newCustomer);
-
-                if (result.IsSuccess)
+                var parameters = new DialogParameters()
                 {
-                    var parameters = new DialogParameters()
-                    {
-                        { Constants.DialogParameterKeys.ACCEPT, true },
-                        { Constants.DialogParameterKeys.CUSTOMER_ID, result.Result },
-                    };
+                    { Constants.DialogParameterKeys.ACCEPT, true },
+                    { Constants.DialogParameterKeys.CUSTOMER, newCustomer }
+                };
 
-                    AcceptCommand = new DelegateCommand(() => RequestClose(parameters));
-                }
-
+                AcceptCommand = new DelegateCommand(() => RequestClose(parameters));
                 AcceptCommand.Execute();
             }
         }

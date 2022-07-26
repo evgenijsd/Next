@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using TabletViews = Next2.Views.Tablet;
 
@@ -229,6 +230,7 @@ namespace Next2.ViewModels
         {
             if (IsInternetConnected)
             {
+                _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
                 CurrentOrder = currentOrder;
                 _orderService.CurrentOrder = CurrentOrder;
 
@@ -243,7 +245,9 @@ namespace Next2.ViewModels
 
                 if (!resultOfUpdatingOrder.IsSuccess)
                 {
-                    await ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
+                    _orderService.CurrentOrder = _tempCurrentOrder;
+                    await RefreshCurrentOrderAsync();
+                    await ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                 }
             }
             else
@@ -341,7 +345,8 @@ namespace Next2.ViewModels
 
         private Task UpdateDishGroupsAsync()
         {
-            DishesGroupedBySeats = new();
+            var updatedDishesGroupedBySeats = new ObservableCollection<DishesGroupedBySeat>();
+
             var selectedDish = SelectedDish = null;
 
             foreach (var seat in _orderService.CurrentOrder.Seats)
@@ -350,6 +355,7 @@ namespace Next2.ViewModels
                 var selectedDishes = isSelectedDishes
                     ? seat.SelectedDishes.ToList()
                     : new() { new(), };
+
                 var dishFirst = selectedDishes.FirstOrDefault();
 
                 foreach (var dish in selectedDishes)
@@ -364,8 +370,9 @@ namespace Next2.ViewModels
                     }
                 }
 
-                DishesGroupedBySeats.Add(new(seat.SeatNumber, selectedDishes));
-                var seatGroup = DishesGroupedBySeats.Last();
+                updatedDishesGroupedBySeats.Add(new(seat.SeatNumber, selectedDishes));
+
+                var seatGroup = updatedDishesGroupedBySeats.Last();
 
                 seatGroup.Checked = seat.Checked;
                 seatGroup.IsFirstSeat = seat.IsFirstSeat;
@@ -381,6 +388,8 @@ namespace Next2.ViewModels
                 seatGroup.DeleteSeatCommand = _deleteSeatCommand;
                 seatGroup.RemoveOrderCommand = _removeOrderCommand;
             }
+
+            DishesGroupedBySeats = updatedDishesGroupedBySeats;
 
             if (SelectedDish is null)
             {

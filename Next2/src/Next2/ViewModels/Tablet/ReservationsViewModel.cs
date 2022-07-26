@@ -189,38 +189,18 @@ namespace Next2.ViewModels.Tablet
 
         private INavigation Navigation => App.Current.MainPage.Navigation;
 
-        private async Task OnAddNewReservationCommandAsync()
+        private Task OnAddNewReservationCommandAsync()
         {
-            var page = new ContentPage()
-            {
-                Content = new StackLayout()
-                {
-                    BackgroundColor = Color.Red,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-                    HeightRequest = 500,
-                    WidthRequest = 500,
-                    Children =
-                    {
-                        new Label()
-                        {
-                            Text = "sddssd",
-                        },
-                    },
-                },
-            };
+            var param = new DialogParameters();
 
-            await App.Current.MainPage.Navigation.PushAsync(page);
+            var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(param, AddNewReservationDialogCallBack, _navigationService, App.Resolve<ICustomersService>());
 
-            //var param = new DialogParameters();
-
-            //var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(param, AddNewReservationDialogCallBack, _navigationService, App.Resolve<ICustomersService>());
-
-            //return PopupNavigation.PushAsync(popupPage);
+            return PopupNavigation.PushAsync(popupPage);
         }
 
         private async void AddNewReservationDialogCallBack(IDialogParameters param)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out Guid customerId))
+            if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out Guid customerId))
             {
             }
         }

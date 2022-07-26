@@ -314,9 +314,9 @@
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30" />
-                        <RowDefinition Height="{Binding HeightCoupons}" />
+                        <RowDefinition Height="{Binding Coupons, Converter={StaticResource listHeightConverter},  ConverterParameter=57}"/>
                         <RowDefinition Height="30" />
-                        <RowDefinition Height="{Binding HeightDiscounts}" />
+                        <RowDefinition Height="{Binding Discounts, Converter={StaticResource listHeightConverter},  ConverterParameter=57}" />
                     </Grid.RowDefinitions>
 
                     <Label
