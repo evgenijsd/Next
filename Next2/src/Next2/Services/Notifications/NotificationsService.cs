@@ -35,14 +35,7 @@ namespace Next2.Services.Notifications
         {
             if (statusCode == Constants.StatusCode.UNAUTHORIZED)
             {
-                _authenticationService.ClearSession();
-
-                var navigationParameters = new NavigationParameters
-                {
-                    { Constants.Navigations.LOGOUT, true },
-                };
-
-                await _navigationService.NavigateAsync($"{nameof(LoginPage)}", navigationParameters);
+                await DeleteAuthorizationAsync();
             }
             else if (statusCode == Constants.StatusCode.SOCKET_CLOSED)
             {
@@ -82,6 +75,22 @@ namespace Next2.Services.Notifications
             {
                 await _popupNavigation.PopAllAsync();
             }
+        }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private Task DeleteAuthorizationAsync()
+        {
+            _authenticationService.ClearSession();
+
+            var navigationParameters = new NavigationParameters
+                {
+                    { Constants.Navigations.LOGOUT, true },
+                };
+
+            return _navigationService.NavigateAsync($"{nameof(LoginPage)}", navigationParameters);
         }
 
         #endregion

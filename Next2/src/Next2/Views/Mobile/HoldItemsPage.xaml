@@ -100,6 +100,15 @@
 
                                             </DataTrigger>
 
+                                            <DataTrigger
+                                                TargetType="ffimageloading:CachedImage"
+                                                Binding="{Binding SelectedTable.TableNumber}"
+                                                Value="{x:Static local:Constants+Limits.ALL_TABLES}">
+
+                                                <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+
+                                            </DataTrigger>
+
                                         </ffimageloading:CachedImage.Triggers>
 
                                     </ffimageloading:CachedImage>
@@ -173,6 +182,8 @@
 
                                     <controls:CustomCollectionView.Behaviors>
 
+                                        <behaviors:ScrollToCenterBehavior />
+                                        
                                         <behaviors:GetIndexLastElementBehavior />
 
                                         <prism:EventToCommandBehavior

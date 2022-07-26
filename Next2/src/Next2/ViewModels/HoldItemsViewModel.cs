@@ -96,7 +96,7 @@ namespace Next2.ViewModels
             {
                 if (IndexLastVisibleElement > IndexLastElement)
                 {
-                    IndexLastElement = IndexLastVisibleElement;
+                    IndexLastVisibleElement = IndexLastElement;
                 }
             }
         }
@@ -127,7 +127,7 @@ namespace Next2.ViewModels
             var holdItems = _holdItemService.GetHoldItemsByTableNumber(tableNumber);
 
             IsNothingFound = !holdItems.Any();
-            IndexLastElement = HoldItems.Count;
+            IndexLastElement = holdItems.Count();
 
             return _mapper.Map<ObservableCollection<HoldItemBindableModel>>(holdItems);
         }
@@ -154,14 +154,9 @@ namespace Next2.ViewModels
         {
             if (SelectedTable?.TableNumber != Constants.Limits.ALL_TABLES)
             {
-                if (SelectedHoldItems?.Count == HoldItems.Count)
-                {
-                    SelectedHoldItems = null;
-                }
-                else
-                {
-                    SelectedHoldItems = new(HoldItems);
-                }
+                SelectedHoldItems = SelectedHoldItems?.Count == HoldItems.Count
+                    ? null
+                    : new(HoldItems);
             }
 
             return Task.CompletedTask;
@@ -228,7 +223,7 @@ namespace Next2.ViewModels
             }
 
             IsNothingFound = !result.Any();
-            IndexLastElement = HoldItems.Count;
+            IndexLastElement = result.Count;
 
             return result;
         }
