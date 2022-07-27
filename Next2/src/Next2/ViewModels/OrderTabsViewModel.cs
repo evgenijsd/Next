@@ -416,7 +416,8 @@ namespace Next2.ViewModels
                         var orderToBeUpdated = orderResult.Result;
                         orderToBeUpdated.OrderStatus = EOrderStatus.Deleted;
 
-                        var updateOrderResult = await _orderService.UpdateOrderAsync(orderToBeUpdated);
+                        var updateOrderCommand = orderToBeUpdated.ToUpdateOrderCommand();
+                        var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
 
                         if (updateOrderResult.IsSuccess)
                         {
@@ -580,42 +581,14 @@ namespace Next2.ViewModels
 
         private async Task OnSplitCommandAsync()
         {
-            if (SelectedOrder?.TotalPrice > 0)
+            if (SelectedOrder.TotalPrice > 0)
             {
-                var resultOfGettingOrder = await _orderService.GetOrderByIdAsync(SelectedOrder.Id);
-
-                if (resultOfGettingOrder.IsSuccess)
+                var param = new NavigationParameters
                 {
-                    if (resultOfGettingOrder.Result?.Seats?.Count() > 1)
-                    {
-                        var order = resultOfGettingOrder.Result;
+                    { Constants.Navigations.ORDER_ID, SelectedOrder.Id },
+                };
 
-                        var param = new NavigationParameters
-                        {
-                            { Constants.Navigations.ORDER, order },
-                        };
-
-                        await _navigationService.NavigateAsync(nameof(SplitOrderPage), param);
-                    }
-                    else
-                    {
-                        await ShowInfoDialogAsync(
-                            LocalizationResourceManager.Current["Warning"],
-                            LocalizationResourceManager.Current["CannotSplitWithoutSeats"],
-                            LocalizationResourceManager.Current["Ok"]);
-                    }
-                }
-                else
-                {
-                    await ResponseToBadRequestAsync(resultOfGettingOrder.Exception.Message);
-                }
-            }
-            else
-            {
-                await ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Warning"],
-                    LocalizationResourceManager.Current["CannotSplitWithZeroCost"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _navigationService.NavigateAsync(nameof(SplitOrderPage), param);
             }
         }
 

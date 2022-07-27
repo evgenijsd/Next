@@ -648,15 +648,6 @@ A receipt has been printed for you.</value>
   <data name="RequestTimedOut" xml:space="preserve">
     <value>Request timed out</value>
   </data>
-  <data name="OrderSplitted" xml:space="preserve">
-    <value>The order has been successfully splitted</value>
-  </data>
-  <data name="OrderUpdated" xml:space="preserve">
-    <value>The order has been successfully updated.</value>
-  </data>
-  <data name="Splitted" xml:space="preserve">
-    <value>Splitted</value>
-  </data>
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>
   </data>
@@ -671,17 +662,5 @@ A receipt has been printed for you.</value>
   </data>
   <data name="DateTime" xml:space="preserve">
     <value>Date / Time</value>
-  </data>
-  <data name="CannotSplitWithoutSeats" xml:space="preserve">
-    <value>You cannot split an order with less than two seats</value>
-  </data>
-  <data name="CannotSplitWithZeroCost" xml:space="preserve">
-    <value>You cannot split an order with a zero total cost</value>
-  </data>
-  <data name="Warning" xml:space="preserve">
-    <value>Warning</value>
-  </data>
-  <data name="ThisDishAlreadySplitted" xml:space="preserve">
-    <value>This dish is already splitted</value>
   </data>
 </root>
