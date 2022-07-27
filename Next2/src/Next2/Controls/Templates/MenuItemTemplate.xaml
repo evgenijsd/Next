@@ -9,6 +9,7 @@
     HorizontalOptions="CenterAndExpand"
     HasShadow="False"
     CornerRadius="0"
+    BackgroundColor="{OnIdiom Phone=Transparent}"
     IsClippedToBounds="true"
     x:Class="Next2.Controls.Templates.MenuItemTemplate">
 

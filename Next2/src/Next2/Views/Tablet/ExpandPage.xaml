@@ -422,7 +422,7 @@
                         <templates:SubCategoryItemTemplate
                             HeightRequest="50"
                             MinimumHeightRequest="50"
-                            TextMargin="0, 0, 0, 26"
+                            TextMargin="0, 0, 0, 8"
                             Text="{Binding Name}"
                             FontSize="{DynamicResource TSize_i6}"
                             FontFamily="Barlow-Medium">
@@ -439,6 +439,7 @@
                                         <VisualState.Setters>
                                             <Setter Property="HeightRequest" Value="82" />
                                             <Setter Property="MinimumHeightRequest" Value="82" />
+                                            <Setter Property="TextMargin" Value="0, 0, 0, 26" />
                                         </VisualState.Setters>
 
                                     </VisualState>
