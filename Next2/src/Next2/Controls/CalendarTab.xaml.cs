@@ -98,16 +98,16 @@ namespace Next2.Controls
             set => SetValue(SelectedMonthProperty, value);
         }
 
-        public static readonly BindableProperty IsSelectYearVisibleProperty = BindableProperty.Create(
-            propertyName: nameof(IsSelectYearVisible),
+        public static readonly BindableProperty IsSelectedYearVisibleProperty = BindableProperty.Create(
+            propertyName: nameof(IsSelectedYearVisible),
             returnType: typeof(bool),
             declaringType: typeof(CalendarTab),
             defaultValue: true);
 
-        public bool IsSelectYearVisible
+        public bool IsSelectedYearVisible
         {
-            get => (bool)GetValue(IsSelectYearVisibleProperty);
-            set => SetValue(IsSelectYearVisibleProperty, value);
+            get => (bool)GetValue(IsSelectedYearVisibleProperty);
+            set => SetValue(IsSelectedYearVisibleProperty, value);
         }
 
         public static readonly BindableProperty SelectedYearProperty = BindableProperty.Create(

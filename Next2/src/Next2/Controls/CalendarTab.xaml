@@ -16,7 +16,7 @@
 
         <DataTrigger
             TargetType="Grid"
-            Binding="{Binding IsSelectYearVisible, Source={x:RelativeSource Self}}"
+            Binding="{Binding IsSelectedYearVisible, Source={x:RelativeSource Self}}"
             Value="False">
 
             <Setter Property="RowDefinitions" Value="0, 0.24*, *"/>
@@ -26,7 +26,7 @@
     </Grid.Triggers>
     
     <Label
-        IsVisible="{Binding IsSelectYearVisible, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
+        IsVisible="{Binding IsSelectedYearVisible, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
         Margin="0, 8, 0, 0"
         FontFamily="Barlow-Medium"
         FontSize="{DynamicResource TSize_i8}"
@@ -36,7 +36,7 @@
     <!--  year  -->
     <Frame
         Grid.Row="0"
-        IsVisible="{Binding IsSelectYearVisible, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
+        IsVisible="{Binding IsSelectedYearVisible, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
         HorizontalOptions="EndAndExpand"
         WidthRequest="90"
         CornerRadius="4"

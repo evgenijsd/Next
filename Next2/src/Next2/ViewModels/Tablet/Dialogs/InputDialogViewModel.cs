@@ -1,5 +1,6 @@
 ﻿using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Animations;
 using Rg.Plugins.Popup.Enums;
 using Rg.Plugins.Popup.Interfaces.Animations;
 using System;
@@ -31,15 +32,15 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         #region -- Public properties --
 
-        public Action<IDialogParameters> RequestClose;
-
-        public IPopupAnimation Animation { get; set; } = new Rg.Plugins.Popup.Animations.MoveAnimation(MoveAnimationOptions.Bottom, MoveAnimationOptions.Top);
+        public IPopupAnimation Animation { get; set; } = new MoveAnimation(MoveAnimationOptions.Bottom, MoveAnimationOptions.Top);
 
         public int CursorPosition { get; set; }
 
         public string Text { get; set; } = string.Empty;
 
         public string Placeholder { get; set; } = string.Empty;
+
+        public Action<IDialogParameters> RequestClose;
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand<string>(OnGoBackCommandAsync, allowsMultipleExecutions: false);
@@ -50,7 +51,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         private async Task OnGoBackCommandAsync(string text)
         {
-            Animation = new Rg.Plugins.Popup.Animations.MoveAnimation(MoveAnimationOptions.Top, MoveAnimationOptions.Bottom);
+            Animation = new MoveAnimation(MoveAnimationOptions.Top, MoveAnimationOptions.Bottom);
 
             var param = new DialogParameters();
 

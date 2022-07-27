@@ -6,12 +6,12 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Next2.ViewModels.Tablet.Dialogs
 {
@@ -25,23 +25,23 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
             DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters()));
 
-            GenerateCollection(GuestsAmount, 25);
-            GenerateCollection(Tables, 10);
+            GuestsAmount = new(Enumerable.Range(1, 25));
+            Tables = new(Enumerable.Range(1, 10));
 
             var date = DateTime.Now;
 
-            Hour = date.ToString("hh");
-            Minute = date.ToString("mm");
-            TimeType = date.ToString("tt");
+            _hour = date.ToString("hh");
+            _minute = date.ToString("mm");
+            _timeFormat = date.ToString("tt");
 
             SelectedDate = date;
         }
 
         #region -- Public properties --
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public string Phone { get; set; }
+        public string Phone { get; set; } = string.Empty;
 
         public int SelectedAmountGuests { get; set; }
 
@@ -55,15 +55,30 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public DateTime SelectedTime { get; set; } = DateTime.Now;
 
-        public DateTime SelectedDate { get; set; }
+        public DateTime SelectedDate { get; set; } = new();
 
         public DateTime MinimumSelectableDate { get; set; } = DateTime.Now;
 
-        public string Hour { get; set; }
+        private string _hour;
+        public string Hour
+        {
+            get => _hour;
+            set => SetProperty(ref _hour, value);
+        }
 
-        public string Minute { get; set; }
+        private string _minute;
+        public string Minute
+        {
+            get => _minute;
+            set => SetProperty(ref _minute, value);
+        }
 
-        public string TimeType { get; set; } = string.Empty;
+        private string _timeFormat;
+        public string TimeFormat
+        {
+            get => _timeFormat;
+            set => SetProperty(ref _timeFormat, value);
+        }
 
         public bool IsValidName { get; set; }
 
@@ -103,7 +118,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
                 is nameof(SelectedDate)
                 or nameof(Hour)
                 or nameof(Minute)
-                or nameof(TimeType))
+                or nameof(TimeFormat))
             {
                 ChangeSelectedTime();
                 ChangeCanAddNewReservation();
@@ -158,12 +173,12 @@ namespace Next2.ViewModels.Tablet.Dialogs
                 { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["CommentForReservation"] },
             };
 
-            var popupPage = new Views.Tablet.Dialogs.InputDialog(param, AddNewReservationDialogCallBack);
+            var popupPage = new Views.Tablet.Dialogs.InputDialog(param, InputDialogCallBack);
 
             return PopupNavigation.PushAsync(popupPage);
         }
 
-        private void AddNewReservationDialogCallBack(IDialogParameters param)
+        private void InputDialogCallBack(IDialogParameters param)
         {
             if (param.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
             {
@@ -178,28 +193,20 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         private Task OnChangeTimeFormatCommandAsync(string state)
         {
-            TimeType = state;
+            TimeFormat = state;
 
             return Task.CompletedTask;
         }
 
-        private void GenerateCollection(ObservableCollection<int> collection, int count)
-        {
-            for (int i = 1; i < count; i++)
-            {
-                collection.Add(i);
-            }
-        }
-
         private void ChangeSelectedTime()
         {
-            var date = SelectedDate.ToString("MM/dd/yyyy");
+            var date = SelectedDate.ToString(Constants.Formats.DATE_FORMAT2);
 
-            var dateTime = $"{date} {Hour}:{Minute} {TimeType}";
+            var dateTime = $"{date} {Hour}:{Minute} {TimeFormat}";
 
-            if (DateTime.TryParse(dateTime, out DateTime result))
+            if (DateTime.TryParse(dateTime, out DateTime parsedDate))
             {
-                SelectedTime = result;
+                SelectedTime = parsedDate;
             }
         }
 

@@ -132,7 +132,7 @@
 
                                         <controls:GuardEntry.EntryBehaviors>
                                             <behaviors:MaskedEntryBehavior Mask="{x:Static local:Constants+Validators.PHONE_MASK2}"/>
-                                            <behaviors:ValidatorBehavior Match="{x:Static local:Constants+Validators.PHONE_MASK}"/>
+                                            <behaviors:ValidatorBehavior MatchPattern="{x:Static local:Constants+Validators.PHONE_MASK}"/>
                                         </controls:GuardEntry.EntryBehaviors>
 
                                     </controls:GuardEntry>
@@ -330,7 +330,7 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     Padding="10, 0"
-                    IsSelectYearVisible="False"
+                    IsSelectedYearVisible="False"
                     OffsetYears="1"
                     SelectedStartDate="{Binding MinimumSelectableDate}"
                     SelectedDate="{Binding SelectedDate}"/>
@@ -399,7 +399,7 @@
 
                                 <Label.Triggers>
 
-                                    <DataTrigger TargetType="Label" Binding="{Binding TimeType}" Value="AM">
+                                    <DataTrigger TargetType="Label" Binding="{Binding TimeFormat}" Value="AM">
                                         <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i1}"/>
                                     </DataTrigger>
                                     
@@ -419,7 +419,7 @@
 
                                 <Label.Triggers>
 
-                                    <DataTrigger TargetType="Label" Binding="{Binding TimeType}" Value="PM">
+                                    <DataTrigger TargetType="Label" Binding="{Binding TimeFormat}" Value="PM">
                                         <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i1}"/>
                                     </DataTrigger>
 

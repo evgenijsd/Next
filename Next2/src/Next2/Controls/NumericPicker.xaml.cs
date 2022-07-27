@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
@@ -69,14 +69,7 @@ namespace Next2.Controls
         {
             try
             {
-                var list = new List<string>();
-
-                for (int i = min; i <= max; i++)
-                {
-                    list.Add(i.ToString(StringFormat));
-                }
-
-                ItemsSource = list;
+                ItemsSource = Enumerable.Range(min, max - min).Select(x => x.ToString(StringFormat));
             }
             catch (Exception)
             {

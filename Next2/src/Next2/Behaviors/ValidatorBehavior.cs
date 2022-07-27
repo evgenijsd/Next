@@ -11,9 +11,9 @@ namespace Next2.Behaviors
 
         public bool ShouldSetOldValidValue { get; set; }
 
-        public string? Match { get; set; }
+        public string? MatchPattern { get; set; }
 
-        public string? NotMatch { get; set; }
+        public string? MismatchPattern { get; set; }
 
         #endregion
 
@@ -47,21 +47,21 @@ namespace Next2.Behaviors
                 {
                     try
                     {
-                        var result = true;
+                        var isValid = true;
 
-                        if (Match is not null)
+                        if (MatchPattern is not null)
                         {
-                            result = Regex.IsMatch(e.NewTextValue, Match, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+                            isValid = Regex.IsMatch(e.NewTextValue, MatchPattern, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
                         }
 
-                        if (NotMatch is not null)
+                        if (MismatchPattern is not null)
                         {
-                            result = !Regex.IsMatch(e.NewTextValue, NotMatch, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+                            isValid = !Regex.IsMatch(e.NewTextValue, MismatchPattern, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
                         }
 
-                        entry.IsValid = result;
+                        entry.IsValid = isValid;
 
-                        if (ShouldSetOldValidValue && !result)
+                        if (ShouldSetOldValidValue && !isValid)
                         {
                             entry.Text = e.OldTextValue;
                         }

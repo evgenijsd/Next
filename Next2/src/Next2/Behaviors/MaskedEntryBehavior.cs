@@ -7,11 +7,11 @@ namespace Next2.Behaviors
 {
     public class MaskedEntryBehavior : Behavior<NoActionMenuEntry>
     {
-        private IDictionary<int, char>? _positionsInsert;
+        private IDictionary<int, char>? _positionsToInsert;
 
         #region -- Public properties --
 
-        public char UnMaskedCharacter { get; set; } = 'X';
+        public char UnmaskedSymbol { get; set; } = 'X';
 
         private string _mask = string.Empty;
         public string Mask
@@ -21,7 +21,7 @@ namespace Next2.Behaviors
             {
                 _mask = value;
 
-                InitPositionsInsert();
+                InitPositionsForInsertion();
             }
         }
 
@@ -45,25 +45,25 @@ namespace Next2.Behaviors
 
         #region -- Private helpers --
 
-        private void InitPositionsInsert()
+        private void InitPositionsForInsertion()
         {
             if (string.IsNullOrEmpty(Mask))
             {
-                _positionsInsert = null;
+                _positionsToInsert = null;
             }
             else
             {
-                var list = new Dictionary<int, char>();
+                var positionsAndSymbolsPairs = new Dictionary<int, char>();
 
                 for (var i = 0; i < Mask.Length; i++)
                 {
-                    if (Mask[i] != UnMaskedCharacter)
+                    if (Mask[i] != UnmaskedSymbol)
                     {
-                        list.Add(i, Mask[i]);
+                        positionsAndSymbolsPairs.Add(i, Mask[i]);
                     }
                 }
 
-                _positionsInsert = list;
+                _positionsToInsert = positionsAndSymbolsPairs;
             }
         }
 
@@ -75,7 +75,7 @@ namespace Next2.Behaviors
                 {
                     string text = new(entry.Text);
 
-                    if (!string.IsNullOrEmpty(text) || _positionsInsert is not null)
+                    if (!string.IsNullOrEmpty(text) || _positionsToInsert is not null)
                     {
                         if (text.Length > _mask.Length)
                         {
@@ -83,7 +83,7 @@ namespace Next2.Behaviors
                         }
                         else
                         {
-                            foreach (var position in _positionsInsert)
+                            foreach (var position in _positionsToInsert)
                             {
                                 if (text.Length >= position.Key + 1)
                                 {
