@@ -21,7 +21,6 @@ namespace Next2.ViewModels.Tablet.Dialogs
         {
             RequestClose = requestClose;
 
-            CloseCommand = new DelegateCommand(() => RequestClose(new DialogParameters()));
             DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters()));
 
             GenerateCollection(GuestsAmount, 25);
@@ -71,8 +70,6 @@ namespace Next2.ViewModels.Tablet.Dialogs
         public bool CanAddNewReservation { get; set; }
 
         public Action<IDialogParameters> RequestClose;
-
-        public DelegateCommand CloseCommand { get; }
 
         public DelegateCommand DeclineCommand { get; }
 
@@ -145,8 +142,8 @@ namespace Next2.ViewModels.Tablet.Dialogs
         {
             var param = new DialogParameters()
             {
-                { Constants.Navigations.INPUT_VALUE,  Notes },
-                { Constants.Navigations.PLACEHOLDER,  LocalizationResourceManager.Current["CommentForReservation"] },
+                { Constants.Navigations.INPUT_VALUE, Notes },
+                { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["CommentForReservation"] },
             };
 
             var popupPage = new Views.Tablet.Dialogs.InputDialog(param, AddNewReservationDialogCallBack);

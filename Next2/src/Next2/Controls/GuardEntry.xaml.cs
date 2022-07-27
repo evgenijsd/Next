@@ -129,7 +129,7 @@ namespace Next2.Controls
 
         #endregion
 
-        #region -- Private methods --
+        #region -- Private helpers --
 
         private void OnItemsSourcePropertyChanged(IEnumerable oldItemsSource, IEnumerable newItemsSource)
         {

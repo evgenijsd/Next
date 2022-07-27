@@ -54,6 +54,7 @@
         </StackLayout>
 
         <controls:CustomScrollBarCollectionView
+            ItemSizingStrategy="MeasureFirstItem"
             Style="{DynamicResource CustomScrollBarCollectionView_i1}"
             VerticalScrollBarVisibility="{Binding ScrollBarVisibility, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
             HeightRequest="{Binding ListHeight, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"

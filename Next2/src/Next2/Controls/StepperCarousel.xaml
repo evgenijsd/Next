@@ -32,7 +32,6 @@
         VerticalScrollBarVisibility="Never"
         HorizontalScrollBarVisibility="Never"
         SelectionMode="Single"
-        ItemSizingStrategy="MeasureFirstItem"
         ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=ItemsSource}"
         SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=SelectedItem}"
         Scrolled="collectionView_Scrolled"

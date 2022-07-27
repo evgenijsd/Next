@@ -34,10 +34,6 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public Action<IDialogParameters> RequestClose;
 
-        public DelegateCommand AcceptCommand { get; set; }
-
-        public DelegateCommand DeclineCommand { get; }
-
         public IPopupAnimation Animation { get; set; } = new Rg.Plugins.Popup.Animations.MoveAnimation(MoveAnimationOptions.Bottom, MoveAnimationOptions.Top);
 
         public int CursorPosition { get; set; }

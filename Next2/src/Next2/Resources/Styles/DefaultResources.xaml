@@ -53,6 +53,18 @@
         <Setter Property="ColumnSpacing" Value="0" />
     </Style>
 
+    <Style TargetType="CollectionView">
+        <Setter Property="ItemSizingStrategy" Value="MeasureFirstItem" />
+    </Style>
+
+    <Style TargetType="controls:CalendarGridCollectionView">
+        <Setter Property="ItemSizingStrategy" Value="MeasureFirstItem" />
+    </Style>
+
+    <Style TargetType="controls:CustomCollectionView">
+        <Setter Property="ItemSizingStrategy" Value="MeasureFirstItem" />
+    </Style>
+
     <!-- SEPARATORS -->
     
     <Style x:Key="SeparatorStyle_i1" TargetType="BoxView">

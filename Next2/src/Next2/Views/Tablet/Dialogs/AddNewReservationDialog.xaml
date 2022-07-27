@@ -12,8 +12,6 @@
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     HasKeyboardOffset="False"
-    CloseWhenBackgroundIsClicked="False"
-    IsBusy="False"
     x:Class="Next2.Views.Tablet.Dialogs.AddNewReservationDialog"
     x:DataType="viewModelsDialogs:AddNewReservationDialogViewModel">
 
@@ -153,7 +151,7 @@
                                     Margin="18">
 
                                     <controls:DropDownList
-                                        ShouldTranslate="False"
+                                        ShouldTranslationY="False"
                                         Direction="Up"
                                         HeaderText="{xct:Translate GuestsAmount}"
                                         HeaderTextOpacity="{DynamicResource OpacityWhenDisabled_i3}"
