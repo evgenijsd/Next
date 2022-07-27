@@ -189,11 +189,24 @@ namespace Next2.ViewModels.Tablet
         {
             if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out ReservationModel reservation))
             {
-            }
+                var resultOfAddingReservation = await _reservationService.AddReservationAsync(reservation);
 
-            if (PopupNavigation.PopupStack.Count > 0)
+                if (resultOfAddingReservation.IsSuccess)
+                {
+                    await CloseAllPopupAsync();
+
+                    IsReservationsRefreshing = true;
+                }
+                else
+                {
+                    var message = resultOfAddingReservation.Exception?.Message;
+
+                    await ResponseToBadRequestAsync(message);
+                }
+            }
+            else
             {
-                await PopupNavigation.PopAsync();
+                await CloseAllPopupAsync();
             }
         }
 

@@ -105,7 +105,7 @@
                                     <controls:GuardEntry
                                         Grid.Row="1"
                                         Margin="0, 5, 0, 0"
-                                        MaxLength="80"
+                                        MaxLength="{x:Static local:Constants+Limits.MAX_NAME_LENGTH}"
                                         Keyboard="Text"
                                         Placeholder="{xct:Translate TypeName}"
                                         ErrorText="{xct:Translate IncorrectName}"
@@ -129,11 +129,11 @@
                                         Placeholder="{Static local:Constants+Formats.PHONE_MASK}"
                                         ErrorText="{xct:Translate IncorrectNumber}"
                                         IsValid="{Binding IsValidPhone}"
-                                        MaxLength="14"
+                                        MaxLength="{x:Static local:Constants+Limits.PHONE_LENGTH}"
                                         Text="{Binding Phone}">
 
                                         <controls:GuardEntry.EntryBehaviors>
-                                            <behaviors:MaskedEntryBehavior Mask="(XXX) XXX-XXXX"/>
+                                            <behaviors:MaskedEntryBehavior Mask="{x:Static local:Constants+Validators.PHONE_MASK2}"/>
                                             <behaviors:ValidatorBehavior Match="{x:Static local:Constants+Validators.PHONE_MASK}"/>
                                         </controls:GuardEntry.EntryBehaviors>
 
@@ -292,7 +292,7 @@
                                     Padding="12, 10"
                                     HeightRequest="65"
                                     Border="{pv:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"
-                                    xct:TouchEffect.Command="{Binding GoInputCommentCommand}">
+                                    xct:TouchEffect.Command="{Binding GoInputNotesCommand}">
 
                                     <Label
                                         Text="{xct:Translate CommentForReservation}"
@@ -356,12 +356,12 @@
                         Border="{pv:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}">
                         
                         <controls:NumericPicker
-                            CurrentItem="{Binding Hours}"
+                            CurrentItem="{Binding Hour}"
                             StringFormat="{Static local:Constants+Formats.NUMERIC_FORMAT}"
                             PeekAreaInsets="10"
                             Loop="True"
-                            MinimumValue="1"
-                            MaximumValue="12"/>
+                            MinimumValue="{Static local:Constants+Limits.MIN_HOUR}"
+                            MaximumValue="{Static local:Constants+Limits.MAX_HOUR}"/>
                         
                     </pv:PancakeView>
 
@@ -377,8 +377,8 @@
                             StringFormat="{Static local:Constants+Formats.NUMERIC_FORMAT}"
                             PeekAreaInsets="10"
                             Loop="True"
-                            MinimumValue="0"
-                            MaximumValue="59"/>
+                            MinimumValue="{Static local:Constants+Limits.MIN_MINUTE}"
+                            MaximumValue="{Static local:Constants+Limits.MAX_MINUTE}"/>
 
                     </pv:PancakeView>
 

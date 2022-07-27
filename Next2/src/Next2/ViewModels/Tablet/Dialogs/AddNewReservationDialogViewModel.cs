@@ -1,7 +1,6 @@
 ﻿using Next2.Models;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -30,7 +29,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
             var date = DateTime.Now;
 
-            Hours = date.ToString("hh");
+            Hour = date.ToString("hh");
             Minute = date.ToString("mm");
             TimeType = date.ToString("tt");
 
@@ -59,7 +58,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public DateTime MinimumSelectableDate { get; set; } = DateTime.Now;
 
-        public string Hours { get; set; }
+        public string Hour { get; set; }
 
         public string Minute { get; set; }
 
@@ -80,8 +79,8 @@ namespace Next2.ViewModels.Tablet.Dialogs
         private ICommand _changeTimeFormatCommand;
         public ICommand ChangeTimeFormatCommand => _changeTimeFormatCommand ??= new AsyncCommand<string>(OnChangeTimeFormatCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _openPageInputCommentCommand;
-        public ICommand GoInputCommentCommand => _openPageInputCommentCommand ??= new AsyncCommand(OnGoInputCommentCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _goInputNotesCommand;
+        public ICommand GoInputNotesCommand => _goInputNotesCommand ??= new AsyncCommand(OnGoInputNotesCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _acceptCommand;
         public ICommand AcceptCommand => _acceptCommand ??= new AsyncCommand(OnAcceptCommandAsync, allowsMultipleExecutions: false);
@@ -103,7 +102,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
             }
             else if (args.PropertyName
                 is nameof(SelectedDate)
-                or nameof(Hours)
+                or nameof(Hour)
                 or nameof(Minute)
                 or nameof(TimeType))
             {
@@ -142,7 +141,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
             return Task.CompletedTask;
         }
 
-        private Task OnGoInputCommentCommandAsync()
+        private Task OnGoInputNotesCommandAsync()
         {
             var param = new DialogParameters()
             {
@@ -187,7 +186,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
         {
             var date = SelectedDate.ToString("MM/dd/yyyy");
 
-            var dateTime = $"{date} {Hours}:{Minute} {TimeType}";
+            var dateTime = $"{date} {Hour}:{Minute} {TimeType}";
 
             if (DateTime.TryParse(dateTime, out DateTime result))
             {

@@ -35,6 +35,12 @@
             public const int DAYS_IN_CALENDAR = 42;
             public const int MAXIMUM_DISCHARGE_NUMBER = 9;
             public const int MAX_QUERY_LENGTH = 100;
+            public const int PHONE_LENGTH = 14;
+            public const int MAX_NAME_LENGTH = 80;
+            public const int MIN_HOUR = 1;
+            public const int MAX_HOUR = 12;
+            public const int MIN_MINUTE = 0;
+            public const int MAX_MINUTE = 59;
         }
 
         public static class Navigations
@@ -85,6 +91,7 @@
             public const string NUMBER = @"[\D]";
             public const string PHONE = @"^\d{10}$";
             public const string PHONE_MASK = @"\([0-9]{3}\) [0-9]{3}-[0-9]{4}$";
+            public const string PHONE_MASK2 = "(XXX) XXX-XXXX";
             public const string CHECK_NUMBER = @"^[\d]";
             public const string EMAIL = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
            @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
