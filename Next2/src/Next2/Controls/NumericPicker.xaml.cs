@@ -58,7 +58,6 @@ namespace Next2.Controls
             if (propertyName is nameof(MinimumValue) or nameof(MaximumValue))
             {
                 TryInitData(MinimumValue, MaximumValue);
-                var dds = carouselView;
             }
         }
 

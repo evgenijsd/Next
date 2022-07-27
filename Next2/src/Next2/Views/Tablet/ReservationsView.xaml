@@ -214,7 +214,6 @@
                     <StackLayout>
 
                         <controls:CustomCollectionView
-                            ItemSizingStrategy="MeasureFirstItem"
                             HeightRequest="{Binding Reservations, Converter={StaticResource listHeightConverter}, ConverterParameter=40}"
                             Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                             ItemsSource="{Binding Reservations}"

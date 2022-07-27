@@ -57,11 +57,15 @@
         <Setter Property="ItemSizingStrategy" Value="MeasureFirstItem" />
     </Style>
 
+    <Style TargetType="controls:CustomCollectionView">
+        <Setter Property="ItemSizingStrategy" Value="MeasureFirstItem" />
+    </Style>
+
     <Style TargetType="controls:CalendarGridCollectionView">
         <Setter Property="ItemSizingStrategy" Value="MeasureFirstItem" />
     </Style>
 
-    <Style TargetType="controls:CustomCollectionView">
+    <Style TargetType="controls:CustomScrollBarCollectionView">
         <Setter Property="ItemSizingStrategy" Value="MeasureFirstItem" />
     </Style>
 
