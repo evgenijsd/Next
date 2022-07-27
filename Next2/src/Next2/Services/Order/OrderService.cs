@@ -598,9 +598,7 @@ namespace Next2.Services.Order
             try
             {
                 UpdateTotalSum(CurrentOrder);
-                var orderForUpdate = CurrentOrder.ToUpdateOrderCommand();
-
-                result = await UpdateOrderAsync(orderForUpdate);
+                result = await UpdateOrderAsync(CurrentOrder);
             }
             catch (Exception ex)
             {
