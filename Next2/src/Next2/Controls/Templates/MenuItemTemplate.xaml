@@ -7,9 +7,8 @@
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     VerticalOptions="CenterAndExpand"
     HorizontalOptions="CenterAndExpand"
-    BackgroundColor="Transparent"
     HasShadow="False"
-    CornerRadius="{OnIdiom Tablet='6', Phone='5'}"
+    CornerRadius="0"
     IsClippedToBounds="true"
     x:Class="Next2.Controls.Templates.MenuItemTemplate">
 
