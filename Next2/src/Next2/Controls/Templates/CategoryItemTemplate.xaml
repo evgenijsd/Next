@@ -41,7 +41,9 @@
     </VisualStateManager.VisualStateGroups>
 
     <Label
-        Padding="0, 0, 0, 1"
+        Padding="8, 0, 8, 1"
+        VerticalOptions="CenterAndExpand"
+        HorizontalOptions="Center"
         Text="{Binding Text, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
         FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
