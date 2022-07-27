@@ -1,7 +1,5 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Navigation;
-using Prism.Navigation.Xaml;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Enums;
 using Rg.Plugins.Popup.Interfaces.Animations;
@@ -19,16 +17,22 @@ namespace Next2.ViewModels.Tablet.Dialogs
             Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
-            CloseCommand = new DelegateCommand(() => RequestClose(null));
-            AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }));
-            DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
+
+            if (param.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
+            {
+                Text = text;
+                CursorPosition = Text.Length;
+            }
+
+            if (param.TryGetValue(Constants.Navigations.PLACEHOLDER, out string placeholder))
+            {
+                Placeholder = placeholder;
+            }
         }
 
         #region -- Public properties --
 
         public Action<IDialogParameters> RequestClose;
-
-        public DelegateCommand CloseCommand { get; }
 
         public DelegateCommand AcceptCommand { get; set; }
 
@@ -38,24 +42,29 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public int CursorPosition { get; set; }
 
-        public string SearchLine { get; set; } = "Hello world";
+        public string Text { get; set; } = string.Empty;
 
         public string Placeholder { get; set; } = string.Empty;
 
         private ICommand _goBackCommand;
-        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand<string>(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
         #region -- Private helpers --
 
-        private async Task OnGoBackCommandAsync()
+        private async Task OnGoBackCommandAsync(string text)
         {
             Animation = new Rg.Plugins.Popup.Animations.MoveAnimation(MoveAnimationOptions.Top, MoveAnimationOptions.Bottom);
 
-            await Task.Delay(TimeSpan.FromMilliseconds(100));
+            var param = new DialogParameters();
 
-            RequestClose(new DialogParameters());
+            if (!string.IsNullOrEmpty(text))
+            {
+                param.Add(Constants.Navigations.INPUT_VALUE, Text);
+            }
+
+            RequestClose(param);
         }
 
         #endregion

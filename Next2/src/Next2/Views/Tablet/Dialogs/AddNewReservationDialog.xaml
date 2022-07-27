@@ -303,6 +303,7 @@
 
                                             <DataTrigger TargetType="Label" Binding="{Binding Notes, Converter={xct:IsNullOrEmptyConverter}}" Value="False">
                                                 <Setter Property="Text" Value="{Binding Notes}"/>
+                                                <Setter Property="Opacity" Value="1"/>
                                             </DataTrigger>
                                             
                                         </Label.Triggers>

@@ -187,12 +187,13 @@ namespace Next2.ViewModels.Tablet
 
         private async void AddNewReservationDialogCallBack(IDialogParameters param)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool customerId))
+            if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out ReservationModel reservation))
             {
-                if (PopupNavigation.PopupStack.Count > 0)
-                {
-                    await PopupNavigation.PopAsync();
-                }
+            }
+
+            if (PopupNavigation.PopupStack.Count > 0)
+            {
+                await PopupNavigation.PopAsync();
             }
         }
 
