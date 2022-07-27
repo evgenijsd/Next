@@ -27,8 +27,6 @@ namespace Next2.Models.Bindables
 
         public decimal DiscountPrice { get; set; }
 
-        public bool HasSplittedPrice { get; set; }
-
         public IEnumerable<SimpleDishProportionModelDTO>? DishProportions { get; set; }
 
         public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
@@ -48,7 +46,6 @@ namespace Next2.Models.Bindables
                 DishId = DishId,
                 ImageSource = ImageSource,
                 TotalPrice = TotalPrice,
-                HasSplittedPrice = HasSplittedPrice,
                 DiscountPrice = DiscountPrice,
                 DishProportions = DishProportions?.Select(x => new SimpleDishProportionModelDTO
                 {

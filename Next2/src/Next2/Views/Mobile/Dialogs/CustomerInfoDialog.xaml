@@ -54,37 +54,38 @@
 
     <Frame
         Padding="1.5"
-        VerticalOptions="Center"
-        HorizontalOptions="Center"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-        CornerRadius="5">
+        CornerRadius="5"
+        HorizontalOptions="Center"
+        VerticalOptions="Center"
+        x:Name="mainFrame">
 
         <Frame
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
             CornerRadius="5">
 
             <Grid
-                RowDefinitions="0.101*, 0.779*, 0.119*"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}">
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                RowDefinitions="0.101*, 0.779*, 0.119*">
 
                 <BoxView
                     Grid.Row="0"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"/>
 
                 <BoxView
                     Grid.Row="0"
-                    VerticalOptions="EndAndExpand"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
                     HeightRequest="0.5"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
+                    VerticalOptions="EndAndExpand" />
 
                 <Label
                     Grid.Row="0"
                     Margin="18, 0, 0, 0"
-                    VerticalOptions="Center"
                     FontFamily="Barlow-SemiBold"
                     FontSize="{DynamicResource TSize_i6}"
                     Text="{xct:Translate CustomerInfo}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    VerticalOptions="Center" />
 
                 <BoxView
                     Grid.Row="1"
@@ -94,46 +95,46 @@
                     Grid.Row="1"
                     Margin="24, 0">
 
-                    <StackLayout Style="{DynamicResource HeadLayoutStyle}">
+                    <StackLayout Style="{StaticResource HeadLayoutStyle}">
 
                         <Label
-                            Style="{DynamicResource HeadTextStyle}"
+                            Style="{StaticResource HeadTextStyle}"
                             Text="{xct:Translate CustomerName}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                         <Label
-                            Style="{DynamicResource HeadTextStyle}"
                             FontSize="{DynamicResource TSize_i8}"
+                            Style="{StaticResource HeadTextStyle}"
                             Text="{Binding Customer.FullName}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                     </StackLayout>
 
-                    <StackLayout Style="{DynamicResource HeadLayoutStyle}">
+                    <StackLayout Style="{StaticResource HeadLayoutStyle}">
 
                         <Label
-                            Style="{DynamicResource HeadTextStyle}"
+                            Style="{StaticResource HeadTextStyle}"
                             Text="{xct:Translate Phone}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                         <Label
-                            Style="{DynamicResource HeadTextStyle}"
                             FontSize="{DynamicResource TSize_i8}"
+                            Style="{StaticResource HeadTextStyle}"
                             Text="{Binding Customer.Phone, Converter={StaticResource formattedPhoneConverter}}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                     </StackLayout>
 
-                    <StackLayout Style="{DynamicResource HeadLayoutStyle}">
+                    <StackLayout Style="{StaticResource HeadLayoutStyle}">
 
                         <Label
-                            Style="{DynamicResource HeadTextStyle}"
+                            Style="{StaticResource HeadTextStyle}"
                             Text="{xct:Translate Email}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                         <Label
-                            Style="{DynamicResource HeadTextStyle}"
                             FontSize="{DynamicResource TSize_i8}"
+                            Style="{StaticResource HeadTextStyle}"
                             Text="{Binding Customer.Email}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
@@ -141,8 +142,8 @@
 
                     <BoxView
                         Margin="0, 18, 0, 0"
-                        HeightRequest="1.5"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                        HeightRequest="1.5" />
 
                     <Frame
                         Margin="0, 23, 0, 24"
@@ -162,18 +163,18 @@
                             <StackLayout
                                 Grid.Row="0"
                                 Grid.Column="0"
-                                Style="{DynamicResource GridLayoutStyle}">
+                                Style="{StaticResource GridLayoutStyle}">
 
                                 <Label
-                                    Style="{DynamicResource GridTextStyle}"
+                                    Style="{StaticResource GridTextStyle}"
                                     Text="{xct:Translate Points}"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                                 <Label
                                     Margin="0, 12, 0, 0"
-                                    HorizontalOptions="Center"
                                     FontFamily="Barlow-SemiBold"
                                     FontSize="{DynamicResource TSize_i5}"
+                                    HorizontalOptions="Center"
                                     Text="{Binding Customer.Points}"
                                     TextColor="{DynamicResource AppColor_i1}">
 
@@ -190,24 +191,24 @@
                             <BoxView
                                 Grid.Row="0"
                                 Grid.Column="1"
-                                HeightRequest="300"
-                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}" />
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                                HeightRequest="300" />
 
                             <StackLayout
                                 Grid.Row="0"
                                 Grid.Column="1"
-                                Style="{DynamicResource GridLayoutStyle}">
+                                Style="{StaticResource GridLayoutStyle}">
 
                                 <Label
-                                    Style="{DynamicResource GridTextStyle}"
+                                    Style="{StaticResource GridTextStyle}"
                                     Text="{xct:Translate Rewards}"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                                 <Label
                                     Margin="0, 12, 0, 0"
-                                    HorizontalOptions="Center"
                                     FontFamily="Barlow-Bold"
                                     FontSize="{DynamicResource TSize_i3}"
+                                    HorizontalOptions="Center"
                                     Text="{Binding Customer.Rewards}"
                                     TextColor="{DynamicResource IndicationColor_i7}" />
 
@@ -221,10 +222,10 @@
                             <StackLayout
                                 Grid.Row="1"
                                 Grid.Column="0"
-                                Style="{DynamicResource GridLayoutStyle}">
+                                Style="{StaticResource GridLayoutStyle}">
 
                                 <Label
-                                    Style="{DynamicResource GridTextStyle}"
+                                    Style="{StaticResource GridTextStyle}"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}">
 
                                     <Label.FormattedText>
@@ -241,9 +242,9 @@
 
                                 <Label
                                     Margin="0, 12, 0, 0"
-                                    HorizontalOptions="Center"
                                     FontFamily="Barlow-Bold"
                                     FontSize="{DynamicResource TSize_i3}"
+                                    HorizontalOptions="Center"
                                     Text="{Binding Customer.GiftCards.Count}"
                                     TextColor="{DynamicResource IndicationColor_i5}" />
 
@@ -257,10 +258,10 @@
                             <StackLayout
                                 Grid.Row="1"
                                 Grid.Column="1"
-                                Style="{DynamicResource GridLayoutStyle}">
+                                Style="{StaticResource GridLayoutStyle}">
 
                                 <Label
-                                    Style="{DynamicResource GridTextStyle}"
+                                    Style="{StaticResource GridTextStyle}"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}">
 
                                     <Label.FormattedText>
@@ -277,9 +278,9 @@
 
                                 <Label
                                     Margin="0, 12, 0, 0"
-                                    HorizontalOptions="Center"
                                     FontFamily="Barlow-SemiBold"
                                     FontSize="{DynamicResource TSize_i5}"
+                                    HorizontalOptions="Center"
                                     TextColor="{DynamicResource IndicationColor_i1}">
 
                                     <Label.FormattedText>
@@ -306,15 +307,15 @@
 
                 <BoxView
                     Grid.Row="2"
-                    VerticalOptions="StartAndExpand"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                     HeightRequest="0.5"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+                    VerticalOptions="StartAndExpand" />
 
                 <BoxView
                     Grid.Row="2"
-                    VerticalOptions="EndAndExpand"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
                     HeightRequest="0.5"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
+                    VerticalOptions="EndAndExpand" />
 
                 <StackLayout
                     Grid.Row="2"
@@ -322,13 +323,13 @@
                     Orientation="Horizontal">
 
                     <Frame
-                        Style="{DynamicResource ButtonFrameStyle}"
                         Margin="0, 0, 5, 0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        BorderColor="{DynamicResource AppColor_i1}">
+                        BorderColor="{DynamicResource AppColor_i1}"
+                        Style="{StaticResource ButtonFrameStyle}">
 
                         <Label
-                            Style="{DynamicResource ButtonTextStyle}"
+                            Style="{StaticResource ButtonTextStyle}"
                             Text="{xct:Translate Cancel}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
@@ -339,12 +340,12 @@
                     </Frame>
 
                     <Frame
-                        Style="{DynamicResource ButtonFrameStyle}"
                         Margin="5, 0, 0, 0"
-                        BackgroundColor="{DynamicResource IndicationColor_i1}">
+                        BackgroundColor="{DynamicResource IndicationColor_i1}"
+                        Style="{StaticResource ButtonFrameStyle}">
 
                         <Label
-                            Style="{DynamicResource ButtonTextStyle}"
+                            Style="{StaticResource ButtonTextStyle}"
                             Text="{xct:Translate Select}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
