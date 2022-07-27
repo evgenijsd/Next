@@ -214,7 +214,7 @@
                                             Margin="10, 15, 0, 0"
                                             HorizontalOptions="FillAndExpand"
                                             FontFamily="Barlow-Regular"
-                                            Text="{Binding Close}"
+                                            Text="{Binding Close, StringFormat={x:Static local:Constants+Formats.SIMPLE_TIME}}"
                                             FontSize="{DynamicResource TSize_i8}"
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
