@@ -23,7 +23,6 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
 
         private IEnumerable<SimpleOrderBindableModel> _allClosedOrders;
-        private Guid _lastSavedOrderId;
 
         public PrintReceiptViewModel(
             INavigationService navigationService,
@@ -51,17 +50,20 @@ namespace Next2.ViewModels
                 {
                     _selectedDate = value;
                     FilterOrdersByDateAsync(value);
+
+                    if (!Orders.Contains(SelectedOrder))
+                    {
+                        SelectedOrder = null;
+                    }
                 }
             }
         }
 
-        public bool IsNothingFound => IsSearchModeActive && !Orders.Any();
-
-        public bool IsSearchModeActive { get; set; }
+        public bool IsNothingFound => !Orders.Any();
 
         public bool IsOrdersRefreshing { get; set; }
 
-        public bool IsPreloadStateActive => !IsSearchModeActive && (!IsInternetConnected || (IsOrdersRefreshing && !Orders.Any()));
+        public bool IsPreloadStateActive => !IsInternetConnected || (IsOrdersRefreshing && !Orders.Any());
 
         public EOrdersSortingType OrderSortingType { get; set; }
 
@@ -82,7 +84,6 @@ namespace Next2.ViewModels
         {
             base.OnAppearing();
 
-            IsSearchModeActive = false;
             IsOrdersRefreshing = true;
         }
 
@@ -90,9 +91,7 @@ namespace Next2.ViewModels
         {
             base.OnDisappearing();
 
-            IsSearchModeActive = false;
-            SelectedOrder = null;
-            _lastSavedOrderId = Guid.Empty;
+            //SelectedOrder = null;
         }
 
         #endregion
@@ -125,10 +124,6 @@ namespace Next2.ViewModels
                     await FilterOrdersByDateAsync(SelectedDate);
 
                     isOrdersLoaded = true;
-
-                    SelectedOrder = _lastSavedOrderId == Guid.Empty
-                        ? null
-                        : Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId);
                 }
                 else
                 {
@@ -217,15 +212,11 @@ namespace Next2.ViewModels
 
         private IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders)
         {
-            EOrdersSortingType orderTabSorting = OrderSortingType == EOrdersSortingType.ByCustomerName
-                ? EOrdersSortingType.ByTableNumber
-                : OrderSortingType;
-
-            Func<SimpleOrderBindableModel, object> sortingSelector = orderTabSorting switch
+            Func<SimpleOrderBindableModel, object> sortingSelector = OrderSortingType switch
             {
                 EOrdersSortingType.ByOrderNumber => x => x.Number,
                 EOrdersSortingType.ByTableNumber => x => x.TableNumber,
-                EOrdersSortingType.ByCustomerName => x => x.TableNumberOrName,
+                EOrdersSortingType.ByTotalPrice => x => x.TotalPrice,
                 _ => throw new NotImplementedException(),
             };
 

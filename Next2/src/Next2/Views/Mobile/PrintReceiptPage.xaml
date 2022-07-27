@@ -14,13 +14,14 @@
     xmlns:prism="http://prismlibrary.com"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
     x:Class="Next2.Views.Mobile.PrintReceiptPage"
     x:DataType="viewmodels:PrintReceiptViewModel">
 
     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
-        <Grid RowDefinitions="0.1*, 0.13*, 0.77*">
+        <Grid RowDefinitions="65, 75">
 
             <controls:CustomNavigationBar
                 Title="{xct:Translate PrintReceipt}"
@@ -33,13 +34,29 @@
 
             <controls:DatePicker
                 Grid.Row="1"
-                Margin="24, 0, 0, 24"
+                Margin="24, 0, 0, 14"
                 VerticalOptions="End"
                 HorizontalOptions="Start"
                 DateLabel="{Binding SelectedDate, Mode=TwoWay}" />
 
+            <StackLayout
+                Margin="0, 0, 32, 100"
+                Grid.Row="2"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand"
+                IsVisible="{Binding IsNothingFound}">
+
+                <ffimageloading:CachedImage
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    HeightRequest="230"
+                    Source="pic_nothing_found" />
+
+            </StackLayout>
+
             <yummy:PancakeView
                 Grid.Row="2"
+                VerticalOptions="Start" 
                 Margin="24, 0"
                 CornerRadius="10, 10, 0, 0"
                 IsVisible="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}">
@@ -63,11 +80,7 @@
 
                 </yummy:PancakeView.Triggers>
 
-                <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
-
-                    <!--  TABLE  -->
-
-                    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                         <Grid
                             ColumnDefinitions="*, *, *"
@@ -85,7 +98,9 @@
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                 LineBreakMode="TailTruncation"
                                 FontSize="{DynamicResource TSize_i8}"
-                                FontFamily="Barlow-Medium" />
+                                FontFamily="Barlow-Medium"
+                                xct:TouchEffect.Command="{Binding ChangeSortOrderCommand}"
+                                xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByOrderNumber}" />
 
                             <Label
                                 Grid.Column="1"
@@ -96,14 +111,9 @@
                                 Text="{xct:Translate Total}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                 FontSize="{DynamicResource TSize_i8}"
-                                FontFamily="Barlow-Medium">
-
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding ChangeSortOrderCommand}" CommandParameter="{x:Static enums:EOrdersSortingType.ByOrderNumber}" />
-
-                                </Label.GestureRecognizers>
-
-                            </Label>
+                                FontFamily="Barlow-Medium"
+                                xct:TouchEffect.Command="{Binding ChangeSortOrderCommand}"
+                                xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByTotalPrice}" />
 
                             <Label
                                 Grid.Column="2"
@@ -115,15 +125,12 @@
 
                         </Grid>
 
-                    </StackLayout>
-
                     <BoxView
                         VerticalOptions="Start"
                         HorizontalOptions="FillAndExpand"
                         HeightRequest="1"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
-                    <!--  TABLE CONTENT  -->
                     <RefreshView
                         VerticalOptions="Start"
                         IsRefreshing="{Binding IsOrdersRefreshing}"
@@ -240,11 +247,11 @@
 
             </yummy:PancakeView>
 
-            <StackLayout
-                Grid.Row="2"
+        </Grid>
+        
+        <StackLayout
                 VerticalOptions="EndAndExpand"
-                HeightRequest="88"
-                MinimumHeightRequest="1"
+                HeightRequest="87"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                 IsVisible="{Binding SelectedOrder, Converter={xct:IsNotNullOrEmptyConverter}}">
 
@@ -254,14 +261,15 @@
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
                 <buttons:BorderButton
-                    Style="{DynamicResource BorderButtonStyle_i1}"
-                    Margin="20, 15"
-                    HorizontalOptions="FillAndExpand"
-                    HeightRequest="45"
+                    Margin="20, 12"
+                    Padding="0"
+                    HeightRequest="65"
+                    BorderWidth="1"
+                    FontFamily="Barlow-SemiBold"
                     Text="{xct:Translate Print}"
                     FontSize="{DynamicResource TSize_i6}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    BorderColor="{DynamicResource IndicationColor_i1}"
+                    BorderColor="Transparent"
                     BackgroundColor="{DynamicResource IndicationColor_i1}" />
 
                 <BoxView
@@ -270,8 +278,6 @@
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
             </StackLayout>
-
-        </Grid>
 
     </StackLayout>
 
