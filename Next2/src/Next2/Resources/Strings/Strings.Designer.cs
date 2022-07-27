@@ -187,6 +187,24 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You cannot split an order with less than two seats.
+        /// </summary>
+        internal static string CannotSplitWithoutSeats {
+            get {
+                return ResourceManager.GetString("CannotSplitWithoutSeats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You cannot split an order with a zero total cost.
+        /// </summary>
+        internal static string CannotSplitWithZeroCost {
+            get {
+                return ResourceManager.GetString("CannotSplitWithZeroCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Card.
         /// </summary>
         internal static string Card {
@@ -935,6 +953,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The order has been successfully splitted.
+        /// </summary>
+        internal static string OrderSplitted {
+            get {
+                return ResourceManager.GetString("OrderSplitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Order Status.
         /// </summary>
         internal static string OrderStatus {
@@ -958,6 +985,15 @@ namespace Next2.Resources.Strings {
         internal static string OrderType {
             get {
                 return ResourceManager.GetString("OrderType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The order has been successfully updated..
+        /// </summary>
+        internal static string OrderUpdated {
+            get {
+                return ResourceManager.GetString("OrderUpdated", resourceCulture);
             }
         }
         
@@ -1367,6 +1403,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Splitted.
+        /// </summary>
+        internal static string Splitted {
+            get {
+                return ResourceManager.GetString("Splitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Split Total.
         /// </summary>
         internal static string SplitTotal {
@@ -1549,6 +1594,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This dish is already splitted.
+        /// </summary>
+        internal static string ThisDishAlreadySplitted {
+            get {
+                return ResourceManager.GetString("ThisDishAlreadySplitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This item will be removed from the order list..
         /// </summary>
         internal static string ThisDishWillBeRemoved {
@@ -1671,6 +1725,15 @@ namespace Next2.Resources.Strings {
         internal static string WantToLogOut {
             get {
                 return ResourceManager.GetString("WantToLogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
         

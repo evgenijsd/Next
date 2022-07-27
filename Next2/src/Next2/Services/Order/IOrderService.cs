@@ -25,7 +25,9 @@ namespace Next2.Services.Order
 
         Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish);
 
-        Task<AOResult<Guid>> UpdateOrderAsync(UpdateOrderCommand order);
+        Task<AOResult<Guid>> UpdateOrderAsync(OrderModelDTO order);
+
+        Task<AOResult<Guid>> UpdateOrderAsync(FullOrderBindableModel order);
 
         Task<AOResult> AddSeatInCurrentOrderAsync();
 
@@ -39,7 +41,7 @@ namespace Next2.Services.Order
 
         Task<AOResult> SetEmptyCurrentOrderAsync();
 
-        Task<AOResult<Guid>> UpdateTableAsync(UpdateTableCommand command);
+        Task<AOResult<Guid>> UpdateTableAsync(SimpleTableModelDTO table, bool isAvailable = false);
 
         Task<AOResult> SetCurrentOrderAsync(Guid orderId);
 
@@ -50,5 +52,7 @@ namespace Next2.Services.Order
         decimal CalculateDishPriceBaseOnProportion(DishBindableModel dish, decimal priceRatio, IEnumerable<IngredientModelDTO> ingredients);
 
         void UpdateTotalSum(FullOrderBindableModel currentOrder);
+
+        void CalculateOrderPrices(OrderModelDTO order);
     }
 }
