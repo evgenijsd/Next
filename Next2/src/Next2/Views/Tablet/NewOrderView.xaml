@@ -283,7 +283,8 @@
                                             </VisualState.StateTriggers>
 
                                             <VisualState.Setters>
-                                                <Setter Property="ItemWidth" Value="141"/>
+                                                <Setter Property="ItemWidth" Value="133"/>
+                                                <Setter Property="Margin" Value="40, 0, 40, 40"/>
                                             </VisualState.Setters>
 
                                         </VisualState>
@@ -880,24 +881,12 @@
             <!-- HEADER, 1 ROW -->
             <StackLayout
                 Grid.Row="0"
-                Padding="18, 24, 18, 14"
+                Padding="18, 14, 18, 14"
                 Orientation="Horizontal">
 
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroupList>
                         <VisualStateGroup Name="AdaptiveHeader">
-
-                            <VisualState Name="Medium">
-
-                                <VisualState.StateTriggers>
-                                    <AdaptiveTrigger MinWindowWidth="1194" />
-                                </VisualState.StateTriggers>
-
-                                <VisualState.Setters>
-                                    <Setter Property="Padding" Value="18, 20, 18, 14"/>
-                                </VisualState.Setters>
-
-                            </VisualState>
 
                             <VisualState Name="Large">
 
@@ -1214,9 +1203,9 @@
                         </pancakeview:PancakeView>
 
                         <StackLayout
-                            Margin="0, 120, 0, 0"
+                            Margin="0, 30, 0, 0"
                             Spacing="6">
-
+                            
                             <StackLayout.Triggers>
                                 <DataTrigger
                                     TargetType="StackLayout"
@@ -1235,8 +1224,31 @@
 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroupList>
-                                        <VisualStateGroup
-                                            Name="AdaptivePic_payment">
+                                        <VisualStateGroup Name="AdaptivePic_payment">
+
+                                            <VisualState Name="IPadMini">
+
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowWidth="1024" />
+                                                </VisualState.StateTriggers>
+
+                                                <VisualState.Setters>
+                                                    <Setter Property="Margin" Value="0, 70, 0, 0" />
+                                                </VisualState.Setters>
+
+                                            </VisualState>
+
+                                            <VisualState Name="IPadPro11">
+
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowWidth="1194" />
+                                                </VisualState.StateTriggers>
+
+                                                <VisualState.Setters>
+                                                    <Setter Property="Margin" Value="0, 90, 0, 0" />
+                                                </VisualState.Setters>
+
+                                            </VisualState>
 
                                             <VisualState Name="Medium">
 
@@ -1246,6 +1258,18 @@
 
                                                 <VisualState.Setters>
                                                     <Setter Property="HeightRequest" Value="250" />
+                                                </VisualState.Setters>
+
+                                            </VisualState>
+
+                                            <VisualState Name="Large">
+
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowWidth="1366" />
+                                                </VisualState.StateTriggers>
+
+                                                <VisualState.Setters>
+                                                    <Setter Property="Margin" Value="0, 170, 0, 0" />
                                                 </VisualState.Setters>
 
                                             </VisualState>
