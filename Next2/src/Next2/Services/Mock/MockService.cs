@@ -17,7 +17,7 @@ namespace Next2.Services.Mock
         private IList<WorkLogRecordModel> _workLogBook;
         private IList<GiftCardModelDTO> _giftCards;
         private IList<ReservationModel> _reservationsList;
-        private IList<HoldDishModel> _holdItems;
+        private IList<HoldDishModel> _holdDishes;
 
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
@@ -150,7 +150,7 @@ namespace Next2.Services.Mock
                 InitRewardsAsync(),
                 InitWorkLogBookAsync(),
                 InitReservationsAsync(),
-                InitHoldItemsAsync());
+                InitHoldDishesAsync());
 
             _base = new Dictionary<Type, object>
             {
@@ -158,7 +158,7 @@ namespace Next2.Services.Mock
                 { typeof(WorkLogRecordModel), _workLogBook },
                 { typeof(GiftCardModelDTO), _giftCards },
                 { typeof(ReservationModel), _reservationsList },
-                { typeof(HoldDishModel), _holdItems },
+                { typeof(HoldDishModel), _holdDishes },
             };
 
             _maxIdentifiers = new Dictionary<Type, int>
@@ -166,7 +166,7 @@ namespace Next2.Services.Mock
                 { typeof(RewardModel), GetMaxId(_rewards) },
                 { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
                 { typeof(ReservationModel), GetMaxId(_reservationsList) },
-                { typeof(HoldDishModel), GetMaxId(_holdItems) },
+                { typeof(HoldDishModel), GetMaxId(_holdDishes) },
             };
 
             _initCompletionSource.TrySetResult(true);
@@ -410,11 +410,11 @@ namespace Next2.Services.Mock
             };
         });
 
-        private Task InitHoldItemsAsync() => Task.Run(() =>
+        private Task InitHoldDishesAsync() => Task.Run(() =>
         {
             Random random = new();
 
-            _holdItems = new List<HoldDishModel>
+            _holdDishes = new List<HoldDishModel>
             {
                 new()
                 {
