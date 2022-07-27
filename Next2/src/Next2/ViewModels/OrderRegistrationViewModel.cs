@@ -23,7 +23,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using TabletViews = Next2.Views.Tablet;
 
@@ -426,7 +425,7 @@ namespace Next2.ViewModels
                 if (!tableBindableModels.Any(x => x.TableNumber == SelectedTable.TableNumber))
                 {
                     Tables.Add(SelectedTable);
-                    Tables = new(Tables.OrderBy(x => x.TableNumber));
+                    Tables = new(Tables.OrderBy(x => x?.TableNumber));
                 }
             }
             else

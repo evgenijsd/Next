@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using System;
 using Xamarin.Forms;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;

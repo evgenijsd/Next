@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:Next2.Controls.Templates"
+    Orientation="Horizontal"
+    Padding="18"
+    x:Class="Next2.Controls.Templates.ExpanderHeaderTemplate">
+
+    <Label
+        VerticalOptions="Center"
+        VerticalTextAlignment="Center"
+        HorizontalOptions="StartAndExpand"
+        FontFamily="Barlow-Medium"
+        FontSize="{DynamicResource TSize_i8}"
+        TextColor="{DynamicResource TextAndBackgroundColor_i1}" 
+        Text="{Binding Title, Source={RelativeSource AncestorType={x:Type local:ExpanderHeaderTemplate}}}"/>
+
+    <ffimageloading:CachedImage
+        VerticalOptions="Center"
+        HorizontalOptions="EndAndExpand"
+        HeightRequest="18"
+        WidthRequest="18"
+        Source="ic_arrow_down_32x32">
+
+        <ffimageloading:CachedImage.Triggers>
+            <DataTrigger
+                TargetType="ffimageloading:CachedImage" 
+                Binding="{Binding IsExpanded, Source={RelativeSource AncestorType={x:Type xct:Expander}}}"
+                Value="True">
+
+                <Setter Property="Source" Value="ic_arrow_up_32x32"/>
+
+            </DataTrigger>
+        </ffimageloading:CachedImage.Triggers>
+
+    </ffimageloading:CachedImage>
+
+</StackLayout>

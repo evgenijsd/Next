@@ -1,5 +1,4 @@
 ﻿using Next2.Enums;
-using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
