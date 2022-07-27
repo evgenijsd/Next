@@ -10,7 +10,6 @@ using Next2.Services.Order;
 using Next2.Views;
 using Prism.Navigation;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

@@ -699,4 +699,7 @@ A receipt has been printed for you.</value>
   <data name="TypeName" xml:space="preserve">
     <value>Type Name</value>
   </data>
+  <data name="NoTable" xml:space="preserve">
+    <value>No table</value>
+  </data>
 </root>

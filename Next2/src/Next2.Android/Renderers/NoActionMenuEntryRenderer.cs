@@ -6,8 +6,6 @@ using Android.Views;
 using Android.Widget;
 using Next2.Controls;
 using Next2.Droid.Renderers;
-using Prism;
-using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 

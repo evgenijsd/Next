@@ -1,6 +1,5 @@
 ﻿using Next2.Enums;
 using Next2.Helpers;
-using Next2.Models;
 using Next2.Resources.Strings;
 using System;
 using System.Collections.Generic;

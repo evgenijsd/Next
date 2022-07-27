@@ -6,10 +6,12 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Next2.ViewModels.Tablet.Dialogs
 {
@@ -120,17 +122,27 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
             if (CanAddNewReservation)
             {
-                var newReservation = new ReservationModel()
+                try
                 {
-                    CustomerName = Name,
-                    Phone = Phone,
-                    GuestsAmount = SelectedAmountGuests,
-                    TableNumber = SelectedTable,
-                    Comment = Notes,
-                    DateTime = SelectedTime,
-                };
+                    Regex regexPhone = new(Constants.Validators.PHONE_MASK_REPLACE);
 
-                param.Add(Constants.DialogParameterKeys.ACCEPT, newReservation);
+                    var phone = regexPhone.Replace(Phone, string.Empty);
+
+                    var newReservation = new ReservationModel()
+                    {
+                        CustomerName = Name,
+                        Phone = phone,
+                        GuestsAmount = SelectedAmountGuests,
+                        TableNumber = SelectedTable,
+                        Comment = Notes,
+                        DateTime = SelectedTime,
+                    };
+
+                    param.Add(Constants.DialogParameterKeys.ACCEPT, newReservation);
+                }
+                catch (Exception)
+                {
+                }
             }
 
             RequestClose(param);

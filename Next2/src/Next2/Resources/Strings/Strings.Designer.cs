@@ -872,6 +872,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на No table.
+        /// </summary>
+        internal static string NoTable {
+            get {
+                return ResourceManager.GetString("NoTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Not defined.
         /// </summary>
         internal static string NotDefined {

@@ -91,6 +91,7 @@
             public const string NUMBER = @"[\D]";
             public const string PHONE = @"^\d{10}$";
             public const string PHONE_MASK = @"\([0-9]{3}\) [0-9]{3}-[0-9]{4}$";
+            public const string PHONE_MASK_REPLACE = @"\)|\(|-| ";
             public const string PHONE_MASK2 = "(XXX) XXX-XXXX";
             public const string CHECK_NUMBER = @"^[\d]";
             public const string EMAIL = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +

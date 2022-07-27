@@ -1,5 +1,4 @@
 ﻿using Android.Views;
-using Next2.Droid.Effects;
 using Next2.Effects;
 using Next2.Enums;
 using System;
