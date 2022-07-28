@@ -106,6 +106,7 @@
                 <controls:Calendar
                     Grid.Row="1"
                     Grid.ColumnSpan="2"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                     SelectedDate="{Binding SelectedDate, Mode=TwoWay}">
 
                     <controls:Calendar.Triggers>
@@ -113,11 +114,12 @@
                         <DataTrigger TargetType="controls:Calendar" Binding="{Binding isTablet}" Value="True">
 
                             <Setter Property="Style" Value="{DynamicResource CalendarTabletStyle}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
 
                         </DataTrigger>
 
                     </controls:Calendar.Triggers>
-
+                    
                 </controls:Calendar>
 
                 <!--  buttons  -->

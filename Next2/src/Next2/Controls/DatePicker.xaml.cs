@@ -34,11 +34,11 @@ namespace Next2.Controls
         }
 
         private ICommand _tapCommand;
-        public ICommand TapCommand => _tapCommand ??= new AsyncCommand(OnTapCommandAsync);
+        public ICommand TapCommand => _tapCommand ??= new AsyncCommand(OnTapCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
-        #region -- Private --
+        #region -- Private helpers --
 
         private Task OnTapCommandAsync()
         {
@@ -65,6 +65,5 @@ namespace Next2.Controls
         }
 
         #endregion
-
     }
 }

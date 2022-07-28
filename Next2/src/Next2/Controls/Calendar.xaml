@@ -4,16 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:local="clr-namespace:Next2.Controls"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:helpers="clr-namespace:Next2.Helpers"
-    BackgroundColor="{Binding BackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
     x:Class="Next2.Controls.Calendar"
     x:Name="calendar">
 
     <Grid
         Padding="{OnIdiom Phone=21, Tablet=16}"
-        BackgroundColor="{Binding BackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}">
+        BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="{OnIdiom Phone=0.12*, Tablet=0.134*}" />
@@ -32,18 +31,19 @@
             Margin="0, 8, 0, 0"
             FontFamily="Barlow-Medium"
             FontSize="{DynamicResource TSize_i8}"
-            Text="{Binding Title, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}" />
+            Text="{Binding Title, Source={x:RelativeSource AncestorType={x:Type local:Calendar}}}" />
 
         <!--  month  -->
         <StackLayout
             Grid.Row="1"
             Orientation="Horizontal"
-            BackgroundColor="{Binding BackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}">
+            BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}">
 
             <ffimageloading:CachedImage
                 Margin="6, 0, 0, 0"
                 HorizontalOptions="StartAndExpand"
-                Scale="{Binding MonthStepperIconScale, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
+                xct:TouchEffect.Command="{Binding LeftMonthTapCommand, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                Scale="{Binding MonthStepperIconScale, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
                 Source="ic_primary_arrow_left_circle_56x56">
 
                 <ffimageloading:CachedImage.GestureRecognizers>
@@ -55,59 +55,39 @@
             <Label
                 VerticalTextAlignment="Center"
                 HorizontalOptions="FillAndExpand"
-                FontFamily="{Binding MonthLabelFontFamily, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
-                FontSize="{Binding MonthLabelFontSize, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
+                FontFamily="{Binding MonthLabelFontFamily, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                FontSize="{Binding MonthLabelFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
                 Text="{Binding Month.Name, Source={x:Reference calendar}}"
-                x:Name="monthLabel">
-
-                <Label.GestureRecognizers>
-                    <SwipeGestureRecognizer
-                        Direction="Left"
-                        Swiped="OnRightMonthButtonTapped"
-                        Threshold="24" />
-
-                    <SwipeGestureRecognizer
-                        Direction="Right"
-                        Swiped="OnLeftMonthButtonTapped"
-                        Threshold="24" />
-
-                </Label.GestureRecognizers>
-
-            </Label>
+                x:Name="monthLabel" />
 
             <ffimageloading:CachedImage
                 Margin="0, 0, 6, 0"
-                Scale="{Binding MonthStepperIconScale, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
-                Source="ic_primary_arrow_right_circle_56x56.png">
-
-                <ffimageloading:CachedImage.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnRightMonthButtonTapped" />
-                </ffimageloading:CachedImage.GestureRecognizers>
-
-            </ffimageloading:CachedImage>
+                Scale="{Binding MonthStepperIconScale, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                Source="ic_primary_arrow_right_circle_56x56.png"
+                xct:TouchEffect.Command="{Binding RightMonthTapCommand, Source={RelativeSource AncestorType={x:Type local:Calendar}}}" />
 
         </StackLayout>
 
         <!--  grid  -->
-        <controls:CalendarGridCollectionView
+        <local:CalendarGridCollectionView
             Grid.Row="2"
-            BackgroundColor="{Binding BackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
-            Month="{Binding SelectedMonth, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
-            Year="{Binding SelectedYear.YearValue, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
-            OffsetYears="{Binding OffsetYears, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
-            SelectedDate="{Binding SelectedDate, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
-            SelectedStartDate="{Binding SelectedStartDate, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
-            SelectedItem="{Binding SelectedDay, Source={x:RelativeSource AncestorType={x:Type controls:Calendar}}}"
+            BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+            Month="{Binding SelectedMonth, Source={x:RelativeSource AncestorType={x:Type local:Calendar}}}"
+            Year="{Binding SelectedYear.YearValue, Source={x:RelativeSource AncestorType={x:Type local:Calendar}}}"
+            OffsetYears="{Binding OffsetYears, Source={x:RelativeSource AncestorType={x:Type local:Calendar}}}"
+            SelectedDate="{Binding SelectedDate, Source={x:RelativeSource AncestorType={x:Type local:Calendar}}}"
+            SelectedStartDate="{Binding SelectedStartDate, Source={x:RelativeSource AncestorType={x:Type local:Calendar}}}"
+            SelectedItem="{Binding SelectedDay, Source={x:RelativeSource AncestorType={x:Type local:Calendar}}}"
             x:Name="calendarGrid">
 
-            <controls:CalendarGridCollectionView.Margin>
+            <local:CalendarGridCollectionView.Margin>
 
                 <OnIdiom
                     x:TypeArguments="Thickness"
                     Phone="16, 0, 16, 1"
                     Tablet="6, 0, 6, 1" />
 
-            </controls:CalendarGridCollectionView.Margin>
+            </local:CalendarGridCollectionView.Margin>
 
             <CollectionView.ItemsLayout>
                 <GridItemsLayout
@@ -126,7 +106,7 @@
 
                 <DataTemplate x:DataType="helpers:Day">
 
-                    <StackLayout BackgroundColor="{Binding BackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}">
+                    <StackLayout BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}">
 
                         <StackLayout.Padding>
 
@@ -160,15 +140,15 @@
                             HeightRequest="{OnIdiom Phone=34, Tablet=30}"
                             WidthRequest="{OnIdiom Phone=34, Tablet=30}"
                             CornerRadius="16"
-                            BorderColor="{Binding BackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
-                            BackgroundColor="{Binding BackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
+                            BorderColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                            BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
                             x:Name="itemFrame">
 
                             <Label
                                 VerticalOptions="Center"
                                 HorizontalOptions="Center"
                                 FontFamily="Barlow-SemiBold"
-                                FontSize="{Binding DayLabelFontSize, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
+                                FontSize="{Binding DayLabelFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
                                 Text="{Binding DayOfMonth}">
 
                                 <Label.Triggers>
@@ -187,7 +167,7 @@
 
             </CollectionView.ItemTemplate>
 
-        </controls:CalendarGridCollectionView>
+        </local:CalendarGridCollectionView>
 
         <!--  Dropdown list  -->
         <Frame
@@ -198,7 +178,7 @@
             VerticalOptions="StartAndExpand"
             HorizontalOptions="EndAndExpand"
             HeightRequest="169"
-            WidthRequest="{Binding DropdownWidthRequest, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
+            WidthRequest="{Binding DropdownWidthRequest, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
             xct:CornerRadiusEffect.CornerRadius="0, 0, 4, 4"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
             HasShadow="True"
@@ -225,15 +205,15 @@
                                 HeightRequest="32"
                                 WidthRequest="120"
                                 CornerRadius="0"
-                                BackgroundColor="{Binding DropdownListBackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
-                                xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:Calendar}}, Path=SelectYearCommand}">
+                                BackgroundColor="{Binding DropdownListBackGroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                                xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:Calendar}}, Path=SelectYearCommand}">
 
                                 <Label
                                     VerticalTextAlignment="Center"
                                     HorizontalTextAlignment="Center"
-                                    FontFamily="{Binding DropdownListLabelsFontFamily, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
+                                    FontFamily="{Binding DropdownListLabelsFontFamily, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
                                     Opacity="{Binding Opacity}"
-                                    FontSize="{Binding DropdownHeadLabelFontSize, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
+                                    FontSize="{Binding DropdownHeadLabelFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
                                     Text="{Binding YearValue}" />
 
                                 <VisualStateManager.VisualStateGroups>
@@ -265,8 +245,8 @@
             Padding="1"
             VerticalOptions="FillAndExpand"
             HorizontalOptions="EndAndExpand"
-            HeightRequest="{Binding DropdownHeadHeightRequest, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
-            WidthRequest="{Binding DropdownHeadWidthRequest, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
+            HeightRequest="{Binding DropdownHeadHeightRequest, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+            WidthRequest="{Binding DropdownHeadWidthRequest, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
             xct:CornerRadiusEffect.CornerRadius="4, 4, 4, 4"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
             x:Name="yearDropdownFrame">
@@ -281,13 +261,13 @@
 
             <Frame
                 xct:CornerRadiusEffect.CornerRadius="4, 4, 4, 4"
-                BackgroundColor="{Binding BackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}">
+                BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}">
 
                 <Frame.Triggers>
                     <DataTrigger TargetType="Frame" Binding="{Binding Source={x:Reference dropdownFrame}, Path=IsVisible}" Value="True">
 
                         <Setter Property="xct:CornerRadiusEffect.CornerRadius" Value="4, 4, 0, 0" />
-                        <Setter Property="BackgroundColor" Value="{Binding DropdownHeadDroppedBackGroundColor, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}" />
+                        <Setter Property="BackgroundColor" Value="{Binding DropdownHeadDroppedBackGroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}" />
 
                     </DataTrigger>
                 </Frame.Triggers>
@@ -300,7 +280,7 @@
 
                     <Label
                         VerticalTextAlignment="Center"
-                        FontSize="{Binding DropdownHeadLabelFontSize, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}"
+                        FontSize="{Binding DropdownHeadLabelFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
                         FontFamily="Barlow-Medium"
                         Text="{Binding SelectedYear.YearValue, Source={x:Reference calendar}}" />
 

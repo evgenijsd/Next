@@ -36,25 +36,12 @@ namespace Next2.Controls
 
         #region -- Public properties --
 
-        public static readonly BindableProperty BackGroundColorProperty = BindableProperty.Create(
-            propertyName: nameof(BackGroundColor),
-            returnType: typeof(Color),
-            defaultValue: Color.FromHex("#2E3143"),
-            declaringType: typeof(Calendar),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public Color BackGroundColor
-        {
-            get => (Color)GetValue(BackGroundColorProperty);
-            set => SetValue(BackGroundColorProperty, value);
-        }
-
         public static readonly BindableProperty DropdownListBackGroundColorProperty = BindableProperty.Create(
             propertyName: nameof(DropdownListBackGroundColor),
             returnType: typeof(Color),
             defaultValue: Color.FromHex("#34374C"),
             declaringType: typeof(Calendar),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color DropdownListBackGroundColor
         {
@@ -67,7 +54,7 @@ namespace Next2.Controls
             returnType: typeof(Color),
             defaultValue: Color.FromHex("#252836"),
             declaringType: typeof(Calendar),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color DropdownHeadDroppedBackGroundColor
         {
@@ -80,7 +67,7 @@ namespace Next2.Controls
             returnType: typeof(string),
             defaultValue: "Barlow-Bold",
             declaringType: typeof(Calendar),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string MonthLabelFontFamily
         {
@@ -93,7 +80,7 @@ namespace Next2.Controls
             returnType: typeof(string),
             defaultValue: "Barlow-Regular",
             declaringType: typeof(Calendar),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string DropdownListLabelsFontFamily
         {
@@ -106,7 +93,7 @@ namespace Next2.Controls
            returnType: typeof(string),
            declaringType: typeof(Calendar),
            defaultValue: string.Empty,
-           defaultBindingMode: BindingMode.TwoWay);
+           defaultBindingMode: BindingMode.OneWay);
 
         public string Title
         {
@@ -182,7 +169,7 @@ namespace Next2.Controls
            returnType: typeof(double),
            defaultValue: 18d,
            declaringType: typeof(Calendar),
-           defaultBindingMode: BindingMode.TwoWay);
+           defaultBindingMode: BindingMode.OneWay);
 
         public double DropdownHeadLabelFontSize
         {
@@ -195,7 +182,7 @@ namespace Next2.Controls
            returnType: typeof(double),
            defaultValue: 26d,
            declaringType: typeof(Calendar),
-           defaultBindingMode: BindingMode.TwoWay);
+           defaultBindingMode: BindingMode.OneWay);
 
         public double MonthLabelFontSize
         {
@@ -208,7 +195,7 @@ namespace Next2.Controls
            returnType: typeof(double),
            defaultValue: 0.6d,
            declaringType: typeof(Calendar),
-           defaultBindingMode: BindingMode.TwoWay);
+           defaultBindingMode: BindingMode.OneWay);
 
         public double MonthStepperIconScale
         {
@@ -221,7 +208,7 @@ namespace Next2.Controls
            returnType: typeof(double),
            defaultValue: 20d,
            declaringType: typeof(Calendar),
-           defaultBindingMode: BindingMode.TwoWay);
+           defaultBindingMode: BindingMode.OneWay);
 
         public double DayLabelFontSize
         {
@@ -234,7 +221,7 @@ namespace Next2.Controls
            returnType: typeof(double),
            defaultValue: 45d,
            declaringType: typeof(Calendar),
-           defaultBindingMode: BindingMode.TwoWay);
+           defaultBindingMode: BindingMode.OneWay);
 
         public double DropdownHeadHeightRequest
         {
@@ -247,7 +234,7 @@ namespace Next2.Controls
            returnType: typeof(double),
            defaultValue: 122d,
            declaringType: typeof(Calendar),
-           defaultBindingMode: BindingMode.TwoWay);
+           defaultBindingMode: BindingMode.OneWay);
 
         public double DropdownWidthRequest
         {
@@ -260,7 +247,7 @@ namespace Next2.Controls
            returnType: typeof(double),
            defaultValue: 122d,
            declaringType: typeof(Calendar),
-           defaultBindingMode: BindingMode.TwoWay);
+           defaultBindingMode: BindingMode.OneWay);
 
         public double DropdownHeadWidthRequest
         {
@@ -280,6 +267,12 @@ namespace Next2.Controls
 
         private ICommand _selectYearCommand;
         public ICommand SelectYearCommand => _selectYearCommand ??= new Command(() => dropdownFrame.IsVisible = false);
+
+        private ICommand _rightMonthTapCommand;
+        public ICommand RightMonthTapCommand => _rightMonthTapCommand ??= new Command(OnRightMonthButtonTapped);
+
+        private ICommand _leftMonthTapCommand;
+        public ICommand LeftMonthTapCommand => _leftMonthTapCommand ??= new Command(OnLeftMonthButtonTapped);
 
         #endregion
 
@@ -361,7 +354,7 @@ namespace Next2.Controls
             }
         }
 
-        private void OnRightMonthButtonTapped(object? sender, EventArgs? arg)
+        private void OnRightMonthButtonTapped()
         {
             if (SelectedMonth == 12)
             {
@@ -373,7 +366,7 @@ namespace Next2.Controls
             }
         }
 
-        private void OnLeftMonthButtonTapped(object? sender, EventArgs? arg)
+        private void OnLeftMonthButtonTapped()
         {
             if (SelectedMonth == 1)
             {

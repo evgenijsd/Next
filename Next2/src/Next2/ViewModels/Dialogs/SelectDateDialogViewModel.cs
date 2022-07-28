@@ -1,8 +1,6 @@
 ﻿using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -15,7 +13,7 @@ namespace Next2.ViewModels.Dialogs
             Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
-            LoadData(param);
+            InitParameters(param);
         }
 
         #region -- Public Properties --
@@ -36,7 +34,7 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private Helpers --
 
-        private void LoadData(DialogParameters param)
+        private void InitParameters(DialogParameters param)
         {
             if (param.TryGetValue(Constants.DialogParameterKeys.SELECTED_DATE, out DateTime selectedDate))
             {
@@ -58,6 +56,5 @@ namespace Next2.ViewModels.Dialogs
         }
 
         #endregion
-
     }
 }

@@ -115,7 +115,9 @@
 
                         <!--  State1 calendar  -->
                         <sc:StateCondition State="{Static enums:EClientAdditionStep.Birthday}">
-                            <controls:Calendar SelectedDate="{Binding SelectedDate, Mode=TwoWay}" />
+                            <controls:Calendar 
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}" 
+                                SelectedDate="{Binding SelectedDate, Mode=TwoWay}" />
                         </sc:StateCondition>
 
                         <!--  State2  entries  -->
