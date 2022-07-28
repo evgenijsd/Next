@@ -18,7 +18,8 @@ namespace Next2.Controls
             propertyName: nameof(IconsSize),
             returnType: typeof(Size),
             defaultValue: new Size(18, 18),
-            declaringType: typeof(TimeAndDateBar));
+            declaringType: typeof(TimeAndDateBar),
+            defaultBindingMode: BindingMode.OneWay);
 
         public Size IconsSize
         {
