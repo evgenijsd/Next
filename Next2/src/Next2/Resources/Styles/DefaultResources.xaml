@@ -208,7 +208,6 @@
     <converters:DecimalToBoolConverter x:Key="decimalToBoolConverter" />
     <converters:GuidToBoolConverter x:Key="guidToBoolConverter" />
     <converters:FormattedPhoneConverter x:Key="formattedPhoneConverter" />
-    <converters:TableNumberToStringConverter x:Key="tableNumberToStringConverter" />
     <converters:EqualsMultiConverter x:Key="equalsMultiConverter" />
 
 </ResourceDictionary>
