@@ -400,9 +400,30 @@
                 Style="{DynamicResource DropDownListStyle_i1}"
                 WidthRequest="130"
                 ScrollBarVisibility="Never"
-                HeaderText="{Binding SelectedTable.TableNumber, Converter={x:StaticResource tableNumberToStringConverter}}"
                 SelectedItem="{Binding SelectedTable}"
-                ItemsSource="{Binding Tables}">
+                ItemsSource="{Binding Tables}"
+                SelectionChangedCommand="{Binding SetHoldDishesByTableNumberCommand}">
+
+                <controls:DropDownList.HeaderText>
+                    <FormattedString>
+                        <Span Text="{xct:Translate Table}" />
+                        <Span Text=" " />
+                        <Span Text="{Binding TableNumber}" />
+                    </FormattedString>
+                </controls:DropDownList.HeaderText>
+
+                <controls:DropDownList.Triggers>
+
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
+                        Binding="{Binding SelectedTable.TableNumber}"
+                        Value="{x:Static local:Constants+Limits.ALL_TABLES}">
+
+                        <Setter Property="HeaderText" Value="{xct:Translate AllTables}" />
+
+                    </DataTrigger>
+
+                </controls:DropDownList.Triggers>
 
                 <controls:DropDownList.DataTemplate>
                     <DataTemplate>
@@ -423,8 +444,30 @@
                                     FontFamily="Barlow-Medium"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                     FontSize="{DynamicResource TSize_i8}"
-                                    HorizontalOptions="FillAndExpand"
-                                    Text="{Binding TableNumber, Converter={x:StaticResource tableNumberToStringConverter}}" />
+                                    HorizontalOptions="FillAndExpand">
+                                    
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{xct:Translate Table}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding TableNumber}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+
+                                    <Label.Triggers>
+
+                                        <DataTrigger
+                                            TargetType="Label"
+                                            Binding="{Binding TableNumber}"
+                                            Value="{x:Static local:Constants+Limits.ALL_TABLES}">
+
+                                            <Setter Property="FormattedText" Value="{xct:Translate AllTables}" />
+
+                                        </DataTrigger>
+
+                                    </Label.Triggers>
+
+                                </Label>
 
                             </StackLayout>
 

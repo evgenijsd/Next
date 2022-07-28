@@ -30,7 +30,6 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
         private readonly IEventAggregator _eventAggregator;
         private readonly INotificationsService _notificationsService;
-        private readonly IPopupNavigation _popupNavigation;
 
         private Guid _lastSavedOrderId;
 
@@ -38,14 +37,12 @@ namespace Next2.ViewModels
             INavigationService navigationService,
             IOrderService orderService,
             INotificationsService notificationsService,
-            IPopupNavigation popupNavigation,
             IEventAggregator eventAggregator)
             : base(navigationService)
         {
             _orderService = orderService;
             _eventAggregator = eventAggregator;
             _notificationsService = notificationsService;
-            _popupNavigation = popupNavigation;
 
             _eventAggregator.GetEvent<OrderSelectedEvent>().Subscribe(SetLastSavedOrderId);
             _eventAggregator.GetEvent<OrderMovedEvent>().Subscribe(SetOrderType);
@@ -364,7 +361,7 @@ namespace Next2.ViewModels
                             ? new Views.Tablet.Dialogs.OrderDetailDialog(parameters, CloseRemoveOrderDialogCallbackAsync)
                             : new Views.Mobile.Dialogs.OrderDetailDialog(parameters, CloseRemoveOrderDialogCallbackAsync);
 
-                        await _popupNavigation.PushAsync(deleteSeatDialog);
+                        await PopupNavigation.PushAsync(deleteSeatDialog);
                     }
                     else
                     {
@@ -401,7 +398,7 @@ namespace Next2.ViewModels
                         ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseRemoveConfirmationDialogCallback)
                         : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseRemoveConfirmationDialogCallback);
 
-                    await _popupNavigation.PushAsync(confirmDialog);
+                    await PopupNavigation.PushAsync(confirmDialog);
                 }
             }
             else
@@ -491,7 +488,7 @@ namespace Next2.ViewModels
                             ? new Views.Tablet.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync)
                             : new Views.Mobile.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync);
 
-                        await _popupNavigation.PushAsync(deleteSeatDialog);
+                        await PopupNavigation.PushAsync(deleteSeatDialog);
                     }
                     else
                     {

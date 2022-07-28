@@ -40,341 +40,382 @@
         
     </ContentPage.Resources>
 
-    <ContentPage.Content>
-        <StackLayout>
-            
-            <Grid RowDefinitions="65, *">
+    <StackLayout>
 
-                <controls:CustomNavigationBar
-                    Title="{xct:Translate HoldItems}"
-                    Padding="12, 0, 0, 0"
-                    HeightImage="24"
-                    FontFamily="Barlow-Bold"
-                    FontSize="{DynamicResource TSize_i5}"
-                    LeftButtonCommand="{prism:GoBack}" />
+        <Grid RowDefinitions="65, *">
+
+            <controls:CustomNavigationBar
+                Title="{xct:Translate HoldItems}"
+                Padding="12, 0, 0, 0"
+                HeightImage="24"
+                FontFamily="Barlow-Bold"
+                FontSize="{DynamicResource TSize_i5}"
+                LeftButtonCommand="{prism:GoBack}" />
+
+            <StackLayout
+                Grid.Row="1"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                Margin="0, 75, 0, 0"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
                 <StackLayout
-                    Grid.Row="1"
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="FillAndExpand"
-                    Margin="0, 75, 0, 0"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+                    IsVisible="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}">
 
-                    <StackLayout
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        IsVisible="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}">
+                    <yummy:PancakeView
+                        Margin="24, 0"
+                        HeightRequest="50"
+                        MinimumHeightRequest="50"
+                        CornerRadius="12, 12, 0, 0"
+                        BackgroundColor="{StaticResource TextAndBackgroundColor_i3}">
 
-                        <yummy:PancakeView
-                            Margin="24, 0"
-                            HeightRequest="50"
-                            MinimumHeightRequest="50"
-                            CornerRadius="12, 12, 0, 0"
-                            BackgroundColor="{StaticResource TextAndBackgroundColor_i3}">
+                        <Grid ColumnDefinitions="45, 0.55*, 0.45*">
 
-                            <Grid ColumnDefinitions="45, 0.55*, 0.45*">
+                            <StackLayout xct:TouchEffect.Command="{Binding TapSelectAllHoldDishesTableCommand}">
 
-                                <StackLayout xct:TouchEffect.Command="{Binding TapSelectAllHoldDishesTableCommand}">
+                                <ffimageloading:CachedImage
+                                    Source="ic_check_box_unchecked_white"
+                                    HeightRequest="20"
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="CenterAndExpand">
 
-                                    <ffimageloading:CachedImage
-                                        Source="ic_check_box_unchecked_white"
-                                        HeightRequest="20"
-                                        HorizontalOptions="CenterAndExpand"
-                                        VerticalOptions="CenterAndExpand">
+                                    <ffimageloading:CachedImage.Triggers>
 
-                                        <ffimageloading:CachedImage.Triggers>
+                                        <DataTrigger TargetType="ffimageloading:CachedImage" Value="0">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
 
-                                            <DataTrigger TargetType="ffimageloading:CachedImage" Value="0">
-                                                <DataTrigger.Binding>
-                                                    <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
-                                                        
-                                                        <Binding Path="HoldDishes.Count" />
-                                                        <Binding Path="SelectedHoldDishes.Count" />
-                                                        
-                                                    </MultiBinding>
-                                                </DataTrigger.Binding>
+                                                    <Binding Path="HoldDishes.Count" />
+                                                    <Binding Path="SelectedHoldDishes.Count" />
 
-                                                <Setter Property="Source" Value="ic_check_box_checked_primary_24x24" />
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
 
-                                            </DataTrigger>
+                                            <Setter Property="Source" Value="ic_check_box_checked_primary_24x24" />
 
-                                            <DataTrigger
-                                                TargetType="ffimageloading:CachedImage"
-                                                Binding="{Binding SelectedTable.TableNumber}"
-                                                Value="{x:Static local:Constants+Limits.ALL_TABLES}">
+                                        </DataTrigger>
 
-                                                <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                                        <DataTrigger
+                                            TargetType="ffimageloading:CachedImage"
+                                            Binding="{Binding SelectedTable.TableNumber}"
+                                            Value="{x:Static local:Constants+Limits.ALL_TABLES}">
 
-                                            </DataTrigger>
+                                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
 
-                                        </ffimageloading:CachedImage.Triggers>
+                                        </DataTrigger>
 
-                                    </ffimageloading:CachedImage>
+                                    </ffimageloading:CachedImage.Triggers>
 
-                                </StackLayout>
+                                </ffimageloading:CachedImage>
 
-                                <Label
-                                    Grid.Column="1"
-                                    Style="{DynamicResource HeaderLabelStyle}"
-                                    Text="{xct:Translate Item}" />
+                            </StackLayout>
 
-                                <Label
-                                    Grid.Column="2"
-                                    Style="{DynamicResource HeaderLabelStyle}"
-                                    Text="{xct:Translate ReleaseTime}" />
+                            <Label
+                                Grid.Column="1"
+                                Style="{DynamicResource HeaderLabelStyle}"
+                                Text="{xct:Translate Item}" />
 
-                            </Grid>
+                            <Label
+                                Grid.Column="2"
+                                Style="{DynamicResource HeaderLabelStyle}"
+                                Text="{xct:Translate ReleaseTime}" />
 
-                        </yummy:PancakeView>
+                        </Grid>
 
-                        <yummy:PancakeView
-                            Margin="24, 0"
-                            HeightRequest="{Binding HoldDishes, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
-                            CornerRadius="0"
-                            BackgroundColor="{StaticResource TextAndBackgroundColor_i3}"
-                            VerticalOptions="Start">
+                    </yummy:PancakeView>
 
-                            <yummy:PancakeView.Triggers>
+                    <yummy:PancakeView
+                        Margin="24, 0"
+                        HeightRequest="{Binding HoldDishes, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
+                        CornerRadius="0"
+                        BackgroundColor="{StaticResource TextAndBackgroundColor_i3}"
+                        VerticalOptions="Start">
 
-                                <DataTrigger TargetType="yummy:PancakeView" Value="0">
+                        <yummy:PancakeView.Triggers>
 
-                                    <DataTrigger.Binding>
-                                        <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
+                            <DataTrigger TargetType="yummy:PancakeView" Value="0">
 
-                                            <Binding Path="HoldDishes.Count" />
-                                            <Binding Path="IndexLastVisibleElement" />
+                                <DataTrigger.Binding>
+                                    <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
 
-                                        </MultiBinding>
-                                    </DataTrigger.Binding>
+                                        <Binding Path="HoldDishes.Count" />
+                                        <Binding Path="IndexLastVisibleElement" />
 
-                                    <Setter Property="CornerRadius" Value="0, 0, 12, 12" />
+                                    </MultiBinding>
+                                </DataTrigger.Binding>
 
-                                </DataTrigger>
+                                <Setter Property="CornerRadius" Value="0, 0, 12, 12" />
 
-                                <DataTrigger
-                                    TargetType="yummy:PancakeView"
-                                    Binding="{Binding IsNothingFound}"
-                                    Value="False">
+                            </DataTrigger>
 
-                                    <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                            <DataTrigger
+                                TargetType="yummy:PancakeView"
+                                Binding="{Binding IsNothingFound}"
+                                Value="False">
 
-                                </DataTrigger>
+                                <Setter Property="VerticalOptions" Value="FillAndExpand" />
 
-                            </yummy:PancakeView.Triggers>
+                            </DataTrigger>
 
-                            <RefreshView
-                                IsRefreshing="{Binding IsHoldDishesRefreshing}"
-                                Command="{Binding RefreshHoldDishesCommand}">
+                        </yummy:PancakeView.Triggers>
 
-                                <controls:CustomCollectionView
-                                    VerticalScrollBarVisibility="Never"
-                                    SelectionMode="Multiple"
-                                    ItemsSource="{Binding HoldDishes}"
-                                    SelectedItems="{Binding SelectedHoldDishes}"
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-                                    IndexLastVisible="{Binding IndexLastVisibleElement}">
+                        <RefreshView
+                            IsRefreshing="{Binding IsHoldDishesRefreshing}"
+                            Command="{Binding RefreshHoldDishesCommand}">
 
-                                    <controls:CustomCollectionView.Effects>
-                                        <effects:NoOverScrollEffect />
-                                    </controls:CustomCollectionView.Effects>
+                            <controls:CustomCollectionView
+                                VerticalScrollBarVisibility="Never"
+                                SelectionMode="Multiple"
+                                ItemsSource="{Binding HoldDishes}"
+                                SelectedItems="{Binding SelectedHoldDishes}"
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
+                                IndexLastVisible="{Binding IndexLastVisibleElement}">
 
-                                    <controls:CustomCollectionView.Behaviors>
+                                <controls:CustomCollectionView.Effects>
+                                    <effects:NoOverScrollEffect />
+                                </controls:CustomCollectionView.Effects>
 
-                                        <behaviors:ScrollToCenterBehavior />
+                                <controls:CustomCollectionView.Behaviors>
 
-                                        <prism:EventToCommandBehavior
-                                            EventName="SelectionChanged"
-                                            Command="{Binding SetSelectedHoldDishesCommand}"
-                                            EventArgsParameterPath="CurrentSelection" />
+                                    <behaviors:ScrollToCenterBehavior />
 
-                                    </controls:CustomCollectionView.Behaviors>
+                                    <prism:EventToCommandBehavior
+                                        EventName="SelectionChanged"
+                                        Command="{Binding SetSelectedHoldDishesCommand}"
+                                        EventArgsParameterPath="CurrentSelection" />
 
-                                    <controls:CustomCollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="models:HoldDishBindableModel">
+                                </controls:CustomCollectionView.Behaviors>
 
-                                            <Grid
-                                                RowDefinitions="0.98*, 0.02*"
-                                                ColumnDefinitions="45, 0.55*, 0.45*"
-                                                HeightRequest="45">
+                                <controls:CustomCollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:HoldDishBindableModel">
 
-                                                <ffimageloading:CachedImage
-                                                    Source="ic_check_box_unchecked_white"
-                                                    Grid.Row="0"
-                                                    Grid.Column="0"
-                                                    HeightRequest="20"
-                                                    HorizontalOptions="CenterAndExpand"
-                                                    VerticalOptions="CenterAndExpand"
-                                                    x:Name="checkBoxImage" />
+                                        <Grid
+                                            RowDefinitions="0.98*, 0.02*"
+                                            ColumnDefinitions="45, 0.55*, 0.45*"
+                                            HeightRequest="45">
 
-                                                <Label
-                                                    Grid.Row="0"
-                                                    Grid.Column="1"
-                                                    LineBreakMode="TailTruncation"
-                                                    Style="{DynamicResource ViewCellLabelStyle}"
-                                                    Text="{Binding DishName}" />
+                                            <ffimageloading:CachedImage
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Source="ic_check_box_unchecked_white"
+                                                HeightRequest="20"
+                                                HorizontalOptions="CenterAndExpand"
+                                                VerticalOptions="CenterAndExpand"
+                                                x:Name="checkBoxImage" />
 
-                                                <Label
-                                                    Grid.Row="0"
-                                                    Grid.Column="2"
-                                                    LineBreakMode="TailTruncation"
-                                                    Style="{DynamicResource ViewCellLabelStyle}"
-                                                    Text="{Binding ReleaseTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
+                                            <Label
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                LineBreakMode="TailTruncation"
+                                                Style="{DynamicResource ViewCellLabelStyle}"
+                                                Text="{Binding DishName}" />
 
-                                                <BoxView
-                                                    Grid.Row="1"
-                                                    Grid.ColumnSpan="3"
-                                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+                                            <Label
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                LineBreakMode="TailTruncation"
+                                                Style="{DynamicResource ViewCellLabelStyle}"
+                                                Text="{Binding ReleaseTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
 
-                                                <VisualStateManager.VisualStateGroups>
-                                                    <VisualStateGroup Name="CommonStates">
+                                            <BoxView
+                                                Grid.Row="1"
+                                                Grid.ColumnSpan="3"
+                                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
-                                                        <VisualState Name="Selected">
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup Name="CommonStates">
 
-                                                            <VisualState.Setters>
-                                                                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i8}" />
-                                                                <Setter TargetName="checkBoxImage" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24" />
-                                                            </VisualState.Setters>
+                                                    <VisualState Name="Selected">
 
-                                                        </VisualState>
+                                                        <VisualState.Setters>
+                                                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i8}" />
+                                                            <Setter TargetName="checkBoxImage" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24" />
+                                                        </VisualState.Setters>
 
-                                                        <VisualState Name="Normal">
+                                                    </VisualState>
 
-                                                            <VisualState.Setters>
-                                                                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i8}" />
-                                                            </VisualState.Setters>
+                                                    <VisualState Name="Normal">
 
-                                                        </VisualState>
+                                                        <VisualState.Setters>
+                                                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i8}" />
+                                                        </VisualState.Setters>
 
-                                                    </VisualStateGroup>
-                                                </VisualStateManager.VisualStateGroups>
+                                                    </VisualState>
 
-                                            </Grid>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
 
-                                        </DataTemplate>
-                                    </controls:CustomCollectionView.ItemTemplate>
+                                        </Grid>
 
-                                </controls:CustomCollectionView>
+                                    </DataTemplate>
+                                </controls:CustomCollectionView.ItemTemplate>
 
-                            </RefreshView>
+                            </controls:CustomCollectionView>
 
-                        </yummy:PancakeView>
+                        </RefreshView>
 
-                    </StackLayout>
+                    </yummy:PancakeView>
 
                 </StackLayout>
 
-                <StackLayout
-                    Margin="20, 20, 0, 0"
-                    Grid.Row="1"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Start">
+            </StackLayout>
 
-                    <controls:DropDownList
-                        Style="{DynamicResource DropDownListStyle_i1}"
-                        WidthRequest="110"
-                        ItemHeight="46.5"
-                        ScrollBarVisibility="Never"
-                        HeaderTextSize="{DynamicResource TSize_i8}"
-                        HeaderText="{Binding SelectedTable.TableNumber, Converter={x:StaticResource tableNumberToStringConverter}}"
-                        SelectedItem="{Binding SelectedTable}"
-                        ItemsSource="{Binding Tables}"
-                        IsVisible="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}">
+            <StackLayout
+                Grid.Row="1"
+                Margin="20, 20, 0, 0"
+                HorizontalOptions="Start"
+                VerticalOptions="Start">
 
-                        <controls:DropDownList.DataTemplate>
-                            <DataTemplate>
+                <controls:DropDownList
+                    Style="{DynamicResource DropDownListStyle_i1}"
+                    WidthRequest="110"
+                    ItemHeight="46.5"
+                    ScrollBarVisibility="Never"
+                    HeaderTextSize="{DynamicResource TSize_i8}"
+                    SelectedItem="{Binding SelectedTable}"
+                    ItemsSource="{Binding Tables}"
+                    IsVisible="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}"
+                    SelectionChangedCommand="{Binding SetHoldDishesByTableNumberCommand}">
+
+                    <controls:DropDownList.HeaderText>
+                        <FormattedString>
+                            <Span Text="{xct:Translate Table}" />
+                            <Span Text=" " />
+                            <Span Text="{Binding TableNumber}" />
+                        </FormattedString>
+                    </controls:DropDownList.HeaderText>
+
+                    <controls:DropDownList.Triggers>
+
+                        <DataTrigger
+                            TargetType="controls:DropDownList"
+                            Binding="{Binding SelectedTable.TableNumber}"
+                            Value="{x:Static local:Constants+Limits.ALL_TABLES}">
+
+                            <Setter Property="HeaderText" Value="{xct:Translate AllTables}" />
+
+                        </DataTrigger>
+
+                    </controls:DropDownList.Triggers>
+
+                    <controls:DropDownList.DataTemplate>
+                        <DataTemplate>
+
+                            <StackLayout
+                                Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                                xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
+
+                                <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                                 <StackLayout
-                                    Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                                    xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
+                                    Padding="14, 8"
+                                    HeightRequest="30"
+                                    Orientation="Horizontal"
+                                    x:DataType="models:TableBindableModel">
 
-                                    <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+                                    <Label
+                                        FontFamily="Barlow-Medium"
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                        FontSize="{DynamicResource TSize_i7}"
+                                        HorizontalOptions="FillAndExpand">
 
-                                    <StackLayout
-                                        Padding="14, 8"
-                                        HeightRequest="30"
-                                        Orientation="Horizontal"
-                                        x:DataType="models:TableBindableModel">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{xct:Translate Table}" />
+                                                <Span Text=" " />
+                                                <Span Text="{Binding TableNumber}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
 
-                                        <Label
-                                            FontFamily="Barlow-Medium"
-                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                            FontSize="{DynamicResource TSize_i7}"
-                                            HorizontalOptions="FillAndExpand"
-                                            Text="{Binding TableNumber, Converter={x:StaticResource tableNumberToStringConverter}}" />
+                                        <Label.Triggers>
 
-                                    </StackLayout>
+                                            <DataTrigger
+                                                TargetType="Label"
+                                                Binding="{Binding TableNumber}"
+                                                Value="{x:Static local:Constants+Limits.ALL_TABLES}">
 
-                                    <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+                                                <Setter Property="FormattedText" Value="{xct:Translate AllTables}" />
+
+                                            </DataTrigger>
+
+                                        </Label.Triggers>
+
+                                    </Label>
 
                                 </StackLayout>
 
-                            </DataTemplate>
-                        </controls:DropDownList.DataTemplate>
+                                <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
-                    </controls:DropDownList>
+                            </StackLayout>
 
-                </StackLayout>
+                        </DataTemplate>
+                    </controls:DropDownList.DataTemplate>
 
-            </Grid>
-
-            <StackLayout
-                VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand"
-                IsVisible="{Binding IsNothingFound}">
-
-                <ffimageloading:CachedImage
-                    Source="pic_nothing_found"
-                    HeightRequest="230"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="CenterAndExpand"
-                    Margin="0, 0, 0, 100" />
+                </controls:DropDownList>
 
             </StackLayout>
 
-            <StackLayout
-                VerticalOptions="EndAndExpand"
-                HeightRequest="75"
-                MinimumHeightRequest="75"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                IsVisible="{Binding SelectedHoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}">
+        </Grid>
 
-                <BoxView
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                    HeightRequest="2"
-                    VerticalOptions="StartAndExpand" />
+        <StackLayout
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            IsVisible="{Binding IsNothingFound}">
 
-                <StackLayout
-                    Margin="20, 15"
-                    Orientation="Horizontal"
-                    Spacing="10">
+            <ffimageloading:CachedImage
+                Source="pic_nothing_found"
+                HeightRequest="230"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand"
+                Margin="0, 0, 0, 100" />
 
-                    <buttons:BorderButton
-                        HorizontalOptions="FillAndExpand"
-                        HeightRequest="45"
-                        Text="{xct:Translate Extend}"
-                        FontSize="{DynamicResource TSize_i6}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        BorderColor="{DynamicResource IndicationColor_i3}"
-                        BackgroundColor="Transparent"
-                        Style="{DynamicResource BorderButtonStyle_i1}"
-                        xct:TouchEffect.Command="{Binding ExtendCommand}" />
-
-                    <buttons:BorderButton
-                        HorizontalOptions="FillAndExpand"
-                        HeightRequest="45"
-                        Text="{xct:Translate Release}"
-                        FontSize="{DynamicResource TSize_i6}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        BorderColor="{DynamicResource IndicationColor_i1}"
-                        BackgroundColor="{DynamicResource IndicationColor_i1}"
-                        Style="{DynamicResource BorderButtonStyle_i1}"
-                        xct:TouchEffect.Command="{Binding ReleaseCommand}" />
-
-                </StackLayout>
-
-            </StackLayout>
-        
         </StackLayout>
-    </ContentPage.Content>
+
+        <StackLayout
+            VerticalOptions="EndAndExpand"
+            HeightRequest="75"
+            MinimumHeightRequest="75"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+            IsVisible="{Binding SelectedHoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}">
+
+            <BoxView
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                HeightRequest="2"
+                VerticalOptions="StartAndExpand" />
+
+            <StackLayout
+                Margin="20, 15"
+                Orientation="Horizontal"
+                Spacing="10">
+
+                <buttons:BorderButton
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="45"
+                    Text="{xct:Translate Extend}"
+                    FontSize="{DynamicResource TSize_i6}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    BorderColor="{DynamicResource IndicationColor_i3}"
+                    BackgroundColor="Transparent"
+                    Style="{DynamicResource BorderButtonStyle_i1}"
+                    xct:TouchEffect.Command="{Binding ExtendCommand}" />
+
+                <buttons:BorderButton
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="45"
+                    Text="{xct:Translate Release}"
+                    FontSize="{DynamicResource TSize_i6}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    BorderColor="{DynamicResource IndicationColor_i1}"
+                    BackgroundColor="{DynamicResource IndicationColor_i1}"
+                    Style="{DynamicResource BorderButtonStyle_i1}"
+                    xct:TouchEffect.Command="{Binding ReleaseCommand}" />
+
+            </StackLayout>
+
+        </StackLayout>
+
+    </StackLayout>
 
 </views:BaseContentPage>

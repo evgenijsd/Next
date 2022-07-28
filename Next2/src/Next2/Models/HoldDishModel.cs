@@ -9,7 +9,7 @@ namespace Next2.Models
 
         public int TableNumber { get; set; }
 
-        public string? DishName { get; set; }
+        public string DishName { get; set; } = string.Empty;
 
         public DateTime ReleaseTime { get; set; }
     }

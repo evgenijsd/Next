@@ -44,6 +44,8 @@ namespace Next2.ViewModels
 
         public int IndexLastVisibleElement { get; set; }
 
+        public int TableNumber { get; set; }
+
         public ObservableCollection<HoldDishBindableModel> HoldDishes { get; set; } = new();
 
         public ObservableCollection<object>? SelectedHoldDishes { get; set; }
@@ -60,6 +62,9 @@ namespace Next2.ViewModels
 
         private ICommand _setSelectedHoldDishesCommand;
         public ICommand SetSelectedHoldDishesCommand => _setSelectedHoldDishesCommand ??= new AsyncCommand<List<object>?>(OnSetSelectedHoldDishesCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _setHoldDishesByTableNumberCommand;
+        public ICommand SetHoldDishesByTableNumberCommand => _setHoldDishesByTableNumberCommand ??= new AsyncCommand(OnSetHoldDishesByTableNumberCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tapSelectAllHoldDishesTableCommand;
         public ICommand TapSelectAllHoldDishesTableCommand => _tapSelectAllHoldDishesTableCommand ??= new AsyncCommand(OnTapSelectAllHoldDishesTableCommandAsync, allowsMultipleExecutions: false);
@@ -79,16 +84,6 @@ namespace Next2.ViewModels
             base.OnAppearing();
 
             await OnRefreshHoldDishesCommandAsync();
-        }
-
-        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
-        {
-            base.OnPropertyChanged(args);
-
-            if (args.PropertyName is nameof(SelectedTable) && SelectedTable is not null)
-            {
-                HoldDishes = GetHoldDishesByTableNumber(SelectedTable.TableNumber);
-            }
         }
 
         #endregion
@@ -117,6 +112,7 @@ namespace Next2.ViewModels
             var holdDishes = _ordersHolding.GetHoldDishesByTableNumber(tableNumber);
 
             IsNothingFound = !holdDishes.Any();
+            TableNumber = tableNumber;
 
             return _mapper.Map<ObservableCollection<HoldDishBindableModel>>(holdDishes);
         }
@@ -165,14 +161,23 @@ namespace Next2.ViewModels
         {
             var selectedCount = selectedDishes?.Count ?? 0;
 
-            if (SelectedHoldDishes?.Count != selectedCount && selectedCount > 0)
+            if (selectedCount == 0)
+            {
+                SelectedHoldDishes = null;
+            }
+            else if (SelectedHoldDishes?.Count != selectedCount)
             {
                 SelectedHoldDishes = new(selectedDishes);
             }
 
-            if (SelectedHoldDishes is not null && selectedCount == 0)
+            return Task.CompletedTask;
+        }
+
+        private Task OnSetHoldDishesByTableNumberCommandAsync()
+        {
+            if (SelectedTable is not null)
             {
-                SelectedHoldDishes = null;
+                HoldDishes = GetHoldDishesByTableNumber(SelectedTable.TableNumber);
             }
 
             return Task.CompletedTask;
@@ -180,21 +185,21 @@ namespace Next2.ViewModels
 
         private ObservableCollection<TableBindableModel> GetHoldTablesFromHoldDishes(ObservableCollection<HoldDishBindableModel> holdDishes)
         {
-            var result = new ObservableCollection<TableBindableModel>();
+            var bindableTables = new ObservableCollection<TableBindableModel>();
 
             if (holdDishes.Any())
             {
                 var tables = holdDishes.GroupBy(x => x.TableNumber).Select(y => y.First());
 
-                result = _mapper.Map<ObservableCollection<TableBindableModel>>(tables);
+                bindableTables = _mapper.Map<ObservableCollection<TableBindableModel>>(tables);
 
-                result.Add(new TableBindableModel { TableNumber = Constants.Limits.ALL_TABLES, });
+                bindableTables.Add(new TableBindableModel { TableNumber = Constants.Limits.ALL_TABLES, });
 
-                result = new(result.OrderBy(x => x.TableNumber));
-                SelectedTable = result.FirstOrDefault();
+                bindableTables = new(bindableTables.OrderBy(x => x.TableNumber));
+                SelectedTable = bindableTables.FirstOrDefault();
             }
 
-            return result;
+            return bindableTables;
         }
 
         private async Task<ObservableCollection<HoldDishBindableModel>> GetAllHoldDishesAsync()
