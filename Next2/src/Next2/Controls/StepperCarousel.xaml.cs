@@ -1,7 +1,5 @@
 ﻿using Next2.Interfaces;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -20,10 +18,11 @@ namespace Next2.Controls
         #region -- Public properties --
 
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
-            nameof(ItemsSource),
-            typeof(IList),
-            typeof(StepperCarousel),
-            default(IEnumerable<IBaseApiModel>));
+            propertyName: nameof(ItemsSource),
+            declaringType: typeof(StepperCarousel),
+            returnType: typeof(IList),
+            defaultValue: default(IList),
+            defaultBindingMode: BindingMode.OneWay);
 
         public IList ItemsSource
         {

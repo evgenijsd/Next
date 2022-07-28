@@ -162,7 +162,6 @@
 
                     <VisualState.Setters>
                         <Setter Property="ColumnDefinitions" Value="100, *" />
-                        <Setter Property="BackgroundColor" Value="Red" />
                     </VisualState.Setters>
 
                 </VisualState>

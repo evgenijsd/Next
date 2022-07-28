@@ -53,7 +53,7 @@
 
                 <StackLayout 
                     Grid.Row="0"
-                    Margin="0, 15, 0, 15"
+                    Margin="0, 15"
                     Spacing="20"
                     VerticalOptions="Start"
                     Orientation="Horizontal">

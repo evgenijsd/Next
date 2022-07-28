@@ -14,7 +14,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
             propertyName: nameof(IsSelected),
             returnType: typeof(bool),
-            declaringType: typeof(MenuItemTemplate));
+            declaringType: typeof(MenuItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsSelected
         {
@@ -25,7 +26,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty ImagePathProperty = BindableProperty.Create(
             propertyName: nameof(ImagePath),
             returnType: typeof(string),
-            declaringType: typeof(MenuItemTemplate));
+            declaringType: typeof(MenuItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string ImagePath
         {
@@ -37,7 +39,8 @@ namespace Next2.Controls.Templates
             propertyName: nameof(ImageSizes),
             returnType: typeof(Size),
             defaultValue: new Size(22, 22),
-            declaringType: typeof(MenuItemTemplate));
+            declaringType: typeof(MenuItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public Size ImageSizes
         {
@@ -48,7 +51,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
-            declaringType: typeof(MenuItemTemplate));
+            declaringType: typeof(MenuItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Text
         {
@@ -61,7 +65,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(double),
             declaringType: typeof(MenuItemTemplate),
             defaultValue: 12d,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double FontSize
         {
@@ -74,7 +78,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(string),
             declaringType: typeof(MenuItemTemplate),
             defaultValue: "Barlow-Medium",
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string FontFamily
         {

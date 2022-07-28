@@ -904,7 +904,7 @@
             <!-- HEADER, 1 ROW -->
             <StackLayout
                 Grid.Row="0"
-                Padding="18, 14, 18, 14"
+                Padding="18, 14"
                 Orientation="Horizontal">
 
                 <VisualStateManager.VisualStateGroups>
