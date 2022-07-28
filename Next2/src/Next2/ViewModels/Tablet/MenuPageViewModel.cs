@@ -96,6 +96,12 @@ namespace Next2.ViewModels.Tablet
 
             if (parameters is not null)
             {
+                if (parameters.ContainsKey(Constants.Navigations.IS_FIRST_ORDER_INIT))
+                {
+                    await _orderService.OpenLastOrCreateNewOrderAsync();
+                    await NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                }
+
                 if (parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
                 {
                     PopupPage confirmDialog = new Views.Tablet.Dialogs.PaymentCompleteDialog((IDialogParameters par) => PopupNavigation.PopAsync());

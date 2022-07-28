@@ -1,6 +1,5 @@
 ﻿using Next2.Enums;
 using Next2.Helpers;
-using Next2.Models;
 using Next2.Resources.Strings;
 using System;
 using System.Collections.Generic;
@@ -97,6 +96,18 @@ namespace Next2.Controls
         {
             get => (int)GetValue(SelectedMonthProperty);
             set => SetValue(SelectedMonthProperty, value);
+        }
+
+        public static readonly BindableProperty IsSelectedYearVisibleProperty = BindableProperty.Create(
+            propertyName: nameof(IsSelectedYearVisible),
+            returnType: typeof(bool),
+            declaringType: typeof(CalendarTab),
+            defaultValue: true);
+
+        public bool IsSelectedYearVisible
+        {
+            get => (bool)GetValue(IsSelectedYearVisibleProperty);
+            set => SetValue(IsSelectedYearVisibleProperty, value);
         }
 
         public static readonly BindableProperty SelectedYearProperty = BindableProperty.Create(

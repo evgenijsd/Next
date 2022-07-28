@@ -7,7 +7,6 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
 {

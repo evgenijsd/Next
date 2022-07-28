@@ -242,10 +242,10 @@
 
                                                                     </StackLayout>
                                                                     
-                                                                        <BoxView
-                                                                            Margin="0, 12, 0, 18"
-                                                                            HeightRequest="2"
-                                                                            Color="{DynamicResource TextAndBackgroundColor_i3}" />
+                                                                    <BoxView
+                                                                        Margin="0, 12, 0, 18"
+                                                                        HeightRequest="2"
+                                                                        Color="{DynamicResource TextAndBackgroundColor_i3}" />
 
                                                                 </StackLayout>
 
@@ -314,9 +314,9 @@
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30" />
-                        <RowDefinition Height="{Binding HeightCoupons}" />
+                        <RowDefinition Height="{Binding Coupons, Converter={StaticResource listHeightConverter},  ConverterParameter=57}"/>
                         <RowDefinition Height="30" />
-                        <RowDefinition Height="{Binding HeightDiscounts}" />
+                        <RowDefinition Height="{Binding Discounts, Converter={StaticResource listHeightConverter},  ConverterParameter=57}" />
                     </Grid.RowDefinitions>
 
                     <Label

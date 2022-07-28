@@ -126,6 +126,7 @@ namespace Next2.ViewModels.Dialogs
                 if (condition == ESplitOrderConditions.BySeats)
                 {
                     HeaderText = LocalizationResourceManager.Current["SplitBySeats"];
+                    PopupNavigationStep = EStep.Second;
 
                     newSeats = seats.Select(x => new SeatBindableModel()
                     {
@@ -164,17 +165,25 @@ namespace Next2.ViewModels.Dialogs
                 {
                     IsSplitAvailable = false;
 
-                    var seats = SelectedSeats.Select(x => x as SeatBindableModel);
-                    var seatNumbers = seats.Select(x => x.SeatNumber).ToArray();
+                    var selectedSeats = SelectedSeats.Select(x => x as SeatBindableModel);
+                    var selectedSeatsNumbers = selectedSeats.Select(x => x.SeatNumber).ToArray();
 
-                    _splitGroupList.Add(seatNumbers);
+                    _splitGroupList.Add(selectedSeatsNumbers);
 
-                    foreach (var seat in seats)
+                    foreach (var seat in selectedSeats)
                     {
                         Seats.Remove(seat);
                     }
 
                     SelectedSeats = new();
+
+                    if (Seats.Count == 1)
+                    {
+                        var remainingSeatNumber = Seats[0].SeatNumber;
+
+                        _splitGroupList.Add(new int[] { remainingSeatNumber });
+                        Seats = new();
+                    }
 
                     if (Seats.Count == 0)
                     {

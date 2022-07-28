@@ -1,32 +1,24 @@
 using Next2.Services.Authentication;
-using Next2.Services.Order;
 using Next2.Views.Mobile;
-using Prism.Events;
 using Prism.Navigation;
-using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
     public class LoginPageViewModel : BaseViewModel
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IOrderService _orderService;
-        private readonly IEventAggregator _eventAggregator;
 
         public LoginPageViewModel(
             INavigationService navigationService,
-            IAuthenticationService authenticationService,
-            IOrderService orderService,
-            IEventAggregator eventAggregator)
+            IAuthenticationService authenticationService)
             : base(navigationService)
         {
             _authenticationService = authenticationService;
-            _orderService = orderService;
-            _eventAggregator = eventAggregator;
         }
 
         #region -- Public properties --
@@ -59,18 +51,6 @@ namespace Next2.ViewModels
             if (args.PropertyName == nameof(EmployeeId))
             {
                 IsInvalidEmployeeId = false;
-            }
-        }
-
-        public override async Task InitializeAsync(INavigationParameters parameters)
-        {
-            await base.InitializeAsync(parameters);
-
-            if (_authenticationService.IsAuthorizationComplete)
-            {
-                await _orderService.OpenLastOrCreateNewOrderAsync();
-
-                await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
         }
 
@@ -131,11 +111,15 @@ namespace Next2.ViewModels
 
                 if (result.IsSuccess)
                 {
-                    await _orderService.OpenLastOrCreateNewOrderAsync();
-
                     IsActivityIndicatorRunning = false;
 
-                    await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
+                    var navigationPath = $"/{nameof(NavigationPage)}/{nameof(MenuPage)}";
+                    var navigationParameters = new NavigationParameters
+                    {
+                        { Constants.Navigations.IS_FIRST_ORDER_INIT, true },
+                    };
+
+                    await _navigationService.NavigateAsync(navigationPath, navigationParameters);
 
                     IsUserLogIn = true;
                 }
