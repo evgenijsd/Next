@@ -663,4 +663,43 @@ A receipt has been printed for you.</value>
   <data name="DateTime" xml:space="preserve">
     <value>Date / Time</value>
   </data>
+  <data name="NewReservation" xml:space="preserve">
+    <value>New Reservation</value>
+  </data>
+  <data name="AM" xml:space="preserve">
+    <value>AM</value>
+  </data>
+  <data name="PM" xml:space="preserve">
+    <value>PM</value>
+  </data>
+  <data name="GuestsAmount" xml:space="preserve">
+    <value>Guests Amount</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="RequiredInfo" xml:space="preserve">
+    <value>Required Info</value>
+  </data>
+  <data name="SelectGuestsAmount" xml:space="preserve">
+    <value>Select Guests Amount</value>
+  </data>
+  <data name="OptionalInfo" xml:space="preserve">
+    <value>Optional Info</value>
+  </data>
+  <data name="CommentForReservation" xml:space="preserve">
+    <value>Comment for Reservation</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="SelectTable" xml:space="preserve">
+    <value>Select Table</value>
+  </data>
+  <data name="TypeName" xml:space="preserve">
+    <value>Type Name</value>
+  </data>
+  <data name="NoTable" xml:space="preserve">
+    <value>No table</value>
+  </data>
 </root>

@@ -1,9 +1,5 @@
-﻿using Next2.Controls;
-using Next2.Models.Bindables;
-using System;
-using System.Collections.Generic;
+﻿using Next2.Models.Bindables;
 using System.Linq;
-using System.Text;
 using Xamarin.Forms;
 
 namespace Next2.Behaviors

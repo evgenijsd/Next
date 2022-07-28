@@ -1,5 +1,4 @@
-﻿using Next2.Enums;
-using Next2.Interfaces;
+﻿using Next2.Interfaces;
 using Next2.Services.Authentication;
 using Next2.Views.Mobile;
 using Prism.Mvvm;

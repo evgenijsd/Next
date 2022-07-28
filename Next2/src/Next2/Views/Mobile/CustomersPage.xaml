@@ -164,10 +164,6 @@
                                     <effects:NoOverScrollEffect />
                                 </controls:CustomCollectionView.Effects>
 
-                                <controls:CustomCollectionView.Behaviors>
-                                    <behaviors:GetIndexLastElementBehavior />
-                                </controls:CustomCollectionView.Behaviors>
-
                                 <controls:CustomCollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="models:CustomerBindableModel">
 

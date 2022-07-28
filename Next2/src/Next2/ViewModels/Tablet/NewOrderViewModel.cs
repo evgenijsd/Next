@@ -15,7 +15,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
@@ -140,6 +139,7 @@ namespace Next2.ViewModels.Tablet
         #endregion
 
         #region -- Private methods --
+
         private async Task OnTapSortCommandAsync()
         {
             _shouldOrderDishesByDESC = !_shouldOrderDishesByDESC;

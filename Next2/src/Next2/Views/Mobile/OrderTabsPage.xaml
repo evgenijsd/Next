@@ -211,7 +211,6 @@
                             </controls:CustomCollectionView.Effects>
 
                             <controls:CustomCollectionView.Behaviors>
-                                <behaviors:GetIndexLastElementBehavior />
                                 <behaviors:ScrollToCenterBehavior />
                             </controls:CustomCollectionView.Behaviors>
 
