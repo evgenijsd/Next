@@ -1,5 +1,6 @@
 ﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using System;
 using System.Collections.Generic;
@@ -17,14 +18,20 @@ namespace Next2.Services.Customers
 
         Task<AOResult<GiftCardModelDTO>> GetGiftCardByNumberAsync(string giftCardNumber);
 
-        Task<AOResult> AddGiftCardToCustomerAsync(CustomerBindableModel customer, GiftCardModelDTO giftCard);
+        Task<AOResult> AddGiftCardToCustomerAsync(UpdateCustomerCommand customer, GiftCardModelDTO giftCard);
 
         Task<AOResult> UpdateGiftCardAsync(GiftCardModelDTO giftCard);
 
-        Task<AOResult> UpdateCustomerAsync(CustomerBindableModel customer);
+        Task<AOResult> UpdateCustomerAsync(UpdateCustomerCommand customer);
 
         Task<AOResult<IEnumerable<GiftCardModelDTO>>> GetGiftCardsCustomerAsync(IEnumerable<Guid> guids);
 
         Task<AOResult<GiftCardModelDTO>> GetGiftCardByIdAsync(Guid id);
+
+        List<Guid> RecalculateCustomerGiftCardFounds(List<GiftCardModelDTO> giftCards, decimal amountToBeWithdrawn);
+
+        Task<AOResult> UpdateAllGiftCardsAsync(List<GiftCardModelDTO> giftCards, List<Guid> giftCardsIdToBeUpdated, List<GiftCardModelDTO> tempGiftCards);
+
+        Task<AOResult> UpdateAllGiftCardsToPreviousStageAsync(List<GiftCardModelDTO> giftCards, List<Guid> giftCardsIdToBeUpdated);
     }
 }

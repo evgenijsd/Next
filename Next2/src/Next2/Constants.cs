@@ -119,6 +119,7 @@
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
             public const string DISH = "DISH";
             public const string DISCOUNT_PRICE = "DISCOUNT_PRICE";
+            public const string GIFT_GARD = "GIFT_GARD";
         }
 
         public static class API

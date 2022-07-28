@@ -80,7 +80,7 @@ namespace Next2.Services.Customers
             return result;
         }
 
-        public async Task<AOResult> UpdateCustomerAsync(CustomerBindableModel customer)
+        public async Task<AOResult> UpdateCustomerAsync(UpdateCustomerCommand customer)
         {
             var result = new AOResult();
 
@@ -88,11 +88,9 @@ namespace Next2.Services.Customers
             {
                 if (customer is not null)
                 {
-                    var customerForUpdate = _mapper.Map<UpdateCustomerCommand>(customer);
-
                     var query = $"{Constants.API.HOST_URL}/api/customers";
 
-                    var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, query, customerForUpdate);
+                    var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, query, customer);
 
                     if (response.Success)
                     {
@@ -181,7 +179,7 @@ namespace Next2.Services.Customers
             return result;
         }
 
-        public async Task<AOResult> AddGiftCardToCustomerAsync(CustomerBindableModel customer, GiftCardModelDTO giftCard)
+        public async Task<AOResult> AddGiftCardToCustomerAsync(UpdateCustomerCommand customer, GiftCardModelDTO giftCard)
         {
             var result = new AOResult();
 
@@ -189,7 +187,8 @@ namespace Next2.Services.Customers
             {
                 if (!customer.GiftCardsId.Contains(giftCard.Id))
                 {
-                    customer.GiftCards.Add(giftCard);
+                    var newCollection = customer.GiftCardsId.Concat(new[] { giftCard.Id });
+                    customer.GiftCardsId = newCollection;
 
                     var updateResult = await UpdateCustomerAsync(customer);
 
@@ -279,6 +278,118 @@ namespace Next2.Services.Customers
             }
 
             return result;
+        }
+
+        public async Task<AOResult> UpdateAllGiftCardsAsync(List<GiftCardModelDTO> giftCards, List<Guid> giftCardsIdToBeUpdated, List<GiftCardModelDTO> tempGiftCards)
+        {
+            var result = new AOResult();
+
+            if (giftCards is not null)
+            {
+                List<Guid> updatedGiftCardsId = new();
+
+                foreach (var giftCard in giftCards)
+                {
+                    if (giftCardsIdToBeUpdated.Contains(giftCard.Id))
+                    {
+                        result = await UpdateGiftCardAsync(giftCard);
+
+                        if (!result.IsSuccess)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            updatedGiftCardsId.Add(giftCard.Id);
+                        }
+                    }
+                }
+
+                if (giftCardsIdToBeUpdated.Count != updatedGiftCardsId.Count)
+                {
+                    foreach (var giftCard in tempGiftCards)
+                    {
+                        if (updatedGiftCardsId.Contains(giftCard.Id))
+                        {
+                            await UpdateGiftCardAsync(giftCard);
+                        }
+                    }
+                }
+                else
+                {
+                    result.SetSuccess();
+                }
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> UpdateAllGiftCardsToPreviousStageAsync(List<GiftCardModelDTO> giftCards, List<Guid> giftCardsIdToBeUpdated)
+        {
+            var result = new AOResult();
+
+            if (giftCards is not null)
+            {
+                int counter = 0;
+
+                foreach (var giftCard in giftCards)
+                {
+                    if (giftCardsIdToBeUpdated.Contains(giftCard.Id))
+                    {
+                        result = await UpdateGiftCardAsync(giftCard);
+
+                        if (result.IsSuccess)
+                        {
+                            counter++;
+                        }
+                    }
+                }
+
+                if (giftCardsIdToBeUpdated.Count == counter)
+                {
+                    result.SetSuccess();
+                }
+            }
+
+            return result;
+        }
+
+        public List<Guid> RecalculateCustomerGiftCardFounds(List<GiftCardModelDTO> giftCards, decimal amountToBeWithdrawn)
+        {
+            List<Guid> updatedGiftCardsId = new();
+
+            foreach (var giftCard in giftCards)
+            {
+                if (giftCard.TotalBalance != 0)
+                {
+                    if (amountToBeWithdrawn != 0)
+                    {
+                        if (giftCard.TotalBalance > amountToBeWithdrawn)
+                        {
+                            giftCard.TotalBalance -= amountToBeWithdrawn;
+                            amountToBeWithdrawn = 0;
+                        }
+                        else if (giftCard.TotalBalance < amountToBeWithdrawn)
+                        {
+                            amountToBeWithdrawn -= giftCard.TotalBalance;
+                            giftCard.TotalBalance = 0;
+                        }
+                        else if (giftCard.TotalBalance == amountToBeWithdrawn)
+                        {
+                            giftCard.TotalBalance = 0;
+                            amountToBeWithdrawn = 0;
+                        }
+
+                        updatedGiftCardsId.Add(giftCard.Id);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return updatedGiftCardsId;
         }
 
         #endregion

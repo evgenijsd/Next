@@ -215,6 +215,7 @@ namespace Next2
                 cfg.CreateMap<CustomerModelDTO, CustomerBindableModel>().ReverseMap();
                 cfg.CreateMap<CustomerBindableModel, UpdateCustomerCommand>().ReverseMap();
                 cfg.CreateMap<RewardModel, RewardBindabledModel>();
+                cfg.CreateMap<RewardModel, RewardBindabledModel>();
                 cfg.CreateMap<MemberBindableModel, MemberBindableModel>();
                 cfg.CreateMap<DiscountModelDTO, BonusBindableModel>().ReverseMap();
                 cfg.CreateMap<CouponModelDTO, BonusBindableModel>().ReverseMap();
@@ -238,6 +239,7 @@ namespace Next2
                 cfg.CreateMap<GiftCardModelDTO, UpdateGiftCardCommand>().ReverseMap();
                 cfg.CreateMap<SimpleProductModelDTO, SimpleProductModelDTO>();
                 cfg.CreateMap<GiftCardModelDTO, GiftCardModelDTO>();
+                cfg.CreateMap<PaidOrderBindableModel, PaidOrderBindableModel>(); // ?
             }).CreateMapper();
         }
 
