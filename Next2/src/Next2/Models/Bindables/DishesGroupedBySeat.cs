@@ -1,6 +1,4 @@
-﻿using Prism.Mvvm;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace Next2.Models.Bindables

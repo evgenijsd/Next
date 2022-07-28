@@ -106,7 +106,7 @@ namespace Next2.ViewModels
             {
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool result) && result)
                 {
-                    await PopupNavigation.PopAsync();
+                    await CloseAllPopupAsync();
 
                     var logoutResult = await _authenticationService.LogoutAsync();
 
@@ -124,7 +124,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await PopupNavigation.PopAsync();
+                    await CloseAllPopupAsync();
                 }
             }
         }

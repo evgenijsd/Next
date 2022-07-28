@@ -1,5 +1,4 @@
-﻿using Next2.Enums;
-using Next2.Interfaces;
+﻿using Next2.Interfaces;
 using Next2.Services.Authentication;
 using Next2.Views.Mobile;
 using Prism.Mvvm;
@@ -7,6 +6,7 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Essentials;
@@ -78,6 +78,14 @@ namespace Next2.ViewModels
                 : new Views.Mobile.Dialogs.InfoDialog(parameters, () => PopupNavigation.PopAsync());
 
             return PopupNavigation.PushAsync(infoDialog);
+        }
+
+        protected async Task CloseAllPopupAsync()
+        {
+            if (PopupNavigation.PopupStack.Any())
+            {
+                await PopupNavigation.PopAllAsync();
+            }
         }
 
         #endregion

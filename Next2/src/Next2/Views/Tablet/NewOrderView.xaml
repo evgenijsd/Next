@@ -401,11 +401,11 @@
                                     <VisualState Name="miniPadding">
 
                                         <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="601"/>
+                                            <AdaptiveTrigger MinWindowWidth="1279" MinWindowHeight="799"/>
                                         </VisualState.StateTriggers>
 
                                         <VisualState.Setters>
-                                            <Setter Property="Padding" Value="24, 22, 24, 0" />
+                                            <Setter Property="Padding" Value="200, 0, 80, 0" />
                                         </VisualState.Setters>
 
                                     </VisualState>
@@ -1197,6 +1197,7 @@
                     Spacing="10"
                     Style="{DynamicResource CustomStepperStyle_i1}"
                     MaxValue="{Binding OrderRegistrationViewModel.SelectedTable.SeatNumbers}"
+                    IncrementCommand="{Binding OrderRegistrationViewModel.AddNewSeatCommand}"
                     DecrementCommand="{Binding OrderRegistrationViewModel.DeleteLastSeatCommand}"
                     FontSize="{DynamicResource TSize_i8}"
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}">

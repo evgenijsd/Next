@@ -155,11 +155,6 @@
                                 <effects:NoOverScrollEffect />
                             </controls:CustomCollectionView.Effects>
 
-                            <controls:CustomCollectionView.Behaviors>
-                                <behaviors:GetIndexLastElementBehavior />
-                                <behaviors:ScrollToCenterBehavior />
-                            </controls:CustomCollectionView.Behaviors>
-
                             <controls:CustomCollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:SimpleOrderBindableModel">
 

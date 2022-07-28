@@ -37,6 +37,7 @@
     
     <x:Double x:Key="OpacityWhenDisabled_i1">0.5</x:Double>
     <x:Double x:Key="OpacityWhenDisabled_i2">0.6</x:Double>
+    <x:Double x:Key="OpacityWhenDisabled_i3">0.32</x:Double>
 
     <Style TargetType="Frame">
         <Setter Property="HasShadow" Value="False" />
@@ -50,6 +51,22 @@
     <Style TargetType="Grid">
         <Setter Property="RowSpacing" Value="0" />
         <Setter Property="ColumnSpacing" Value="0" />
+    </Style>
+
+    <Style TargetType="CollectionView">
+        <Setter Property="ItemSizingStrategy" Value="MeasureFirstItem" />
+    </Style>
+
+    <Style TargetType="controls:CustomCollectionView">
+        <Setter Property="ItemSizingStrategy" Value="MeasureFirstItem" />
+    </Style>
+
+    <Style TargetType="controls:CalendarGridCollectionView">
+        <Setter Property="ItemSizingStrategy" Value="MeasureFirstItem" />
+    </Style>
+
+    <Style TargetType="controls:CustomScrollBarCollectionView">
+        <Setter Property="ItemSizingStrategy" Value="MeasureFirstItem" />
     </Style>
 
     <!-- SEPARATORS -->
@@ -216,5 +233,6 @@
     <converters:DecimalToBoolConverter x:Key="decimalToBoolConverter" />
     <converters:GuidToBoolConverter x:Key="guidToBoolConverter" />
     <converters:FormattedPhoneConverter x:Key="formattedPhoneConverter" />
+    <converters:EqualsMultiConverter x:Key="equalsMultiConverter" />
 
 </ResourceDictionary>

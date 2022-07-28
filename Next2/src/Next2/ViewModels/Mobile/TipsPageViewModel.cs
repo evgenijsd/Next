@@ -92,7 +92,7 @@ namespace Next2.ViewModels.Mobile
 
         private async void TipViewDialogCallBack(IDialogParameters parameters)
         {
-            await PopupNavigation.PopAsync();
+            await CloseAllPopupAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, out decimal value))
             {

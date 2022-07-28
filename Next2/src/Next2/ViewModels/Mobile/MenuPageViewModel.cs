@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Mobile
@@ -71,11 +72,19 @@ namespace Next2.ViewModels.Mobile
 
         public async override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters is not null && parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
+            if (parameters is not null)
             {
-                PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog((IDialogParameters par) => _popupNavigation.PopAsync());
+                if (parameters.ContainsKey(Constants.Navigations.IS_FIRST_ORDER_INIT))
+                {
+                    await _orderService.OpenLastOrCreateNewOrderAsync();
+                }
 
-                await PopupNavigation.PushAsync(confirmDialog);
+                if (parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
+                {
+                    PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog((IDialogParameters par) => _popupNavigation.PopAsync());
+
+                    await PopupNavigation.PushAsync(confirmDialog);
+                }
             }
 
             SelectedMenuItem = MenuItems.FirstOrDefault();
@@ -172,9 +181,22 @@ namespace Next2.ViewModels.Mobile
             }
         }
 
-        private Task OnOpenNewOrderPageCommandAsync()
+        private async Task OnOpenNewOrderPageCommandAsync()
         {
-            return CanShowOrder ? _navigationService.NavigateAsync(nameof(OrderRegistrationPage)) : Task.CompletedTask;
+            if (IsInternetConnected)
+            {
+                if (CanShowOrder)
+                {
+                    await _navigationService.NavigateAsync(nameof(OrderRegistrationPage));
+                }
+            }
+            else
+            {
+                await ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
         }
 
         private Task OnTapCategoryCommandAsync(CategoryModel category)
@@ -184,12 +206,22 @@ namespace Next2.ViewModels.Mobile
                 { Constants.Navigations.CATEGORY, category },
             };
 
-            return _navigationService.NavigateAsync(nameof(ChooseDishPage), navigationParams);
+            return IsInternetConnected
+                ? _navigationService.NavigateAsync(nameof(ChooseDishPage), navigationParams)
+                : ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
         }
 
         private Task GoToSettingsCommandAsync()
         {
-            return _navigationService.NavigateAsync($"{nameof(SettingsPage)}");
+            return IsInternetConnected
+                ? _navigationService.NavigateAsync($"{nameof(SettingsPage)}")
+                : ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
         }
 
         #endregion

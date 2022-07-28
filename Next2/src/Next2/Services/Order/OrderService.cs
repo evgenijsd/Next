@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Extensions;
 using Next2.Helpers.ProcessHelpers;
+using Next2.Models.API;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
@@ -17,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Next2.Services.Order
@@ -342,7 +342,7 @@ namespace Next2.Services.Order
                     CurrentSeat = CurrentOrder.Seats.FirstOrDefault();
                 }
 
-                CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].SelectedDishes.Add(dish);
+                CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == CurrentSeat.SeatNumber).SelectedDishes.Add(dish);
 
                 UpdateTotalSum(CurrentOrder);
 
@@ -562,6 +562,78 @@ namespace Next2.Services.Order
             return result;
         }
 
+        public async Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients)
+        {
+            var result = new AOResult<DishBindableModel>();
+
+            try
+            {
+                var selectedProportionPriceRatio = selectedProportion.PriceRatio;
+
+                dish.SelectedDishProportion = new DishProportionModelDTO()
+                {
+                    Id = selectedProportion.Id,
+                    PriceRatio = selectedProportionPriceRatio,
+                    Proportion = new ProportionModelDTO()
+                    {
+                        Id = selectedProportion.ProportionId,
+                        Name = selectedProportion.ProportionName,
+                    },
+                };
+
+                foreach (var product in dish.SelectedProducts ?? new())
+                {
+                    product.Price = selectedProportionPriceRatio == 1
+                        ? product.Product.DefaultPrice
+                        : product.Product.DefaultPrice * (1 + selectedProportionPriceRatio);
+
+                    ChangeIngredientsPriceBaseOnProportion(product, selectedProportionPriceRatio);
+                }
+
+                result.SetSuccess(dish);
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(ChangeDishProportionAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public decimal CalculateDishPriceBaseOnProportion(DishBindableModel dish, decimal priceRatio, IEnumerable<IngredientModelDTO> ingredients)
+        {
+            decimal ingredientsPrice = 0;
+            decimal dishPrice = 0;
+
+            try
+            {
+                foreach (var product in dish.SelectedProducts ?? new())
+                {
+                    foreach (var addedIngredient in product.AddedIngredients ?? new())
+                    {
+                        ingredientsPrice += ingredients.FirstOrDefault(row => row.Id == addedIngredient.Id).Price;
+                    }
+
+                    foreach (var excludedIngredient in product.ExcludedIngredients ?? new())
+                    {
+                        ingredientsPrice += ingredients.FirstOrDefault(row => row.Id == excludedIngredient.Id).Price;
+                    }
+                }
+
+                dishPrice = ingredientsPrice + dish.SelectedProducts.Sum(row => row.Product.DefaultPrice);
+
+                dishPrice = priceRatio == 1
+                    ? dishPrice
+                    : dishPrice * (1 + priceRatio);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{nameof(CalculateDishPriceBaseOnProportion)}: exception", ex);
+            }
+
+            return dishPrice;
+        }
+
         #endregion
 
         #region -- Private helpers --
@@ -740,6 +812,35 @@ namespace Next2.Services.Order
             }
 
             return result;
+        }
+
+        private void ChangeIngredientsPriceBaseOnProportion(ProductBindableModel product, decimal priceRatio)
+        {
+            var allIngredients = product?.Product?.Ingredients;
+            var addedIngredients = product?.AddedIngredients;
+            var excludedIngredients = product?.ExcludedIngredients;
+
+            if (allIngredients.Any())
+            {
+                if (addedIngredients.Any())
+                {
+                    foreach (var ingredient in addedIngredients)
+                    {
+                        ingredient.Price = priceRatio == 1
+                            ? allIngredients.FirstOrDefault(row => row.Id == ingredient.Id).Price
+                            : allIngredients.FirstOrDefault(row => row.Id == ingredient.Id).Price * (1 + priceRatio);
+                    }
+                }
+                else if (excludedIngredients.Any())
+                {
+                    foreach (var ingredient in excludedIngredients)
+                    {
+                        ingredient.Price = priceRatio == 1
+                            ? allIngredients.FirstOrDefault(row => row.Id == ingredient.Id).Price
+                            : allIngredients.FirstOrDefault(row => row.Id == ingredient.Id).Price * (1 + priceRatio);
+                    }
+                }
+            }
         }
 
         #endregion

@@ -482,18 +482,18 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnAddGiftCardCommandAsync()
+        private Task OnAddGiftCardCommandAsync()
         {
             IsInsufficientGiftCardFunds = false;
 
             PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, GiftCardViewDialogCallBack);
 
-            await PopupNavigation.PushAsync(popupPage);
+            return PopupNavigation.PushAsync(popupPage);
         }
 
         private async void GiftCardViewDialogCallBack(IDialogParameters parameters)
         {
-            await PopupNavigation.PopAsync();
+            await CloseAllPopupAsync();
 
             if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
             {
