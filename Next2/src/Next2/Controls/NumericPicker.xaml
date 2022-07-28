@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<CarouselView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Next2.Controls.NumericPicker"
+    x:Name="carouselView">
+
+    <CarouselView.ItemsLayout>
+        <LinearItemsLayout
+            Orientation="Vertical"
+            SnapPointsType="Mandatory"
+            SnapPointsAlignment="Center"/>
+
+    </CarouselView.ItemsLayout>
+
+    <CarouselView.ItemTemplate>
+        
+        <DataTemplate x:DataType="{x:Type x:String}">
+
+            <Label
+                Text="{Binding .}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                Opacity="{DynamicResource OpacityWhenDisabled_i3}"
+                HorizontalTextAlignment="Center"
+                VerticalTextAlignment="Center"
+                x:Name="label">
+
+                <Label.Triggers>
+
+                    <DataTrigger TargetType="Label" Value="True">
+
+                        <DataTrigger.Binding>
+                            <MultiBinding Converter="{StaticResource equalsMultiConverter}">
+
+                                <Binding Path="CurrentItem" Source="{x:Reference carouselView}" />
+                                <Binding Path="Text" Source="{x:Reference label}"/>
+
+                            </MultiBinding>
+                        </DataTrigger.Binding>
+
+                        <Setter Property="Opacity" Value="1"/>
+
+                    </DataTrigger>
+
+                </Label.Triggers>
+
+            </Label>
+
+        </DataTemplate>
+        
+    </CarouselView.ItemTemplate>
+
+</CarouselView>

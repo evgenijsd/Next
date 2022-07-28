@@ -6,8 +6,8 @@ using Next2.Services.Notifications;
 using Next2.Services.Reservation;
 using Next2.Views.Mobile;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -64,7 +64,10 @@ namespace Next2.ViewModels.Tablet
         public ICommand ChangeSortReservationCommand => _changeSortReservationCommand ??= new AsyncCommand<EReservationsSortingType>(OnChangeSortReservationCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _selectReservationCommand;
-        public ICommand SelectReservationCommand => _selectReservationCommand ??= new AsyncCommand<ReservationModel>(OnSelectReservationCommandAsync);
+        public ICommand SelectReservationCommand => _selectReservationCommand ??= new AsyncCommand<ReservationModel>(OnSelectReservationCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _addNewReservationCommand;
+        public ICommand AddNewReservationCommand => _addNewReservationCommand ??= new AsyncCommand(OnAddNewReservationCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -175,6 +178,40 @@ namespace Next2.ViewModels.Tablet
                 : reservation;
 
             return Task.CompletedTask;
+        }
+
+        private Task OnAddNewReservationCommandAsync()
+        {
+            var param = new DialogParameters();
+
+            var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(param, AddNewReservationDialogCallBack);
+
+            return PopupNavigation.PushAsync(popupPage);
+        }
+
+        private async void AddNewReservationDialogCallBack(IDialogParameters param)
+        {
+            if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out ReservationModel reservation))
+            {
+                var resultOfAddingReservation = await _reservationService.AddReservationAsync(reservation);
+
+                if (resultOfAddingReservation.IsSuccess)
+                {
+                    await _notificationsService.CloseAllPopupAsync();
+
+                    IsReservationsRefreshing = true;
+                }
+                else
+                {
+                    var message = resultOfAddingReservation.Exception?.Message;
+
+                    await _notificationsService.ResponseToBadRequestAsync(message);
+                }
+            }
+            else
+            {
+                await _notificationsService.CloseAllPopupAsync();
+            }
         }
 
         #endregion

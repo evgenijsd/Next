@@ -127,10 +127,10 @@
                                         ErrorText="{xct:Translate IncorrectName}"
                                         IsValid="{Binding IsValidName}"
                                         Text="{Binding Name}">
-                                            
-                                        <controls:GuardEntry.Behavior>
+
+                                        <controls:GuardEntry.EntryBehaviors>
                                             <behaviors:NameValidatorBehavior />
-                                        </controls:GuardEntry.Behavior>
+                                        </controls:GuardEntry.EntryBehaviors>
 
                                     </controls:GuardEntry>
 
@@ -160,9 +160,9 @@
                                         IsValid="{Binding IsValidPhone}"
                                         Text="{Binding Phone}">
 
-                                        <controls:GuardEntry.Behavior>
+                                        <controls:GuardEntry.EntryBehaviors>
                                             <behaviors:PhoneValidatorBehavior />
-                                        </controls:GuardEntry.Behavior>
+                                        </controls:GuardEntry.EntryBehaviors>
 
                                     </controls:GuardEntry>
 
@@ -192,9 +192,9 @@
                                         IsValid="{Binding IsValidEmail}"
                                         Text="{Binding Email}">
 
-                                        <controls:GuardEntry.Behavior>
+                                        <controls:GuardEntry.EntryBehaviors>
                                             <behaviors:EmailValidatorBehavior />
-                                        </controls:GuardEntry.Behavior>
+                                        </controls:GuardEntry.EntryBehaviors>
 
                                     </controls:GuardEntry>
                                     

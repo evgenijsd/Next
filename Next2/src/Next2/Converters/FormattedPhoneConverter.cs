@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using Xamarin.Forms;
-using System.Collections;
 using System.Text;
 
 namespace Next2.Converters

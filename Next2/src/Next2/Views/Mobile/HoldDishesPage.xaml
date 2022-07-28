@@ -181,8 +181,6 @@
                                     <controls:CustomCollectionView.Behaviors>
 
                                         <behaviors:ScrollToCenterBehavior />
-                                        
-                                        <behaviors:GetIndexLastElementBehavior />
 
                                         <prism:EventToCommandBehavior
                                             EventName="SelectionChanged"

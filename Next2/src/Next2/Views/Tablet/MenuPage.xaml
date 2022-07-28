@@ -110,7 +110,7 @@
                 WidthRequest="76"
                 Source="pic_logo_small.png"
                 Margin="11, 11, 11, 0">
-    
+
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup Name="AdaptiveLogoMargin">
 

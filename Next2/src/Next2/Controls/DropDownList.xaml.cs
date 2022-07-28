@@ -64,6 +64,19 @@ namespace Next2.Controls
             set => SetValue(HeaderTextSizeProperty, value);
         }
 
+        public static readonly BindableProperty HeaderTextOpacityProperty = BindableProperty.Create(
+            propertyName: nameof(HeaderTextOpacity),
+            returnType: typeof(double),
+            declaringType: typeof(DropDownList),
+            defaultValue: 1d,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public double HeaderTextOpacity
+        {
+            get => (double)GetValue(HeaderTextOpacityProperty);
+            set => SetValue(HeaderTextOpacityProperty, value);
+        }
+
         public static readonly BindableProperty HeaderTextProperty = BindableProperty.Create(
             propertyName: nameof(HeaderText),
             returnType: typeof(string),
@@ -208,6 +221,18 @@ namespace Next2.Controls
             set => SetValue(IsExpandedProperty, value);
         }
 
+        public static readonly BindableProperty ShouldTranslationYProperty = BindableProperty.Create(
+            propertyName: nameof(ShouldTranslationY),
+            returnType: typeof(bool),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public bool ShouldTranslationY
+        {
+            get => (bool)GetValue(ShouldTranslationYProperty);
+            set => SetValue(ShouldTranslationYProperty, value);
+        }
+
         public double ListHeight { get; private set; }
 
         private ICommand _selectItemCommand;
@@ -232,7 +257,7 @@ namespace Next2.Controls
             {
                 container.RaiseChild(listHeader);
             }
-            else if (propertyName is nameof(IsExpanded) && Direction is EDropDownListDirection.Up)
+            else if (propertyName is nameof(IsExpanded) && ShouldTranslationY && Direction is EDropDownListDirection.Up)
             {
                 dropDownList.TranslationY = IsExpanded
                     ? -ListHeight
