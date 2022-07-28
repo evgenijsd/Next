@@ -1,4 +1,7 @@
-﻿using Next2.Models;
+﻿using AutoMapper;
+using Next2.Models;
+using Next2.Models.API.Commands;
+using Next2.Models.API.DTO;
 using Next2.Services.Customers;
 using Next2.Services.Order;
 using Prism.Navigation;
@@ -8,6 +11,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -17,15 +21,18 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly IOrderService _orderService;
         private readonly ICustomersService _customersService;
+        private readonly IMapper _mapper;
 
         public InputGiftCardPageViewModel(
             INavigationService navigationService,
             IOrderService orderService,
-            ICustomersService customersService)
+            ICustomersService customersService,
+            IMapper mapper)
             : base(navigationService)
         {
             _orderService = orderService;
             _customersService = customersService;
+            _mapper = mapper;
 
             Customer = _orderService.CurrentOrder.Customer;
 
@@ -102,36 +109,72 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Private helpers --
 
-        private Task OnAddGiftCardCommandAsync()
+        private async Task OnAddGiftCardCommandAsync()
         {
-            IsInSufficientGiftCardFunds = false;
+            if (IsInternetConnected)
+            {
+                if (Customer is not null)
+                {
+                    IsInSufficientGiftCardFunds = false;
 
-            //PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, AddGiftCardDialogCallback);
+                    RemainingGiftCardTotal = Customer.GiftCardsTotalFund;
 
-            //return PopupNavigation.PushAsync(popupPage);
-            return Task.CompletedTask;
+                    PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(Customer.GiftCardsId, _customersService, GiftCardViewDialogCallBack);
+
+                    await PopupNavigation.PushAsync(popupPage);
+                }
+                else
+                {
+                    await ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["YouAreNotMember"],
+                        LocalizationResourceManager.Current["Ok"]);
+                }
+            }
+            else
+            {
+                await ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
         }
 
-        private async void AddGiftCardDialogCallback(IDialogParameters parameters)
+        private async void GiftCardViewDialogCallBack(IDialogParameters parameters)
         {
             await CloseAllPopupAsync();
-
-            if (_orderService.CurrentOrder.Customer is not null)
+            if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED)
+                && parameters.TryGetValue(Constants.DialogParameterKeys.GIFT_GARD, out GiftCardModelDTO giftCard))
             {
-                Customer = _orderService.CurrentOrder.Customer;
+                var customerToUpdateCommand = _mapper.Map<UpdateCustomerCommand>(_orderService.CurrentOrder.Customer);
 
-                if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
+                var resultOfAddingGiftCard = await _customersService.AddGiftCardToCustomerAsync(customerToUpdateCommand, giftCard);
+
+                if (resultOfAddingGiftCard.IsSuccess)
                 {
-                    if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
+                    if (Customer is not null)
                     {
-                        sum /= 100;
+                        Customer.GiftCards.Add(giftCard);
 
-                        RemainingGiftCardTotal = Customer.GiftCardsTotalFund - sum;
-                    }
-                    else
-                    {
+                        Customer = new CustomerBindableModel(Customer);
+
                         RemainingGiftCardTotal = Customer.GiftCardsTotalFund;
+
+                        if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
+                        {
+                            sum /= 100;
+
+                            RemainingGiftCardTotal = Customer.GiftCardsTotalFund - sum;
+                        }
+                        else
+                        {
+                            RemainingGiftCardTotal = Customer.GiftCardsTotalFund;
+                        }
                     }
+                }
+                else
+                {
+                    await ResponseToBadRequestAsync(resultOfAddingGiftCard.Exception?.Message);
                 }
             }
         }

@@ -63,6 +63,7 @@ namespace Next2.ViewModels
             {
                 Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
                 Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
+                Order.GiftCardsNumber = Order.Customer.GiftCards.Count;
             }
 
             _tapPaymentOptionCommand = new AsyncCommand<PaymentItem>(OnTapPaymentOptionCommandAsync, allowsMultipleExecutions: false);
@@ -152,6 +153,7 @@ namespace Next2.ViewModels
 
                 if (Order.Customer is not null && Order.Customer.GiftCards.Any())
                 {
+                    Order.GiftCardsNumber = Order.Customer.GiftCards.Count;
                     Order.Total += Order.GiftCard;
                     Order.GiftCard = 0;
                     Order.RemainingGiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
@@ -587,7 +589,10 @@ namespace Next2.ViewModels
                     {
                         customer.GiftCards.Add(giftCard);
 
+                        customer = new CustomerBindableModel(customer);
+
                         Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds = customer.GiftCardsTotalFund;
+                        Order.GiftCardsNumber = Order.Customer.GiftCards.Count;
 
                         if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
                         {
