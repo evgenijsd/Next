@@ -8,10 +8,10 @@
     xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:dto="clr-namespace:Next2.Models.API.DTO"
     xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
@@ -22,81 +22,60 @@
 
     <ContentView.Resources>
         <ResourceDictionary>
-
-            <Style x:Key="labeltSize_i4" TargetType="Label">
-
+            
+            <Style x:Key="LabelStyle_i1" TargetType="Label">
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
+                <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
                 <Setter Property="VisualStateManager.VisualStateGroups">
+                    <Setter.Value>
+                        <VisualStateGroupList>
+                            <VisualStateGroup Name="AdaptiveTime">
 
-                    <VisualStateGroupList>
-                        <VisualStateGroup Name="AdaptiveLabel">
+                                <VisualState Name="IPadPro11">
 
-                            <VisualState Name="default">
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="1194"/>
+                                    </VisualState.StateTriggers>
 
-                                <VisualState.StateTriggers>
-                                    <AdaptiveTrigger MinWindowWidth="0" MinWindowHeight="0" />
-                                </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Property="FontSize" Value="{DynamicResource TSize_i4_5}"/>
+                                        <Setter Property="FontFamily" Value="Barlow-Medium"/>
+                                    </VisualState.Setters>
 
-                                <VisualState.Setters>
-                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i5}" />
-                                </VisualState.Setters>
+                                </VisualState>
 
-                            </VisualState>
-
-                            <VisualState Name="moreiPadMini">
-
-                                <VisualState.StateTriggers>
-                                    <AdaptiveTrigger MinWindowWidth="1025" MinWindowHeight="601" />
-                                </VisualState.StateTriggers>
-
-                                <VisualState.Setters>
-                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i4}" />
-                                </VisualState.Setters>
-
-                            </VisualState>
-
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </Setter.Value>
                 </Setter>
-
             </Style>
 
-            <Style x:Key="labeltSize_i6" TargetType="Label">
-
+            <Style TargetType="buttons:IconTextButton">
                 <Setter Property="VisualStateManager.VisualStateGroups">
+                    <Setter.Value>
+                        <VisualStateGroupList>
+                            <VisualStateGroup Name="AdaptiveTime">
 
-                    <VisualStateGroupList>
-                        <VisualStateGroup Name="AdaptiveLabel">
+                                <VisualState Name="IPadPro11">
 
-                            <VisualState Name="default">
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="1194"/>
+                                    </VisualState.StateTriggers>
 
-                                <VisualState.StateTriggers>
-                                    <AdaptiveTrigger MinWindowWidth="0" MinWindowHeight="0" />
-                                </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Property="IconSize" Value="24, 24"/>
+                                        <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
+                                        <Setter Property="FontSize" Value="{DynamicResource TSize_i7}"/>
+                                    </VisualState.Setters>
 
-                                <VisualState.Setters>
-                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
-                                </VisualState.Setters>
+                                </VisualState>
 
-                            </VisualState>
-
-                            <VisualState Name="moreiPadMini">
-
-                                <VisualState.StateTriggers>
-                                    <AdaptiveTrigger MinWindowWidth="1025" MinWindowHeight="601" />
-                                </VisualState.StateTriggers>
-
-                                <VisualState.Setters>
-                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
-                                </VisualState.Setters>
-
-                            </VisualState>
-
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </Setter.Value>
                 </Setter>
-
             </Style>
 
         </ResourceDictionary>
@@ -110,11 +89,23 @@
                 <VisualState Name="moreiPadPro11">
 
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1195" />
+                        <AdaptiveTrigger MinWindowWidth="1194" />
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
                         <Setter Property="ColumnDefinitions" Value="*, 370" />
+                    </VisualState.Setters>
+
+                </VisualState>
+
+                <VisualState Name="moreiPadPro12_9">
+
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1366" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Property="ColumnDefinitions" Value="*, 485" />
                     </VisualState.Setters>
 
                 </VisualState>
@@ -147,76 +138,71 @@
                 <StackLayout>
 
                     <!--Header-->
-
                     <StackLayout
                         VerticalOptions="Start"
-                        Orientation="Horizontal"
-                        Padding="12, 11, 12, 0">
-
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroupList>
-                                <VisualStateGroup Name="AdaptiveStackLayoutPadding">
-
-                                    <VisualState Name="miniPadding">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="601"/>
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="Padding" Value="24, 22, 24, 0" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                    <VisualState Name="moreiPadMiniPadding">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601"/>
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="Padding" Value="32, 17" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                </VisualStateGroup>
-                            </VisualStateGroupList>
-                        </VisualStateManager.VisualStateGroups>
+                        Orientation="Horizontal">
 
                         <Label
                             Text="{xct:Translate NewOrder}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             FontSize="{DynamicResource TSize_i4_5}"
+                            Margin="24, 16"
                             FontFamily="Barlow-SemiBold">
 
                             <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="AdaptiveLabel">
+                                <VisualStateGroupList>
+                                    <VisualStateGroup Name="AdaptiveTime">
 
-                                    <VisualState Name="moreiPadMini">
+                                        <VisualState Name="IPadPro11">
 
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowWidth="1025" MinWindowHeight="601" />
-                                        </VisualState.StateTriggers>
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger MinWindowWidth="1194"/>
+                                            </VisualState.StateTriggers>
 
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i4}" />
-                                            <Setter Property="FontFamily" Value="Barlow-Bold" />
-                                        </VisualState.Setters>
+                                            <VisualState.Setters>
+                                                <Setter Property="Margin" Value="40, 24"/>
+                                                <Setter Property="FontSize" Value="{DynamicResource TSize_i1}"/>
+                                                <Setter Property="FontFamily" Value="Barlow-Bold"/>
+                                            </VisualState.Setters>
 
-                                    </VisualState>
+                                        </VisualState>
 
-                                </VisualStateGroup>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
                             </VisualStateManager.VisualStateGroups>
 
                         </Label>
 
                         <controls:TimeAndDateBar
                             Padding="0, 5, 0, 0"
+                            Margin="24, 16"
                             HorizontalOptions="EndAndExpand"
                             IsRunning="{Binding OrderRegistrationViewModel.IsClockRunning}"
-                            xct:TouchEffect.Command="{Binding OpenEmployeeWorkingHoursCommand}"/>
+                            xct:TouchEffect.Command="{Binding OpenEmployeeWorkingHoursCommand}">
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup Name="AdaptiveTime">
+                                        
+                                        <VisualState Name="IPadPro11">
+                                            
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger MinWindowWidth="1194"/>
+                                            </VisualState.StateTriggers>
+
+                                            <VisualState.Setters>
+                                                <Setter Property="Margin" Value="40, 24"/>
+                                                <Setter Property="FontSize" Value="{DynamicResource TSize_i7}"/>
+                                                <Setter Property="IconsSize" Value="24, 24"/>
+                                            </VisualState.Setters>
+                                            
+                                        </VisualState>
+                                        
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+                            
+                        </controls:TimeAndDateBar>
 
                     </StackLayout>
 
@@ -232,32 +218,20 @@
                         <StackLayout
                             VerticalOptions="Start"
                             Orientation="Horizontal"
-                            Padding="12, 11, 12, 0">
+                            Padding="24, 19">
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
-                                    <VisualStateGroup Name="AdaptiveStackLayoutPadding">
+                                    <VisualStateGroup Name="AdaptiveTime">
 
-                                        <VisualState Name="miniPadding">
+                                        <VisualState Name="IPadPro11">
 
                                             <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowHeight="601"/>
+                                                <AdaptiveTrigger MinWindowWidth="1194"/>
                                             </VisualState.StateTriggers>
 
                                             <VisualState.Setters>
-                                                <Setter Property="Padding" Value="24, 22, 24, 0" />
-                                            </VisualState.Setters>
-
-                                        </VisualState>
-
-                                        <VisualState Name="moreiPadMiniPadding">
-
-                                            <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601"/>
-                                            </VisualState.StateTriggers>
-
-                                            <VisualState.Setters>
-                                                <Setter Property="Padding" Value="40, 17, 32, 0" />
+                                                <Setter Property="Padding" Value="40, 28, 40, 24"/>
                                             </VisualState.Setters>
 
                                         </VisualState>
@@ -267,157 +241,109 @@
                             </VisualStateManager.VisualStateGroups>
 
                             <Label
-                                Text="{xct:Translate Categories}"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                Style="{StaticResource labeltSize_i6}"
-                                FontFamily="Barlow-SemiBold"
-                                VerticalTextAlignment="Center"/>
+                                Style="{DynamicResource LabelStyle_i1}"
+                                Text="{xct:Translate Categories}"/>
 
-                            <Frame
-                                CornerRadius="5"
-                                BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
-                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
-                                Padding="15, 8"
-                                HorizontalOptions="EndAndExpand">
-
-                                <StackLayout Orientation="Horizontal">
-
-                                    <ffimageloading:CachedImage 
-                                        HeightRequest="20"
-                                        WidthRequest="20"
-                                        Source="ic_category_24x24"/>
-
-                                    <Label
-                                        VerticalOptions="Center"
-                                        Text="{xct:Translate Expand}"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                        FontSize="{DynamicResource TSize_i9}"
-                                        FontFamily="Barlow-Medium"
-                                        Margin="10, 0, 0, 0"/>
-
-                                </StackLayout>
-
-                                <Frame.GestureRecognizers>
-
-                                    <TapGestureRecognizer Command="{Binding TapExpandCommand}"/>
-
-                                </Frame.GestureRecognizers>
-
-                            </Frame>
+                            <buttons:IconTextButton 
+                                HorizontalOptions="EndAndExpand"
+                                IconSource="ic_category_24x24"
+                                Text="{xct:Translate Expand}"
+                                xct:TouchEffect.Command="{Binding TapExpandCommand}"/>
 
                         </StackLayout>
 
                         <controls:StepperCarousel
                             VerticalOptions="Start"
-                            HeightRequest="100"
-                            MinimumHeightRequest="100"
-                            Margin="12, 10, 12, 16"
+                            HeightRequest="114"
+                            MinimumHeightRequest="114"
+                            Margin="24, 0, 24, 16"
                             ItemsSource="{Binding Categories}"
                             SelectedItem="{Binding SelectedCategoriesItem}">
 
                             <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="AdaptiveStepperCarousel">
+                                <VisualStateGroupList>
+                                    <VisualStateGroup Name="AdaptiveTime">
 
-                                    <VisualState Name="minHeight">
+                                        <VisualState Name="IPadPro11">
 
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="601" />
-                                        </VisualState.StateTriggers>
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger MinWindowWidth="1194"/>
+                                            </VisualState.StateTriggers>
 
-                                        <VisualState.Setters>
-                                            <Setter Property="Margin" Value="24, 26, 24, 32" />
-                                        </VisualState.Setters>
+                                            <VisualState.Setters>
+                                                <Setter Property="Margin" Value="40, 0, 40, 40"/>
+                                            </VisualState.Setters>
 
-                                    </VisualState>
+                                        </VisualState>
 
-                                    <VisualState Name="moreiPadMini">
+                                        <VisualState Name="IPadPro12_9">
 
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601" />
-                                        </VisualState.StateTriggers>
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger MinWindowWidth="1366"/>
+                                            </VisualState.StateTriggers>
 
-                                        <VisualState.Setters>
-                                            <Setter Property="Margin" Value="35, 16, 35, 32" />
-                                        </VisualState.Setters>
+                                            <VisualState.Setters>
+                                                <Setter Property="ItemWidth" Value="133"/>
+                                                <Setter Property="Margin" Value="40, 0, 40, 40"/>
+                                            </VisualState.Setters>
 
-                                    </VisualState>
+                                        </VisualState>
 
-                                </VisualStateGroup>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
                             </VisualStateManager.VisualStateGroups>
 
                         </controls:StepperCarousel>
 
-                        <BoxView
-                            HeightRequest="1"
-                            Margin="12, 0"
-                            VerticalOptions="Start"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}">
+                    </StackLayout>
 
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="AdaptiveBoxViewMargin">
+                    <BoxView
+                        HeightRequest="1"
+                        VerticalOptions="Start"
+                        Margin="24, 0"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}">
 
-                                    <VisualState Name="miniMargin">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup Name="AdaptiveTime">
+
+                                    <VisualState Name="IPadPro11">
 
                                         <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="601"/>
+                                            <AdaptiveTrigger MinWindowWidth="1194"/>
                                         </VisualState.StateTriggers>
 
                                         <VisualState.Setters>
-                                            <Setter Property="Margin" Value="24, 0" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                    <VisualState Name="moreiPadMiniMargin">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601"/>
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="Margin" Value="40, 0" />
+                                            <Setter Property="Margin" Value="40, 0"/>
                                         </VisualState.Setters>
 
                                     </VisualState>
 
                                 </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
 
-                        </BoxView>
-
-                    </StackLayout>
+                    </BoxView>
 
                     <!--Menu header-->
 
                     <StackLayout
                         VerticalOptions="Start"
                         Orientation="Horizontal"
-                        Padding="12, 6, 12, 0">
+                        Padding="24, 19, 24, 0">
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroupList>
-                                <VisualStateGroup Name="AdaptiveStackLayoutPadding">
+                                <VisualStateGroup Name="AdaptiveTime">
 
-                                    <VisualState Name="miniPadding">
+                                    <VisualState Name="IPadPro11">
 
                                         <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowWidth="1279" MinWindowHeight="799"/>
+                                            <AdaptiveTrigger MinWindowWidth="1194"/>
                                         </VisualState.StateTriggers>
 
                                         <VisualState.Setters>
-                                            <Setter Property="Padding" Value="200, 0, 80, 0" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                    <VisualState Name="moreiPadMiniPadding">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601"/>
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="Padding" Value="40, 27, 40, 0" />
+                                            <Setter Property="Padding" Value="40, 36, 40, 0"/>
                                         </VisualState.Setters>
 
                                     </VisualState>
@@ -427,38 +353,14 @@
                         </VisualStateManager.VisualStateGroups>
 
                         <Label
-                            Text="{xct:Translate Menu}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            Style="{StaticResource labeltSize_i6}"
-                            FontFamily="Barlow-SemiBold"
-                            VerticalTextAlignment="Center"/>
+                            Style="{DynamicResource LabelStyle_i1}"
+                            Text="{xct:Translate Menu}"/>
 
-                        <Frame
-                            CornerRadius="5"
-                            BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
-                            Padding="15, 8"
+                        <buttons:IconTextButton 
                             HorizontalOptions="EndAndExpand"
-                            xct:TouchEffect.Command="{Binding TapSortCommand}">
-
-                            <StackLayout Orientation="Horizontal">
-
-                                <ffimageloading:CachedImage 
-                                    HeightRequest="20"
-                                    WidthRequest="20"
-                                    Source="ic_swap_24x24"/>
-
-                                <Label
-                                    VerticalOptions="Center"
-                                    Text="{xct:Translate TypeOrder}"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                    FontSize="{DynamicResource TSize_i9}"
-                                    FontFamily="Barlow-Medium"
-                                    Margin="10, 0, 0, 0"/>
-
-                            </StackLayout>
-
-                        </Frame>
+                            IconSource="ic_swap_24x24"
+                            Text="{xct:Translate TypeOrder}"
+                            xct:TouchEffect.Command="{Binding TapSortCommand}"/>
 
                     </StackLayout>
 
@@ -480,16 +382,17 @@
                         <sc:StateCondition State="Completed">
 
                             <CollectionView
+                                Margin="24, 14, 24, 0"
                                 ItemsSource="{Binding Dishes}"
                                 VerticalOptions="FillAndExpand"
-                                VerticalScrollBarVisibility="Always"
-                                x:Name="menuCollectionView">
+                                VerticalScrollBarVisibility="Always">
 
                                 <CollectionView.ItemsLayout>
 
                                     <GridItemsLayout
                                         Orientation="Vertical"
-                                        HorizontalItemSpacing="5"
+                                        HorizontalItemSpacing="12"
+                                        VerticalItemSpacing="12"
                                         Span="2"/>
 
                                 </CollectionView.ItemsLayout>
@@ -497,22 +400,10 @@
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup Name="AdaptiveColumn">
 
-                                        <VisualState Name="minHeight">
-
-                                            <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowHeight="601" />
-                                            </VisualState.StateTriggers>
-
-                                            <VisualState.Setters>
-                                                <Setter Property="Margin" Value="24, 16, 24, 0"/>
-                                            </VisualState.Setters>
-
-                                        </VisualState>
-
                                         <VisualState Name="moreiPadMiniColumn">
 
                                             <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601" />
+                                                <AdaptiveTrigger MinWindowWidth="1194"/>
                                             </VisualState.StateTriggers>
 
                                             <VisualState.Setters>
@@ -632,7 +523,7 @@
                                     <templates:SubCategoryItemTemplate
                                         HeightRequest="50"
                                         MinimumHeightRequest="50"
-                                        TextMargin="0, 0, 0, 26"
+                                        TextMargin="0, 0, 0, 8"
                                         Text="{Binding Name}"
                                         FontSize="{DynamicResource TSize_i6}"
                                         FontFamily="Barlow-Medium">
@@ -649,6 +540,7 @@
                                                     <VisualState.Setters>
                                                         <Setter Property="HeightRequest" Value="82" />
                                                         <Setter Property="MinimumHeightRequest" Value="82" />
+                                                        <Setter Property="TextMargin" Value="0, 0, 0, 26" />
                                                     </VisualState.Setters>
 
                                                 </VisualState>
@@ -732,7 +624,7 @@
                                                 </VisualState.StateTriggers>
 
                                                 <VisualState.Setters>
-                                                    <Setter Property="FontSize" Value="28"/>
+                                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i3}"/>
                                                     <Setter Property="Margin" Value="30, 20, 30, 16"/>
                                                 </VisualState.Setters>
 
@@ -993,16 +885,11 @@
                     <Setter Property="BackgroundColor" Value="Transparent"/>
                 </Style>
 
-                <Style x:Key="IconBorderButtonStyle_i2" TargetType="buttons:IconBorderButton" BasedOn="{StaticResource IconBorderButtonStyle_i1}">
+                <Style x:Key="IconButtonStyle_i2" TargetType="buttons:IconButton">
                     <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
                     <Setter Property="CornerRadius" Value="6"/>
-                    <Setter Property="Padding" Value="8, 6"/>
-                    <Setter Property="IconHeight" Value="18"/>
-                    <Setter Property="Border">
-                        <Setter.Value>
-                            <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="1" />
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="Padding" Value="12, 6"/>
+                    <Setter Property="IconSize" Value="20, 20"/>
                 </Style>
 
                 <Style x:Key="CustomStepperStyle_i1" TargetType="controls:CustomStepper">
@@ -1017,24 +904,12 @@
             <!-- HEADER, 1 ROW -->
             <StackLayout
                 Grid.Row="0"
-                Padding="18, 24, 18, 14"
+                Padding="18, 14"
                 Orientation="Horizontal">
 
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroupList>
                         <VisualStateGroup Name="AdaptiveHeader">
-
-                            <VisualState Name="Medium">
-
-                                <VisualState.StateTriggers>
-                                    <AdaptiveTrigger MinWindowWidth="1194" />
-                                </VisualState.StateTriggers>
-
-                                <VisualState.Setters>
-                                    <Setter Property="Padding" Value="18, 20, 18, 14"/>
-                                </VisualState.Setters>
-
-                            </VisualState>
 
                             <VisualState Name="Large">
 
@@ -1351,9 +1226,9 @@
                         </pancakeview:PancakeView>
 
                         <StackLayout
-                            Margin="0, 120, 0, 0"
+                            Margin="0, 30, 0, 0"
                             Spacing="6">
-
+                            
                             <StackLayout.Triggers>
                                 <DataTrigger
                                     TargetType="StackLayout"
@@ -1372,8 +1247,31 @@
 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroupList>
-                                        <VisualStateGroup
-                                            Name="AdaptivePic_payment">
+                                        <VisualStateGroup Name="AdaptivePic_payment">
+
+                                            <VisualState Name="IPadMini">
+
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowWidth="1024" />
+                                                </VisualState.StateTriggers>
+
+                                                <VisualState.Setters>
+                                                    <Setter Property="Margin" Value="0, 70, 0, 0" />
+                                                </VisualState.Setters>
+
+                                            </VisualState>
+
+                                            <VisualState Name="IPadPro11">
+
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowWidth="1194" />
+                                                </VisualState.StateTriggers>
+
+                                                <VisualState.Setters>
+                                                    <Setter Property="Margin" Value="0, 90, 0, 0" />
+                                                </VisualState.Setters>
+
+                                            </VisualState>
 
                                             <VisualState Name="Medium">
 
@@ -1383,6 +1281,18 @@
 
                                                 <VisualState.Setters>
                                                     <Setter Property="HeightRequest" Value="250" />
+                                                </VisualState.Setters>
+
+                                            </VisualState>
+
+                                            <VisualState Name="Large">
+
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowWidth="1366" />
+                                                </VisualState.StateTriggers>
+
+                                                <VisualState.Setters>
+                                                    <Setter Property="Margin" Value="0, 170, 0, 0" />
                                                 </VisualState.Setters>
 
                                             </VisualState>
@@ -1434,7 +1344,7 @@
                 <StackLayout 
                     Orientation="Horizontal"
                     Margin="18, 8"
-                    Spacing="12">
+                    Spacing="14">
 
                     <StackLayout HeightRequest="50">
 
@@ -1452,22 +1362,22 @@
 
                     </StackLayout>
 
-                    <buttons:IconBorderButton
-                        Style="{DynamicResource IconBorderButtonStyle_i2}"
+                    <buttons:IconButton
+                        Style="{DynamicResource IconButtonStyle_i2}"
                         HorizontalOptions="EndAndExpand"
                         IconSource="ic_time_circle_40x40"
-                        Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}"/>
+                        xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}"/>
 
-                    <buttons:IconBorderButton
-                        Style="{DynamicResource IconBorderButtonStyle_i2}"
+                    <buttons:IconButton
+                        Style="{DynamicResource IconButtonStyle_i2}"
                         IconSource="ic_discount_48x48"
-                        Command="{Binding OrderRegistrationViewModel.OpenDiscountSelectionCommand}" />
+                        xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OpenDiscountSelectionCommand}" />
 
-                    <buttons:IconBorderButton
+                    <buttons:IconButton
                         IsVisible="{Binding OrderRegistrationViewModel.IsOrderWithTax}"
-                        Style="{DynamicResource IconBorderButtonStyle_i2}"
+                        Style="{DynamicResource IconButtonStyle_i2}"
                         IconSource="ic_tax"
-                        Command="{Binding OrderRegistrationViewModel.RemoveTaxFromOrderCommand}"/>
+                        xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.RemoveTaxFromOrderCommand}"/>
 
                 </StackLayout>
 

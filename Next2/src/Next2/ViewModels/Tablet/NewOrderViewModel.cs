@@ -138,12 +138,7 @@ namespace Next2.ViewModels.Tablet
 
         #endregion
 
-        #region -- Private helpers --
-
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            Task.Run(() => { CurrentDateTime = DateTime.Now; });
-        }
+        #region -- Private methods --
 
         private async Task OnTapSortCommandAsync()
         {
