@@ -11,10 +11,6 @@
     BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
     x:Class="Next2.Controls.Buttons.SettingsButton">
 
-    <Frame.GestureRecognizers>
-        <TapGestureRecognizer Command="{Binding TapCommand, Source={RelativeSource AncestorType={x:Type buttons:SettingsButton}}}" CommandParameter="{Binding TapCommandParameter, Source={RelativeSource AncestorType={x:Type buttons:SettingsButton}}}" />
-    </Frame.GestureRecognizers>
-
     <StackLayout
         HorizontalOptions="FillAndExpand"
         Orientation="Horizontal">

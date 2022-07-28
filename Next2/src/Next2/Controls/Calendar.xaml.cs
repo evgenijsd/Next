@@ -42,6 +42,7 @@ namespace Next2.Controls
             defaultValue: Color.FromHex("#2E3143"),
             declaringType: typeof(Calendar),
             defaultBindingMode: BindingMode.TwoWay);
+
         public Color BackGroundColor
         {
             get => (Color)GetValue(BackGroundColorProperty);
@@ -54,6 +55,7 @@ namespace Next2.Controls
             defaultValue: Color.FromHex("#34374C"),
             declaringType: typeof(Calendar),
             defaultBindingMode: BindingMode.TwoWay);
+
         public Color DropdownListBackGroundColor
         {
             get => (Color)GetValue(DropdownListBackGroundColorProperty);
@@ -66,6 +68,7 @@ namespace Next2.Controls
             defaultValue: Color.FromHex("#252836"),
             declaringType: typeof(Calendar),
             defaultBindingMode: BindingMode.TwoWay);
+
         public Color DropdownHeadDroppedBackGroundColor
         {
             get => (Color)GetValue(DropdownHeadDroppedBackGroundColorProperty);
@@ -78,6 +81,7 @@ namespace Next2.Controls
             defaultValue: "Barlow-Bold",
             declaringType: typeof(Calendar),
             defaultBindingMode: BindingMode.TwoWay);
+
         public string MonthLabelFontFamily
         {
             get => (string)GetValue(MonthLabelFontFamilyProperty);
@@ -90,6 +94,7 @@ namespace Next2.Controls
             defaultValue: "Barlow-Regular",
             declaringType: typeof(Calendar),
             defaultBindingMode: BindingMode.TwoWay);
+
         public string DropdownListLabelsFontFamily
         {
             get => (string)GetValue(DropdownListLabelsFontFamilyProperty);
@@ -102,6 +107,7 @@ namespace Next2.Controls
            declaringType: typeof(Calendar),
            defaultValue: string.Empty,
            defaultBindingMode: BindingMode.TwoWay);
+
         public string Title
         {
             get => (string)GetValue(TitleProperty);
@@ -113,6 +119,7 @@ namespace Next2.Controls
             returnType: typeof(DateTime?),
             declaringType: typeof(Calendar),
             defaultBindingMode: BindingMode.TwoWay);
+
         public DateTime? SelectedDate
         {
             get => (DateTime?)GetValue(SelectedDateProperty);
@@ -138,6 +145,7 @@ namespace Next2.Controls
             declaringType: typeof(Calendar),
             defaultValue: 3,
             defaultBindingMode: BindingMode.TwoWay);
+
         public int SelectedMonth
         {
             get => (int)GetValue(SelectedMonthProperty);
@@ -149,6 +157,7 @@ namespace Next2.Controls
             returnType: typeof(Year),
             declaringType: typeof(Calendar),
             defaultBindingMode: BindingMode.TwoWay);
+
         public Year SelectedYear
         {
             get => (Year)GetValue(SelectedYearProperty);

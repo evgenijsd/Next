@@ -22,7 +22,7 @@
 
         <Label
             VerticalTextAlignment="Center"
-            FontSize="18"
+            FontSize="{DynamicResource TSize_i6}"
             FontFamily="Barlow-Medium"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
             Text="{Binding DateLabel, Source={RelativeSource AncestorType={x:Type controls:DatePicker}}, StringFormat={x:Static local:Constants+Formats.SHORT_DATE_FORMAT}}" />

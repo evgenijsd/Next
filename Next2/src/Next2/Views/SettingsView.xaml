@@ -28,8 +28,8 @@
 
                 <ffimageloading:CachedImage
                     IsVisible="{Binding PageState, Converter={xct:NotEqualConverter}, ConverterParameter={Static enums:ESettingsPageState.Default}}"
-                    xct:TouchEffect.Command="{Binding GoBackCommand}"
-                    Source="ic_arrow_left_tail_24x24.png" />
+                    Source="ic_arrow_left_tail_24x24.png"
+                    xct:TouchEffect.Command="{Binding GoBackCommand}" />
 
                 <Label
                     VerticalTextAlignment="Center"
@@ -65,13 +65,13 @@
 
                         <buttons:SettingsButton
                             Title="{xct:Translate ReAssignTable}"
-                            TapCommand="{Binding ChangeStateCommand}"
-                            TapCommandParameter="{Static enums:ESettingsPageState.ReAssignTable}" />
+                            xct:TouchEffect.Command="{Binding ChangeStateCommand}"
+                            xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.ReAssignTable}" />
 
                         <buttons:SettingsButton
                             Title="{xct:Translate PrintReceipt}"
-                            TapCommand="{Binding ChangeStateCommand}"
-                            TapCommandParameter="{Static enums:ESettingsPageState.PrintReceipt}" />
+                            xct:TouchEffect.Command="{Binding ChangeStateCommand}"
+                            xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.PrintReceipt}" />
 
                     </StackLayout>
 
@@ -81,13 +81,13 @@
 
                         <buttons:SettingsButton
                             Title="{xct:Translate BackOffice}"
-                            TapCommand="{Binding ChangeStateCommand}"
-                            TapCommandParameter="{Static enums:ESettingsPageState.BackOffice}" />
+                            xct:TouchEffect.Command="{Binding ChangeStateCommand}"
+                            xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.BackOffice}" />
 
                         <buttons:SettingsButton
                             Title="{xct:Translate ProgramDevice}"
-                            TapCommand="{Binding ChangeStateCommand}"
-                            TapCommandParameter="{Static enums:ESettingsPageState.ProgramDevice}" />
+                            xct:TouchEffect.Command="{Binding ChangeStateCommand}"
+                            xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.ProgramDevice}" />
 
                     </StackLayout>
 

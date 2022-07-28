@@ -37,11 +37,11 @@
                 Margin="24, 0, 0, 14"
                 VerticalOptions="End"
                 HorizontalOptions="Start"
-                DateLabel="{Binding SelectedDate, Mode=TwoWay}" />
+                DateLabel="{Binding SelectedDate}" />
 
             <StackLayout
-                Margin="0, 0, 32, 100"
                 Grid.Row="2"
+                Margin="0, 0, 32, 100"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="CenterAndExpand"
                 IsVisible="{Binding IsNothingFound}">
@@ -56,8 +56,8 @@
 
             <yummy:PancakeView
                 Grid.Row="2"
-                VerticalOptions="Start" 
                 Margin="24, 0"
+                VerticalOptions="Start"
                 CornerRadius="10, 10, 0, 0"
                 IsVisible="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}">
 
@@ -82,48 +82,48 @@
 
                 <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-                        <Grid
-                            ColumnDefinitions="*, *, *"
-                            Margin="20, 15, 0, 0"
-                            VerticalOptions="Start"
-                            HeightRequest="35"
-                            MinimumHeightRequest="35">
+                    <Grid
+                        ColumnDefinitions="*, *, *"
+                        Margin="20, 15, 0, 0"
+                        VerticalOptions="Start"
+                        HeightRequest="35"
+                        MinimumHeightRequest="35">
 
-                            <Label
-                                Grid.Column="0"
-                                VerticalOptions="FillAndExpand"
-                                HorizontalOptions="FillAndExpand"
-                                HeightRequest="{DynamicResource TSize_i8}"
-                                Text="{xct:Translate Order}"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                LineBreakMode="TailTruncation"
-                                FontSize="{DynamicResource TSize_i8}"
-                                FontFamily="Barlow-Medium"
-                                xct:TouchEffect.Command="{Binding ChangeSortOrderCommand}"
-                                xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByOrderNumber}" />
+                        <Label
+                            Grid.Column="0"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            HeightRequest="{DynamicResource TSize_i8}"
+                            Text="{xct:Translate Order}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            LineBreakMode="TailTruncation"
+                            FontSize="{DynamicResource TSize_i8}"
+                            FontFamily="Barlow-Medium"
+                            xct:TouchEffect.Command="{Binding ChangeSortOrderCommand}"
+                            xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByOrderNumber}" />
 
-                            <Label
-                                Grid.Column="1"
-                                VerticalOptions="FillAndExpand"
-                                HorizontalOptions="FillAndExpand"
-                                HeightRequest="{DynamicResource TSize_i8}"
-                                LineBreakMode="TailTruncation"
-                                Text="{xct:Translate Total}"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                FontSize="{DynamicResource TSize_i8}"
-                                FontFamily="Barlow-Medium"
-                                xct:TouchEffect.Command="{Binding ChangeSortOrderCommand}"
-                                xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByTotalPrice}" />
+                        <Label
+                            Grid.Column="1"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            HeightRequest="{DynamicResource TSize_i8}"
+                            LineBreakMode="TailTruncation"
+                            Text="{xct:Translate Total}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i8}"
+                            FontFamily="Barlow-Medium"
+                            xct:TouchEffect.Command="{Binding ChangeSortOrderCommand}"
+                            xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByTotalPrice}" />
 
-                            <Label
-                                Grid.Column="2"
-                                HorizontalOptions="FillAndExpand"
-                                Text="{xct:Translate Time}"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                FontSize="{DynamicResource TSize_i8}"
-                                FontFamily="Barlow-Medium" />
+                        <Label
+                            Grid.Column="2"
+                            HorizontalOptions="FillAndExpand"
+                            Text="{xct:Translate Time}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i8}"
+                            FontFamily="Barlow-Medium" />
 
-                        </Grid>
+                    </Grid>
 
                     <BoxView
                         VerticalOptions="Start"
@@ -226,7 +226,9 @@
                                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
                                         <Grid.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding SelectOrderCommand, Source={RelativeSource AncestorType={x:Type viewmodels:PrintReceiptViewModel}}}" CommandParameter="{Binding .}" />
+                                            <TapGestureRecognizer
+                                                Command="{Binding SelectOrderCommand, Source={RelativeSource AncestorType={x:Type viewmodels:PrintReceiptViewModel}}}"
+                                                CommandParameter="{Binding .}" />
                                         </Grid.GestureRecognizers>
 
                                     </Grid>
@@ -243,36 +245,36 @@
             </yummy:PancakeView>
 
         </Grid>
-        
+
         <StackLayout
+            VerticalOptions="EndAndExpand"
+            HeightRequest="87"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+            IsVisible="{Binding SelectedOrder, Converter={xct:IsNotNullOrEmptyConverter}}">
+
+            <BoxView
+                VerticalOptions="StartAndExpand"
+                HeightRequest="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+            <buttons:BorderButton
+                Margin="20, 12"
+                Padding="0"
+                HeightRequest="65"
+                BorderWidth="1"
+                FontFamily="Barlow-SemiBold"
+                Text="{xct:Translate Print}"
+                FontSize="{DynamicResource TSize_i6}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                BorderColor="Transparent"
+                BackgroundColor="{DynamicResource IndicationColor_i1}" />
+
+            <BoxView
                 VerticalOptions="EndAndExpand"
-                HeightRequest="87"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                IsVisible="{Binding SelectedOrder, Converter={xct:IsNotNullOrEmptyConverter}}">
+                HeightRequest="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
-                <BoxView
-                    VerticalOptions="StartAndExpand"
-                    HeightRequest="2"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
-
-                <buttons:BorderButton
-                    Margin="20, 12"
-                    Padding="0"
-                    HeightRequest="65"
-                    BorderWidth="1"
-                    FontFamily="Barlow-SemiBold"
-                    Text="{xct:Translate Print}"
-                    FontSize="{DynamicResource TSize_i6}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    BorderColor="Transparent"
-                    BackgroundColor="{DynamicResource IndicationColor_i1}" />
-
-                <BoxView
-                    VerticalOptions="EndAndExpand"
-                    HeightRequest="2"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
-
-            </StackLayout>
+        </StackLayout>
 
     </StackLayout>
 

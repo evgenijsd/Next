@@ -702,8 +702,8 @@ A receipt has been printed for you.</value>
   <data name="NoTable" xml:space="preserve">
     <value>No table</value>
   </data>
-  <data name="aa" xml:space="preserve">
-    <value />
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
   </data>
   <data name="BackOffice" xml:space="preserve">
     <value>Back Office</value>
