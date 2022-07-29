@@ -702,4 +702,7 @@ A receipt has been printed for you.</value>
   <data name="NoTable" xml:space="preserve">
     <value>No table</value>
   </data>
+  <data name="NoTablesAvailable" xml:space="preserve">
+    <value>No tables available</value>
+  </data>
 </root>
