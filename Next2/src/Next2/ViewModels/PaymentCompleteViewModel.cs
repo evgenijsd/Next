@@ -7,6 +7,7 @@ using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Next2.Services.Customers;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
@@ -30,6 +31,7 @@ namespace Next2.ViewModels
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
+        private readonly INotificationsService _notificationsService;
 
         private ICommand _tapPaymentOptionCommand;
 
@@ -46,12 +48,14 @@ namespace Next2.ViewModels
             ICustomersService customersService,
             IOrderService orderService,
             IMapper mapper,
+            INotificationsService notificationsService,
             PaidOrderBindableModel order)
             : base(navigationService)
         {
             _customersService = customersService;
             _orderService = orderService;
             _mapper = mapper;
+            _notificationsService = notificationsService;
 
             Order = order;
 
@@ -468,8 +472,8 @@ namespace Next2.ViewModels
 
                             if (!resultOfUpdatingGiftCards.IsSuccess)
                             {
-                                await CloseAllPopupAsync();
-                                await ResponseToBadRequestAsync(resultOfUpdatingGiftCards.Exception?.Message);
+                                await _notificationsService.CloseAllPopupAsync();
+                                await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingGiftCards.Exception?.Message);
                             }
                         }
                     }
@@ -483,7 +487,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -533,11 +537,11 @@ namespace Next2.ViewModels
             }
             else
             {
-                await CloseAllPopupAsync();
+                await _notificationsService.CloseAllPopupAsync();
 
                 _orderService.CurrentOrder = tempCurrentOrder;
 
-                await ResponseToBadRequestAsync(updateResult.Exception?.Message);
+                await _notificationsService.ResponseToBadRequestAsync(updateResult.Exception?.Message);
             }
 
             return updateResult.IsSuccess;
@@ -557,7 +561,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await ShowInfoDialogAsync(
+                    await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["YouAreNotMember"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -565,7 +569,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -574,7 +578,7 @@ namespace Next2.ViewModels
 
         private async void GiftCardViewDialogCallBack(IDialogParameters parameters)
         {
-            await CloseAllPopupAsync();
+            await _notificationsService.CloseAllPopupAsync();
 
             if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED)
                 && parameters.TryGetValue(Constants.DialogParameterKeys.GIFT_GARD, out GiftCardModelDTO giftCard))
@@ -622,7 +626,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(resultOfAddingGiftCard.Exception?.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfAddingGiftCard.Exception?.Message);
                 }
             }
         }
@@ -650,8 +654,8 @@ namespace Next2.ViewModels
                 {
                     giftCards = _tempGiftCards;
 
-                    await CloseAllPopupAsync();
-                    await ResponseToBadRequestAsync(resultOfUpdatingGiftCards.Exception?.Message);
+                    await _notificationsService.CloseAllPopupAsync();
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingGiftCards.Exception?.Message);
 
                     isGiftCardPaymentSuccessful = false;
                 }

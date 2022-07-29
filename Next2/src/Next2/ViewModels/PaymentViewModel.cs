@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Customers;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Services.Rewards;
 using Next2.Views.Mobile;
@@ -21,6 +22,7 @@ namespace Next2.ViewModels
     {
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
+        private readonly INotificationsService _notificationsService;
 
         private decimal _subtotalWithBonus;
 
@@ -29,11 +31,13 @@ namespace Next2.ViewModels
             IMapper mapper,
             IOrderService orderService,
             ICustomersService customerService,
+            INotificationsService notificationsService,
             IRewardsService rewardsService)
             : base(navigationService)
         {
             _orderService = orderService;
             _mapper = mapper;
+            _notificationsService = notificationsService;
 
             if (_orderService.CurrentOrder.Discount is null && _orderService.CurrentOrder.Coupon is null)
             {
@@ -79,6 +83,7 @@ namespace Next2.ViewModels
                 customerService,
                 rewardsService,
                 Order,
+                notificationsService,
                 NavigateAsync,
                 GoToPaymentStep);
 
@@ -87,6 +92,7 @@ namespace Next2.ViewModels
                 customerService,
                 orderService,
                 mapper,
+                notificationsService,
                 Order);
         }
 
@@ -232,7 +238,7 @@ namespace Next2.ViewModels
         {
             if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isExitConfirmed))
             {
-                await CloseAllPopupAsync();
+                await _notificationsService.CloseAllPopupAsync();
 
                 if (isExitConfirmed)
                 {

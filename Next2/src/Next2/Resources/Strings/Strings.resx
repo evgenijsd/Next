@@ -666,6 +666,27 @@ A receipt has been printed for you.</value>
   <data name="YouAreNotMember" xml:space="preserve">
     <value>You are not yet a member!</value>
   </data>
+  <data name="HoldItems" xml:space="preserve">
+    <value>Hold Items</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="TableName" xml:space="preserve">
+    <value>Table Name</value>
+  </data>
+  <data name="ReleaseTime" xml:space="preserve">
+    <value>Release Time</value>
+  </data>
+  <data name="Extend" xml:space="preserve">
+    <value>Extend</value>
+  </data>
+  <data name="Release" xml:space="preserve">
+    <value>Release</value>
+  </data>
+  <data name="AllTables" xml:space="preserve">
+    <value>All Tables</value>
+  </data>
   <data name="NewReservation" xml:space="preserve">
     <value>New Reservation</value>
   </data>

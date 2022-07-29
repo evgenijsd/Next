@@ -3,6 +3,7 @@ using Next2.Models;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Services.Customers;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -22,17 +23,20 @@ namespace Next2.ViewModels.Mobile
         private readonly IOrderService _orderService;
         private readonly ICustomersService _customersService;
         private readonly IMapper _mapper;
+        private readonly INotificationsService _notificationsService;
 
         public InputGiftCardPageViewModel(
             INavigationService navigationService,
             IOrderService orderService,
-            ICustomersService customersService,
-            IMapper mapper)
+            IMapper mapper,
+            INotificationsService notificationsService,
+            ICustomersService customersService)
             : base(navigationService)
         {
             _orderService = orderService;
             _customersService = customersService;
             _mapper = mapper;
+            _notificationsService = notificationsService;
 
             Customer = _orderService.CurrentOrder.Customer;
 
@@ -125,7 +129,7 @@ namespace Next2.ViewModels.Mobile
                 }
                 else
                 {
-                    await ShowInfoDialogAsync(
+                    await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["YouAreNotMember"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -133,7 +137,7 @@ namespace Next2.ViewModels.Mobile
             }
             else
             {
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -142,7 +146,8 @@ namespace Next2.ViewModels.Mobile
 
         private async void GiftCardViewDialogCallBack(IDialogParameters parameters)
         {
-            await CloseAllPopupAsync();
+            await _notificationsService.CloseAllPopupAsync();
+
             if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED)
                 && parameters.TryGetValue(Constants.DialogParameterKeys.GIFT_GARD, out GiftCardModelDTO giftCard))
             {
@@ -174,7 +179,7 @@ namespace Next2.ViewModels.Mobile
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(resultOfAddingGiftCard.Exception?.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfAddingGiftCard.Exception?.Message);
                 }
             }
         }

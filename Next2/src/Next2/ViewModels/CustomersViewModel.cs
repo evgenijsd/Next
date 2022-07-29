@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Customers;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
@@ -26,6 +27,8 @@ namespace Next2.ViewModels
         private readonly IMapper _mapper;
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
+        private readonly INotificationsService _notificationsService;
+
         private ECustomersSorting _sortCriterion;
 
         private List<CustomerBindableModel> _allCustomers = new();
@@ -34,12 +37,14 @@ namespace Next2.ViewModels
             IMapper mapper,
             INavigationService navigationService,
             ICustomersService customersService,
+            INotificationsService notificationsService,
             IOrderService orderService)
             : base(navigationService)
         {
             _mapper = mapper;
             _customersService = customersService;
             _orderService = orderService;
+            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -164,14 +169,14 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(resultOfGettingCustomers.Exception?.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfGettingCustomers.Exception?.Message);
                 }
 
                 IsRefreshing = false;
             }
             else
             {
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -217,7 +222,7 @@ namespace Next2.ViewModels
 
         private async void CloseCustomerInfoDialogCallback(IDialogParameters parameters)
         {
-            await CloseAllPopupAsync();
+            await _notificationsService.CloseAllPopupAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isCustomerSelected) && isCustomerSelected)
             {
@@ -257,12 +262,12 @@ namespace Next2.ViewModels
                     {
                         _orderService.CurrentOrder.Customer = new();
 
-                        await ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
+                        await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await ShowInfoDialogAsync(
+                    await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -283,7 +288,7 @@ namespace Next2.ViewModels
 
         private async void AddCustomerDialogCallBack(IDialogParameters param)
         {
-            await CloseAllPopupAsync();
+            await _notificationsService.CloseAllPopupAsync();
 
             if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER, out CustomerBindableModel customer))
             {
@@ -302,12 +307,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
+                        await _notificationsService.ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await ShowInfoDialogAsync(
+                    await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);

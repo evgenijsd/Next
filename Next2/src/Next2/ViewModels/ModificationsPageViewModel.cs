@@ -6,6 +6,7 @@ using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Next2.Services.Bonuses;
 using Next2.Services.Menu;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views;
 using Prism.Navigation;
@@ -28,6 +29,7 @@ namespace Next2.ViewModels
         private readonly IBonusesService _bonusesService;
         private readonly IMenuService _menuService;
         private readonly IMapper _mapper;
+        private readonly INotificationsService _notificationsService;
 
         private int _indexOfSeat;
         private int _indexOfSelectedDish;
@@ -47,13 +49,16 @@ namespace Next2.ViewModels
             IOrderService orderService,
             IMenuService menuService,
             IMapper mapper,
+            INotificationsService notificationsService,
             IBonusesService bonusService)
             : base(navigationService)
         {
             _orderService = orderService;
             _menuService = menuService;
             _bonusesService = bonusService;
+            _notificationsService = notificationsService;
             _mapper = mapper;
+            _notificationsService = notificationsService;
 
             CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 
@@ -372,12 +377,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await ResponseToBadRequestAsync(ingredientCategories.Exception?.Message);
+                        await _notificationsService.ResponseToBadRequestAsync(ingredientCategories.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await ShowInfoDialogAsync(
+                    await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -428,12 +433,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await ResponseToBadRequestAsync(ingredientsResult.Exception.Message);
+                        await _notificationsService.ResponseToBadRequestAsync(ingredientsResult.Exception.Message);
                     }
                 }
                 else
                 {
-                    await ShowInfoDialogAsync(
+                    await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -537,7 +542,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -623,7 +628,7 @@ namespace Next2.ViewModels
 
                     _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == selectedSeat.SeatNumber).SelectedItem = selectedDishInSelectedSeat;
 
-                    await ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
                 }
                 else
                 {
@@ -632,7 +637,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -710,7 +715,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await ShowInfoDialogAsync(
+                    await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["SomethingWentWrong"],
                         LocalizationResourceManager.Current["Ok"]);
