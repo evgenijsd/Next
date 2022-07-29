@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace Next2.Services.OrdersHolding
 {
-    public class OrdersHolding : IOrdersHolding
+    public class DishesHoldingService : IDishesHoldingService
     {
         private readonly IMockService _mockService;
 
         private IEnumerable<HoldDishModel> _allHoldDishes = Enumerable.Empty<HoldDishModel>();
 
-        public OrdersHolding(IMockService mockService)
+        public DishesHoldingService(IMockService mockService)
         {
             _mockService = mockService;
         }

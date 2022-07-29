@@ -73,7 +73,7 @@
 
                         <Grid ColumnDefinitions="45, 0.55*, 0.45*">
 
-                            <StackLayout xct:TouchEffect.Command="{Binding TapSelectAllHoldDishesTableCommand}">
+                            <StackLayout xct:TouchEffect.Command="{Binding SelectAllHoldDishesTableCommand}">
 
                                 <ffimageloading:CachedImage
                                     Source="ic_check_box_unchecked_white"
@@ -398,8 +398,7 @@
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     BorderColor="{DynamicResource IndicationColor_i3}"
                     BackgroundColor="Transparent"
-                    Style="{DynamicResource BorderButtonStyle_i1}"
-                    xct:TouchEffect.Command="{Binding ExtendCommand}" />
+                    Style="{DynamicResource BorderButtonStyle_i1}" />
 
                 <buttons:BorderButton
                     HorizontalOptions="FillAndExpand"
@@ -409,8 +408,7 @@
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
-                    Style="{DynamicResource BorderButtonStyle_i1}"
-                    xct:TouchEffect.Command="{Binding ReleaseCommand}" />
+                    Style="{DynamicResource BorderButtonStyle_i1}" />
 
             </StackLayout>
 

@@ -18,20 +18,20 @@ namespace Next2.ViewModels
 {
     public class HoldDishesViewModel : BaseViewModel
     {
-        private readonly IOrdersHolding _ordersHolding;
+        private readonly IDishesHoldingService _dishesHolding;
         private readonly INotificationsService _notificationsService;
         private readonly IMapper _mapper;
 
         private EHoldDishesSortingType _holdDishesSortingType;
 
         public HoldDishesViewModel(
-            IOrdersHolding ordersHolding,
+            IDishesHoldingService dishesHolding,
             INotificationsService notificationsService,
             IMapper mapper,
             INavigationService navigationService)
             : base(navigationService)
         {
-            _ordersHolding = ordersHolding;
+            _dishesHolding = dishesHolding;
             _notificationsService = notificationsService;
             _mapper = mapper;
         }
@@ -66,14 +66,8 @@ namespace Next2.ViewModels
         private ICommand _setHoldDishesByTableNumberCommand;
         public ICommand SetHoldDishesByTableNumberCommand => _setHoldDishesByTableNumberCommand ??= new AsyncCommand(OnSetHoldDishesByTableNumberCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _tapSelectAllHoldDishesTableCommand;
-        public ICommand TapSelectAllHoldDishesTableCommand => _tapSelectAllHoldDishesTableCommand ??= new AsyncCommand(OnTapSelectAllHoldDishesTableCommandAsync, allowsMultipleExecutions: false);
-
-        private ICommand _extendCommand;
-        public ICommand ExtendCommand => _extendCommand ??= new AsyncCommand(OnExtendCommandAsync, allowsMultipleExecutions: false);
-
-        private ICommand _releaseCommand;
-        public ICommand ReleaseCommand => _releaseCommand ??= new AsyncCommand(OnReleaseCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _selectAllHoldDishesTableCommand;
+        public ICommand SelectAllHoldDishesTableCommand => _selectAllHoldDishesTableCommand ??= new AsyncCommand(OnSelectAllHoldDishesTableCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -109,10 +103,9 @@ namespace Next2.ViewModels
                 SelectedHoldDishes = null;
             }
 
-            var holdDishes = _ordersHolding.GetHoldDishesByTableNumber(tableNumber);
+            var holdDishes = _dishesHolding.GetHoldDishesByTableNumber(tableNumber);
 
             IsNothingFound = !holdDishes.Any();
-            TableNumber = tableNumber;
 
             return _mapper.Map<ObservableCollection<HoldDishBindableModel>>(holdDishes);
         }
@@ -127,7 +120,7 @@ namespace Next2.ViewModels
             {
                 _holdDishesSortingType = holdDishesSortingType;
 
-                var sortedHoldDishes = _ordersHolding.GetSortedHoldDishes(_holdDishesSortingType, HoldDishes);
+                var sortedHoldDishes = _dishesHolding.GetSortedHoldDishes(_holdDishesSortingType, HoldDishes);
 
                 HoldDishes = new(sortedHoldDishes);
             }
@@ -135,7 +128,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnTapSelectAllHoldDishesTableCommandAsync()
+        private Task OnSelectAllHoldDishesTableCommandAsync()
         {
             if (SelectedTable?.TableNumber != Constants.Limits.ALL_TABLES)
             {
@@ -144,16 +137,6 @@ namespace Next2.ViewModels
                     : null;
             }
 
-            return Task.CompletedTask;
-        }
-
-        private Task OnExtendCommandAsync()
-        {
-            return Task.CompletedTask;
-        }
-
-        private Task OnReleaseCommandAsync()
-        {
             return Task.CompletedTask;
         }
 
@@ -177,7 +160,8 @@ namespace Next2.ViewModels
         {
             if (SelectedTable is not null)
             {
-                HoldDishes = GetHoldDishesByTableNumber(SelectedTable.TableNumber);
+                TableNumber = SelectedTable.TableNumber;
+                HoldDishes = GetHoldDishesByTableNumber(TableNumber);
             }
 
             return Task.CompletedTask;
@@ -204,7 +188,7 @@ namespace Next2.ViewModels
 
         private async Task<ObservableCollection<HoldDishBindableModel>> GetAllHoldDishesAsync()
         {
-            var result = await _ordersHolding.GetAllHoldDishesAsync();
+            var result = await _dishesHolding.GetAllHoldDishesAsync();
             var holdDishes = new ObservableCollection<HoldDishBindableModel>();
 
             if (result.IsSuccess)

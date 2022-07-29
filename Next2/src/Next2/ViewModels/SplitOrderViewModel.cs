@@ -128,10 +128,7 @@ namespace Next2.ViewModels
                 await OnGoBackCommandAsync();
             }
 
-            if (PopupNavigation.PopupStack.Count > 0)
-            {
-                await _notificationsService.CloseAllPopupAsync();
-            }
+            await _notificationsService.CloseAllPopupAsync();
         }
 
         private async Task SplitOrderBySeats(IList<int[]> groupList)

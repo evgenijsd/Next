@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Next2.Services.OrdersHolding
 {
-    public interface IOrdersHolding
+    public interface IDishesHoldingService
     {
         Task<AOResult<IEnumerable<HoldDishModel>>> GetAllHoldDishesAsync();
 

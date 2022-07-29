@@ -80,7 +80,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<IBonusesService, BonusesService>();
             containerRegistry.RegisterSingleton<IWorkLogService, WorkLogService>();
             containerRegistry.RegisterSingleton<IReservationService, ReservationService>();
-            containerRegistry.RegisterSingleton<IOrdersHolding, OrdersHolding>();
+            containerRegistry.RegisterSingleton<IDishesHoldingService, DishesHoldingService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
