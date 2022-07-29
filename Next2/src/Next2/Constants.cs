@@ -16,7 +16,8 @@
             public const string CASH_FORMAT = "$ {0:#,0.#0}";
             public const string PERCENT_FORMAT = "{0} %";
             public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
-            public const string PHONE_MASK = "(_ _ _) _ _ _-_ _ _ _";
+            public const string TIME_FORMAT = "{0:hh:mm tt}";
+            public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
         }
 
         public static class Analytics
@@ -36,6 +37,7 @@
             public const int DAYS_IN_CALENDAR = 42;
             public const int MAXIMUM_DISCHARGE_NUMBER = 9;
             public const int MAX_QUERY_LENGTH = 100;
+            public const int ALL_TABLES = 0;
             public const int PHONE_LENGTH = 14;
             public const int MAX_NAME_LENGTH = 80;
             public const int MIN_HOUR = 1;

@@ -28,7 +28,7 @@
                 FontFamily="{Binding HeaderFontFamily, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
                 TextColor="{Binding HeaderTextColor, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
                 Opacity="{Binding HeaderTextOpacity, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
-                Text="{Binding HeaderText, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}" />
+                FormattedText="{Binding HeaderText, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}" />
 
             <ffimageloading:CachedImage
                 Margin="0, 7, 10, 7"
@@ -62,7 +62,8 @@
             ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
             SelectedItem="{Binding SelectedItem, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
             ItemTemplate="{Binding DataTemplate, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
-            x:Name="itemsCollection">
+            SelectionChangedCommand="{Binding SelectionChangedCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
+            x:Name="itemsCollection" >
 
             <CollectionView.Effects>
                 <effects:NoOverScrollEffect/>

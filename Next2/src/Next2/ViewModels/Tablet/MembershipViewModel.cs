@@ -4,6 +4,7 @@ using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Services.Membership;
+using Next2.Services.Notifications;
 using Next2.Views.Tablet;
 using Next2.Views.Tablet.Dialogs;
 using Prism.Events;
@@ -26,6 +27,7 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMapper _mapper;
         private readonly IMembershipService _membershipService;
+        private readonly INotificationsService _notificationsService;
 
         private MembershipModelDTO _member;
         private List<MemberBindableModel> _allMembers = new();
@@ -34,11 +36,13 @@ namespace Next2.ViewModels.Tablet
             IMapper mapper,
             INavigationService navigationService,
             IEventAggregator eventAggregator,
+            INotificationsService notificationsService,
             IMembershipService membershipService)
             : base(navigationService)
         {
             _mapper = mapper;
             _membershipService = membershipService;
+            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -221,7 +225,7 @@ namespace Next2.ViewModels.Tablet
 
         private async void MembershipEditDialogCallBack(IDialogParameters parameters)
         {
-            await CloseAllPopupAsync();
+            await _notificationsService.CloseAllPopupAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.UPDATE, out MemberBindableModel member))
             {
@@ -249,7 +253,7 @@ namespace Next2.ViewModels.Tablet
                 await RefreshMembersAsync();
             }
 
-            await CloseAllPopupAsync();
+            await _notificationsService.CloseAllPopupAsync();
         }
 
         #endregion

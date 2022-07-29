@@ -4,6 +4,7 @@ using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Services.Customers;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
@@ -26,6 +27,7 @@ namespace Next2.ViewModels
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
+        private readonly INotificationsService _notificationsService;
 
         private ICommand _tapPaymentOptionCommand;
 
@@ -38,12 +40,14 @@ namespace Next2.ViewModels
             ICustomersService customersService,
             IOrderService orderService,
             IMapper mapper,
+            INotificationsService notificationsService,
             PaidOrderBindableModel order)
             : base(navigationService)
         {
             _customersService = customersService;
             _orderService = orderService;
             _mapper = mapper;
+            _notificationsService = notificationsService;
 
             Order = order;
 
@@ -493,7 +497,7 @@ namespace Next2.ViewModels
 
         private async void GiftCardViewDialogCallBack(IDialogParameters parameters)
         {
-            await CloseAllPopupAsync();
+            await _notificationsService.CloseAllPopupAsync();
 
             if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
             {

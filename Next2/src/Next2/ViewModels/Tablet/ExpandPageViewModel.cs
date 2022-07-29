@@ -4,6 +4,7 @@ using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Next2.Services.Menu;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -22,17 +23,20 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
+        private readonly INotificationsService _notificationsService;
 
         private bool _shouldOrderDishesByDESC;
 
         public ExpandPageViewModel(
             INavigationService navigationService,
             IOrderService orderService,
+            INotificationsService notificationsService,
             IMenuService menuService)
             : base(navigationService)
         {
             _menuService = menuService;
             _orderService = orderService;
+            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -117,7 +121,7 @@ namespace Next2.ViewModels.Tablet
                     {
                         await _orderService.UpdateCurrentOrderAsync();
 
-                        await CloseAllPopupAsync();
+                        await _notificationsService.CloseAllPopupAsync();
 
                         var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
                         {
@@ -131,7 +135,7 @@ namespace Next2.ViewModels.Tablet
             }
             else
             {
-                await CloseAllPopupAsync();
+                await _notificationsService.CloseAllPopupAsync();
             }
         }
 
