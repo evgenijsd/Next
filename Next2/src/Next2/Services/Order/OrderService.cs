@@ -481,10 +481,11 @@ namespace Next2.Services.Order
         public async Task<AOResult<Guid>> UpdateOrderAsync(OrderModelDTO order)
         {
             var result = new AOResult<Guid>();
-            var updateCommand = order.ToUpdateOrderCommand();
 
             try
             {
+                var updateCommand = order.ToUpdateOrderCommand();
+
                 var query = $"{Constants.API.HOST_URL}/api/orders";
 
                 var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, query, updateCommand);

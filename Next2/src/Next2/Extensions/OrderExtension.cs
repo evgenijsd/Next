@@ -74,11 +74,11 @@ namespace Next2.Extensions
                     SelectedProducts = x.SelectedProducts.Select(x => new IncomingSelectedProductModel()
                     {
                         Comment = x?.Comment,
-                        ProductId = x.Product.Id,
-                        SelectedOptionsId = x?.SelectedOptions.Select(x => x.Id).ToArray(),
-                        SelectedIngredientsId = x.SelectedIngredients?.Select(x => x.Id),
-                        AddedIngredientsId = x.AddedIngredients?.Select(x => x.Id),
-                        ExcludedIngredientsId = x.ExcludedIngredients?.Select(x => x.Id),
+                        ProductId = x?.Product.Id,
+                        SelectedOptionsId = x?.SelectedOptions?.Select(x => x.Id).ToArray(),
+                        SelectedIngredientsId = x?.SelectedIngredients?.Select(x => x.Id),
+                        AddedIngredientsId = x?.AddedIngredients?.Select(x => x.Id),
+                        ExcludedIngredientsId = x?.ExcludedIngredients?.Select(x => x.Id),
                     }),
                 }),
             });
@@ -101,7 +101,7 @@ namespace Next2.Extensions
                 DiscountPrice = order?.DiscountPrice,
                 SubTotalPrice = order?.SubTotalPrice,
                 IsCashPayment = order.IsCashPayment,
-                CouponId = order?.Coupon?.Id,
+                CouponId = order.Coupon?.Id,
                 DiscountId = order?.Discount == null || order?.Discount?.Id == Guid.Empty
                     ? null
                     : order?.Discount?.Id,
