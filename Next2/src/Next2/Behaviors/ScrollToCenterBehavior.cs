@@ -43,7 +43,7 @@ namespace Next2.Behaviors
                 {
                     _collection.ScrollTo(_collection.SelectedItem, position: ScrollToPosition.Center, animate: false);
                 }
-                else if (_collection.SelectionMode == SelectionMode.Multiple && e.CurrentSelection.Count != e.PreviousSelection.Count)
+                else if (e.CurrentSelection.Count != e.PreviousSelection.Count)
                 {
                     var selectedItem = e.CurrentSelection.Except(e.PreviousSelection).FirstOrDefault();
                     _collection.ScrollTo(selectedItem, position: ScrollToPosition.Center, animate: false);
