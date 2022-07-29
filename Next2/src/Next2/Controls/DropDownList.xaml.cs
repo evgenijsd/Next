@@ -54,13 +54,13 @@ namespace Next2.Controls
 
         public static readonly BindableProperty HeaderTextSizeProperty = BindableProperty.Create(
             propertyName: nameof(HeaderTextSize),
-            returnType: typeof(int),
+            returnType: typeof(double),
             declaringType: typeof(DropDownList),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public int HeaderTextSize
+        public double HeaderTextSize
         {
-            get => (int)GetValue(HeaderTextSizeProperty);
+            get => (double)GetValue(HeaderTextSizeProperty);
             set => SetValue(HeaderTextSizeProperty, value);
         }
 
@@ -79,13 +79,13 @@ namespace Next2.Controls
 
         public static readonly BindableProperty HeaderTextProperty = BindableProperty.Create(
             propertyName: nameof(HeaderText),
-            returnType: typeof(string),
+            returnType: typeof(FormattedString),
             declaringType: typeof(DropDownList),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public string HeaderText
+        public FormattedString HeaderText
         {
-            get => (string)GetValue(HeaderTextProperty);
+            get => (FormattedString)GetValue(HeaderTextProperty);
             set => SetValue(HeaderTextProperty, value);
         }
 
@@ -231,6 +231,17 @@ namespace Next2.Controls
         {
             get => (bool)GetValue(ShouldTranslationYProperty);
             set => SetValue(ShouldTranslationYProperty, value);
+        }
+
+        public static readonly BindableProperty SelectionChangedCommandProperty = BindableProperty.Create(
+            propertyName: nameof(SelectionChangedCommand),
+            returnType: typeof(ICommand),
+            declaringType: typeof(DropDownList));
+
+        public ICommand SelectionChangedCommand
+        {
+            get => (ICommand)GetValue(SelectionChangedCommandProperty);
+            set => SetValue(SelectionChangedCommandProperty, value);
         }
 
         public double ListHeight { get; private set; }

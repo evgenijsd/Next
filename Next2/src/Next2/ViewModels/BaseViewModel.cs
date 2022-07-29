@@ -31,65 +31,6 @@ namespace Next2.ViewModels
 
         #endregion
 
-        #region -- Protected helpers --
-
-        protected async Task ResponseToBadRequestAsync(string statusCode)
-        {
-            if (statusCode == Constants.StatusCode.UNAUTHORIZED)
-            {
-                var authenticationService = App.Resolve<IAuthenticationService>();
-
-                authenticationService.ClearSession();
-
-                var navigationParameters = new NavigationParameters
-                {
-                    { Constants.Navigations.LOGOUT, true },
-                };
-
-                await _navigationService.NavigateAsync($"{nameof(LoginPage)}", navigationParameters);
-            }
-            else if (statusCode == Constants.StatusCode.SOCKET_CLOSED)
-            {
-                await ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["RequestTimedOut"],
-                    LocalizationResourceManager.Current["Ok"]);
-            }
-            else
-            {
-                await ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["SomethingWentWrong"],
-                    LocalizationResourceManager.Current["Ok"]);
-            }
-        }
-
-        protected Task ShowInfoDialogAsync(string titleText, string descriptionText, string okText)
-        {
-            var parameters = new DialogParameters
-            {
-                { Constants.DialogParameterKeys.TITLE, titleText },
-                { Constants.DialogParameterKeys.DESCRIPTION,  descriptionText },
-                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, okText },
-            };
-
-            PopupPage infoDialog = App.IsTablet
-                ? new Views.Tablet.Dialogs.InfoDialog(parameters, () => PopupNavigation.PopAsync())
-                : new Views.Mobile.Dialogs.InfoDialog(parameters, () => PopupNavigation.PopAsync());
-
-            return PopupNavigation.PushAsync(infoDialog);
-        }
-
-        protected async Task CloseAllPopupAsync()
-        {
-            if (PopupNavigation.PopupStack.Any())
-            {
-                await PopupNavigation.PopAllAsync();
-            }
-        }
-
-        #endregion
-
         #region -- IDestructible implementation --
 
         public virtual void Destroy()

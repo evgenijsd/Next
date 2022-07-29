@@ -1,5 +1,6 @@
 using Next2.Enums;
 using Next2.Services.Authentication;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
@@ -17,15 +18,18 @@ namespace Next2.ViewModels
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IOrderService _orderService;
+        private readonly INotificationsService _notificationsService;
 
         public SettingsViewModel(
             INavigationService navigationService,
             IAuthenticationService authenticationService,
+            INotificationsService notificationsService,
             IOrderService orderService)
             : base(navigationService)
         {
             _authenticationService = authenticationService;
             _orderService = orderService;
+            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -61,7 +65,7 @@ namespace Next2.ViewModels
             {
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool result) && result)
                 {
-                    await CloseAllPopupAsync();
+                    await _notificationsService.CloseAllPopupAsync();
 
                     var logoutResult = await _authenticationService.LogoutAsync();
 
@@ -79,7 +83,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await CloseAllPopupAsync();
+                    await _notificationsService.CloseAllPopupAsync();
                 }
             }
         }

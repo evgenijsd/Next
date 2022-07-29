@@ -3,6 +3,7 @@ using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.Bindables;
 using Next2.Services.Authentication;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
@@ -23,22 +24,24 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IOrderService _orderService;
+        private readonly INotificationsService _notificationsService;
 
         public MenuPageViewModel(
             INavigationService navigationService,
             IAuthenticationService authenticationService,
             NewOrderViewModel newOrderViewModel,
-            HoldItemsViewModel holdItemsViewModel,
+            HoldDishesViewModel holdDishesViewModel,
             OrderTabsViewModel orderTabsViewModel,
             ReservationsViewModel reservationsViewModel,
             MembershipViewModel membershipViewModel,
             CustomersViewModel customersViewModel,
             SettingsViewModel settingsViewModel,
+            INotificationsService notificationsService,
             IOrderService orderService)
             : base(navigationService)
         {
             NewOrderViewModel = newOrderViewModel;
-            HoldItemsViewModel = holdItemsViewModel;
+            HoldDishesViewModel = holdDishesViewModel;
             OrderTabsViewModel = orderTabsViewModel;
             ReservationsViewModel = reservationsViewModel;
             MembershipViewModel = membershipViewModel;
@@ -46,6 +49,7 @@ namespace Next2.ViewModels.Tablet
             SettingsViewModel = settingsViewModel;
             _authenticationService = authenticationService;
             _orderService = orderService;
+            _notificationsService = notificationsService;
 
             InitMenuItems();
 
@@ -74,7 +78,7 @@ namespace Next2.ViewModels.Tablet
 
         public NewOrderViewModel NewOrderViewModel { get; set; }
 
-        public HoldItemsViewModel HoldItemsViewModel { get; set; }
+        public HoldDishesViewModel HoldDishesViewModel { get; set; }
 
         public OrderTabsViewModel OrderTabsViewModel { get; set; }
 
@@ -191,7 +195,7 @@ namespace Next2.ViewModels.Tablet
                     State = EMenuItems.HoldItems,
                     Title = "Hold Items",
                     ImagePath = "ic_time_circle_30x30.png",
-                    ViewModel = HoldItemsViewModel,
+                    ViewModel = HoldDishesViewModel,
                 },
                 new MenuItemBindableModel()
                 {
@@ -257,7 +261,7 @@ namespace Next2.ViewModels.Tablet
             {
                 if (result)
                 {
-                    await CloseAllPopupAsync();
+                    await _notificationsService.CloseAllPopupAsync();
 
                     var logoutResult = await _authenticationService.LogoutAsync();
 
@@ -277,7 +281,7 @@ namespace Next2.ViewModels.Tablet
                 }
                 else
                 {
-                    await CloseAllPopupAsync();
+                    await _notificationsService.CloseAllPopupAsync();
                 }
             }
         }

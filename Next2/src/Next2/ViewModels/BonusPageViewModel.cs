@@ -4,6 +4,7 @@ using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Next2.Services.Bonuses;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Prism.Navigation;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace Next2.ViewModels
         private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
         private readonly IBonusesService _bonusesService;
+        private readonly INotificationsService _notificationsService;
 
         private int _indexOfSeat;
         private int _indexOfSelectedDish = -1;
@@ -30,12 +32,14 @@ namespace Next2.ViewModels
             INavigationService navigationService,
             IOrderService orderService,
             IMapper mapper,
+            INotificationsService notificationsService,
             IBonusesService bonusesService)
             : base(navigationService)
         {
             _mapper = mapper;
             _bonusesService = bonusesService;
             _orderService = orderService;
+            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -132,7 +136,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await ShowInfoDialogAsync(
+                    await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -171,7 +175,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(couponResult.Exception?.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(couponResult.Exception?.Message);
                 }
             }
 
@@ -193,7 +197,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(discountResult.Exception?.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(discountResult.Exception?.Message);
                 }
             }
 

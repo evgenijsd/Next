@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Models.Bindables;
 using Next2.Services.Menu;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
@@ -20,6 +21,8 @@ namespace Next2.ViewModels.Mobile
         private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
         private readonly IMenuService _menuService;
+        private readonly INotificationsService _notificationsService;
+
         private int _indexOfSeat;
         private bool _isModifiedDish;
 
@@ -88,7 +91,7 @@ namespace Next2.ViewModels.Mobile
         {
             return IsInternetConnected
                 ? _navigationService.NavigateAsync(nameof(ModificationsPage))
-                : ShowInfoDialogAsync(
+                : _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -114,7 +117,7 @@ namespace Next2.ViewModels.Mobile
         {
             if (IsInternetConnected)
             {
-                await CloseAllPopupAsync();
+                await _notificationsService.CloseAllPopupAsync();
 
                 if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
                 {
@@ -141,12 +144,12 @@ namespace Next2.ViewModels.Mobile
                             {
                                 _orderService.CurrentOrder = _tempCurrentOrder;
 
-                                await ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+                                await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                             }
                         }
                         else
                         {
-                            await ShowInfoDialogAsync(
+                            await _notificationsService.ShowInfoDialogAsync(
                                 LocalizationResourceManager.Current["Error"],
                                 LocalizationResourceManager.Current["SomethingWentWrong"],
                                 LocalizationResourceManager.Current["Ok"]);
@@ -156,9 +159,9 @@ namespace Next2.ViewModels.Mobile
             }
             else
             {
-                await CloseAllPopupAsync();
+                await _notificationsService.CloseAllPopupAsync();
 
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
