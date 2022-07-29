@@ -20,7 +20,7 @@ namespace Next2.Controls
             propertyName: nameof(Keyboard),
             returnType: typeof(Keyboard),
             declaringType: typeof(GuardEntry),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Keyboard Keyboard
         {
@@ -32,7 +32,7 @@ namespace Next2.Controls
             propertyName: nameof(MaxLength),
             returnType: typeof(int),
             declaringType: typeof(GuardEntry),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int MaxLength
         {
@@ -45,7 +45,7 @@ namespace Next2.Controls
             returnType: typeof(float),
             defaultValue: 3.0f,
             declaringType: typeof(GuardEntry),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public float CornerRadius
         {
@@ -70,7 +70,7 @@ namespace Next2.Controls
             returnType: typeof(double),
             defaultValue: 14.0d,
             declaringType: typeof(GuardEntry),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double TextSize
         {
@@ -82,7 +82,7 @@ namespace Next2.Controls
             propertyName: nameof(Placeholder),
             returnType: typeof(string),
             declaringType: typeof(GuardEntry),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Placeholder
         {
@@ -94,7 +94,7 @@ namespace Next2.Controls
             propertyName: nameof(ErrorText),
             returnType: typeof(string),
             declaringType: typeof(GuardEntry),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string ErrorText
         {
@@ -119,7 +119,8 @@ namespace Next2.Controls
             typeof(ObservableCollection<Behavior<NoActionMenuEntry>>),
             typeof(GuardEntry),
             propertyChanged: (b, o, n) =>
-            ((GuardEntry)b).OnItemsSourcePropertyChanged((IEnumerable)o, (IEnumerable)n));
+            ((GuardEntry)b).OnItemsSourcePropertyChanged((IEnumerable)o, (IEnumerable)n),
+            defaultBindingMode: BindingMode.OneWay);
 
         public ObservableCollection<Behavior<NoActionMenuEntry>> EntryBehaviors
         {

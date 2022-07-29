@@ -13,10 +13,10 @@ namespace Next2.Controls.Buttons
         #region -- Public properties --
 
         public static readonly BindableProperty TitleProperty = BindableProperty.Create(
-         propertyName: nameof(Title),
-         returnType: typeof(string),
-         declaringType: typeof(NumericKeyboardButton),
-         defaultBindingMode: BindingMode.TwoWay);
+            propertyName: nameof(Title),
+            returnType: typeof(string),
+            declaringType: typeof(NumericKeyboardButton),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Title
         {
@@ -28,7 +28,8 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(FontFamily),
             returnType: typeof(string),
             declaringType: typeof(NumericKeyboardButton),
-            defaultValue: "Barlow-Bold");
+            defaultValue: "Barlow-Bold",
+            defaultBindingMode: BindingMode.OneWay);
 
         public string FontFamily
         {
@@ -37,11 +38,11 @@ namespace Next2.Controls.Buttons
         }
 
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
-         propertyName: nameof(FontSize),
-         returnType: typeof(double),
-         defaultValue: 24d,
-         declaringType: typeof(NumericKeyboardButton),
-         defaultBindingMode: BindingMode.TwoWay);
+            propertyName: nameof(FontSize),
+            returnType: typeof(double),
+            defaultValue: 24d,
+            declaringType: typeof(NumericKeyboardButton),
+            defaultBindingMode: BindingMode.OneWay);
 
         public double FontSize
         {
@@ -53,7 +54,7 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(TapGestureRecognizerCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(NumericKeyboardButton),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand TapGestureRecognizerCommand
         {

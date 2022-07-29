@@ -19,7 +19,7 @@ namespace Next2.Controls
             propertyName: nameof(IndexLastVisible),
             returnType: typeof(int),
             declaringType: typeof(CustomCollectionView),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWayToSource);
 
         public int IndexLastVisible
         {

@@ -14,7 +14,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
-            declaringType: typeof(SubCategoryItemTemplate));
+            declaringType: typeof(SubCategoryItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Text
         {
@@ -27,7 +28,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(float),
             declaringType: typeof(SubCategoryItemTemplate),
             defaultValue: 12f,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public float FontSize
         {
@@ -40,7 +41,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(string),
             declaringType: typeof(SubCategoryItemTemplate),
             defaultValue: string.Empty,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string FontFamily
         {
@@ -52,7 +53,8 @@ namespace Next2.Controls.Templates
             propertyName: nameof(TextMargin),
             returnType: typeof(Thickness),
             defaultValue: new Thickness(0),
-            declaringType: typeof(SubCategoryItemTemplate));
+            declaringType: typeof(SubCategoryItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public Thickness TextMargin
         {

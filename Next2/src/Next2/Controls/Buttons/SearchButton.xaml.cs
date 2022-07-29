@@ -19,7 +19,7 @@ namespace Next2.Controls.Buttons
             returnType: typeof(float),
             declaringType: typeof(SearchButton),
             defaultValue: 0F,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public float CornerRadius
         {
@@ -45,7 +45,7 @@ namespace Next2.Controls.Buttons
             returnType: typeof(double),
             declaringType: typeof(SearchButton),
             defaultValue: 12d,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double FontSize
         {
@@ -58,7 +58,7 @@ namespace Next2.Controls.Buttons
             returnType: typeof(string),
             declaringType: typeof(SearchButton),
             defaultValue: string.Empty,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Placeholder
         {
@@ -70,7 +70,7 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(BorderColor),
             returnType: typeof(Color),
             declaringType: typeof(SearchButton),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color BorderColor
         {
@@ -82,7 +82,7 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(BackColor),
             returnType: typeof(Color),
             declaringType: typeof(SearchButton),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color BackColor
         {
@@ -94,7 +94,7 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(TextColor),
             returnType: typeof(Color),
             declaringType: typeof(SearchButton),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color TextColor
         {
@@ -106,7 +106,7 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(Command),
             returnType: typeof(ICommand),
             declaringType: typeof(SearchButton),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand Command
         {
@@ -118,7 +118,7 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(ClearCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(SearchButton),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand ClearCommand
         {

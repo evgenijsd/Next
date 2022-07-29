@@ -19,7 +19,8 @@ namespace Next2.Controls
             nameof(ItemsSource),
             typeof(ICollection),
             typeof(Spoiler),
-            default(ICollection));
+            default(ICollection),
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICollection ItemsSource
         {
@@ -42,7 +43,8 @@ namespace Next2.Controls
         public static readonly BindableProperty SelectionChangedCommandProperty = BindableProperty.Create(
             propertyName: nameof(SelectionChangedCommand),
             returnType: typeof(ICommand),
-            declaringType: typeof(Spoiler));
+            declaringType: typeof(Spoiler),
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand SelectionChangedCommand
         {
@@ -53,7 +55,8 @@ namespace Next2.Controls
         public static readonly BindableProperty SelectionChangedCommandParameterProperty = BindableProperty.Create(
             propertyName: nameof(SelectionChangedCommandParameter),
             returnType: typeof(object),
-            declaringType: typeof(Spoiler));
+            declaringType: typeof(Spoiler),
+            defaultBindingMode: BindingMode.OneWay);
 
         public object SelectionChangedCommandParameter
         {
@@ -64,7 +67,8 @@ namespace Next2.Controls
         public static readonly BindableProperty HeaderTemplateProperty = BindableProperty.Create(
             propertyName: nameof(HeaderTemplate),
             returnType: typeof(View),
-            declaringType: typeof(Spoiler));
+            declaringType: typeof(Spoiler),
+            defaultBindingMode: BindingMode.OneWay);
 
         public View HeaderTemplate
         {
@@ -75,7 +79,8 @@ namespace Next2.Controls
         public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(
             propertyName: nameof(ItemTemplate),
             returnType: typeof(DataTemplate),
-            declaringType: typeof(Spoiler));
+            declaringType: typeof(Spoiler),
+            defaultBindingMode: BindingMode.OneWay);
 
         public DataTemplate ItemTemplate
         {
@@ -98,7 +103,8 @@ namespace Next2.Controls
         public static readonly BindableProperty HeightListProperty = BindableProperty.Create(
             propertyName: nameof(HeightList),
             returnType: typeof(double),
-            declaringType: typeof(Spoiler));
+            declaringType: typeof(Spoiler),
+            defaultBindingMode: BindingMode.TwoWay);
 
         public double HeightList
         {

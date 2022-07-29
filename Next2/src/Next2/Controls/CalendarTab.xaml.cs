@@ -64,7 +64,7 @@ namespace Next2.Controls
             returnType: typeof(DateTime?),
             declaringType: typeof(CalendarTab),
             defaultValue: null,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public DateTime? SelectedStartDate
         {
@@ -77,7 +77,7 @@ namespace Next2.Controls
             returnType: typeof(string),
             declaringType: typeof(CalendarTab),
             defaultValue: Strings.Birthday,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Title
         {
@@ -102,7 +102,8 @@ namespace Next2.Controls
             propertyName: nameof(IsSelectedYearVisible),
             returnType: typeof(bool),
             declaringType: typeof(CalendarTab),
-            defaultValue: true);
+            defaultValue: true,
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsSelectedYearVisible
         {
@@ -127,7 +128,7 @@ namespace Next2.Controls
             returnType: typeof(int),
             declaringType: typeof(CalendarTab),
             defaultValue: 0,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int OffsetYears
         {

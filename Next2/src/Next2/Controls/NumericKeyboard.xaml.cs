@@ -43,7 +43,7 @@ namespace Next2.Controls
             propertyName: nameof(ButtonBackgroundColor),
             returnType: typeof(Color),
             declaringType: typeof(NumericKeyboard),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color ButtonBackgroundColor
         {
@@ -56,7 +56,7 @@ namespace Next2.Controls
             returnType: typeof(string),
             defaultValue: "{0}",
             declaringType: typeof(NumericKeyboard),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string ValueFormat
         {
@@ -69,7 +69,7 @@ namespace Next2.Controls
             returnType: typeof(decimal),
             defaultValue: 1000m,
             declaringType: typeof(NumericKeyboard),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public decimal MaxValue
         {
@@ -93,7 +93,7 @@ namespace Next2.Controls
             propertyName: nameof(IsKeyboardEnabled),
             returnType: typeof(bool),
             declaringType: typeof(NumericKeyboard),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsKeyboardEnabled
         {
@@ -105,7 +105,7 @@ namespace Next2.Controls
             propertyName: nameof(IsTextRightToLeft),
             returnType: typeof(bool),
             declaringType: typeof(NumericKeyboard),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsTextRightToLeft
         {
@@ -117,7 +117,7 @@ namespace Next2.Controls
             propertyName: nameof(Placeholder),
             returnType: typeof(string),
             declaringType: typeof(NumericKeyboard),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Placeholder
         {

@@ -45,7 +45,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(BackgroundColorButton),
             returnType: typeof(Color),
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color BackgroundColorButton
         {
@@ -58,7 +58,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(string),
             defaultValue: "{0}",
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string ValueFormat
         {
@@ -71,7 +71,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(int),
             defaultValue: 6,
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int MaxLength
         {
@@ -95,7 +95,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(IsNumericMode),
             returnType: typeof(bool),
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsNumericMode
         {
@@ -107,7 +107,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(IsTextRightToLeft),
             returnType: typeof(bool),
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsTextRightToLeft
         {
@@ -119,7 +119,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(IsUserLogIn),
             returnType: typeof(bool),
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsUserLogIn
         {
@@ -131,7 +131,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(PlaceHolder),
             returnType: typeof(string),
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string PlaceHolder
         {
@@ -155,7 +155,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(ErrorPlaceHolder),
             returnType: typeof(string),
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string ErrorPlaceHolder
         {
@@ -167,7 +167,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(IsErrorPlaceHolderVisible),
             returnType: typeof(bool),
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsErrorPlaceHolderVisible
         {
