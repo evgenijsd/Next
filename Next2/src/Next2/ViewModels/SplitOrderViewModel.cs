@@ -4,6 +4,7 @@ using Next2.Extensions;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -24,6 +25,7 @@ namespace Next2.ViewModels
     {
         private readonly IOrderService _orderService;
         private readonly IPopupNavigation _popupNavigation;
+        private readonly INotificationsService _notificationsService;
 
         private bool _isOneTime = true;
         private int _selectedSeatNumber = 0;
@@ -31,11 +33,13 @@ namespace Next2.ViewModels
         public SplitOrderViewModel(
             INavigationService navigationService,
             IPopupNavigation popupNavigation,
+            INotificationsService notificationsService,
             IOrderService orderService)
             : base(navigationService)
         {
             _orderService = orderService;
             _popupNavigation = popupNavigation;
+            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -150,7 +154,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await CloseAllPopupAsync();
+                await _notificationsService.CloseAllPopupAsync();
             }
         }
 
@@ -208,7 +212,7 @@ namespace Next2.ViewModels
             {
                 if (SelectedDish.HasSplittedPrice && condition is not ESplitOrderConditions.BySeats)
                 {
-                    await ShowInfoDialogAsync(
+                    await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Warning"],
                         LocalizationResourceManager.Current["ThisDishAlreadySplitted"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -231,7 +235,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Warning"],
                     LocalizationResourceManager.Current["CannotSplitWithoutSeats"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -264,9 +268,9 @@ namespace Next2.ViewModels
 
         private async Task EmergencyRestoreSeatsAsync(string exeptionMessage)
         {
-            await CloseAllPopupAsync();
+            await _notificationsService.CloseAllPopupAsync();
 
-            await ResponseToBadRequestAsync(exeptionMessage);
+            await _notificationsService.ResponseToBadRequestAsync(exeptionMessage);
 
             RestoreSeats();
         }
@@ -275,7 +279,7 @@ namespace Next2.ViewModels
         {
             int successfullCounter = 0;
 
-            await CloseAllPopupAsync();
+            await _notificationsService.CloseAllPopupAsync();
 
             foreach (var group in splittedBySeatsGroups)
             {
@@ -342,7 +346,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await ResponseToBadRequestAsync(updateTableResult.Exception.Message);
+                await _notificationsService.ResponseToBadRequestAsync(updateTableResult.Exception.Message);
             }
         }
 

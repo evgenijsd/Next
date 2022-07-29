@@ -604,7 +604,7 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await ShowInfoDialogAsync(
+                        await _notificationsService.ShowInfoDialogAsync(
                             LocalizationResourceManager.Current["Warning"],
                             LocalizationResourceManager.Current["CannotSplitWithoutSeats"],
                             LocalizationResourceManager.Current["Ok"]);
@@ -612,12 +612,12 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(resultOfGettingOrder.Exception.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfGettingOrder.Exception.Message);
                 }
             }
             else
             {
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Warning"],
                     LocalizationResourceManager.Current["CannotSplitWithZeroCost"],
                     LocalizationResourceManager.Current["Ok"]);
