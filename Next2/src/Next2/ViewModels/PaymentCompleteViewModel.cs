@@ -153,7 +153,6 @@ namespace Next2.ViewModels
 
                 if (Order.Customer is not null && Order.Customer.GiftCards.Any())
                 {
-                    Order.GiftCardsNumber = Order.Customer.GiftCards.Count;
                     Order.Total += Order.GiftCard;
                     Order.GiftCard = 0;
                     Order.RemainingGiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
@@ -438,9 +437,7 @@ namespace Next2.ViewModels
                 {
                     var isNoBadServerResponse = true;
 
-                    var isCustomerRegistrated = Order.Customer is not null;
-
-                    if (isCustomerRegistrated && Order.GiftCard != 0)
+                    if (Order.Customer is not null && Order.GiftCard != 0)
                     {
                         isNoBadServerResponse = await GiftCardFinishPayment();
                     }
@@ -637,7 +634,7 @@ namespace Next2.ViewModels
 
                 var giftCards = Order.Customer.GiftCards;
 
-                foreach (var card in Order.Customer.GiftCards)
+                foreach (var card in giftCards)
                 {
                     _tempGiftCards.Add(_mapper.Map<GiftCardModelDTO>(card));
                 }
