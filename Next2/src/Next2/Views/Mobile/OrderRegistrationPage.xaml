@@ -61,15 +61,11 @@
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
             </Style>
 
-            <Style x:Key="IconBorderButtonStyle_i2" TargetType="buttons:IconBorderButton" BasedOn="{StaticResource IconBorderButtonStyle_i1}">
-                <Setter Property="Padding" Value="10" />
-                <Setter Property="Border">
-                    <Setter.Value>
-                        <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="{OnPlatform Android=2, iOS=1}" />
-                    </Setter.Value>
-                </Setter>
+            <Style x:Key="IconButtonStyle_i2" TargetType="buttons:IconButton">
+                <Setter Property="Padding" Value="9"/>
+                <Setter Property="CornerRadius" Value="4"/>
             </Style>
-                        
+
         </Grid.Resources>
                         
         <!-- HEADER, 1 ROW -->
@@ -199,11 +195,19 @@
             ItemsSource="{Binding Tables}">
 
             <controls:DropDownList.Triggers>
+
+                <DataTrigger TargetType="controls:DropDownList" Binding="{Binding SelectedTable, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
+
+                    <Setter Property="HeaderText" Value="{xct:Translate NoTablesAvailable}"/>
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
+
+                </DataTrigger>
                 
                 <DataTrigger TargetType="controls:DropDownList" Binding="{Binding IsOrderSavedNotificationVisible}" Value="True">
                         
                     <Setter Property="IsEnabled" Value="False"/>
-                    <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
+                    <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
                         
                 </DataTrigger>
                 
@@ -305,8 +309,8 @@
                                     FontSize="{DynamicResource TSize_i8}"
                                     VerticalOptions="Start"
                                     VerticalTextAlignment="Center"
-                                    Margin="5, 5, 0, 0" />
-
+                                    Margin="{OnPlatform Android='5, 5, 0, 0', iOS='5, 9, 0, 0'}"/>
+                                
                             </StackLayout>
 
                         </Grid>
@@ -360,7 +364,7 @@
             <!-- SUMMARY HEADER -->
             <StackLayout
                 Padding="17, 11"
-                Spacing="13"
+                Spacing="15"
                 Orientation="Horizontal">
 
                 <StackLayout>
@@ -378,22 +382,22 @@
 
                 </StackLayout>
 
-                <buttons:IconBorderButton
-                    Style="{DynamicResource IconBorderButtonStyle_i2}"
+                <buttons:IconButton
+                    Style="{DynamicResource IconButtonStyle_i2}"
                     HorizontalOptions="EndAndExpand"
                     IconSource="ic_time_circle_40x40"
-                    Command="{Binding OpenHoldSelectionCommand}" />
+                    xct:TouchEffect.Command="{Binding OpenHoldSelectionCommand}" />
 
-                <buttons:IconBorderButton
-                    Style="{DynamicResource IconBorderButtonStyle_i2}"
+                <buttons:IconButton
+                    Style="{DynamicResource IconButtonStyle_i2}"
                     IconSource="ic_discount_48x48"
-                    Command="{Binding OpenDiscountSelectionCommand}" />
+                    xct:TouchEffect.Command="{Binding OpenDiscountSelectionCommand}" />
 
-                <buttons:IconBorderButton
+                <buttons:IconButton
                     IsVisible="{Binding IsOrderWithTax}"
-                    Style="{DynamicResource IconBorderButtonStyle_i2}"
+                    Style="{DynamicResource IconButtonStyle_i2}"
                     IconSource="ic_tax"
-                    Command="{Binding RemoveTaxFromOrderCommand}"/>
+                    xct:TouchEffect.Command="{Binding RemoveTaxFromOrderCommand}"/>
 
             </StackLayout>
 

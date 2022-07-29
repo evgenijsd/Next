@@ -162,6 +162,7 @@ namespace Next2.ViewModels
             {
                 CurrentOrder = _orderService.CurrentOrder;
                 IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
+
                 await UpdateDishGroupsAsync();
             }
 
@@ -250,6 +251,7 @@ namespace Next2.ViewModels
                 if (!resultOfUpdatingOrder.IsSuccess)
                 {
                     _orderService.CurrentOrder = _tempCurrentOrder;
+
                     await RefreshCurrentOrderAsync();
                     await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                 }
@@ -393,6 +395,7 @@ namespace Next2.ViewModels
                 }
 
                 SelectedDish = selectedDish;
+
                 seatGroup.SelectSeatCommand = _seatSelectionCommand;
                 seatGroup.DeleteSeatCommand = _deleteSeatCommand;
                 seatGroup.RemoveOrderCommand = _removeOrderCommand;

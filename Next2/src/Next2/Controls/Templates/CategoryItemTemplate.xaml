@@ -12,6 +12,7 @@
     x:Name="categoryPancakeView">
 
     <VisualStateManager.VisualStateGroups>
+        
         <VisualStateGroup Name="CommonStates">
 
             <VisualState Name="Normal">
@@ -37,61 +38,12 @@
 
         </VisualStateGroup>
 
-        <VisualStateGroup Name="AdaptiveSize">
-
-            <VisualState Name="allMini">
-
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="0" />
-                </VisualState.StateTriggers>
-
-                <VisualState.Setters>
-                    <Setter Property="WidthRequest" Value="128" />
-                </VisualState.Setters>
-
-            </VisualState>
-
-            <VisualState Name="moreiPadMini">
-
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="1025" />
-                </VisualState.StateTriggers>
-
-                <VisualState.Setters>
-                    <Setter Property="WidthRequest" Value="165" />
-                </VisualState.Setters>
-
-            </VisualState>
-
-            <VisualState Name="moreiPadMini6th">
-
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="1134" />
-                </VisualState.StateTriggers>
-
-                <VisualState.Setters>
-                    <Setter Property="WidthRequest" Value="127" />
-                </VisualState.Setters>
-
-            </VisualState>
-
-            <VisualState Name="moreiPadPro11">
-
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="1195" />
-                </VisualState.StateTriggers>
-
-                <VisualState.Setters>
-                    <Setter Property="WidthRequest" Value="98" />
-                </VisualState.Setters>
-
-            </VisualState>
-
-        </VisualStateGroup>
     </VisualStateManager.VisualStateGroups>
 
     <Label
-        Padding="0, 0, 0, 1"
+        Padding="8, 0, 8, 1"
+        VerticalOptions="CenterAndExpand"
+        HorizontalOptions="Center"
         Text="{Binding Text, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
         FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
