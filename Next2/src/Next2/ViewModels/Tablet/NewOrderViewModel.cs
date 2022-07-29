@@ -6,17 +6,18 @@ using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Next2.Services.Menu;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Services.WorkLog;
 using Next2.Views.Tablet;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -29,6 +30,7 @@ namespace Next2.ViewModels.Tablet
         private readonly IOrderService _orderService;
         private readonly IWorkLogService _workLogService;
         private readonly IMapper _mapper;
+        private readonly INotificationsService _notificationsService;
 
         private FullOrderBindableModel _tempCurrentOrder;
         private SeatBindableModel _tempCurrentSeat;
@@ -41,6 +43,7 @@ namespace Next2.ViewModels.Tablet
             OrderRegistrationViewModel orderRegistrationViewModel,
             IWorkLogService workLogService,
             IOrderService orderService,
+            INotificationsService notificationsService,
             IMapper mapper)
             : base(navigationService)
         {
@@ -48,6 +51,7 @@ namespace Next2.ViewModels.Tablet
             _orderService = orderService;
             _workLogService = workLogService;
             _mapper = mapper;
+            _notificationsService = notificationsService;
 
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
@@ -138,12 +142,7 @@ namespace Next2.ViewModels.Tablet
 
         #endregion
 
-        #region -- Private helpers --
-
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            Task.Run(() => { CurrentDateTime = DateTime.Now; });
-        }
+        #region -- Private methods --
 
         private async Task OnTapSortCommandAsync()
         {
@@ -181,7 +180,7 @@ namespace Next2.ViewModels.Tablet
 
                             if (resultOfUpdatingOrder.IsSuccess)
                             {
-                                await CloseAllPopupAsync();
+                                await _notificationsService.CloseAllPopupAsync();
 
                                 var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
                                 {
@@ -195,20 +194,20 @@ namespace Next2.ViewModels.Tablet
                             }
                             else
                             {
-                                await CloseAllPopupAsync();
+                                await _notificationsService.CloseAllPopupAsync();
 
                                 _orderService.CurrentOrder = _tempCurrentOrder;
                                 _orderService.CurrentSeat = _tempCurrentSeat;
 
                                 await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
-                                await ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
+                                await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
                             }
                         }
                         else
                         {
-                            await CloseAllPopupAsync();
+                            await _notificationsService.CloseAllPopupAsync();
 
-                            await ShowInfoDialogAsync(
+                            await _notificationsService.ShowInfoDialogAsync(
                                 LocalizationResourceManager.Current["Error"],
                                 LocalizationResourceManager.Current["SomethingWentWrong"],
                                 LocalizationResourceManager.Current["Ok"]);
@@ -217,14 +216,14 @@ namespace Next2.ViewModels.Tablet
                 }
                 else
                 {
-                    await CloseAllPopupAsync();
+                    await _notificationsService.CloseAllPopupAsync();
                 }
             }
             else
             {
-                await CloseAllPopupAsync();
+                await _notificationsService.CloseAllPopupAsync();
 
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -309,7 +308,7 @@ namespace Next2.ViewModels.Tablet
         {
             return IsInternetConnected
                 ? _navigationService.NavigateAsync(nameof(ExpandPage))
-                : ShowInfoDialogAsync(
+                : _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);

@@ -1,5 +1,6 @@
 ﻿using Next2.Enums;
 using Next2.Helpers;
+using Next2.Services.Notifications;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
@@ -13,11 +14,16 @@ namespace Next2.ViewModels.Mobile
 {
     public class TipsPageViewModel : BaseViewModel
     {
+        private readonly INotificationsService _notificationsService;
+
         private TipItem _tipItem;
 
-        public TipsPageViewModel(INavigationService navigationService)
+        public TipsPageViewModel(
+            INotificationsService notificationsService,
+            INavigationService navigationService)
             : base(navigationService)
         {
+            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -92,7 +98,7 @@ namespace Next2.ViewModels.Mobile
 
         private async void TipViewDialogCallBack(IDialogParameters parameters)
         {
-            await CloseAllPopupAsync();
+            await _notificationsService.CloseAllPopupAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, out decimal value))
             {

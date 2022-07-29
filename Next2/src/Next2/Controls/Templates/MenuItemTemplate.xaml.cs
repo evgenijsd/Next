@@ -14,7 +14,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
             propertyName: nameof(IsSelected),
             returnType: typeof(bool),
-            declaringType: typeof(MenuItemTemplate));
+            declaringType: typeof(MenuItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsSelected
         {
@@ -25,7 +26,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty ImagePathProperty = BindableProperty.Create(
             propertyName: nameof(ImagePath),
             returnType: typeof(string),
-            declaringType: typeof(MenuItemTemplate));
+            declaringType: typeof(MenuItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string ImagePath
         {
@@ -33,10 +35,24 @@ namespace Next2.Controls.Templates
             set => SetValue(ImagePathProperty, value);
         }
 
+        public static readonly BindableProperty ImageSizesProperty = BindableProperty.Create(
+            propertyName: nameof(ImageSizes),
+            returnType: typeof(Size),
+            defaultValue: new Size(22, 22),
+            declaringType: typeof(MenuItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
+
+        public Size ImageSizes
+        {
+            get => (Size)GetValue(ImageSizesProperty);
+            set => SetValue(ImageSizesProperty, value);
+        }
+
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
-            declaringType: typeof(MenuItemTemplate));
+            declaringType: typeof(MenuItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Text
         {
@@ -46,14 +62,14 @@ namespace Next2.Controls.Templates
 
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
             propertyName: nameof(FontSize),
-            returnType: typeof(float),
+            returnType: typeof(double),
             declaringType: typeof(MenuItemTemplate),
-            defaultValue: 12f,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultValue: 12d,
+            defaultBindingMode: BindingMode.OneWay);
 
-        public float FontSize
+        public double FontSize
         {
-            get => (float)GetValue(FontSizeProperty);
+            get => (double)GetValue(FontSizeProperty);
             set => SetValue(FontSizeProperty, value);
         }
 
@@ -61,8 +77,8 @@ namespace Next2.Controls.Templates
             propertyName: nameof(FontFamily),
             returnType: typeof(string),
             declaringType: typeof(MenuItemTemplate),
-            defaultValue: string.Empty,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultValue: "Barlow-Medium",
+            defaultBindingMode: BindingMode.OneWay);
 
         public string FontFamily
         {

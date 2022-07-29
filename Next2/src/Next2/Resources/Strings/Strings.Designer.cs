@@ -106,6 +106,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Tables.
+        /// </summary>
+        internal static string AllTables {
+            get {
+                return ResourceManager.GetString("AllTables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to AM.
         /// </summary>
         internal static string AM {
@@ -547,6 +556,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extend.
+        /// </summary>
+        internal static string Extend {
+            get {
+                return ResourceManager.GetString("Extend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Free.
         /// </summary>
         internal static string Free {
@@ -610,6 +628,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hold Items.
+        /// </summary>
+        internal static string HoldItems {
+            get {
+                return ResourceManager.GetString("HoldItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incorrect email.
         /// </summary>
         internal static string IncorrectEmail {
@@ -660,6 +687,15 @@ namespace Next2.Resources.Strings {
         internal static string Inventory {
             get {
                 return ResourceManager.GetString("Inventory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item.
+        /// </summary>
+        internal static string Item {
+            get {
+                return ResourceManager.GetString("Item", resourceCulture);
             }
         }
         
@@ -1223,6 +1259,24 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Release.
+        /// </summary>
+        internal static string Release {
+            get {
+                return ResourceManager.GetString("Release", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Release Time.
+        /// </summary>
+        internal static string ReleaseTime {
+            get {
+                return ResourceManager.GetString("ReleaseTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove.
         /// </summary>
         internal static string Remove {
@@ -1634,6 +1688,15 @@ namespace Next2.Resources.Strings {
         internal static string Table {
             get {
                 return ResourceManager.GetString("Table", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Table Name.
+        /// </summary>
+        internal static string TableName {
+            get {
+                return ResourceManager.GetString("TableName", resourceCulture);
             }
         }
         

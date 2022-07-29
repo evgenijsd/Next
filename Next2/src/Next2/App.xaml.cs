@@ -20,7 +20,6 @@ using Next2.Services.Rewards;
 using Next2.Services.Settings;
 using Next2.Services.WorkLog;
 using Next2.ViewModels;
-using Next2.ViewModels.Dialogs;
 using Next2.ViewModels.Mobile;
 using Next2.ViewModels.Tablet;
 using Next2.Views;
@@ -37,6 +36,8 @@ using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
 using Next2.Services.Reservation;
+using Next2.Services.OrdersHolding;
+using Next2.Services.Notifications;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 
@@ -68,6 +69,7 @@ namespace Next2
             containerRegistry.RegisterInstance(mapper);
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<IMockService, MockService>();
+            containerRegistry.RegisterSingleton<INotificationsService, NotificationsService>();
             containerRegistry.RegisterSingleton<IRestService, RestService>();
             containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
@@ -78,6 +80,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<IBonusesService, BonusesService>();
             containerRegistry.RegisterSingleton<IWorkLogService, WorkLogService>();
             containerRegistry.RegisterSingleton<IReservationService, ReservationService>();
+            containerRegistry.RegisterSingleton<IDishesHoldingService, DishesHoldingService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
@@ -100,21 +103,13 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<TabletViews.SplitOrderPage, SplitOrderViewModel>();
 
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
-                containerRegistry.RegisterSingleton<HoldItemsViewModel>();
+                containerRegistry.RegisterSingleton<HoldDishesViewModel>();
                 containerRegistry.RegisterSingleton<OrderTabsViewModel>();
                 containerRegistry.RegisterSingleton<ReservationsViewModel>();
                 containerRegistry.RegisterSingleton<CustomersViewModel>();
                 containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
                 containerRegistry.RegisterSingleton<OrderRegistrationViewModel>();
-
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.ConfirmDialog, ConfirmViewModel>();
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.InfoDialog, InfoDialogViewModel>();
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.MembershipEditDialog, MembershipEditDialogViewModel>();
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.EmployeeTimeClockDialog, EmployeeTimeClockViewModel>();
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.FinishPaymentDialog, FinishPaymentDialogViewModel>();
             }
             else
             {
@@ -124,7 +119,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SettingsPage, SettingsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.HoldDishesPage, HoldDishesViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderRegistrationPage, OrderRegistrationViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
@@ -141,11 +136,6 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.WaitingSignaturePage, WaitingSignaturePageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.TaxRemoveConfirmPage, TaxRemoveConfirmPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SplitOrderPage, SplitOrderViewModel>();
-
-                containerRegistry.RegisterDialog<MobileViews.Dialogs.ConfirmDialog, ConfirmViewModel>();
-                containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
-                containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
-                containerRegistry.RegisterDialog<MobileViews.Dialogs.FinishPaymentDialog, FinishPaymentDialogViewModel>();
             }
         }
 
@@ -222,7 +212,7 @@ namespace Next2
                     .ForMember(x => x.OrderType, x => x.MapFrom(s => (EOrderType)Enum.Parse(typeof(EOrderType), s.OrderType)));
                 cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
                 cfg.CreateMap<SeatBindableModel, SeatBindableModel>();
-                cfg.CreateMap<Models.Bindables.DishBindableModel, Models.Bindables.DishBindableModel>();
+                cfg.CreateMap<DishBindableModel, DishBindableModel>();
                 cfg.CreateMap<ProductBindableModel, ProductBindableModel>()
                     .AfterMap((s, d) => d.Product = s.Product);
                 cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();
@@ -232,11 +222,14 @@ namespace Next2
                 cfg.CreateMap<SimpleIngredientsCategoryModelDTO, SimpleIngredientsCategoryModelDTO>();
                 cfg.CreateMap<TableBindableModel, SimpleTableModelDTO>()
                     .ForMember(x => x.Number, s => s.MapFrom(x => x.TableNumber));
-                cfg.CreateMap<DishModelDTO, Models.Bindables.DishBindableModel>();
+                cfg.CreateMap<DishModelDTO, DishBindableModel>();
                 cfg.CreateMap<SimpleIngredientsCategoryModelDTO, IngredientsCategoryModelDTO>();
                 cfg.CreateMap<ProductBindableModel, SimpleProductModelDTO>().ReverseMap();
                 cfg.CreateMap<GiftCardModelDTO, UpdateGiftCardCommand>().ReverseMap();
                 cfg.CreateMap<SimpleProductModelDTO, SimpleProductModelDTO>();
+                cfg.CreateMap<HoldDishModel, HoldDishBindableModel>().ReverseMap();
+                cfg.CreateMap<HoldDishBindableModel, TableBindableModel>()
+                    .ForMember(x => x.Id, s => s.Ignore());
             }).CreateMapper();
         }
 

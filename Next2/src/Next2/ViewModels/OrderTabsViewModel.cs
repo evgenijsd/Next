@@ -5,11 +5,13 @@ using Next2.Helpers;
 using Next2.Helpers.Events;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
@@ -27,17 +29,20 @@ namespace Next2.ViewModels
     {
         private readonly IOrderService _orderService;
         private readonly IEventAggregator _eventAggregator;
+        private readonly INotificationsService _notificationsService;
 
         private Guid _lastSavedOrderId;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
             IOrderService orderService,
+            INotificationsService notificationsService,
             IEventAggregator eventAggregator)
             : base(navigationService)
         {
             _orderService = orderService;
             _eventAggregator = eventAggregator;
+            _notificationsService = notificationsService;
 
             _eventAggregator.GetEvent<OrderSelectedEvent>().Subscribe(SetLastSavedOrderId);
             _eventAggregator.GetEvent<OrderMovedEvent>().Subscribe(SetOrderType);
@@ -197,12 +202,12 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(gettingOrdersResult.Exception.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(gettingOrdersResult.Exception.Message);
                 }
             }
             else
             {
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -360,12 +365,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await ResponseToBadRequestAsync(orderResult.Exception.Message);
+                        await _notificationsService.ResponseToBadRequestAsync(orderResult.Exception.Message);
                     }
                 }
                 else
                 {
-                    await ShowInfoDialogAsync(
+                    await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -398,7 +403,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await CloseAllPopupAsync();
+                await _notificationsService.CloseAllPopupAsync();
             }
         }
 
@@ -427,22 +432,22 @@ namespace Next2.ViewModels
                             Orders.Remove(orderToBeRemoved);
                             Orders = new(Orders);
 
-                            await CloseAllPopupAsync();
+                            await _notificationsService.CloseAllPopupAsync();
                         }
                         else
                         {
-                            await ResponseToBadRequestAsync(updateOrderResult.Exception.Message);
+                            await _notificationsService.ResponseToBadRequestAsync(updateOrderResult.Exception.Message);
                         }
                     }
                     else
                     {
-                        await ResponseToBadRequestAsync(orderResult.Exception.Message);
+                        await _notificationsService.ResponseToBadRequestAsync(orderResult.Exception.Message);
                     }
                 }
                 else
                 {
-                    await CloseAllPopupAsync();
-                    await ShowInfoDialogAsync(
+                    await _notificationsService.CloseAllPopupAsync();
+                    await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -450,7 +455,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await CloseAllPopupAsync();
+                await _notificationsService.CloseAllPopupAsync();
             }
         }
 
@@ -486,12 +491,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await ResponseToBadRequestAsync(orderResult.Exception.Message);
+                        await _notificationsService.ResponseToBadRequestAsync(orderResult.Exception.Message);
                     }
                 }
                 else
                 {
-                    await ShowInfoDialogAsync(
+                    await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -505,12 +510,12 @@ namespace Next2.ViewModels
             {
                 if (isOrderPrintingAccepted && SelectedOrder is not null)
                 {
-                    await CloseAllPopupAsync();
+                    await _notificationsService.CloseAllPopupAsync();
                 }
             }
             else
             {
-                await CloseAllPopupAsync();
+                await _notificationsService.CloseAllPopupAsync();
             }
         }
 
@@ -551,7 +556,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(resultOfSetCurrentOrder.Exception.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfSetCurrentOrder.Exception.Message);
                 }
             }
         }
@@ -599,23 +604,23 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await ShowInfoDialogAsync(
-                            LocalizationResourceManager.Current["Warning"],
-                            LocalizationResourceManager.Current["CannotSplitWithoutSeats"],
-                            LocalizationResourceManager.Current["Ok"]);
+                        //await ShowInfoDialogAsync(
+                        //    LocalizationResourceManager.Current["Warning"],
+                        //    LocalizationResourceManager.Current["CannotSplitWithoutSeats"],
+                        //    LocalizationResourceManager.Current["Ok"]);
                     }
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(resultOfGettingOrder.Exception.Message);
+                  //  await ResponseToBadRequestAsync(resultOfGettingOrder.Exception.Message);
                 }
             }
             else
             {
-                await ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Warning"],
-                    LocalizationResourceManager.Current["CannotSplitWithZeroCost"],
-                    LocalizationResourceManager.Current["Ok"]);
+                //await ShowInfoDialogAsync(
+                //    LocalizationResourceManager.Current["Warning"],
+                //    LocalizationResourceManager.Current["CannotSplitWithZeroCost"],
+                //    LocalizationResourceManager.Current["Ok"]);
             }
         }
 
