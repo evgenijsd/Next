@@ -449,8 +449,8 @@ namespace Next2.ViewModels
                         if (isOrderClosed)
                         {
                             var navigationParameters = await SendReceiptAsync(par)
-                            ? new NavigationParameters { { Constants.Navigations.PAYMENT_COMPLETE, string.Empty } }
-                            : null;
+                                ? new NavigationParameters { { Constants.Navigations.PAYMENT_COMPLETE, string.Empty } }
+                                : null;
 
                             await _navigationService.ClearPopupStackAsync();
                             await _navigationService.NavigateAsync(nameof(MenuPage), navigationParameters);
@@ -585,8 +585,6 @@ namespace Next2.ViewModels
                     if (customer is not null)
                     {
                         customer.GiftCards.Add(giftCard);
-
-                        customer = new CustomerBindableModel(customer);
 
                         Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds = customer.GiftCardsTotalFund;
                         Order.GiftCardsNumber = Order.Customer.GiftCards.Count;
