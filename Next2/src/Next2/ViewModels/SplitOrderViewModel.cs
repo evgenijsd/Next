@@ -150,7 +150,7 @@ namespace Next2.ViewModels
             }
             else
             {
-               // await CloseAllPopupAsync();
+                await CloseAllPopupAsync();
             }
         }
 
@@ -208,10 +208,10 @@ namespace Next2.ViewModels
             {
                 if (SelectedDish.HasSplittedPrice && condition is not ESplitOrderConditions.BySeats)
                 {
-                    //await ShowInfoDialogAsync(
-                    //    LocalizationResourceManager.Current["Warning"],
-                    //    LocalizationResourceManager.Current["ThisDishAlreadySplitted"],
-                    //    LocalizationResourceManager.Current["Ok"]);
+                    await ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Warning"],
+                        LocalizationResourceManager.Current["ThisDishAlreadySplitted"],
+                        LocalizationResourceManager.Current["Ok"]);
                 }
                 else
                 {
@@ -231,10 +231,10 @@ namespace Next2.ViewModels
             }
             else
             {
-                //await ShowInfoDialogAsync(
-                //    LocalizationResourceManager.Current["Warning"],
-                //    LocalizationResourceManager.Current["CannotSplitWithoutSeats"],
-                //    LocalizationResourceManager.Current["Ok"]);
+                await ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Warning"],
+                    LocalizationResourceManager.Current["CannotSplitWithoutSeats"],
+                    LocalizationResourceManager.Current["Ok"]);
             }
         }
 
@@ -264,9 +264,10 @@ namespace Next2.ViewModels
 
         private async Task EmergencyRestoreSeatsAsync(string exeptionMessage)
         {
-            //await CloseAllPopupAsync();
+            await CloseAllPopupAsync();
 
-            //await ResponseToBadRequestAsync(exeptionMessage);
+            await ResponseToBadRequestAsync(exeptionMessage);
+
             RestoreSeats();
         }
 
@@ -274,7 +275,8 @@ namespace Next2.ViewModels
         {
             int successfullCounter = 0;
 
-            //await CloseAllPopupAsync();
+            await CloseAllPopupAsync();
+
             foreach (var group in splittedBySeatsGroups)
             {
                 var seats = Seats.Where(s => group.Any(x => x == s.SeatNumber));
@@ -340,7 +342,7 @@ namespace Next2.ViewModels
             }
             else
             {
-               // await ResponseToBadRequestAsync(updateTableResult.Exception.Message);
+                await ResponseToBadRequestAsync(updateTableResult.Exception.Message);
             }
         }
 

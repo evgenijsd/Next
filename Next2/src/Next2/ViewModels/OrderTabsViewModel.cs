@@ -604,23 +604,23 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        //await ShowInfoDialogAsync(
-                        //    LocalizationResourceManager.Current["Warning"],
-                        //    LocalizationResourceManager.Current["CannotSplitWithoutSeats"],
-                        //    LocalizationResourceManager.Current["Ok"]);
+                        await ShowInfoDialogAsync(
+                            LocalizationResourceManager.Current["Warning"],
+                            LocalizationResourceManager.Current["CannotSplitWithoutSeats"],
+                            LocalizationResourceManager.Current["Ok"]);
                     }
                 }
                 else
                 {
-                  //  await ResponseToBadRequestAsync(resultOfGettingOrder.Exception.Message);
+                    await ResponseToBadRequestAsync(resultOfGettingOrder.Exception.Message);
                 }
             }
             else
             {
-                //await ShowInfoDialogAsync(
-                //    LocalizationResourceManager.Current["Warning"],
-                //    LocalizationResourceManager.Current["CannotSplitWithZeroCost"],
-                //    LocalizationResourceManager.Current["Ok"]);
+                await ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Warning"],
+                    LocalizationResourceManager.Current["CannotSplitWithZeroCost"],
+                    LocalizationResourceManager.Current["Ok"]);
             }
         }
 
