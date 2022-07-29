@@ -1,8 +1,6 @@
-﻿using Foundation;
+﻿using System.ComponentModel;
 using Next2.Controls;
 using Next2.iOS.Renderers;
-using System.ComponentModel;
-using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 

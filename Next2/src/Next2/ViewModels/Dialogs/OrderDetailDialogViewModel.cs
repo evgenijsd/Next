@@ -1,6 +1,4 @@
-﻿using Next2.Models;
-using Next2.Models.API.DTO;
-using Next2.Models.Bindables;
+﻿using Next2.Models.Bindables;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;

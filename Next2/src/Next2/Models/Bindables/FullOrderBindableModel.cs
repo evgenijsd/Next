@@ -4,7 +4,6 @@ using Next2.Models.API.DTO;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Next2.Models.Bindables
 {

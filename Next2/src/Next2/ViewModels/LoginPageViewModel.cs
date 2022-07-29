@@ -1,9 +1,6 @@
 using Next2.Services.Authentication;
-using Next2.Services.Order;
 using Next2.Views.Mobile;
-using Prism.Events;
 using Prism.Navigation;
-using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;

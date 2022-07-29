@@ -2,7 +2,6 @@
 using Prism.Services.Dialogs;
 using System;
 using System.Windows.Input;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs

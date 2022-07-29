@@ -128,6 +128,9 @@
     <Compile Update="Controls\Buttons\BorderButton.xaml.cs">
       <DependentUpon>BorderButton.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\Buttons\IconButton.xaml.cs">
+      <DependentUpon>IconButton.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\CalendarTab.xaml.cs">
       <DependentUpon>CalendarTab2.xaml</DependentUpon>
     </Compile>
@@ -244,6 +247,9 @@
     <Compile Update="Views\Tablet\Dialogs\AddDishToOrderDialog.xaml.cs">
       <DependentUpon>AddDishToOrderDialog.xaml</DependentUpon>
 	</Compile>
+    <Compile Update="Views\Tablet\Dialogs\AddNewReservationDialog.xaml.cs">
+      <DependentUpon>AddNewReservationDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Tablet\Dialogs\InfoDialog.xaml.cs">
       <DependentUpon>InfoDialog.xaml</DependentUpon>
     </Compile>
@@ -295,7 +301,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Controls\Buttons\IconBorderButton.xaml">
+    <EmbeddedResource Update="Controls\Buttons\IconButtonIconButton.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Buttons\IconTextButton.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Calendar.xaml">
@@ -308,6 +317,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\DataLoadingState.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\NumericPicker.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Templates\ExpanderHeaderTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\TimeAndDateBar.xaml">
@@ -470,7 +485,13 @@
     <EmbeddedResource Update="Views\InputTextPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\AddNewReservationDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\FinishPaymentDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\InputDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\PaymentCompleteDialog.xaml">

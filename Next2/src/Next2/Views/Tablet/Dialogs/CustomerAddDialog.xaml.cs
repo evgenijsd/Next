@@ -1,5 +1,4 @@
-﻿using Next2.Services.Customers;
-using Next2.ViewModels.Dialogs;
+﻿using Next2.ViewModels.Dialogs;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
 using System;

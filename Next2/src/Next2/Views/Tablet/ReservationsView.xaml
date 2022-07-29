@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:local="clr-namespace:Next2"
     xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
@@ -133,7 +132,8 @@
                     BorderColor="{DynamicResource AppColor_i1}"
                     BackgroundColor="{DynamicResource AppColor_i1}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    Text="{xct:Translate AddNew}"/>
+                    Text="{xct:Translate AddNew}"
+                    Command="{Binding AddNewReservationCommand}"/>
 
             </StackLayout>
 
@@ -304,7 +304,15 @@
                                             <Label
                                                 Grid.Column="2"
                                                 Style="{DynamicResource TableCellLabelStyle}"
-                                                Text="{Binding TableNumber}" />
+                                                Text="{Binding TableNumber, StringFormat='Table {0}'}">
+
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding TableNumber}" Value="0">
+                                                        <Setter Property="Text" Value="{xct:Translate NoTable}"/>
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                                
+                                            </Label>
 
                                             <Label
                                                 Grid.Column="3"

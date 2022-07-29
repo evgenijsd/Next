@@ -1,5 +1,4 @@
 ﻿using Next2.Models;
-using Next2.Models.API.DTO;
 using Next2.Services.Customers;
 using Next2.Services.Order;
 using Prism.Mvvm;
@@ -10,7 +9,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
 {

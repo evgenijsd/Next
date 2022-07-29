@@ -61,6 +61,27 @@ namespace Next2.Services.Reservation
             return reservations.OrderBy(sortingSelector);
         }
 
+        public async Task<AOResult<int>> AddReservationAsync(ReservationModel reservation)
+        {
+            var result = new AOResult<int>();
+
+            try
+            {
+                var recordId = await _mockService.AddAsync(reservation);
+
+                if (recordId > 0)
+                {
+                    result.SetSuccess(recordId);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(AddReservationAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region -- Private helpers --

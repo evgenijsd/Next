@@ -1,7 +1,5 @@
 ﻿using Next2.Enums;
 using Next2.Models;
-using Next2.Models.API.DTO;
-using Next2.Services.Customers;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;

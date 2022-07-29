@@ -73,13 +73,47 @@
             <!--Categories header-->
             <controls:CustomNavigationBar
                 HeightImage="20"
-                Padding="32, 26, 32, 0"
+                Padding="12, 16, 12, 10"
                 Spacing="16"
                 FontSize="{DynamicResource TSize_i6}"
                 BackgroundColor="Transparent"
                 Title="{xct:Translate Categories}"
                 xct:TouchEffect.Command="{prism:GoBack}"
-                xct:TouchEffect.CommandParameter="{prism:Parameter Key={Static local:Constants+Navigations.REFRESH_ORDER}}"/>
+                xct:TouchEffect.CommandParameter="{prism:Parameter Key={Static local:Constants+Navigations.REFRESH_ORDER}}">
+
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup Name="AdaptiveStackLayoutPadding">
+
+                            <VisualState Name="miniPadding">
+
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowHeight="601"/>
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+                                    <Setter Property="Padding" Value="24, 22, 24, 0" />
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                            <VisualState Name="moreiPadMiniPadding">
+
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601"/>
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+                                    <Setter Property="Padding" Value="32, 20, 32, 0" />
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+
+            </controls:CustomNavigationBar>
 
             <CollectionView
                 MinimumHeightRequest="{Binding HeightCollectionView}"
@@ -388,7 +422,7 @@
                         <templates:SubCategoryItemTemplate
                             HeightRequest="50"
                             MinimumHeightRequest="50"
-                            TextMargin="0, 0, 0, 26"
+                            TextMargin="0, 0, 0, 8"
                             Text="{Binding Name}"
                             FontSize="{DynamicResource TSize_i6}"
                             FontFamily="Barlow-Medium">
@@ -405,6 +439,7 @@
                                         <VisualState.Setters>
                                             <Setter Property="HeightRequest" Value="82" />
                                             <Setter Property="MinimumHeightRequest" Value="82" />
+                                            <Setter Property="TextMargin" Value="0, 0, 0, 26" />
                                         </VisualState.Setters>
 
                                     </VisualState>
