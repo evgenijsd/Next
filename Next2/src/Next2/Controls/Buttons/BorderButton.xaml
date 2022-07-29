@@ -11,16 +11,16 @@
 
     <controls:CustomFrame.GestureRecognizers>
         <TapGestureRecognizer
-            Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=Command}"
-            CommandParameter="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=CommandParameter}"/>
+            Command="{Binding Command, Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}}"
+            CommandParameter="{Binding CommandParameter, Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}}"/>
         
     </controls:CustomFrame.GestureRecognizers>
     
     <Label
-        Text="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=Text}"
-        TextColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=TextColor}"
-        FontSize="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=FontSize}"
-        FontFamily="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=FontFamily}"
+        Text="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}}"
+        TextColor="{Binding TextColor, Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}}"
+        FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}}"
+        FontFamily="{Binding FontFamily, Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}}"
         HorizontalTextAlignment="Center"
         VerticalTextAlignment="Center" 
         WidthRequest="100"

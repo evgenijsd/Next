@@ -174,7 +174,7 @@
                 <Frame.Triggers>
 
                     <DataTrigger
-                        Binding="{Binding Source={x:Reference state_container}, Path=State}"
+                        Binding="{Binding State, Source={x:Reference state_container}}"
                         TargetType="Frame"
                         Value="CheckedIn">
                         
@@ -183,7 +183,7 @@
                     </DataTrigger>
 
                     <DataTrigger
-                        Binding="{Binding Source={x:Reference state_container}, Path=State}"
+                        Binding="{Binding State, Source={x:Reference state_container}}"
                         TargetType="Frame"
                         Value="CheckedOut">
                         
