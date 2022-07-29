@@ -35,7 +35,7 @@ namespace Next2.ViewModels
 
         private ICommand _tapTipItemCommand;
 
-        private List<Guid> _giftCardsIdToBeUpdated;
+        private List<Guid> _listGiftCardIDsToBeUpdated;
 
         private List<GiftCardModelDTO> _tempGiftCards;
 
@@ -435,29 +435,34 @@ namespace Next2.ViewModels
 
                 Action<IDialogParameters> callback = async (IDialogParameters par) =>
                 {
-                    var isNoBadServerResponse = true;
+                    var isServerResponseCorrect = true;
 
                     if (Order.Customer is not null && Order.GiftCard != 0)
                     {
-                        isNoBadServerResponse = await GiftCardFinishPayment();
+                        isServerResponseCorrect = await GiftCardFinishPayment();
                     }
 
-                    if (isNoBadServerResponse)
+                    if (isServerResponseCorrect)
                     {
                         var isOrderClosed = await CloseOrderAsync();
 
                         if (isOrderClosed)
                         {
-                            var navigationParameters = await SendReceiptAsync(par)
-                                ? new NavigationParameters { { Constants.Navigations.PAYMENT_COMPLETE, string.Empty } }
-                                : null;
+                            var isReceiptSuccessfullySent = await SendReceiptAsync(par);
+
+                            NavigationParameters navigationParameters = new();
+
+                            if (isReceiptSuccessfullySent)
+                            {
+                                navigationParameters.Add(Constants.Navigations.PAYMENT_COMPLETE, string.Empty);
+                            }
 
                             await _navigationService.ClearPopupStackAsync();
                             await _navigationService.NavigateAsync(nameof(MenuPage), navigationParameters);
                         }
                         else
                         {
-                            var resultOfUpdatingGiftCards = await _customersService.UpdateAllGiftCardsToPreviousStageAsync(_tempGiftCards, _giftCardsIdToBeUpdated);
+                            var resultOfUpdatingGiftCards = await _customersService.UpdateAllGiftCardsToPreviousStageAsync(_tempGiftCards, _listGiftCardIDsToBeUpdated);
 
                             Order.Customer.GiftCards = _tempGiftCards;
 
@@ -470,11 +475,11 @@ namespace Next2.ViewModels
                     }
                 };
 
-                PopupPage popupPage = App.IsTablet
+                PopupPage finishPaymentDialog = App.IsTablet
                     ? new Views.Tablet.Dialogs.FinishPaymentDialog(param, callback)
                     : new Views.Mobile.Dialogs.FinishPaymentDialog(param, callback);
 
-                await PopupNavigation.PushAsync(popupPage);
+                await PopupNavigation.PushAsync(finishPaymentDialog);
             }
             else
             {
@@ -546,9 +551,9 @@ namespace Next2.ViewModels
                 {
                     IsInsufficientGiftCardFunds = false;
 
-                    PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(Order.Customer.GiftCardsId, _customersService, GiftCardViewDialogCallBack);
+                    PopupPage giftCardDialog = new Views.Mobile.Dialogs.AddGiftCardDialog(Order.Customer.GiftCardsId, _customersService, GiftCardViewDialogCallBack);
 
-                    await PopupNavigation.PushAsync(popupPage);
+                    await PopupNavigation.PushAsync(giftCardDialog);
                 }
                 else
                 {
@@ -574,9 +579,9 @@ namespace Next2.ViewModels
             if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED)
                 && parameters.TryGetValue(Constants.DialogParameterKeys.GIFT_GARD, out GiftCardModelDTO giftCard))
             {
-                var customerToUpdateCommand = _mapper.Map<UpdateCustomerCommand>(_orderService.CurrentOrder.Customer);
+                var customerModel = _mapper.Map<CustomerModelDTO>(_orderService.CurrentOrder.Customer);
 
-                var resultOfAddingGiftCard = await _customersService.AddGiftCardToCustomerAsync(customerToUpdateCommand, giftCard);
+                var resultOfAddingGiftCard = await _customersService.AddGiftCardToCustomerAsync(customerModel, giftCard);
 
                 if (resultOfAddingGiftCard.IsSuccess)
                 {
@@ -624,7 +629,7 @@ namespace Next2.ViewModels
 
         private async Task<bool> GiftCardFinishPayment()
         {
-            var isNoBadServerResponse = true;
+            var isGiftCardPaymentSuccessful = true;
 
             if (Order.Customer is not null && Order.Customer.GiftCards.Any())
             {
@@ -637,9 +642,9 @@ namespace Next2.ViewModels
                     _tempGiftCards.Add(_mapper.Map<GiftCardModelDTO>(card));
                 }
 
-                _giftCardsIdToBeUpdated = _customersService.RecalculateCustomerGiftCardFounds(giftCards, Order.GiftCard);
+                _listGiftCardIDsToBeUpdated = _customersService.RecalculateCustomerGiftCardFounds(giftCards, Order.GiftCard);
 
-                var resultOfUpdatingGiftCards = await _customersService.UpdateAllGiftCardsAsync(giftCards, _giftCardsIdToBeUpdated, _tempGiftCards);
+                var resultOfUpdatingGiftCards = await _customersService.UpdateAllGiftCardsAsync(giftCards, _listGiftCardIDsToBeUpdated, _tempGiftCards);
 
                 if (!resultOfUpdatingGiftCards.IsSuccess)
                 {
@@ -648,11 +653,11 @@ namespace Next2.ViewModels
                     await CloseAllPopupAsync();
                     await ResponseToBadRequestAsync(resultOfUpdatingGiftCards.Exception?.Message);
 
-                    isNoBadServerResponse = false;
+                    isGiftCardPaymentSuccessful = false;
                 }
             }
 
-            return isNoBadServerResponse;
+            return isGiftCardPaymentSuccessful;
         }
 
         #endregion

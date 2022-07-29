@@ -16,14 +16,14 @@ namespace Next2.ViewModels.Dialogs
     {
         private readonly ICustomersService _customersService;
 
-        private IEnumerable<Guid> _giftCardsId;
+        private IEnumerable<Guid> _listGiftCardIDs;
 
         public AddGiftCardDialogViewModel(
             IEnumerable<Guid> giftCardsId,
             ICustomersService customersService,
             Action<IDialogParameters> requestClose)
         {
-            _giftCardsId = giftCardsId;
+            _listGiftCardIDs = giftCardsId;
             _customersService = customersService;
             RequestClose = requestClose;
         }
@@ -59,7 +59,7 @@ namespace Next2.ViewModels.Dialogs
 
             var giftCardModel = await _customersService.GetGiftCardByNumberAsync(InputGiftCardNumber);
 
-            if (giftCardModel.IsSuccess && !_giftCardsId.Contains(giftCardModel.Result.Id))
+            if (giftCardModel.IsSuccess && !_listGiftCardIDs.Contains(giftCardModel.Result.Id))
             {
                 dialogParameters.Add(Constants.DialogParameterKeys.GIFT_GARD, giftCardModel.Result);
 

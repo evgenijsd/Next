@@ -27,9 +27,6 @@ namespace Next2.Models
             GiftCards = customerModel.GiftCards;
             IsCustomerRegistrated = customerModel.IsCustomerRegistrated;
             IsUpdatedCustomer = customerModel.IsUpdatedCustomer;
-            SelectItemCommand = customerModel.SelectItemCommand;
-            ShowInfoCommand = customerModel.ShowInfoCommand;
-            CheckboxImage = customerModel.CheckboxImage;
         }
 
         public Guid Id { get; set; }

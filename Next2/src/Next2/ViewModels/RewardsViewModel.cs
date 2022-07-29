@@ -221,7 +221,9 @@ namespace Next2.ViewModels
 
                     if (resultOfCreatingNewCustomer.IsSuccess)
                     {
-                        var resultOfGettingCustomer = await _customersService.GetCustomersAsync(x => x.Id == resultOfCreatingNewCustomer.Result);
+                        var createdCustomerId = resultOfCreatingNewCustomer.Result;
+
+                        var resultOfGettingCustomer = await _customersService.GetCustomersAsync(x => x.Id == createdCustomerId);
 
                         if (resultOfGettingCustomer.IsSuccess)
                         {

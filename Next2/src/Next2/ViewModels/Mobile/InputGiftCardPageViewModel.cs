@@ -119,9 +119,9 @@ namespace Next2.ViewModels.Mobile
 
                     RemainingGiftCardTotal = Customer.GiftCardsTotalFund;
 
-                    PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(Customer.GiftCardsId, _customersService, GiftCardViewDialogCallBack);
+                    PopupPage giftCardDialog = new Views.Mobile.Dialogs.AddGiftCardDialog(Customer.GiftCardsId, _customersService, GiftCardViewDialogCallBack);
 
-                    await PopupNavigation.PushAsync(popupPage);
+                    await PopupNavigation.PushAsync(giftCardDialog);
                 }
                 else
                 {
@@ -146,9 +146,9 @@ namespace Next2.ViewModels.Mobile
             if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED)
                 && parameters.TryGetValue(Constants.DialogParameterKeys.GIFT_GARD, out GiftCardModelDTO giftCard))
             {
-                var customerToUpdateCommand = _mapper.Map<UpdateCustomerCommand>(_orderService.CurrentOrder.Customer);
+                var customerModel = _mapper.Map<CustomerModelDTO>(_orderService.CurrentOrder.Customer);
 
-                var resultOfAddingGiftCard = await _customersService.AddGiftCardToCustomerAsync(customerToUpdateCommand, giftCard);
+                var resultOfAddingGiftCard = await _customersService.AddGiftCardToCustomerAsync(customerModel, giftCard);
 
                 if (resultOfAddingGiftCard.IsSuccess)
                 {

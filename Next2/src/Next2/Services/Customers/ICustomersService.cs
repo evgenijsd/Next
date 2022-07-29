@@ -18,7 +18,7 @@ namespace Next2.Services.Customers
 
         Task<AOResult<GiftCardModelDTO>> GetGiftCardByNumberAsync(string giftCardNumber);
 
-        Task<AOResult> AddGiftCardToCustomerAsync(UpdateCustomerCommand customer, GiftCardModelDTO giftCard);
+        Task<AOResult> AddGiftCardToCustomerAsync(CustomerModelDTO customer, GiftCardModelDTO giftCard);
 
         Task<AOResult> UpdateGiftCardAsync(GiftCardModelDTO giftCard);
 
@@ -28,10 +28,10 @@ namespace Next2.Services.Customers
 
         Task<AOResult<GiftCardModelDTO>> GetGiftCardByIdAsync(Guid id);
 
-        List<Guid> RecalculateCustomerGiftCardFounds(List<GiftCardModelDTO> giftCards, decimal amountToBeWithdrawn);
+        List<Guid> RecalculateCustomerGiftCardFounds(IEnumerable<GiftCardModelDTO> giftCards, decimal amountToBeWithdrawn);
 
-        Task<AOResult> UpdateAllGiftCardsAsync(List<GiftCardModelDTO> giftCards, List<Guid> giftCardsIdToBeUpdated, List<GiftCardModelDTO> tempGiftCards);
+        Task<AOResult> UpdateAllGiftCardsAsync(IEnumerable<GiftCardModelDTO> giftCards, IEnumerable<Guid> giftCardsIdToBeUpdated, IEnumerable<GiftCardModelDTO> tempGiftCards);
 
-        Task<AOResult> UpdateAllGiftCardsToPreviousStageAsync(List<GiftCardModelDTO> giftCards, List<Guid> giftCardsIdToBeUpdated);
+        Task<AOResult> UpdateAllGiftCardsToPreviousStageAsync(IEnumerable<GiftCardModelDTO> giftCards, IEnumerable<Guid> giftCardsIdToBeUpdated);
     }
 }
