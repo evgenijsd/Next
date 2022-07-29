@@ -1108,6 +1108,14 @@
                                                 
                 <controls:DropDownList.Triggers>
                         
+                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding OrderRegistrationViewModel.SelectedTable, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
+
+                        <Setter Property="HeaderText" Value="{xct:Translate NoTablesAvailable}"/>
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
+                        
+                    </DataTrigger>
+                        
                     <DataTrigger TargetType="controls:DropDownList" Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}" Value="True">
                         
                         <Setter Property="IsEnabled" Value="False"/>
