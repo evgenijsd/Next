@@ -70,7 +70,7 @@
                 ItemsSource="{Binding Seats}">
 
                 <CollectionView.Effects>
-                    <effects:NoOverScrollEffect/>
+                    <effects:NoOverScrollEffect NoOverScrollMode="Always"/>
                 </CollectionView.Effects>
 
                 <CollectionView.ItemTemplate>
