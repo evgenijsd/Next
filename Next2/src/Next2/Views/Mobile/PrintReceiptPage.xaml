@@ -37,7 +37,8 @@
                 Margin="24, 0, 0, 14"
                 VerticalOptions="End"
                 HorizontalOptions="Start"
-                DateLabel="{Binding SelectedDate}" />
+                DateLabel="{Binding SelectedDate}"
+                xct:TouchEffect.Command="{Binding SelectingDateCommand}" />
 
             <StackLayout
                 Grid.Row="2"

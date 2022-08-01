@@ -12,10 +12,6 @@
     x:Class="Next2.Controls.DatePicker"
     x:DataType="controls:DatePicker">
 
-    <Frame.GestureRecognizers>
-        <TapGestureRecognizer Command="{Binding TapCommand, Source={RelativeSource AncestorType={x:Type controls:DatePicker}}}"/>
-    </Frame.GestureRecognizers>
-
     <StackLayout
         Orientation="Horizontal"
         Spacing="32">

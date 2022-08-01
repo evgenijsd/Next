@@ -22,7 +22,7 @@
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i5}" />
 
                 <Style.Triggers>
-                    <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding isTablet}" Value="True">
+                    <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsTablet}" Value="True">
 
                         <Setter Property="WidthRequest" Value="157" />
                         <Setter Property="HeightRequest" Value="35" />
@@ -36,7 +36,7 @@
             <Style x:Key="SeparatorStyle" TargetType="BoxView" BasedOn="{StaticResource SeparatorStyle_i5}">
 
                 <Style.Triggers>
-                    <DataTrigger TargetType="BoxView" Binding="{Binding isTablet}" Value="True">
+                    <DataTrigger TargetType="BoxView" Binding="{Binding IsTablet}" Value="True">
 
                         <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i2}" />
 
@@ -55,7 +55,7 @@
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
 
                 <Style.Triggers>
-                    <DataTrigger TargetType="Label" Binding="{Binding isTablet}" Value="True">
+                    <DataTrigger TargetType="Label" Binding="{Binding IsTablet}" Value="True">
 
                         <Setter Property="Margin" Value="18, 0, 0, 3" />
                         <Setter Property="FontFamily" Value="Barlow-SemiBold" />
@@ -70,7 +70,7 @@
     </rg:PopupPage.Resources>
 
     <Frame
-        Margin="22, 22"
+        Margin="22"
         Padding="2"
         VerticalOptions="Center"
         HorizontalOptions="Center"
@@ -80,81 +80,77 @@
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}">
 
-        <StackLayout>
+        <Grid>
 
-            <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{OnIdiom Phone=0.106*, Tablet=0.131*}" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="{OnIdiom Phone=0.125*, Tablet=0.155*}" />
+            </Grid.RowDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="{OnIdiom Phone=0.106*, Tablet=0.131*}" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="{OnIdiom Phone=0.125*, Tablet=0.155*}" />
-                </Grid.RowDefinitions>
+            <!--  HEADER  -->
+            <Label
+                Grid.Row="0"
+                Style="{DynamicResource HeaderLabelStyle}"
+                Text="{xct:Translate SelectDate}" />
 
-                <!--  HEADER  -->
-                <Label
-                    Grid.Row="0"
-                    Style="{DynamicResource HeaderLabelStyle}"
-                    Text="{xct:Translate SelectDate}" />
+            <BoxView
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Style="{DynamicResource SeparatorStyle}"
+                VerticalOptions="End"
+                HorizontalOptions="FillAndExpand" />
 
-                <BoxView
-                    Grid.Row="0"
-                    Grid.ColumnSpan="2"
-                    Style="{DynamicResource SeparatorStyle}"
-                    VerticalOptions="End"
-                    HorizontalOptions="FillAndExpand" />
+            <controls:Calendar
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                SelectedDate="{Binding SelectedDate, Mode=TwoWay}">
 
-                <controls:Calendar
-                    Grid.Row="1"
-                    Grid.ColumnSpan="2"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                    SelectedDate="{Binding SelectedDate, Mode=TwoWay}">
+                <controls:Calendar.Triggers>
 
-                    <controls:Calendar.Triggers>
+                    <DataTrigger TargetType="controls:Calendar" Binding="{Binding IsTablet}" Value="True">
 
-                        <DataTrigger TargetType="controls:Calendar" Binding="{Binding isTablet}" Value="True">
+                        <Setter Property="Style" Value="{DynamicResource CalendarTabletStyle}" />
+                        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
 
-                            <Setter Property="Style" Value="{DynamicResource CalendarTabletStyle}" />
-                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
+                    </DataTrigger>
 
-                        </DataTrigger>
+                </controls:Calendar.Triggers>
 
-                    </controls:Calendar.Triggers>
-                    
-                </controls:Calendar>
+            </controls:Calendar>
 
-                <!--  buttons  -->
-                <BoxView
-                    Grid.Row="2"
-                    Grid.ColumnSpan="2"
-                    Style="{DynamicResource SeparatorStyle_i6}"
-                    VerticalOptions="Start"
-                    HeightRequest="1" />
+            <!--  buttons  -->
+            <BoxView
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Style="{DynamicResource SeparatorStyle_i6}"
+                VerticalOptions="Start"
+                HeightRequest="1" />
 
-                <buttons:BorderButton
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Style="{DynamicResource BorderButton_i1_1}"
-                    Margin="18, 12, 6, 12"
-                    BorderColor="{DynamicResource AppColor_i1}"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    Text="{xct:Translate Cancel}"
-                    Command="{Binding CancelCommand}" />
+            <buttons:BorderButton
+                Grid.Row="2"
+                Grid.Column="0"
+                Style="{DynamicResource BorderButton_i1_1}"
+                Margin="18, 12, 6, 12"
+                BorderColor="{DynamicResource AppColor_i1}"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                Text="{xct:Translate Cancel}"
+                Command="{Binding CancelCommand}" />
 
-                <buttons:BorderButton
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Style="{DynamicResource BorderButton_i1_1}"
-                    Margin="6, 12, 18, 12"
-                    BorderColor="{DynamicResource IndicationColor_i1}"
-                    BackgroundColor="{DynamicResource IndicationColor_i1}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i6}"
-                    Text="{xct:Translate Select}"
-                    Command="{Binding SelectCommand}" />
+            <buttons:BorderButton
+                Grid.Row="2"
+                Grid.Column="1"
+                Style="{DynamicResource BorderButton_i1_1}"
+                Margin="6, 12, 18, 12"
+                BorderColor="{DynamicResource IndicationColor_i1}"
+                BackgroundColor="{DynamicResource IndicationColor_i1}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i6}"
+                Text="{xct:Translate Select}"
+                Command="{Binding SelectCommand}" />
 
-            </Grid>
-
-        </StackLayout>
+        </Grid>
 
     </Frame>
 

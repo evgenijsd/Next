@@ -47,21 +47,21 @@ namespace Next2.ViewModels
         public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _goBackCommand;
-        public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommand);
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommand, allowsMultipleExecutions: false);
 
         private ICommand _changeStateCommand;
-        public ICommand ChangeStateCommand => _changeStateCommand ??= new Command<ESettingsPageState>(OnChangeStateCommand);
+        public ICommand ChangeStateCommand => _changeStateCommand ??= new AsyncCommand<ESettingsPageState>(OnChangeStateCommand, allowsMultipleExecutions: false);
 
         #endregion
 
         #region -- Private helpers --
 
-        private void OnGoBackCommand()
+        private Task OnGoBackCommand()
         {
-            OnChangeStateCommand(ESettingsPageState.Default);
+            return OnChangeStateCommand(ESettingsPageState.Default);
         }
 
-        private void OnChangeStateCommand(ESettingsPageState state)
+        private Task OnChangeStateCommand(ESettingsPageState state)
         {
             PageState = state;
             switch (state)
@@ -84,6 +84,8 @@ namespace Next2.ViewModels
                 default:
                     break;
             }
+
+            return Task.CompletedTask;
         }
 
         private Task OnLogOutCommandAsync()

@@ -1,21 +1,13 @@
-﻿using Next2.Views.Mobile.Dialogs;
-using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
-using System;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Xamarin.CommunityToolkit.ObjectModel;
+﻿using System;
 using Xamarin.Forms;
 
 namespace Next2.Controls
 {
     public partial class DatePicker : Frame
     {
-        private readonly IPopupNavigation _popupNavigation;
         public DatePicker()
         {
             InitializeComponent();
-            _popupNavigation = App.Resolve<IPopupNavigation>();
         }
 
         #region -- Public properties --
@@ -31,37 +23,6 @@ namespace Next2.Controls
         {
             get => (DateTime)GetValue(DateLabelProperty);
             set => SetValue(DateLabelProperty, value);
-        }
-
-        private ICommand _tapCommand;
-        public ICommand TapCommand => _tapCommand ??= new AsyncCommand(OnTapCommandAsync, allowsMultipleExecutions: false);
-
-        #endregion
-
-        #region -- Private helpers --
-
-        private Task OnTapCommandAsync()
-        {
-            var param = new DialogParameters()
-            {
-                {
-                    Constants.DialogParameterKeys.SELECTED_DATE,
-                    DateLabel
-                },
-            };
-
-            var popupPage = new SelectDateDialog(param, CloseDialogCallBack);
-            return _popupNavigation.PushAsync(popupPage);
-        }
-
-        private async void CloseDialogCallBack(IDialogParameters parameters)
-        {
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.SELECTED_DATE, out DateTime selectedDate))
-            {
-                DateLabel = selectedDate;
-            }
-
-            await _popupNavigation.PopAllAsync();
         }
 
         #endregion

@@ -237,7 +237,6 @@
                 <DataTrigger TargetType="Frame" Binding="{Binding Source={x:Reference dropdownFrame}, Path=IsVisible}" Value="True">
                     <Setter Property="xct:CornerRadiusEffect.CornerRadius" Value="4, 4, 0, 0" />
                     <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i6}" />
-
                 </DataTrigger>
             </Frame.Triggers>
 
@@ -267,7 +266,7 @@
 
                     <ffimageloading:CachedImage
                         HorizontalOptions="EndAndExpand"
-                        Scale="0.7"
+                        HeightRequest="24"
                         Source="ic_arrow_down_primary_24x24"
                         x:Name="yearDropdownIcon">
 

@@ -103,7 +103,7 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
             <buttons:BorderButton
-                Margin="20, 12, 20, 12"
+                Margin="20, 12"
                 Padding="0"
                 HeightRequest="65"
                 BorderWidth="1"

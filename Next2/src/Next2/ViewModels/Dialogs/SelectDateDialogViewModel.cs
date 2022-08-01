@@ -20,7 +20,7 @@ namespace Next2.ViewModels.Dialogs
 
         public DateTime? SelectedDate { get; set; }
 
-        public bool isTablet => App.IsTablet;
+        public bool IsTablet => App.IsTablet;
 
         public Action<IDialogParameters> RequestClose;
 

@@ -192,18 +192,6 @@ namespace Next2.Controls
             set => SetValue(MonthLabelFontSizeProperty, value);
         }
 
-        //public static readonly BindableProperty MonthStepperIconScaleProperty = BindableProperty.Create(
-        //   propertyName: nameof(MonthStepperIconScale),
-        //   returnType: typeof(double),
-        //   defaultValue: 0.6d,
-        //   declaringType: typeof(Calendar),
-        //   defaultBindingMode: BindingMode.OneWay);
-
-        //public double MonthStepperIconScale
-        //{
-        //    get => (double)GetValue(MonthStepperIconScaleProperty);
-        //    set => SetValue(MonthStepperIconScaleProperty, value);
-        //}
         public static readonly BindableProperty MonthStepperIconSizeProperty = BindableProperty.Create(
            propertyName: nameof(MonthStepperIconSize),
            returnType: typeof(double),

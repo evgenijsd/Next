@@ -189,7 +189,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync()
+        public async Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync(EOrderStatus? orderStatus = null, Func<SimpleOrderModelDTO, bool>? condition = null)
         {
             var result = new AOResult<IEnumerable<SimpleOrderModelDTO>>();
 
@@ -201,7 +201,16 @@ namespace Next2.Services.Order
 
                 if (responce.Success && responce.Value?.Orders is not null)
                 {
-                    result.SetSuccess(responce.Value.Orders);
+                    var allOrders = responce.Value.Orders;
+
+                    var filteredBystatusOrders = orderStatus is null
+                        ? allOrders
+                        : allOrders.Where(x => x.OrderStatus == orderStatus);
+
+                    result.SetSuccess(
+                        condition is null
+                        ? filteredBystatusOrders
+                        : filteredBystatusOrders.Where(condition));
                 }
             }
             catch (Exception ex)

@@ -3,8 +3,12 @@ using Next2.Enums;
 using Next2.Interfaces;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
+using Next2.Views.Mobile.Dialogs;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,18 +22,24 @@ using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
-    public class PrintReceiptViewModel : BaseViewModel, IPageActionsHandler
+    public class PrintReceiptViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
+        private readonly INotificationsService _notificationsService;
+        private readonly IPopupNavigation _popupNavigation;
 
         private IEnumerable<SimpleOrderBindableModel> _allClosedOrders;
 
         public PrintReceiptViewModel(
             INavigationService navigationService,
+            INotificationsService notificationsService,
+            IPopupNavigation popupNavigation,
             IOrderService orderService)
             : base(navigationService)
         {
             _orderService = orderService;
+            _notificationsService = notificationsService;
+            _popupNavigation = popupNavigation;
         }
 
         #region -- Public properties --
@@ -76,6 +86,9 @@ namespace Next2.ViewModels
         private ICommand _changeSortOrderCommand;
         public ICommand ChangeSortOrderCommand => _changeSortOrderCommand ??= new Command<EOrdersSortingType>(OnChangeSortOrderCommand);
 
+        private ICommand _selectingDateCommand;
+        public ICommand SelectingDateCommand => _selectingDateCommand ??= new AsyncCommand(OnSelectingDateCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -90,13 +103,36 @@ namespace Next2.ViewModels
         public override void OnDisappearing()
         {
             base.OnDisappearing();
-
-            //SelectedOrder = null;
         }
 
         #endregion
 
         #region -- Private helpers --
+
+        private Task OnSelectingDateCommandAsync()
+        {
+            var param = new DialogParameters()
+            {
+                {
+                    Constants.DialogParameterKeys.SELECTED_DATE,
+                    SelectedDate
+                },
+            };
+
+            var popupPage = new SelectDateDialog(param, CloseDialogCallBack);
+
+            return _popupNavigation.PushAsync(popupPage);
+        }
+
+        private async void CloseDialogCallBack(IDialogParameters parameters)
+        {
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.SELECTED_DATE, out DateTime selectedDate))
+            {
+                SelectedDate = selectedDate;
+            }
+
+            await _popupNavigation.PopAllAsync();
+        }
 
         private async Task OnRefreshOrdersCommandAsync()
         {
@@ -105,12 +141,11 @@ namespace Next2.ViewModels
 
             if (IsInternetConnected)
             {
-                var gettingOrdersResult = await _orderService.GetOrdersAsync();
+                var gettingOrdersResult = await _orderService.GetOrdersAsync(EOrderStatus.Closed);
 
                 if (gettingOrdersResult.IsSuccess)
                 {
-                    var closedOrders = gettingOrdersResult.Result
-                        .Where(x => x.OrderStatus == EOrderStatus.Closed);
+                    var closedOrders = gettingOrdersResult.Result;
 
                     var config = new MapperConfiguration(cfg => cfg.CreateMap<SimpleOrderModelDTO, SimpleOrderBindableModel>()
                         .ForMember<string>(x => x.TableNumberOrName, s => s.MapFrom(x => GetTableName(x.TableNumber))));
@@ -120,19 +155,18 @@ namespace Next2.ViewModels
                     Orders = mapper.Map<IEnumerable<SimpleOrderModelDTO>, ObservableCollection<SimpleOrderBindableModel>>(closedOrders);
 
                     _allClosedOrders = Orders.Select(x => x);
-                    await MockCloseDateToOrders();
+                    await AddDummyClosingDateToOrders();
                     await FilterOrdersByDateAsync(SelectedDate);
-
                     isOrdersLoaded = true;
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(gettingOrdersResult.Exception.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(gettingOrdersResult.Exception.Message);
                 }
             }
             else
             {
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -146,7 +180,7 @@ namespace Next2.ViewModels
             IsOrdersRefreshing = false;
         }
 
-        private Task MockCloseDateToOrders()
+        private Task AddDummyClosingDateToOrders()
         {
             var ordersCount = _allClosedOrders.Count();
             var ordersArray = _allClosedOrders.ToArray();
@@ -229,6 +263,5 @@ namespace Next2.ViewModels
         }
 
         #endregion
-
     }
 }

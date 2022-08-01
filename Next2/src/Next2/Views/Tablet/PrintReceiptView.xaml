@@ -46,7 +46,8 @@
             <controls:DatePicker
                 VerticalOptions="End"
                 HorizontalOptions="StartAndExpand"
-                DateLabel="{Binding SelectedDate}" />
+                DateLabel="{Binding SelectedDate}"
+                xct:TouchEffect.Command="{Binding SelectingDateCommand}" />
 
             <buttons:BorderButton
                 Style="{DynamicResource BorderButtonStyle_i1_1}"
