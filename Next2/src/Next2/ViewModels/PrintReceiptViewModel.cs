@@ -75,7 +75,7 @@ namespace Next2.ViewModels
         public EOrdersSortingType OrderSortingType { get; set; }
 
         private ICommand _refreshOrdersCommand;
-        public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
+        public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _selectOrderCommand;
         public ICommand SelectOrderCommand => _selectOrderCommand ??= new Command<SimpleOrderBindableModel?>(OnSelectOrderCommand);
