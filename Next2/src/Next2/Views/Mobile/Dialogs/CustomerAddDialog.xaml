@@ -217,7 +217,7 @@
                                             Text="{Binding Email}">
 
                                             <controls:GuardEntry.EntryBehaviors>
-                                                <behaviors:EmailValidatorBehavior />
+                                                <behaviors:ValidatorBehavior MatchPattern="{x:Static local:Constants+Validators.EMAIL}"/>
                                             </controls:GuardEntry.EntryBehaviors>
 
                                         </controls:GuardEntry>
