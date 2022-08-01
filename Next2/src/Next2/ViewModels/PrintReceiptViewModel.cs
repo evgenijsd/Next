@@ -12,6 +12,7 @@ using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,24 +48,7 @@ namespace Next2.ViewModels
 
         public SimpleOrderBindableModel? SelectedOrder { get; set; }
 
-        private DateTime _selectedDate = DateTime.Now;
-        public DateTime SelectedDate
-        {
-            get => _selectedDate;
-            set
-            {
-                if (_selectedDate != value)
-                {
-                    _selectedDate = value;
-                    FilterOrdersByDateAsync(value);
-
-                    if (!Orders.Contains(SelectedOrder))
-                    {
-                        SelectedOrder = null;
-                    }
-                }
-            }
-        }
+        public DateTime SelectedDate { get; set; } = DateTime.Now;
 
         public bool IsNothingFound => !Orders.Any();
 
@@ -89,6 +73,21 @@ namespace Next2.ViewModels
         #endregion
 
         #region -- Overrides --
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == nameof(SelectedDate))
+            {
+                FilterOrdersByDateAsync(SelectedDate);
+
+                if (!Orders.Contains(SelectedOrder))
+                {
+                    SelectedOrder = null;
+                }
+            }
+        }
 
         public override void OnAppearing()
         {
