@@ -207,12 +207,11 @@ namespace Next2.Services.Order
                         ? allOrders
                         : allOrders.Where(x => x.OrderStatus == orderStatus);
 
-                    var filteredByConditionOrders = filteredByStatusOrders.Where(condition);
+                    var filteredByConditionOrders = condition is null
+                        ? filteredByStatusOrders
+                        : filteredByStatusOrders.Where(condition);
 
-                    result.SetSuccess(
-                        condition is null
-                            ? filteredByStatusOrders
-                            : filteredByConditionOrders);
+                    result.SetSuccess(filteredByConditionOrders);
                 }
             }
             catch (Exception ex)
@@ -665,6 +664,19 @@ namespace Next2.Services.Order
             }
 
             return dishPrice;
+        }
+
+        public IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders, EOrdersSortingType sortingType)
+        {
+            Func<SimpleOrderBindableModel, object> sortingSelector = sortingType switch
+            {
+                EOrdersSortingType.ByOrderNumber => x => x.Number,
+                EOrdersSortingType.ByTableNumber => x => x.TableNumber,
+                EOrdersSortingType.ByTotalPrice => x => x.TotalPrice,
+                _ => throw new NotImplementedException(),
+            };
+
+            return orders.OrderBy(sortingSelector);
         }
 
         #endregion

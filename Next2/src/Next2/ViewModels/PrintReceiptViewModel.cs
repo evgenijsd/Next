@@ -241,22 +241,10 @@ namespace Next2.ViewModels
             else
             {
                 OrderSortingType = orderSortingType;
+                var sortedOrders = _orderService.GetSortedOrders(Orders, orderSortingType);
 
-                Orders = new(GetSortedOrders(Orders));
+                Orders = new(sortedOrders);
             }
-        }
-
-        private IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders)
-        {
-            Func<SimpleOrderBindableModel, object> sortingSelector = OrderSortingType switch
-            {
-                EOrdersSortingType.ByOrderNumber => x => x.Number,
-                EOrdersSortingType.ByTableNumber => x => x.TableNumber,
-                EOrdersSortingType.ByTotalPrice => x => x.TotalPrice,
-                _ => throw new NotImplementedException(),
-            };
-
-            return orders.OrderBy(sortingSelector);
         }
 
         #endregion
