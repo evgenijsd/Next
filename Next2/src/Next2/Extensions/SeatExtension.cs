@@ -54,49 +54,7 @@ namespace Next2.Extensions
 
         public static IEnumerable<SeatModelDTO>? ToSeatsModelsDTO(this IEnumerable<SeatBindableModel> seats)
         {
-            return seats.Select(x => new SeatModelDTO
-            {
-                Number = x.SeatNumber,
-                SelectedDishes = x?.SelectedDishes?.Select(y => new SelectedDishModelDTO
-                {
-                    Id = y.Id,
-                    DiscountPrice = y.DiscountPrice,
-                    DishId = y.DishId,
-                    ImageSource = y?.ImageSource,
-                    Name = y?.Name,
-                    TotalPrice = y.TotalPrice,
-                    SelectedDishProportion = y.SelectedDishProportion,
-                    SelectedProducts = y?.SelectedProducts?.Select(x => new SelectedProductModelDTO
-                    {
-                        Id = x.Id,
-                        Comment = x?.Comment,
-                        Product = new SimpleProductModelDTO
-                        {
-                            Id = x.Product.Id,
-                            DefaultPrice = x.Product.DefaultPrice,
-                            ImageSource = x.Product?.ImageSource,
-                            Name = x.Product?.Name,
-                            Options = x.Product?.Options?.Select(x => new OptionModelDTO
-                            {
-                                Id = x.Id,
-                                Name = x?.Name,
-                            }),
-                            Ingredients = x.Product?.Ingredients.Select(x => new SimpleIngredientModelDTO
-                            {
-                                Id = x.Id,
-                                Name = x?.Name,
-                                ImageSource = x?.ImageSource,
-                                IngredientsCategory = x.IngredientsCategory,
-                                Price = x.Price,
-                            }),
-                        },
-                        AddedIngredients = x?.AddedIngredients,
-                        ExcludedIngredients = x?.ExcludedIngredients,
-                        SelectedIngredients = x?.SelectedIngredients,
-                        SelectedOptions = new OptionModelDTO[] { x?.SelectedOptions },
-                    }),
-                }),
-            });
+            return seats.Select(x => x.ToSeatModelDTO());
         }
 
         public static SeatModelDTO? ToSeatModelDTO(this SeatBindableModel seat)
@@ -133,14 +91,18 @@ namespace Next2.Extensions
                                 Id = x.Id,
                                 Name = x?.Name,
                                 ImageSource = x?.ImageSource,
-                                IngredientsCategory = x.IngredientsCategory,
+                                IngredientsCategory = x?.IngredientsCategory is null
+                                ? new()
+                                : x.IngredientsCategory,
                                 Price = x.Price,
                             }),
                         },
                         AddedIngredients = x?.AddedIngredients,
                         ExcludedIngredients = x?.ExcludedIngredients,
                         SelectedIngredients = x?.SelectedIngredients,
-                        SelectedOptions = new OptionModelDTO[] { x?.SelectedOptions },
+                        SelectedOptions = x?.SelectedOptions is null
+                        ? null
+                        : new OptionModelDTO[] { x.SelectedOptions },
                     }),
                 }),
             };
