@@ -32,12 +32,14 @@ namespace Next2.Behaviors
         protected override void OnAttachedTo(NoActionMenuEntry entry)
         {
             entry.TextChanged += OnEntryTextChanged;
+
             base.OnAttachedTo(entry);
         }
 
         protected override void OnDetachingFrom(NoActionMenuEntry entry)
         {
             entry.TextChanged -= OnEntryTextChanged;
+
             base.OnDetachingFrom(entry);
         }
 
@@ -71,11 +73,11 @@ namespace Next2.Behaviors
         {
             try
             {
-                if (sender is NoActionMenuEntry entry)
+                if (sender is NoActionMenuEntry entry && !string.IsNullOrEmpty(entry.Text))
                 {
                     string text = new(entry.Text);
 
-                    if (!string.IsNullOrEmpty(text) || _positionsToInsert is not null)
+                    if (_positionsToInsert is not null)
                     {
                         if (text.Length > _mask.Length)
                         {

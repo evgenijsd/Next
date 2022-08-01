@@ -92,7 +92,6 @@
             public const string CUSTOMER_NAME = @"^([a-z]+(([,.]? ?)|[-']?))+$";
             public const string PASCAL_CASE = @"\b[A-Z]{1}[a-z\d]*\b";
             public const string NUMBER = @"[\D]";
-            public const string PHONE = @"^\d{10}$";
             public const string PHONE_MASK = @"\([0-9]{3}\) [0-9]{3}-[0-9]{4}$";
             public const string PHONE_MASK_REPLACE = @"\)|\(|-| ";
             public const string PHONE_MASK2 = "(XXX) XXX-XXXX";

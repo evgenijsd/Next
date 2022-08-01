@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -81,22 +82,31 @@ namespace Next2.ViewModels.Dialogs
         {
             if (CanAddNewCustomer)
             {
-                var newCustomer = new CustomerBindableModel()
+                try
                 {
-                    Email = Email,
-                    FullName = Name,
-                    Phone = Phone,
-                    Birthday = SelectedDate,
-                };
+                    Regex regexPhone = new(Constants.Validators.PHONE_MASK_REPLACE);
 
-                var parameters = new DialogParameters()
+                    var phone = regexPhone.Replace(Phone, string.Empty);
+
+                    var newCustomer = new CustomerBindableModel()
+                    {
+                        Email = Email,
+                        FullName = Name,
+                        Phone = phone,
+                        Birthday = SelectedDate,
+                    };
+
+                    var parameters = new DialogParameters()
+                    {
+                        { Constants.DialogParameterKeys.ACCEPT, true },
+                        { Constants.DialogParameterKeys.CUSTOMER, newCustomer },
+                    };
+
+                    RequestClose(parameters);
+                }
+                catch (Exception)
                 {
-                    { Constants.DialogParameterKeys.ACCEPT, true },
-                    { Constants.DialogParameterKeys.CUSTOMER, newCustomer }
-                };
-
-                AcceptCommand = new DelegateCommand(() => RequestClose(parameters));
-                AcceptCommand.Execute();
+                }
             }
         }
 
