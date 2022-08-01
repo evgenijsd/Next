@@ -102,8 +102,7 @@ namespace Next2.ViewModels.Dialogs
                         { Constants.DialogParameterKeys.CUSTOMER, newCustomer },
                     };
 
-                    AcceptCommand = new DelegateCommand(() => RequestClose(parameters));
-                    AcceptCommand.Execute();
+                    RequestClose(parameters);
                 }
                 catch (Exception)
                 {
