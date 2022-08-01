@@ -24,7 +24,6 @@ namespace Next2.ViewModels
     public class SplitOrderViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
-        private readonly IPopupNavigation _popupNavigation;
         private readonly INotificationsService _notificationsService;
 
         private bool _isOneTime = true;
@@ -32,13 +31,11 @@ namespace Next2.ViewModels
 
         public SplitOrderViewModel(
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
             INotificationsService notificationsService,
             IOrderService orderService)
             : base(navigationService)
         {
             _orderService = orderService;
-            _popupNavigation = popupNavigation;
             _notificationsService = notificationsService;
         }
 
@@ -142,7 +139,7 @@ namespace Next2.ViewModels
                 await SplitSelectedDish(seats);
                 await RemoveNullPriceDishes();
                 await RefreshDisplay();
-                await _popupNavigation.PopAsync();
+                await PopupNavigation.PopAsync();
 
                 SelectFirstDish();
 
@@ -230,7 +227,7 @@ namespace Next2.ViewModels
                         ? new Views.Tablet.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack)
                         : new Views.Mobile.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack);
 
-                    await _popupNavigation.PushAsync(popupPage);
+                    await PopupNavigation.PushAsync(popupPage);
                 }
             }
             else
