@@ -203,14 +203,16 @@ namespace Next2.Services.Order
                 {
                     var allOrders = responce.Value.Orders;
 
-                    var filteredBystatusOrders = orderStatus is null
+                    var filteredByStatusOrders = orderStatus is null
                         ? allOrders
                         : allOrders.Where(x => x.OrderStatus == orderStatus);
 
+                    var filteredByConditionOrders = filteredByStatusOrders.Where(condition);
+
                     result.SetSuccess(
                         condition is null
-                        ? filteredBystatusOrders
-                        : filteredBystatusOrders.Where(condition));
+                            ? filteredByStatusOrders
+                            : filteredByConditionOrders);
                 }
             }
             catch (Exception ex)
