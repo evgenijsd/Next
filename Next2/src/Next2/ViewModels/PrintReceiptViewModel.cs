@@ -26,20 +26,17 @@ namespace Next2.ViewModels
     {
         private readonly IOrderService _orderService;
         private readonly INotificationsService _notificationsService;
-        private readonly IPopupNavigation _popupNavigation;
 
         private IEnumerable<SimpleOrderBindableModel> _allClosedOrders;
 
         public PrintReceiptViewModel(
             INavigationService navigationService,
             INotificationsService notificationsService,
-            IPopupNavigation popupNavigation,
             IOrderService orderService)
             : base(navigationService)
         {
             _orderService = orderService;
             _notificationsService = notificationsService;
-            _popupNavigation = popupNavigation;
         }
 
         #region -- Public properties --
@@ -121,7 +118,7 @@ namespace Next2.ViewModels
 
             var popupPage = new SelectDateDialog(param, CloseDialogCallBack);
 
-            return _popupNavigation.PushAsync(popupPage);
+            return PopupNavigation.PushAsync(popupPage);
         }
 
         private async void CloseDialogCallBack(IDialogParameters parameters)
@@ -131,7 +128,7 @@ namespace Next2.ViewModels
                 SelectedDate = selectedDate;
             }
 
-            await _popupNavigation.PopAllAsync();
+            await PopupNavigation.PopAllAsync();
         }
 
         private async Task OnRefreshOrdersCommandAsync()
