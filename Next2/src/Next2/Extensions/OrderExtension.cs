@@ -3,6 +3,7 @@ using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Next2.Extensions
@@ -73,11 +74,11 @@ namespace Next2.Extensions
                     SelectedProducts = x.SelectedProducts.Select(x => new IncomingSelectedProductModel()
                     {
                         Comment = x?.Comment,
-                        ProductId = x.Product.Id,
-                        SelectedOptionsId = x?.SelectedOptions.Select(x => x.Id).ToArray(),
-                        SelectedIngredientsId = x.SelectedIngredients?.Select(x => x.Id),
-                        AddedIngredientsId = x.AddedIngredients?.Select(x => x.Id),
-                        ExcludedIngredientsId = x.ExcludedIngredients?.Select(x => x.Id),
+                        ProductId = x?.Product.Id,
+                        SelectedOptionsId = x?.SelectedOptions?.Select(x => x.Id).ToArray(),
+                        SelectedIngredientsId = x?.SelectedIngredients?.Select(x => x.Id),
+                        AddedIngredientsId = x?.AddedIngredients?.Select(x => x.Id),
+                        ExcludedIngredientsId = x?.ExcludedIngredients?.Select(x => x.Id),
                     }),
                 }),
             });
@@ -89,7 +90,9 @@ namespace Next2.Extensions
                 Number = order.Number,
                 OrderType = type,
                 IsTab = order.IsTab,
-                TableId = order?.Table?.Id,
+                TableId = order.Table == null || order?.Table?.Id == Guid.Empty
+                    ? null
+                    : order?.Table?.Id,
                 Open = order.Open,
                 Close = order?.Close,
                 OrderStatus = (EOrderStatus)order?.OrderStatus,
@@ -98,14 +101,136 @@ namespace Next2.Extensions
                 DiscountPrice = order?.DiscountPrice,
                 SubTotalPrice = order?.SubTotalPrice,
                 IsCashPayment = order.IsCashPayment,
-                CouponId = order?.Coupon?.Id,
-                DiscountId = order?.Discount?.Id,
-                CustomerId = order?.Customer?.Id,
+                CouponId = order.Coupon?.Id,
+                DiscountId = order?.Discount == null || order?.Discount?.Id == Guid.Empty
+                    ? null
+                    : order?.Discount?.Id,
+                CustomerId = order?.Customer == null || order?.Customer?.Id == Guid.Empty
+                    ? null
+                    : order?.Customer?.Id,
                 EmployeeId = order?.EmployeeId,
                 Seats = seats,
             };
 
             return command;
+        }
+
+        public static OrderModelDTO ToOrderModelDTO(this FullOrderBindableModel order)
+        {
+            OrderModelDTO orderModelDTO = new()
+            {
+                Id = order.Id,
+                Number = order.Number,
+                IsTab = order.IsTab,
+                Open = order.Open,
+                Close = order.Close,
+                IsCashPayment = order.IsCashPayment,
+                Table = order.Table is not null
+                    ? new()
+                    {
+                        Id = order.Table.Id,
+                        Number = order.Table.Number,
+                        SeatNumbers = order.Table.SeatNumbers,
+                    }
+                    : new(),
+                Customer = order.Customer is not null
+                    ? new()
+                    {
+                        Id = order.Customer.Id,
+                        FullName = order.Customer?.FullName,
+                        Phone = order.Customer?.Phone,
+                    }
+                    : new(),
+                OrderStatus = (EOrderStatus)order.OrderStatus,
+                OrderType = order.OrderType.ToString(),
+                Discount = order?.Discount,
+                Coupon = order?.Coupon,
+                TaxCoefficient = order.TaxCoefficient,
+                DiscountPrice = order.DiscountPrice,
+                SubTotalPrice = order.SubTotalPrice,
+                TotalPrice = order.TotalPrice,
+                EmployeeId = order.EmployeeId,
+            };
+
+            List<SeatModelDTO> seatsModels = order.Seats is null
+                ? new()
+                : new(order.Seats.OrderBy(x => x.SeatNumber).Select(row => new SeatModelDTO()
+                {
+                    Number = row.SeatNumber,
+                    SelectedDishes = row?.SelectedDishes.Select(row => new SelectedDishModelDTO()
+                    {
+                        Id = row.Id,
+                        DishId = row.DishId,
+                        Name = row.Name,
+                        ImageSource = row.ImageSource,
+                        TotalPrice = row.TotalPrice,
+                        DiscountPrice = row.DiscountPrice,
+                        SelectedDishProportion = new()
+                        {
+                            Id = row.SelectedDishProportion.Id,
+                            PriceRatio = row.SelectedDishProportion.PriceRatio,
+                            Proportion = new()
+                            {
+                                Id = row.SelectedDishProportion.Proportion.Id,
+                                Name = row.SelectedDishProportion.Proportion.Name,
+                            },
+                        },
+                        SelectedProducts = row?.SelectedProducts.Select(row => new SelectedProductModelDTO()
+                        {
+                            Id = row.Product.Id,
+                            Comment = row.Comment,
+                            Product = new SimpleProductModelDTO()
+                            {
+                                Id = row.Product.Id,
+                                DefaultPrice = row.Product.DefaultPrice,
+                                Name = row.Product.Name,
+                                ImageSource = row.Product.ImageSource,
+                                Ingredients = row.Product?.Ingredients.Select(row => new SimpleIngredientModelDTO()
+                                {
+                                    Id = row.Id,
+                                    Name = row.Name,
+                                    Price = row.Price,
+                                    ImageSource = row.ImageSource,
+                                    IngredientsCategory = row.IngredientsCategory,
+                                }),
+                                Options = row?.Product?.Options,
+                            },
+                            SelectedOptions = row?.SelectedOptions == null
+                                ? null
+                                : new OptionModelDTO[] { row.SelectedOptions },
+                            SelectedIngredients = row?.SelectedOptions == null
+                                ? null
+                                : row?.SelectedIngredients?.Select(row => new SimpleIngredientModelDTO()
+                                {
+                                    Id = row.Id,
+                                    Name = row.Name,
+                                    Price = row.Price,
+                                    ImageSource = row.ImageSource,
+                                    IngredientsCategory = row.IngredientsCategory,
+                                }),
+                            AddedIngredients = row?.AddedIngredients?.Select(row => new SimpleIngredientModelDTO()
+                            {
+                                Id = row.Id,
+                                Name = row.Name,
+                                Price = row.Price,
+                                ImageSource = row.ImageSource,
+                                IngredientsCategory = row.IngredientsCategory,
+                            }),
+                            ExcludedIngredients = row?.ExcludedIngredients?.Select(row => new SimpleIngredientModelDTO()
+                            {
+                                Id = row.Id,
+                                Name = row.Name,
+                                Price = row.Price,
+                                ImageSource = row.ImageSource,
+                                IngredientsCategory = row.IngredientsCategory,
+                            }),
+                        }),
+                    }),
+                }));
+
+            orderModelDTO.Seats = seatsModels;
+
+            return orderModelDTO;
         }
 
         public static FullOrderBindableModel ToFullOrderBindableModel(this OrderModelDTO order)

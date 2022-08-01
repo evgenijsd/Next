@@ -478,15 +478,17 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<Guid>> UpdateOrderAsync(UpdateOrderCommand order)
+        public async Task<AOResult<Guid>> UpdateOrderAsync(OrderModelDTO order)
         {
             var result = new AOResult<Guid>();
 
             try
             {
+                var updateCommand = order.ToUpdateOrderCommand();
+
                 var query = $"{Constants.API.HOST_URL}/api/orders";
 
-                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, query, order);
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, query, updateCommand);
 
                 if (response.Success)
                 {
@@ -501,13 +503,21 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<Guid>> UpdateTableAsync(UpdateTableCommand command)
+        public async Task<AOResult<Guid>> UpdateTableAsync(SimpleTableModelDTO table, bool isAvailable = false)
         {
             var result = new AOResult<Guid>();
 
+            var updateCommand = new UpdateTableCommand()
+            {
+                Id = table.Id,
+                Number = table.Number,
+                SeatNumbers = table.SeatNumbers,
+                IsAvailable = isAvailable,
+            };
+
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/tables", command);
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/tables", updateCommand);
 
                 if (response.Success)
                 {
@@ -520,6 +530,19 @@ namespace Next2.Services.Order
             }
 
             return result;
+        }
+
+        public void CalculateOrderPrices(OrderModelDTO order)
+        {
+            var dishes = order.Seats.SelectMany(x => x.SelectedDishes);
+
+            foreach (var dish in dishes)
+            {
+                dish.DiscountPrice = dish.TotalPrice;
+            }
+
+            order.TotalPrice = dishes.Sum(x => x.TotalPrice);
+            order.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
         }
 
         public async Task<AOResult> SetCurrentOrderAsync(Guid orderId)
@@ -550,9 +573,8 @@ namespace Next2.Services.Order
             try
             {
                 UpdateTotalSum(CurrentOrder);
-                var orderForUpdate = CurrentOrder.ToUpdateOrderCommand();
-
-                result = await UpdateOrderAsync(orderForUpdate);
+                var orderDTO = CurrentOrder.ToOrderModelDTO();
+                result = await UpdateOrderAsync(orderDTO);
             }
             catch (Exception ex)
             {
