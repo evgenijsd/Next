@@ -53,7 +53,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(CanTurnOff),
             returnType: typeof(bool),
             declaringType: typeof(ToggleItemTemplate),
-            defaultBindingMode: BindingMode.OneWay);
+            defaultBindingMode: BindingMode.TwoWay);
 
         public bool CanTurnOff
         {
