@@ -153,7 +153,7 @@
 
                                     <controls:GuardEntry
                                         IsEnabled="{Binding IsEntriesEnabled}"
-                                        MaxLength="14"
+                                        MaxLength="{x:Static local:Constants+Limits.PHONE_LENGTH}"
                                         Keyboard="Numeric"
                                         Placeholder="{Static local:Constants+Formats.PHONE_MASK}"
                                         ErrorText="{xct:Translate IncorrectNumber}"
