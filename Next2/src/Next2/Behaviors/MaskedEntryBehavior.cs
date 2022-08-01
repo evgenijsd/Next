@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Next2.Behaviors
 {
@@ -33,12 +32,14 @@ namespace Next2.Behaviors
         protected override void OnAttachedTo(NoActionMenuEntry entry)
         {
             entry.TextChanged += OnEntryTextChanged;
+
             base.OnAttachedTo(entry);
         }
 
         protected override void OnDetachingFrom(NoActionMenuEntry entry)
         {
             entry.TextChanged -= OnEntryTextChanged;
+
             base.OnDetachingFrom(entry);
         }
 
