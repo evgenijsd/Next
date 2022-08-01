@@ -179,7 +179,7 @@
 
                                         <controls:GuardEntry
                                             IsEnabled="{Binding IsEntriesEnabled}"
-                                            MaxLength="10"
+                                            MaxLength="14"
                                             Keyboard="Numeric"
                                             Placeholder="{Static local:Constants+Formats.PHONE_MASK}"
                                             ErrorText="{xct:Translate IncorrectNumber}"
@@ -187,7 +187,8 @@
                                             Text="{Binding Phone}">
 
                                             <controls:GuardEntry.EntryBehaviors>
-                                                <behaviors:PhoneValidatorBehavior/>
+                                                <behaviors:MaskedEntryBehavior Mask="{x:Static local:Constants+Validators.PHONE_MASK2}"/>
+                                                <behaviors:ValidatorBehavior MatchPattern="{x:Static local:Constants+Validators.PHONE_MASK}"/>
                                             </controls:GuardEntry.EntryBehaviors>
 
                                         </controls:GuardEntry>

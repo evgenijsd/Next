@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Next2.Behaviors
 {
@@ -71,11 +72,11 @@ namespace Next2.Behaviors
         {
             try
             {
-                if (sender is NoActionMenuEntry entry)
+                if (sender is NoActionMenuEntry entry && !string.IsNullOrEmpty(entry.Text))
                 {
                     string text = new(entry.Text);
 
-                    if (!string.IsNullOrEmpty(text) || _positionsToInsert is not null)
+                    if (_positionsToInsert is not null)
                     {
                         if (text.Length > _mask.Length)
                         {
