@@ -28,7 +28,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty StateProperty = BindableProperty.Create(
             propertyName: nameof(State),
             returnType: typeof(IBaseApiModel),
-            declaringType: typeof(ToggleItemTemplate));
+            declaringType: typeof(ToggleItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public IBaseApiModel? State
         {
@@ -39,7 +40,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty IsToggleProperty = BindableProperty.Create(
             propertyName: nameof(IsToggle),
             returnType: typeof(bool),
-            declaringType: typeof(ToggleItemTemplate));
+            declaringType: typeof(ToggleItemTemplate),
+            defaultBindingMode: BindingMode.TwoWay);
 
         public bool IsToggle
         {
@@ -50,7 +52,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty CanTurnOffProperty = BindableProperty.Create(
             propertyName: nameof(CanTurnOff),
             returnType: typeof(bool),
-            declaringType: typeof(ToggleItemTemplate));
+            declaringType: typeof(ToggleItemTemplate),
+            defaultBindingMode: BindingMode.TwoWay);
 
         public bool CanTurnOff
         {
@@ -61,7 +64,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty IsVisibleSubtitleProperty = BindableProperty.Create(
             propertyName: nameof(IsVisibleSubtitle),
             returnType: typeof(bool),
-            declaringType: typeof(ToggleItemTemplate));
+            declaringType: typeof(ToggleItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsVisibleSubtitle
         {
@@ -72,7 +76,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty IsVisibleImageProperty = BindableProperty.Create(
             propertyName: nameof(IsVisibleImage),
             returnType: typeof(bool),
-            declaringType: typeof(ToggleItemTemplate));
+            declaringType: typeof(ToggleItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsVisibleImage
         {
@@ -83,7 +88,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty ImagePathProperty = BindableProperty.Create(
             propertyName: nameof(ImagePath),
             returnType: typeof(string),
-            declaringType: typeof(ToggleItemTemplate));
+            declaringType: typeof(ToggleItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string ImagePath
         {
@@ -96,7 +102,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(double),
             declaringType: typeof(ToggleItemTemplate),
             defaultValue: 50d,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double ImageSizes
         {
@@ -107,7 +113,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty TitleProperty = BindableProperty.Create(
             propertyName: nameof(Title),
             returnType: typeof(string),
-            declaringType: typeof(ToggleItemTemplate));
+            declaringType: typeof(ToggleItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Title
         {
@@ -120,7 +127,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(double),
             declaringType: typeof(ToggleItemTemplate),
             defaultValue: 20d,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double TitleFontSize
         {
@@ -133,7 +140,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(string),
             declaringType: typeof(ToggleItemTemplate),
             defaultValue: "Barlow-SemiBold",
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string TitleFontFamily
         {
@@ -144,7 +151,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty SubtitleProperty = BindableProperty.Create(
             propertyName: nameof(Subtitle),
             returnType: typeof(string),
-            declaringType: typeof(ToggleItemTemplate));
+            declaringType: typeof(ToggleItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Subtitle
         {
@@ -157,7 +165,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(double),
             declaringType: typeof(ToggleItemTemplate),
             defaultValue: 14d,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double SubtitleFontSize
         {
@@ -170,7 +178,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(string),
             declaringType: typeof(ToggleItemTemplate),
             defaultValue: "Barlow-SemiBold",
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string SubtitleFontFamily
         {

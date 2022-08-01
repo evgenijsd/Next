@@ -17,7 +17,7 @@
     <views:BaseContentPage.Resources>
         <ResourceDictionary>
 
-            <Style TargetType="Label" x:Key="labeltSize_i4">
+            <Style x:Key="labeltSize_i4" TargetType="Label">
 
                 <Setter Property="VisualStateManager.VisualStateGroups">
 
@@ -61,7 +61,7 @@
 
             </Style>
 
-            <Style TargetType="Label" x:Key="labeltSize_i6">
+            <Style x:Key="labeltSize_i6" TargetType="Label">
 
                 <Setter Property="VisualStateManager.VisualStateGroups">
 
@@ -109,10 +109,9 @@
     </views:BaseContentPage.Resources>
 
     <Grid
-        RowDefinitions="0.1*, *"
+        RowDefinitions="auto, *"
         ColumnDefinitions="*, 375">
 
-        <!--  Navbar  -->
         <StackLayout
             Grid.Row="0"
             Grid.ColumnSpan="2">
@@ -158,401 +157,376 @@
 
         </StackLayout>
 
-        <!--  Meal details  -->
-        <StackLayout
+        <Grid
             Grid.Row="1"
             Grid.Column="0"
+            RowDefinitions="*, auto"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
-            <Grid RowDefinitions="*, auto">
+            <Grid
+                Grid.Row="0"
+                RowDefinitions="auto, *">
 
-                <Grid
-                    Grid.Row="0"
-                    RowDefinitions="auto, *">
+                <StackLayout Grid.Row="0">
 
-                    <StackLayout Grid.Row="0">
+                    <Label
+                        Margin="30, 10"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontFamily="Barlow-Bold"
+                        FontSize="{DynamicResource TSize_i6}">
 
-                        <!--  Order Label  -->
-                        <Label
-                            Margin="30, 10"
-                            VerticalOptions="Center"
-                            HorizontalOptions="Start"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontFamily="Barlow-Bold"
-                            FontSize="{DynamicResource TSize_i6}">
+                        <Label.FormattedText>
+                            <FormattedString>
 
-                            <Label.FormattedText>
-                                <FormattedString>
+                                <Span Text="{xct:Translate SplitOrder}" />
+                                <Span Text=" #" />
+                                <Span Text="{Binding Order.Number}" />
 
-                                    <Span Text="{xct:Translate SplitOrder}" />
-                                    <Span Text=" #" />
-                                    <Span Text="{Binding Order.Number}" />
+                            </FormattedString>
+                        </Label.FormattedText>
 
-                                </FormattedString>
-                            </Label.FormattedText>
+                        <VisualStateManager.VisualStateGroups>
 
-                            <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
 
-                                <VisualStateGroupList>
+                                <VisualStateGroup Name="AdaptiveTitle">
 
-                                    <VisualStateGroup Name="AdaptiveTitle">
+                                    <VisualState Name="Medium">
 
-                                        <VisualState Name="Medium">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="1024" />
+                                        </VisualState.StateTriggers>
 
-                                            <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowWidth="1024" />
-                                            </VisualState.StateTriggers>
+                                        <VisualState.Setters>
 
-                                            <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i3}" />
 
-                                                <Setter Property="FontSize" Value="{DynamicResource TSize_i3}" />
+                                            <Setter Property="Margin" Value="30, 20" />
 
-                                                <Setter Property="Margin" Value="30, 20" />
+                                        </VisualState.Setters>
 
-                                            </VisualState.Setters>
+                                    </VisualState>
 
-                                        </VisualState>
+                                </VisualStateGroup>
 
-                                    </VisualStateGroup>
+                            </VisualStateGroupList>
 
-                                </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
 
-                            </VisualStateManager.VisualStateGroups>
+                    </Label>
 
-                        </Label>
+                    <BoxView Style="{DynamicResource SeparatorStyle_i2}" />
 
-                        <BoxView Style="{DynamicResource SeparatorStyle_i2}" />
+                </StackLayout>
 
-                    </StackLayout>
+                <ScrollView
+                    Grid.Row="1"
+                    HeightRequest="500">
 
-                    <ScrollView
+                    <ScrollView.Effects>
+                        
+                        <effects:NoOverScrollEffect />
+
+                        <effects:ScrollBarColorEffect
+                            ScrollBarThumbWidth="6"
+                            ScrollBarCornerRadius="9"
+                            ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                            ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}" />
+
+                    </ScrollView.Effects>
+
+                    <Grid
                         Grid.Row="1"
-                        HeightRequest="500">
-
-                        <ScrollView.Effects>
-                            <effects:NoOverScrollEffect />
-
-                            <effects:ScrollBarColorEffect
-                                ScrollBarThumbWidth="6"
-                                ScrollBarCornerRadius="9"
-                                ScrollBarThumbColor="{StaticResource AppColor_i1}"
-                                ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}" />
-
-                        </ScrollView.Effects>
+                        RowDefinitions="auto, auto, auto, *"
+                        Margin="30, 0">
 
                         <Grid
-                            Grid.Row="1"
-                            RowDefinitions="auto, auto, auto, *"
-                            Margin="30, 0">
+                            Grid.Row="0"
+                            ColumnDefinitions="0.15*, *">
 
-                            <!--  Row 1 Image & Title  -->
-                            <Grid
-                                Grid.Row="0"
-                                ColumnDefinitions="0.15*, *">
+                            <StackLayout
+                                Grid.Column="0"
+                                Margin="0, 15"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Start">
 
-                                <StackLayout
-                                    Grid.Column="0"
-                                    Margin="0, 15"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="Start"
-                                    Orientation="Vertical">
+                                <Frame
+                                    HeightRequest="80"
+                                    WidthRequest="80"
+                                    CornerRadius="10"
+                                    BorderColor="Transparent">
 
-                                    <Frame
-                                        HeightRequest="80"
-                                        WidthRequest="80"
-                                        CornerRadius="10"
-                                        BorderColor="Transparent">
+                                    <ffimageloading:CachedImage
+                                        Aspect="AspectFill"
+                                        Source="{Binding SelectedDish.ImageSource}" />
 
-                                        <ffimageloading:CachedImage
-                                            Aspect="AspectFill"
-                                            Source="{Binding SelectedDish.ImageSource}" />
+                                </Frame>
 
-                                    </Frame>
+                            </StackLayout>
 
-                                </StackLayout>
-
-                                <StackLayout
-                                    Grid.Column="1"
-                                    Margin="20, 0, 0, 0"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="Start"
-                                    Orientation="Vertical">
-
-                                    <Label
-                                        Text="{Binding SelectedDish.Name}"
-                                        FontSize="{DynamicResource TSize_i4_5}"
-                                        FontFamily="Barlow-Medium"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
-
-                                    <Label
-                                        Margin="0, 5, 0, 0"
-                                        FontSize="{DynamicResource TSize_i5}"
-                                        FontFamily="Barlow-SemiBold"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}">
-
-                                        <Label.FormattedText>
-                                            <FormattedString>
-
-                                                <Span Text="{xct:Translate CurrencySign}" />
-                                                <Span Text=" " />
-                                                <Span Text="{Binding SelectedDish.TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
-
-                                            </FormattedString>
-                                        </Label.FormattedText>
-
-                                    </Label>
-
-                                </StackLayout>
-
-                            </Grid>
-
-                            <!--  Row 2 Proportions  -->
-                            <Grid
-                                Grid.Row="1"
-                                RowDefinitions="auto, auto"
-                                ColumnDefinitions="0.50*, 0.50*">
-
-                                <BoxView
-                                    Grid.ColumnSpan="2"
-                                    VerticalOptions="Start"
-                                    HeightRequest="1"
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+                            <StackLayout
+                                Grid.Column="1"
+                                Margin="20, 0, 0, 0"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Start">
 
                                 <Label
-                                    Grid.Row="0"
-                                    Margin="0, 10, 0, 0"
-                                    VerticalOptions="Start"
-                                    FontSize="{DynamicResource TSize_i6}"
-                                    Text="{xct:Translate Proportions}"
+                                    Text="{Binding SelectedDish.Name}"
+                                    FontSize="{DynamicResource TSize_i4_5}"
+                                    FontFamily="Barlow-Medium"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                                <Label
+                                    Margin="0, 5, 0, 0"
+                                    FontSize="{DynamicResource TSize_i5}"
                                     FontFamily="Barlow-SemiBold"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i9}" />
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}">
 
-                                <StackLayout
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    VerticalOptions="Start"
-                                    Orientation="Vertical">
+                                    <Label.FormattedText>
+                                        <FormattedString>
 
-                                    <Label
-                                        Margin="0, 5, 0, 10"
-                                        Text="{Binding SelectedDish.SelectedDishProportion.Proportion.Name}"
-                                        FontSize="{DynamicResource TSize_i5}"
-                                        FontFamily="Barlow-Medium"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                                            <Span Text="{xct:Translate CurrencySign}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding SelectedDish.TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
 
-                                </StackLayout>
+                                        </FormattedString>
+                                    </Label.FormattedText>
 
-                                <StackLayout
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    HorizontalOptions="EndAndExpand"
-                                    Orientation="Vertical">
+                                </Label>
 
-                                    <Label
-                                        FontFamily="Barlow-SemiBold"
-                                        FontSize="{DynamicResource TSize_i5}"
-                                        TextColor="{DynamicResource IndicationColor_i1}">
-
-                                        <Label.FormattedText>
-                                            <FormattedString>
-
-                                                <Span Text="{xct:Translate CurrencySign}" />
-                                                <Span Text=" " />
-                                                <Span Text="{Binding SelectedDish.TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
-
-                                            </FormattedString>
-                                        </Label.FormattedText>
-
-                                    </Label>
-
-                                </StackLayout>
-
-                            </Grid>
-
-                            <!--  Row 3 Inventory & Replacement & Option  -->
-                            <controls:ProductsDetails
-                                Grid.Row="2"
-                                ItemsSource="{Binding SelectedDish.SelectedProducts}" />
-
-                            <!--  Row 6 Footer  -->
-                            <Grid Grid.Row="3" />
+                            </StackLayout>
 
                         </Grid>
 
-                    </ScrollView>
+                        <Grid
+                            Grid.Row="1"
+                            RowDefinitions="auto, auto"
+                            ColumnDefinitions="0.50*, 0.50*">
 
-                </Grid>
+                            <BoxView
+                                Grid.ColumnSpan="2"
+                                VerticalOptions="Start"
+                                HeightRequest="1"
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
-                <!--  Bottom Buttons  -->
-                <Grid
-                    Grid.Row="1"
-                    RowDefinitions="auto, auto"
-                    ColumnDefinitions="0.35*, 0.29*, 0.35*"
-                    ColumnSpacing="12"
-                    VerticalOptions="EndAndExpand">
+                            <Label
+                                Grid.Row="0"
+                                Margin="0, 10, 0, 0"
+                                VerticalOptions="Start"
+                                FontSize="{DynamicResource TSize_i6}"
+                                Text="{xct:Translate Proportions}"
+                                FontFamily="Barlow-SemiBold"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i9}" />
 
-                    <BoxView
-                        Grid.Row="0"
-                        Grid.ColumnSpan="3"
-                        VerticalOptions="Start"
-                        HeightRequest="1"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+                            <StackLayout
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                VerticalOptions="Start">
 
-                    <buttons:BorderButton
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Style="{DynamicResource BorderButtonStyle_i2}"
-                        Margin="30, 12, 0, 12"
-                        Background="{DynamicResource IndicationColor_i5}"
-                        Text="{xct:Translate Percentage}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        xct:TouchEffect.Command="{Binding SplitByCommand}"
-                        xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.ByPercents}">
+                                <Label
+                                    Margin="0, 5, 0, 10"
+                                    Text="{Binding SelectedDish.SelectedDishProportion.Proportion.Name}"
+                                    FontSize="{DynamicResource TSize_i5}"
+                                    FontFamily="Barlow-Medium"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
-                        <VisualStateManager.VisualStateGroups>
+                            </StackLayout>
 
-                            <VisualStateGroupList>
+                            <StackLayout
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                HorizontalOptions="EndAndExpand">
 
-                                <VisualStateGroup Name="AdaptiveBottomButton">
+                                <Label
+                                    FontFamily="Barlow-SemiBold"
+                                    FontSize="{DynamicResource TSize_i5}"
+                                    TextColor="{DynamicResource IndicationColor_i1}">
 
-                                    <VisualState Name="Medium">
+                                    <Label.FormattedText>
+                                        <FormattedString>
 
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowWidth="1024" />
-                                        </VisualState.StateTriggers>
+                                            <Span Text="{xct:Translate CurrencySign}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding SelectedDish.TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
 
-                                        <VisualState.Setters>
+                                        </FormattedString>
+                                    </Label.FormattedText>
 
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i5}" />
+                                </Label>
 
-                                            <Setter Property="HeightRequest" Value="45" />
+                            </StackLayout>
 
-                                        </VisualState.Setters>
+                        </Grid>
 
-                                    </VisualState>
+                        <controls:ProductsDetails
+                            Grid.Row="2"
+                            ItemsSource="{Binding SelectedDish.SelectedProducts}" />
 
-                                </VisualStateGroup>
+                    </Grid>
 
-                            </VisualStateGroupList>
-
-                        </VisualStateManager.VisualStateGroups>
-
-                    </buttons:BorderButton>
-
-                    <buttons:BorderButton
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Style="{DynamicResource BorderButtonStyle_i2}"
-                        Margin="0, 12"
-                        Background="{DynamicResource IndicationColor_i7}"
-                        Text="{xct:Translate Dollar}"
-                        xct:TouchEffect.Command="{Binding SplitByCommand}"
-                        xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.ByDollar}">
-
-                        <VisualStateManager.VisualStateGroups>
-
-                            <VisualStateGroupList>
-
-                                <VisualStateGroup Name="AdaptiveBottomButton">
-
-                                    <VisualState Name="Medium">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowWidth="1024" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i5}" />
-
-                                            <Setter Property="HeightRequest" Value="45" />
-
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                </VisualStateGroup>
-
-                            </VisualStateGroupList>
-
-                        </VisualStateManager.VisualStateGroups>
-
-                    </buttons:BorderButton>
-
-                    <buttons:BorderButton
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Style="{DynamicResource BorderButtonStyle_i2}"
-                        Margin="0, 12, 30, 12"
-                        Background="{DynamicResource AppColor_i1}"
-                        Text="{xct:Translate Seats}"
-                        xct:TouchEffect.Command="{Binding SplitByCommand}"
-                        xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.BySeats}">
-
-                        <VisualStateManager.VisualStateGroups>
-
-                            <VisualStateGroupList>
-
-                                <VisualStateGroup Name="AdaptiveBottomButton">
-
-                                    <VisualState Name="Medium">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowWidth="1024" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i5}" />
-
-                                            <Setter Property="HeightRequest" Value="45" />
-
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                </VisualStateGroup>
-
-                            </VisualStateGroupList>
-
-                        </VisualStateManager.VisualStateGroups>
-
-                    </buttons:BorderButton>
-
-                </Grid>
+                </ScrollView>
 
             </Grid>
 
-        </StackLayout>
+            <Grid
+                Grid.Row="1"
+                RowDefinitions="auto, auto"
+                ColumnDefinitions="0.35*, 0.3*, 0.35*"
+                ColumnSpacing="12"
+                VerticalOptions="EndAndExpand">
 
-        <!--  Seats LIST  -->
+                <BoxView
+                    Grid.Row="0"
+                    Grid.ColumnSpan="3"
+                    VerticalOptions="Start"
+                    HeightRequest="1"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+
+                <buttons:BorderButton
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Style="{DynamicResource BorderButtonStyle_i2}"
+                    Margin="30, 12, 0, 12"
+                    Background="{DynamicResource IndicationColor_i5}"
+                    Text="{xct:Translate Percentage}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    xct:TouchEffect.Command="{Binding SplitByCommand}"
+                    xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.ByPercents}">
+
+                    <VisualStateManager.VisualStateGroups>
+
+                        <VisualStateGroupList>
+
+                            <VisualStateGroup Name="AdaptiveBottomButton">
+
+                                <VisualState Name="Medium">
+
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="1025" />
+                                    </VisualState.StateTriggers>
+
+                                    <VisualState.Setters>
+
+                                        <Setter Property="FontSize" Value="{DynamicResource TSize_i5}" />
+
+                                        <Setter Property="HeightRequest" Value="42" />
+
+                                        <Setter Property="Margin" Value="30, 18, 0, 18" />
+
+                                    </VisualState.Setters>
+
+                                </VisualState>
+
+                            </VisualStateGroup>
+
+                        </VisualStateGroupList>
+
+                    </VisualStateManager.VisualStateGroups>
+
+                </buttons:BorderButton>
+
+                <buttons:BorderButton
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Style="{DynamicResource BorderButtonStyle_i2}"
+                    Margin="0, 12"
+                    Background="{DynamicResource IndicationColor_i7}"
+                    Text="{xct:Translate Dollar}"
+                    xct:TouchEffect.Command="{Binding SplitByCommand}"
+                    xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.ByDollar}">
+
+                    <VisualStateManager.VisualStateGroups>
+
+                        <VisualStateGroupList>
+
+                            <VisualStateGroup Name="AdaptiveBottomButton">
+
+                                <VisualState Name="Medium">
+
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="1025" />
+                                    </VisualState.StateTriggers>
+
+                                    <VisualState.Setters>
+
+                                        <Setter Property="FontSize" Value="{DynamicResource TSize_i5}" />
+
+                                        <Setter Property="HeightRequest" Value="42" />
+
+                                        <Setter Property="Margin" Value="0, 18" />
+
+                                    </VisualState.Setters>
+
+                                </VisualState>
+
+                            </VisualStateGroup>
+
+                        </VisualStateGroupList>
+
+                    </VisualStateManager.VisualStateGroups>
+
+                </buttons:BorderButton>
+
+                <buttons:BorderButton
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Style="{DynamicResource BorderButtonStyle_i2}"
+                    Margin="0, 12, 30, 12"
+                    Background="{DynamicResource AppColor_i1}"
+                    Text="{xct:Translate Seats}"
+                    xct:TouchEffect.Command="{Binding SplitByCommand}"
+                    xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.BySeats}">
+
+                    <VisualStateManager.VisualStateGroups>
+
+                        <VisualStateGroupList>
+
+                            <VisualStateGroup Name="AdaptiveBottomButton">
+
+                                <VisualState Name="Medium">
+
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="1025" />
+                                    </VisualState.StateTriggers>
+
+                                    <VisualState.Setters>
+
+                                        <Setter Property="FontSize" Value="{DynamicResource TSize_i5}" />
+
+                                        <Setter Property="HeightRequest" Value="42" />
+
+                                        <Setter Property="Margin" Value="0, 18, 30, 18" />
+
+                                    </VisualState.Setters>
+
+                                </VisualState>
+
+                            </VisualStateGroup>
+
+                        </VisualStateGroupList>
+
+                    </VisualStateManager.VisualStateGroups>
+
+                </buttons:BorderButton>
+
+            </Grid>
+
+        </Grid>
+
         <Grid
             Grid.Row="1"
             Grid.Column="1"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
             <Grid.Resources>
+
                 <Style TargetType="Label">
 
                     <Setter Property="VerticalOptions" Value="Center" />
 
                     <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-
-                </Style>
-
-                <Style TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i1}" x:Key="BorderButtonStyle_i2">
-
-                    <Setter Property="Padding" Value="0" />
-
-                    <Setter Property="HeightRequest" Value="32" />
-
-                    <Setter Property="FontFamily" Value="Barlow-Semibold" />
-
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
-
-                    <Setter Property="CornerRadius" Value="4" />
-
-                    <Setter Property="BackgroundColor" Value="Transparent" />
 
                 </Style>
 

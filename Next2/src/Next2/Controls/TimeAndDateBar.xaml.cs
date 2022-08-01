@@ -45,7 +45,7 @@ namespace Next2.Controls
             returnType: typeof(bool),
             defaultValue: true,
             declaringType: typeof(TimeAndDateBar),
-            defaultBindingMode: BindingMode.OneWay);
+            defaultBindingMode: BindingMode.TwoWay);
 
         public bool IsRunning
         {

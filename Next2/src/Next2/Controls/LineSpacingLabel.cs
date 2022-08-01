@@ -10,7 +10,7 @@ namespace Next2.Controls
             propertyName: nameof(LineSpacing),
             returnType: typeof(float),
             declaringType: typeof(LineSpacingLabel),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public float LineSpacing
         {

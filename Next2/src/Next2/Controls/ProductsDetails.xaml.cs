@@ -17,7 +17,7 @@ namespace Next2.Controls
             returnType: typeof(double),
             defaultValue: (double)Application.Current.Resources["TSize_i6"],
             declaringType: typeof(ProductsDetails),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double FontSizeTitle
         {
@@ -30,7 +30,7 @@ namespace Next2.Controls
             returnType: typeof(string),
             declaringType: typeof(ProductsDetails),
             defaultValue: "Barlow-SemiBold",
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string FontFamilyTitle
         {
@@ -39,11 +39,11 @@ namespace Next2.Controls
         }
 
         public static readonly BindableProperty FontSizePriceProperty = BindableProperty.Create(
-           propertyName: nameof(FontSizePrice),
-           returnType: typeof(double),
-           defaultValue: (double)Application.Current.Resources["TSize_i5"],
-           declaringType: typeof(ProductsDetails),
-           defaultBindingMode: BindingMode.TwoWay);
+            propertyName: nameof(FontSizePrice),
+            returnType: typeof(double),
+            defaultValue: (double)Application.Current.Resources["TSize_i5"],
+            declaringType: typeof(ProductsDetails),
+            defaultBindingMode: BindingMode.OneWay);
 
         public double FontSizePrice
         {
@@ -56,7 +56,7 @@ namespace Next2.Controls
             returnType: typeof(string),
             declaringType: typeof(ProductsDetails),
             defaultValue: "Barlow-SemiBold",
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string FontFamilyPrice
         {
@@ -65,11 +65,11 @@ namespace Next2.Controls
         }
 
         public static readonly BindableProperty FontSizeProductProperty = BindableProperty.Create(
-           propertyName: nameof(FontSizeProduct),
-           returnType: typeof(double),
-           defaultValue: (double)Application.Current.Resources["TSize_i5"],
-           declaringType: typeof(ProductsDetails),
-           defaultBindingMode: BindingMode.TwoWay);
+            propertyName: nameof(FontSizeProduct),
+            returnType: typeof(double),
+            defaultValue: (double)Application.Current.Resources["TSize_i5"],
+            declaringType: typeof(ProductsDetails),
+            defaultBindingMode: BindingMode.OneWay);
 
         public double FontSizeProduct
         {
@@ -82,7 +82,7 @@ namespace Next2.Controls
             returnType: typeof(string),
             declaringType: typeof(ProductsDetails),
             defaultValue: "Barlow-Medium",
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string FontFamilyProduct
         {
@@ -94,7 +94,8 @@ namespace Next2.Controls
             nameof(ItemsSource),
             typeof(ICollection),
             typeof(ProductsDetails),
-            default(ICollection));
+            default(ICollection),
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICollection ItemsSource
         {

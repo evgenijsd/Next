@@ -17,7 +17,8 @@ namespace Next2.Controls
         public static readonly BindableProperty MinimumValueProperty = BindableProperty.Create(
             propertyName: nameof(MinimumValue),
             returnType: typeof(int),
-            declaringType: typeof(NumericPicker));
+            declaringType: typeof(NumericPicker),
+            defaultBindingMode: BindingMode.OneWay);
 
         public int MinimumValue
         {
@@ -28,7 +29,8 @@ namespace Next2.Controls
         public static readonly BindableProperty MaximumValueProperty = BindableProperty.Create(
             propertyName: nameof(MaximumValue),
             returnType: typeof(int),
-            declaringType: typeof(NumericPicker));
+            declaringType: typeof(NumericPicker),
+            defaultBindingMode: BindingMode.OneWay);
 
         public int MaximumValue
         {
@@ -39,7 +41,8 @@ namespace Next2.Controls
         public static readonly BindableProperty StringFormatProperty = BindableProperty.Create(
             propertyName: nameof(StringFormat),
             returnType: typeof(string),
-            declaringType: typeof(NumericPicker));
+            declaringType: typeof(NumericPicker),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string StringFormat
         {

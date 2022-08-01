@@ -22,7 +22,7 @@ namespace Next2.Controls
             returnType: typeof(string),
             defaultValue: "ic_minus_primary_32x32",
             declaringType: typeof(CustomStepper),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string DecrementIconSource
         {
@@ -35,7 +35,7 @@ namespace Next2.Controls
             returnType: typeof(string),
             defaultValue: "ic_plus_primary_32x32",
             declaringType: typeof(CustomStepper),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string IncrementIconSource
         {
@@ -48,7 +48,7 @@ namespace Next2.Controls
             returnType: typeof(int),
             defaultValue: 30,
             declaringType: typeof(CustomStepper),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int IconSizes
         {
@@ -61,7 +61,7 @@ namespace Next2.Controls
             returnType: typeof(int),
             defaultValue: 22,
             declaringType: typeof(CustomStepper),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int TextWidth
         {
@@ -74,7 +74,7 @@ namespace Next2.Controls
             returnType: typeof(Color),
             defaultValue: (Color)Application.Current.Resources["TextAndBackgroundColor_i1"],
             declaringType: typeof(CustomStepper),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color TextColor
         {
@@ -87,7 +87,7 @@ namespace Next2.Controls
             returnType: typeof(string),
             defaultValue: "Barlow-Bold",
             declaringType: typeof(CustomStepper),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string FontFamily
         {
@@ -100,7 +100,7 @@ namespace Next2.Controls
             returnType: typeof(double),
             defaultValue: (double)Application.Current.Resources["TSize_i6"],
             declaringType: typeof(CustomStepper),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double FontSize
         {
@@ -113,7 +113,7 @@ namespace Next2.Controls
             returnType: typeof(string),
             defaultValue: "{0}",
             declaringType: typeof(CustomStepper),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string ValueFormat
         {
@@ -139,7 +139,7 @@ namespace Next2.Controls
             returnType: typeof(int),
             defaultValue: 1,
             declaringType: typeof(CustomStepper),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int IncrementValue
         {
@@ -152,7 +152,7 @@ namespace Next2.Controls
             returnType: typeof(int),
             defaultValue: 0,
             declaringType: typeof(CustomStepper),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int MinValue
         {
@@ -165,7 +165,7 @@ namespace Next2.Controls
             returnType: typeof(int),
             defaultValue: 0,
             declaringType: typeof(CustomStepper),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int MaxValue
         {
@@ -177,7 +177,7 @@ namespace Next2.Controls
             propertyName: nameof(DecrementCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(CustomStepper),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand DecrementCommand
         {
@@ -189,7 +189,7 @@ namespace Next2.Controls
             propertyName: nameof(IncrementCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(CustomStepper),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand IncrementCommand
         {

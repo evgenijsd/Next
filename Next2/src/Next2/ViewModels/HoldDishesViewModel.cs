@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
 using Next2.Enums;
-using Next2.Models;
 using Next2.Models.Bindables;
-using Next2.Services.OrdersHolding;
+using Next2.Services.DishesHolding;
 using Next2.Services.Notifications;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;

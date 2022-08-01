@@ -20,7 +20,7 @@ namespace Next2.Controls
             propertyName: nameof(HeaderBackgroundColor),
             returnType: typeof(Color),
             declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color HeaderBackgroundColor
         {
@@ -32,7 +32,7 @@ namespace Next2.Controls
             propertyName: nameof(HeaderTextColor),
             returnType: typeof(Color),
             declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color HeaderTextColor
         {
@@ -44,7 +44,7 @@ namespace Next2.Controls
             propertyName: nameof(HeaderFontFamily),
             returnType: typeof(string),
             declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string HeaderFontFamily
         {
@@ -56,7 +56,7 @@ namespace Next2.Controls
             propertyName: nameof(HeaderTextSize),
             returnType: typeof(double),
             declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double HeaderTextSize
         {
@@ -69,7 +69,7 @@ namespace Next2.Controls
             returnType: typeof(double),
             declaringType: typeof(DropDownList),
             defaultValue: 1d,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double HeaderTextOpacity
         {
@@ -81,7 +81,7 @@ namespace Next2.Controls
             propertyName: nameof(HeaderText),
             returnType: typeof(FormattedString),
             declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public FormattedString HeaderText
         {
@@ -93,7 +93,7 @@ namespace Next2.Controls
             propertyName: nameof(WrappedListIconSource),
             returnType: typeof(string),
             declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string WrappedListIconSource
         {
@@ -105,7 +105,7 @@ namespace Next2.Controls
             propertyName: nameof(ExpandedListIconSource),
             returnType: typeof(string),
             declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string ExpandedListIconSource
         {
@@ -117,7 +117,7 @@ namespace Next2.Controls
             propertyName: nameof(IconSizes),
             returnType: typeof(int),
             declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int IconSizes
         {
@@ -129,7 +129,7 @@ namespace Next2.Controls
             propertyName: nameof(Direction),
             returnType: typeof(EDropDownListDirection),
             declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public EDropDownListDirection Direction
         {
@@ -141,7 +141,7 @@ namespace Next2.Controls
             propertyName: nameof(ScrollBarVisibility),
             returnType: typeof(ScrollBarVisibility),
             declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public ScrollBarVisibility ScrollBarVisibility
         {
@@ -153,7 +153,7 @@ namespace Next2.Controls
             propertyName: nameof(DataTemplate),
             returnType: typeof(DataTemplate),
             declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public DataTemplate DataTemplate
         {
@@ -165,7 +165,7 @@ namespace Next2.Controls
             propertyName: nameof(ItemHeight),
             returnType: typeof(double),
             declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double ItemHeight
         {
@@ -177,7 +177,7 @@ namespace Next2.Controls
             propertyName: nameof(MaxNumberOfVisibleItems),
             returnType: typeof(int),
             declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int MaxNumberOfVisibleItems
         {
@@ -186,10 +186,10 @@ namespace Next2.Controls
         }
 
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
-         propertyName: nameof(ItemsSource),
-         returnType: typeof(IList),
-         declaringType: typeof(DropDownList),
-         defaultBindingMode: BindingMode.TwoWay);
+            propertyName: nameof(ItemsSource),
+            returnType: typeof(IList),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.OneWay);
 
         public IList ItemsSource
         {
@@ -225,7 +225,7 @@ namespace Next2.Controls
             propertyName: nameof(ShouldTranslationY),
             returnType: typeof(bool),
             declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool ShouldTranslationY
         {
@@ -236,7 +236,8 @@ namespace Next2.Controls
         public static readonly BindableProperty SelectionChangedCommandProperty = BindableProperty.Create(
             propertyName: nameof(SelectionChangedCommand),
             returnType: typeof(ICommand),
-            declaringType: typeof(DropDownList));
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand SelectionChangedCommand
         {

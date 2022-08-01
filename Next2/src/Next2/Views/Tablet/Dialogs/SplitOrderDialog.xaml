@@ -75,7 +75,6 @@
                 VerticalOptions="EndAndExpand"
                 HeightRequest="2" />
 
-            <!--  dish info  -->
             <StackLayout
                 Grid.Row="1"
                 Padding="18 ,0"
@@ -119,7 +118,6 @@
                 VerticalOptions="EndAndExpand"
                 HeightRequest="1" />
 
-            <!--  Body  -->
             <Grid
                 Grid.Row="2"
                 RowSpacing="18"
@@ -151,7 +149,6 @@
 
                         <Grid>
 
-                            <!--  values  -->
                             <StackLayout
                                 Grid.Row="0"
                                 Margin="18, 0, 0, 0"
@@ -159,7 +156,7 @@
 
                                 <StackLayout.Resources>
 
-                                    <Style TargetType="Frame" x:Key="frameStyle">
+                                    <Style x:Key="frameStyle" TargetType="Frame">
 
                                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                                         <Setter Property="HeightRequest" Value="32" />
@@ -168,7 +165,7 @@
 
                                     </Style>
 
-                                    <Style TargetType="Label" x:Key="labelStyle">
+                                    <Style x:Key="labelStyle" TargetType="Label">
 
                                         <Setter Property="VerticalTextAlignment" Value="Center" />
                                         <Setter Property="HorizontalTextAlignment" Value="Center" />
@@ -198,7 +195,9 @@
 
                                                 <DataTrigger.Binding>
 
-                                                    <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 25)">
+                                                    <MultiBinding
+                                                        Converter="{xct:MultiMathExpressionConverter}"
+                                                        ConverterParameter="min(x, 25)">
                                                         <Binding Path="AvailableValue" />
                                                     </MultiBinding>
 
@@ -224,7 +223,9 @@
                                             <DataTrigger TargetType="Frame" Value="50">
 
                                                 <DataTrigger.Binding>
-                                                    <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 50)">
+                                                    <MultiBinding
+                                                        Converter="{xct:MultiMathExpressionConverter}"
+                                                        ConverterParameter="min(x, 50)">
 
                                                         <Binding Path="AvailableValue" />
 
@@ -252,7 +253,9 @@
                                             <DataTrigger TargetType="Frame" Value="75">
 
                                                 <DataTrigger.Binding>
-                                                    <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 75)">
+                                                    <MultiBinding
+                                                        Converter="{xct:MultiMathExpressionConverter}"
+                                                        ConverterParameter="min(x, 75)">
 
                                                         <Binding Path="AvailableValue" />
 
@@ -274,7 +277,6 @@
 
                             </StackLayout>
 
-                            <!--  stepper  -->
                             <controls:CustomStepper
                                 Grid.Row="1"
                                 Padding="18, 0, 0, 0"
@@ -290,7 +292,6 @@
                                 ValueFormat="{Static local:Constants+Formats.PERCENT_FORMAT}"
                                 Value="{Binding SplitValue}" />
 
-                            <!--  split total  -->
                             <BoxView
                                 Grid.Row="2"
                                 Margin="18, 0, 0, 0"
@@ -356,7 +357,6 @@
 
                 </sc:StateContainer>
 
-                <!--  left side  -->
                 <CollectionView
                     Grid.RowSpan="3"
                     Grid.Column="0"
@@ -397,6 +397,36 @@
                         <DataTemplate x:DataType="models:SeatBindableModel">
 
                             <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+                                <VisualStateManager.VisualStateGroups>
+
+                                    <VisualStateGroup Name="CommonStates">
+
+                                        <VisualState Name="Selected">
+
+                                            <VisualState.Setters>
+
+                                                <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
+                                                <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24.png" />
+
+                                            </VisualState.Setters>
+
+                                        </VisualState>
+
+                                        <VisualState Name="Normal">
+
+                                            <VisualState.Setters>
+
+                                                <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                                                <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_unhecked_24x24.png" />
+
+                                            </VisualState.Setters>
+
+                                        </VisualState>
+
+                                    </VisualStateGroup>
+
+                                </VisualStateManager.VisualStateGroups>
 
                                 <Frame
                                     Padding="18"
@@ -453,36 +483,6 @@
 
                                 </Frame>
 
-                                <VisualStateManager.VisualStateGroups>
-
-                                    <VisualStateGroup Name="CommonStates">
-
-                                        <VisualState Name="Selected">
-
-                                            <VisualState.Setters>
-
-                                                <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
-                                                <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white.png" />
-
-                                            </VisualState.Setters>
-
-                                        </VisualState>
-
-                                        <VisualState Name="Normal">
-
-                                            <VisualState.Setters>
-
-                                                <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
-                                                <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_unhecked_24x24.png" />
-
-                                            </VisualState.Setters>
-
-                                        </VisualState>
-
-                                    </VisualStateGroup>
-
-                                </VisualStateManager.VisualStateGroups>
-
                             </StackLayout>
 
                         </DataTemplate>
@@ -493,7 +493,6 @@
 
             </Grid>
 
-            <!--  Buttons  -->
             <BoxView
                 Grid.Row="3"
                 VerticalOptions="StartAndExpand"
@@ -527,21 +526,23 @@
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                     CornerRadius="5"
+                    IsEnabled="False"
                     xct:TouchEffect.Command="{Binding SplitCommand}">
+
+                    <Frame.Triggers>
+                        <DataTrigger TargetType="Frame" Binding="{Binding IsSplitAvailable}" Value="true">
+
+                            <Setter Property="Opacity" Value="1" />
+                            <Setter Property="IsEnabled" Value="True" />
+
+                        </DataTrigger>
+                    </Frame.Triggers>
 
                     <Label
                         VerticalTextAlignment="Center"
                         HorizontalTextAlignment="Center"
                         Text="{xct:Translate Split}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i6}" />
-
-                    <Frame.Triggers>
-                        <DataTrigger TargetType="Frame" Binding="{Binding IsSplitAvailable}" Value="true">
-
-                            <Setter Property="Opacity" Value="1" />
-
-                        </DataTrigger>
-                    </Frame.Triggers>
 
                 </Frame>
 

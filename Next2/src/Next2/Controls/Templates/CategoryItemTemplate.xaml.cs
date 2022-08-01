@@ -15,7 +15,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
-            declaringType: typeof(CategoryItemTemplate));
+            declaringType: typeof(CategoryItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Text
         {
@@ -28,7 +29,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(double),
             declaringType: typeof(CategoryItemTemplate),
             defaultValue: 12d,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double FontSize
         {
@@ -41,7 +42,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(string),
             declaringType: typeof(CategoryItemTemplate),
             defaultValue: string.Empty,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string FontFamily
         {

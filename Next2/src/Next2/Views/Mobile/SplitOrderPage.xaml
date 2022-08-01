@@ -12,8 +12,7 @@
     x:Class="Next2.Views.Mobile.SplitOrderPage"
     x:DataType="viewModels:SplitOrderViewModel">
 
-    <!--  Seats LIST  -->
-    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
         <StackLayout.Resources>
 
@@ -27,7 +26,6 @@
 
         </StackLayout.Resources>
 
-        <!--  Navbar  -->
         <StackLayout>
 
             <controls:CustomNavigationBar
@@ -69,7 +67,6 @@
 
         </StackLayout>
 
-        <!--  SeatList  -->
         <CollectionView
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
             VerticalScrollBarVisibility="Always"
@@ -100,7 +97,6 @@
 
         </CollectionView>
 
-        <!--  Bottom Buttons  -->
         <Grid
             Grid.Row="1"
             RowDefinitions="0.3*, *, 0.3*"
