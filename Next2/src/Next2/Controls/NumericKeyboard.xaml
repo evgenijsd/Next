@@ -3,7 +3,6 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     x:Class="Next2.Controls.NumericKeyboard">
 
     <Grid RowDefinitions="60, *">
@@ -35,11 +34,11 @@
                             <MultiTrigger.Conditions>
                                 
                                 <BindingCondition
-                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=IsTextRightToLeft}"
+                                    Binding="{Binding IsTextRightToLeft, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
                                     Value="True" />
                                 
                                 <BindingCondition
-                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=IsKeyboardTyped}"
+                                    Binding="{Binding IsKeyboardTyped, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
                                     Value="True" />
                                 
                             </MultiTrigger.Conditions>
@@ -49,7 +48,7 @@
 
                         </MultiTrigger>
 
-                        <DataTrigger TargetType="Label" Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=IsKeyboardTyped}" Value="True">
+                        <DataTrigger TargetType="Label" Binding="{Binding IsKeyboardTyped, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}" Value="True">
 
                             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
                             <Setter Property="Text" Value="{Binding ScreenKeyboard, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}" />

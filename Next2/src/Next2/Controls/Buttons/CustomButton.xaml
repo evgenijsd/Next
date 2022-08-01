@@ -12,7 +12,7 @@
     x:DataType="local:CustomButton">
 
     <Grid.GestureRecognizers>
-        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:CustomButton}}, Path=Command}"/>
+        <TapGestureRecognizer Command="{Binding Command, Source={RelativeSource AncestorType={x:Type local:CustomButton}}}"/>
     </Grid.GestureRecognizers>
 
     <!--BACKGROUND-->
@@ -20,13 +20,13 @@
     <yummy:PancakeView
         Grid.Row="0"
         BackgroundColor="{DynamicResource AppColor_i4}"
-        CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type local:CustomButton}}, Path=CornerRadius}">
+        CornerRadius="{Binding CornerRadius, Source={RelativeSource AncestorType={x:Type local:CustomButton}}}">
 
         <yummy:PancakeView.Triggers>
 
             <DataTrigger
                 TargetType="yummy:PancakeView"
-                Binding="{Binding Source={RelativeSource AncestorType={x:Type local:CustomButton}}, Path=IsSelected}"
+                Binding="{Binding IsSelected, Source={RelativeSource AncestorType={x:Type local:CustomButton}}}"
                 Value="False">
                 
                 <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
@@ -45,7 +45,7 @@
 			
             <DataTrigger
                 TargetType="BoxView"
-                Binding="{Binding Source={RelativeSource AncestorType={x:Type local:CustomButton}}, Path=IsSelected}"
+                Binding="{Binding IsSelected, Source={RelativeSource AncestorType={x:Type local:CustomButton}}}"
                 Value="False">
                 
                 <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
@@ -62,9 +62,9 @@
         Grid.Column="0"
         HorizontalOptions="CenterAndExpand"
         VerticalOptions="CenterAndExpand"
-        Text="{Binding Source={RelativeSource AncestorType={x:Type local:CustomButton}}, Path=Text}"
+        Text="{Binding Text, Source={RelativeSource AncestorType={x:Type local:CustomButton}}}"
         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-        FontSize="{Binding Source={RelativeSource AncestorType={x:Type local:CustomButton}}, Path=FontSize}" 
-        FontFamily="{Binding Source={RelativeSource AncestorType={x:Type local:CustomButton}}, Path=FontFamily}"/>
+        FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type local:CustomButton}}}" 
+        FontFamily="{Binding FontFamily, Source={RelativeSource AncestorType={x:Type local:CustomButton}}}"/>
 
 </Grid>

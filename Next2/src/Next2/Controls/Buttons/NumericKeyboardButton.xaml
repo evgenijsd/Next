@@ -13,7 +13,7 @@
 
     <Label 
         x:Name="buttonTitle"
-        Text="{Binding Source={RelativeSource AncestorType={x:Type buttons:NumericKeyboardButton}}, Path=Title}"
+        Text="{Binding Title, Source={RelativeSource AncestorType={x:Type buttons:NumericKeyboardButton}}}"
         HorizontalTextAlignment="Center"
         VerticalTextAlignment="Center"
         BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type buttons:NumericKeyboardButton}}}"
@@ -24,8 +24,8 @@
     <controls:CustomFrame.GestureRecognizers>
     
         <TapGestureRecognizer 
-            Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:NumericKeyboardButton}}, Path=TapGestureRecognizerCommand}"
-            CommandParameter="{Binding Source={x:Reference buttonTitle}, Path=Text}"/>
+            Command="{Binding TapGestureRecognizerCommand, Source={RelativeSource AncestorType={x:Type buttons:NumericKeyboardButton}}}"
+            CommandParameter="{Binding Text, Source={x:Reference buttonTitle}}"/>
     
     </controls:CustomFrame.GestureRecognizers>
 

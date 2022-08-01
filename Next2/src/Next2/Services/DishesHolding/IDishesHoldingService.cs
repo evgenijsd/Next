@@ -5,7 +5,7 @@ using Next2.Models.Bindables;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Next2.Services.OrdersHolding
+namespace Next2.Services.DishesHolding
 {
     public interface IDishesHoldingService
     {

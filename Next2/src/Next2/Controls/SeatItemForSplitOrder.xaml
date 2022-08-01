@@ -89,21 +89,51 @@
                                     LineBreakMode="TailTruncation"
                                     MaxLines="1" />
 
-                                <Label
-                                    FontSize="{DynamicResource TSize_i5}"
-                                    FontFamily="Barlow-SemiBold">
+                                <StackLayout Orientation="Horizontal">
 
-                                    <Label.FormattedText>
-                                        <FormattedString>
+                                    <Label
+                                        FontSize="{DynamicResource TSize_i5}"
+                                        FontFamily="Barlow-SemiBold">
 
-                                            <Span Text="{xct:Translate CurrencySign}" />
-                                            <Span Text=" " />
-                                            <Span Text="{Binding TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                        <Label.FormattedText>
+                                            <FormattedString>
 
-                                        </FormattedString>
-                                    </Label.FormattedText>
+                                                <Span Text="{xct:Translate CurrencySign}" />
+                                                <Span Text=" " />
+                                                <Span Text="{Binding TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
 
-                                </Label>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+
+                                    </Label>
+
+                                    <Frame
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="Start"
+                                        CornerRadius="{OnPlatform Android=45, iOS=12}"
+                                        IsVisible="{Binding HasSplittedPrice}"
+                                        BackgroundColor="{DynamicResource IndicationColor_i7}">
+
+                                        <Label
+                                            FontSize="{DynamicResource TSize_i9}"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i6}"
+                                            FontFamily="Barlow-SemiBold">
+
+                                            <Label.FormattedText>
+                                                <FormattedString>
+
+                                                    <Span Text="   " />
+                                                    <Span Text="{xct:Translate Splitted}" />
+                                                    <Span Text="   " />
+
+                                                </FormattedString>
+                                            </Label.FormattedText>
+
+                                        </Label>
+
+                                    </Frame>
+
+                                </StackLayout>
 
                             </StackLayout>
 

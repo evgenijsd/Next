@@ -17,7 +17,8 @@ namespace Next2.Controls.Templates
             propertyName: nameof(HeightBonus),
             returnType: typeof(double),
             defaultValue: 50.0d,
-            declaringType: typeof(BonusItemTemplate));
+            declaringType: typeof(BonusItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public double HeightBonus
         {
@@ -28,7 +29,8 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
-            declaringType: typeof(BonusItemTemplate));
+            declaringType: typeof(BonusItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Text
         {
@@ -40,7 +42,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(TapSelectCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(BonusItemTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand TapSelectCommand
         {
@@ -52,7 +54,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(TapSelectCommandParameter),
             returnType: typeof(BonusBindableModel),
             declaringType: typeof(BonusItemTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public object TapSelectCommandParameter
         {
@@ -64,7 +66,8 @@ namespace Next2.Controls.Templates
             propertyName: nameof(ImagePath),
             returnType: typeof(string),
             defaultValue: "ic_check_box_unchecked_white",
-            declaringType: typeof(BonusItemTemplate));
+            declaringType: typeof(BonusItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string ImagePath
         {
@@ -76,7 +79,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(BorderBonusColor),
             returnType: typeof(Color),
             declaringType: typeof(BonusItemTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color BorderBonusColor
         {
@@ -88,7 +91,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(BackColor),
             returnType: typeof(Color),
             declaringType: typeof(BonusItemTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color BackColor
         {

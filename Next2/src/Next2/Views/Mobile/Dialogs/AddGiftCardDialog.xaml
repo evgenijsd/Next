@@ -42,7 +42,7 @@
                     VerticalOptions="FillAndExpand"
                     IsErrorNotificationVisible="{Binding IsGiftCardNotExists}"
                     BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i4}"
-                    PlaceHolder="{xct:Translate TypeGiftCardNumber}" 
+                    Placeholder="{xct:Translate TypeGiftCardNumber}" 
                     Value="{Binding InputGiftCardNumber}"
                     MaxLength="{x:Static local:Constants+Limits.MAXIMUM_DISCHARGE_NUMBER}" />
 

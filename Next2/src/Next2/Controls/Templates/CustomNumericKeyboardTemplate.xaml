@@ -41,7 +41,7 @@
                     Padding="0">
 
                     <Label
-                        Text="{Binding PlaceHolder, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                        Text="{Binding Placeholder, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i9}"
                         VerticalTextAlignment="Center"
                         Margin="10, 0, 0, 0"
@@ -78,7 +78,7 @@
                                 Value="True">
 
                                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i9}"/>
-                                <Setter Property="Text" Value="{Binding PlaceHolder, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"/>
+                                <Setter Property="Text" Value="{Binding Placeholder, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"/>
 
                             </DataTrigger>
 
@@ -102,7 +102,7 @@
                 CornerRadius="{OnPlatform Android='5', iOS='8'}"
                 Padding="4"
                 BorderWidth="3"
-                IsVisible="{Binding IsErrorPlaceHolderVisible, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                IsVisible="{Binding IsErrorPlaceholderVisible, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
                 HasShadow="False"
                 BorderColor="{DynamicResource IndicationColor_i5}"
                 BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}">
@@ -113,7 +113,7 @@
                     Padding="0">
 
                     <Label
-                        Text="{Binding ErrorPlaceHolder, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                        Text="{Binding ErrorPlaceholder, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
                         LineBreakMode="NoWrap"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         VerticalTextAlignment="Center"

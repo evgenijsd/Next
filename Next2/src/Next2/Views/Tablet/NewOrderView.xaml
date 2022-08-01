@@ -1021,7 +1021,7 @@
                     <DataTemplate>
                         <StackLayout 
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}">
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
                             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
@@ -1130,7 +1130,7 @@
                     <DataTemplate>
                         <StackLayout 
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}">
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
                             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 

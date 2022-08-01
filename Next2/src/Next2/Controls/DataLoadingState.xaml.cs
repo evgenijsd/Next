@@ -16,7 +16,8 @@ namespace Next2.Controls
             propertyName: nameof(LayoutState),
             returnType: typeof(ELoadingState),
             defaultValue: ELoadingState.InProgress,
-            declaringType: typeof(DataLoadingState));
+            declaringType: typeof(DataLoadingState),
+            defaultBindingMode: BindingMode.OneWay);
 
         public ELoadingState LayoutState
         {

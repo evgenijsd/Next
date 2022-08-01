@@ -45,7 +45,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(BackgroundColorButton),
             returnType: typeof(Color),
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color BackgroundColorButton
         {
@@ -58,7 +58,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(string),
             defaultValue: "{0}",
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string ValueFormat
         {
@@ -71,7 +71,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(int),
             defaultValue: 6,
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int MaxLength
         {
@@ -95,7 +95,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(IsNumericMode),
             returnType: typeof(bool),
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsNumericMode
         {
@@ -107,7 +107,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(IsTextRightToLeft),
             returnType: typeof(bool),
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsTextRightToLeft
         {
@@ -119,7 +119,7 @@ namespace Next2.Controls.Templates
             propertyName: nameof(IsUserLogIn),
             returnType: typeof(bool),
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsUserLogIn
         {
@@ -127,16 +127,16 @@ namespace Next2.Controls.Templates
             set => SetValue(IsUserLogInProperty, value);
         }
 
-        public static readonly BindableProperty PlaceHolderProperty = BindableProperty.Create(
-            propertyName: nameof(PlaceHolder),
+        public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
+            propertyName: nameof(Placeholder),
             returnType: typeof(string),
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
-        public string PlaceHolder
+        public string Placeholder
         {
-            get => (string)GetValue(PlaceHolderProperty);
-            set => SetValue(PlaceHolderProperty, value);
+            get => (string)GetValue(PlaceholderProperty);
+            set => SetValue(PlaceholderProperty, value);
         }
 
         public static readonly BindableProperty IsErrorNotificationVisibleProperty = BindableProperty.Create(
@@ -151,28 +151,28 @@ namespace Next2.Controls.Templates
             set => SetValue(IsErrorNotificationVisibleProperty, value);
         }
 
-        public static readonly BindableProperty ErrorPlaceHolderProperty = BindableProperty.Create(
-            propertyName: nameof(ErrorPlaceHolder),
+        public static readonly BindableProperty ErrorPlaceholderProperty = BindableProperty.Create(
+            propertyName: nameof(ErrorPlaceholder),
             returnType: typeof(string),
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
-        public string ErrorPlaceHolder
+        public string ErrorPlaceholder
         {
-            get => (string)GetValue(ErrorPlaceHolderProperty);
-            set => SetValue(ErrorPlaceHolderProperty, value);
+            get => (string)GetValue(ErrorPlaceholderProperty);
+            set => SetValue(ErrorPlaceholderProperty, value);
         }
 
-        public static readonly BindableProperty IsErrorPlaceHolderVisibleProperty = BindableProperty.Create(
-            propertyName: nameof(IsErrorPlaceHolderVisible),
+        public static readonly BindableProperty IsErrorPlaceholderVisibleProperty = BindableProperty.Create(
+            propertyName: nameof(IsErrorPlaceholderVisible),
             returnType: typeof(bool),
             declaringType: typeof(CustomNumericKeyboardTemplate),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
-        public bool IsErrorPlaceHolderVisible
+        public bool IsErrorPlaceholderVisible
         {
-            get => (bool)GetValue(IsErrorPlaceHolderVisibleProperty);
-            set => SetValue(IsErrorPlaceHolderVisibleProperty, value);
+            get => (bool)GetValue(IsErrorPlaceholderVisibleProperty);
+            set => SetValue(IsErrorPlaceholderVisibleProperty, value);
         }
 
         private ICommand _buttonTapCommand;
@@ -192,8 +192,8 @@ namespace Next2.Controls.Templates
             if (propertyName == nameof(IsUserLogIn))
             {
                 _numericValue = 0;
-                Value = PlaceHolder;
-                ScreenKeyboard = PlaceHolder;
+                Value = Placeholder;
+                ScreenKeyboard = Placeholder;
 
                 IsKeyBoardTyped = false;
             }
@@ -242,7 +242,7 @@ namespace Next2.Controls.Templates
 
         private async Task OnTabClearAsync(object? arg)
         {
-            ScreenKeyboard = PlaceHolder;
+            ScreenKeyboard = Placeholder;
             Value = string.Empty;
             _numericValue = 0;
             IsKeyBoardTyped = false;

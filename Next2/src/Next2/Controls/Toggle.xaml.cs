@@ -35,7 +35,8 @@ namespace Next2.Controls
             propertyName: nameof(CanTurnOff),
             returnType: typeof(bool),
             defaultValue: true,
-            declaringType: typeof(Toggle));
+            declaringType: typeof(Toggle),
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool CanTurnOff
         {
@@ -46,7 +47,8 @@ namespace Next2.Controls
         public static readonly BindableProperty ThumbColorProperty = BindableProperty.Create(
             propertyName: nameof(ThumbColor),
             returnType: typeof(Color),
-            declaringType: typeof(Toggle));
+            declaringType: typeof(Toggle),
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color ThumbColor
         {
@@ -58,7 +60,8 @@ namespace Next2.Controls
             propertyName: nameof(ThumbSize),
             returnType: typeof(double),
             declaringType: typeof(Toggle),
-            defaultValue: 21d);
+            defaultValue: 21d,
+            defaultBindingMode: BindingMode.OneWay);
 
         public double ThumbSize
         {
@@ -70,7 +73,8 @@ namespace Next2.Controls
             propertyName: nameof(ThumbOffset),
             returnType: typeof(double),
             declaringType: typeof(Toggle),
-            defaultValue: 2d);
+            defaultValue: 2d,
+            defaultBindingMode: BindingMode.OneWay);
 
         public double ThumbOffset
         {
@@ -81,7 +85,8 @@ namespace Next2.Controls
         public static readonly BindableProperty OnColorProperty = BindableProperty.Create(
             propertyName: nameof(OnColor),
             returnType: typeof(Color),
-            declaringType: typeof(Toggle));
+            declaringType: typeof(Toggle),
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color OnColor
         {
@@ -92,7 +97,8 @@ namespace Next2.Controls
         public static readonly BindableProperty ChangingToggleCommandProperty = BindableProperty.Create(
             propertyName: nameof(ChangingToggleCommand),
             returnType: typeof(ICommand),
-            declaringType: typeof(Toggle));
+            declaringType: typeof(Toggle),
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand ChangingToggleCommand
         {
@@ -103,7 +109,8 @@ namespace Next2.Controls
         public static readonly BindableProperty ChangingToggleCommandParameterProperty = BindableProperty.Create(
             propertyName: nameof(ChangingToggleCommandParameter),
             returnType: typeof(object),
-            declaringType: typeof(Toggle));
+            declaringType: typeof(Toggle),
+            defaultBindingMode: BindingMode.OneWay);
 
         public object ChangingToggleCommandParameter
         {

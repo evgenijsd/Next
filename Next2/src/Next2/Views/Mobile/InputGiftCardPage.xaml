@@ -101,12 +101,12 @@
         <templates:CustomNumericKeyboardTemplate
             Grid.Row="2"
             BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i5}"
-            PlaceHolder="{xct:Translate EnterAmount}"
-            ErrorPlaceHolder="{xct:Translate YouDontHaveFundsOnGiftCards}" 
+            Placeholder="{xct:Translate EnterAmount}"
+            ErrorPlaceholder="{xct:Translate YouDontHaveFundsOnGiftCards}" 
             IsTextRightToLeft="True"
             IsNumericMode="True"
             Value="{Binding InputGiftCardFounds}"
-            IsErrorPlaceHolderVisible="{Binding IsErrorNotificationVisible}"
+            IsErrorPlaceholderVisible="{Binding IsErrorNotificationVisible}"
             ValueFormat="{x:Static local:Constants+Formats.CASH_FORMAT}"
             MaxLength="{x:Static local:Constants+Limits.MAXIMUM_DISCHARGE_NUMBER}"
             Margin="20, 0, 20, 15"/>

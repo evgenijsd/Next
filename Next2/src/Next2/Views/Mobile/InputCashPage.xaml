@@ -60,7 +60,7 @@
         <templates:CustomNumericKeyboardTemplate
             Grid.Row="2"
             BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i5}"
-            PlaceHolder="{xct:Translate EnterAmount}"
+            Placeholder="{xct:Translate EnterAmount}"
             IsTextRightToLeft="True"
             IsNumericMode="True"
             Value="{Binding InputValue}"
