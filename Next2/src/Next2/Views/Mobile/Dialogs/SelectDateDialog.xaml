@@ -88,7 +88,6 @@
                 <RowDefinition Height="{OnIdiom Phone=0.125*, Tablet=0.155*}" />
             </Grid.RowDefinitions>
 
-            <!--  HEADER  -->
             <Label
                 Grid.Row="0"
                 Style="{DynamicResource HeaderLabelStyle}"
@@ -120,7 +119,6 @@
 
             </controls:Calendar>
 
-            <!--  buttons  -->
             <BoxView
                 Grid.Row="2"
                 Grid.ColumnSpan="2"

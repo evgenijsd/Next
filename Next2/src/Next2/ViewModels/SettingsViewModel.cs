@@ -64,6 +64,7 @@ namespace Next2.ViewModels
         private Task OnChangeStateCommand(ESettingsPageState state)
         {
             PageState = state;
+
             switch (state)
             {
                 case ESettingsPageState.Default:

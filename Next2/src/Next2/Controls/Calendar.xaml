@@ -50,8 +50,8 @@
             <Label
                 VerticalTextAlignment="Center"
                 HorizontalOptions="FillAndExpand"
-                FontFamily="{Binding MonthLabelFontFamily, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
-                FontSize="{Binding MonthLabelFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                FontFamily="{Binding MonthFontFamily, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                FontSize="{Binding MonthFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
                 Text="{Binding Month.Name, Source={x:Reference calendar}}"
                 x:Name="monthLabel" />
 
@@ -129,7 +129,7 @@
                                 VerticalOptions="Center"
                                 HorizontalOptions="Center"
                                 FontFamily="Barlow-SemiBold"
-                                FontSize="{Binding DayLabelFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                                FontSize="{Binding DayFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
                                 Text="{Binding DayOfMonth}">
 
                                 <Label.Triggers>
@@ -186,15 +186,15 @@
                                 HeightRequest="32"
                                 WidthRequest="120"
                                 CornerRadius="0"
-                                BackgroundColor="{Binding DropdownListBackGroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                                BackgroundColor="{Binding DropdownListBackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
                                 xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:Calendar}}, Path=SelectYearCommand}">
 
                                 <Label
                                     VerticalTextAlignment="Center"
                                     HorizontalTextAlignment="Center"
-                                    FontFamily="{Binding DropdownListLabelsFontFamily, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                                    FontFamily="{Binding DropdownListFontFamily, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
                                     Opacity="{Binding Opacity}"
-                                    FontSize="{Binding DropdownHeadLabelFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                                    FontSize="{Binding DropdownHeaderFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
                                     Text="{Binding YearValue}" />
 
                                 <VisualStateManager.VisualStateGroups>
@@ -226,8 +226,8 @@
             Padding="1"
             VerticalOptions="FillAndExpand"
             HorizontalOptions="EndAndExpand"
-            HeightRequest="{Binding DropdownHeadHeightRequest, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
-            WidthRequest="{Binding DropdownHeadWidthRequest, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+            HeightRequest="{Binding DropdownHeaderHeightRequest, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+            WidthRequest="{Binding DropdownHeaderWidthRequest, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
             xct:CornerRadiusEffect.CornerRadius="4"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
             xct:TouchEffect.Command="{Binding YearDropdownTapCommand, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
@@ -248,7 +248,7 @@
                     <DataTrigger TargetType="Frame" Binding="{Binding Source={x:Reference dropdownFrame}, Path=IsVisible}" Value="True">
 
                         <Setter Property="xct:CornerRadiusEffect.CornerRadius" Value="4, 4, 0, 0" />
-                        <Setter Property="BackgroundColor" Value="{Binding DropdownHeadDroppedBackGroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}" />
+                        <Setter Property="BackgroundColor" Value="{Binding DropdownHeaderDroppedBackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}" />
 
                     </DataTrigger>
                 </Frame.Triggers>
@@ -260,7 +260,7 @@
 
                     <Label
                         VerticalTextAlignment="Center"
-                        FontSize="{Binding DropdownHeadLabelFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                        FontSize="{Binding DropdownHeaderFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
                         FontFamily="Barlow-Medium"
                         Text="{Binding SelectedYear.YearValue, Source={x:Reference calendar}}" />
 
@@ -290,6 +290,3 @@
     </Grid>
 
 </StackLayout>
-
-
-

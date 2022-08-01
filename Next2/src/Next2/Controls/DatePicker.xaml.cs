@@ -15,7 +15,7 @@ namespace Next2.Controls
         public static readonly BindableProperty DateLabelProperty = BindableProperty.Create(
             propertyName: nameof(DateLabel),
             returnType: typeof(DateTime),
-            defaultBindingMode: BindingMode.TwoWay,
+            defaultBindingMode: BindingMode.OneWay,
             defaultValue: DateTime.Now,
             declaringType: typeof(DatePicker));
 

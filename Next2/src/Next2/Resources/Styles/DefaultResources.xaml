@@ -194,17 +194,17 @@
 
     <Style x:Key="CalendarTabletStyle" TargetType="controls:Calendar">
         <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
-        <Setter Property="DropdownListBackGroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
-        <Setter Property="DropdownHeadDroppedBackGroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>
-        <Setter Property="MonthLabelFontFamily" Value="Barlow-Regular"/>
-        <Setter Property="DropdownListLabelsFontFamily" Value="Barlow-Medium"/>
-        <Setter Property="DropdownHeadLabelFontSize" Value="{DynamicResource TSize_i8}"/>
-        <Setter Property="MonthLabelFontSize" Value="{DynamicResource TSize_i6}"/>
-        <Setter Property="DayLabelFontSize" Value="{DynamicResource TSize_i9}"/>
+        <Setter Property="DropdownListBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
+        <Setter Property="DropdownHeaderDroppedBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>
+        <Setter Property="MonthFontFamily" Value="Barlow-Regular"/>
+        <Setter Property="DropdownListFontFamily" Value="Barlow-Medium"/>
+        <Setter Property="DropdownHeaderFontSize" Value="{DynamicResource TSize_i8}"/>
+        <Setter Property="MonthFontSize" Value="{DynamicResource TSize_i6}"/>
+        <Setter Property="DayFontSize" Value="{DynamicResource TSize_i9}"/>
         <Setter Property="MonthStepperIconSize" Value="30"/>
         <Setter Property="DropdownWidthRequest" Value="90"/>
-        <Setter Property="DropdownHeadWidthRequest" Value="90"/>
-        <Setter Property="DropdownHeadHeightRequest" Value="30"/>
+        <Setter Property="DropdownHeaderWidthRequest" Value="90"/>
+        <Setter Property="DropdownHeaderHeightRequest" Value="30"/>
     </Style>
 
     <!-- CONVERTERS -->

@@ -6,7 +6,7 @@ namespace Next2.Views
 {
     public class BaseContentView : ContentView
     {
-        private bool _viewLoaded = false;
+        private bool _isViewLoaded = false;
 
         public BaseContentView()
         {
@@ -22,7 +22,7 @@ namespace Next2.Views
             {
                 if (BindingContext is IPageActionsHandler handler)
                 {
-                    if (_viewLoaded)
+                    if (_isViewLoaded)
                     {
                         handler.OnDisappearing();
                     }
@@ -31,7 +31,7 @@ namespace Next2.Views
                         handler.OnAppearing();
                     }
 
-                    _viewLoaded = !_viewLoaded;
+                    _isViewLoaded = !_isViewLoaded;
                 }
             }
         }
