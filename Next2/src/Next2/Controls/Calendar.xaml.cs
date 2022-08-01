@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -190,17 +192,29 @@ namespace Next2.Controls
             set => SetValue(MonthLabelFontSizeProperty, value);
         }
 
-        public static readonly BindableProperty MonthStepperIconScaleProperty = BindableProperty.Create(
-           propertyName: nameof(MonthStepperIconScale),
+        //public static readonly BindableProperty MonthStepperIconScaleProperty = BindableProperty.Create(
+        //   propertyName: nameof(MonthStepperIconScale),
+        //   returnType: typeof(double),
+        //   defaultValue: 0.6d,
+        //   declaringType: typeof(Calendar),
+        //   defaultBindingMode: BindingMode.OneWay);
+
+        //public double MonthStepperIconScale
+        //{
+        //    get => (double)GetValue(MonthStepperIconScaleProperty);
+        //    set => SetValue(MonthStepperIconScaleProperty, value);
+        //}
+        public static readonly BindableProperty MonthStepperIconSizeProperty = BindableProperty.Create(
+           propertyName: nameof(MonthStepperIconSize),
            returnType: typeof(double),
-           defaultValue: 0.6d,
+           defaultValue: 35.25d,
            declaringType: typeof(Calendar),
            defaultBindingMode: BindingMode.OneWay);
 
-        public double MonthStepperIconScale
+        public double MonthStepperIconSize
         {
-            get => (double)GetValue(MonthStepperIconScaleProperty);
-            set => SetValue(MonthStepperIconScaleProperty, value);
+            get => (double)GetValue(MonthStepperIconSizeProperty);
+            set => SetValue(MonthStepperIconSizeProperty, value);
         }
 
         public static readonly BindableProperty DayLabelFontSizeProperty = BindableProperty.Create(
@@ -269,10 +283,13 @@ namespace Next2.Controls
         public ICommand SelectYearCommand => _selectYearCommand ??= new Command(() => dropdownFrame.IsVisible = false);
 
         private ICommand _rightMonthTapCommand;
-        public ICommand RightMonthTapCommand => _rightMonthTapCommand ??= new Command(OnRightMonthButtonTapped);
+        public ICommand RightMonthTapCommand => _rightMonthTapCommand ??= new AsyncCommand(OnRightMonthButtonTapped);
 
         private ICommand _leftMonthTapCommand;
-        public ICommand LeftMonthTapCommand => _leftMonthTapCommand ??= new Command(OnLeftMonthButtonTapped);
+        public ICommand LeftMonthTapCommand => _leftMonthTapCommand ??= new AsyncCommand(OnLeftMonthButtonTapped);
+
+        private ICommand _yearDropdownTapCommand;
+        public ICommand YearDropdownTapCommand => _yearDropdownTapCommand ??= new AsyncCommand(OnYearDropDownTapped);
 
         #endregion
 
@@ -344,7 +361,7 @@ namespace Next2.Controls
 
         #region -- Private helpers --
 
-        private void OnYearDropDownTapped(object sender, EventArgs arg)
+        private Task OnYearDropDownTapped()
         {
             dropdownFrame.IsVisible = !dropdownFrame.IsVisible;
 
@@ -352,9 +369,11 @@ namespace Next2.Controls
             {
                 yearsCollectionView.ScrollTo(SelectedYear, -1, ScrollToPosition.Center, false);
             }
+
+            return Task.CompletedTask;
         }
 
-        private void OnRightMonthButtonTapped()
+        private Task OnRightMonthButtonTapped()
         {
             if (SelectedMonth == 12)
             {
@@ -364,9 +383,11 @@ namespace Next2.Controls
             {
                 SelectedMonth++;
             }
+
+            return Task.CompletedTask;
         }
 
-        private void OnLeftMonthButtonTapped()
+        private Task OnLeftMonthButtonTapped()
         {
             if (SelectedMonth == 1)
             {
@@ -376,6 +397,8 @@ namespace Next2.Controls
             {
                 SelectedMonth--;
             }
+
+            return Task.CompletedTask;
         }
 
         #endregion

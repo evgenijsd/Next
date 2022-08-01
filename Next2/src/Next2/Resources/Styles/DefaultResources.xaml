@@ -221,7 +221,7 @@
         <Setter Property="DropdownHeadLabelFontSize" Value="{DynamicResource TSize_i8}"/>
         <Setter Property="MonthLabelFontSize" Value="{DynamicResource TSize_i6}"/>
         <Setter Property="DayLabelFontSize" Value="{DynamicResource TSize_i9}"/>
-        <Setter Property="MonthStepperIconScale" Value="0.5"/>
+        <Setter Property="MonthStepperIconSize" Value="30"/>
         <Setter Property="DropdownWidthRequest" Value="90"/>
         <Setter Property="DropdownHeadWidthRequest" Value="90"/>
         <Setter Property="DropdownHeadHeightRequest" Value="30"/>

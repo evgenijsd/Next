@@ -153,6 +153,11 @@ namespace Next2.ViewModels
 
             var now = DateTime.Now;
             var rand = new Random();
+            var previousDay = now;
+            var theDayBeforeYesterday = now;
+
+            previousDay = previousDay.AddDays(-1);
+            theDayBeforeYesterday = theDayBeforeYesterday.AddDays(-2);
 
             for (int i = 0; i < ordersCount; i++)
             {
@@ -165,11 +170,11 @@ namespace Next2.ViewModels
                 }
                 else if (i < ordersCount / 2)
                 {
-                    ordersArray[i].Close = new DateTime(now.Year, now.Month, now.Day - 1, randomHours, randomMinutes, 0);
+                    ordersArray[i].Close = new DateTime(now.Year, previousDay.Month, previousDay.Day, randomHours, randomMinutes, 0);
                 }
                 else
                 {
-                    ordersArray[i].Close = new DateTime(now.Year, now.Month, now.Day - 2, randomHours, randomMinutes, 0);
+                    ordersArray[i].Close = new DateTime(now.Year, theDayBeforeYesterday.Month, theDayBeforeYesterday.Day, randomHours, randomMinutes, 0);
                 }
             }
 
