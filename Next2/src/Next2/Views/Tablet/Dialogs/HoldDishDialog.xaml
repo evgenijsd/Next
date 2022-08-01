@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<rg:PopupPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels.Dialogs"
+    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    x:Class="Next2.Views.Tablet.Dialogs.HoldDishDialog"
+    x:DataType="viewModels:HoldDishDialogViewModel">
+
+    <pancakeview:PancakeView
+        HorizontalOptions="Center" 
+        VerticalOptions="Start"
+        Margin="0, 70"
+        CornerRadius="10"
+        HeightRequest="710"
+        WidthRequest="430"
+        Border="{pancakeview:BorderMarkup Thickness=3, Color={StaticResource TextAndBackgroundColor_i2}}"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+        xct:ShadowEffect.Color="Black"
+        xct:ShadowEffect.Radius="16">
+        
+        <pancakeview:PancakeView.Resources>
+            <Style x:Key="BorderButtonStyle_i2_1" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i2}">
+                <Setter Property="Padding" Value="0, 0, 0, 2"/>
+                <Setter Property="HeightRequest" Value="45"/>
+                <Setter Property="CornerRadius" Value="8"/>
+            </Style>
+            <Style
+                x:Key="LabelStyle_i1"
+                TargetType="Label">
+                <Setter
+                    Property="VerticalOptions"
+                    Value="Center" />
+                <Setter
+                    Property="FontSize"
+                    Value="{DynamicResource TSize_i6}" />
+                <Setter
+                    Property="FontFamily"
+                    Value="Barlow-SemiBold" />
+                <Setter
+                    Property="TextColor"
+                    Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                <Setter
+                    Property="VisualStateManager.VisualStateGroups">
+                    <Setter.Value>
+                        <VisualStateGroupList>
+                            <VisualStateGroup
+                                Name="AdaptiveTime">
+
+                                <VisualState
+                                    Name="IPadPro11">
+
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger
+                                            MinWindowWidth="1194" />
+                                    </VisualState.StateTriggers>
+
+                                    <VisualState.Setters>
+                                        <Setter
+                                            Property="FontSize"
+                                            Value="{DynamicResource TSize_i4_5}" />
+                                        <Setter
+                                            Property="FontFamily"
+                                            Value="Barlow-Medium" />
+                                    </VisualState.Setters>
+
+                                </VisualState>
+
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </pancakeview:PancakeView.Resources>
+        
+        <StackLayout 
+            VerticalOptions="FillAndExpand">
+            
+            <Label
+                VerticalTextAlignment="Center"
+                Padding="28, 26, 28, 20"
+                MaxLines="1"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontSize="{DynamicResource TSize_i5}"
+                FontFamily="Barlow-SemiBold"
+                Text="{Binding SelectedDish.Name}"/>
+
+            <pancakeview:PancakeView
+                CornerRadius="8"
+                x:Name="dishPancakeView">
+
+                <StackLayout
+                    Orientation="Horizontal"
+                    Spacing="5">
+
+                    <pancakeview:PancakeView
+                        HeightRequest="44"
+                        MinimumWidthRequest="44"
+                        WidthRequest="44"
+                        CornerRadius="8"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        Margin="10">
+
+                        <ffimageloading:CachedImage
+                            Aspect="AspectFill"
+                            Source="{Binding SelectedDish.ImageSource}" />
+
+                    </pancakeview:PancakeView>
+
+                    <StackLayout
+                        VerticalOptions="CenterAndExpand"
+                        Spacing="6"
+                        Margin="0, 14">
+
+                        <Label
+                            Text="{Binding SelectedDish.Name}"
+                            FontSize="{DynamicResource TSize_i9}"
+                            FontFamily="Barlow-Medium"
+                            LineBreakMode="TailTruncation"
+                            MaxLines="1"
+                            Style="{DynamicResource LabelStyle_i1}"/>
+
+                        <Label
+                            FontSize="{DynamicResource TSize_i8}"
+                            FontFamily="Barlow-SemiBold"
+                            Style="{DynamicResource LabelStyle_i1}">
+
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span
+                                        Text="{xct:Translate CurrencySign}" />
+                                    <Span
+                                        Text=" " />
+                                    <Span
+                                        Text="{Binding SelectedDish.DiscountPrice}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+
+                        </Label>
+
+                    </StackLayout>
+
+                </StackLayout>
+
+            </pancakeview:PancakeView>
+            
+            <controls:LineSpacingLabel
+                VerticalTextAlignment="Start"
+                Padding="28, 0, 28, 40"
+                FontFamily="Barlow-Medium"
+                FontSize="{DynamicResource TSize_i7}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                Text="{Binding SelectedDish.Name}"/>
+
+            <StackLayout VerticalOptions="FillAndExpand">
+                
+            </StackLayout>
+            <BoxView 
+                HeightRequest="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+            <StackLayout 
+                Padding="24"
+                Spacing="10" >
+
+                <StackLayout 
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal" 
+                    Spacing="15">
+                    
+                    <buttons:BorderButton
+                        Style="{DynamicResource BorderButtonStyle_i2_1}"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="{DynamicResource IndicationColor_i3}"
+                        BorderColor="{DynamicResource IndicationColor_i3}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        Text="{xct:Translate Dismiss}"
+                        Command="{Binding DismissCommand}" />
+                    
+                    <buttons:BorderButton
+                        Style="{DynamicResource BorderButtonStyle_i2_1}"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="{DynamicResource IndicationColor_i1}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        Text="{xct:Translate Hold}"
+                        Command="{Binding HoldCommand}" />
+                    
+                </StackLayout>
+
+                <buttons:BorderButton
+                    Style="{DynamicResource BorderButtonStyle_i2_1}"
+                    BackgroundColor="Transparent"
+                    BorderColor="{DynamicResource IndicationColor_i3}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    Text="{xct:Translate Cancel}"
+                    Command="{Binding CloseCommand}"/>
+
+            </StackLayout>
+            
+        </StackLayout>
+       
+    </pancakeview:PancakeView>
+
+</rg:PopupPage>

@@ -819,7 +819,8 @@
                                 Style="{DynamicResource BorderButtonStyle_i2_1}"
                                 Background="{DynamicResource IndicationColor_i5}"
                                 Text="{xct:Translate HoldItem}"
-                                Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}"/>
+                                Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}" 
+                                CommandParameter="{Binding OrderRegistrationViewModel.SelectedDish}"/>
 
                             <buttons:BorderButton
                                 Style="{DynamicResource BorderButtonStyle_i2_1}"

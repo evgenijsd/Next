@@ -123,7 +123,7 @@ namespace Next2.ViewModels
         public ICommand OpenRemoveCommand => _openRemoveCommand ??= new AsyncCommand(OnOpenRemoveCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _openHoldSelectionCommand;
-        public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync, allowsMultipleExecutions: false);
+        public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand<DishBindableModel?>(OnOpenHoldSelectionCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _openDiscountSelectionCommand;
         public ICommand OpenDiscountSelectionCommand => _openDiscountSelectionCommand ??= new AsyncCommand(OnOpenDiscountSelectionCommandAsync, allowsMultipleExecutions: false);
@@ -881,9 +881,38 @@ namespace Next2.ViewModels
             }
         }
 
-        private Task OnOpenHoldSelectionCommandAsync()
+        private async Task OnOpenHoldSelectionCommandAsync(DishBindableModel? dish)
         {
-            return Task.CompletedTask;
+            if (dish is DishBindableModel selectedDish)
+            {
+                //SelectedCustomer = customer;
+                //---
+                var param = new DialogParameters { { Constants.DialogParameterKeys.DISH, selectedDish } };
+
+                //PopupPage customerInfoDialog = App.IsTablet
+                //    ? new Views.Tablet.Dialogs.CustomerInfoDialog(param, CloseCustomerInfoDialogCallback)
+                //    : new Views.Mobile.Dialogs.CustomerInfoDialog(param, CloseCustomerInfoDialogCallback);
+                PopupPage holdDishDialog = new Views.Tablet.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallback);
+
+                await PopupNavigation.PushAsync(holdDishDialog);
+            }
+
+            //return Task.CompletedTask;
+        }
+
+        private async void CloseHoldDishDialogCallback(IDialogParameters parameters)
+        {
+            await _notificationsService.CloseAllPopupAsync();
+
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.DISMISS, out bool isDismiss))
+            {
+                //await OnAddCustomerToOrderCommandAsync();
+            }
+
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
+            {
+                //await OnAddCustomerToOrderCommandAsync();
+            }
         }
 
         private Task OnOpenDiscountSelectionCommandAsync()

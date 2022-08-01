@@ -726,4 +726,10 @@ A receipt has been printed for you.</value>
   <data name="NoTablesAvailable" xml:space="preserve">
     <value>No tables available</value>
   </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
+  <data name="Hold" xml:space="preserve">
+    <value>Hold</value>
+  </data>
 </root>
