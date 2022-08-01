@@ -128,7 +128,7 @@ namespace Next2.Controls
             returnType: typeof(int),
             declaringType: typeof(CalendarTab),
             defaultValue: 0,
-            defaultBindingMode: BindingMode.OneWay);
+            defaultBindingMode: BindingMode.TwoWay);
 
         public int OffsetYears
         {

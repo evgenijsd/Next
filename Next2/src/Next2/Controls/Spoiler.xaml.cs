@@ -92,7 +92,8 @@ namespace Next2.Controls
             propertyName: nameof(IsRolled),
             returnType: typeof(bool),
             defaultValue: true,
-            declaringType: typeof(Spoiler));
+            declaringType: typeof(Spoiler),
+            defaultBindingMode: BindingMode.TwoWay);
 
         public bool IsRolled
         {

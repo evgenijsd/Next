@@ -108,7 +108,7 @@
                         <templates:CustomNumericKeyboardTemplate 
                             BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i3}"
                             IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
-                            PlaceHolder="{xct:Translate TypeEmployeeId}"
+                            Placeholder="{xct:Translate TypeEmployeeId}"
                             ScreenKeyboard="{Binding EmployeeId}"
                             VerticalOptions="FillAndExpand" />
                         

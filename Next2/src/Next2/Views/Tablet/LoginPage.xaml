@@ -78,7 +78,7 @@
                     BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i3}"
                     Value="{Binding EmployeeId}"
                     ScreenKeyboard="{Binding EmployeeId}"
-                    PlaceHolder="{xct:Translate TypeEmployeeId}"
+                    Placeholder="{xct:Translate TypeEmployeeId}"
                     IsUserLogIn="{Binding IsUserLogIn}"
                     IsErrorNotificationVisible="{Binding IsInvalidEmployeeId}" />
                 

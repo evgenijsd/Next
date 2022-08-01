@@ -177,7 +177,7 @@ namespace Next2.Controls
             propertyName: nameof(DecrementCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(CustomStepper),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand DecrementCommand
         {

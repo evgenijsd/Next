@@ -236,7 +236,8 @@ namespace Next2.Controls
         public static readonly BindableProperty SelectionChangedCommandProperty = BindableProperty.Create(
             propertyName: nameof(SelectionChangedCommand),
             returnType: typeof(ICommand),
-            declaringType: typeof(DropDownList));
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand SelectionChangedCommand
         {
