@@ -16,7 +16,8 @@ namespace Next2.Controls
             nameof(ItemsSource),
             typeof(ICollection),
             typeof(SeatItemForSplitOrder),
-            default(ICollection));
+            default(ICollection),
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICollection ItemsSource
         {
@@ -27,7 +28,8 @@ namespace Next2.Controls
         public static readonly BindableProperty SubItemColorProperty = BindableProperty.Create(
             propertyName: nameof(SubItemColor),
             returnType: typeof(Color),
-            declaringType: typeof(SeatItemForSplitOrder));
+            declaringType: typeof(SeatItemForSplitOrder),
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color SubItemColor
         {

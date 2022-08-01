@@ -38,7 +38,7 @@
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="FillAndExpand"
                     BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i4}"
-                    PlaceHolder="{xct:Translate EnterAmount}"
+                    Placeholder="{xct:Translate EnterAmount}"
                     IsTextRightToLeft="True"
                     IsNumericMode="True"
                     ValueFormat="{x:Static local:Constants+Formats.CASH_FORMAT}"

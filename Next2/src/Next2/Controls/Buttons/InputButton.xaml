@@ -17,31 +17,31 @@
     <StackLayout Orientation="Horizontal">
 
         <Label
-            Text="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=Text}"
-            FontSize="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=FontSize}" 
+            Text="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:InputButton}}}"
+            FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type buttons:InputButton}}}" 
             VerticalTextAlignment="Center"
             HorizontalTextAlignment="Start"
-            TextColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=TextColor}"       
+            TextColor="{Binding TextColor, Source={RelativeSource AncestorType={x:Type buttons:InputButton}}}"       
             Margin="4, 0, 0, 0"
             FontFamily="Barlow-Medium"
             HorizontalOptions="FillAndExpand"
-            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=Text, Converter={xct:IsNotNullOrEmptyConverter}}"/>
+            IsVisible="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Converter={xct:IsNotNullOrEmptyConverter}}"/>
 
         <Label
             Text="{xct:Translate TypeEmployeeId}"
-            FontSize="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=FontSize}" 
+            FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type buttons:InputButton}}}" 
             VerticalTextAlignment="Center"
             HorizontalTextAlignment="Start"
-            TextColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=TextColor}" 
+            TextColor="{Binding TextColor, Source={RelativeSource AncestorType={x:Type buttons:InputButton}}}" 
             Opacity="{DynamicResource OpacityWhenDisabled_i1}"
             Margin="4, 0, 0, 0"
             FontFamily="Barlow-Medium"
             HorizontalOptions="FillAndExpand"
-            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=Text, Converter={xct:IsNullOrEmptyConverter}}"/>
+            IsVisible="{Binding Text, Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Converter={xct:IsNullOrEmptyConverter}}"/>
 
         <ffimageloading:CachedImage 
-            Source="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=LeftImagePath}"
-            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=IsLeftImageVisible}"  
+            Source="{Binding LeftImagePath, Source={RelativeSource AncestorType={x:Type buttons:InputButton}}}"
+            IsVisible="{Binding IsLeftImageVisible, Source={RelativeSource AncestorType={x:Type buttons:InputButton}}}"  
             HeightRequest="24"
             Margin="0, 5, 5, 5"
             HorizontalOptions="End"/>
@@ -50,7 +50,7 @@
 
     <controls:CustomFrame.GestureRecognizers>
 
-        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=TapGestureRecognizerCommand}"/>
+        <TapGestureRecognizer Command="{Binding TapGestureRecognizerCommand, Source={RelativeSource AncestorType={x:Type buttons:InputButton}}}"/>
 
     </controls:CustomFrame.GestureRecognizers>
 

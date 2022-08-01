@@ -16,7 +16,7 @@ namespace Next2.Controls
              propertyName: nameof(ButtonBackgroundColor),
              returnType: typeof(Color),
              declaringType: typeof(NumericKeyboard),
-             defaultBindingMode: BindingMode.TwoWay);
+             defaultBindingMode: BindingMode.OneWay);
 
         public Color ButtonBackgroundColor
         {
@@ -28,7 +28,7 @@ namespace Next2.Controls
           propertyName: nameof(PressNumberButtonCommand),
           returnType: typeof(ICommand),
           declaringType: typeof(CustomKeyboard),
-          defaultBindingMode: BindingMode.TwoWay);
+          defaultBindingMode: BindingMode.OneWay);
 
         public ICommand PressNumberButtonCommand
         {
@@ -40,7 +40,7 @@ namespace Next2.Controls
           propertyName: nameof(ClearCommand),
           returnType: typeof(ICommand),
           declaringType: typeof(CustomKeyboard),
-          defaultBindingMode: BindingMode.TwoWay);
+          defaultBindingMode: BindingMode.OneWay);
 
         public ICommand ClearCommand
         {

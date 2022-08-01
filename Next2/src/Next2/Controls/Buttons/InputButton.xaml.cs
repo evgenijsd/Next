@@ -16,7 +16,8 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(FontFamily),
             returnType: typeof(string),
             declaringType: typeof(InputButton),
-            defaultValue: string.Empty);
+            defaultValue: string.Empty,
+            defaultBindingMode: BindingMode.OneWay);
 
         public string FontFamily
         {
@@ -28,7 +29,8 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(FontSize),
             returnType: typeof(double),
             declaringType: typeof(InputButton),
-            defaultValue: 12d);
+            defaultValue: 12d,
+            defaultBindingMode: BindingMode.OneWay);
 
         public double FontSize
         {
@@ -39,7 +41,8 @@ namespace Next2.Controls.Buttons
         public static readonly BindableProperty LeftImagePathProperty = BindableProperty.Create(
             propertyName: nameof(LeftImagePath),
             returnType: typeof(string),
-            declaringType: typeof(InputButton));
+            declaringType: typeof(InputButton),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string LeftImagePath
         {
@@ -50,7 +53,8 @@ namespace Next2.Controls.Buttons
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
             propertyName: nameof(TextColor),
             returnType: typeof(Color),
-            declaringType: typeof(InputButton));
+            declaringType: typeof(InputButton),
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color TextColor
         {
@@ -61,7 +65,8 @@ namespace Next2.Controls.Buttons
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
-            declaringType: typeof(InputButton));
+            declaringType: typeof(InputButton),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Text
         {
@@ -72,7 +77,8 @@ namespace Next2.Controls.Buttons
         public static readonly BindableProperty IsLeftImageVisibleProperty = BindableProperty.Create(
             propertyName: nameof(IsLeftImageVisible),
             returnType: typeof(bool),
-            declaringType: typeof(InputButton));
+            declaringType: typeof(InputButton),
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsLeftImageVisible
         {
@@ -83,7 +89,8 @@ namespace Next2.Controls.Buttons
         public static readonly BindableProperty TapGestureRecognizerCommandProperty = BindableProperty.Create(
             propertyName: nameof(TapGestureRecognizerCommand),
             returnType: typeof(ICommand),
-            declaringType: typeof(InputButton));
+            declaringType: typeof(InputButton),
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand TapGestureRecognizerCommand
         {
@@ -95,7 +102,8 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(IsValidValue),
             returnType: typeof(bool),
             defaultValue: true,
-            declaringType: typeof(InputButton));
+            declaringType: typeof(InputButton),
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsValidValue
         {

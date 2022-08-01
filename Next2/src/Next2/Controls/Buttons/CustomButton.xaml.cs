@@ -16,7 +16,7 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(CornerRadius),
             returnType: typeof(CornerRadius),
             declaringType: typeof(CustomButton),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public CornerRadius CornerRadius
         {
@@ -29,7 +29,7 @@ namespace Next2.Controls.Buttons
             returnType: typeof(bool),
             declaringType: typeof(CustomButton),
             defaultValue: false,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsSelected
         {
@@ -42,7 +42,7 @@ namespace Next2.Controls.Buttons
             returnType: typeof(double),
             defaultValue: 14.0,
             declaringType: typeof(CustomButton),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double FontSize
         {
@@ -55,7 +55,7 @@ namespace Next2.Controls.Buttons
             returnType: typeof(string),
             declaringType: typeof(CustomButton),
             defaultValue: "Barlow-SemiBold",
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string FontFamily
         {
@@ -68,7 +68,7 @@ namespace Next2.Controls.Buttons
             returnType: typeof(string),
             declaringType: typeof(SearchButton),
             defaultValue: string.Empty,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Text
         {
@@ -80,7 +80,7 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(Command),
             returnType: typeof(ICommand),
             declaringType: typeof(SearchBar),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand Command
         {
