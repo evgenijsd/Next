@@ -2,9 +2,9 @@
 
 namespace Next2.Views.Tablet
 {
-    public partial class HoldItemsView : ContentView
+    public partial class HoldDishesView : ContentView
     {
-        public HoldItemsView()
+        public HoldDishesView()
         {
             InitializeComponent();
         }

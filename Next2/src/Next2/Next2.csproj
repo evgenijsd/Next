@@ -128,6 +128,12 @@
     <Compile Update="Controls\Buttons\BorderButton.xaml.cs">
       <DependentUpon>BorderButton.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\Buttons\IconButton.xaml.cs">
+      <DependentUpon>IconButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\CalendarTab.xaml.cs">
+      <DependentUpon>CalendarTab2.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\CustomNavigationBar.xaml.cs">
       <DependentUpon>CustomNavigationBar.xaml</DependentUpon>
     </Compile>
@@ -226,8 +232,8 @@
     <Compile Update="Views\Mobile\Dialogs\ConfirmDialog.xaml.cs">
       <DependentUpon>ConfirmDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Mobile\HoldItemsPage.xaml.cs">
-      <DependentUpon>HoldItemsView.xaml</DependentUpon>
+    <Compile Update="Views\Mobile\HoldDishesPage.xaml.cs">
+      <DependentUpon>HoldDishesPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\MenuPageMenuPage.xaml.cs">
       <DependentUpon>MenuPageMenuPage.xaml</DependentUpon>
@@ -268,8 +274,8 @@
     <Compile Update="Views\Tablet\Dialogs\CustomerInfoDialog.xaml.cs">
       <DependentUpon>CustomerInfoDialogxaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Tablet\HoldItemsView.xaml.cs">
-      <DependentUpon>HoldItemsView.xaml</DependentUpon>
+    <Compile Update="Views\Tablet\HoldDishesView.xaml.cs">
+      <DependentUpon>HoldDishesView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\MembershipView.xaml.cs">
       <DependentUpon>MembershipView.xaml</DependentUpon>
@@ -295,7 +301,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Controls\Buttons\IconBorderButton.xaml">
+    <EmbeddedResource Update="Controls\Buttons\IconButtonIconButton.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Buttons\IconTextButton.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Buttons\SettingsButton.xaml">

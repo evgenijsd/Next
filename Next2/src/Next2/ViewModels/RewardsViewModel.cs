@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Customers;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Services.Rewards;
 using Next2.Views.Mobile;
@@ -25,6 +26,7 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
         private readonly ICustomersService _customersService;
         private readonly IRewardsService _rewardService;
+        private readonly INotificationsService _notificationsService;
 
         public RewardsViewModel(
             INavigationService navigationService,
@@ -33,6 +35,7 @@ namespace Next2.ViewModels
             ICustomersService customersService,
             IRewardsService rewardService,
             PaidOrderBindableModel order,
+            INotificationsService notificationsService,
             Action<NavigationMessage> navigateAsync,
             Action<EPaymentSteps> goToPaymentStep)
             : base(navigationService)
@@ -41,6 +44,7 @@ namespace Next2.ViewModels
             _orderService = orderService;
             _customersService = customersService;
             _rewardService = rewardService;
+            _notificationsService = notificationsService;
 
             Order = order;
             NavigateAsync = navigateAsync;
@@ -210,7 +214,7 @@ namespace Next2.ViewModels
 
         private async void AddNewCustomerDialogCallBackAsync(IDialogParameters parameters)
         {
-            await CloseAllPopupAsync();
+            await _notificationsService.CloseAllPopupAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.CUSTOMER, out CustomerBindableModel customer))
             {
@@ -228,12 +232,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await ResponseToBadRequestAsync(resultOfGettingCustomer.Exception?.Message);
+                        await _notificationsService.ResponseToBadRequestAsync(resultOfGettingCustomer.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
                 }
             }
         }

@@ -5,9 +5,11 @@ using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Next2.Services.Menu;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -22,10 +24,9 @@ namespace Next2.ViewModels.Mobile
     public class ChooseDishPageViewModel : BaseViewModel
     {
         private readonly IMenuService _menuService;
-
         private readonly IOrderService _orderService;
-
         private readonly IMapper _mapper;
+        private readonly INotificationsService _notificationsService;
 
         private FullOrderBindableModel _tempCurrentOrder;
         private SeatBindableModel _tempCurrentSeat;
@@ -36,12 +37,14 @@ namespace Next2.ViewModels.Mobile
             IMenuService menuService,
             INavigationService navigationService,
             IOrderService orderService,
+            INotificationsService notificationsService,
             IMapper mapper)
             : base(navigationService)
         {
             _menuService = menuService;
             _orderService = orderService;
             _mapper = mapper;
+            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -130,7 +133,7 @@ namespace Next2.ViewModels.Mobile
                     {
                         var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
 
-                        await CloseAllPopupAsync();
+                        await _notificationsService.CloseAllPopupAsync();
 
                         if (resultOfUpdatingOrder.IsSuccess)
                         {
@@ -148,14 +151,14 @@ namespace Next2.ViewModels.Mobile
                             _orderService.CurrentSeat = _tempCurrentSeat;
                             _orderService.UpdateTotalSum(_orderService.CurrentOrder);
 
-                            await ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
+                            await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
                         }
                     }
                     else
                     {
-                        await CloseAllPopupAsync();
+                        await _notificationsService.CloseAllPopupAsync();
 
-                        await ShowInfoDialogAsync(
+                        await _notificationsService.ShowInfoDialogAsync(
                             LocalizationResourceManager.Current["Error"],
                             LocalizationResourceManager.Current["SomethingWentWrong"],
                             LocalizationResourceManager.Current["Ok"]);
@@ -163,14 +166,14 @@ namespace Next2.ViewModels.Mobile
                 }
                 else
                 {
-                    await CloseAllPopupAsync();
+                    await _notificationsService.CloseAllPopupAsync();
                 }
             }
             else
             {
-                await CloseAllPopupAsync();
+                await _notificationsService.CloseAllPopupAsync();
 
-                await ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);

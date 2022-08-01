@@ -1,4 +1,8 @@
 ﻿using Next2.Controls;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Xamarin.Forms;
 
 namespace Next2.Behaviors
@@ -33,9 +37,17 @@ namespace Next2.Behaviors
 
         private void OnCollectionSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_collection is not null)
+            if (_collection is not null && _collection.SelectionMode != SelectionMode.None)
             {
-                _collection.ScrollTo(_collection.SelectedItem, position: ScrollToPosition.Center, animate: false);
+                if (_collection.SelectionMode == SelectionMode.Single)
+                {
+                    _collection.ScrollTo(_collection.SelectedItem, position: ScrollToPosition.Center, animate: false);
+                }
+                else if (e.CurrentSelection.Count != e.PreviousSelection.Count)
+                {
+                    var selectedItem = e.CurrentSelection.Except(e.PreviousSelection).FirstOrDefault();
+                    _collection.ScrollTo(selectedItem, position: ScrollToPosition.Center, animate: false);
+                }
             }
         }
 
