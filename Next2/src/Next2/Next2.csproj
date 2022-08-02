@@ -134,8 +134,8 @@
     <Compile Update="Controls\CalendarTab.xaml.cs">
       <DependentUpon>CalendarTab2.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Controls\CustomNavigationBar.xaml.cs">
-      <DependentUpon>CustomNavigationBar.xaml</DependentUpon>
+    <Compile Update="Controls\CustomNavigationWhiskeyBar.xaml.cs">
+      <DependentUpon>CustomNavigationWhiskeyBar.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\DataLoadingState.xaml.cs">
       <DependentUpon>DataLoadingState.xaml</DependentUpon>
@@ -307,9 +307,6 @@
     <EmbeddedResource Update="Controls\Buttons\IconTextButton.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\Buttons\SettingsButton.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Controls\Calendar.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -346,7 +343,7 @@
     <EmbeddedResource Update="Controls\Buttons\SearchButton.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\CustomNavigationBar.xaml">
+    <EmbeddedResource Update="Controls\CustomNavigationWhiskeyBar.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\FormattedLabel.xaml">

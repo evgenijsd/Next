@@ -6,12 +6,24 @@
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:tablet="clr-namespace:Next2.Views.Tablet"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:enums="clr-namespace:Next2.Enums"
     x:Class="Next2.Views.SettingsView"
     x:DataType="viewModels:SettingsViewModel">
+
+    <ContentView.Resources>
+        <Style TargetType="buttons:IconTextButton">
+            <Setter Property="HeightRequest" Value="36" />
+            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+            <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+            <Setter Property="IconSize" Value="24, 24" />
+            <Setter Property="IconSource" Value="ic_arrow_right_24x24.png" />
+            <Setter Property="IsIconPlacedOnRight" Value="True" />
+        </Style>
+    </ContentView.Resources>
 
     <Grid
         RowDefinitions="auto, *"
@@ -63,13 +75,17 @@
                         HorizontalOptions="FillAndExpand"
                         Spacing="12">
 
-                        <buttons:SettingsButton
-                            Title="{xct:Translate ReAssignTable}"
+                        <buttons:IconTextButton
+                            Padding="12"
+                            Text="{xct:Translate ReAssignTable}"
+                            Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
                             xct:TouchEffect.Command="{Binding ChangeStateCommand}"
                             xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.ReAssignTable}" />
 
-                        <buttons:SettingsButton
-                            Title="{xct:Translate PrintReceipt}"
+                        <buttons:IconTextButton
+                            Padding="12"
+                            Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
+                            Text="{xct:Translate PrintReceipt}"
                             xct:TouchEffect.Command="{Binding ChangeStateCommand}"
                             xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.PrintReceipt}" />
 
@@ -79,13 +95,17 @@
                         HorizontalOptions="FillAndExpand"
                         Spacing="12">
 
-                        <buttons:SettingsButton
-                            Title="{xct:Translate BackOffice}"
+                        <buttons:IconTextButton
+                            Padding="12"
+                            Text="{xct:Translate BackOffice}"
+                            Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
                             xct:TouchEffect.Command="{Binding ChangeStateCommand}"
                             xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.BackOffice}" />
 
-                        <buttons:SettingsButton
-                            Title="{xct:Translate ProgramDevice}"
+                        <buttons:IconTextButton
+                            Padding="12"
+                            Text="{xct:Translate ProgramDevice}"
+                            Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
                             xct:TouchEffect.Command="{Binding ChangeStateCommand}"
                             xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.ProgramDevice}" />
 

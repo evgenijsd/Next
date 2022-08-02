@@ -12,19 +12,25 @@
 
     <StackLayout
         Orientation="Horizontal"
-        Spacing="{Binding Spacing, Source={RelativeSource AncestorType={x:Type local:IconTextButton}}}">
+        Spacing="{Binding Spacing, Source={RelativeSource AncestorType={x:Type local:IconTextButton}}}"
+        x:Name="stackLayout">
 
         <ffimageloading:CachedImage
+            HorizontalOptions="StartAndExpand"
             HeightRequest="{Binding IconSize.Height, Source={RelativeSource AncestorType={x:Type local:IconTextButton}}}"
             WidthRequest="{Binding IconSize.Widht, Source={RelativeSource AncestorType={x:Type local:IconTextButton}}}"
-            Source="{Binding IconSource, Source={RelativeSource AncestorType={x:Type local:IconTextButton}}}"/>
+            Source="{Binding IconSource, Source={RelativeSource AncestorType={x:Type local:IconTextButton}}}"
+            x:Name="image" />
 
         <Label
+            VerticalTextAlignment="Center"
+            HorizontalOptions="EndAndExpand"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
             FontFamily="{Binding FontFamily, Source={RelativeSource AncestorType={x:Type local:IconTextButton}}}"
             FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type local:IconTextButton}}}"
-            Text="{Binding Text, Source={RelativeSource AncestorType={x:Type local:IconTextButton}}}"/>
+            Text="{Binding Text, Source={RelativeSource AncestorType={x:Type local:IconTextButton}}}"
+            x:Name="label" />
 
     </StackLayout>
-    
+
 </pancakeview:PancakeView>
