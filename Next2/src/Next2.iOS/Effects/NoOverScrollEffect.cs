@@ -20,7 +20,7 @@ namespace Next2.iOS.Effects
             {
                 var effect = (CoreEffects.NoOverScrollEffect)Element.Effects.FirstOrDefault(e => e is CoreEffects.NoOverScrollEffect);
 
-                if (effect != null && (effect.NoOverScrollMode == ENoOverScrollMode.iOSOnly || effect.NoOverScrollMode == ENoOverScrollMode.Always))
+                if (effect != null && (effect.NoOverScrollMode == EDisableBounceMode.iOSOnly || effect.NoOverScrollMode == EDisableBounceMode.Always))
                 {
                     collectionView.Bounces = false;
                 }
