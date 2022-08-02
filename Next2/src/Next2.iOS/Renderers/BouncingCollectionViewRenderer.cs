@@ -9,9 +9,6 @@ namespace Next2.iOS.Renderers
 {
     public class BouncingCollectionViewRenderer : CollectionViewRenderer
     {
-        protected BouncingCollectionView _bouncingCollectionView;
-        protected BouncingCollectionView BouncingCollectionView => _bouncingCollectionView ?? (_bouncingCollectionView = (BouncingCollectionView)Element);
-
         public BouncingCollectionViewRenderer()
         {
         }
@@ -34,9 +31,9 @@ namespace Next2.iOS.Renderers
 
         protected void DisableBounces()
         {
-            var overScollMode = _bouncingCollectionView.DisableBounceMode;
+            var overScollMode = (Element as BouncingCollectionView).DisableBounceMode;
 
-            Controller.CollectionView.Bounces = overScollMode == EDisableBounceMode.iOSOnly || overScollMode == EDisableBounceMode.Always;
+            Controller.CollectionView.Bounces = !(overScollMode == EDisableBounceMode.iOSOnly || overScollMode == EDisableBounceMode.Always);
         } 
 
         #endregion

@@ -10,7 +10,7 @@
     xmlns:local="clr-namespace:Next2"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-    xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:controls="clr-namespace:Next2.Controls"
     x:Class="Next2.Views.Mobile.Dialogs.OrderDetailDialog"
     x:DataType="viewmodels:OrderDetailDialogViewModel">
 
@@ -65,15 +65,12 @@
             </StackLayout>
 
             <!-- DISH LIST -->
-            <CollectionView 
-                Margin="0, 14, 0, 0" 
+            <controls:BouncingCollectionView 
+                Margin="0, 14, 0, 0"
+                DisableBounceMode="Always"
                 ItemsSource="{Binding Seats}">
 
-                <CollectionView.Effects>
-                    <effects:NoOverScrollEffect NoOverScrollMode="Always"/>
-                </CollectionView.Effects>
-
-                <CollectionView.ItemTemplate>
+                <controls:BouncingCollectionView.ItemTemplate>
                     <DataTemplate x:DataType="bindablemodels:SeatBindableModel">
 
                         <StackLayout 
@@ -101,15 +98,12 @@
 
                             </Label>
 
-                            <CollectionView
+                            <controls:BouncingCollectionView
+                                DisableBounceMode="Always"
                                 HeightRequest="{Binding SelectedDishes, Converter={StaticResource listHeightConverter}, ConverterParameter=81}"
                                 ItemsSource="{Binding SelectedDishes}">
 
-                                <CollectionView.Effects>
-                                    <effects:NoOverScrollEffect />
-                                </CollectionView.Effects>
-
-                                <CollectionView.ItemTemplate>
+                                <controls:BouncingCollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="bindablemodels:DishBindableModel">
 
                                         <StackLayout>
@@ -168,15 +162,15 @@
                                         </StackLayout>
 
                                     </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>                          
+                                </controls:BouncingCollectionView.ItemTemplate>
+                            </controls:BouncingCollectionView>                          
 
                         </StackLayout>
 
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
+                </controls:BouncingCollectionView.ItemTemplate>
 
-            </CollectionView>
+            </controls:BouncingCollectionView>
 
             <!-- BUTTONS: CANCEL, REMOVE -->
             <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
