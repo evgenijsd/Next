@@ -1,5 +1,4 @@
-﻿using Next2.Enums;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace Next2.Effects
 {
@@ -9,11 +8,5 @@ namespace Next2.Effects
             : base($"Next2.Effects.{nameof(NoOverScrollEffect)}")
         {
         }
-
-        #region -- Public properties --
-
-        public EDisableBounceMode DisableBounceMode { get; set; }
-
-        #endregion
     }
 }

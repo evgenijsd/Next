@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using Next2.Droid.Effects;
-using Next2.Enums;
+﻿using Next2.Droid.Effects;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using CoreEffects = Next2.Effects;
 
 [assembly: ExportEffect(typeof(NoOverScrollEffect), nameof(NoOverScrollEffect))]
 namespace Next2.Droid.Effects
@@ -17,12 +14,7 @@ namespace Next2.Droid.Effects
         {
             if (Control != null)
             {
-                var effect = (CoreEffects.NoOverScrollEffect)Element.Effects.FirstOrDefault(e => e is CoreEffects.NoOverScrollEffect);
-
-                if (effect != null && (effect.DisableBounceMode  == EDisableBounceMode.AndroidOnly || effect.DisableBounceMode  == EDisableBounceMode.All))
-                {
-                    Control.OverScrollMode = Android.Views.OverScrollMode.Never;
-                }
+                Control.OverScrollMode = Android.Views.OverScrollMode.Never;
             }
         }
 
