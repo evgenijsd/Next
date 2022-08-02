@@ -318,6 +318,8 @@ namespace Next2.ViewModels
 
                 CurrentOrder = _orderService.CurrentOrder;
 
+                IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
+
                 _firstSeat = CurrentOrder.Seats.FirstOrDefault();
 
                 var seatNumber = SelectedDish?.SeatNumber ?? 0;
@@ -534,6 +536,7 @@ namespace Next2.ViewModels
                     }
 
                     _orderService.CurrentSeat = seat;
+
                     await UpdateDishGroupsAsync();
 
                     if (dish?.Id != Guid.Empty)

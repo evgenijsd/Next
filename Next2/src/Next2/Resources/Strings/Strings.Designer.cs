@@ -124,6 +124,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Something went wrong with Your gift card. Please contact support service!.
+        /// </summary>
+        internal static string AnErrorWithWithdrawalFundsFromGiftCard {
+            get {
+                return ResourceManager.GetString("AnErrorWithWithdrawalFundsFromGiftCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Apply.
         /// </summary>
         internal static string Apply {
@@ -1932,6 +1941,15 @@ namespace Next2.Resources.Strings {
         internal static string Welcome {
             get {
                 return ResourceManager.GetString("Welcome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are not yet a member!.
+        /// </summary>
+        internal static string YouAreNotMember {
+            get {
+                return ResourceManager.GetString("YouAreNotMember", resourceCulture);
             }
         }
         

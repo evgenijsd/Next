@@ -34,6 +34,8 @@ namespace Next2.Models
 
         public decimal GiftCard { get; set; }
 
+        public int GiftCardsNumber { get; set; }
+
         private decimal _cash;
         public decimal Cash
         {
