@@ -37,9 +37,11 @@ namespace Next2.ViewModels
 
         private ICommand _tapTipItemCommand;
 
-        private List<Guid> _listGiftCardIDsToBeUpdated;
+        private List<GiftCardModelDTO> _listGiftCardsToBeUpdated;
 
-        private List<GiftCardModelDTO> _tempGiftCards;
+        private List<GiftCardModelDTO> _listGiftCardsToBeUpdateToPreviousStage;
+
+        private List<GiftCardModelDTO> _backupGiftCards;
 
         private decimal _subtotalWithBonus;
 
@@ -437,51 +439,9 @@ namespace Next2.ViewModels
                     param.Add(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, $"+ {SelectedTipItem.Text}");
                 }
 
-                Action<IDialogParameters> callback = async (IDialogParameters par) =>
-                {
-                    var isServerResponseCorrect = true;
-
-                    if (Order.Customer is not null && Order.GiftCard != 0)
-                    {
-                        isServerResponseCorrect = await GiftCardFinishPayment();
-                    }
-
-                    if (isServerResponseCorrect)
-                    {
-                        var isOrderClosed = await CloseOrderAsync();
-
-                        if (isOrderClosed)
-                        {
-                            var isReceiptSuccessfullySent = await SendReceiptAsync(par);
-
-                            NavigationParameters navigationParameters = new();
-
-                            if (isReceiptSuccessfullySent)
-                            {
-                                navigationParameters.Add(Constants.Navigations.PAYMENT_COMPLETE, string.Empty);
-                            }
-
-                            await _navigationService.ClearPopupStackAsync();
-                            await _navigationService.NavigateAsync(nameof(MenuPage), navigationParameters);
-                        }
-                        else
-                        {
-                            var resultOfUpdatingGiftCards = await _customersService.UpdateAllGiftCardsToPreviousStageAsync(_tempGiftCards, _listGiftCardIDsToBeUpdated);
-
-                            Order.Customer.GiftCards = _tempGiftCards;
-
-                            if (!resultOfUpdatingGiftCards.IsSuccess)
-                            {
-                                await _notificationsService.CloseAllPopupAsync();
-                                await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingGiftCards.Exception?.Message);
-                            }
-                        }
-                    }
-                };
-
                 PopupPage finishPaymentDialog = App.IsTablet
-                    ? new Views.Tablet.Dialogs.FinishPaymentDialog(param, callback)
-                    : new Views.Mobile.Dialogs.FinishPaymentDialog(param, callback);
+                    ? new Views.Tablet.Dialogs.FinishPaymentDialog(param, CloseFinishPaymentDialogCallbackAsync)
+                    : new Views.Mobile.Dialogs.FinishPaymentDialog(param, CloseFinishPaymentDialogCallbackAsync);
 
                 await PopupNavigation.PushAsync(finishPaymentDialog);
             }
@@ -491,6 +451,54 @@ namespace Next2.ViewModels
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
+            }
+        }
+
+        private async void CloseFinishPaymentDialogCallbackAsync(IDialogParameters par)
+        {
+            var isServerResponseCorrect = true;
+
+            if (Order.Customer is not null && Order.GiftCard != 0)
+            {
+                isServerResponseCorrect = await GiftCardFinishPayment();
+            }
+
+            if (isServerResponseCorrect)
+            {
+                var isOrderClosed = await CloseOrderAsync();
+
+                if (isOrderClosed)
+                {
+                    var isReceiptSuccessfullySent = await SendReceiptAsync(par);
+
+                    NavigationParameters navigationParameters = new();
+
+                    if (isReceiptSuccessfullySent)
+                    {
+                        navigationParameters.Add(Constants.Navigations.PAYMENT_COMPLETE, string.Empty);
+                    }
+
+                    await _navigationService.ClearPopupStackAsync();
+                    await _navigationService.NavigateAsync(nameof(MenuPage), navigationParameters);
+                }
+                else
+                {
+                    _listGiftCardsToBeUpdateToPreviousStage = _customersService.GetSelectedGiftCardsFromBackup(_backupGiftCards, _listGiftCardsToBeUpdated);
+
+                    var resultOfUpdatingGiftCardsToPreviousStage = await _customersService.UpdateAllGiftCardsAsync(_listGiftCardsToBeUpdateToPreviousStage);
+
+                    if (!resultOfUpdatingGiftCardsToPreviousStage.IsSuccess)
+                    {
+                        await _notificationsService.CloseAllPopupAsync();
+
+                        await _notificationsService.ShowInfoDialogAsync(
+                            LocalizationResourceManager.Current["Error"],
+                            LocalizationResourceManager.Current["AnErrorWithWithdrawalFundsFromGiftCard"],
+                            LocalizationResourceManager.Current["Ok"]);
+                    }
+
+                    Order.Customer.GiftCards = _backupGiftCards;
+                }
             }
         }
 
@@ -555,7 +563,7 @@ namespace Next2.ViewModels
                 {
                     IsInsufficientGiftCardFunds = false;
 
-                    PopupPage giftCardDialog = new Views.Mobile.Dialogs.AddGiftCardDialog(Order.Customer.GiftCardsId, _customersService, GiftCardViewDialogCallBack);
+                    PopupPage giftCardDialog = new Views.Mobile.Dialogs.AddGiftCardDialog(Order.Customer.GiftCardsId, _customersService, GiftCardViewDialogCallBackAsync);
 
                     await PopupNavigation.PushAsync(giftCardDialog);
                 }
@@ -576,7 +584,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async void GiftCardViewDialogCallBack(IDialogParameters parameters)
+        private async void GiftCardViewDialogCallBackAsync(IDialogParameters parameters)
         {
             await _notificationsService.CloseAllPopupAsync();
 
@@ -637,24 +645,37 @@ namespace Next2.ViewModels
 
             if (Order.Customer is not null && Order.Customer.GiftCards.Any())
             {
-                _tempGiftCards = new();
+                _backupGiftCards = new();
 
                 var giftCards = Order.Customer.GiftCards;
 
                 foreach (var card in giftCards)
                 {
-                    _tempGiftCards.Add(_mapper.Map<GiftCardModelDTO>(card));
+                    _backupGiftCards.Add(_mapper.Map<GiftCardModelDTO>(card));
                 }
 
-                _listGiftCardIDsToBeUpdated = _customersService.RecalculateCustomerGiftCardFounds(giftCards, Order.GiftCard);
+                _listGiftCardsToBeUpdated = _customersService.RecalculateCustomerGiftCardFounds(giftCards, Order.GiftCard);
 
-                var resultOfUpdatingGiftCards = await _customersService.UpdateAllGiftCardsAsync(giftCards, _listGiftCardIDsToBeUpdated, _tempGiftCards);
+                var resultOfUpdatingGiftCards = await _customersService.UpdateAllGiftCardsAsync(_listGiftCardsToBeUpdated);
 
                 if (!resultOfUpdatingGiftCards.IsSuccess)
                 {
-                    giftCards = _tempGiftCards;
-
                     await _notificationsService.CloseAllPopupAsync();
+
+                    _listGiftCardsToBeUpdateToPreviousStage = _customersService.GetSelectedGiftCardsFromBackup(_backupGiftCards, _listGiftCardsToBeUpdated);
+
+                    var resultOfUpdatingGiftCardsToPreviousStage = await _customersService.UpdateAllGiftCardsAsync(_listGiftCardsToBeUpdateToPreviousStage);
+
+                    if (!resultOfUpdatingGiftCardsToPreviousStage.IsSuccess)
+                    {
+                        await _notificationsService.ShowInfoDialogAsync(
+                            LocalizationResourceManager.Current["Error"],
+                            LocalizationResourceManager.Current["AnErrorWithWithdrawalFundsFromGiftCard"],
+                            LocalizationResourceManager.Current["Ok"]);
+                    }
+
+                    Order.Customer.GiftCards = _backupGiftCards;
+
                     await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingGiftCards.Exception?.Message);
 
                     isGiftCardPaymentSuccessful = false;

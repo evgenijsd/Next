@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.Customers;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -221,7 +222,9 @@ namespace Next2.ViewModels
             {
                 if (IsInternetConnected)
                 {
-                    var resultOfCreatingNewCustomer = await _customersService.CreateCustomerAsync(customer);
+                    var customerDTO = _mapper.Map<CustomerModelDTO>(customer);
+
+                    var resultOfCreatingNewCustomer = await _customersService.CreateCustomerAsync(customerDTO);
 
                     if (resultOfCreatingNewCustomer.IsSuccess)
                     {

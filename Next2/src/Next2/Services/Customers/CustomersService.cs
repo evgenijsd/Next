@@ -30,11 +30,9 @@ namespace Next2.Services.Customers
 
         #region -- ICustomersService implementation --
 
-        public async Task<AOResult<Guid>> CreateCustomerAsync(CustomerBindableModel bindableCustomer)
+        public async Task<AOResult<Guid>> CreateCustomerAsync(CustomerModelDTO customer)
         {
             var result = new AOResult<Guid>();
-
-            var customer = _mapper.Map<CustomerModelDTO>(bindableCustomer);
 
             try
             {
@@ -80,7 +78,7 @@ namespace Next2.Services.Customers
             return result;
         }
 
-        public async Task<AOResult> UpdateCustomerAsync(UpdateCustomerCommand customer)
+        public async Task<AOResult> UpdateCustomerAsync(CustomerModelDTO customer)
         {
             var result = new AOResult();
 
@@ -90,7 +88,10 @@ namespace Next2.Services.Customers
                 {
                     var query = $"{Constants.API.HOST_URL}/api/customers";
 
-                    var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, query, customer);
+                    var customerCommand = _mapper.Map<UpdateCustomerCommand>(customer);
+                    customerCommand.GiftCardsId = customer.GiftCards.Select(row => row.Id);
+
+                    var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, query, customerCommand);
 
                     if (response.Success)
                     {
@@ -183,21 +184,13 @@ namespace Next2.Services.Customers
         {
             var result = new AOResult();
 
-            IEnumerable<Guid> customerGiftCardsId = customer.GiftCards.Select(x => x.Id);
-
-            var customerCommand = _mapper.Map<UpdateCustomerCommand>(customer);
-
-            customerCommand.GiftCardsId = customerGiftCardsId;
-
             try
             {
-                if (!customerCommand.GiftCardsId.Contains(giftCard.Id))
+                if (!customer.GiftCards.Any(row => row.Id == giftCard.Id))
                 {
-                    var customerGiftCardIds = customerCommand.GiftCardsId.Concat(new[] { giftCard.Id });
+                    customer.GiftCards = customer.GiftCards.Concat(new[] { giftCard });
 
-                    customerCommand.GiftCardsId = customerGiftCardIds;
-
-                    result = await UpdateCustomerAsync(customerCommand);
+                    result = await UpdateCustomerAsync(customer);
                 }
             }
             catch (Exception ex)
@@ -282,83 +275,36 @@ namespace Next2.Services.Customers
             return result;
         }
 
-        public async Task<AOResult> UpdateAllGiftCardsAsync(IEnumerable<GiftCardModelDTO> giftCards, IEnumerable<Guid> listGiftCardIDsToBeUpdated, IEnumerable<GiftCardModelDTO> tempGiftCards)
+        public async Task<AOResult> UpdateAllGiftCardsAsync(IEnumerable<GiftCardModelDTO> giftCardsTobeUpdate)
         {
             var result = new AOResult();
 
-            if (giftCards is not null)
+            try
             {
-                List<Guid> updatedListGiftCardIDs = new();
-
-                foreach (var giftCard in giftCards)
+                if (giftCardsTobeUpdate is not null)
                 {
-                    if (listGiftCardIDsToBeUpdated.Contains(giftCard.Id))
+                    foreach (var giftCard in giftCardsTobeUpdate)
                     {
                         result = await UpdateGiftCardAsync(giftCard);
 
-                        if (result.IsSuccess)
+                        if (!result.IsSuccess)
                         {
-                            updatedListGiftCardIDs.Add(giftCard.Id);
-                        }
-                        else
-                        {
-                            break;
+                            throw result.Exception;
                         }
                     }
                 }
-
-                if (listGiftCardIDsToBeUpdated.Count() != updatedListGiftCardIDs.Count())
-                {
-                    foreach (var giftCard in tempGiftCards)
-                    {
-                        if (updatedListGiftCardIDs.Contains(giftCard.Id))
-                        {
-                            await UpdateGiftCardAsync(giftCard);
-                        }
-                    }
-                }
-                else
-                {
-                    result.SetSuccess();
-                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(UpdateAllGiftCardsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
         }
 
-        public async Task<AOResult> UpdateAllGiftCardsToPreviousStageAsync(IEnumerable<GiftCardModelDTO> giftCards, IEnumerable<Guid> giftCardsIdToBeUpdated)
+        public List<GiftCardModelDTO> RecalculateCustomerGiftCardFounds(IEnumerable<GiftCardModelDTO> giftCards, decimal amountToBeWithdrawn)
         {
-            var result = new AOResult();
-
-            if (giftCards is not null)
-            {
-                int successfulUpdatesCounter = 0;
-
-                foreach (var giftCard in giftCards)
-                {
-                    if (giftCardsIdToBeUpdated.Contains(giftCard.Id))
-                    {
-                        result = await UpdateGiftCardAsync(giftCard);
-
-                        if (result.IsSuccess)
-                        {
-                            successfulUpdatesCounter++;
-                        }
-                    }
-                }
-
-                if (giftCardsIdToBeUpdated.Count() == successfulUpdatesCounter)
-                {
-                    result.SetSuccess();
-                }
-            }
-
-            return result;
-        }
-
-        public List<Guid> RecalculateCustomerGiftCardFounds(IEnumerable<GiftCardModelDTO> giftCards, decimal amountToBeWithdrawn)
-        {
-            List<Guid> listOfUpdatedGiftCardIDs = new();
+            List<GiftCardModelDTO> listOfUpdatedGiftCards = new();
 
             foreach (var giftCard in giftCards)
             {
@@ -382,7 +328,7 @@ namespace Next2.Services.Customers
                             amountToBeWithdrawn = 0;
                         }
 
-                        listOfUpdatedGiftCardIDs.Add(giftCard.Id);
+                        listOfUpdatedGiftCards.Add(giftCard);
                     }
                     else
                     {
@@ -391,7 +337,29 @@ namespace Next2.Services.Customers
                 }
             }
 
-            return listOfUpdatedGiftCardIDs;
+            return listOfUpdatedGiftCards;
+        }
+
+        public List<GiftCardModelDTO> GetSelectedGiftCardsFromBackup(IEnumerable<GiftCardModelDTO> source, IEnumerable<GiftCardModelDTO> selectedGiftCards)
+        {
+            List<GiftCardModelDTO> listGiftCardsToBeUpdateToPreviousStage = new();
+
+            foreach (var backupGiftCard in source)
+            {
+                if (listGiftCardsToBeUpdateToPreviousStage.Count() != selectedGiftCards.Count())
+                {
+                    if (selectedGiftCards.Any(row => row.Id == backupGiftCard.Id))
+                    {
+                        listGiftCardsToBeUpdateToPreviousStage.Add(backupGiftCard);
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return listGiftCardsToBeUpdateToPreviousStage;
         }
 
         #endregion

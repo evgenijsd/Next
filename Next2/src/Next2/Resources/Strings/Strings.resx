@@ -729,4 +729,7 @@ A receipt has been printed for you.</value>
   <data name="NoTablesAvailable" xml:space="preserve">
     <value>No tables available</value>
   </data>
+  <data name="AnErrorWithWithdrawalFundsFromGiftCard" xml:space="preserve">
+    <value>Something went wrong with Your gift card. Please contact support service!</value>
+  </data>
 </root>

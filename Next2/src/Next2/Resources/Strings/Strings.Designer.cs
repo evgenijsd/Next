@@ -124,6 +124,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Something went wrong with Your gift card. Please contact support service!.
+        /// </summary>
+        internal static string AnErrorWithWithdrawalFundsFromGiftCard {
+            get {
+                return ResourceManager.GetString("AnErrorWithWithdrawalFundsFromGiftCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Apply.
         /// </summary>
         internal static string Apply {
