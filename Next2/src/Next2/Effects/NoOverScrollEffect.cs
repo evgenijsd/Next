@@ -12,7 +12,7 @@ namespace Next2.Effects
 
         #region -- Public properties --
 
-        public EDisableBounceMode NoOverScrollMode { get; set; }
+        public EDisableBounceMode DisableBounceMode { get; set; }
 
         #endregion
     }

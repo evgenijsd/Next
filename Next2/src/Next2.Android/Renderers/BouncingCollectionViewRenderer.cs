@@ -36,7 +36,7 @@ namespace Next2.Droid.Renderers
 
         protected void DisableBounces()
         {
-            if (BouncingCollectionView.DisableBounceMode == EDisableBounceMode.AndroidOnly || BouncingCollectionView.DisableBounceMode == EDisableBounceMode.Always)
+            if (BouncingCollectionView.DisableBounceMode == EDisableBounceMode.AndroidOnly || BouncingCollectionView.DisableBounceMode == EDisableBounceMode.All)
             {
                 OverScrollMode = Android.Views.OverScrollMode.Never;
             }

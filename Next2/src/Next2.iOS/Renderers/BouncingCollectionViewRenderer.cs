@@ -31,9 +31,9 @@ namespace Next2.iOS.Renderers
 
         protected void DisableBounces()
         {
-            var overScollMode = (Element as BouncingCollectionView).DisableBounceMode;
+            var disableBounceMode = (Element as BouncingCollectionView).DisableBounceMode;
 
-            Controller.CollectionView.Bounces = !(overScollMode == EDisableBounceMode.iOSOnly || overScollMode == EDisableBounceMode.Always);
+            Controller.CollectionView.Bounces = !(disableBounceMode == EDisableBounceMode.iOSOnly || disableBounceMode == EDisableBounceMode.All);
         } 
 
         #endregion

@@ -4,6 +4,6 @@
     {
         AndroidOnly,
         iOSOnly,
-        Always,
+        All,
     }
 }
