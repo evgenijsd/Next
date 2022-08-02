@@ -15,7 +15,8 @@ namespace Next2.Controls.Buttons
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
-            declaringType: typeof(BorderButton));
+            declaringType: typeof(BorderButton),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Text
         {
@@ -28,7 +29,7 @@ namespace Next2.Controls.Buttons
             returnType: typeof(Color),
             declaringType: typeof(BorderButton),
             defaultValue: Color.White,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color TextColor
         {
@@ -41,7 +42,7 @@ namespace Next2.Controls.Buttons
             returnType: typeof(double),
             declaringType: typeof(BorderButton),
             defaultValue: 12d,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double FontSize
         {
@@ -54,7 +55,7 @@ namespace Next2.Controls.Buttons
             returnType: typeof(string),
             declaringType: typeof(BorderButton),
             defaultValue: string.Empty,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string FontFamily
         {
@@ -66,7 +67,7 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(Command),
             returnType: typeof(ICommand),
             declaringType: typeof(BorderButton),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand Command
         {
@@ -78,7 +79,7 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(CommandParameter),
             returnType: typeof(object),
             declaringType: typeof(BorderButton),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public object CommandParameter
         {

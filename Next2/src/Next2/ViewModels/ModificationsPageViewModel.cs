@@ -244,8 +244,6 @@ namespace Next2.ViewModels
 
         private void OnChangingToggleCommand(IngredientBindableModel toggleIngredient)
         {
-            toggleIngredient.IsToggled = !toggleIngredient.IsToggled;
-
             var product = _currentDish?.SelectedProducts?.FirstOrDefault();
 
             var ingredient = product?.AddedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id);

@@ -36,10 +36,10 @@ using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
 using Next2.Services.Reservation;
-using Next2.Services.OrdersHolding;
 using Next2.Services.Notifications;
 using Next2.Views.Mobile;
 using Prism.Navigation;
+using Next2.Services.DishesHolding;
 
 namespace Next2
 {

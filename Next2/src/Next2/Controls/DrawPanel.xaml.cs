@@ -48,7 +48,7 @@ namespace Next2.Controls
             propertyName: nameof(Bitmap),
             returnType: typeof(byte[]),
             declaringType: typeof(DrawPanel),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWayToSource);
 
         public byte[] Bitmap
         {

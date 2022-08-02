@@ -12,7 +12,8 @@ namespace Next2.Controls
         public static readonly BindableProperty MinimumNumberVisibleRowsProperty = BindableProperty.Create(
             propertyName: nameof(MinimumNumberVisibleRows),
             returnType: typeof(int),
-            declaringType: typeof(ExpandedGridCollectionView));
+            declaringType: typeof(ExpandedGridCollectionView),
+            defaultBindingMode: BindingMode.OneWay);
 
         public int MinimumNumberVisibleRows
         {
@@ -23,7 +24,8 @@ namespace Next2.Controls
         public static readonly BindableProperty MaximumNumberVisibleRowsProperty = BindableProperty.Create(
             propertyName: nameof(MaximumNumberVisibleRows),
             returnType: typeof(int),
-            declaringType: typeof(ExpandedGridCollectionView));
+            declaringType: typeof(ExpandedGridCollectionView),
+            defaultBindingMode: BindingMode.OneWay);
 
         public int MaximumNumberVisibleRows
         {
@@ -34,7 +36,8 @@ namespace Next2.Controls
         public static readonly BindableProperty IsExpandedProperty = BindableProperty.Create(
             propertyName: nameof(IsExpanded),
             returnType: typeof(bool),
-            declaringType: typeof(ExpandedGridCollectionView));
+            declaringType: typeof(ExpandedGridCollectionView),
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsExpanded
         {
@@ -53,9 +56,9 @@ namespace Next2.Controls
             if (propertyName
                 is nameof(IsExpanded)
                 or nameof(MinimumNumberVisibleRows)
-                or nameof(this.ItemsSource)
-                or nameof(this.ItemsLayout)
-                or nameof(this.ItemTemplate))
+                or nameof(ItemsSource)
+                or nameof(ItemsLayout)
+                or nameof(ItemTemplate))
             {
                 CalculateHeightRequest();
             }

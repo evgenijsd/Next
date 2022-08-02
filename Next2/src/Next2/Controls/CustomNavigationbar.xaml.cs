@@ -16,7 +16,7 @@ namespace Next2.Controls
             propertyName: nameof(HeightImage),
             returnType: typeof(double),
             declaringType: typeof(CustomNavigationBar),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double HeightImage
         {
@@ -28,7 +28,7 @@ namespace Next2.Controls
             propertyName: nameof(LeftButtonCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(CustomNavigationBar),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand LeftButtonCommand
         {
@@ -40,7 +40,7 @@ namespace Next2.Controls
             propertyName: nameof(Title),
             returnType: typeof(string),
             declaringType: typeof(CustomNavigationBar),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Title
         {
@@ -52,7 +52,7 @@ namespace Next2.Controls
             propertyName: nameof(TitleColor),
             returnType: typeof(Color),
             declaringType: typeof(CustomNavigationBar),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color TitleColor
         {
@@ -64,7 +64,7 @@ namespace Next2.Controls
             propertyName: nameof(FontSize),
             returnType: typeof(double),
             declaringType: typeof(CustomNavigationBar),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double FontSize
         {
@@ -77,7 +77,7 @@ namespace Next2.Controls
             returnType: typeof(string),
             declaringType: typeof(CustomNavigationBar),
             defaultValue: "Barlow-SemiBold",
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string FontFamily
         {

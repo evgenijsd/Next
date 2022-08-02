@@ -10,7 +10,7 @@ namespace Next2.Controls
             propertyName: nameof(BorderWidth),
             returnType: typeof(float),
             declaringType: typeof(CustomFrame),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public float BorderWidth
         {

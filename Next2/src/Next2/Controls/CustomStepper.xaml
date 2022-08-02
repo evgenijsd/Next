@@ -12,20 +12,20 @@
     <Grid
         RowDefinitions="auto"
         ColumnDefinitions="auto, auto, auto"
-        ColumnSpacing="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=Spacing}">
+        ColumnSpacing="{Binding Spacing, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}">
 
         <ffimageloading:CachedImage
             Grid.Column="0"
             HorizontalOptions="StartAndExpand"
-            WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
-            HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
-            Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=DecrementIconSource}"
-            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=DecrementCommand}">
+            WidthRequest="{Binding IconSizes, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
+            HeightRequest="{Binding IconSizes, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
+            Source="{Binding DecrementIconSource, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
+            xct:TouchEffect.Command="{Binding DecrementCommand, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}">
 
             <ffimageloading:CachedImage.Triggers>
                 <DataTrigger
                     TargetType="ffimageloading:CachedImage"
-                    Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=CanDecrement}"
+                    Binding="{Binding CanDecrement, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
                     Value="False">
 
                     <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
@@ -40,16 +40,16 @@
             Grid.Column="1"
             HorizontalTextAlignment="Center"
             VerticalTextAlignment="Center"
-            WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=TextWidth}"
-            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=FontFamily}"
-            FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=FontSize}"
-            TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=TextColor}"
-            Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=DisplayingValue}">
+            WidthRequest="{Binding TextWidth, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
+            FontFamily="{Binding FontFamily, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
+            FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
+            TextColor="{Binding TextColor, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
+            Text="{Binding DisplayingValue, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}">
 
             <Label.Triggers>
                 <DataTrigger
                     TargetType="Label"
-                    Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IsEnabled}"
+                    Binding="{Binding IsEnabled, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
                     Value="False">
 
                     <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
@@ -63,15 +63,15 @@
         <ffimageloading:CachedImage
             Grid.Column="2"
             HorizontalOptions="EndAndExpand"
-            WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
-            HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
-            Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IncrementIconSource}"
-            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IncrementCommand}">
+            WidthRequest="{Binding IconSizes, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
+            HeightRequest="{Binding IconSizes, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
+            Source="{Binding IncrementIconSource, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
+            xct:TouchEffect.Command="{Binding IncrementCommand, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}">
 
             <ffimageloading:CachedImage.Triggers>
                 <DataTrigger
                     TargetType="ffimageloading:CachedImage"
-                    Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=CanIncrement}"
+                    Binding="{Binding CanIncrement, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
                     Value="False">
 
                     <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Next2.Services.OrdersHolding
+namespace Next2.Services.DishesHolding
 {
     public class DishesHoldingService : IDishesHoldingService
     {
@@ -23,7 +23,7 @@ namespace Next2.Services.OrdersHolding
             _mockService = mockService;
         }
 
-        #region -- IOrdersService implementation --
+        #region -- IDishesHoldingService implementation --
 
         public IEnumerable<HoldDishModel> GetHoldDishesByTableNumber(int tableNumber)
         {

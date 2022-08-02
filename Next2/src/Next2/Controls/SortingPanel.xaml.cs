@@ -15,7 +15,8 @@ namespace Next2.Controls
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
-            declaringType: typeof(SortingPanel));
+            declaringType: typeof(SortingPanel),
+            defaultBindingMode: BindingMode.OneWay);
 
         public string Text
         {
@@ -28,7 +29,7 @@ namespace Next2.Controls
             returnType: typeof(double),
             declaringType: typeof(SortingPanel),
             defaultValue: 12d,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public double FontSize
         {
@@ -41,7 +42,7 @@ namespace Next2.Controls
             returnType: typeof(string),
             declaringType: typeof(SortingPanel),
             defaultValue: string.Empty,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string FontFamily
         {
@@ -53,7 +54,8 @@ namespace Next2.Controls
             propertyName: nameof(ChangingOrderSortCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(SortingPanel),
-            defaultValue: default(ICommand));
+            defaultValue: default(ICommand),
+            defaultBindingMode: BindingMode.OneWay);
 
         public ICommand ChangingOrderSortCommand
         {

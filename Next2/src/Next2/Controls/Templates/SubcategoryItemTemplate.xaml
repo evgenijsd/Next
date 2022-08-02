@@ -40,13 +40,13 @@
         x:Name="boxView"/>
 
     <Label
-        Text="{Binding Source={RelativeSource AncestorType={x:Type templates:SubCategoryItemTemplate}}, Path=Text}"
+        Text="{Binding Text, Source={RelativeSource AncestorType={x:Type templates:SubCategoryItemTemplate}}}"
         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-        FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:SubCategoryItemTemplate}}, Path=FontSize}"
-        FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:SubCategoryItemTemplate}}, Path=FontFamily}"
+        FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type templates:SubCategoryItemTemplate}}}"
+        FontFamily="{Binding FontFamily, Source={RelativeSource AncestorType={x:Type templates:SubCategoryItemTemplate}}}"
         HorizontalTextAlignment="Center"
         VerticalOptions="CenterAndExpand"
-        Margin="{Binding Source={RelativeSource AncestorType={x:Type templates:SubCategoryItemTemplate}}, Path=TextMargin}"
+        Margin="{Binding TextMargin, Source={RelativeSource AncestorType={x:Type templates:SubCategoryItemTemplate}}}"
         LineBreakMode="TailTruncation"
         MaxLines="1"/>
 

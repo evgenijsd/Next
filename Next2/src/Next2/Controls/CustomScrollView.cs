@@ -10,7 +10,7 @@ namespace Next2.Controls
             propertyName: nameof(IsBounces),
             returnType: typeof(bool),
             declaringType: typeof(CustomScrollView),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public bool IsBounces
         {

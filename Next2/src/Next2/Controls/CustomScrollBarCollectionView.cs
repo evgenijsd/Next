@@ -10,7 +10,7 @@ namespace Next2.Controls
             propertyName: nameof(ScrollBarTrackColor),
             returnType: typeof(Color),
             declaringType: typeof(CustomScrollBarCollectionView),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color ScrollBarTrackColor
         {
@@ -22,7 +22,7 @@ namespace Next2.Controls
             propertyName: nameof(ScrollBarThumbColor),
             returnType: typeof(Color),
             declaringType: typeof(CustomScrollBarCollectionView),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public Color ScrollBarThumbColor
         {
@@ -34,7 +34,7 @@ namespace Next2.Controls
             propertyName: nameof(ThumbWidth),
             returnType: typeof(int),
             declaringType: typeof(CustomScrollBarCollectionView),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int ThumbWidth
         {
@@ -46,7 +46,7 @@ namespace Next2.Controls
             propertyName: nameof(ScrollBarCornerRadius),
             returnType: typeof(int),
             declaringType: typeof(CustomScrollBarCollectionView),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int ScrollBarCornerRadius
         {

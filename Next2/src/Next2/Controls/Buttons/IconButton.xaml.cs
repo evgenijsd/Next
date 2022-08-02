@@ -16,7 +16,7 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(IconSource),
             returnType: typeof(string),
             declaringType: typeof(IconButton),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public string IconSource
         {
@@ -28,7 +28,8 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(IconSize),
             returnType: typeof(Size),
             defaultValue: new Size(28, 28),
-            declaringType: typeof(IconButton));
+            declaringType: typeof(IconButton),
+            defaultBindingMode: BindingMode.OneWay);
 
         public Size IconSize
         {

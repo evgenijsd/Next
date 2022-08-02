@@ -25,7 +25,7 @@ namespace Next2.Controls
             returnType: typeof(int),
             declaringType: typeof(CalendarGridCollectionView),
             defaultValue: DateTime.Now.Year,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int Year
         {
@@ -38,7 +38,7 @@ namespace Next2.Controls
             returnType: typeof(int),
             declaringType: typeof(CalendarGridCollectionView),
             defaultValue: 0,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int OffsetYears
         {
@@ -51,7 +51,7 @@ namespace Next2.Controls
             returnType: typeof(int),
             declaringType: typeof(CalendarGridCollectionView),
             defaultValue: DateTime.Now.Month,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int Month
         {
@@ -75,7 +75,7 @@ namespace Next2.Controls
             propertyName: nameof(SelectedStartDate),
             returnType: typeof(DateTime?),
             declaringType: typeof(CalendarGridCollectionView),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public DateTime? SelectedStartDate
         {

@@ -53,7 +53,7 @@
                     BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i3}"
                     ScreenKeyboard="{Binding EmployeeId}"
                     Value="{Binding EmployeeId}"
-                    PlaceHolder="{xct:Translate TypeEmployeeId}"
+                    Placeholder="{xct:Translate TypeEmployeeId}"
                     IsErrorNotificationVisible="{Binding IsInvalidEmployeeId}"/>
 
                 <BoxView
