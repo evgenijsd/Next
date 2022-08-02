@@ -274,8 +274,8 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
                 Padding="15, 5"
                 HorizontalOptions="EndAndExpand"
+                xct:TouchEffect.PressedScale="0.97"
                 xct:TouchEffect.Command="{Binding TapSortCommand}">
-
 
                 <StackLayout Orientation="Horizontal">
 

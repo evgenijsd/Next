@@ -116,6 +116,7 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
             <Frame
+                xct:TouchEffect.PressedScale="0.97"
                 Margin="15, 10"
                 CornerRadius="{OnPlatform Android='5', iOS='8'}"
                 BackgroundColor="{DynamicResource IndicationColor_i1}">

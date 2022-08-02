@@ -50,6 +50,7 @@
                     CornerRadius="10"
                     Padding="60, 15"
                     IsVisible="{Binding IsCleared, Converter={xct:InvertedBoolConverter}}"
+                    xct:TouchEffect.PressedScale="0.97"
                     xct:TouchEffect.Command="{Binding ClearDrawPanelCommand}">
 
                     <StackLayout Orientation="Horizontal">

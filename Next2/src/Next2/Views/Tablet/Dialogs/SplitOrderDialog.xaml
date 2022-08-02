@@ -187,6 +187,7 @@
 
                                     <Frame
                                         Style="{DynamicResource frameStyle}"
+                                        xct:TouchEffect.PressedScale="0.97"
                                         xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                         xct:TouchEffect.CommandParameter="25">
 
@@ -215,6 +216,7 @@
 
                                     <Frame
                                         Style="{DynamicResource frameStyle}"
+                                        xct:TouchEffect.PressedScale="0.97"
                                         xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                         xct:TouchEffect.CommandParameter="50">
 
@@ -246,6 +248,7 @@
 
                                     <Frame
                                         Style="{DynamicResource frameStyle}"
+                                        xct:TouchEffect.PressedScale="0.97"
                                         xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                         xct:TouchEffect.CommandParameter="75">
 
@@ -527,6 +530,7 @@
                     Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                     CornerRadius="5"
                     IsEnabled="False"
+                    xct:TouchEffect.PressedScale="0.97"
                     xct:TouchEffect.Command="{Binding SplitCommand}">
 
                     <Frame.Triggers>
