@@ -827,6 +827,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to min.
+        /// </summary>
+        internal static string min {
+            get {
+                return ResourceManager.GetString("min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Modifications.
         /// </summary>
         internal static string Modifications {
@@ -1489,6 +1498,15 @@ namespace Next2.Resources.Strings {
         internal static string SelectTable {
             get {
                 return ResourceManager.GetString("SelectTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Time.
+        /// </summary>
+        internal static string SelectTime {
+            get {
+                return ResourceManager.GetString("SelectTime", resourceCulture);
             }
         }
         

@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Dialogs"
@@ -14,10 +16,9 @@
 
     <pancakeview:PancakeView
         HorizontalOptions="Center" 
-        VerticalOptions="Start"
-        Margin="0, 70"
+        VerticalOptions="FillAndExpand"
+        Margin="0, 70, 0, 65"
         CornerRadius="10"
-        HeightRequest="710"
         WidthRequest="430"
         Border="{pancakeview:BorderMarkup Thickness=3, Color={StaticResource TextAndBackgroundColor_i2}}"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -27,72 +28,47 @@
         <pancakeview:PancakeView.Resources>
             <Style x:Key="BorderButtonStyle_i2_1" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i2}">
                 <Setter Property="Padding" Value="0, 0, 0, 2"/>
-                <Setter Property="HeightRequest" Value="45"/>
+                <Setter Property="HeightRequest" Value="40"/>
                 <Setter Property="CornerRadius" Value="8"/>
-            </Style>
-            <Style
-                x:Key="LabelStyle_i1"
-                TargetType="Label">
-                <Setter
-                    Property="VerticalOptions"
-                    Value="Center" />
-                <Setter
-                    Property="FontSize"
-                    Value="{DynamicResource TSize_i6}" />
-                <Setter
-                    Property="FontFamily"
-                    Value="Barlow-SemiBold" />
-                <Setter
-                    Property="TextColor"
-                    Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                <Setter
-                    Property="VisualStateManager.VisualStateGroups">
-                    <Setter.Value>
-                        <VisualStateGroupList>
-                            <VisualStateGroup
-                                Name="AdaptiveTime">
-
-                                <VisualState
-                                    Name="IPadPro11">
-
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger
-                                            MinWindowWidth="1194" />
-                                    </VisualState.StateTriggers>
-
-                                    <VisualState.Setters>
-                                        <Setter
-                                            Property="FontSize"
-                                            Value="{DynamicResource TSize_i4_5}" />
-                                        <Setter
-                                            Property="FontFamily"
-                                            Value="Barlow-Medium" />
-                                    </VisualState.Setters>
-
-                                </VisualState>
-
-                            </VisualStateGroup>
-                        </VisualStateGroupList>
-                    </Setter.Value>
-                </Setter>
             </Style>
         </pancakeview:PancakeView.Resources>
         
-        <StackLayout 
+        <StackLayout
             VerticalOptions="FillAndExpand">
+
+            <StackLayout 
+                HorizontalOptions="FillAndExpand"
+                Orientation="Horizontal">
+                
+                <Label
+                    VerticalTextAlignment="Center"
+                    Padding="20, 23"
+                    MaxLines="1"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontSize="{DynamicResource TSize_i6}"
+                    FontFamily="Barlow-SemiBold"
+                    Text="{Binding SelectedDish.Name}" />
+                
+                <Label
+                    VerticalTextAlignment="Center"
+                    HorizontalOptions="EndAndExpand"
+                    Padding="20, 23"
+                    MaxLines="1"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontSize="{DynamicResource TSize_i6}"
+                    FontFamily="Barlow-Regular"
+                    Text="19:55 AM" />
+                
+            </StackLayout>
             
-            <Label
-                VerticalTextAlignment="Center"
-                Padding="28, 26, 28, 20"
-                MaxLines="1"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontSize="{DynamicResource TSize_i5}"
-                FontFamily="Barlow-SemiBold"
-                Text="{Binding SelectedDish.Name}"/>
+            <BoxView
+                HeightRequest="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
             <pancakeview:PancakeView
                 CornerRadius="8"
-                x:Name="dishPancakeView">
+                Margin="20, 15, 20, 20"
+                Border="{pancakeview:BorderMarkup Thickness=2, Color={StaticResource TextAndBackgroundColor_i2}}">
 
                 <StackLayout
                     Orientation="Horizontal"
@@ -105,7 +81,7 @@
                         CornerRadius="8"
                         HorizontalOptions="Start"
                         VerticalOptions="Center"
-                        Margin="10">
+                        Margin="15, 10, 10, 10" >
 
                         <ffimageloading:CachedImage
                             Aspect="AspectFill"
@@ -119,54 +95,172 @@
                         Margin="0, 14">
 
                         <Label
+                            VerticalOptions="Center"
                             Text="{Binding SelectedDish.Name}"
-                            FontSize="{DynamicResource TSize_i9}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i8}"
                             FontFamily="Barlow-Medium"
                             LineBreakMode="TailTruncation"
-                            MaxLines="1"
-                            Style="{DynamicResource LabelStyle_i1}"/>
+                            MaxLines="1" />
 
                         <Label
-                            FontSize="{DynamicResource TSize_i8}"
-                            FontFamily="Barlow-SemiBold"
-                            Style="{DynamicResource LabelStyle_i1}">
-
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span
-                                        Text="{xct:Translate CurrencySign}" />
-                                    <Span
-                                        Text=" " />
-                                    <Span
-                                        Text="{Binding SelectedDish.DiscountPrice}" />
-                                </FormattedString>
-                            </Label.FormattedText>
-
-                        </Label>
+                            VerticalOptions="Center"
+                            Text="{Binding SelectedDish.Name}"
+                            FontSize="{DynamicResource TSize_i9}"
+                            FontFamily="Barlow-Regular"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            LineBreakMode="TailTruncation"
+                            MaxLines="1" />
 
                     </StackLayout>
 
                 </StackLayout>
 
             </pancakeview:PancakeView>
-            
-            <controls:LineSpacingLabel
-                VerticalTextAlignment="Start"
-                Padding="28, 0, 28, 40"
-                FontFamily="Barlow-Medium"
-                FontSize="{DynamicResource TSize_i7}"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                Text="{Binding SelectedDish.Name}"/>
 
-            <StackLayout VerticalOptions="FillAndExpand">
-                
-            </StackLayout>
+            <BoxView
+                HeightRequest="2"
+                Margin=" 20, 0"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+            <Label
+                VerticalTextAlignment="Start"
+                Padding="20, 15, 20, 15"
+                FontFamily="Barlow-Medium"
+                FontSize="{DynamicResource TSize_i8}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                Text="{xct:Translate SelectTime}" />
+
+            <CollectionView
+                Margin="20, 0"
+                HeightRequest="35"
+                SelectionMode="Single"
+                SelectedItem="{Binding SelectedTimeItem}"
+                ItemsSource="{Binding TimeDisplayItems}"
+                ItemSizingStrategy="MeasureFirstItem">
+
+                <CollectionView.ItemsLayout>
+
+                    <LinearItemsLayout
+                        Orientation="Horizontal"
+                        ItemSpacing="9"/>
+
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.Effects>
+                    <effects:NoOverScrollEffect />
+                </CollectionView.Effects>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate
+                        x:DataType="helpers:TimeItem">
+
+                        <Frame
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                            BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                            CornerRadius="{OnPlatform Android='3', iOS='5'}"
+                            xct:TouchEffect.Command="{Binding TapCommand}"
+                            xct:TouchEffect.CommandParameter="{Binding .}">
+                            
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup
+                                    Name="CommonStates">
+
+                                    <VisualState
+                                        Name="Selected">
+
+                                        <VisualState.Setters>
+                                            <Setter
+                                                Property="BackgroundColor"
+                                                Value="{DynamicResource AppColor_i2}" />
+                                            <Setter
+                                                Property="BorderColor"
+                                                Value="{DynamicResource AppColor_i1}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                    <VisualState
+                                        Name="Normal">
+
+                                        <VisualState.Setters>
+                                            <Setter
+                                                Property="BackgroundColor"
+                                                Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                                            <Setter
+                                                Property="BorderColor"
+                                                Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            
+                            <StackLayout Margin="6" WidthRequest="112">
+
+                                <Label
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    FontSize="{DynamicResource TSize_i7}"
+                                    FontFamily="Barlow-Medium"
+                                    HorizontalOptions="FillAndExpand">
+
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Minutes}" />
+                                            <Span Text=" " />
+                                            <Span Text="{xct:Translate min}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+
+                                </Label>
+
+                            </StackLayout>
+
+                        </Frame>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+            <Grid
+                VerticalOptions="FillAndExpand">
+
+                <Label
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center"
+                    FontSize="{DynamicResource TSize_i0_10}"
+                    FontFamily="Barlow-Bold"
+                    HorizontalOptions="FillAndExpand">
+
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span
+                                Text="19"/>
+                            <Span
+                                Text=":"
+                                TextColor="#757785"/>
+                            <Span
+                                Text="30" />
+                        </FormattedString>
+                    </Label.FormattedText>
+
+                </Label>
+
+            </Grid>
+            
             <BoxView 
                 HeightRequest="2"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
             <StackLayout 
-                Padding="24"
+                HeightRequest="85"
+                MinimumHeightRequest="85"
+                Padding="20, 15, 20, 20"
                 Spacing="10" >
 
                 <StackLayout 
