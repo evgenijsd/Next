@@ -14,7 +14,7 @@
     x:DataType="viewModels:SettingsViewModel">
 
     <ContentView.Resources>
-        <Style TargetType="buttons:IconTextButton">
+        <Style x:Key="IconTextButtonStyle" TargetType="buttons:IconTextButton">
             <Setter Property="HeightRequest" Value="36" />
             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
             <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
@@ -76,6 +76,7 @@
                         Spacing="12">
 
                         <buttons:IconTextButton
+                            Style="{DynamicResource IconTextButtonStyle}"
                             Padding="12"
                             Text="{xct:Translate ReAssignTable}"
                             Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
@@ -83,6 +84,7 @@
                             xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.ReAssignTable}" />
 
                         <buttons:IconTextButton
+                            Style="{DynamicResource IconTextButtonStyle}"
                             Padding="12"
                             Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
                             Text="{xct:Translate PrintReceipt}"
@@ -96,6 +98,7 @@
                         Spacing="12">
 
                         <buttons:IconTextButton
+                            Style="{DynamicResource IconTextButtonStyle}"
                             Padding="12"
                             Text="{xct:Translate BackOffice}"
                             Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
@@ -103,6 +106,7 @@
                             xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.BackOffice}" />
 
                         <buttons:IconTextButton
+                            Style="{DynamicResource IconTextButtonStyle}"
                             Padding="12"
                             Text="{xct:Translate ProgramDevice}"
                             Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"

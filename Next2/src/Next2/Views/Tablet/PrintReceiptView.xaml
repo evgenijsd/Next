@@ -9,6 +9,7 @@
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:models="clr-namespace:Next2.Models.Bindables"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:local="clr-namespace:Next2"
@@ -43,10 +44,19 @@
             HorizontalOptions="FillAndExpand"
             Orientation="Horizontal">
 
-            <controls:DatePicker
+            <buttons:IconTextButton
                 VerticalOptions="End"
                 HorizontalOptions="StartAndExpand"
-                DateLabel="{Binding SelectedDate}"
+                Spacing="32"
+                Padding="12, 6"
+                FontSize="{DynamicResource TSize_i9}"
+                FontFamily="Barlow-Medium"
+                CornerRadius="5"
+                Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
+                IsIconPlacedOnRight="True"
+                IconSize="20, 20"
+                Text="{Binding SelectedDate, StringFormat={x:Static local:Constants+Formats.SHORT_DATE_FORMAT}}"
+                IconSource="ic_calendar_24x24.png"
                 xct:TouchEffect.Command="{Binding SelectingDateCommand}" />
 
             <buttons:BorderButton
