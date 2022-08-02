@@ -98,6 +98,7 @@
                             HorizontalOptions="End">
                             
                             <Frame
+                                xct:TouchEffect.PressedScale="0.97"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                                 BorderColor="{DynamicResource IndicationColor_i7}"
                                 HeightRequest="45"
@@ -134,6 +135,7 @@
                             </Frame>
 
                             <Frame
+                                xct:TouchEffect.PressedScale="0.97"
                                 BackgroundColor="{DynamicResource AppColor_i1}"
                                 HeightRequest="45"
                                 Margin="15, 0, 0, 0"
@@ -455,6 +457,7 @@
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     CornerRadius="5"
                     Opacity="1"
+                    xct:TouchEffect.PressedScale="0.97"
                     xct:TouchEffect.Command="{Binding AddCustomerToOrderCommand}">
 
                     <Label
