@@ -122,9 +122,6 @@ namespace Next2.Controls.Buttons
                     }
 
                     break;
-
-                default:
-                    break;
             }
         }
 
