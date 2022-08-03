@@ -4,9 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:enums="clr-namespace:Next2.Enums"
+    xmlns:local="clr-namespace:Next2"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:helpers="clr-namespace:Next2.Helpers"
-    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
@@ -26,13 +27,28 @@
         xct:ShadowEffect.Radius="16">
         
         <pancakeview:PancakeView.Resources>
+            
             <Style x:Key="BorderButtonStyle_i2_1" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i2}">
                 <Setter Property="Padding" Value="0, 0, 0, 2"/>
                 <Setter Property="HeightRequest" Value="40"/>
                 <Setter Property="CornerRadius" Value="8"/>
             </Style>
+            
+            <Style x:Key="LabelStyle_i1" TargetType="Label">
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i0_10}" />
+                <Setter Property="FontFamily" Value="Barlow-Bold" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            </Style>
+            
+            <Style x:Key="IconButtonStyle_i3" TargetType="buttons:IconButton">
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="xct:TouchEffect.Command" Value="{Binding ChangingTimeHoldCommand}" />
+            </Style>
+            
         </pancakeview:PancakeView.Resources>
-        
+
         <StackLayout
             VerticalOptions="FillAndExpand">
 
@@ -57,7 +73,7 @@
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     FontSize="{DynamicResource TSize_i6}"
                     FontFamily="Barlow-Regular"
-                    Text="19:55 AM" />
+                    Text="{Binding CurrentTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
                 
             </StackLayout>
             
@@ -105,7 +121,7 @@
 
                         <Label
                             VerticalOptions="Center"
-                            Text="{Binding SelectedDish.Name}"
+                            Text="{Binding SetNames}"
                             FontSize="{DynamicResource TSize_i9}"
                             FontFamily="Barlow-Regular"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -125,15 +141,15 @@
 
             <Label
                 VerticalTextAlignment="Start"
-                Padding="20, 15, 20, 15"
+                Padding="20, 20, 20, 15"
                 FontFamily="Barlow-Medium"
                 FontSize="{DynamicResource TSize_i8}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 Text="{xct:Translate SelectTime}" />
 
             <CollectionView
-                Margin="20, 0"
-                HeightRequest="35"
+                Margin="18, 0"
+                HeightRequest="32"
                 SelectionMode="Single"
                 SelectedItem="{Binding SelectedTimeItem}"
                 ItemsSource="{Binding TimeDisplayItems}"
@@ -203,7 +219,7 @@
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                     VerticalTextAlignment="Center"
                                     HorizontalTextAlignment="Center"
-                                    FontSize="{DynamicResource TSize_i7}"
+                                    FontSize="{DynamicResource TSize_i8}"
                                     FontFamily="Barlow-Medium"
                                     HorizontalOptions="FillAndExpand">
 
@@ -226,30 +242,72 @@
 
             </CollectionView>
 
-            <Grid
+            <Grid 
+                Margin="0, 10, 0, 0"
+                ColumnDefinitions="*, 70, 30, 70, *"  
+                RowDefinitions="*, *, *"
                 VerticalOptions="FillAndExpand">
 
                 <Label
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    VerticalTextAlignment="Center"
-                    HorizontalTextAlignment="Center"
-                    FontSize="{DynamicResource TSize_i0_10}"
-                    FontFamily="Barlow-Bold"
-                    HorizontalOptions="FillAndExpand">
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Style="{DynamicResource LabelStyle_i1}"
+                    HorizontalTextAlignment="End"
+                    Padding="0, 10, 15, 0"
+                    Text="{Binding Hours, StringFormat='{0:D2}'}" />
 
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span
-                                Text="19"/>
-                            <Span
-                                Text=":"
-                                TextColor="#757785"/>
-                            <Span
-                                Text="30" />
-                        </FormattedString>
-                    </Label.FormattedText>
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Style="{DynamicResource LabelStyle_i1}"
+                    Padding="10, 5, 0, 0"
+                    Text=":"
+                    Opacity="0.32" />
 
-                </Label>
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Style="{DynamicResource LabelStyle_i1}"
+                    HorizontalTextAlignment="End"
+                    Padding="0, 10, 10, 0"
+                    Text="{Binding Minutes, StringFormat='{0:D2}'}" />
+
+                <buttons:IconButton
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Style="{DynamicResource IconButtonStyle_i3}"
+                    HorizontalOptions="Center"
+                    Padding="0, 20, 0, 0"
+                    Border="{pancakeview:BorderMarkup Thickness=0}"
+                    IconSource="ic_arrow_up_circle_primary_40x40"
+                    xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.HoursIncrement}" />
+                
+                <buttons:IconButton
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Style="{DynamicResource IconButtonStyle_i3}"
+                    Padding="10, 20, 0, 0"
+                    Border="{pancakeview:BorderMarkup Thickness=0}"
+                    IconSource="ic_arrow_up_circle_primary_40x40"
+                    xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.MinuteIncrement}" />
+                
+                <buttons:IconButton
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Style="{DynamicResource IconButtonStyle_i3}"
+                    HorizontalOptions="Center"
+                    Border="{pancakeview:BorderMarkup Thickness=0}"
+                    IconSource="ic_arrow_down_circle_primary_40x40"
+                    xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.HoursDecrement}" />
+
+                <buttons:IconButton
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Style="{DynamicResource IconButtonStyle_i3}"
+                    Padding="10, 0, 0, 0"
+                    Border="{pancakeview:BorderMarkup Thickness=0}"
+                    IconSource="ic_arrow_down_circle_primary_40x40"
+                    xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.MinuteDecrement}" />
 
             </Grid>
             
@@ -258,9 +316,9 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
             <StackLayout 
-                HeightRequest="85"
-                MinimumHeightRequest="85"
-                Padding="20, 15, 20, 20"
+                HeightRequest="90"
+                MinimumHeightRequest="90"
+                Padding="20"
                 Spacing="10" >
 
                 <StackLayout 
