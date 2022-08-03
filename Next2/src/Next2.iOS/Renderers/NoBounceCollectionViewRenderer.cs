@@ -4,12 +4,12 @@ using Next2.iOS.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof(BouncingCollectionView), typeof(BouncingCollectionViewRenderer))]
+[assembly: ExportRenderer(typeof(NoBounceCollectionView), typeof(NoBounceCollectionViewRenderer))]
 namespace Next2.iOS.Renderers
 {
-    public class BouncingCollectionViewRenderer : CollectionViewRenderer
+    public class NoBounceCollectionViewRenderer : CollectionViewRenderer
     {
-        public BouncingCollectionViewRenderer()
+        public NoBounceCollectionViewRenderer()
         {
         }
 
@@ -31,7 +31,7 @@ namespace Next2.iOS.Renderers
 
         protected void DisableBounces()
         {
-            var disableBounceMode = (Element as BouncingCollectionView).DisableBounceMode;
+            var disableBounceMode = (Element as NoBounceCollectionView).DisableBounceMode;
 
             Controller.CollectionView.Bounces = !(disableBounceMode == EDisableBounceMode.iOSOnly || disableBounceMode == EDisableBounceMode.All);
         } 

@@ -65,12 +65,12 @@
             </StackLayout>
 
             <!-- DISH LIST -->
-            <controls:BouncingCollectionView 
+            <controls:NoBounceCollectionView 
                 Margin="0, 14, 0, 0"
                 DisableBounceMode="All"
                 ItemsSource="{Binding Seats}">
 
-                <controls:BouncingCollectionView.ItemTemplate>
+                <controls:NoBounceCollectionView.ItemTemplate>
                     <DataTemplate x:DataType="bindablemodels:SeatBindableModel">
 
                         <StackLayout 
@@ -98,12 +98,12 @@
 
                             </Label>
 
-                            <controls:BouncingCollectionView
+                            <controls:NoBounceCollectionView
                                 DisableBounceMode="All"
                                 HeightRequest="{Binding SelectedDishes, Converter={StaticResource listHeightConverter}, ConverterParameter=83}"
                                 ItemsSource="{Binding SelectedDishes}">
 
-                                <controls:BouncingCollectionView.ItemTemplate>
+                                <controls:NoBounceCollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="bindablemodels:DishBindableModel">
 
                                         <StackLayout>
@@ -162,15 +162,15 @@
                                         </StackLayout>
 
                                     </DataTemplate>
-                                </controls:BouncingCollectionView.ItemTemplate>
-                            </controls:BouncingCollectionView>                          
+                                </controls:NoBounceCollectionView.ItemTemplate>
+                            </controls:NoBounceCollectionView>                          
 
                         </StackLayout>
 
                     </DataTemplate>
-                </controls:BouncingCollectionView.ItemTemplate>
+                </controls:NoBounceCollectionView.ItemTemplate>
 
-            </controls:BouncingCollectionView>
+            </controls:NoBounceCollectionView>
 
             <!-- BUTTONS: CANCEL, REMOVE -->
             <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">

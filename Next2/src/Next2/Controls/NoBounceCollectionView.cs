@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace Next2.Controls
 {
-    public class BouncingCollectionView : CollectionView
+    public class NoBounceCollectionView : CollectionView
     {
         public EDisableBounceMode DisableBounceMode { get; set; }
     }
