@@ -113,16 +113,15 @@ namespace Next2.Controls.Buttons
             switch (propertyName)
             {
                 case nameof(IsIconPlacedOnRight):
-                    {
-                        if (IsIconPlacedOnRight)
-                        {
-                            stackLayout.RaiseChild(image);
-                            label.HorizontalOptions = LayoutOptions.StartAndExpand;
-                            image.HorizontalOptions = LayoutOptions.EndAndExpand;
-                        }
 
-                        break;
+                    if (IsIconPlacedOnRight)
+                    {
+                        bodyStackLayout.RaiseChild(image);
+                        label.HorizontalOptions = LayoutOptions.StartAndExpand;
+                        image.HorizontalOptions = LayoutOptions.EndAndExpand;
                     }
+
+                    break;
 
                 default:
                     break;

@@ -271,13 +271,13 @@ namespace Next2.Controls
         public ICommand SelectYearCommand => _selectYearCommand ??= new Command(() => dropdownFrame.IsVisible = false);
 
         private ICommand _rightMonthTapCommand;
-        public ICommand RightMonthTapCommand => _rightMonthTapCommand ??= new AsyncCommand(OnRightMonthButtonTapped);
+        public ICommand RightMonthTapCommand => _rightMonthTapCommand ??= new AsyncCommand(OnRightMonthTapCommandAsync);
 
         private ICommand _leftMonthTapCommand;
-        public ICommand LeftMonthTapCommand => _leftMonthTapCommand ??= new AsyncCommand(OnLeftMonthButtonTapped);
+        public ICommand LeftMonthTapCommand => _leftMonthTapCommand ??= new AsyncCommand(OnLeftMonthTapCommandAsync);
 
         private ICommand _yearDropdownTapCommand;
-        public ICommand YearDropdownTapCommand => _yearDropdownTapCommand ??= new AsyncCommand(OnYearDropDownTapped);
+        public ICommand YearDropdownTapCommand => _yearDropdownTapCommand ??= new AsyncCommand(OnYearDropdownTapCommandAsync);
 
         #endregion
 
@@ -290,99 +290,91 @@ namespace Next2.Controls
             switch (propertyName)
             {
                 case nameof(SelectedDate):
-                    {
-                        if (SelectedDate is not null)
-                        {
-                            SelectedYear = Years.FirstOrDefault(x => x.YearValue == SelectedDate.Value.Year);
-                            SelectedMonth = SelectedDate.Value.Month;
-                            SelectedDay = new Day
-                            {
-                                DayOfMonth = SelectedDate.Value.Day.ToString(),
-                                State = EDayState.DayMonth,
-                            };
-                        }
 
-                        break;
+                    if (SelectedDate is not null)
+                    {
+                        SelectedYear = Years.FirstOrDefault(x => x.YearValue == SelectedDate.Value.Year);
+                        SelectedMonth = SelectedDate.Value.Month;
+                        SelectedDay = new Day
+                        {
+                            DayOfMonth = SelectedDate.Value.Day.ToString(),
+                            State = EDayState.DayMonth,
+                        };
                     }
+
+                    break;
 
                 case nameof(OffsetYears):
+
+                    var now = DateTime.Now;
+
+                    if (now.Year + OffsetYears > Constants.Limits.MAX_YEAR)
                     {
-                        var now = DateTime.Now;
-
-                        if (now.Year + OffsetYears > Constants.Limits.MAX_YEAR)
-                        {
-                            OffsetYears = Constants.Limits.MAX_YEAR - now.Year;
-                        }
-
-                        for (int i = now.Year; i <= now.Year + OffsetYears; i++)
-                        {
-                            var year = Years[i];
-                            year.Opacity = 1;
-                        }
-
-                        break;
+                        OffsetYears = Constants.Limits.MAX_YEAR - now.Year;
                     }
+
+                    for (int i = now.Year; i <= now.Year + OffsetYears; i++)
+                    {
+                        var year = Years[i];
+                        year.Opacity = 1;
+                    }
+
+                    break;
 
                 case nameof(SelectedDay):
+
+                    now = DateTime.Now;
+
+                    if (dropdownFrame.IsVisible)
                     {
-                        var now = DateTime.Now;
-
-                        if (dropdownFrame.IsVisible)
-                        {
-                            dropdownFrame.IsVisible = false;
-                        }
-                        else if (propertyName == nameof(SelectedYear))
-                        {
-                            if (SelectedYear.YearValue > now.Year + OffsetYears && !_isFutureYearSelected)
-                            {
-                                _isFutureYearSelected = true;
-                                SelectedYear = Years.FirstOrDefault(x => x.YearValue == now.Year + OffsetYears);
-                                yearsCollectionView.SelectedItem = null;
-                            }
-
-                            _isFutureYearSelected = false;
-                        }
-
-                        break;
+                        dropdownFrame.IsVisible = false;
                     }
+                    else if (propertyName == nameof(SelectedYear))
+                    {
+                        if (SelectedYear.YearValue > now.Year + OffsetYears && !_isFutureYearSelected)
+                        {
+                            _isFutureYearSelected = true;
+                            SelectedYear = Years.FirstOrDefault(x => x.YearValue == now.Year + OffsetYears);
+                            yearsCollectionView.SelectedItem = null;
+                        }
+
+                        _isFutureYearSelected = false;
+                    }
+
+                    break;
 
                 case nameof(SelectedMonth):
-                    {
-                        if (SelectedDate is not null && SelectedYear?.YearValue == SelectedDate.Value.Year && SelectedMonth == SelectedDate.Value.Month)
-                        {
-                            SelectedDay = new Day
-                            {
-                                DayOfMonth = SelectedDate.Value.Day.ToString(),
-                                State = EDayState.DayMonth,
-                            };
-                        }
-                        else
-                        {
-                            SelectedDay = new();
-                        }
 
-                        break;
+                    if (SelectedDate is not null && SelectedYear?.YearValue == SelectedDate.Value.Year && SelectedMonth == SelectedDate.Value.Month)
+                    {
+                        SelectedDay = new Day
+                        {
+                            DayOfMonth = SelectedDate.Value.Day.ToString(),
+                            State = EDayState.DayMonth,
+                        };
                     }
+                    else
+                    {
+                        SelectedDay = new();
+                    }
+
+                    break;
 
                 case nameof(SelectedYear):
-                    {
-                        if (SelectedDate is not null && SelectedYear?.YearValue == SelectedDate.Value.Year && SelectedMonth == SelectedDate.Value.Month)
-                        {
-                            SelectedDay = new Day
-                            {
-                                DayOfMonth = SelectedDate.Value.Day.ToString(),
-                                State = EDayState.DayMonth,
-                            };
-                        }
-                        else
-                        {
-                            SelectedDay = new();
-                        }
 
-                        break;
+                    if (SelectedDate is not null && SelectedYear?.YearValue == SelectedDate.Value.Year && SelectedMonth == SelectedDate.Value.Month)
+                    {
+                        SelectedDay = new Day
+                        {
+                            DayOfMonth = SelectedDate.Value.Day.ToString(),
+                            State = EDayState.DayMonth,
+                        };
+                    }
+                    else
+                    {
+                        SelectedDay = new();
                     }
 
-                default:
                     break;
             }
         }
@@ -391,7 +383,7 @@ namespace Next2.Controls
 
         #region -- Private helpers --
 
-        private Task OnYearDropDownTapped()
+        private Task OnYearDropdownTapCommandAsync()
         {
             dropdownFrame.IsVisible = !dropdownFrame.IsVisible;
 
@@ -403,7 +395,7 @@ namespace Next2.Controls
             return Task.CompletedTask;
         }
 
-        private Task OnRightMonthButtonTapped()
+        private Task OnRightMonthTapCommandAsync()
         {
             if (SelectedMonth == 12)
             {
@@ -417,7 +409,7 @@ namespace Next2.Controls
             return Task.CompletedTask;
         }
 
-        private Task OnLeftMonthButtonTapped()
+        private Task OnLeftMonthTapCommandAsync()
         {
             if (SelectedMonth == 1)
             {
