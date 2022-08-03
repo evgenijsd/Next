@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:dialogs="clr-namespace:Next2.ViewModels.Tablet.Dialogs"
+    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:controls="clr-namespace:Next2.Controls"
+    x:Class="Next2.Views.Tablet.Dialogs.AssignReservationDialog"
+    x:DataType="dialogs:AssignReservationDialogViewModel">
+
+    <pcView:PancakeView     
+        HorizontalOptions="Center"
+        VerticalOptions="Center"
+        HeightRequest="350"
+        WidthRequest="380"
+        Margin="120"
+        CornerRadius="8"
+        Border="{pcView:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=3}"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+        xct:ShadowEffect.Color="Black"
+        xct:ShadowEffect.Radius="16">
+
+        <pcView:PancakeView.Resources>
+            
+            <Style x:Key="BorderButtonStyle_i2_1" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i2}">
+                <Setter Property="Padding" Value="0, 0, 0, 2"/>
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="CornerRadius" Value="4"/>
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
+            </Style>
+            
+        </pcView:PancakeView.Resources>
+        
+        <Grid RowDefinitions="62, 1, 47, 30, 45, 90, 1, 74">
+            
+            <Label
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Padding="20, 0"
+                Text="{xct:Translate AssignReservation}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontSize="{DynamicResource TSize_i6}"
+                FontFamily="Barlow-SemiBold"
+                VerticalTextAlignment="Center"/>
+
+            <BoxView
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                HeightRequest="1"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+            <Label
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Padding="20, 20, 0, 0"
+                Text="{xct:Translate SelectTable}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontSize="{DynamicResource TSize_i8}"
+                FontFamily="Barlow-Medium"/>
+
+            <controls:DropDownList
+                Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Style="{DynamicResource DropDownListStyle_i1}"
+                Margin="20, 0"
+                VerticalOptions="Start"
+                HeaderTextSize="{DynamicResource TSize_i9}"
+                HeaderTextOpacity="{DynamicResource OpacityWhenDisabled_i3}"
+                HeaderText="{xct:Translate TableNumber}"
+                SelectedItem="{Binding SelectedTable}"
+                ItemsSource="{Binding Tables}">
+
+                <controls:DropDownList.Triggers>
+
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
+                        Binding="{Binding SelectedTable, Converter={xct:IntToBoolConverter}}"
+                        Value="True">
+
+                        <Setter Property="HeaderText" Value="{Binding SelectedTable, StringFormat='Table {0}'}"/>
+                        <Setter Property="HeaderTextOpacity" Value="1"/>
+
+                    </DataTrigger>
+
+                </controls:DropDownList.Triggers>
+
+                <controls:DropDownList.DataTemplate>
+                    
+                    <DataTemplate x:DataType="{x:Type x:Int32}">
+
+                        <StackLayout 
+                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
+
+                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+
+                            <StackLayout
+                                Padding="14, 9"
+                                HeightRequest="21">
+
+                                <Label
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                    FontFamily="Barlow-Medium"
+                                    FontSize="{DynamicResource TSize_i8}"
+                                    HorizontalOptions="FillAndExpand"
+                                    Text="{Binding .}" />
+
+                            </StackLayout>
+
+                        </StackLayout>
+
+                    </DataTemplate>
+                    
+                </controls:DropDownList.DataTemplate>
+
+            </controls:DropDownList>
+
+            <Label
+                Grid.Row="4"
+                Grid.ColumnSpan="2"
+                Padding="20, 17, 0, 0"
+                Text="{xct:Translate SelectServer}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontSize="{DynamicResource TSize_i8}"
+                FontFamily="Barlow-Medium"/>
+
+            <controls:DropDownList
+                Grid.Row="5"
+                Grid.ColumnSpan="2"
+                Style="{DynamicResource DropDownListStyle_i1}"
+                Margin="20, 0, 20, 0"
+                VerticalOptions="Start"
+                HeaderTextSize="{DynamicResource TSize_i9}"
+                SelectedItem="{Binding SelectedServer}"
+                ItemsSource="{Binding Servers}">
+
+                <controls:DropDownList.DataTemplate>
+                    
+                    <DataTemplate x:DataType="{x:Type x:Int32}">
+
+                        <StackLayout 
+                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
+
+                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+
+                            <StackLayout
+                                Padding="14, 9"
+                                HeightRequest="21">
+
+                                <Label
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                    FontFamily="Barlow-Medium"
+                                    FontSize="{DynamicResource TSize_i8}"
+                                    HorizontalOptions="FillAndExpand"
+                                    Text="{Binding .}" />
+
+                            </StackLayout>
+
+                        </StackLayout>
+
+                    </DataTemplate>
+                    
+                </controls:DropDownList.DataTemplate>
+
+            </controls:DropDownList>
+
+            <BoxView
+                Grid.Row="6"
+                Grid.ColumnSpan="2"
+                VerticalOptions="End"
+                HeightRequest="1"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+            <buttons:BorderButton
+                Grid.Row="7"
+                Grid.Column="0"
+                Style="{DynamicResource BorderButtonStyle_i2_1}"
+                Margin="20, 0, 5, 0"
+                Text="{xct:Translate Cancel}"
+                BorderColor="{DynamicResource AppColor_i1}"
+                Command="{Binding DeclineCommand}"/>
+
+            <buttons:BorderButton
+                Grid.Row="7"
+                Grid.Column="1"
+                Style="{DynamicResource BorderButtonStyle_i2_1}"
+                Margin="5, 0, 20, 0"
+                Text="{xct:Translate Add}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                BorderColor="{DynamicResource IndicationColor_i1}"
+                BackgroundColor="{DynamicResource IndicationColor_i1}"
+                Command="{Binding AssignReservationCommand}"/>
+
+        </Grid>
+
+    </pcView:PancakeView>
+
+</rg:PopupPage>

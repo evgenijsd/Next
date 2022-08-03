@@ -7,6 +7,7 @@ using Next2.Services.Reservation;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -68,6 +69,9 @@ namespace Next2.ViewModels.Tablet
 
         private ICommand _addNewReservationCommand;
         public ICommand AddNewReservationCommand => _addNewReservationCommand ??= new AsyncCommand(OnAddNewReservationCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _assignReservationCommand;
+        public ICommand AssignReservationCommand => _assignReservationCommand ??= new AsyncCommand(OnAssignReservationCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -212,6 +216,19 @@ namespace Next2.ViewModels.Tablet
             {
                 await _notificationsService.CloseAllPopupAsync();
             }
+        }
+
+        private Task OnAssignReservationCommandAsync()
+        {
+            var param = new DialogParameters();
+
+            var popupPage = new Views.Tablet.Dialogs.AssignReservationDialog(param, CloseAssignReservationDialogCallBack);
+
+            return PopupNavigation.PushAsync(popupPage);
+        }
+
+        private async void CloseAssignReservationDialogCallBack(IDialogParameters param)
+        {
         }
 
         #endregion

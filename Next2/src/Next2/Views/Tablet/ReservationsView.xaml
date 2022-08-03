@@ -114,7 +114,8 @@
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
                     BorderColor="{DynamicResource IndicationColor_i1}"
-                    Text="{xct:Translate Assign}">
+                    Text="{xct:Translate Assign}"
+                    Command="{Binding AssignReservationCommand}">
 
                     <buttons:BorderButton.Triggers>
                         <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
