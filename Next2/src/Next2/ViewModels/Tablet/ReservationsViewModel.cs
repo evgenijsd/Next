@@ -224,7 +224,7 @@ namespace Next2.ViewModels.Tablet
             {
                 { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
                 { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
-                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["This_Reservation_Will_Be_Removed"] },
+                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["ThisReservationWillBeRemoved"] },
                 { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
                 { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
             };

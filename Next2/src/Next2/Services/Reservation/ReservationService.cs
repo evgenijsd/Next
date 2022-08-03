@@ -88,9 +88,9 @@ namespace Next2.Services.Reservation
 
             try
             {
-                var success = await _mockService.RemoveAsync(reservation);
+                var isReservationRemoved = await _mockService.RemoveAsync(reservation);
 
-                if (success)
+                if (isReservationRemoved)
                 {
                     result.SetSuccess();
                 }

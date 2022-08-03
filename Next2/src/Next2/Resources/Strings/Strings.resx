@@ -753,7 +753,7 @@ A receipt has been printed for you.</value>
   <data name="Warning" xml:space="preserve">
     <value>Warning</value>
   </data>
-  <data name="This_Reservation_Will_Be_Removed" xml:space="preserve">
+  <data name="ThisReservationWillBeRemoved" xml:space="preserve">
     <value>This reservation will be removed.</value>
   </data>
 </root>
