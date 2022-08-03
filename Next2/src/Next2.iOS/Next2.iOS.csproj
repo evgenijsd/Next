@@ -139,7 +139,7 @@
     <Compile Include="Helpers\TouchRecognizer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Renderers\NoBounceCollectionViewRenderer.cs" />
+    <Compile Include="Renderers\CustomCollectionViewRenderer.cs" />
     <Compile Include="Renderers\NoActionMenuEntryRenderer.cs" />
     <Compile Include="Renderers\CustomFrameRenderer.cs" />
     <Compile Include="Renderers\LineSpacingLabelRenderer.cs" />

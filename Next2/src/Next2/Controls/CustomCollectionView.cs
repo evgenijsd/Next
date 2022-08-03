@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using Next2.Enums;
+using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -26,6 +27,8 @@ namespace Next2.Controls
             get => (int)GetValue(IndexLastVisibleProperty);
             set => SetValue(IndexLastVisibleProperty, value);
         }
+
+        public EBounceMode BounceMode { get; set; }
 
         #endregion
 
