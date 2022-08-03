@@ -1783,6 +1783,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This reservation will be removed..
+        /// </summary>
+        internal static string This_Reservation_Will_Be_Removed {
+            get {
+                return ResourceManager.GetString("This_Reservation_Will_Be_Removed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This dish is already splitted.
         /// </summary>
         internal static string ThisDishAlreadySplitted {

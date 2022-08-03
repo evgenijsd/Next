@@ -100,7 +100,8 @@
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
                     BorderColor="{DynamicResource IndicationColor_i3}"
-                    Text="{xct:Translate Remove}">
+                    Text="{xct:Translate Remove}"
+                    Command="{Binding RemoveReservationCommand}">
 
                     <buttons:BorderButton.Triggers>
                         <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding SelectedReservation, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">

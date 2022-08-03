@@ -7,6 +7,7 @@ using Next2.Services.Reservation;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -68,6 +69,9 @@ namespace Next2.ViewModels.Tablet
 
         private ICommand _addNewReservationCommand;
         public ICommand AddNewReservationCommand => _addNewReservationCommand ??= new AsyncCommand(OnAddNewReservationCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _removeReservationCommand;
+        public ICommand RemoveReservationCommand => _removeReservationCommand ??= new AsyncCommand(OnRemoveReservationCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -206,6 +210,48 @@ namespace Next2.ViewModels.Tablet
                     var message = resultOfAddingReservation.Exception?.Message;
 
                     await _notificationsService.ResponseToBadRequestAsync(message);
+                }
+            }
+            else
+            {
+                await _notificationsService.CloseAllPopupAsync();
+            }
+        }
+
+        private Task OnRemoveReservationCommandAsync()
+        {
+            var confirmDialogParameters = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["This_Reservation_Will_Be_Removed"] },
+                { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+            };
+
+            PopupPage confirmDialog = new Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseRemoveReservationDialogCallBack);
+
+            return PopupNavigation.PushAsync(confirmDialog);
+        }
+
+        private async void CloseRemoveReservationDialogCallBack(IDialogParameters param)
+        {
+            if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool accept) && accept)
+            {
+                var reservationRemovingResult = await _reservationService.RemoveReservationAsync(SelectedReservation);
+
+                if (reservationRemovingResult.IsSuccess)
+                {
+                    IsReservationsRefreshing = true;
+
+                    await _notificationsService.CloseAllPopupAsync();
+                }
+                else
+                {
+                    await _notificationsService.ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["SomethingWentWrong"],
+                        LocalizationResourceManager.Current["Ok"]);
                 }
             }
             else
