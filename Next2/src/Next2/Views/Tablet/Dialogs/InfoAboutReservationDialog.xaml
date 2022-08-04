@@ -171,7 +171,7 @@
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
-                    Command="{Binding AssingCommand}"/>
+                    Command="{Binding AssignCommand}"/>
 
                 <buttons:BorderButton
                     Grid.Row="1"

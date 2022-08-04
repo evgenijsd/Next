@@ -46,9 +46,9 @@ namespace Next2.Behaviors
 
         protected override void OnDetachingFrom(VisualElement visualElement)
         {
-            if (visualElement is NoActionMenuEntry element)
+            if (visualElement is NoActionMenuEntry entry)
             {
-                element.TextChanged -= OnEntryTextChanged;
+                entry.TextChanged -= OnEntryTextChanged;
             }
             else if (visualElement is Label label)
             {
