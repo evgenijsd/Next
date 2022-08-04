@@ -14,16 +14,22 @@ namespace Next2.ViewModels.Dialogs
 {
     public class HoldDishDialogViewModel : BindableBase
     {
+        private DateTime _holdTime = DateTime.Now;
+        public TimeItem? _preSelectedTimeItem;
+
         public HoldDishDialogViewModel(
             DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
             CurrentTime = DateTime.Now;
+            Hour = _holdTime.Hour;
+            Minute = _holdTime.Minute;
             Device.StartTimer(TimeSpan.FromSeconds(10), OnTimerTick);
+
             RequestClose = requestClose;
             CloseCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.CANCEL, true } }));
             DismissCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.DISMISS, true } }));
-            HoldCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.HOLD, HoldTime } }));
+            HoldCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.HOLD, _holdTime } }));
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel selectedDish))
             {
@@ -40,7 +46,7 @@ namespace Next2.ViewModels.Dialogs
                 }
             }
 
-            InitTimeItemsAsync();
+            InitTimeItems();
         }
 
         #region -- Public properties --
@@ -53,11 +59,9 @@ namespace Next2.ViewModels.Dialogs
 
         public DateTime CurrentTime { get; set; }
 
-        public DateTime HoldTime { get; set; }
+        public int Hour { get; set; }
 
-        public int Hours { get; set; }
-
-        public int Minutes { get; set; }
+        public int Minute { get; set; }
 
         public string SetNames { get; set; } = string.Empty;
 
@@ -69,8 +73,8 @@ namespace Next2.ViewModels.Dialogs
 
         public Action<IDialogParameters> RequestClose;
 
-        private ICommand _tapTimeItemCommand;
-        public ICommand TapTimeItemCommand => _tapTimeItemCommand = new AsyncCommand<TimeItem?>(OnTapTimeItemCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _selectTimeItemCommand;
+        public ICommand SelectTimeItemCommand => _selectTimeItemCommand ??= new AsyncCommand(OnSelectTimeItemCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _changingTimeHoldCommand;
         public ICommand ChangingTimeHoldCommand => _changingTimeHoldCommand ??= new AsyncCommand<EHoldChange>(OnChangingTimeHoldCommandAsync, allowsMultipleExecutions: false);
@@ -79,72 +83,89 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private helpers --
 
-        private Task OnTapTimeItemCommandAsync(TimeItem? sender)
+        private Task OnSelectTimeItemCommandAsync()
         {
-            var i = sender;
+            SelectedTimeItem = _preSelectedTimeItem == SelectedTimeItem
+                ? null
+                : SelectedTimeItem;
+
+            _preSelectedTimeItem = SelectedTimeItem;
 
             return Task.CompletedTask;
         }
 
         private Task OnChangingTimeHoldCommandAsync(EHoldChange holdChange)
         {
-            SelectedTimeItem = null;
+            var hour = Hour;
+            var minute = Minute;
 
             switch (holdChange)
             {
-                case EHoldChange.HoursIncrement:
-                    Hours++;
-                    Hours = Hours > 24
-                        ? 24
-                        : Hours;
+                case EHoldChange.HourIncrement:
+                    hour++;
+                    hour = hour > 23
+                        ? 23
+                        : hour;
 
                     break;
-                case EHoldChange.HoursDecrement:
-                    Hours--;
-                    Hours = Hours < 0
+                case EHoldChange.HourDecrement:
+                    hour--;
+                    hour = hour < 0
                         ? 0
-                        : Hours;
+                        : hour;
 
                     break;
                 case EHoldChange.MinuteIncrement:
-                    Minutes++;
-                    Minutes = Minutes > 60
-                        ? 60
-                        : Minutes;
+                    minute++;
+                    minute = minute > 59
+                        ? 59
+                        : minute;
 
                     break;
                 case EHoldChange.MinuteDecrement:
-                    Minutes--;
-                    Minutes = Minutes < 0
+                    minute--;
+                    minute = minute < 0
                         ? 0
-                        : Minutes;
+                        : minute;
 
                     break;
                 default:
                     break;
             }
 
+            var holdTime = new DateTime(CurrentTime.Year, CurrentTime.Month, CurrentTime.Day, hour, minute, second: 0);
+
+            if (holdTime >= CurrentTime)
+            {
+                Hour = hour;
+                Minute = minute;
+                _holdTime = holdTime;
+            }
+            else
+            {
+                _holdTime = DateTime.Now;
+                Hour = _holdTime.Hour;
+                Minute = _holdTime.Minute;
+            }
+
             return Task.CompletedTask;
         }
 
-        private void InitTimeItemsAsync()
+        private void InitTimeItems()
         {
             TimeDisplayItems = new()
             {
                 new()
                 {
-                    Minutes = 15,
-                    TapCommand = TapTimeItemCommand,
+                    Minute = 15,
                 },
                 new()
                 {
-                    Minutes = 20,
-                    TapCommand = TapTimeItemCommand,
+                    Minute = 20,
                 },
                 new()
                 {
-                    Minutes = 40,
-                    TapCommand = TapTimeItemCommand,
+                    Minute = 40,
                 },
             };
         }
@@ -152,6 +173,13 @@ namespace Next2.ViewModels.Dialogs
         private bool OnTimerTick()
         {
             CurrentTime = DateTime.Now;
+
+            if (_holdTime < CurrentTime)
+            {
+                _holdTime = DateTime.Now;
+                Hour = _holdTime.Hour;
+                Minute = _holdTime.Minute;
+            }
 
             return true;
         }

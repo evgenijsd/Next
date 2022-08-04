@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <rg:PopupPage
     xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
@@ -153,7 +154,7 @@
                 SelectionMode="Single"
                 SelectedItem="{Binding SelectedTimeItem}"
                 ItemsSource="{Binding TimeDisplayItems}"
-                ItemSizingStrategy="MeasureFirstItem">
+                ItemSizingStrategy="MeasureFirstItem" >
 
                 <CollectionView.ItemsLayout>
 
@@ -175,26 +176,11 @@
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                             BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                             CornerRadius="{OnPlatform Android='3', iOS='5'}"
-                            xct:TouchEffect.Command="{Binding TapCommand}"
-                            xct:TouchEffect.CommandParameter="{Binding .}">
-                            
+                            xct:TouchEffect.Command="{Binding SelectTimeItemCommand, Source={RelativeSource AncestorType={x:Type viewModels:HoldDishDialogViewModel}}}" >
+
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup
                                     Name="CommonStates">
-
-                                    <VisualState
-                                        Name="Selected">
-
-                                        <VisualState.Setters>
-                                            <Setter
-                                                Property="BackgroundColor"
-                                                Value="{DynamicResource AppColor_i2}" />
-                                            <Setter
-                                                Property="BorderColor"
-                                                Value="{DynamicResource AppColor_i1}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
 
                                     <VisualState
                                         Name="Normal">
@@ -206,6 +192,20 @@
                                             <Setter
                                                 Property="BorderColor"
                                                 Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                    <VisualState
+                                        Name="Selected">
+
+                                        <VisualState.Setters>
+                                            <Setter
+                                                Property="BackgroundColor"
+                                                Value="{DynamicResource AppColor_i2}" />
+                                            <Setter
+                                                Property="BorderColor"
+                                                Value="{DynamicResource AppColor_i1}" />
                                         </VisualState.Setters>
 
                                     </VisualState>
@@ -225,7 +225,7 @@
 
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding Minutes}" />
+                                            <Span Text="{Binding Minute}" />
                                             <Span Text=" " />
                                             <Span Text="{xct:Translate min}" />
                                         </FormattedString>
@@ -248,13 +248,24 @@
                 RowDefinitions="*, *, *"
                 VerticalOptions="FillAndExpand">
 
+                <Grid.Triggers>
+                    <DataTrigger
+                        TargetType="Grid"
+                        Binding="{Binding SelectedTimeItem, Converter={xct:IsNotNullOrEmptyConverter}}"
+                        Value="True">
+                        <Setter
+                            Property="Opacity"
+                            Value="{DynamicResource OpacityWhenDisabled_i3}" />
+                    </DataTrigger>
+                </Grid.Triggers>
+
                 <Label
                     Grid.Row="1"
                     Grid.Column="1"
                     Style="{DynamicResource LabelStyle_i1}"
                     HorizontalTextAlignment="End"
                     Padding="0, 10, 15, 0"
-                    Text="{Binding Hours, StringFormat='{0:D2}'}" />
+                    Text="{Binding Hour, StringFormat='{0:D2}'}" />
 
                 <Label
                     Grid.Row="1"
@@ -262,7 +273,7 @@
                     Style="{DynamicResource LabelStyle_i1}"
                     Padding="10, 5, 0, 0"
                     Text=":"
-                    Opacity="0.32" />
+                    Opacity="{DynamicResource OpacityWhenDisabled_i3}" />
 
                 <Label
                     Grid.Row="1"
@@ -270,7 +281,7 @@
                     Style="{DynamicResource LabelStyle_i1}"
                     HorizontalTextAlignment="End"
                     Padding="0, 10, 10, 0"
-                    Text="{Binding Minutes, StringFormat='{0:D2}'}" />
+                    Text="{Binding Minute, StringFormat='{0:D2}'}" />
 
                 <buttons:IconButton
                     Grid.Row="0"
@@ -280,7 +291,7 @@
                     Padding="0, 20, 0, 0"
                     Border="{pancakeview:BorderMarkup Thickness=0}"
                     IconSource="ic_arrow_up_circle_primary_40x40"
-                    xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.HoursIncrement}" />
+                    xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.HourIncrement}" />
                 
                 <buttons:IconButton
                     Grid.Row="0"
@@ -298,7 +309,7 @@
                     HorizontalOptions="Center"
                     Border="{pancakeview:BorderMarkup Thickness=0}"
                     IconSource="ic_arrow_down_circle_primary_40x40"
-                    xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.HoursDecrement}" />
+                    xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.HourDecrement}" />
 
                 <buttons:IconButton
                     Grid.Row="2"

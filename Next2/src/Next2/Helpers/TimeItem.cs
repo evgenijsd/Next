@@ -7,10 +7,8 @@ using System.Windows.Input;
 
 namespace Next2.Helpers
 {
-    public class TimeItem : BindableBase, ITappable
+    public class TimeItem : BindableBase
     {
-        public int Minutes { get; set; }
-
-        public ICommand TapCommand { get; set; }
+        public int Minute { get; set; }
     }
 }
