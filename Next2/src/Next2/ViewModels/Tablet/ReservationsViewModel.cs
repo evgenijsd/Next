@@ -73,6 +73,9 @@ namespace Next2.ViewModels.Tablet
         private ICommand _removeReservationCommand;
         public ICommand RemoveReservationCommand => _removeReservationCommand ??= new AsyncCommand(OnRemoveReservationCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _infoAboutReservationCommand;
+        public ICommand InfoAboutReservationCommand => _infoAboutReservationCommand ??= new AsyncCommand(OnInfoAboutReservationCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -201,7 +204,7 @@ namespace Next2.ViewModels.Tablet
 
                 if (resultOfAddingReservation.IsSuccess)
                 {
-                    await _notificationsService.CloseAllPopupAsync();
+                    await _notificationsService.ClosePopupAsync();
 
                     IsReservationsRefreshing = true;
                 }
@@ -214,7 +217,7 @@ namespace Next2.ViewModels.Tablet
             }
             else
             {
-                await _notificationsService.CloseAllPopupAsync();
+                await _notificationsService.ClosePopupAsync();
             }
         }
 
@@ -256,7 +259,37 @@ namespace Next2.ViewModels.Tablet
             }
             else
             {
-                await _notificationsService.CloseAllPopupAsync();
+                await _notificationsService.ClosePopupAsync();
+            }
+        }
+
+        private Task OnInfoAboutReservationCommandAsync()
+        {
+            var confirmDialogParameters = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.MODEL, SelectedReservation },
+            };
+
+            PopupPage confirmDialog = new Views.Tablet.Dialogs.InfoAboutReservationDialog(confirmDialogParameters, CloseInfoAboutReservationDialogCallBack);
+
+            return PopupNavigation.PushAsync(confirmDialog);
+        }
+
+        private async void CloseInfoAboutReservationDialogCallBack(IDialogParameters param)
+        {
+            if (param.TryGetValue(Constants.DialogParameterKeys.ACTION, out string action))
+            {
+                switch (action)
+                {
+                    case Constants.DialogParameterKeys.REMOVE:
+                        await OnRemoveReservationCommandAsync();
+
+                        break;
+                }
+            }
+            else
+            {
+                await _notificationsService.ClosePopupAsync();
             }
         }
 

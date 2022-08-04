@@ -756,4 +756,13 @@ A receipt has been printed for you.</value>
   <data name="ThisReservationWillBeRemoved" xml:space="preserve">
     <value>This reservation will be removed.</value>
   </data>
+  <data name="ReservationInfo" xml:space="preserve">
+    <value>Reservation Info</value>
+  </data>
+  <data name="SelectedTable" xml:space="preserve">
+    <value>Selected Table</value>
+  </data>
+  <data name="NoNotes" xml:space="preserve">
+    <value>No notes</value>
+  </data>
 </root>
