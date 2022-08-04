@@ -197,20 +197,26 @@
                         <sc:StateCondition State="{Static enums:ESplitOrderConditions.ByPercents}">
 
                             <Grid
-                                Padding="24"
+                                RowDefinitions="0.17*, 0.415*, 0.415*"
+                                Padding="24, 0"
                                 MinimumHeightRequest="623">
 
-                                <StackLayout
+                                <Label
                                     Grid.Row="0"
-                                    Spacing="12">
+                                    VerticalOptions="Center"
+                                    Text="{xct:Translate SelectValue}"
+                                    FontSize="{DynamicResource TSize_i6}"
+                                    FontFamily="Barlow-Regular" />
 
-                                    <Label
-                                        Text="{xct:Translate SelectValue}"
-                                        FontSize="{DynamicResource TSize_i6}"
-                                        FontFamily="Barlow-SemiBold" />
+                                <StackLayout
+                                    VerticalOptions="FillAndExpand"
+                                    Grid.Row="1"
+                                    Spacing="0">
 
                                     <StackLayout
                                         Orientation="Horizontal"
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="Start"
                                         Spacing="12">
 
                                         <StackLayout.Resources>
@@ -220,6 +226,7 @@
                                                 <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                                                 <Setter Property="Padding" Value="0" />
                                                 <Setter Property="HeightRequest" Value="51" />
+                                                <Setter Property="WidthRequest" Value="140" />
                                                 <Setter Property="BorderWidth" Value="1" />
                                                 <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
                                                 <Setter Property="Background" Value="{DynamicResource TextAndBackgroundColor_i3}" />
@@ -311,21 +318,21 @@
 
                                     </StackLayout>
 
-                                </StackLayout>
+                                    <controls:CustomStepper
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="CenterAndExpand"
+                                        Spacing="32"
+                                        IconSizes="53"
+                                        MaxValue="{Binding AvailableValue}"
+                                        FontSize="{DynamicResource TSize_i0_7}"
+                                        FontFamily="Barlow-Bold"
+                                        IncrementCommand="{Binding IncrementSplitValueCommand}"
+                                        DecrementCommand="{Binding DecrementSplitValueCommand}"
+                                        TextWidth="110"
+                                        ValueFormat="{Static local:Constants+Formats.PERCENT_FORMAT}"
+                                        Value="{Binding SplitValue}" />
 
-                                <controls:CustomStepper
-                                    Grid.Row="1"
-                                    HorizontalOptions="CenterAndExpand"
-                                    Spacing="32"
-                                    IconSizes="53"
-                                    MaxValue="{Binding AvailableValue}"
-                                    FontSize="{DynamicResource TSize_i0_7}"
-                                    FontFamily="Barlow-Bold"
-                                    IncrementCommand="{Binding IncrementSplitValueCommand}"
-                                    DecrementCommand="{Binding DecrementSplitValueCommand}"
-                                    TextWidth="110"
-                                    ValueFormat="{Static local:Constants+Formats.PERCENT_FORMAT}"
-                                    Value="{Binding SplitValue}" />
+                                </StackLayout>
 
                                 <BoxView
                                     Grid.Row="2"
