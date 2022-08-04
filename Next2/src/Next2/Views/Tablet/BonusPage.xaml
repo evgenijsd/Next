@@ -326,13 +326,14 @@
                         FontSize="{DynamicResource TSize_i9}"
                         FontFamily="Barlow-SemiBold" />
 
-                    <CollectionView
+                    <controls:CustomCollectionView
                         Grid.Row="1"
                         SelectionMode="Single"
+                        BounceMode="DisabledForAndroidAndiOS"
                         ItemsSource="{Binding Coupons}"
                         SelectedItem="{Binding SelectedBonus}">
 
-                        <CollectionView.ItemTemplate>
+                        <controls:CustomCollectionView.ItemTemplate>
 
                             <DataTemplate x:DataType="models:BonusBindableModel">
 
@@ -345,9 +346,9 @@
 
                             </DataTemplate>
 
-                        </CollectionView.ItemTemplate>
+                        </controls:CustomCollectionView.ItemTemplate>
 
-                    </CollectionView>
+                    </controls:CustomCollectionView>
 
                     <Label
                         Grid.Row="2"                    
@@ -356,13 +357,14 @@
                         FontSize="{DynamicResource TSize_i9}"
                         FontFamily="Barlow-Medium" />
 
-                    <CollectionView
+                    <controls:CustomCollectionView
                         Grid.Row="3"
                         SelectionMode="Single"
+                        BounceMode="DisabledForAndroidAndiOS"
                         ItemsSource="{Binding Discounts}"
                         SelectedItem="{Binding SelectedBonus}">
 
-                        <CollectionView.ItemTemplate>
+                        <controls:CustomCollectionView.ItemTemplate>
 
                             <DataTemplate x:DataType="models:BonusBindableModel">
 
@@ -375,9 +377,9 @@
 
                             </DataTemplate>
 
-                        </CollectionView.ItemTemplate>
+                        </controls:CustomCollectionView.ItemTemplate>
 
-                    </CollectionView>
+                    </controls:CustomCollectionView>
 
                 </Grid>
 

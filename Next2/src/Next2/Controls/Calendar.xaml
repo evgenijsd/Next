@@ -5,7 +5,6 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:helpers="clr-namespace:Next2.Helpers"
     RowDefinitions="0.12*, 0.24*, *"
     Padding="21"
@@ -73,6 +72,7 @@
             x:Name="monthLabel">
 
             <Label.GestureRecognizers>
+                
                 <SwipeGestureRecognizer
                     Direction="Left"
                     Swiped="OnRightMonthButtonTapped"
@@ -100,11 +100,11 @@
 
     </StackLayout>
 
-    <!--  grid  -->
     <controls:CalendarGridCollectionView
         Grid.Row="2"
         Margin="16, 0, 16, 1"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+        BounceMode="DisabledForAndroidAndiOS"
         Month="{Binding SelectedMonth, Source={x:Reference calendar}}"
         Year="{Binding SelectedYear.YearValue, Source={x:Reference calendar}}"
         SelectedDate="{Binding SelectedDate, Source={x:Reference calendar}, Mode=TwoWay}"
@@ -112,6 +112,7 @@
         x:Name="calendarGrid">
 
         <CollectionView.ItemsLayout>
+            
             <GridItemsLayout
                 HorizontalItemSpacing="0"
                 Orientation="Vertical"
@@ -119,10 +120,6 @@
                 VerticalItemSpacing="0" />
             
         </CollectionView.ItemsLayout>
-
-        <CollectionView.Effects>
-            <effects:NoOverScrollEffect />
-        </CollectionView.Effects>
 
         <CollectionView.ItemTemplate>
 
@@ -197,18 +194,15 @@
         xct:CornerRadiusEffect.CornerRadius="0, 0, 4, 4"
         x:Name="dropdownFrame">
 
-        <CollectionView
+        <controls:CustomCollectionView
             VerticalScrollBarVisibility="Never"
             SelectionMode="Single"
+            BounceMode="DisabledForAndroidAndiOS"
             ItemsSource="{Binding Years, Source={x:Reference calendar}}"
             SelectedItem="{Binding SelectedYear, Source={x:Reference calendar}}"
             x:Name="yearsCollectionView">
-
-            <CollectionView.Effects>
-                <effects:NoOverScrollEffect />
-            </CollectionView.Effects>
-
-            <CollectionView.ItemTemplate>
+            
+            <controls:CustomCollectionView.ItemTemplate>
                 <DataTemplate x:DataType="helpers:Year">
 
                     <Frame
@@ -241,9 +235,9 @@
                     </Frame>
 
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
+            </controls:CustomCollectionView.ItemTemplate>
 
-        </CollectionView>
+        </controls:CustomCollectionView>
 
     </Frame>
 

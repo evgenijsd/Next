@@ -381,10 +381,11 @@
 
                         <sc:StateCondition State="Completed">
 
-                            <CollectionView
+                            <controls:CustomCollectionView
                                 Margin="24, 14, 24, 0"
                                 ItemsSource="{Binding Dishes}"
                                 VerticalOptions="FillAndExpand"
+                                BounceMode="DisabledForAndroidAndiOS"
                                 VerticalScrollBarVisibility="Always">
 
                                 <CollectionView.ItemsLayout>
@@ -427,7 +428,6 @@
                                 </VisualStateManager.VisualStateGroups>
 
                                 <CollectionView.Effects>
-                                    <effects:NoOverScrollEffect/>
 
                                     <effects:ScrollBarColorEffect
                                         ScrollBarThumbWidth="6"
@@ -463,7 +463,7 @@
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
 
-                            </CollectionView>
+                            </controls:CustomCollectionView>
                             
                         </sc:StateCondition>
                         
@@ -476,10 +476,11 @@
                         Padding="3, 0, 0, 0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
                             
-                        <CollectionView
+                        <controls:CustomCollectionView
                             HeightRequest="50"
                             MinimumHeightRequest="50"
                             VerticalOptions="End"
+                            BounceMode="DisabledForAndroidAndiOS"
                             ItemsSource="{Binding Subcategories}"
                             SelectedItem="{Binding SelectedSubcategoriesItem}"
                             VerticalScrollBarVisibility="Never"
@@ -503,10 +504,6 @@
 
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-
-                            <CollectionView.Effects>
-                                <effects:NoOverScrollEffect/>
-                            </CollectionView.Effects>
 
                             <CollectionView.ItemsLayout>
 
@@ -553,7 +550,7 @@
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
 
-                        </CollectionView>
+                        </controls:CustomCollectionView>
 
                     </Frame>
                         
@@ -646,6 +643,7 @@
                             HeightRequest="700">
 
                             <ScrollView.Effects>
+                                
                                 <effects:NoOverScrollEffect/>
 
                                 <effects:ScrollBarColorEffect
@@ -1154,31 +1152,31 @@
             </controls:DropDownList>
 
             <!-- DISHES_GROUP LIST -->
-            <CollectionView
+            <controls:CustomCollectionView
                 Grid.Row="2"
                 VerticalScrollBarVisibility="Always"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                 SelectionMode="Single"
                 IsGrouped="True"
+                BounceMode="DisabledForAndroidAndiOS"
                 ItemsSource="{Binding OrderRegistrationViewModel.DishesGroupedBySeats}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedDish}">
 
-                <CollectionView.Behaviors>
+                <controls:CustomCollectionView.Behaviors>
                     <behaviors:ScrollToDishGroupCenterBehavior />
-                </CollectionView.Behaviors>
+                </controls:CustomCollectionView.Behaviors>
 
-                <CollectionView.Effects>
-                    <effects:NoOverScrollEffect />
-
+                <controls:CustomCollectionView.Effects>
+                    
                     <effects:ScrollBarColorEffect
                         ScrollBarThumbWidth="6"
                         ScrollBarCornerRadius="9"
                         ScrollBarThumbColor="{StaticResource AppColor_i1}"
                         ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}" />
 
-                </CollectionView.Effects>
+                </controls:CustomCollectionView.Effects>
 
-                <CollectionView.EmptyView>
+                <controls:CustomCollectionView.EmptyView>
                     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                         <pancakeview:PancakeView
@@ -1325,21 +1323,21 @@
                         </StackLayout>
 
                     </StackLayout>
-                </CollectionView.EmptyView>
+                </controls:CustomCollectionView.EmptyView>
 
-                <CollectionView.GroupHeaderTemplate>
+                <controls:CustomCollectionView.GroupHeaderTemplate>
                     <DataTemplate>
                         <templates:SeatHeaderItemTemplate />
                     </DataTemplate>
-                </CollectionView.GroupHeaderTemplate>
+                </controls:CustomCollectionView.GroupHeaderTemplate>
 
-                <CollectionView.ItemTemplate>
+                <controls:CustomCollectionView.ItemTemplate>
                     <DataTemplate>
                         <templates:DishesGroupedBySeatItemTemplate />
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
+                </controls:CustomCollectionView.ItemTemplate>
 
-            </CollectionView>
+            </controls:CustomCollectionView>
 
             <!-- SUMMARY -->
             <StackLayout 

@@ -4,9 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:views="clr-namespace:Next2.Views"
@@ -305,18 +305,15 @@
                 
             </ffimageloading:CachedImage>
 
-            <CollectionView
+            <controls:CustomCollectionView
                 Grid.Row="1"
                 Grid.Column="0"
                 ItemsSource="{Binding MenuItems}"
                 SelectedItem="{Binding SelectedMenuItem}"
-                SelectionMode="Single">
+                SelectionMode="Single"
+                BounceMode="DisabledForAndroidAndiOS">
 
-                <CollectionView.Effects>
-                    <effects:NoOverScrollEffect/>
-                </CollectionView.Effects>
-
-                <CollectionView.ItemsLayout>
+                <controls:CustomCollectionView.ItemsLayout>
 
                     <GridItemsLayout
                         Orientation="Horizontal"
@@ -324,9 +321,9 @@
                         VerticalItemSpacing="0"
                         HorizontalItemSpacing="0"/>
 
-                </CollectionView.ItemsLayout>
+                </controls:CustomCollectionView.ItemsLayout>
 
-                <CollectionView.ItemTemplate>
+                <controls:CustomCollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:MenuItemBindableModel">
 
                         <templates:MenuItemTemplate
@@ -334,9 +331,9 @@
                             Text="{Binding Title}"/>
 
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
+                </controls:CustomCollectionView.ItemTemplate>
 
-            </CollectionView>
+            </controls:CustomCollectionView>
 
             <templates:MenuItemTemplate
                 Grid.Row="2"

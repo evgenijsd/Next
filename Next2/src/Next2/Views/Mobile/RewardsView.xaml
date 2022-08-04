@@ -8,7 +8,6 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:mobiletemplates="clr-namespace:Next2.Controls.Templates.Mobile"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
@@ -68,23 +67,20 @@
                             FontSize="{DynamicResource TSize_i6}"
                             Text="{xct:Translate RewardsOptions}" />
 
-                        <CollectionView
+                        <controls:CustomCollectionView
+                            BounceMode="DisabledForAndroidAndiOS"
                             HeightRequest="{Binding Order.Rewards, Converter={StaticResource listHeightConverter}, ConverterParameter=90}"
                             ItemsSource="{Binding Order.Rewards}">
 
-                            <CollectionView.Effects>
-                                <effects:NoOverScrollEffect/>
-                            </CollectionView.Effects>
-
-                            <CollectionView.ItemTemplate>
+                            <controls:CustomCollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:RewardBindabledModel">
 
                                     <mobiletemplates:RewardItemTemplate/>
 
                                 </DataTemplate>
-                            </CollectionView.ItemTemplate>
+                            </controls:CustomCollectionView.ItemTemplate>
 
-                        </CollectionView>
+                        </controls:CustomCollectionView>
 
                     </StackLayout>
 

@@ -28,7 +28,17 @@ namespace Next2.Controls
             set => SetValue(IndexLastVisibleProperty, value);
         }
 
-        public EBounceMode BounceMode { get; set; }
+        public static readonly BindableProperty BounceModeProperty = BindableProperty.Create(
+            propertyName: nameof(BounceMode),
+            declaringType: typeof(CustomCollectionView),
+            returnType: typeof(EBounceMode),
+            defaultBindingMode: BindingMode.OneWay);
+
+        public EBounceMode BounceMode
+        {
+            get => (EBounceMode)GetValue(BounceModeProperty);
+            set => SetValue(BounceModeProperty, value);
+        }
 
         #endregion
 

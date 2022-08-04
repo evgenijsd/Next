@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace Next2.Controls
 {
-    public class CalendarGridCollectionView : CollectionView
+    public class CalendarGridCollectionView : CustomCollectionView
     {
         public CalendarGridCollectionView()
         {
