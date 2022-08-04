@@ -303,8 +303,15 @@
 
                                         <Label
                                             Grid.Column="2"
-                                            Style="{DynamicResource TableCellLabelStyle}"
-                                            Text="{Binding TableNumber, StringFormat='Table {0}'}">
+                                            Style="{DynamicResource TableCellLabelStyle}">
+
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{xct:Translate Table}"/>
+                                                    <Span Text=" "/>
+                                                    <Span Text="{Binding TableNumber}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
 
                                             <Label.Triggers>
                                                 <DataTrigger TargetType="Label" Binding="{Binding TableNumber}" Value="0">

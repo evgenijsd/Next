@@ -113,13 +113,13 @@ namespace Next2.Behaviors
             }
         }
 
-        private string TryApplyMaskToText(string txt)
+        private string TryApplyMaskToText(string text)
         {
-            string result = txt;
+            string result = text;
 
             if (_positionsToInsert is not null)
             {
-                string tempText = new(txt);
+                string tempText = new(text);
 
                 try
                 {

@@ -115,9 +115,15 @@
                 Text="{xct:Translate SelectedTable}"
                 Style="{DynamicResource LabelStyle_i1}"/>
 
-            <Label
-                Text="{Binding Reservation.TableNumber, StringFormat='Table {0}'}"
-                Style="{DynamicResource LabelStyle_i2}">
+            <Label Style="{DynamicResource LabelStyle_i2}">
+
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{xct:Translate Table}"/>
+                        <Span Text=" "/>
+                        <Span Text="{Binding Reservation.TableNumber}"/>
+                    </FormattedString>
+                </Label.FormattedText>
 
                 <Label.Triggers>
 
