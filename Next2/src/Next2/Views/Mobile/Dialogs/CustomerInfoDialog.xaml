@@ -1,5 +1,4 @@
-﻿<!--  Mobile  -->
-<rg:PopupPage
+﻿<rg:PopupPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
@@ -134,7 +133,7 @@
                         <StackLayout
                             Grid.Row="0"
                             Grid.Column="0"
-                            Style="{StaticResource GridLayoutStyle}">
+                            Style="{DynamicResource GridLayoutStyle}">
 
                             <Label
                                 FontFamily="Barlow-Medium"
@@ -167,7 +166,7 @@
                         <StackLayout
                             Grid.Row="0"
                             Grid.Column="1"
-                            Style="{StaticResource GridLayoutStyle}">
+                            Style="{DynamicResource GridLayoutStyle}">
 
                             <Label
                                 FontFamily="Barlow-Medium"
@@ -191,7 +190,7 @@
                         <StackLayout
                             Grid.Row="1"
                             Grid.Column="0"
-                            Style="{StaticResource GridLayoutStyle}">
+                            Style="{DynamicResource GridLayoutStyle}">
 
                             <Label Style="{DynamicResource GridSmallTextStyle}">
 
@@ -225,7 +224,7 @@
                         <StackLayout
                             Grid.Row="1"
                             Grid.Column="1"
-                            Style="{StaticResource GridLayoutStyle}">
+                            Style="{DynamicResource GridLayoutStyle}">
 
                             <Label Style="{DynamicResource GridSmallTextStyle}">
 
@@ -292,11 +291,12 @@
 
                         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                         <Setter Property="CornerRadius" Value="5" />
-                        <Setter Property="WidthRequest" Value="100" />
+                        <Setter Property="WidthRequest" Value="216" />
+                        <Setter Property="HeightRequest" Value="52" />
                         <Setter Property="Padding" Value="0" />
                         <Setter Property="FontFamily" Value="Barlow-SemiBold" />
                         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                        <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                        <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
 
                     </Style>
                 </StackLayout.Resources>
