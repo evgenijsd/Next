@@ -132,6 +132,9 @@
             public const string DISH = "DISH";
             public const string DISCOUNT_PRICE = "DISCOUNT_PRICE";
             public const string GIFT_GARD = "GIFT_GARD";
+            public const string ACTION = "ACTION";
+            public const string REMOVE = "REMOVE";
+            public const string ASSIGN = "ASSIGN";
         }
 
         public static class API

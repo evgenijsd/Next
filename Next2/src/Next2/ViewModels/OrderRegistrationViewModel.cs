@@ -1288,7 +1288,7 @@ namespace Next2.ViewModels
 
         private async Task SelectOrderType()
         {
-            if (SelectedOrderType.OrderType != CurrentOrder.OrderType)
+            if (SelectedOrderType?.OrderType != CurrentOrder?.OrderType)
             {
                 if (IsInternetConnected)
                 {
