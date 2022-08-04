@@ -1801,6 +1801,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This reservation will be removed..
+        /// </summary>
+        internal static string ThisReservationWillBeRemoved {
+            get {
+                return ResourceManager.GetString("ThisReservationWillBeRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tip.
         /// </summary>
         internal static string Tip {

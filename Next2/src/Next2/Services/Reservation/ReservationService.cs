@@ -82,6 +82,27 @@ namespace Next2.Services.Reservation
             return result;
         }
 
+        public async Task<AOResult> RemoveReservationAsync(ReservationModel reservation)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                var isReservationRemoved = await _mockService.RemoveAsync(reservation);
+
+                if (isReservationRemoved)
+                {
+                    result.SetSuccess();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(RemoveReservationAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region -- Private helpers --
