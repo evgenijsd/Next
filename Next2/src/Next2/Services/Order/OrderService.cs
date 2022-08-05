@@ -666,11 +666,11 @@ namespace Next2.Services.Order
 
             try
             {
-                if (_settingsManager?.LastCurrentOrderIds != string.Empty)
+                if (!string.IsNullOrEmpty(_settingsManager.LastCurrentOrderIds))
                 {
                     var lastCurrentOrderIds = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
 
-                    if (lastCurrentOrderIds.ContainsKey(employeeId))
+                    if (lastCurrentOrderIds is not null && lastCurrentOrderIds.ContainsKey(employeeId))
                     {
                         result.SetSuccess(lastCurrentOrderIds[employeeId]);
                     }
@@ -690,7 +690,12 @@ namespace Next2.Services.Order
 
             try
             {
-                var employeeIdAndOrderIdPairs = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
+                Dictionary<string, Guid>? employeeIdAndOrderIdPairs = new();
+
+                if (!string.IsNullOrEmpty(_settingsManager.LastCurrentOrderIds))
+                {
+                    employeeIdAndOrderIdPairs = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
+                }
 
                 employeeIdAndOrderIdPairs ??= new();
 
@@ -745,7 +750,7 @@ namespace Next2.Services.Order
                         foreach (var dish in seat.SelectedDishes)
                         {
                             var dishId = dish.DishId;
-                            var sourceDish = dishes.FirstOrDefault(row => row.Id == dishId);
+                            var sourceDish = dishes.FirstOrDefault(row => row?.Id == dishId);
 
                             if (sourceDish is not null)
                             {
@@ -842,9 +847,9 @@ namespace Next2.Services.Order
             var addedIngredients = product?.AddedIngredients;
             var excludedIngredients = product?.ExcludedIngredients;
 
-            if (allIngredients.Any())
+            if (allIngredients is not null && allIngredients.Any())
             {
-                if (addedIngredients.Any())
+                if (addedIngredients is not null && addedIngredients.Any())
                 {
                     foreach (var ingredient in addedIngredients)
                     {
@@ -853,7 +858,7 @@ namespace Next2.Services.Order
                             : allIngredients.FirstOrDefault(row => row.Id == ingredient.Id).Price * (1 + priceRatio);
                     }
                 }
-                else if (excludedIngredients.Any())
+                else if (excludedIngredients is not null && excludedIngredients.Any())
                 {
                     foreach (var ingredient in excludedIngredients)
                     {
