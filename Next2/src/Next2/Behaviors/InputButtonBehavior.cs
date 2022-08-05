@@ -6,27 +6,20 @@ namespace Next2.Behaviors
 {
     public class InputButtonBehavior : Behavior<InputButton>
     {
-        private InputButton _inputButton;
-
         #region -- Overrides --
 
         protected override void OnAttachedTo(InputButton inputButton)
         {
             base.OnAttachedTo(inputButton);
 
-            if (inputButton is not null)
-            {
-                _inputButton = inputButton;
-                _inputButton.PropertyChanged += InputButtonPropertyChanged;
-            }
+            inputButton.PropertyChanged += InputButtonPropertyChanged;
         }
 
         protected override void OnDetachingFrom(InputButton inputButton)
         {
-            base.OnDetachingFrom(inputButton);
+            inputButton.PropertyChanged -= InputButtonPropertyChanged;
 
-            _inputButton.PropertyChanged -= InputButtonPropertyChanged;
-            _inputButton = null;
+            base.OnDetachingFrom(inputButton);
         }
 
         #endregion
@@ -35,27 +28,30 @@ namespace Next2.Behaviors
 
         private void InputButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if ((e.PropertyName is nameof(InputButton.Text) or nameof(InputButton.IsValidValue))
-                && _inputButton.Text != string.Empty)
+            if (e.PropertyName is nameof(InputButton.Text) or nameof(InputButton.IsValidValue)
+                && sender is InputButton inputButton)
             {
-                if (_inputButton.IsValidValue)
+                if (string.IsNullOrEmpty(inputButton.Text))
                 {
-                    _inputButton.SetDynamicResource(InputButton.BorderColorProperty, "TextAndBackgroundColor_i2");
-                    _inputButton.IsLeftImageVisible = false;
-                    _inputButton.SetDynamicResource(InputButton.TextColorProperty, "TextAndBackgroundColor_i1");
+                    inputButton.SetDynamicResource(InputButton.BorderColorProperty, "TextAndBackgroundColor_i2");
+                    inputButton.IsLeftImageVisible = false;
+                    inputButton.SetDynamicResource(InputButton.TextColorProperty, "TextAndBackgroundColor_i9");
                 }
                 else
                 {
-                    _inputButton.SetDynamicResource(InputButton.BorderColorProperty, "IndicationColor_i3");
-                    _inputButton.IsLeftImageVisible = true;
-                    _inputButton.SetDynamicResource(InputButton.TextColorProperty, "TextAndBackgroundColor_i1");
+                    if (inputButton.IsValidValue)
+                    {
+                        inputButton.SetDynamicResource(InputButton.BorderColorProperty, "TextAndBackgroundColor_i2");
+                        inputButton.IsLeftImageVisible = false;
+                        inputButton.SetDynamicResource(InputButton.TextColorProperty, "TextAndBackgroundColor_i1");
+                    }
+                    else
+                    {
+                        inputButton.SetDynamicResource(InputButton.BorderColorProperty, "IndicationColor_i3");
+                        inputButton.IsLeftImageVisible = true;
+                        inputButton.SetDynamicResource(InputButton.TextColorProperty, "TextAndBackgroundColor_i1");
+                    }
                 }
-            }
-            else if (_inputButton.Text == string.Empty)
-            {
-                _inputButton.SetDynamicResource(InputButton.BorderColorProperty, "TextAndBackgroundColor_i2");
-                _inputButton.IsLeftImageVisible = false;
-                _inputButton.SetDynamicResource(InputButton.TextColorProperty, "TextAndBackgroundColor_i9");
             }
         }
 
