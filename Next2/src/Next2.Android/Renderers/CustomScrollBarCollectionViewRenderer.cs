@@ -35,9 +35,9 @@ namespace Next2.Droid.Renderers
             switch (changedProperty.PropertyName)
             {
                 case "Renderer":
-                case nameof(_customScrollBarCollectionViewElement.ScrollBarTrackColor):
-                case nameof(_customScrollBarCollectionViewElement.ScrollBarThumbColor):
-                case nameof(_customScrollBarCollectionViewElement.ThumbWidth):
+                case nameof(this._customScrollBarCollectionViewElement.ScrollBarTrackColor):
+                case nameof(this._customScrollBarCollectionViewElement.ScrollBarThumbColor):
+                case nameof(this._customScrollBarCollectionViewElement.ThumbWidth):
                     this.ConfigureScrollBar();
                     break;
             }
@@ -45,9 +45,9 @@ namespace Next2.Droid.Renderers
 
         #endregion
 
-        #region -- Protected helpers --
+        #region -- Private helpers --
 
-        protected void ConfigureScrollBar()
+        private void ConfigureScrollBar()
         {
             this.ScrollBarSize = this.CustomScrollBarCollectionViewElement.ThumbWidth;
 
@@ -65,7 +65,7 @@ namespace Next2.Droid.Renderers
             }
         }
 
-        protected GradientDrawable GetGradientDrawable(Color color, float cornerRadius)
+        private GradientDrawable GetGradientDrawable(Color color, float cornerRadius)
         {
             GradientDrawable gradient = new GradientDrawable();
 
