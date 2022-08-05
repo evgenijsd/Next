@@ -29,7 +29,6 @@ namespace Next2.ViewModels.Dialogs
             RequestClose = requestClose;
             CloseCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.CANCEL, true } }));
             DismissCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.DISMISS, true } }));
-            HoldCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.HOLD, _holdTime } }));
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel selectedDish))
             {
@@ -69,8 +68,6 @@ namespace Next2.ViewModels.Dialogs
 
         public ICommand DismissCommand { get; }
 
-        public ICommand HoldCommand { get; }
-
         public Action<IDialogParameters> RequestClose;
 
         private ICommand _selectTimeItemCommand;
@@ -79,9 +76,26 @@ namespace Next2.ViewModels.Dialogs
         private ICommand _changingTimeHoldCommand;
         public ICommand ChangingTimeHoldCommand => _changingTimeHoldCommand ??= new AsyncCommand<EHoldChange>(OnChangingTimeHoldCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _holdCommand;
+        public ICommand HoldCommand => _holdCommand ??= new AsyncCommand(OnHoldCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Private helpers --
+
+        private Task OnHoldCommandAsync()
+        {
+            var parameters = new DialogParameters();
+
+            if (_holdTime > CurrentTime)
+            {
+                parameters.Add(Constants.DialogParameterKeys.HOLD, _holdTime);
+            }
+
+            RequestClose(parameters);
+
+            return Task.CompletedTask;
+        }
 
         private Task OnSelectTimeItemCommandAsync()
         {

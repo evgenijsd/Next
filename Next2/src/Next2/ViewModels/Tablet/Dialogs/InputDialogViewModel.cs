@@ -49,7 +49,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         #region -- Private helpers --
 
-        private async Task OnGoBackCommandAsync(string text)
+        private Task OnGoBackCommandAsync(string text)
         {
             Animation = new MoveAnimation(MoveAnimationOptions.Top, MoveAnimationOptions.Bottom);
 
@@ -61,6 +61,8 @@ namespace Next2.ViewModels.Tablet.Dialogs
             }
 
             RequestClose(param);
+
+            return Task.CompletedTask;
         }
 
         #endregion
