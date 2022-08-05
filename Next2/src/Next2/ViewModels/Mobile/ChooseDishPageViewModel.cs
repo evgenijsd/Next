@@ -122,7 +122,7 @@ namespace Next2.ViewModels.Mobile
         {
             if (IsInternetConnected)
             {
-                if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                 {
                     _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
                     _tempCurrentSeat = _mapper.Map<SeatBindableModel>(_orderService.CurrentSeat);

@@ -121,7 +121,7 @@ namespace Next2.ViewModels.Mobile
             {
                 await _notificationsService.CloseAllPopupAsync();
 
-                if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
                 {
                     if (isDishRemovingAccepted)
                     {
