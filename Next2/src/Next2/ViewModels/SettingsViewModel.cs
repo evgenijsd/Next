@@ -61,30 +61,27 @@ namespace Next2.ViewModels
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null)
+            if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool result) && result)
             {
-                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool result) && result)
+                await _notificationsService.CloseAllPopupAsync();
+
+                var logoutResult = await _authenticationService.LogoutAsync();
+
+                if (logoutResult.IsSuccess)
                 {
-                    await _notificationsService.CloseAllPopupAsync();
+                    _orderService.CurrentOrder = new();
 
-                    var logoutResult = await _authenticationService.LogoutAsync();
-
-                    if (logoutResult.IsSuccess)
-                    {
-                        _orderService.CurrentOrder = new();
-
-                        var navigationParameters = new NavigationParameters
+                    var navigationParameters = new NavigationParameters
                         {
                             { Constants.Navigations.LOGOUT, true },
                         };
 
-                        await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
-                    }
+                    await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
                 }
-                else
-                {
-                    await _notificationsService.CloseAllPopupAsync();
-                }
+            }
+            else
+            {
+                await _notificationsService.CloseAllPopupAsync();
             }
         }
 

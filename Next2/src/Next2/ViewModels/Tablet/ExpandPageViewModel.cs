@@ -111,7 +111,7 @@ namespace Next2.ViewModels.Tablet
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.DISH))
+            if (dialogResult.ContainsKey(Constants.DialogParameterKeys.DISH))
             {
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                 {

@@ -380,8 +380,7 @@ namespace Next2.ViewModels
 
         private async void CloseRemoveOrderDialogCallbackAsync(IDialogParameters parameters)
         {
-            if (parameters is not null
-                && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
             {
                 if (isOrderDeletionConfirmationRequestCalled)
                 {
@@ -409,7 +408,7 @@ namespace Next2.ViewModels
 
         private async void CloseRemoveConfirmationDialogCallback(IDialogParameters parameters)
         {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted)
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted)
                 && isOrderRemovingAccepted && SelectedOrder is not null)
             {
                 if (IsInternetConnected)
@@ -506,7 +505,7 @@ namespace Next2.ViewModels
 
         private async void ClosePrintOrderDialogCallbackAsync(IDialogParameters parameters)
         {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderPrintingAccepted))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderPrintingAccepted))
             {
                 if (isOrderPrintingAccepted && SelectedOrder is not null)
                 {

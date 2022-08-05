@@ -626,8 +626,7 @@ namespace Next2.ViewModels
             var isRedirectedSets = false;
             var isDeletedSeat = false;
 
-            if (dialogResult is not null
-                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_DISHES, out EActionOnDishes actionOnDishes)
+            if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_DISHES, out EActionOnDishes actionOnDishes)
                 && dialogResult.TryGetValue(Constants.DialogParameterKeys.REMOVAL_SEAT, out SeatBindableModel removalSeat))
             {
                 if (actionOnDishes is EActionOnDishes.DeleteDishes)
@@ -778,8 +777,7 @@ namespace Next2.ViewModels
 
         private async void CloseDeleteOrderDialogCallbackAsync(IDialogParameters parameters)
         {
-            if (parameters is not null
-                && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
             {
                 if (isOrderDeletionConfirmationRequestCalled)
                 {
@@ -809,7 +807,7 @@ namespace Next2.ViewModels
 
         private async void CloseOrderDeletionConfirmationDialogCallback(IDialogParameters parameters)
         {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
             {
                 if (isOrderRemovingAccepted)
                 {
@@ -1004,7 +1002,7 @@ namespace Next2.ViewModels
         {
             if (IsInternetConnected)
             {
-                if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted) && isMovedOrderAccepted)
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted) && isMovedOrderAccepted)
                 {
                     if (isMovedOrderAccepted)
                     {
@@ -1058,7 +1056,7 @@ namespace Next2.ViewModels
         {
             if (IsInternetConnected)
             {
-                if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
                 {
                     if (isDishRemovingAccepted)
                     {

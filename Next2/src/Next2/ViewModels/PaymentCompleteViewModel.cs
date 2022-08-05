@@ -502,11 +502,11 @@ namespace Next2.ViewModels
             }
         }
 
-        private Task<bool> SendReceiptAsync(IDialogParameters par)
+        private Task<bool> SendReceiptAsync(IDialogParameters parameters)
         {
             bool isReceiptPrint = false;
 
-            if (par.TryGetValue(Constants.DialogParameterKeys.PAYMENT_COMPLETE, out EPaymentReceiptOptions options))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.PAYMENT_COMPLETE, out EPaymentReceiptOptions options))
             {
                 switch (options)
                 {

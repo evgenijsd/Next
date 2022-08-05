@@ -14,8 +14,10 @@ namespace Next2.ViewModels.Dialogs
         public OrderDetailDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             LoadPageData(param);
+
             RequestClose = requestClose;
-            CancelCommand = new Command(() => RequestClose(null));
+
+            CancelCommand = new Command(() => RequestClose(new DialogParameters()));
             DeleteOrderCommand = new Command(OnDeleteOrderCommand);
         }
 
@@ -52,8 +54,7 @@ namespace Next2.ViewModels.Dialogs
 
         private void LoadPageData(IDialogParameters dialogParameters)
         {
-            if (dialogParameters is not null
-                && dialogParameters.TryGetValue(Constants.DialogParameterKeys.ORDER_NUMBER, out int orderNumber))
+            if (dialogParameters.TryGetValue(Constants.DialogParameterKeys.ORDER_NUMBER, out int orderNumber))
             {
                 if (dialogParameters.TryGetValue(Constants.DialogParameterKeys.SEATS, out IEnumerable<SeatBindableModel> seats))
                 {

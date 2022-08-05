@@ -21,11 +21,10 @@ namespace Next2.ViewModels.Dialogs
         private List<int[]> _splitGroupList = new();
         private bool _canExecute;
 
-        public SplitOrderDialogViewModel(
-            DialogParameters param,
-            Action<IDialogParameters> requestClose)
+        public SplitOrderDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
+
             LoadData(param);
         }
 

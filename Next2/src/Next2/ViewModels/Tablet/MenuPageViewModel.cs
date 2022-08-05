@@ -98,7 +98,7 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters is not null)
+            if (parameters.Count > 0)
             {
                 if (parameters.ContainsKey(Constants.Navigations.IS_FIRST_ORDER_INIT))
                 {
@@ -257,7 +257,7 @@ namespace Next2.ViewModels.Tablet
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool result))
+            if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool result))
             {
                 if (result)
                 {

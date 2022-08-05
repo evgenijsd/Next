@@ -10,6 +10,7 @@ namespace Next2.Views.Tablet.Dialogs
         public FinishPaymentDialog(DialogParameters dialogParameters, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
+
             BindingContext = new FinishPaymentDialogViewModel(dialogParameters, requestClose);
         }
     }

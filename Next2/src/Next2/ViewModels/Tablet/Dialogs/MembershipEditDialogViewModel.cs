@@ -20,6 +20,7 @@ namespace Next2.ViewModels.Dialogs
             IMapper mapper)
         {
             _mapper = mapper;
+
             SetupParameters(parameters);
 
             RequestClose = requestClose;

@@ -165,7 +165,7 @@ namespace Next2.ViewModels.Tablet
         {
             if (IsInternetConnected)
             {
-                if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.DISH))
+                if (dialogResult.ContainsKey(Constants.DialogParameterKeys.DISH))
                 {
                     if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                     {

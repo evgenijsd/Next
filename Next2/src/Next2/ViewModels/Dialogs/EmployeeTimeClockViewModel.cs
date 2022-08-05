@@ -22,7 +22,7 @@ namespace Next2.ViewModels.Dialogs
             _workLogService = workLogService;
 
             RequestClose = requestClose;
-            CloseCommand = new DelegateCommand(() => RequestClose(null));
+            CloseCommand = new DelegateCommand(() => RequestClose(new DialogParameters()));
         }
 
         #region -- Public properties --

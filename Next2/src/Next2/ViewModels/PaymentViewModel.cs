@@ -236,7 +236,7 @@ namespace Next2.ViewModels
 
         private async void CloseConfirmExitFromPaymentCallbackAsync(IDialogParameters parameters)
         {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isExitConfirmed))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isExitConfirmed))
             {
                 await _notificationsService.CloseAllPopupAsync();
 

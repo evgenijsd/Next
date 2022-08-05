@@ -73,19 +73,16 @@ namespace Next2.ViewModels.Mobile
 
         public async override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters is not null)
+            if (parameters.ContainsKey(Constants.Navigations.IS_FIRST_ORDER_INIT))
             {
-                if (parameters.ContainsKey(Constants.Navigations.IS_FIRST_ORDER_INIT))
-                {
-                    await _orderService.OpenLastOrCreateNewOrderAsync();
-                }
+                await _orderService.OpenLastOrCreateNewOrderAsync();
+            }
 
-                if (parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
-                {
-                    PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog((IDialogParameters par) => PopupNavigation.PopAsync());
+            if (parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
+            {
+                PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog((IDialogParameters par) => PopupNavigation.PopAsync());
 
-                    await PopupNavigation.PushAsync(confirmDialog);
-                }
+                await PopupNavigation.PushAsync(confirmDialog);
             }
 
             SelectedMenuItem = MenuItems.FirstOrDefault();
