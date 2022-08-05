@@ -14,13 +14,17 @@ namespace Next2.Droid.Renderers
 {
     public class CustomScrollBarCollectionViewRenderer : CollectionViewRenderer
     {
-        protected CustomScrollBarCollectionView _customScrollBarCollectionViewElement;
-        protected CustomScrollBarCollectionView CustomScrollBarCollectionViewElement => _customScrollBarCollectionViewElement ??= Element as CustomScrollBarCollectionView;
-
         public CustomScrollBarCollectionViewRenderer(Context context)
             : base(context)
         {
         }
+
+        #region -- Protected properties --
+
+        private CustomScrollBarCollectionView _customScrollBarCollectionViewElement;
+        protected CustomScrollBarCollectionView CustomScrollBarCollectionViewElement => this._customScrollBarCollectionViewElement ??= this.Element as CustomScrollBarCollectionView;
+
+        #endregion
 
         #region -- Overrides --
 
@@ -34,7 +38,7 @@ namespace Next2.Droid.Renderers
                 case nameof(_customScrollBarCollectionViewElement.ScrollBarTrackColor):
                 case nameof(_customScrollBarCollectionViewElement.ScrollBarThumbColor):
                 case nameof(_customScrollBarCollectionViewElement.ThumbWidth):
-                    ConfigureScrollBar();
+                    this.ConfigureScrollBar();
                     break;
             }
         }
@@ -64,6 +68,7 @@ namespace Next2.Droid.Renderers
         protected GradientDrawable GetGradientDrawable(Color color, float cornerRadius)
         {
             GradientDrawable gradient = new GradientDrawable();
+
             gradient.SetCornerRadius(cornerRadius);
             gradient.SetColorFilter(color, PorterDuff.Mode.SrcIn);
 
