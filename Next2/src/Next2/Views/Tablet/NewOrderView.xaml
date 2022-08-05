@@ -710,7 +710,8 @@
 
                                     <StackLayout
                                         HorizontalOptions="EndAndExpand"
-                                        Orientation="Horizontal">
+                                        Orientation="Horizontal"
+                                        IsVisible="{Binding OrderRegistrationViewModel.SelectedDish.HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}" >
 
                                         <ffimageloading:CachedImage
                                             VerticalOptions="StartAndExpand"
