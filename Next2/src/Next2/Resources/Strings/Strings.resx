@@ -663,6 +663,9 @@ A receipt has been printed for you.</value>
   <data name="DateTime" xml:space="preserve">
     <value>Date / Time</value>
   </data>
+  <data name="YouAreNotMember" xml:space="preserve">
+    <value>You are not yet a member!</value>
+  </data>
   <data name="HoldItems" xml:space="preserve">
     <value>Hold Items</value>
   </data>
@@ -732,6 +735,9 @@ A receipt has been printed for you.</value>
   <data name="Hold" xml:space="preserve">
     <value>Hold</value>
   </data>
+  <data name="AnErrorWithWithdrawalFundsFromGiftCard" xml:space="preserve">
+    <value>Something went wrong with Your gift card. Please contact support service!</value>
+  </data>
   <data name="CannotSplitWithoutSeats" xml:space="preserve">
     <value>You cannot split an order with less than two seats</value>
   </data>
@@ -758,5 +764,20 @@ A receipt has been printed for you.</value>
   </data>
   <data name="SelectTime" xml:space="preserve">
     <value>Select Time</value>
+  </data>
+  <data name="ThisReservationWillBeRemoved" xml:space="preserve">
+    <value>This reservation will be removed.</value>
+  </data>
+  <data name="ReservationInfo" xml:space="preserve">
+    <value>Reservation Info</value>
+  </data>
+  <data name="SelectedTable" xml:space="preserve">
+    <value>Selected Table</value>
+  </data>
+  <data name="NoNotes" xml:space="preserve">
+    <value>No notes</value>
+  </data>
+  <data name="ItemOnHold" xml:space="preserve">
+    <value>Item on hold</value>
   </data>
 </root>

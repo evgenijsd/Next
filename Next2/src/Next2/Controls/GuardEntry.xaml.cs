@@ -116,15 +116,15 @@ namespace Next2.Controls
 
         public static readonly BindableProperty EntryBehaviorsProperty = BindableProperty.Create(
             nameof(EntryBehaviors),
-            typeof(ObservableCollection<Behavior<NoActionMenuEntry>>),
+            typeof(ObservableCollection<Behavior>),
             typeof(GuardEntry),
             propertyChanged: (b, o, n) =>
             ((GuardEntry)b).OnItemsSourcePropertyChanged((IEnumerable)o, (IEnumerable)n),
             defaultBindingMode: BindingMode.OneWay);
 
-        public ObservableCollection<Behavior<NoActionMenuEntry>> EntryBehaviors
+        public ObservableCollection<Behavior> EntryBehaviors
         {
-            get => (ObservableCollection<Behavior<NoActionMenuEntry>>)GetValue(EntryBehaviorsProperty);
+            get => (ObservableCollection<Behavior>)GetValue(EntryBehaviorsProperty);
             set => SetValue(EntryBehaviorsProperty, value);
         }
 
@@ -198,7 +198,7 @@ namespace Next2.Controls
         {
             foreach (object item in items)
             {
-                if (item is Behavior<NoActionMenuEntry> behavior)
+                if (item is Behavior behavior)
                 {
                     entry.Behaviors.Remove(behavior);
                 }
@@ -209,7 +209,7 @@ namespace Next2.Controls
         {
             foreach (object item in items)
             {
-                if (item is Behavior<NoActionMenuEntry> behavior)
+                if (item is Behavior behavior)
                 {
                     entry.Behaviors.Add(behavior);
                 }

@@ -665,6 +665,7 @@
 
                                 <StackLayout 
                                     Orientation="Horizontal"
+                                    HorizontalOptions="FillAndExpand"
                                     Spacing="16">
 
                                     <StackLayout 
@@ -704,6 +705,40 @@
                                             FontSize="{DynamicResource TSize_i8}"
                                             FontFamily="Barlow-SemiBold"
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                                    </StackLayout>
+
+                                    <StackLayout
+                                        HorizontalOptions="EndAndExpand"
+                                        Orientation="Horizontal">
+
+                                        <ffimageloading:CachedImage
+                                            VerticalOptions="StartAndExpand"
+                                            Margin="0, 30, 5, 0"
+                                            HeightRequest="18"
+                                            Source="ic_time_circle_orange_24px" />
+
+                                        <StackLayout
+                                            Margin="0, 30, 0, 0"
+                                            VerticalOptions="StartAndExpand"
+                                            Orientation="Vertical">
+
+                                            <Label
+                                                Text="{xct:Translate ItemOnHold}"
+                                                HorizontalOptions="EndAndExpand"
+                                                FontSize="{DynamicResource TSize_i8}"
+                                                FontFamily="Barlow-SemiBold"
+                                                TextColor="{DynamicResource IndicationColor_i5}" />
+
+                                            <Label
+                                                Text="00:00"
+                                                Margin="0, 7, 0, 0"
+                                                HorizontalOptions="EndAndExpand"
+                                                FontSize="{DynamicResource TSize_i8}"
+                                                FontFamily="Barlow-SemiBold"
+                                                TextColor="{DynamicResource IndicationColor_i5}" />
+
+                                        </StackLayout>
 
                                     </StackLayout>
 
@@ -1021,7 +1056,7 @@
                     <DataTemplate>
                         <StackLayout 
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}" >
 
                             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
@@ -1103,10 +1138,17 @@
                 Margin="18, 13"
                 WidthRequest="135"
                 ScrollBarVisibility="Never"
-                HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.TableNumber, StringFormat='Table {0}'}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedTable}"
                 ItemsSource="{Binding OrderRegistrationViewModel.Tables}">
-                                                
+
+                <controls:DropDownList.HeaderText>
+                    <FormattedString>
+                        <Span Text="{xct:Translate Table}"/>
+                        <Span Text=" "/>
+                        <Span Text="{Binding OrderRegistrationViewModel.SelectedTable.TableNumber}"/>
+                    </FormattedString>
+                </controls:DropDownList.HeaderText>
+
                 <controls:DropDownList.Triggers>
                         
                     <DataTrigger TargetType="controls:DropDownList" Binding="{Binding OrderRegistrationViewModel.SelectedTable, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
@@ -1143,8 +1185,17 @@
                                 <Label
                                     FontFamily="Barlow-Medium"
                                     FontSize="{DynamicResource TSize_i8}"
-                                    HorizontalOptions="FillAndExpand"
-                                    Text="{Binding TableNumber, StringFormat='Table {0}'}" />
+                                    HorizontalOptions="FillAndExpand">
+
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{xct:Translate Table}"/>
+                                            <Span Text=" "/>
+                                            <Span Text="{Binding TableNumber}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                    
+                                </Label>
 
                             </StackLayout>
 

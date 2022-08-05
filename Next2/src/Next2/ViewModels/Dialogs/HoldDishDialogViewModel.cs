@@ -15,7 +15,7 @@ namespace Next2.ViewModels.Dialogs
     public class HoldDishDialogViewModel : BindableBase
     {
         private DateTime _holdTime = DateTime.Now;
-        public TimeItem? _preSelectedTimeItem;
+        private TimeItem? _preSelectedTimeItem;
 
         public HoldDishDialogViewModel(
             DialogParameters parameters,
@@ -103,6 +103,11 @@ namespace Next2.ViewModels.Dialogs
                 ? null
                 : SelectedTimeItem;
 
+            _holdTime = DateTime.Now;
+            _holdTime = _holdTime.AddMinutes(SelectedTimeItem?.Minute ?? 0);
+            Hour = _holdTime.Hour;
+            Minute = _holdTime.Minute;
+
             _preSelectedTimeItem = SelectedTimeItem;
 
             return Task.CompletedTask;
@@ -187,10 +192,11 @@ namespace Next2.ViewModels.Dialogs
         private bool OnTimerTick()
         {
             CurrentTime = DateTime.Now;
+            var currentTime = CurrentTime.AddMinutes(SelectedTimeItem?.Minute ?? 0);
 
-            if (_holdTime < CurrentTime)
+            if (_holdTime < currentTime)
             {
-                _holdTime = DateTime.Now;
+                _holdTime = currentTime;
                 Hour = _holdTime.Hour;
                 Minute = _holdTime.Minute;
             }

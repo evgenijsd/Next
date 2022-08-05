@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.Customers;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -292,20 +293,32 @@ namespace Next2.ViewModels
 
             if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER, out CustomerBindableModel customer))
             {
-                var resultOfCreatingNewCustomer = await _customersService.CreateCustomerAsync(customer);
-
-                if (resultOfCreatingNewCustomer.IsSuccess)
+                if (IsInternetConnected)
                 {
-                    customer.Id = resultOfCreatingNewCustomer.Result;
+                    var customerDTO = _mapper.Map<CustomerModelDTO>(customer);
 
-                    customer.ShowInfoCommand = ShowInfoCommand;
-                    customer.SelectItemCommand = SelectDeselectItemCommand;
+                    var resultOfCreatingNewCustomer = await _customersService.CreateCustomerAsync(customerDTO);
 
-                    DisplayedCustomers.Insert(0, customer);
+                    if (resultOfCreatingNewCustomer.IsSuccess)
+                    {
+                        customer.Id = resultOfCreatingNewCustomer.Result;
+
+                        customer.ShowInfoCommand = ShowInfoCommand;
+                        customer.SelectItemCommand = SelectDeselectItemCommand;
+
+                        DisplayedCustomers.Insert(0, customer);
+                    }
+                    else
+                    {
+                        await _notificationsService.ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
+                    }
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
+                    await _notificationsService.ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["NoInternetConnection"],
+                        LocalizationResourceManager.Current["Ok"]);
                 }
             }
         }

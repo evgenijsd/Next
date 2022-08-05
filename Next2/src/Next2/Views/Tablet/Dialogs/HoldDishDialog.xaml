@@ -113,6 +113,7 @@
 
                         <Label
                             VerticalOptions="Center"
+                            Padding="0, 0, 10, 0"
                             Text="{Binding SelectedDish.Name}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             FontSize="{DynamicResource TSize_i8}"
@@ -122,6 +123,7 @@
 
                         <Label
                             VerticalOptions="Center"
+                            Padding="0, 0, 10, 0"
                             Text="{Binding SetNames}"
                             FontSize="{DynamicResource TSize_i9}"
                             FontFamily="Barlow-Regular"
@@ -255,7 +257,10 @@
                         Value="True">
                         <Setter
                             Property="Opacity"
-                            Value="{DynamicResource OpacityWhenDisabled_i3}" />
+                            Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                        <Setter
+                            Property="IsEnabled"
+                            Value="False" />
                     </DataTrigger>
                 </Grid.Triggers>
 

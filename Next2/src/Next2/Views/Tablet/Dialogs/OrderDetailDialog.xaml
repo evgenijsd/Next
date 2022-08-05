@@ -4,10 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:Next2"
+    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:bindableModels="clr-namespace:Next2.Models.Bindables"
-    xmlns:local="clr-namespace:Next2"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
@@ -39,6 +40,7 @@
 
             <!-- HEADER -->
             <StackLayout>
+                
                 <StackLayout
                     Padding="20"
                     Orientation="Horizontal"    
@@ -85,7 +87,8 @@
             </StackLayout>
 
             <!-- DISH LIST -->
-            <CollectionView 
+            <controls:NoBounceCollectionView
+                DisableBounceMode="All"
                 IsVisible="{Binding IsOrderDetailsDisplayed}"
                 ItemsSource="{Binding Seats}">
 
@@ -115,7 +118,8 @@
 
                             </Label>
 
-                            <CollectionView
+                            <controls:NoBounceCollectionView
+                                DisableBounceMode="All"
                                 HeightRequest="{Binding SelectedDishes, Converter={StaticResource listHeightConverter}, ConverterParameter=70}"
                                 ItemsSource="{Binding SelectedDishes}">
 
@@ -186,7 +190,7 @@
 
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
-                            </CollectionView>
+                            </controls:NoBounceCollectionView>
 
                             <BoxView 
                                 HeightRequest="1"
@@ -197,7 +201,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
-            </CollectionView>
+            </controls:NoBounceCollectionView>
 
             <!-- BUTTONS: CANCEL, REMOVE -->
             <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">

@@ -2,6 +2,7 @@
 <controls:CustomFrame
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     CornerRadius="{OnPlatform Android='5', iOS='8'}"
@@ -9,6 +10,7 @@
     BorderWidth="3"
     HasShadow="False"
     BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+    xct:TouchEffect.PressedScale="0.97"
     x:Class="Next2.Controls.Buttons.NumericKeyboardButton">
 
     <Label 

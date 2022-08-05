@@ -4,6 +4,8 @@ using Next2.Services.Order;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -12,25 +14,23 @@ namespace Next2.ViewModels.Dialogs
 {
     public class AddGiftCardDialogViewModel : BindableBase
     {
-        private readonly IOrderService _orderService;
         private readonly ICustomersService _customersService;
 
+        private IEnumerable<Guid> _listGiftCardIDs;
+
         public AddGiftCardDialogViewModel(
-            IOrderService orderService,
+            IEnumerable<Guid> giftCardsId,
             ICustomersService customersService,
             Action<IDialogParameters> requestClose)
         {
-            _orderService = orderService;
+            _listGiftCardIDs = giftCardsId;
             _customersService = customersService;
-            Customer = new();
             RequestClose = requestClose;
         }
 
         #region -- Public properties --
 
         public string InputGiftCardNumber { get; set; } = string.Empty;
-
-        public CustomerBindableModel? Customer { get; set; }
 
         public bool IsGiftCardNotExists { get; set; }
 
@@ -59,39 +59,13 @@ namespace Next2.ViewModels.Dialogs
 
             var giftCardModel = await _customersService.GetGiftCardByNumberAsync(InputGiftCardNumber);
 
-            if (giftCardModel.IsSuccess)
+            if (giftCardModel.IsSuccess && !_listGiftCardIDs.Contains(giftCardModel.Result.Id))
             {
+                dialogParameters.Add(Constants.DialogParameterKeys.GIFT_GARD, giftCardModel.Result);
+
                 IsGiftCardNotExists = false;
 
-                var giftCard = giftCardModel.Result;
-
-                if (Customer is not null)
-                {
-                    var isGiftCardAdded = await _customersService.AddGiftCardToCustomerAsync(Customer, giftCard);
-
-                    if (isGiftCardAdded.IsSuccess)
-                    {
-                        RequestClose(dialogParameters);
-                    }
-                    else
-                    {
-                        IsGiftCardNotExists = true;
-                    }
-                }
-                else
-                {
-                    var tempCustomerModel = new CustomerBindableModel()
-                    {
-                        IsUpdatedCustomer = true,
-                        IsCustomerRegistrated = false,
-                    };
-
-                    tempCustomerModel.GiftCards.Add(giftCard);
-
-                    _orderService.CurrentOrder.Customer = tempCustomerModel;
-
-                    RequestClose(dialogParameters);
-                }
+                RequestClose(dialogParameters);
             }
             else
             {

@@ -318,6 +318,8 @@ namespace Next2.ViewModels
 
                 CurrentOrder = _orderService.CurrentOrder;
 
+                IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
+
                 _firstSeat = CurrentOrder.Seats.FirstOrDefault();
 
                 var seatNumber = SelectedDish?.SeatNumber ?? 0;
@@ -534,6 +536,7 @@ namespace Next2.ViewModels
                     }
 
                     _orderService.CurrentSeat = seat;
+
                     await UpdateDishGroupsAsync();
 
                     if (dish?.Id != Guid.Empty)
@@ -904,14 +907,19 @@ namespace Next2.ViewModels
         {
             await _notificationsService.CloseAllPopupAsync();
 
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.DISMISS, out bool isDismiss))
+            if (SelectedDish is not null)
             {
-                //await OnAddCustomerToOrderCommandAsync();
-            }
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.DISMISS, out bool isDismiss))
+                {
+                    //await OnAddCustomerToOrderCommandAsync();
+                    SelectedDish.HoldTime = null;
+                }
 
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
-            {
-                //await OnAddCustomerToOrderCommandAsync();
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
+                {
+                    //await OnAddCustomerToOrderCommandAsync();
+                    SelectedDish.HoldTime = holdTime;
+                }
             }
         }
 
@@ -1314,7 +1322,7 @@ namespace Next2.ViewModels
 
         private async Task SelectOrderType()
         {
-            if (SelectedOrderType.OrderType != CurrentOrder.OrderType)
+            if (SelectedOrderType?.OrderType != CurrentOrder?.OrderType)
             {
                 if (IsInternetConnected)
                 {

@@ -124,6 +124,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Something went wrong with Your gift card. Please contact support service!.
+        /// </summary>
+        internal static string AnErrorWithWithdrawalFundsFromGiftCard {
+            get {
+                return ResourceManager.GetString("AnErrorWithWithdrawalFundsFromGiftCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Apply.
         /// </summary>
         internal static string Apply {
@@ -718,6 +727,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Item on hold.
+        /// </summary>
+        internal static string ItemOnHold {
+            get {
+                return ResourceManager.GetString("ItemOnHold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Leave your signature
         ///to complete the payment..
         /// </summary>
@@ -940,6 +958,15 @@ namespace Next2.Resources.Strings {
         internal static string NoItemsInCategory {
             get {
                 return ResourceManager.GetString("NoItemsInCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No notes.
+        /// </summary>
+        internal static string NoNotes {
+            get {
+                return ResourceManager.GetString("NoNotes", resourceCulture);
             }
         }
         
@@ -1358,6 +1385,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reservation Info.
+        /// </summary>
+        internal static string ReservationInfo {
+            get {
+                return ResourceManager.GetString("ReservationInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reservations.
         /// </summary>
         internal static string Reservations {
@@ -1471,6 +1507,15 @@ namespace Next2.Resources.Strings {
         internal static string SelectCoupon {
             get {
                 return ResourceManager.GetString("SelectCoupon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected Table.
+        /// </summary>
+        internal static string SelectedTable {
+            get {
+                return ResourceManager.GetString("SelectedTable", resourceCulture);
             }
         }
         
@@ -1828,6 +1873,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This reservation will be removed..
+        /// </summary>
+        internal static string ThisReservationWillBeRemoved {
+            get {
+                return ResourceManager.GetString("ThisReservationWillBeRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tip.
         /// </summary>
         internal static string Tip {
@@ -1968,6 +2022,15 @@ namespace Next2.Resources.Strings {
         internal static string Welcome {
             get {
                 return ResourceManager.GetString("Welcome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are not yet a member!.
+        /// </summary>
+        internal static string YouAreNotMember {
+            get {
+                return ResourceManager.GetString("YouAreNotMember", resourceCulture);
             }
         }
         

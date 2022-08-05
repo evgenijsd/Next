@@ -20,6 +20,7 @@
             WidthRequest="{Binding IconSizes, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
             HeightRequest="{Binding IconSizes, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
             Source="{Binding DecrementIconSource, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
+            xct:TouchEffect.PressedScale="0.97"
             xct:TouchEffect.Command="{Binding DecrementCommand, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}">
 
             <ffimageloading:CachedImage.Triggers>
@@ -66,6 +67,7 @@
             WidthRequest="{Binding IconSizes, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
             HeightRequest="{Binding IconSizes, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
             Source="{Binding IncrementIconSource, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}"
+            xct:TouchEffect.PressedScale="0.97"
             xct:TouchEffect.Command="{Binding IncrementCommand, Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}}">
 
             <ffimageloading:CachedImage.Triggers>

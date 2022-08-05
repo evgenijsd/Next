@@ -92,7 +92,6 @@
             public const string CUSTOMER_NAME = @"^([a-z]+(([,.]? ?)|[-']?))+$";
             public const string PASCAL_CASE = @"\b[A-Z]{1}[a-z\d]*\b";
             public const string NUMBER = @"[\D]";
-            public const string PHONE = @"^\d{10}$";
             public const string PHONE_MASK = @"\([0-9]{3}\) [0-9]{3}-[0-9]{4}$";
             public const string PHONE_MASK_REPLACE = @"\)|\(|-| ";
             public const string PHONE_MASK2 = "(XXX) XXX-XXXX";
@@ -134,6 +133,10 @@
             public const string DISCOUNT_PRICE = "DISCOUNT_PRICE";
             public const string DISMISS = "DISMISS";
             public const string HOLD = "HOLD";
+            public const string GIFT_GARD = "GIFT_GARD";
+            public const string ACTION = "ACTION";
+            public const string REMOVE = "REMOVE";
+            public const string ASSIGN = "ASSIGN";
         }
 
         public static class API

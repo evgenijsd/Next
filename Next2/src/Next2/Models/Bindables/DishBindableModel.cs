@@ -29,6 +29,8 @@ namespace Next2.Models.Bindables
 
         public bool HasSplittedPrice { get; set; }
 
+        public DateTime? HoldTime { get; set; }
+
         public IEnumerable<SimpleDishProportionModelDTO>? DishProportions { get; set; }
 
         public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
