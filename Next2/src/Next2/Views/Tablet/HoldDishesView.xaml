@@ -7,6 +7,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
@@ -176,42 +177,35 @@
                             
                         </StackLayout>
 
-                        <StackLayout
+                        <buttons:IconTextButton
                             Grid.Column="1"
-                            Orientation="Horizontal"
+                            HorizontalOptions="Start"
+                            Text="{xct:Translate TableName}"
+                            FontSize="{DynamicResource TSize_i9}"
+                            FontFamily="Barlow-Medium"
+                            IconSource="ic_sort_primary_24x24"
+                            IconSize="20, 20"
+                            IsIconPlacedOnRight="True"
+                            Padding="14, 0"
+                            Spacing="5"
+                            Border="{pancakeview:BorderMarkup Color=Transparent, Thickness=0}"
                             xct:TouchEffect.Command="{Binding ChangeSortHoldDishesCommand}"
-                            xct:TouchEffect.CommandParameter="{x:Static enums:EHoldDishesSortingType.ByTableNumber}">
+                            xct:TouchEffect.CommandParameter="{x:Static enums:EHoldDishesSortingType.ByTableNumber}"/>
 
-                            <Label
-                                Style="{DynamicResource TableCellLabelStyle}"
-                                Text="{xct:Translate TableName}" />
-
-                            <ffimageloading:CachedImage
-                                Source="ic_sort_primary_24x24"
-                                HeightRequest="20"
-                                Margin="5, 10, 5, 0"
-                                VerticalOptions="StartAndExpand" />
-
-                        </StackLayout>
-
-                        <StackLayout
+                        <buttons:IconTextButton
                             Grid.Column="2"
-                            Orientation="Horizontal"
+                            HorizontalOptions="Start"
+                            Text="{xct:Translate Item}"
+                            FontSize="{DynamicResource TSize_i9}"
+                            FontFamily="Barlow-Medium"
+                            IconSource="ic_sort_primary_24x24"
+                            IconSize="20, 20"
+                            IsIconPlacedOnRight="True"
+                            Padding="15, 0"
+                            Spacing="5"
+                            Border="{pancakeview:BorderMarkup Color=Transparent, Thickness=0}"
                             xct:TouchEffect.Command="{Binding ChangeSortHoldDishesCommand}"
-                            xct:TouchEffect.CommandParameter="{x:Static enums:EHoldDishesSortingType.ByDishName}">
-
-                            <Label
-                                Style="{DynamicResource TableCellLabelStyle}"
-                                HorizontalOptions="Start"
-                                Text="{xct:Translate Item}" />
-
-                            <ffimageloading:CachedImage
-                                Source="ic_sort_primary_24x24"
-                                HeightRequest="20"
-                                Margin="5, 10, 5, 0"
-                                VerticalOptions="StartAndExpand" />
-
-                        </StackLayout>
+                            xct:TouchEffect.CommandParameter="{x:Static enums:EHoldDishesSortingType.ByDishName}"/>
 
                         <Label
                             Grid.Column="3"

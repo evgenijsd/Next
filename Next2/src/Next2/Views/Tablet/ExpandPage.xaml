@@ -6,7 +6,9 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
@@ -268,33 +270,19 @@
                 FontFamily="Barlow-SemiBold"
                 VerticalTextAlignment="Center"/>
 
-            <Frame
+            <buttons:IconTextButton
+                IconSource="ic_swap_24x24.png"
+                IconSize="20, 20"
                 CornerRadius="5"
-                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i4}, Thickness=2}"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
                 Padding="15, 5"
+                Text="{xct:Translate TypeOrder}"
+                FontSize="{DynamicResource TSize_i9}"
+                FontFamily="Barlow-Medium"
+                Spacing="10"
                 HorizontalOptions="EndAndExpand"
-                xct:TouchEffect.PressedScale="0.97"
-                xct:TouchEffect.Command="{Binding TapSortCommand}">
-
-                <StackLayout Orientation="Horizontal">
-
-                    <ffimageloading:CachedImage 
-                        HeightRequest="20"
-                        WidthRequest="20"
-                        Source="ic_swap_24x24"/>
-
-                    <Label
-                        VerticalOptions="Center"
-                        Text="{xct:Translate TypeOrder}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i9}"
-                        FontFamily="Barlow-Medium"
-                        Margin="10, 0, 0, 0"/>
-
-                </StackLayout>
-
-            </Frame>
+                xct:TouchEffect.Command="{Binding TapSortCommand}"/>
 
         </StackLayout>
 
