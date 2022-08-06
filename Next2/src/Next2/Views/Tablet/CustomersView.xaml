@@ -101,6 +101,7 @@
                             <buttons:BorderButton
                                 BorderColor="{DynamicResource IndicationColor_i7}"
                                 BorderWidth="2"
+                                IsEnabled="False"
                                 Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                                 Text="{xct:Translate Info}"
                                 xct:TouchEffect.Command="{Binding ShowInfoCommand}"
@@ -110,6 +111,7 @@
                                     <DataTrigger TargetType="Frame" Binding="{Binding SelectedCustomer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
 
                                         <Setter Property="Opacity" Value="1" />
+                                        <Setter Property="IsEnabled" Value="True" />
 
                                     </DataTrigger>
                                 </Frame.Triggers>
@@ -259,23 +261,23 @@
 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroupList>
-                                        
+
                                         <VisualStateGroup x:Name="AdaptiveTriggers">
-                                            
+
                                             <VisualState Name="MoreThenSamsungTabA7">
-                                                
+
                                                 <VisualState.StateTriggers>
                                                     <AdaptiveTrigger MinWindowHeight="601" />
                                                 </VisualState.StateTriggers>
-                                                
+
                                                 <VisualState.Setters>
                                                     <Setter Property="Margin" Value="32, 0, 32, 42" />
                                                 </VisualState.Setters>
-                                                
+
                                             </VisualState>
-                                            
+
                                         </VisualStateGroup>
-                                        
+
                                     </VisualStateGroupList>
                                 </VisualStateManager.VisualStateGroups>
 
@@ -349,41 +351,41 @@
 
                                                     <Label
                                                         Grid.Row="0"
-                                                        Margin="1, 0, 0, 0"
                                                         Grid.Column="1"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
+                                                        Margin="1, 0, 0, 0"
                                                         LineBreakMode="TailTruncation"
                                                         Text="{Binding FullName}" />
 
                                                     <Label
-                                                        Margin="1, 0, 0, 0"
                                                         Grid.Row="0"
                                                         Grid.Column="2"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
+                                                        Margin="1, 0, 0, 0"
                                                         LineBreakMode="TailTruncation"
                                                         Text="{Binding Points, StringFormat={Static local:Constants+Formats.POINT_FORMAT}}" />
 
                                                     <Label
-                                                        Margin="1, 0, 0, 0"
                                                         Grid.Row="0"
                                                         Grid.Column="3"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
+                                                        Margin="1, 0, 0, 0"
                                                         LineBreakMode="TailTruncation"
                                                         Text="{Binding Rewards}" />
 
                                                     <Label
-                                                        Margin="1, 0, 0, 0"
                                                         Grid.Row="0"
                                                         Grid.Column="4"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
+                                                        Margin="1, 0, 0, 0"
                                                         LineBreakMode="TailTruncation"
                                                         Text="{Binding GiftCards.Count}" />
 
                                                     <Label
-                                                        Margin="1, 0, 0, 0"
                                                         Grid.Row="0"
                                                         Grid.Column="5"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
+                                                        Margin="1, 0, 0, 0"
                                                         LineBreakMode="TailTruncation">
 
                                                         <Label.FormattedText>
@@ -450,9 +452,10 @@
 
                 <!--  select button  -->
                 <buttons:BorderButton
-                    Margin="24, 18"
+                    Margin="24, 12"
                     Padding="0"
-                    HeightRequest="44"
+                    HeightRequest="36"
+                    IsEnabled="False"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     CornerRadius="5"
                     Opacity="{DynamicResource OpacityWhenDisabled_i1}"
@@ -461,10 +464,33 @@
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                     xct:TouchEffect.Command="{Binding AddCustomerToOrderCommand}">
 
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup x:Name="AdaptiveTriggers">
+                                
+                                <VisualState Name="MoreThenSamsungTabA7">
+                                    
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowHeight="601" />
+                                    </VisualState.StateTriggers>
+                                    
+                                    <VisualState.Setters>
+                                        <Setter Property="HeightRequest" Value="44" />
+                                        <Setter Property="Margin" Value="24, 18" />
+                                    </VisualState.Setters>
+                                    
+                                </VisualState>
+                                
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+
+
                     <Frame.Triggers>
                         <DataTrigger TargetType="Frame" Binding="{Binding SelectedCustomer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
 
                             <Setter Property="Opacity" Value="1" />
+                            <Setter Property="IsEnabled" Value="True" />
 
                         </DataTrigger>
                     </Frame.Triggers>
