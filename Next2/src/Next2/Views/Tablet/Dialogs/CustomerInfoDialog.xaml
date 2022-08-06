@@ -17,6 +17,8 @@
         VerticalOptions="Center"
         HorizontalOptions="Center"
         HeightRequest="622"
+        WidthRequest="300"
+        Margin="0, 12"
         Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
         CornerRadius="5">
@@ -25,19 +27,6 @@
 
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="AdaptiveTriggers">
-
-                    <VisualState Name="SamsungTabA7">
-
-                        <VisualState.StateTriggers>
-                            <AdaptiveTrigger MinWindowHeight="600" />
-                        </VisualState.StateTriggers>
-
-                        <VisualState.Setters>
-                            <Setter Property="WidthRequest" Value="300" />
-                            <Setter Property="Margin" Value="0, 12" />
-                        </VisualState.Setters>
-
-                    </VisualState>
 
                     <VisualState Name="IPadMini">
 
@@ -69,7 +58,7 @@
         </VisualStateManager.VisualStateGroups>
 
         <Grid
-            RowDefinitions="63, *, 74"
+            RowDefinitions="51, *, 62"
             RowSpacing="1.5"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}">
 
@@ -117,36 +106,13 @@
                 VerticalOptions="Center"
                 FontFamily="Barlow-SemiBold"
                 Text="{xct:Translate CustomerInfo}"
+                FontSize="{DynamicResource TSize_i7}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}">
 
                 <VisualStateManager.VisualStateGroups>
 
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="AdaptiveTriggers">
-
-                            <VisualState Name="SamsungTabA7">
-
-                                <VisualState.StateTriggers>
-                                    <AdaptiveTrigger MinWindowHeight="600" />
-                                </VisualState.StateTriggers>
-
-                                <VisualState.Setters>
-                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
-                                </VisualState.Setters>
-
-                            </VisualState>
-
-                            <VisualState Name="IPadMini">
-
-                                <VisualState.StateTriggers>
-                                    <AdaptiveTrigger MinWindowHeight="768" />
-                                </VisualState.StateTriggers>
-
-                                <VisualState.Setters>
-                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
-                                </VisualState.Setters>
-
-                            </VisualState>
 
                             <VisualState Name="IPadPro11">
 
@@ -196,30 +162,6 @@
                             <VisualStateGroupList>
                                 <VisualStateGroup x:Name="AdaptiveStyles">
 
-                                    <VisualState Name="SamsungTabA7">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="600" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i11}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                    <VisualState Name="IPadMini">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="768" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i11}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
                                     <VisualState Name="IPadPro11">
 
                                         <VisualState.StateTriggers>
@@ -238,7 +180,9 @@
                         </Setter>
 
                         <Setter Property="FontFamily" Value="Barlow-Medium" />
-                        
+
+                        <Setter Property="FontSize" Value="{DynamicResource TSize_i11}" />
+
                         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
 
                     </Style>
@@ -249,30 +193,6 @@
 
                             <VisualStateGroupList>
                                 <VisualStateGroup x:Name="AdaptiveStyles">
-
-                                    <VisualState Name="SamsungTabA7">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="600" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i9_5}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                    <VisualState Name="IPadMini">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="768" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i9_5}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
 
                                     <VisualState Name="IPadPro11">
 
@@ -291,6 +211,8 @@
 
                         </Setter>
 
+                        <Setter Property="FontSize" Value="{DynamicResource TSize_i9_5}" />
+
                         <Setter Property="FontFamily" Value="Barlow-Medium" />
                         
                         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
@@ -303,18 +225,6 @@
 
                             <VisualStateGroupList>
                                 <VisualStateGroup x:Name="AdaptiveStyles">
-
-                                    <VisualState Name="SamsungTabA7">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="600" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
 
                                     <VisualState Name="IPadMini">
 
@@ -345,6 +255,8 @@
 
                         </Setter>
 
+                        <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
+
                     </Style>
 
                     <Style x:Key="AdaptiveLabelStyle_i4_5" TargetType="Label">
@@ -353,18 +265,6 @@
 
                             <VisualStateGroupList>
                                 <VisualStateGroup x:Name="AdaptiveStyles">
-
-                                    <VisualState Name="SamsungTabA7">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="600" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i5}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
 
                                     <VisualState Name="IPadMini">
 
@@ -394,6 +294,8 @@
                             </VisualStateGroupList>
 
                         </Setter>
+
+                        <Setter Property="FontSize" Value="{DynamicResource TSize_i5}" />
 
                     </Style>
 
@@ -582,24 +484,13 @@
 
             <StackLayout
                 Grid.Row="2"
+                Margin="14"
                 Orientation="Horizontal">
 
                 <VisualStateManager.VisualStateGroups>
 
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="AdaptiveTriggers">
-
-                            <VisualState Name="SamsungTabA7">
-
-                                <VisualState.StateTriggers>
-                                    <AdaptiveTrigger MinWindowHeight="600" />
-                                </VisualState.StateTriggers>
-
-                                <VisualState.Setters>
-                                    <Setter Property="Margin" Value="14" />
-                                </VisualState.Setters>
-
-                            </VisualState>
 
                             <VisualState Name="IPadMini">
 
@@ -608,7 +499,19 @@
                                 </VisualState.StateTriggers>
 
                                 <VisualState.Setters>
-                                    <Setter Property="Margin" Value="17" />
+                                    <Setter Property="Margin" Value="16" />
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                            <VisualState Name="IPadPro11">
+
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowHeight="834" />
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+                                    <Setter Property="Margin" Value="18" />
                                 </VisualState.Setters>
 
                             </VisualState>
@@ -626,18 +529,6 @@
 
                             <VisualStateGroupList>
                                 <VisualStateGroup x:Name="AdaptiveStyles">
-
-                                    <VisualState Name="SamsungTabA7">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="600" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
 
                                     <VisualState Name="IPadMini">
 
@@ -675,6 +566,7 @@
                         <Setter Property="Padding" Value="0" />
                         <Setter Property="FontFamily" Value="Barlow-SemiBold" />
                         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                        <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
 
                     </Style>
 

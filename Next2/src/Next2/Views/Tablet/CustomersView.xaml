@@ -172,7 +172,7 @@
                                 MinimumHeightRequest="42">
 
                                 <Grid
-                                    ColumnDefinitions="69, 0.16*, 0.161*, 0.161*, 0.161*, 0.164*"
+                                    ColumnDefinitions="69, *"
                                     VerticalOptions="Center"
                                     HorizontalOptions="FillAndExpand">
 
@@ -252,10 +252,33 @@
 
                             <!--  Table content  -->
                             <yummy:PancakeView
-                                Margin="32, 0, 32, 42"
+                                Margin="32, 0, 32, 12"
                                 VerticalOptions="Start"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                 CornerRadius="0, 0, 7, 7">
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        
+                                        <VisualStateGroup x:Name="AdaptiveTriggers">
+                                            
+                                            <VisualState Name="MoreThenSamsungTabA7">
+                                                
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowHeight="601" />
+                                                </VisualState.StateTriggers>
+                                                
+                                                <VisualState.Setters>
+                                                    <Setter Property="Margin" Value="32, 0, 32, 42" />
+                                                </VisualState.Setters>
+                                                
+                                            </VisualState>
+                                            
+                                        </VisualStateGroup>
+                                        
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+
 
                                 <yummy:PancakeView.Triggers>
 
@@ -299,7 +322,7 @@
                                             <DataTemplate x:DataType="models:CustomerBindableModel">
 
                                                 <Grid
-                                                    ColumnDefinitions="0.325*, *"
+                                                    ColumnDefinitions="69, *"
                                                     HeightRequest="40">
 
                                                     <Grid.RowDefinitions>
@@ -326,12 +349,14 @@
 
                                                     <Label
                                                         Grid.Row="0"
+                                                        Margin="1, 0, 0, 0"
                                                         Grid.Column="1"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
                                                         LineBreakMode="TailTruncation"
                                                         Text="{Binding FullName}" />
 
                                                     <Label
+                                                        Margin="1, 0, 0, 0"
                                                         Grid.Row="0"
                                                         Grid.Column="2"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
@@ -339,6 +364,7 @@
                                                         Text="{Binding Points, StringFormat={Static local:Constants+Formats.POINT_FORMAT}}" />
 
                                                     <Label
+                                                        Margin="1, 0, 0, 0"
                                                         Grid.Row="0"
                                                         Grid.Column="3"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
@@ -346,6 +372,7 @@
                                                         Text="{Binding Rewards}" />
 
                                                     <Label
+                                                        Margin="1, 0, 0, 0"
                                                         Grid.Row="0"
                                                         Grid.Column="4"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
@@ -353,6 +380,7 @@
                                                         Text="{Binding GiftCards.Count}" />
 
                                                     <Label
+                                                        Margin="1, 0, 0, 0"
                                                         Grid.Row="0"
                                                         Grid.Column="5"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
