@@ -36,9 +36,15 @@
     <x:Double x:Key="TSize_i9">12</x:Double>
     <!--  8px  -->
     <x:Double x:Key="TSize_i10">10</x:Double>
-    
+
     <x:Double x:Key="TSize_i12">8</x:Double>
     
+    <x:Double x:Key="TSize_i9_5">11</x:Double>
+
+    <x:Double x:Key="TSize_i6_5">17</x:Double>
+
+    <x:Double x:Key="TSize_i4_5_5">22</x:Double>
+
     <x:Double x:Key="OpacityWhenDisabled_i1">0.5</x:Double>
     <x:Double x:Key="OpacityWhenDisabled_i2">0.6</x:Double>
     <x:Double x:Key="OpacityWhenDisabled_i3">0.32</x:Double>

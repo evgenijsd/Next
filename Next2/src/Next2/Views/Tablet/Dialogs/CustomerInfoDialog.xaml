@@ -11,19 +11,101 @@
     x:Class="Next2.Views.Tablet.Dialogs.CustomerInfoDialog"
     x:DataType="dialogs:CustomerInfoViewModel">
 
+    <rg:PopupPage.Resources />
+
     <pancakeview:PancakeView
         VerticalOptions="Center"
         HorizontalOptions="Center"
         HeightRequest="622"
-        WidthRequest="363"
         Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
         CornerRadius="5">
+
+        <VisualStateManager.VisualStateGroups>
+
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="AdaptiveTriggers">
+
+                    <VisualState Name="SamsungTabA7">
+
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowHeight="600" />
+                        </VisualState.StateTriggers>
+
+                        <VisualState.Setters>
+                            <Setter Property="WidthRequest" Value="300" />
+                            <Setter Property="Margin" Value="0, 12" />
+                        </VisualState.Setters>
+
+                    </VisualState>
+
+                    <VisualState Name="IPadMini">
+
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowHeight="768" />
+                        </VisualState.StateTriggers>
+
+                        <VisualState.Setters>
+                            <Setter Property="WidthRequest" Value="353" />
+                        </VisualState.Setters>
+
+                    </VisualState>
+
+                    <VisualState Name="IPadPro11">
+
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowHeight="834" />
+                        </VisualState.StateTriggers>
+
+                        <VisualState.Setters>
+                            <Setter Property="WidthRequest" Value="363" />
+                        </VisualState.Setters>
+
+                    </VisualState>
+
+                </VisualStateGroup>
+            </VisualStateGroupList>
+            
+        </VisualStateManager.VisualStateGroups>
 
         <Grid
             RowDefinitions="63, *, 74"
             RowSpacing="1.5"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}">
+
+            <VisualStateManager.VisualStateGroups>
+
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="AdaptiveTriggers">
+
+                        <VisualState Name="SamsungTabA7">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowHeight="600" />
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="RowDefinitions" Value="51, *, 62" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                        <VisualState Name="IPadMini">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowHeight="768" />
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="RowDefinitions" Value="63, *, 74" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+
+            </VisualStateManager.VisualStateGroups>
 
             <BoxView
                 Grid.Row="0"
@@ -34,9 +116,56 @@
                 Margin="14, 0, 0, 0"
                 VerticalOptions="Center"
                 FontFamily="Barlow-SemiBold"
-                FontSize="{DynamicResource TSize_i6}"
                 Text="{xct:Translate CustomerInfo}"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}">
+
+                <VisualStateManager.VisualStateGroups>
+
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="AdaptiveTriggers">
+
+                            <VisualState Name="SamsungTabA7">
+
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowHeight="600" />
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                            <VisualState Name="IPadMini">
+
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowHeight="768" />
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                            <VisualState Name="IPadPro11">
+
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowHeight="834" />
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+
+                </VisualStateManager.VisualStateGroups>
+
+            </Label>
 
             <BoxView
                 Grid.Row="1"
@@ -60,41 +189,250 @@
                         <Setter Property="Margin" Value="0, 8, 0, 0" />
                     </Style>
 
-                    <Style TargetType="Label">
+                    <Style x:Key="AdaptiveLabelStyle_i8" TargetType="Label">
+
+                        <Setter Property="VisualStateManager.VisualStateGroups">
+
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="AdaptiveStyles">
+
+                                    <VisualState Name="SamsungTabA7">
+
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="600" />
+                                        </VisualState.StateTriggers>
+
+                                        <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i11}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                    <VisualState Name="IPadMini">
+
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="768" />
+                                        </VisualState.StateTriggers>
+
+                                        <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i11}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                    <VisualState Name="IPadPro11">
+
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="834" />
+                                        </VisualState.StateTriggers>
+
+                                        <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+
+                        </Setter>
+
                         <Setter Property="FontFamily" Value="Barlow-Medium" />
+                        
                         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                        <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+
                     </Style>
+
+                    <Style x:Key="AdaptiveLabelStyle_i9" TargetType="Label">
+
+                        <Setter Property="VisualStateManager.VisualStateGroups">
+
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="AdaptiveStyles">
+
+                                    <VisualState Name="SamsungTabA7">
+
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="600" />
+                                        </VisualState.StateTriggers>
+
+                                        <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i9_5}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                    <VisualState Name="IPadMini">
+
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="768" />
+                                        </VisualState.StateTriggers>
+
+                                        <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i9_5}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                    <VisualState Name="IPadPro11">
+
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="834" />
+                                        </VisualState.StateTriggers>
+
+                                        <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+
+                        </Setter>
+
+                        <Setter Property="FontFamily" Value="Barlow-Medium" />
+                        
+                        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                    </Style>
+
+                    <Style x:Key="AdaptiveLabelStyle_i6" TargetType="Label">
+
+                        <Setter Property="VisualStateManager.VisualStateGroups">
+
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="AdaptiveStyles">
+
+                                    <VisualState Name="SamsungTabA7">
+
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="600" />
+                                        </VisualState.StateTriggers>
+
+                                        <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                    <VisualState Name="IPadMini">
+
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="768" />
+                                        </VisualState.StateTriggers>
+
+                                        <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i6_5}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                    <VisualState Name="IPadPro11">
+
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="834" />
+                                        </VisualState.StateTriggers>
+
+                                        <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+
+                        </Setter>
+
+                    </Style>
+
+                    <Style x:Key="AdaptiveLabelStyle_i4_5" TargetType="Label">
+
+                        <Setter Property="VisualStateManager.VisualStateGroups">
+
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="AdaptiveStyles">
+
+                                    <VisualState Name="SamsungTabA7">
+
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="600" />
+                                        </VisualState.StateTriggers>
+
+                                        <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i5}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                    <VisualState Name="IPadMini">
+
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="768" />
+                                        </VisualState.StateTriggers>
+
+                                        <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i4_5_5}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                    <VisualState Name="IPadPro11">
+
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="834" />
+                                        </VisualState.StateTriggers>
+
+                                        <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i4_5}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+
+                        </Setter>
+
+                    </Style>
+
 
                 </StackLayout.Resources>
 
                 <StackLayout Style="{DynamicResource HeadLayoutStyle}">
 
                     <Label
-                        FontSize="{DynamicResource TSize_i9}"
+                        Style="{DynamicResource AdaptiveLabelStyle_i9}"
                         Text="{xct:Translate CustomerName}" />
 
-                    <Label Text="{Binding Customer.FullName}" />
+                    <Label
+                        Style="{DynamicResource AdaptiveLabelStyle_i8}"
+                        Text="{Binding Customer.FullName}" />
 
                 </StackLayout>
 
                 <StackLayout Style="{DynamicResource HeadLayoutStyle}">
 
                     <Label
-                        FontSize="{DynamicResource TSize_i9}"
+                        Style="{DynamicResource AdaptiveLabelStyle_i9}"
                         Text="{xct:Translate Phone}" />
 
-                    <Label Text="{Binding Customer.Phone, Converter={StaticResource formattedPhoneConverter}}" />
+                    <Label
+                        Style="{DynamicResource AdaptiveLabelStyle_i8}"
+                        Text="{Binding Customer.Phone, Converter={StaticResource formattedPhoneConverter}}" />
 
                 </StackLayout>
 
                 <StackLayout Style="{DynamicResource HeadLayoutStyle}">
 
                     <Label
-                        FontSize="{DynamicResource TSize_i9}"
+                        Style="{DynamicResource AdaptiveLabelStyle_i9}"
                         Text="{xct:Translate Email}" />
 
-                    <Label Text="{Binding Customer.Email}" />
+                    <Label
+                        Style="{DynamicResource AdaptiveLabelStyle_i8}"
+                        Text="{Binding Customer.Email}" />
 
                 </StackLayout>
 
@@ -120,12 +458,14 @@
                         Style="{DynamicResource GridLayoutStyle}"
                         Spacing="20">
 
-                        <Label Text="{xct:Translate Points}" />
+                        <Label
+                            Style="{DynamicResource AdaptiveLabelStyle_i8}"
+                            Text="{xct:Translate Points}" />
 
                         <Label
+                            Style="{DynamicResource AdaptiveLabelStyle_i6}"
                             VerticalOptions="Center"
                             FontFamily="Barlow-SemiBold"
-                            FontSize="{DynamicResource TSize_i6}"
                             TextColor="{DynamicResource AppColor_i1}">
 
                             <Label.FormattedText>
@@ -148,14 +488,16 @@
                         Grid.Row="0"
                         Grid.Column="1"
                         Style="{DynamicResource GridLayoutStyle}"
-                        Spacing="18">
-
-                        <Label Text="{xct:Translate Rewards}" />
+                        Spacing="15">
 
                         <Label
+                            Style="{DynamicResource AdaptiveLabelStyle_i8}"
+                            Text="{xct:Translate Rewards}" />
+
+                        <Label
+                            Style="{DynamicResource AdaptiveLabelStyle_i4_5}"
                             HorizontalOptions="Center"
                             FontFamily="Barlow-Bold"
-                            FontSize="{DynamicResource TSize_i4_5}"
                             Text="{Binding Customer.Rewards}"
                             TextColor="{DynamicResource IndicationColor_i7}" />
 
@@ -172,17 +514,20 @@
                         Style="{DynamicResource GridLayoutStyle}"
                         Spacing="4">
 
-                        <Label Text="{xct:Translate NumberOf}" />
+                        <Label
+                            Style="{DynamicResource AdaptiveLabelStyle_i8}"
+                            Text="{xct:Translate NumberOf}" />
 
                         <Label
+                            Style="{DynamicResource AdaptiveLabelStyle_i8}"
                             HorizontalOptions="Center"
                             Text="{xct:Translate GiftCards}" />
 
                         <Label
-                            Margin="0, 4, 0, 0"
+                            Style="{DynamicResource AdaptiveLabelStyle_i4_5}"
+                            Margin="0, 6, 0, 0"
                             HorizontalOptions="Center"
                             FontFamily="Barlow-Bold"
-                            FontSize="{DynamicResource TSize_i4_5}"
                             Text="{Binding Customer.GiftCards.Count}"
                             TextColor="{DynamicResource IndicationColor_i5}" />
 
@@ -199,17 +544,20 @@
                         Style="{DynamicResource GridLayoutStyle}"
                         Spacing="4">
 
-                        <Label Text="{xct:Translate GiftCard}" />
+                        <Label
+                            Style="{DynamicResource AdaptiveLabelStyle_i8}"
+                            Text="{xct:Translate GiftCard}" />
 
                         <Label
+                            Style="{DynamicResource AdaptiveLabelStyle_i8}"
                             HorizontalOptions="Center"
                             Text="{xct:Translate Total}" />
 
                         <Label
+                            Style="{DynamicResource AdaptiveLabelStyle_i6}"
                             Margin="0, 8, 0, 0"
                             HorizontalOptions="Center"
                             FontFamily="Barlow-SemiBold"
-                            FontSize="{DynamicResource TSize_i6}"
                             TextColor="{DynamicResource IndicationColor_i1}">
 
                             <Label.FormattedText>
@@ -234,20 +582,100 @@
 
             <StackLayout
                 Grid.Row="2"
-                Margin="17"
                 Orientation="Horizontal">
+
+                <VisualStateManager.VisualStateGroups>
+
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="AdaptiveTriggers">
+
+                            <VisualState Name="SamsungTabA7">
+
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowHeight="600" />
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+                                    <Setter Property="Margin" Value="14" />
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                            <VisualState Name="IPadMini">
+
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowHeight="768" />
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+                                    <Setter Property="Margin" Value="17" />
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+
+                </VisualStateManager.VisualStateGroups>
 
                 <StackLayout.Resources>
 
                     <Style TargetType="buttons:BorderButton">
+
+                        <Setter Property="VisualStateManager.VisualStateGroups">
+
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="AdaptiveStyles">
+
+                                    <VisualState Name="SamsungTabA7">
+
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="600" />
+                                        </VisualState.StateTriggers>
+
+                                        <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                    <VisualState Name="IPadMini">
+
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="768" />
+                                        </VisualState.StateTriggers>
+
+                                        <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i11}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                    <VisualState Name="IPadPro11">
+
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="834" />
+                                        </VisualState.StateTriggers>
+
+                                        <VisualState.Setters>
+                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+
+                        </Setter>
+
                         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                         <Setter Property="CornerRadius" Value="5" />
                         <Setter Property="WidthRequest" Value="157" />
                         <Setter Property="HeightRequest" Value="38" />
                         <Setter Property="Padding" Value="0" />
                         <Setter Property="FontFamily" Value="Barlow-SemiBold" />
-                        <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
                         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+
                     </Style>
 
                 </StackLayout.Resources>
