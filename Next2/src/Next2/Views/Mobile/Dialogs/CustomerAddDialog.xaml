@@ -187,7 +187,7 @@
                                             Text="{Binding Phone}">
 
                                             <controls:GuardEntry.EntryBehaviors>
-                                                <behaviors:MaskedEntryBehavior Mask="{x:Static local:Constants+Validators.PHONE_MASK2}"/>
+                                                <behaviors:MaskedBehavior Mask="{x:Static local:Constants+Validators.PHONE_MASK2}"/>
                                                 <behaviors:ValidatorBehavior MatchPattern="{x:Static local:Constants+Validators.PHONE_MASK}"/>
                                             </controls:GuardEntry.EntryBehaviors>
 
