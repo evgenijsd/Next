@@ -50,6 +50,7 @@ namespace Next2.ViewModels
         private SeatBindableModel _firstNotEmptySeat;
         private SeatBindableModel _seatWithSelectedDish;
         private DishBindableModel? _rememberPositionSelection;
+
         private bool _isAnyDishChosen;
 
         public OrderRegistrationViewModel(

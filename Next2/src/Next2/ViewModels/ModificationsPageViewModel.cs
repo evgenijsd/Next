@@ -63,6 +63,7 @@ namespace Next2.ViewModels
             CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 
             var seat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
+
             _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
             _indexOfSelectedDish = seat.SelectedDishes.IndexOf(seat.SelectedItem);
 

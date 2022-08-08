@@ -175,7 +175,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
             var popupPage = new Views.Tablet.Dialogs.InputDialog(param, InputDialogCallBack);
 
-            return PopupNavigation.PushAsync(popupPage);
+            return PopupNavigation.Instance.PushAsync(popupPage);
         }
 
         private void InputDialogCallBack(IDialogParameters param)
@@ -185,9 +185,9 @@ namespace Next2.ViewModels.Tablet.Dialogs
                 Notes = text;
             }
 
-            if (PopupNavigation.PopupStack.Count > 0)
+            if (PopupNavigation.Instance.PopupStack.Count > 0)
             {
-                PopupNavigation.PopAsync();
+                PopupNavigation.Instance.PopAsync();
             }
         }
 

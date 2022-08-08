@@ -79,7 +79,7 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private helpers --
 
-        private async Task OnAddNewCustomerCommandAsync()
+        private Task OnAddNewCustomerCommandAsync()
         {
             if (CanAddNewCustomer)
             {
@@ -109,6 +109,8 @@ namespace Next2.ViewModels.Dialogs
                 {
                 }
             }
+
+            return Task.CompletedTask;
         }
 
         private Task OnGoToStepCommandAsync(EClientAdditionStep step)

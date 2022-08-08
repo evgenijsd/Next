@@ -239,7 +239,7 @@ namespace Next2.ViewModels.Tablet
 
         private async void CloseRemoveReservationDialogCallBack(IDialogParameters param)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool accept) && accept)
+            if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool accept) && accept && SelectedReservation is not null)
             {
                 var reservationRemovingResult = await _reservationService.RemoveReservationAsync(SelectedReservation);
 

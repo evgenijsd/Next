@@ -121,7 +121,7 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 

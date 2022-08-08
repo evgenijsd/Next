@@ -219,7 +219,7 @@ namespace Next2.ViewModels
             return _navigationService.GoBackAsync(parameters);
         }
 
-        private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
+        private Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
         {
             SelectedBonus = bonus == SelectedBonus
                 ? null
@@ -242,6 +242,8 @@ namespace Next2.ViewModels
             _orderService.UpdateTotalSum(CurrentOrder);
 
             Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
+
+            return Task.CompletedTask;
         }
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)

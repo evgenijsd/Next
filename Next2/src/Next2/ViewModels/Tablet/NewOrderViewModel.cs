@@ -144,10 +144,12 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Private methods --
 
-        private async Task OnTapSortCommandAsync()
+        private Task OnTapSortCommandAsync()
         {
             _shouldOrderDishesByDESC = !_shouldOrderDishesByDESC;
             Dishes = new(Dishes.Reverse());
+
+            return Task.CompletedTask;
         }
 
         private Task OnTapDishCommand(DishModelDTO dish)

@@ -203,7 +203,7 @@ namespace Next2.Controls.Templates
 
         #region -- Private helpers --
 
-        private async Task OnTabAsync(object? sender)
+        private Task OnTabAsync(object? sender)
         {
             if (sender is string str && str is not null)
             {
@@ -238,15 +238,19 @@ namespace Next2.Controls.Templates
 
                 ScreenKeyboard = IsNumericMode ? string.Format(ValueFormat, _numericValue) : string.Format(ValueFormat, Value);
             }
+
+            return Task.CompletedTask;
         }
 
-        private async Task OnTabClearAsync(object? arg)
+        private Task OnTabClearAsync(object? arg)
         {
             ScreenKeyboard = Placeholder;
             Value = string.Empty;
             _numericValue = 0;
             IsKeyBoardTyped = false;
             IsErrorNotificationVisible = false;
+
+            return Task.CompletedTask;
         }
 
         #endregion

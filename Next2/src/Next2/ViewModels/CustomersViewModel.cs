@@ -72,7 +72,7 @@ namespace Next2.ViewModels
         public ICommand RefreshCommand => _refreshCommand ??= new AsyncCommand(RefreshCustomersAsync, allowsMultipleExecutions: false);
 
         private ICommand _addNewCustomerCommand;
-        public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand<CustomerBindableModel>(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
+        public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _addCustomerToOrderCommand;
         public ICommand AddCustomerToOrderCommand => _addCustomerToOrderCommand ??= new AsyncCommand(OnAddCustomerToOrderCommandAsync, allowsMultipleExecutions: false);
@@ -196,7 +196,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private Task OnSelectDeselectItemAsync(CustomerBindableModel customer)
+        private Task OnSelectDeselectItemAsync(CustomerBindableModel? customer)
         {
             SelectedCustomer = SelectedCustomer == customer
                 ? null
@@ -205,7 +205,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private async Task ShowCustomerInfoAsync(CustomerBindableModel customer)
+        private async Task ShowCustomerInfoAsync(CustomerBindableModel? customer)
         {
             if (customer is CustomerBindableModel selectedCustomer)
             {
@@ -276,7 +276,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private Task OnAddNewCustomerCommandAsync(CustomerBindableModel customer)
+        private Task OnAddNewCustomerCommandAsync()
         {
             var param = new DialogParameters();
 

@@ -72,12 +72,14 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Overrides --
 
-        public override async Task InitializeAsync(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.TryGetValue(Constants.Navigations.CATEGORY, out CategoryModel category))
             {
                 SelectedCategoriesItem = category;
             }
+
+            return Task.CompletedTask;
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
