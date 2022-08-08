@@ -12,18 +12,16 @@ namespace Next2.iOS.Helpers
 {
     public class TouchRecognizer : UIGestureRecognizer
     {
+        private static Dictionary<UIView, TouchRecognizer> viewDictionary = new Dictionary<UIView, TouchRecognizer>();
+
+        private static Dictionary<long, TouchRecognizer> idToTouchDictionary = new Dictionary<long, TouchRecognizer>();
+
         private Element element;
         private UIView view;
-        private Next2.Effects.TouchEffect touchEffect;
+        private TouchEffect touchEffect;
         private bool capture;
 
-        private static Dictionary<UIView, TouchRecognizer> viewDictionary =
-            new Dictionary<UIView, TouchRecognizer>();
-
-        private static Dictionary<long, TouchRecognizer> idToTouchDictionary =
-            new Dictionary<long, TouchRecognizer>();
-
-        public TouchRecognizer(Element element, UIView view, Next2.Effects.TouchEffect touchEffect)
+        public TouchRecognizer(Element element, UIView view, TouchEffect touchEffect)
         {
             this.element = element;
             this.view = view;
@@ -104,6 +102,7 @@ namespace Next2.iOS.Helpers
                         FireEvent(idToTouchDictionary[id], id, ETouchActionType.Released, touch, false);
                     }
                 }
+
                 idToTouchDictionary.Remove(id);
             }
         }
@@ -124,6 +123,7 @@ namespace Next2.iOS.Helpers
                 {
                     FireEvent(idToTouchDictionary[id], id, ETouchActionType.Cancelled, touch, false);
                 }
+
                 idToTouchDictionary.Remove(id);
             }
         }
@@ -143,21 +143,24 @@ namespace Next2.iOS.Helpers
             {
                 CGPoint location = touch.LocationInView(view);
 
-                if (new CGRect(new CGPoint(), view.Frame.Size).Contains(location))
+                if (new CGRect(default(CGPoint), view.Frame.Size).Contains(location))
                 {
                     recognizerHit = viewDictionary[view];
                 }
             }
+
             if (recognizerHit != idToTouchDictionary[id])
             {
                 if (idToTouchDictionary[id] != null)
                 {
                     FireEvent(idToTouchDictionary[id], id, ETouchActionType.Exited, touch, true);
                 }
+
                 if (recognizerHit != null)
                 {
                     FireEvent(recognizerHit, id, ETouchActionType.Entered, touch, true);
                 }
+
                 idToTouchDictionary[id] = recognizerHit;
             }
         }
@@ -172,8 +175,7 @@ namespace Next2.iOS.Helpers
             Action<Element, TouchActionEventArgs> onTouchAction = recognizer.touchEffect.OnTouchAction;
 
             // Call that method
-            onTouchAction(recognizer.element,
-                new TouchActionEventArgs(id, actionType, xfPoint, isInContact));
+            onTouchAction(recognizer.element, new TouchActionEventArgs(id, actionType, xfPoint, isInContact));
         }
 
         #endregion

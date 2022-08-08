@@ -6,7 +6,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportEffect(typeof(TouchEffect), nameof(TouchEffect))]
-
 namespace Next2.iOS.Effects
 {
     public class TouchEffect : PlatformEffect

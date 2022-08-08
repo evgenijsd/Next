@@ -7,7 +7,6 @@ using Xamarin.Forms.Platform.iOS;
 using UIEffects = Next2.Effects;
 
 [assembly: ExportEffect(typeof(ScrollBarColorEffect), nameof(ScrollBarColorEffect))]
-
 namespace Next2.iOS.Effects
 {
     public class ScrollBarColorEffect : PlatformEffect
@@ -42,6 +41,7 @@ namespace Next2.iOS.Effects
                 _view.Scrolled += Container_Scrolled;
 
                 var effect = (UIEffects.ScrollBarColorEffect)Element.Effects.FirstOrDefault(e => e is UIEffects.ScrollBarColorEffect);
+
                 if (effect != null)
                 {
                     _scrollBarCornerRadius = effect.ScrollBarCornerRadius;
@@ -59,7 +59,7 @@ namespace Next2.iOS.Effects
             {
                 _view.Scrolled -= Container_Scrolled;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
             }
         }
