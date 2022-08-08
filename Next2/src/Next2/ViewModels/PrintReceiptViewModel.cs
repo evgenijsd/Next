@@ -61,16 +61,16 @@ namespace Next2.ViewModels
 
         public EOrdersSortingType OrderSortingType { get; set; }
 
-        private ICommand _refreshOrdersCommand;
+        private ICommand? _refreshOrdersCommand;
         public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _selectOrderCommand;
+        private ICommand? _selectOrderCommand;
         public ICommand SelectOrderCommand => _selectOrderCommand ??= new Command<SimpleOrderBindableModel?>(OnSelectOrderCommand);
 
-        private ICommand _changeSortOrderCommand;
+        private ICommand? _changeSortOrderCommand;
         public ICommand ChangeSortOrderCommand => _changeSortOrderCommand ??= new Command<EOrdersSortingType>(OnChangeSortOrderCommand);
 
-        private ICommand _selectingDateCommand;
+        private ICommand? _selectingDateCommand;
         public ICommand SelectingDateCommand => _selectingDateCommand ??= new AsyncCommand(OnSelectingDateCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

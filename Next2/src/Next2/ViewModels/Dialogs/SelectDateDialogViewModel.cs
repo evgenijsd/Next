@@ -25,10 +25,10 @@ namespace Next2.ViewModels.Dialogs
 
         public Action<IDialogParameters> RequestClose;
 
-        private ICommand _cancelCommand;
+        private ICommand? _cancelCommand;
         public ICommand CancelCommand => _cancelCommand ??= new Command(() => RequestClose(new DialogParameters { }));
 
-        private ICommand _selectCommand;
+        private ICommand? _selectCommand;
         public ICommand SelectCommand => _selectCommand ??= new Command(OnSelectCommand);
 
         #endregion

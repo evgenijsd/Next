@@ -17,7 +17,7 @@ namespace Next2.ViewModels
 
         public string EmployeeId { get; set; }
 
-        private ICommand _goBackCommand;
+        private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
 
         #endregion

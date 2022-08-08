@@ -43,10 +43,10 @@ namespace Next2.ViewModels
 
         public PrintReceiptViewModel PrintReceiptViewModel { get; set; }
 
-        private ICommand _logOutCommand;
+        private ICommand? _logOutCommand;
         public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _changeStateCommand;
+        private ICommand? _changeStateCommand;
         public ICommand ChangeStateCommand => _changeStateCommand ??= new AsyncCommand<ESettingsPageState>(OnChangeStateCommand, allowsMultipleExecutions: false);
 
         #endregion
