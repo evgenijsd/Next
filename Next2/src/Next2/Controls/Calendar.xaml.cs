@@ -267,16 +267,16 @@ namespace Next2.Controls
 
         public Day SelectedDay { get; set; }
 
-        private ICommand _selectYearCommand;
+        private ICommand? _selectYearCommand;
         public ICommand SelectYearCommand => _selectYearCommand ??= new Command(() => dropdownFrame.IsVisible = false);
 
-        private ICommand _rightMonthTapCommand;
+        private ICommand? _rightMonthTapCommand;
         public ICommand RightMonthTapCommand => _rightMonthTapCommand ??= new AsyncCommand(OnRightMonthTapCommandAsync);
 
-        private ICommand _leftMonthTapCommand;
+        private ICommand? _leftMonthTapCommand;
         public ICommand LeftMonthTapCommand => _leftMonthTapCommand ??= new AsyncCommand(OnLeftMonthTapCommandAsync);
 
-        private ICommand _yearDropdownTapCommand;
+        private ICommand? _yearDropdownTapCommand;
         public ICommand YearDropdownTapCommand => _yearDropdownTapCommand ??= new AsyncCommand(OnYearDropdownTapCommandAsync);
 
         #endregion
@@ -361,7 +361,7 @@ namespace Next2.Controls
 
         #region -- Private helpers --
 
-        private Task CreateSelectedDay()
+        private void CreateSelectedDay()
         {
             if (SelectedDate is not null && SelectedYear?.YearValue == SelectedDate.Value.Year && SelectedMonth == SelectedDate.Value.Month)
             {
@@ -375,8 +375,6 @@ namespace Next2.Controls
             {
                 SelectedDay = new();
             }
-
-            return Task.CompletedTask;
         }
 
         private Task OnYearDropdownTapCommandAsync()

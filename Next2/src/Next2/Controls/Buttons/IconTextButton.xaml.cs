@@ -92,7 +92,6 @@ namespace Next2.Controls.Buttons
         public static readonly BindableProperty IsIconPlacedOnRightProperty = BindableProperty.Create(
             propertyName: nameof(IsIconPlacedOnRight),
             returnType: typeof(bool),
-            defaultValue: false,
             declaringType: typeof(IconTextButton),
             defaultBindingMode: BindingMode.OneWay);
 
@@ -106,7 +105,7 @@ namespace Next2.Controls.Buttons
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 

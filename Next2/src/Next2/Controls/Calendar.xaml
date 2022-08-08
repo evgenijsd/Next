@@ -21,7 +21,6 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-
         <Grid.Resources>
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
