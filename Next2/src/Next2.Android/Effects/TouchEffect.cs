@@ -12,47 +12,44 @@ namespace Next2.Droid.Effects
 {
     public class TouchEffect : PlatformEffect
     {
-        private static Dictionary<Android.Views.View, TouchEffect> viewDictionary = new Dictionary<Android.Views.View, TouchEffect>();
-        private static Dictionary<int, TouchEffect> idToEffectDictionary = new Dictionary<int, TouchEffect>();
+        private static readonly Dictionary<Android.Views.View, TouchEffect> _viewDictionary = new Dictionary<Android.Views.View, TouchEffect>();
+        private static readonly Dictionary<int, TouchEffect> _idToEffectDictionary = new Dictionary<int, TouchEffect>();
 
-        private Android.Views.View view;
-        private Element formsElement;
-        private Next2.Effects.TouchEffect libTouchEffect;
-        private bool capture;
-        private Func<double, double> fromPixels;
-        private int[] twoIntArray = new int[2];
+        private Android.Views.View _view;
+        private Element _formsElement;
+        private Next2.Effects.TouchEffect _libTouchEffect;
+        private bool _capture;
+        private Func<double, double> _fromPixels;
+        private int[] _twoIntArray = new int[2];
 
         #region -- Overrides --
 
         protected override void OnAttached()
         {
-            // Get the Android View corresponding to the Element that the effect is attached to
-            view = Control == null ? Container : Control;
+            _view = Control == null ? Container : Control;
 
-            // Get access to the TouchEffect class in the .NET Standard library
             Next2.Effects.TouchEffect touchEffect = (Next2.Effects.TouchEffect)Element.Effects.FirstOrDefault(e => e is Next2.Effects.TouchEffect);
 
-            if (touchEffect != null && view != null)
+            if (touchEffect != null && _view != null)
             {
-                viewDictionary.Add(view, this);
+                _viewDictionary.Add(_view, this);
 
-                formsElement = Element;
+                _formsElement = Element;
 
-                libTouchEffect = touchEffect;
+                _libTouchEffect = touchEffect;
 
-                // Save fromPixels function
-                fromPixels = view.Context.FromPixels;
+                _fromPixels = _view.Context.FromPixels;
 
-                view.Touch += OnTouch;
+                _view.Touch += OnTouch;
             }
         }
 
         protected override void OnDetached()
         {
-            if (viewDictionary.ContainsKey(view))
+            if (_viewDictionary.ContainsKey(_view))
             {
-                viewDictionary.Remove(view);
-                view.Touch -= OnTouch;
+                _viewDictionary.Remove(_view);
+                _view.Touch -= OnTouch;
             }
         }
 
@@ -62,46 +59,42 @@ namespace Next2.Droid.Effects
 
         private void OnTouch(object sender, Android.Views.View.TouchEventArgs args)
         {
-            // Two object common to all the events
             Android.Views.View senderView = sender as Android.Views.View;
             MotionEvent motionEvent = args.Event;
 
-            // Get the pointer index
             int pointerIndex = motionEvent.ActionIndex;
 
-            // Get the id that identifies a finger over the course of its progress
             int id = motionEvent.GetPointerId(pointerIndex);
 
-            senderView.GetLocationOnScreen(twoIntArray);
-            Point screenPointerCoords = new Point(
-                twoIntArray[0] + motionEvent.GetX(pointerIndex),
-                twoIntArray[1] + motionEvent.GetY(pointerIndex));
+            senderView.GetLocationOnScreen(_twoIntArray);
 
-            // Use ActionMasked here rather than Action to reduce the number of possibilities
+            Point screenPointerCoords = new Point(
+                _twoIntArray[0] + motionEvent.GetX(pointerIndex),
+                _twoIntArray[1] + motionEvent.GetY(pointerIndex));
+
             switch (args.Event.ActionMasked)
             {
                 case MotionEventActions.Down:
                 case MotionEventActions.PointerDown:
                     FireEvent(this, id, ETouchActionType.Pressed, screenPointerCoords, true);
 
-                    idToEffectDictionary.Add(id, this);
+                    _idToEffectDictionary.Add(id, this);
 
-                    capture = libTouchEffect.Capture;
+                    _capture = _libTouchEffect.Capture;
                     break;
 
                 case MotionEventActions.Move:
-                    // Multiple Move events are bundled, so handle them in a loop
                     for (pointerIndex = 0; pointerIndex < motionEvent.PointerCount; pointerIndex++)
                     {
                         id = motionEvent.GetPointerId(pointerIndex);
 
-                        if (capture)
+                        if (_capture)
                         {
-                            senderView.GetLocationOnScreen(twoIntArray);
+                            senderView.GetLocationOnScreen(_twoIntArray);
 
                             screenPointerCoords = new Point(
-                                twoIntArray[0] + motionEvent.GetX(pointerIndex),
-                                twoIntArray[1] + motionEvent.GetY(pointerIndex));
+                                _twoIntArray[0] + motionEvent.GetX(pointerIndex),
+                                _twoIntArray[1] + motionEvent.GetY(pointerIndex));
 
                             FireEvent(this, id, ETouchActionType.Moved, screenPointerCoords, true);
                         }
@@ -109,9 +102,9 @@ namespace Next2.Droid.Effects
                         {
                             CheckForBoundaryHop(id, screenPointerCoords);
 
-                            if (idToEffectDictionary[id] != null)
+                            if (_idToEffectDictionary[id] != null)
                             {
-                                FireEvent(idToEffectDictionary[id], id, ETouchActionType.Moved, screenPointerCoords, true);
+                                FireEvent(_idToEffectDictionary[id], id, ETouchActionType.Moved, screenPointerCoords, true);
                             }
                         }
                     }
@@ -120,7 +113,7 @@ namespace Next2.Droid.Effects
 
                 case MotionEventActions.Up:
                 case MotionEventActions.Pointer1Up:
-                    if (capture)
+                    if (_capture)
                     {
                         FireEvent(this, id, ETouchActionType.Released, screenPointerCoords, false);
                     }
@@ -128,30 +121,30 @@ namespace Next2.Droid.Effects
                     {
                         CheckForBoundaryHop(id, screenPointerCoords);
 
-                        if (idToEffectDictionary[id] != null)
+                        if (_idToEffectDictionary[id] != null)
                         {
-                            FireEvent(idToEffectDictionary[id], id, ETouchActionType.Released, screenPointerCoords, false);
+                            FireEvent(_idToEffectDictionary[id], id, ETouchActionType.Released, screenPointerCoords, false);
                         }
                     }
 
-                    idToEffectDictionary.Remove(id);
+                    _idToEffectDictionary.Remove(id);
 
                     break;
 
                 case MotionEventActions.Cancel:
-                    if (capture)
+                    if (_capture)
                     {
                         FireEvent(this, id, ETouchActionType.Cancelled, screenPointerCoords, false);
                     }
                     else
                     {
-                        if (idToEffectDictionary[id] != null)
+                        if (_idToEffectDictionary[id] != null)
                         {
-                            FireEvent(idToEffectDictionary[id], id, ETouchActionType.Cancelled, screenPointerCoords, false);
+                            FireEvent(_idToEffectDictionary[id], id, ETouchActionType.Cancelled, screenPointerCoords, false);
                         }
                     }
 
-                    idToEffectDictionary.Remove(id);
+                    _idToEffectDictionary.Remove(id);
 
                     break;
             }
@@ -161,31 +154,30 @@ namespace Next2.Droid.Effects
         {
             TouchEffect touchEffectHit = null;
 
-            foreach (Android.Views.View view in viewDictionary.Keys)
+            foreach (Android.Views.View view in _viewDictionary.Keys)
             {
-                // Get the view rectangle
                 try
                 {
-                    view.GetLocationOnScreen(twoIntArray);
+                    view.GetLocationOnScreen(_twoIntArray);
                 }
                 catch
                 {
                     continue;
                 }
 
-                Rectangle viewRect = new Rectangle(twoIntArray[0], twoIntArray[1], view.Width, view.Height);
+                Rectangle viewRect = new Rectangle(_twoIntArray[0], _twoIntArray[1], view.Width, view.Height);
 
                 if (viewRect.Contains(pointerLocation))
                 {
-                    touchEffectHit = viewDictionary[view];
+                    touchEffectHit = _viewDictionary[view];
                 }
             }
 
-            if (touchEffectHit != idToEffectDictionary[id])
+            if (touchEffectHit != _idToEffectDictionary[id])
             {
-                if (idToEffectDictionary[id] != null)
+                if (_idToEffectDictionary[id] != null)
                 {
-                    FireEvent(idToEffectDictionary[id], id, ETouchActionType.Exited, pointerLocation, true);
+                    FireEvent(_idToEffectDictionary[id], id, ETouchActionType.Exited, pointerLocation, true);
                 }
 
                 if (touchEffectHit != null)
@@ -193,24 +185,21 @@ namespace Next2.Droid.Effects
                     FireEvent(touchEffectHit, id, ETouchActionType.Entered, pointerLocation, true);
                 }
 
-                idToEffectDictionary[id] = touchEffectHit;
+                _idToEffectDictionary[id] = touchEffectHit;
             }
         }
 
         private void FireEvent(TouchEffect touchEffect, int id, ETouchActionType actionType, Point pointerLocation, bool isInContact)
         {
-            // Get the method to call for firing events
-            Action<Element, TouchActionEventArgs> onTouchAction = touchEffect.libTouchEffect.OnTouchAction;
+            Action<Element, TouchActionEventArgs> onTouchAction = touchEffect._libTouchEffect.OnTouchAction;
 
-            // Get the location of the pointer within the view
-            touchEffect.view.GetLocationOnScreen(twoIntArray);
+            touchEffect._view.GetLocationOnScreen(_twoIntArray);
 
-            double x = pointerLocation.X - twoIntArray[0];
-            double y = pointerLocation.Y - twoIntArray[1];
-            Point point = new Point(fromPixels(x), fromPixels(y));
+            double x = pointerLocation.X - _twoIntArray[0];
+            double y = pointerLocation.Y - _twoIntArray[1];
+            Point point = new Point(_fromPixels(x), _fromPixels(y));
 
-            // Call the method
-            onTouchAction(touchEffect.formsElement, new TouchActionEventArgs(id, actionType, point, isInContact));
+            onTouchAction(touchEffect._formsElement, new TouchActionEventArgs(id, actionType, point, isInContact));
         }
 
         #endregion
