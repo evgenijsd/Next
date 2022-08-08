@@ -20,7 +20,7 @@ namespace Next2.ViewModels.Dialogs
 
         public Action<IDialogParameters> RequestClose;
 
-        private ICommand _getTipValueCommand;
+        private ICommand? _getTipValueCommand;
         public ICommand GetTipValueCommand => _getTipValueCommand ??= new AsyncCommand(OnGetTipValueCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

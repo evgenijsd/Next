@@ -63,16 +63,16 @@ namespace Next2.ViewModels
 
         public bool IsDiscountsVisible { get; set; } = true;
 
-        private ICommand _ApplyBonusCommand;
-        public ICommand ApplyBonusCommand => _ApplyBonusCommand ??= new AsyncCommand(OnApplyBonusCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _applyBonusCommand;
+        public ICommand ApplyBonusCommand => _applyBonusCommand ??= new AsyncCommand(OnApplyBonusCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _RemoveSelectionBonusCommand;
-        public ICommand RemoveSelectionBonusCommand => _RemoveSelectionBonusCommand ??= new AsyncCommand(OnRemoveSelectionBonusCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _removeSelectionBonusCommand;
+        public ICommand RemoveSelectionBonusCommand => _removeSelectionBonusCommand ??= new AsyncCommand(OnRemoveSelectionBonusCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _tapSelectBonusCommand;
+        private ICommand? _tapSelectBonusCommand;
         public ICommand TapSelectBonusCommand => _tapSelectBonusCommand ??= new AsyncCommand<BonusBindableModel?>(OnTapSelectBonusCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _tapSelectCollapceCommand;
+        private ICommand? _tapSelectCollapceCommand;
         public ICommand TapSelectCollapceCommand => _tapSelectCollapceCommand ??= new AsyncCommand<EBonusType>(OnTapSelectCollapceCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -219,7 +219,7 @@ namespace Next2.ViewModels
             return _navigationService.GoBackAsync(parameters);
         }
 
-        private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
+        private Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
         {
             SelectedBonus = bonus == SelectedBonus
                 ? null
@@ -242,6 +242,8 @@ namespace Next2.ViewModels
             _orderService.UpdateTotalSum(CurrentOrder);
 
             Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
+
+            return Task.CompletedTask;
         }
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)

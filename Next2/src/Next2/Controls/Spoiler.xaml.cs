@@ -113,14 +113,14 @@ namespace Next2.Controls
             set => SetValue(HeightListProperty, value);
         }
 
-        private ICommand _tapSpoilerCommand;
+        private ICommand? _tapSpoilerCommand;
         public ICommand TapSpoilerCommand => _tapSpoilerCommand ??= new Command(OnTapSpoilerCommand);
 
         #endregion
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 

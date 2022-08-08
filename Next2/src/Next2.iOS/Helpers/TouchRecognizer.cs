@@ -12,34 +12,30 @@ namespace Next2.iOS.Helpers
 {
     public class TouchRecognizer : UIGestureRecognizer
     {
-        private Element element;
-        private UIView view;
-        private Next2.Effects.TouchEffect touchEffect;
-        private bool capture;
+        private static readonly Dictionary<UIView, TouchRecognizer> _viewDictionary = new Dictionary<UIView, TouchRecognizer>();
+        private static readonly Dictionary<long, TouchRecognizer> _idToTouchDictionary = new Dictionary<long, TouchRecognizer>();
 
-        private static Dictionary<UIView, TouchRecognizer> viewDictionary =
-            new Dictionary<UIView, TouchRecognizer>();
+        private Element _element;
+        private UIView _view;
+        private TouchEffect _touchEffect;
+        private bool _capture;
 
-        private static Dictionary<long, TouchRecognizer> idToTouchDictionary =
-            new Dictionary<long, TouchRecognizer>();
-
-        public TouchRecognizer(Element element, UIView view, Next2.Effects.TouchEffect touchEffect)
+        public TouchRecognizer(Element element, UIView view, TouchEffect touchEffect)
         {
-            this.element = element;
-            this.view = view;
-            this.touchEffect = touchEffect;
+            _element = element;
+            _view = view;
+            _touchEffect = touchEffect;
 
-            viewDictionary.Add(view, this);
+            _viewDictionary.Add(view, this);
         }
 
         public void Detach()
         {
-            viewDictionary.Remove(view);
+            _viewDictionary.Remove(_view);
         }
 
         #region -- Overrides --
 
-        // touches = touches of interest; evt = all touches of type UITouch
         public override void TouchesBegan(NSSet touches, UIEvent evt)
         {
             base.TouchesBegan(touches, evt);
@@ -49,14 +45,13 @@ namespace Next2.iOS.Helpers
                 long id = touch.Handle.ToInt64();
                 FireEvent(this, id, ETouchActionType.Pressed, touch, true);
 
-                if (!idToTouchDictionary.ContainsKey(id))
+                if (!_idToTouchDictionary.ContainsKey(id))
                 {
-                    idToTouchDictionary.Add(id, this);
+                    _idToTouchDictionary.Add(id, this);
                 }
             }
 
-            // Save the setting of the Capture property
-            capture = touchEffect.Capture;
+            _capture = _touchEffect.Capture;
         }
 
         public override void TouchesMoved(NSSet touches, UIEvent evt)
@@ -67,7 +62,7 @@ namespace Next2.iOS.Helpers
             {
                 long id = touch.Handle.ToInt64();
 
-                if (capture)
+                if (_capture)
                 {
                     FireEvent(this, id, ETouchActionType.Moved, touch, true);
                 }
@@ -75,9 +70,9 @@ namespace Next2.iOS.Helpers
                 {
                     CheckForBoundaryHop(touch);
 
-                    if (idToTouchDictionary[id] != null)
+                    if (_idToTouchDictionary[id] != null)
                     {
-                        FireEvent(idToTouchDictionary[id], id, ETouchActionType.Moved, touch, true);
+                        FireEvent(_idToTouchDictionary[id], id, ETouchActionType.Moved, touch, true);
                     }
                 }
             }
@@ -91,7 +86,7 @@ namespace Next2.iOS.Helpers
             {
                 long id = touch.Handle.ToInt64();
 
-                if (capture)
+                if (_capture)
                 {
                     FireEvent(this, id, ETouchActionType.Released, touch, false);
                 }
@@ -99,12 +94,13 @@ namespace Next2.iOS.Helpers
                 {
                     CheckForBoundaryHop(touch);
 
-                    if (idToTouchDictionary[id] != null)
+                    if (_idToTouchDictionary[id] != null)
                     {
-                        FireEvent(idToTouchDictionary[id], id, ETouchActionType.Released, touch, false);
+                        FireEvent(_idToTouchDictionary[id], id, ETouchActionType.Released, touch, false);
                     }
                 }
-                idToTouchDictionary.Remove(id);
+
+                _idToTouchDictionary.Remove(id);
             }
         }
 
@@ -116,15 +112,16 @@ namespace Next2.iOS.Helpers
             {
                 long id = touch.Handle.ToInt64();
 
-                if (capture)
+                if (_capture)
                 {
                     FireEvent(this, id, ETouchActionType.Cancelled, touch, false);
                 }
-                else if (idToTouchDictionary[id] != null)
+                else if (_idToTouchDictionary[id] != null)
                 {
-                    FireEvent(idToTouchDictionary[id], id, ETouchActionType.Cancelled, touch, false);
+                    FireEvent(_idToTouchDictionary[id], id, ETouchActionType.Cancelled, touch, false);
                 }
-                idToTouchDictionary.Remove(id);
+
+                _idToTouchDictionary.Remove(id);
             }
         }
 
@@ -136,44 +133,42 @@ namespace Next2.iOS.Helpers
         {
             long id = touch.Handle.ToInt64();
 
-            // TODO: Might require converting to a List for multiple hits
             TouchRecognizer recognizerHit = null;
 
-            foreach (UIView view in viewDictionary.Keys)
+            foreach (UIView view in _viewDictionary.Keys)
             {
                 CGPoint location = touch.LocationInView(view);
 
-                if (new CGRect(new CGPoint(), view.Frame.Size).Contains(location))
+                if (new CGRect(default(CGPoint), view.Frame.Size).Contains(location))
                 {
-                    recognizerHit = viewDictionary[view];
+                    recognizerHit = _viewDictionary[view];
                 }
             }
-            if (recognizerHit != idToTouchDictionary[id])
+
+            if (recognizerHit != _idToTouchDictionary[id])
             {
-                if (idToTouchDictionary[id] != null)
+                if (_idToTouchDictionary[id] != null)
                 {
-                    FireEvent(idToTouchDictionary[id], id, ETouchActionType.Exited, touch, true);
+                    FireEvent(_idToTouchDictionary[id], id, ETouchActionType.Exited, touch, true);
                 }
+
                 if (recognizerHit != null)
                 {
                     FireEvent(recognizerHit, id, ETouchActionType.Entered, touch, true);
                 }
-                idToTouchDictionary[id] = recognizerHit;
+
+                _idToTouchDictionary[id] = recognizerHit;
             }
         }
 
         private void FireEvent(TouchRecognizer recognizer, long id, ETouchActionType actionType, UITouch touch, bool isInContact)
         {
-            // Convert touch location to Xamarin.Forms Point value
             CGPoint cgPoint = touch.LocationInView(recognizer.View);
             Point xfPoint = new Point(cgPoint.X, cgPoint.Y);
 
-            // Get the method to call for firing events
-            Action<Element, TouchActionEventArgs> onTouchAction = recognizer.touchEffect.OnTouchAction;
+            Action<Element, TouchActionEventArgs> onTouchAction = recognizer._touchEffect.OnTouchAction;
 
-            // Call that method
-            onTouchAction(recognizer.element,
-                new TouchActionEventArgs(id, actionType, xfPoint, isInContact));
+            onTouchAction(recognizer._element, new TouchActionEventArgs(id, actionType, xfPoint, isInContact));
         }
 
         #endregion

@@ -27,8 +27,8 @@ namespace Next2.Extensions
                         AddedIngredientsId = x.AddedIngredients?.Select(x => x.Id),
                         SelectedIngredientsId = x.SelectedIngredients?.Select(x => x.Id),
                         ExcludedIngredientsId = x.ExcludedIngredients?.Select(x => x.Id),
-                        Comment = x?.Comment,
-                        SelectedOptionsId = x?.SelectedOptions is not null
+                        Comment = x.Comment,
+                        SelectedOptionsId = x.SelectedOptions is not null
                             ? new Guid[1] { x.SelectedOptions.Id }
                             : null,
                     }),
@@ -39,21 +39,23 @@ namespace Next2.Extensions
             {
                 Id = order.Id,
                 Number = order.Number,
-                OrderType = (EOrderType)order?.OrderType,
+                OrderType = (EOrderType)order.OrderType,
                 IsTab = order.IsTab,
-                TableId = order?.Table?.Id,
+                TableId = order.Table?.Id,
                 Open = order.Open,
-                Close = order?.Close,
-                OrderStatus = (EOrderStatus)order?.OrderStatus,
+                Close = order.Close,
+                OrderStatus = (EOrderStatus)order.OrderStatus,
                 TaxCoefficient = order.TaxCoefficient,
                 TotalPrice = order.TotalPrice,
-                DiscountPrice = order?.DiscountPrice,
-                DiscountId = order?.Discount?.Id,
-                CouponId = order?.Coupon?.Id,
-                SubTotalPrice = order?.SubTotalPrice,
+                DiscountPrice = order.DiscountPrice,
+                DiscountId = order.Discount?.Id,
+                CouponId = order.Coupon?.Id,
+                SubTotalPrice = order.SubTotalPrice,
                 IsCashPayment = order.IsCashPayment,
-                CustomerId = order?.Customer?.Id,
-                EmployeeId = order?.EmployeeId,
+                CustomerId = order.Customer?.Id,
+                EmployeeId = order.EmployeeId is null
+                    ? string.Empty
+                    : order.EmployeeId,
                 Seats = seats,
             };
 
@@ -73,42 +75,45 @@ namespace Next2.Extensions
                     SelectedDishProportionId = x.SelectedDishProportion.Id,
                     SelectedProducts = x.SelectedProducts.Select(x => new IncomingSelectedProductModel()
                     {
-                        Comment = x?.Comment,
-                        ProductId = x?.Product.Id,
-                        SelectedOptionsId = x?.SelectedOptions?.Select(x => x.Id).ToArray(),
-                        SelectedIngredientsId = x?.SelectedIngredients?.Select(x => x.Id),
-                        AddedIngredientsId = x?.AddedIngredients?.Select(x => x.Id),
-                        ExcludedIngredientsId = x?.ExcludedIngredients?.Select(x => x.Id),
+                        Comment = x.Comment,
+                        ProductId = x.Product.Id,
+                        SelectedOptionsId = x.SelectedOptions?.Select(x => x.Id).ToArray(),
+                        SelectedIngredientsId = x.SelectedIngredients?.Select(x => x.Id),
+                        AddedIngredientsId = x.AddedIngredients?.Select(x => x.Id),
+                        ExcludedIngredientsId = x.ExcludedIngredients?.Select(x => x.Id),
                     }),
                 }),
             });
 
             Enum.TryParse(order.OrderType, out EOrderType type);
+
             UpdateOrderCommand command = new()
             {
                 Id = order.Id,
                 Number = order.Number,
                 OrderType = type,
                 IsTab = order.IsTab,
-                TableId = order.Table == null || order?.Table?.Id == Guid.Empty
+                TableId = order.Table == null || order.Table?.Id == Guid.Empty
                     ? null
-                    : order?.Table?.Id,
+                    : order.Table?.Id,
                 Open = order.Open,
-                Close = order?.Close,
-                OrderStatus = (EOrderStatus)order?.OrderStatus,
+                Close = order.Close,
+                OrderStatus = order.OrderStatus,
                 TaxCoefficient = order.TaxCoefficient,
                 TotalPrice = order.TotalPrice,
-                DiscountPrice = order?.DiscountPrice,
-                SubTotalPrice = order?.SubTotalPrice,
+                DiscountPrice = order.DiscountPrice,
+                SubTotalPrice = order.SubTotalPrice,
                 IsCashPayment = order.IsCashPayment,
                 CouponId = order.Coupon?.Id,
-                DiscountId = order?.Discount == null || order?.Discount?.Id == Guid.Empty
+                DiscountId = order.Discount == null || order.Discount?.Id == Guid.Empty
                     ? null
-                    : order?.Discount?.Id,
-                CustomerId = order?.Customer == null || order?.Customer?.Id == Guid.Empty
+                    : order.Discount?.Id,
+                CustomerId = order.Customer == null || order.Customer?.Id == Guid.Empty
                     ? null
-                    : order?.Customer?.Id,
-                EmployeeId = order?.EmployeeId,
+                    : order.Customer?.Id,
+                EmployeeId = order.EmployeeId == null
+                    ? string.Empty
+                    : order.EmployeeId,
                 Seats = seats,
             };
 
@@ -143,8 +148,8 @@ namespace Next2.Extensions
                     : new(),
                 OrderStatus = (EOrderStatus)order.OrderStatus,
                 OrderType = order.OrderType.ToString(),
-                Discount = order?.Discount,
-                Coupon = order?.Coupon,
+                Discount = order.Discount,
+                Coupon = order.Coupon,
                 TaxCoefficient = order.TaxCoefficient,
                 DiscountPrice = order.DiscountPrice,
                 SubTotalPrice = order.SubTotalPrice,
@@ -298,7 +303,7 @@ namespace Next2.Extensions
                                 Name = row.SelectedDishProportion.Proportion.Name,
                             },
                         },
-                        SelectedProducts = new(row?.SelectedProducts.Select(row => new ProductBindableModel()
+                        SelectedProducts = new(row.SelectedProducts.Select(row => new ProductBindableModel()
                         {
                             Id = row.Product.Id,
                             Comment = new(row.Comment),
@@ -308,7 +313,7 @@ namespace Next2.Extensions
                                 DefaultPrice = row.Product.DefaultPrice,
                                 Name = row.Product.Name,
                                 ImageSource = row.Product.ImageSource,
-                                Ingredients = row.Product?.Ingredients.Select(row => new SimpleIngredientModelDTO()
+                                Ingredients = row.Product.Ingredients.Select(row => new SimpleIngredientModelDTO()
                                 {
                                     Id = row.Id,
                                     Name = row.Name,
@@ -318,8 +323,8 @@ namespace Next2.Extensions
                                 }),
                                 Options = row.Product.Options,
                             },
-                            SelectedOptions = row?.SelectedOptions.FirstOrDefault(),
-                            SelectedIngredients = new(row?.SelectedIngredients.Select(row => new SimpleIngredientModelDTO()
+                            SelectedOptions = row.SelectedOptions.FirstOrDefault(),
+                            SelectedIngredients = new(row.SelectedIngredients.Select(row => new SimpleIngredientModelDTO()
                             {
                                 Id = row.Id,
                                 Name = row.Name,
@@ -327,7 +332,7 @@ namespace Next2.Extensions
                                 ImageSource = row.ImageSource,
                                 IngredientsCategory = row.IngredientsCategory,
                             })),
-                            AddedIngredients = new(row?.AddedIngredients.Select(row => new SimpleIngredientModelDTO()
+                            AddedIngredients = new(row.AddedIngredients.Select(row => new SimpleIngredientModelDTO()
                             {
                                 Id = row.Id,
                                 Name = row.Name,
@@ -335,7 +340,7 @@ namespace Next2.Extensions
                                 ImageSource = row.ImageSource,
                                 IngredientsCategory = row.IngredientsCategory,
                             })),
-                            ExcludedIngredients = new(row?.ExcludedIngredients.Select(row => new SimpleIngredientModelDTO()
+                            ExcludedIngredients = new(row.ExcludedIngredients.Select(row => new SimpleIngredientModelDTO()
                             {
                                 Id = row.Id,
                                 Name = row.Name,
@@ -351,24 +356,28 @@ namespace Next2.Extensions
             {
                 foreach (var dish in seat.SelectedDishes)
                 {
-                    foreach (var product in dish.SelectedProducts)
+                    if (dish.SelectedProducts is not null)
                     {
-                        var priceRatio = dish.SelectedDishProportion.PriceRatio;
-                        product.Price = СalculatePriceOfProportion(product.Product.DefaultPrice, priceRatio);
-
-                        if (product.AddedIngredients is not null)
+                        foreach (var product in dish.SelectedProducts)
                         {
-                            foreach (var addedIngredient in product.AddedIngredients)
+                            var priceRatio = dish.SelectedDishProportion.PriceRatio;
+
+                            product.Price = СalculatePriceOfProportion(product.Product.DefaultPrice, priceRatio);
+
+                            if (product.AddedIngredients is not null)
                             {
-                                addedIngredient.Price = СalculatePriceOfProportion(addedIngredient.Price, priceRatio);
+                                foreach (var addedIngredient in product.AddedIngredients)
+                                {
+                                    addedIngredient.Price = СalculatePriceOfProportion(addedIngredient.Price, priceRatio);
+                                }
                             }
-                        }
 
-                        if (product.ExcludedIngredients is not null)
-                        {
-                            foreach (var excludedIngredient in product.ExcludedIngredients)
+                            if (product.ExcludedIngredients is not null)
                             {
-                                excludedIngredient.Price = СalculatePriceOfProportion(excludedIngredient.Price, priceRatio);
+                                foreach (var excludedIngredient in product.ExcludedIngredients)
+                                {
+                                    excludedIngredient.Price = СalculatePriceOfProportion(excludedIngredient.Price, priceRatio);
+                                }
                             }
                         }
                     }

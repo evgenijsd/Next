@@ -10,6 +10,7 @@ namespace Next2.Views.Mobile.Dialogs
         public MovedOrderToOrderTabsDialog(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
+
             BindingContext = new ConfirmViewModel(param, requestClose);
         }
     }

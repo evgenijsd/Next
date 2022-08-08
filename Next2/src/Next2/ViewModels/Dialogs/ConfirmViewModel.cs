@@ -14,9 +14,12 @@ namespace Next2.ViewModels.Dialogs
         public ConfirmViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             LoadPageData(param);
+
             RequestClose = requestClose;
-            CloseCommand = new Command(() => RequestClose(null));
+
+            CloseCommand = new Command(() => RequestClose(new DialogParameters()));
             DeclineCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
+
             AcceptCommand = new Command(
                 execute: () => RequestClose(new DialogParameters()
                 {

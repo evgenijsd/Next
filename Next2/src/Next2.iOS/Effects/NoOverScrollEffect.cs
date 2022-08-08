@@ -3,12 +3,11 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportEffect(typeof(NoOverScrollEffect), nameof(NoOverScrollEffect))]
-
 namespace Next2.iOS.Effects
 {
     public class NoOverScrollEffect : PlatformEffect
     {
-        #region -- Overrides -- 
+        #region -- Overrides --
 
         protected override void OnAttached()
         {

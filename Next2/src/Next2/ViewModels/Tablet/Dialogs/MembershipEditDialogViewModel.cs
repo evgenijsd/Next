@@ -20,6 +20,7 @@ namespace Next2.ViewModels.Dialogs
             IMapper mapper)
         {
             _mapper = mapper;
+
             SetupParameters(parameters);
 
             RequestClose = requestClose;
@@ -35,11 +36,11 @@ namespace Next2.ViewModels.Dialogs
 
         public Action<IDialogParameters> RequestClose;
 
-        private ICommand _closeCommand;
+        private ICommand? _closeCommand;
 
         public ICommand CloseCommand => _closeCommand ??= new AsyncCommand(OnCloseCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _membershipEditCommand;
+        private ICommand? _membershipEditCommand;
 
         public ICommand MembershipEditCommand => _membershipEditCommand ??= new AsyncCommand<EMembershipEditType>(OnMembershipEditCommandAsync, allowsMultipleExecutions: false);
 

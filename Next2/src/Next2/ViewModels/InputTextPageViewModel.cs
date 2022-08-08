@@ -21,10 +21,10 @@ namespace Next2.ViewModels
 
         public string Placeholder { get; set; }
 
-        private ICommand _goBackCommand;
+        private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
 
-        private ICommand _returnCommand;
+        private ICommand? _returnCommand;
         public ICommand ReturnCommand => _returnCommand ??= new AsyncCommand(OnReturnCommandAsync);
 
         #endregion

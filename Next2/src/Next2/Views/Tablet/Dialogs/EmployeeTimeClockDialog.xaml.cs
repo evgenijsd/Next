@@ -11,6 +11,7 @@ namespace Next2.Views.Tablet.Dialogs
         public EmployeeTimeClockDialog(IWorkLogService workLogService, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
+
             BindingContext = new EmployeeTimeClockViewModel(workLogService, requestClose);
         }
     }

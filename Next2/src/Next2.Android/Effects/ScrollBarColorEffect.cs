@@ -36,6 +36,7 @@ namespace Next2.Droid.Effects
             var scrollBarTrackColor = Color.FromHex("#424861").ToAndroid();
 
             var effect = (UIEffects.ScrollBarColorEffect)Element.Effects.FirstOrDefault(e => e is UIEffects.ScrollBarColorEffect);
+
             if (effect != null)
             {
                 scrollBarThumbWidth = effect.ScrollBarThumbWidth;
@@ -44,8 +45,8 @@ namespace Next2.Droid.Effects
                 scrollBarTrackColor = effect.ScrollBarTrackColor.ToAndroid();
             }
 
-            var drawableThumb = this.GetGradientDrawable(scrollBarThumbColor, scrollBarCornerRadius);
-            var drawableTrack = this.GetGradientDrawable(scrollBarTrackColor, scrollBarCornerRadius);
+            var drawableThumb = GetGradientDrawable(scrollBarThumbColor, scrollBarCornerRadius);
+            var drawableTrack = GetGradientDrawable(scrollBarTrackColor, scrollBarCornerRadius);
 
             try
             {
@@ -84,6 +85,7 @@ namespace Next2.Droid.Effects
         {
             GradientDrawable gradient = new GradientDrawable();
             gradient.SetCornerRadius(cornerRadius);
+
             gradient.SetColorFilter(color, Android.Graphics.PorterDuff.Mode.SrcIn);
 
             return gradient;
