@@ -12,55 +12,13 @@
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    Padding="23, 32"
+    Padding="15, 22, 15, 5"
     x:Class="Next2.Views.Mobile.Dialogs.HoldDishDialog"
     x:DataType="viewModels:HoldDishDialogViewModel">
 
-    <!--<ContentPage.Resources>
-        <ResourceDictionary>
-
-            <Style x:Key="HeadLayoutStyle" TargetType="StackLayout">
-                <Setter Property="Margin" Value="0, 18, 0, 0" />
-            </Style>
-
-            <Style x:Key="HeadTextStyle" TargetType="Label">
-                <Setter Property="FontFamily" Value="Barlow-Medium" />
-                <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
-            </Style>
-
-            <Style x:Key="GridTextStyle" TargetType="Label">
-                <Setter Property="FontFamily" Value="Barlow-Medium" />
-                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
-            </Style>
-
-            <Style x:Key="GridLayoutStyle" TargetType="StackLayout">
-                <Setter Property="VerticalOptions" Value="Start" />
-                <Setter Property="HorizontalOptions" Value="Center" />
-                <Setter Property="Margin" Value="0, 40, 0, 0" />
-            </Style>
-
-            <Style x:Key="ButtonFrameStyle" TargetType="Frame">
-                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-                <Setter Property="HasShadow" Value="False" />
-                <Setter Property="CornerRadius" Value="5" />
-                <Setter Property="WidthRequest" Value="100" />
-                <Setter Property="Padding" Value="0" />
-            </Style>
-
-            <Style x:Key="ButtonTextStyle" TargetType="Label">
-                <Setter Property="FontFamily" Value="Barlow-SemiBold" />
-                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
-                <Setter Property="VerticalOptions" Value="Center" />
-                <Setter Property="HorizontalOptions" Value="Center" />
-            </Style>
-
-        </ResourceDictionary>
-    </ContentPage.Resources>-->
-
     <pancakeview:PancakeView
         Border="{pancakeview:BorderMarkup Thickness=3, Color={StaticResource TextAndBackgroundColor_i2}}"
-        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
         CornerRadius="5"
         HorizontalOptions="Center"
         VerticalOptions="Center"
@@ -68,7 +26,7 @@
         xct:ShadowEffect.Radius="16">
 
         <pancakeview:PancakeView.Resources>
-            
+
             <Style
                 x:Key="BorderButtonStyle_i2_1"
                 TargetType="buttons:BorderButton"
@@ -95,7 +53,7 @@
                     Value="Center" />
                 <Setter
                     Property="FontSize"
-                    Value="{DynamicResource TSize_i0_10}" />
+                    Value="{DynamicResource TSize_i0_6}" />
                 <Setter
                     Property="FontFamily"
                     Value="Barlow-Bold" />
@@ -109,340 +67,358 @@
                 TargetType="buttons:IconButton">
                 <Setter
                     Property="VerticalOptions"
-                    Value="Center" />
+                    Value="CenterAndExpand" />
                 <Setter
                     Property="xct:TouchEffect.Command"
                     Value="{Binding ChangingTimeHoldCommand}" />
+                <Setter
+                    Property="HeightRequest"
+                    Value="45" />
+                <Setter
+                    Property="WidthRequest"
+                    Value="45" />
+                <Setter
+                    Property="HorizontalOptions"
+                    Value="FillAndExpand" />
             </Style>
-            
+
         </pancakeview:PancakeView.Resources>
 
         <StackLayout
             VerticalOptions="FillAndExpand"
-            HorizontalOptions="FillAndExpand" >
-            
-            <StackLayout 
-                HorizontalOptions="
-            FillAndExpand"
-                Orientation="
-            Horizontal"
-                Padding="20, 23">
-
-            <Label
-                VerticalTextAlignment="Center"
-                MaxLines="1"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontSize="{DynamicResource TSize_i6}"
-                FontFamily="Barlow-SemiBold"
-                Text="{xct:Translate HoldItem}" />
-
-            <Label
-                VerticalTextAlignment="Center"
-                HorizontalOptions="EndAndExpand"
-                MaxLines="1"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontSize="{DynamicResource TSize_i6}"
-                FontFamily="Barlow-Regular"
-                Text="{Binding CurrentTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
-
-        </StackLayout>
-
-        <BoxView
-            HeightRequest="2"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
-
-        <pancakeview:PancakeView
-            CornerRadius="8"
-            Margin="20, 15, 20, 20"
-            Border="{pancakeview:BorderMarkup Thickness=1, Color={StaticResource TextAndBackgroundColor_i2}}">
-
-            <StackLayout
-                Orientation="Horizontal"
-                Spacing="5">
-
-                <pancakeview:PancakeView
-                    HeightRequest="44"
-                    MinimumWidthRequest="44"
-                    WidthRequest="44"
-                    CornerRadius="8"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    Margin="15, 10, 10, 10">
-
-                    <ffimageloading:CachedImage
-                        Aspect="AspectFill"
-                        Source="{Binding SelectedDish.ImageSource}" />
-
-                </pancakeview:PancakeView>
-
-                <StackLayout
-                    VerticalOptions="CenterAndExpand"
-                    Spacing="6"
-                    Margin="0, 14">
-
-                    <Label
-                        VerticalOptions="Center"
-                        Padding="0, 0, 10, 0"
-                        Text="{Binding SelectedDish.Name}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i8}"
-                        FontFamily="Barlow-Medium"
-                        LineBreakMode="TailTruncation"
-                        MaxLines="1" />
-
-                    <Label
-                        VerticalOptions="Center"
-                        Padding="0, 0, 10, 0"
-                        Text="{Binding SetNames}"
-                        FontSize="{DynamicResource TSize_i9}"
-                        FontFamily="Barlow-Regular"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        LineBreakMode="TailTruncation"
-                        MaxLines="1" />
-
-                </StackLayout>
-
-            </StackLayout>
-
-        </pancakeview:PancakeView>
-
-        <BoxView
-            HeightRequest="1"
-            Margin=" 20, 0"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
-
-        <Label
-            VerticalTextAlignment="Start"
-            Padding="20, 20, 20, 15"
-            FontFamily="Barlow-Medium"
-            FontSize="{DynamicResource TSize_i8}"
-            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-            Text="{xct:Translate SelectTime}" />
-
-        <CollectionView
-            Margin="18, 0"
-            HeightRequest="32"
-            SelectionMode="Single"
-            SelectedItem="{Binding SelectedTimeItem}"
-            ItemsSource="{Binding TimeDisplayItems}"
-            ItemSizingStrategy="MeasureFirstItem">
-
-            <CollectionView.ItemsLayout>
-
-                <LinearItemsLayout
-                    Orientation="Horizontal"
-                    ItemSpacing="9" />
-
-            </CollectionView.ItemsLayout>
-
-            <CollectionView.Effects>
-                <effects:NoOverScrollEffect />
-            </CollectionView.Effects>
-
-            <CollectionView.ItemTemplate>
-                <DataTemplate
-                    x:DataType="helpers:TimeItem">
-
-                    <Frame
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        CornerRadius="{OnPlatform Android='3', iOS='5'}"
-                        xct:TouchEffect.Command="{Binding SelectTimeItemCommand, Source={RelativeSource AncestorType={x:Type viewModels:HoldDishDialogViewModel}}}">
-
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup
-                                Name="CommonStates">
-
-                                <VisualState
-                                    Name="Normal">
-
-                                    <VisualState.Setters>
-                                        <Setter
-                                            Property="BackgroundColor"
-                                            Value="{DynamicResource TextAndBackgroundColor_i2}" />
-                                        <Setter
-                                            Property="BorderColor"
-                                            Value="{DynamicResource TextAndBackgroundColor_i2}" />
-                                    </VisualState.Setters>
-
-                                </VisualState>
-
-                                <VisualState
-                                    Name="Selected">
-
-                                    <VisualState.Setters>
-                                        <Setter
-                                            Property="BackgroundColor"
-                                            Value="{DynamicResource AppColor_i2}" />
-                                        <Setter
-                                            Property="BorderColor"
-                                            Value="{DynamicResource AppColor_i1}" />
-                                    </VisualState.Setters>
-
-                                </VisualState>
-
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-
-                        <StackLayout
-                            Margin="6">
-
-                            <Label
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                VerticalTextAlignment="Center"
-                                HorizontalTextAlignment="Center"
-                                FontSize="{DynamicResource TSize_i8}"
-                                FontFamily="Barlow-Medium"
-                                HorizontalOptions="FillAndExpand">
-
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span
-                                            Text="{Binding Minute}" />
-                                        <Span
-                                            Text=" " />
-                                        <Span
-                                            Text="{xct:Translate min}" />
-                                    </FormattedString>
-                                </Label.FormattedText>
-
-                            </Label>
-
-                        </StackLayout>
-
-                    </Frame>
-
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-
-        </CollectionView>
-
-        <Grid
-            Margin="0, 10, 0, 0"
-            ColumnDefinitions="*, 70, 30, 70, *"
-            RowDefinitions="*, *, *"
-            VerticalOptions="FillAndExpand">
-
-            <Grid.Triggers>
-                <DataTrigger
-                    TargetType="Grid"
-                    Binding="{Binding SelectedTimeItem, Converter={xct:IsNotNullOrEmptyConverter}}"
-                    Value="True">
-                    <Setter
-                        Property="Opacity"
-                        Value="{DynamicResource OpacityWhenDisabled_i1}" />
-                    <Setter
-                        Property="IsEnabled"
-                        Value="False" />
-                </DataTrigger>
-            </Grid.Triggers>
-
-            <Label
-                Grid.Row="1"
-                Grid.Column="1"
-                Style="{DynamicResource LabelStyle_i1}"
-                HorizontalTextAlignment="End"
-                Padding="0, 10, 15, 0"
-                Text="{Binding Hour, StringFormat='{0:D2}'}" />
-
-            <Label
-                Grid.Row="1"
-                Grid.Column="2"
-                Style="{DynamicResource LabelStyle_i1}"
-                Padding="10, 5, 0, 0"
-                Text=":"
-                Opacity="{DynamicResource OpacityWhenDisabled_i3}" />
-
-            <Label
-                Grid.Row="1"
-                Grid.Column="3"
-                Style="{DynamicResource LabelStyle_i1}"
-                HorizontalTextAlignment="End"
-                Padding="0, 10, 10, 0"
-                Text="{Binding Minute, StringFormat='{0:D2}'}" />
-
-            <buttons:IconButton
-                Grid.Row="0"
-                Grid.Column="1"
-                Style="{DynamicResource IconButtonStyle_i3}"
-                HorizontalOptions="Center"
-                Padding="0, 20, 0, 0"
-                Border="{pancakeview:BorderMarkup Thickness=0}"
-                IconSource="ic_arrow_up_circle_primary_40x40"
-                xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.HourIncrement}" />
-
-            <buttons:IconButton
-                Grid.Row="0"
-                Grid.Column="3"
-                Style="{DynamicResource IconButtonStyle_i3}"
-                Padding="10, 20, 0, 0"
-                Border="{pancakeview:BorderMarkup Thickness=0}"
-                IconSource="ic_arrow_up_circle_primary_40x40"
-                xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.MinuteIncrement}" />
-
-            <buttons:IconButton
-                Grid.Row="2"
-                Grid.Column="1"
-                Style="{DynamicResource IconButtonStyle_i3}"
-                HorizontalOptions="Center"
-                Border="{pancakeview:BorderMarkup Thickness=0}"
-                IconSource="ic_arrow_down_circle_primary_40x40"
-                xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.HourDecrement}" />
-
-            <buttons:IconButton
-                Grid.Row="2"
-                Grid.Column="3"
-                Style="{DynamicResource IconButtonStyle_i3}"
-                Padding="10, 0, 0, 0"
-                Border="{pancakeview:BorderMarkup Thickness=0}"
-                IconSource="ic_arrow_down_circle_primary_40x40"
-                xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.MinuteDecrement}" />
-
-        </Grid>
-
-        <BoxView
-            HeightRequest="1"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
-
-        <StackLayout
-            HeightRequest="90"
-            MinimumHeightRequest="90"
-            Padding="20"
-            Spacing="10">
+            HorizontalOptions="FillAndExpand">
 
             <StackLayout
                 HorizontalOptions="FillAndExpand"
                 Orientation="Horizontal"
-                Spacing="15">
+                Padding="20, 17">
 
-                <buttons:BorderButton
-                    Style="{DynamicResource BorderButtonStyle_i2_1}"
-                    HorizontalOptions="FillAndExpand"
-                    BackgroundColor="{DynamicResource IndicationColor_i3}"
-                    BorderColor="{DynamicResource IndicationColor_i3}"
+                <Label
+                    VerticalTextAlignment="Center"
+                    MaxLines="1"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    Text="{xct:Translate Dismiss}"
-                    Command="{Binding DismissCommand}" />
+                    FontSize="{DynamicResource TSize_i6}"
+                    FontFamily="Barlow-SemiBold"
+                    Text="{xct:Translate HoldItem}" />
 
-                <buttons:BorderButton
-                    Style="{DynamicResource BorderButtonStyle_i2_1}"
-                    HorizontalOptions="FillAndExpand"
-                    BackgroundColor="{DynamicResource IndicationColor_i1}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    Text="{xct:Translate Hold}"
-                    Command="{Binding HoldCommand}" />
+                <Label
+                    VerticalTextAlignment="Center"
+                    HorizontalOptions="EndAndExpand"
+                    MaxLines="1"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontSize="{DynamicResource TSize_i6}"
+                    FontFamily="Barlow-Regular"
+                    Text="{Binding CurrentTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
 
             </StackLayout>
 
-            <buttons:BorderButton
-                Style="{DynamicResource BorderButtonStyle_i2_1}"
-                BackgroundColor="Transparent"
-                BorderColor="{DynamicResource IndicationColor_i3}"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                Text="{xct:Translate Cancel}"
-                Command="{Binding CloseCommand}" />
+            <StackLayout
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
-        </StackLayout>
+            <pancakeview:PancakeView
+                CornerRadius="8"
+                Margin="20, 15, 20, 20"
+                Border="{pancakeview:BorderMarkup Thickness=1, Color={StaticResource TextAndBackgroundColor_i2}}">
+
+                <StackLayout
+                    Orientation="Horizontal"
+                    Spacing="5">
+
+                    <pancakeview:PancakeView
+                        HeightRequest="44"
+                        MinimumWidthRequest="44"
+                        WidthRequest="44"
+                        CornerRadius="8"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        Margin="15, 10, 10, 10">
+
+                        <ffimageloading:CachedImage
+                            Aspect="AspectFill"
+                            Source="{Binding SelectedDish.ImageSource}" />
+
+                    </pancakeview:PancakeView>
+
+                    <StackLayout
+                        VerticalOptions="CenterAndExpand"
+                        Spacing="6"
+                        Margin="0, 14">
+
+                        <Label
+                            VerticalOptions="Center"
+                            Padding="0, 0, 10, 0"
+                            Text="{Binding SelectedDish.Name}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i8}"
+                            FontFamily="Barlow-Medium"
+                            LineBreakMode="TailTruncation"
+                            MaxLines="1" />
+
+                        <Label
+                            VerticalOptions="Center"
+                            Padding="0, 0, 10, 0"
+                            Text="{Binding SetNames}"
+                            FontSize="{DynamicResource TSize_i9}"
+                            FontFamily="Barlow-Regular"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            LineBreakMode="TailTruncation"
+                            MaxLines="1" />
+
+                    </StackLayout>
+
+                </StackLayout>
+
+            </pancakeview:PancakeView>
+
+            <BoxView
+                HeightRequest="1"
+                Margin=" 20, 0"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+                <ScrollView>
+                    <ScrollView.Effects>
+                        <effects:NoOverScrollEffect />
+                    </ScrollView.Effects>
+
+                    <StackLayout
+                        HeightRequest="360">
+
+                        <Label
+                            VerticalTextAlignment="Start"
+                            Margin="20, 23"
+                            FontFamily="Barlow-Regular"
+                            FontSize="{DynamicResource TSize_i6}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            Text="{xct:Translate SelectTime}" />
+
+                        <CollectionView
+                            Margin="18, 0"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedTimeItem}"
+                            ItemsSource="{Binding TimeDisplayItems}"
+                            HeightRequest="40"
+                            HorizontalOptions="FillAndExpand"
+                            ItemSizingStrategy="MeasureFirstItem">
+
+                            <CollectionView.ItemsLayout>
+
+                                <GridItemsLayout
+                                    Orientation="Vertical"
+                                    Span="3"
+                                    HorizontalItemSpacing="10" />
+
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.Effects>
+                                <effects:NoOverScrollEffect />
+                            </CollectionView.Effects>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate
+                                    x:DataType="helpers:TimeItem">
+
+                                    <Frame
+                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                        CornerRadius="{OnPlatform Android='3', iOS='5'}"
+                                        HeightRequest="40"
+                                        xct:TouchEffect.Command="{Binding SelectTimeItemCommand, Source={RelativeSource AncestorType={x:Type viewModels:HoldDishDialogViewModel}}}">
+
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup
+                                                Name="CommonStates">
+
+                                                <VisualState
+                                                    Name="Normal">
+
+                                                    <VisualState.Setters>
+                                                        <Setter
+                                                            Property="BackgroundColor"
+                                                            Value="{DynamicResource TextAndBackgroundColor_i3}" />
+                                                        <Setter
+                                                            Property="BorderColor"
+                                                            Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                                                    </VisualState.Setters>
+
+                                                </VisualState>
+
+                                                <VisualState
+                                                    Name="Selected">
+
+                                                    <VisualState.Setters>
+                                                        <Setter
+                                                            Property="BackgroundColor"
+                                                            Value="{DynamicResource AppColor_i4}" />
+                                                        <Setter
+                                                            Property="BorderColor"
+                                                            Value="{DynamicResource AppColor_i1}" />
+                                                    </VisualState.Setters>
+
+                                                </VisualState>
+
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+
+                                        <StackLayout
+                                            Margin="6, 10, 6, 6">
+
+                                            <Label
+                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                                VerticalTextAlignment="Center"
+                                                HorizontalTextAlignment="Center"
+                                                FontSize="{DynamicResource TSize_i8}"
+                                                FontFamily="Barlow-Medium"
+                                                HorizontalOptions="FillAndExpand">
+
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span
+                                                            Text="{Binding Minute}" />
+                                                        <Span
+                                                            Text=" " />
+                                                        <Span
+                                                            Text="{xct:Translate min}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+
+                                            </Label>
+
+                                        </StackLayout>
+
+                                    </Frame>
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+
+                        </CollectionView>
+
+                        <Grid
+                            Margin="0, 30, 0, 0"
+                            ColumnDefinitions="*, 70, 30, 70, 0.9*"
+                            RowDefinitions="*, *, *"
+                            VerticalOptions="FillAndExpand">
+
+                            <Grid.Triggers>
+                                <DataTrigger
+                                    TargetType="Grid"
+                                    Binding="{Binding SelectedTimeItem, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                    Value="True">
+                                    <Setter
+                                        Property="Opacity"
+                                        Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                                    <Setter
+                                        Property="IsEnabled"
+                                        Value="False" />
+                                </DataTrigger>
+                            </Grid.Triggers>
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Style="{DynamicResource LabelStyle_i1}"
+                                HorizontalTextAlignment="End"
+                                Padding="0, 10, 15, 0"
+                                Text="{Binding Hour, StringFormat='{0:D2}'}" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Style="{DynamicResource LabelStyle_i1}"
+                                Padding="5, 5, 0, 0"
+                                Text=":"
+                                Opacity="{DynamicResource OpacityWhenDisabled_i3}" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="3"
+                                Style="{DynamicResource LabelStyle_i1}"
+                                HorizontalTextAlignment="End"
+                                Padding="0, 10, 15, 0"
+                                Text="{Binding Minute, StringFormat='{0:D2}'}" />
+
+                            <buttons:IconButton
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Style="{DynamicResource IconButtonStyle_i3}"
+                                HorizontalOptions="Center"
+                                Padding="0, 5, 5, 0"
+                                Border="{pancakeview:BorderMarkup Thickness=0}"
+                                IconSource="ic_arrow_up_circle_primary_40x40"
+                                xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.HourIncrement}" />
+
+                            <buttons:IconButton
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                Style="{DynamicResource IconButtonStyle_i3}"
+                                Padding="5, 5, 10, 0"
+                                Border="{pancakeview:BorderMarkup Thickness=0}"
+                                IconSource="ic_arrow_up_circle_primary_40x40"
+                                xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.MinuteIncrement}" />
+
+                            <buttons:IconButton
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Style="{DynamicResource IconButtonStyle_i3}"
+                                HorizontalOptions="Center"
+                                Padding="0, 20, 5, 0"
+                                Border="{pancakeview:BorderMarkup Thickness=0}"
+                                IconSource="ic_arrow_down_circle_primary_40x40"
+                                xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.HourDecrement}" />
+
+                            <buttons:IconButton
+                                Grid.Row="2"
+                                Grid.Column="3"
+                                Style="{DynamicResource IconButtonStyle_i3}"
+                                Padding="5, 20, 10, 0"
+                                Border="{pancakeview:BorderMarkup Thickness=0}"
+                                IconSource="ic_arrow_down_circle_primary_40x40"
+                                xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.MinuteDecrement}" />
+
+                        </Grid>
+                    </StackLayout>
+                </ScrollView>
+                
+            </StackLayout>
+
+            <StackLayout
+                HeightRequest="90"
+                MinimumHeightRequest="90"
+                Padding="20"
+                Spacing="10">
+
+                <StackLayout
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal"
+                    Spacing="15">
+
+                    <buttons:BorderButton
+                        Style="{DynamicResource BorderButtonStyle_i2_1}"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="{DynamicResource IndicationColor_i3}"
+                        BorderColor="{DynamicResource IndicationColor_i3}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        Text="{xct:Translate Dismiss}"
+                        Command="{Binding DismissCommand}" />
+
+                    <buttons:BorderButton
+                        Style="{DynamicResource BorderButtonStyle_i2_1}"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="{DynamicResource IndicationColor_i1}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        Text="{xct:Translate Hold}"
+                        Command="{Binding HoldCommand}" />
+
+                </StackLayout>
+
+                <buttons:BorderButton
+                    Style="{DynamicResource BorderButtonStyle_i2_1}"
+                    BackgroundColor="Transparent"
+                    BorderColor="{DynamicResource IndicationColor_i3}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    Text="{xct:Translate Cancel}"
+                    Command="{Binding CloseCommand}" />
+
+            </StackLayout>
 
         </StackLayout>
 
