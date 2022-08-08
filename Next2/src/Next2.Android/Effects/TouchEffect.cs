@@ -8,23 +8,19 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportEffect(typeof(Next2.Droid.Effects.TouchEffect), nameof(Next2.Droid.Effects.TouchEffect))]
-
 namespace Next2.Droid.Effects
 {
     public class TouchEffect : PlatformEffect
     {
+        private static Dictionary<Android.Views.View, TouchEffect> viewDictionary = new Dictionary<Android.Views.View, TouchEffect>();
+        private static Dictionary<int, TouchEffect> idToEffectDictionary = new Dictionary<int, TouchEffect>();
+
         private Android.Views.View view;
         private Element formsElement;
         private Next2.Effects.TouchEffect libTouchEffect;
         private bool capture;
         private Func<double, double> fromPixels;
         private int[] twoIntArray = new int[2];
-
-        private static Dictionary<Android.Views.View, TouchEffect> viewDictionary =
-            new Dictionary<Android.Views.View, TouchEffect>();
-
-        private static Dictionary<int, TouchEffect> idToEffectDictionary =
-            new Dictionary<int, TouchEffect>();
 
         #region -- Overrides --
 
@@ -34,9 +30,7 @@ namespace Next2.Droid.Effects
             view = Control == null ? Container : Control;
 
             // Get access to the TouchEffect class in the .NET Standard library
-            Next2.Effects.TouchEffect touchEffect =
-                (Next2.Effects.TouchEffect)Element.Effects.
-                    FirstOrDefault(e => e is Next2.Effects.TouchEffect);
+            Next2.Effects.TouchEffect touchEffect = (Next2.Effects.TouchEffect)Element.Effects.FirstOrDefault(e => e is Next2.Effects.TouchEffect);
 
             if (touchEffect != null && view != null)
             {
@@ -49,7 +43,6 @@ namespace Next2.Droid.Effects
                 // Save fromPixels function
                 fromPixels = view.Context.FromPixels;
 
-                // Set event handler on View
                 view.Touch += OnTouch;
             }
         }
@@ -106,8 +99,9 @@ namespace Next2.Droid.Effects
                         {
                             senderView.GetLocationOnScreen(twoIntArray);
 
-                            screenPointerCoords = new Point(twoIntArray[0] + motionEvent.GetX(pointerIndex),
-                                                            twoIntArray[1] + motionEvent.GetY(pointerIndex));
+                            screenPointerCoords = new Point(
+                                twoIntArray[0] + motionEvent.GetX(pointerIndex),
+                                twoIntArray[1] + motionEvent.GetY(pointerIndex));
 
                             FireEvent(this, id, ETouchActionType.Moved, screenPointerCoords, true);
                         }
@@ -141,6 +135,7 @@ namespace Next2.Droid.Effects
                     }
 
                     idToEffectDictionary.Remove(id);
+
                     break;
 
                 case MotionEventActions.Cancel:
@@ -155,7 +150,9 @@ namespace Next2.Droid.Effects
                             FireEvent(idToEffectDictionary[id], id, ETouchActionType.Cancelled, screenPointerCoords, false);
                         }
                     }
+
                     idToEffectDictionary.Remove(id);
+
                     break;
             }
         }
@@ -190,10 +187,12 @@ namespace Next2.Droid.Effects
                 {
                     FireEvent(idToEffectDictionary[id], id, ETouchActionType.Exited, pointerLocation, true);
                 }
+
                 if (touchEffectHit != null)
                 {
                     FireEvent(touchEffectHit, id, ETouchActionType.Entered, pointerLocation, true);
                 }
+
                 idToEffectDictionary[id] = touchEffectHit;
             }
         }
@@ -205,13 +204,13 @@ namespace Next2.Droid.Effects
 
             // Get the location of the pointer within the view
             touchEffect.view.GetLocationOnScreen(twoIntArray);
+
             double x = pointerLocation.X - twoIntArray[0];
             double y = pointerLocation.Y - twoIntArray[1];
             Point point = new Point(fromPixels(x), fromPixels(y));
 
             // Call the method
-            onTouchAction(touchEffect.formsElement,
-                new TouchActionEventArgs(id, actionType, point, isInContact));
+            onTouchAction(touchEffect.formsElement, new TouchActionEventArgs(id, actionType, point, isInContact));
         }
 
         #endregion

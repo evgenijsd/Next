@@ -45,9 +45,9 @@ namespace Next2.Droid.Renderers
 
         #endregion
 
-        #region -- Private helpers --
+        #region -- Protected helpers --
 
-        private void ConfigureScrollBar()
+        protected void ConfigureScrollBar()
         {
             ScrollBarSize = CustomScrollBarCollectionViewElement.ThumbWidth;
 
@@ -65,7 +65,7 @@ namespace Next2.Droid.Renderers
             }
         }
 
-        private GradientDrawable GetGradientDrawable(Color color, float cornerRadius)
+        protected GradientDrawable GetGradientDrawable(Color color, float cornerRadius)
         {
             GradientDrawable gradient = new GradientDrawable();
 
