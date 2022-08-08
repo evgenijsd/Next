@@ -287,7 +287,8 @@
                     <!--  add button  -->
                     <Frame
                         CornerRadius="4"
-                        BackgroundColor="{DynamicResource AppColor_i1}">
+                        BackgroundColor="{DynamicResource AppColor_i1}"
+                        xct:TouchEffect.PressedScale="0.96">
 
                         <Label
                             VerticalOptions="Center"

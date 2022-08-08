@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Helpers;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
+using Next2.Models.Bindables;
 using Next2.Services.Customers;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -11,6 +14,7 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -32,6 +36,12 @@ namespace Next2.ViewModels
         private ICommand _tapPaymentOptionCommand;
 
         private ICommand _tapTipItemCommand;
+
+        private List<GiftCardModelDTO> _listGiftCardsToBeUpdated;
+
+        private List<GiftCardModelDTO> _listGiftCardsToBeUpdateToPreviousStage;
+
+        private List<GiftCardModelDTO> _backupGiftCards;
 
         private decimal _subtotalWithBonus;
 
@@ -59,6 +69,7 @@ namespace Next2.ViewModels
             {
                 Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
                 Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
+                Order.GiftCardsNumber = Order.Customer.GiftCards.Count;
             }
 
             _tapPaymentOptionCommand = new AsyncCommand<PaymentItem>(OnTapPaymentOptionCommandAsync, allowsMultipleExecutions: false);
@@ -416,33 +427,79 @@ namespace Next2.ViewModels
 
         private async Task OnFinishPaymentCommandAsync()
         {
-            var param = new DialogParameters
+            if (IsInternetConnected)
             {
-                { Constants.DialogParameterKeys.PAID_ORDER_BINDABLE_MODEL, Order },
-            };
+                var param = new DialogParameters
+                {
+                    { Constants.DialogParameterKeys.PAID_ORDER_BINDABLE_MODEL, Order },
+                };
 
-            if (SelectedTipItem != null)
+                if (SelectedTipItem != null)
+                {
+                    param.Add(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, $"+ {SelectedTipItem.Text}");
+                }
+
+                PopupPage finishPaymentDialog = App.IsTablet
+                    ? new Views.Tablet.Dialogs.FinishPaymentDialog(param, CloseFinishPaymentDialogCallbackAsync)
+                    : new Views.Mobile.Dialogs.FinishPaymentDialog(param, CloseFinishPaymentDialogCallbackAsync);
+
+                await PopupNavigation.PushAsync(finishPaymentDialog);
+            }
+            else
             {
-                param.Add(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, $"+ {SelectedTipItem.Text}");
+                await _notificationsService.ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
+        }
+
+        private async void CloseFinishPaymentDialogCallbackAsync(IDialogParameters par)
+        {
+            var isServerResponseCorrect = true;
+
+            if (Order.Customer is not null && Order.GiftCard != 0)
+            {
+                isServerResponseCorrect = await GiftCardFinishPayment();
             }
 
-            Action<IDialogParameters> callback = async (IDialogParameters par) =>
+            if (isServerResponseCorrect)
             {
-                await GiftCardFinishPaymentAsync();
-                await CloseOrderAsync();
-                var navigationParameters = await SendReceiptAsync(par)
-                    ? new NavigationParameters { { Constants.Navigations.PAYMENT_COMPLETE, string.Empty } }
-                    : null;
+                var isOrderClosed = await CloseOrderAsync();
 
-                await _navigationService.ClearPopupStackAsync();
-                await _navigationService.NavigateAsync(nameof(MenuPage), navigationParameters);
-            };
+                if (isOrderClosed)
+                {
+                    var isReceiptSuccessfullySent = await SendReceiptAsync(par);
 
-            PopupPage popupPage = App.IsTablet
-                ? new Views.Tablet.Dialogs.FinishPaymentDialog(param, callback)
-                : new Views.Mobile.Dialogs.FinishPaymentDialog(param, callback);
+                    NavigationParameters navigationParameters = new();
 
-            await PopupNavigation.PushAsync(popupPage);
+                    if (isReceiptSuccessfullySent)
+                    {
+                        navigationParameters.Add(Constants.Navigations.PAYMENT_COMPLETE, string.Empty);
+                    }
+
+                    await _navigationService.ClearPopupStackAsync();
+                    await _navigationService.NavigateAsync(nameof(MenuPage), navigationParameters);
+                }
+                else
+                {
+                    _listGiftCardsToBeUpdateToPreviousStage = _customersService.GetSelectedGiftCardsFromBackup(_backupGiftCards, _listGiftCardsToBeUpdated);
+
+                    var resultOfUpdatingGiftCardsToPreviousStage = await _customersService.UpdateAllGiftCardsAsync(_listGiftCardsToBeUpdateToPreviousStage);
+
+                    if (!resultOfUpdatingGiftCardsToPreviousStage.IsSuccess)
+                    {
+                        await _notificationsService.CloseAllPopupAsync();
+
+                        await _notificationsService.ShowInfoDialogAsync(
+                            LocalizationResourceManager.Current["Error"],
+                            LocalizationResourceManager.Current["AnErrorWithWithdrawalFundsFromGiftCard"],
+                            LocalizationResourceManager.Current["Ok"]);
+                    }
+
+                    Order.Customer.GiftCards = _backupGiftCards;
+                }
+            }
         }
 
         private Task<bool> SendReceiptAsync(IDialogParameters par)
@@ -471,8 +528,10 @@ namespace Next2.ViewModels
             return Task.FromResult(isReceiptPrint);
         }
 
-        private async Task CloseOrderAsync()
+        private async Task<bool> CloseOrderAsync()
         {
+            var tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
+
             var order = _orderService.CurrentOrder;
             order.IsCashPayment = Order.Cash > 0;
             order.OrderStatus = EOrderStatus.Closed;
@@ -484,32 +543,68 @@ namespace Next2.ViewModels
             {
                 await _orderService.SetEmptyCurrentOrderAsync();
             }
+            else
+            {
+                await _notificationsService.CloseAllPopupAsync();
+
+                _orderService.CurrentOrder = tempCurrentOrder;
+
+                await _notificationsService.ResponseToBadRequestAsync(updateResult.Exception?.Message);
+            }
+
+            return updateResult.IsSuccess;
         }
 
-        private Task OnAddGiftCardCommandAsync()
+        private async Task OnAddGiftCardCommandAsync()
         {
-            IsInsufficientGiftCardFunds = false;
+            if (IsInternetConnected)
+            {
+                if (Order.Customer is not null)
+                {
+                    IsInsufficientGiftCardFunds = false;
 
-            PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, GiftCardViewDialogCallBack);
+                    PopupPage giftCardDialog = new Views.Mobile.Dialogs.AddGiftCardDialog(Order.Customer.GiftCardsId, _customersService, GiftCardViewDialogCallBackAsync);
 
-            return PopupNavigation.PushAsync(popupPage);
+                    await PopupNavigation.PushAsync(giftCardDialog);
+                }
+                else
+                {
+                    await _notificationsService.ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["YouAreNotMember"],
+                        LocalizationResourceManager.Current["Ok"]);
+                }
+            }
+            else
+            {
+                await _notificationsService.ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
         }
 
-        private async void GiftCardViewDialogCallBack(IDialogParameters parameters)
+        private async void GiftCardViewDialogCallBackAsync(IDialogParameters parameters)
         {
             await _notificationsService.CloseAllPopupAsync();
 
-            if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
+            if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED)
+                && parameters.TryGetValue(Constants.DialogParameterKeys.GIFT_GARD, out GiftCardModelDTO giftCard))
             {
-                var updatedCustomer = _orderService.CurrentOrder.Customer;
+                var customerModel = _mapper.Map<CustomerModelDTO>(_orderService.CurrentOrder.Customer);
 
-                if (updatedCustomer is not null)
+                var resultOfAddingGiftCard = await _customersService.AddGiftCardToCustomerAsync(customerModel, giftCard);
+
+                if (resultOfAddingGiftCard.IsSuccess)
                 {
-                    Order.Customer = new CustomerBindableModel(updatedCustomer);
+                    var customer = Order.Customer;
 
-                    if (Order.Customer.GiftCards.Any())
+                    if (customer is not null)
                     {
-                        Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
+                        customer.GiftCards.Add(giftCard);
+
+                        Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds = customer.GiftCardsTotalFund;
+                        Order.GiftCardsNumber = Order.Customer.GiftCards.Count;
 
                         if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
                         {
@@ -537,66 +632,57 @@ namespace Next2.ViewModels
                         }
                     }
                 }
-            }
-        }
-
-        private void RecalculateCustomerGiftCardFounds(CustomerBindableModel customer)
-        {
-            var giftCardAmount = Order.GiftCard;
-
-            foreach (var giftCard in customer.GiftCards)
-            {
-                if (giftCardAmount != 0)
-                {
-                    if (giftCard.TotalBalance > giftCardAmount)
-                    {
-                        giftCard.TotalBalance -= giftCardAmount;
-                        giftCardAmount = 0;
-                    }
-                    else if (giftCard.TotalBalance < giftCardAmount)
-                    {
-                        giftCardAmount -= giftCard.TotalBalance;
-                        giftCard.TotalBalance = 0;
-                    }
-                    else if (giftCard.TotalBalance == giftCardAmount)
-                    {
-                        giftCard.TotalBalance = 0;
-                        giftCardAmount = 0;
-                    }
-                }
                 else
                 {
-                    break;
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfAddingGiftCard.Exception?.Message);
                 }
             }
         }
 
-        private async Task GiftCardFinishPaymentAsync()
+        private async Task<bool> GiftCardFinishPayment()
         {
+            var isGiftCardPaymentSuccessful = true;
+
             if (Order.Customer is not null && Order.Customer.GiftCards.Any())
             {
-                RecalculateCustomerGiftCardFounds(Order.Customer);
+                _backupGiftCards = new();
 
-                if (Order.Customer.IsCustomerRegistrated)
+                var giftCards = Order.Customer.GiftCards;
+
+                foreach (var card in giftCards)
                 {
-                    await _customersService.UpdateCustomerAsync(Order.Customer);
+                    _backupGiftCards.Add(_mapper.Map<GiftCardModelDTO>(card));
                 }
-                else
+
+                _listGiftCardsToBeUpdated = _customersService.RecalculateCustomerGiftCardFounds(giftCards, Order.GiftCard);
+
+                var resultOfUpdatingGiftCards = await _customersService.UpdateAllGiftCardsAsync(_listGiftCardsToBeUpdated);
+
+                if (!resultOfUpdatingGiftCards.IsSuccess)
                 {
-                    foreach (var giftCardModel in Order.Customer.GiftCards)
+                    await _notificationsService.CloseAllPopupAsync();
+
+                    _listGiftCardsToBeUpdateToPreviousStage = _customersService.GetSelectedGiftCardsFromBackup(_backupGiftCards, _listGiftCardsToBeUpdated);
+
+                    var resultOfUpdatingGiftCardsToPreviousStage = await _customersService.UpdateAllGiftCardsAsync(_listGiftCardsToBeUpdateToPreviousStage);
+
+                    if (!resultOfUpdatingGiftCardsToPreviousStage.IsSuccess)
                     {
-                        if (giftCardModel.TotalBalance > 0)
-                        {
-                            await UpdateGiftCardAsync(giftCardModel);
-                        }
+                        await _notificationsService.ShowInfoDialogAsync(
+                            LocalizationResourceManager.Current["Error"],
+                            LocalizationResourceManager.Current["AnErrorWithWithdrawalFundsFromGiftCard"],
+                            LocalizationResourceManager.Current["Ok"]);
                     }
+
+                    Order.Customer.GiftCards = _backupGiftCards;
+
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingGiftCards.Exception?.Message);
+
+                    isGiftCardPaymentSuccessful = false;
                 }
             }
-        }
 
-        private Task UpdateGiftCardAsync(GiftCardModelDTO giftCardModel)
-        {
-            return _customersService.UpdateGiftCardAsync(giftCardModel);
+            return isGiftCardPaymentSuccessful;
         }
 
         #endregion

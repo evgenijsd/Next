@@ -21,6 +21,7 @@
         VerticalOptions="FillAndExpand">
 
         <StackLayout>
+            
             <Label
                 Text="{xct:Translate Other}"
                 Margin="20"

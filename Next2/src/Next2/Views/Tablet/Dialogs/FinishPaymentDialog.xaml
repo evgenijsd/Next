@@ -325,10 +325,11 @@
                 VerticalOptions="CenterAndExpand">
 
                 <Frame
-                    BorderColor="{DynamicResource IndicationColor_i5}" 
+                    Style="{DynamicResource ButtonStyle}"
+                    BorderColor="{DynamicResource IndicationColor_i5}"
+                    xct:TouchEffect.PressedScale="0.97"
                     xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.SendByEmail}"
-                    xct:TouchEffect.Command="{Binding FinishPaymentCommand}"
-                    Style="{DynamicResource ButtonStyle}">
+                    xct:TouchEffect.Command="{Binding FinishPaymentCommand}">
 
                     <Label
                         Style="{DynamicResource ButtonTextStyle}"
@@ -337,10 +338,11 @@
                 </Frame>
 
                 <Frame
+                    Style="{DynamicResource ButtonStyle}"
                     BorderColor="{DynamicResource IndicationColor_i7}"
+                    xct:TouchEffect.PressedScale="0.97"
                     xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.SendBySMS}"
-                    xct:TouchEffect.Command="{Binding FinishPaymentCommand}"
-                    Style="{DynamicResource ButtonStyle}">
+                    xct:TouchEffect.Command="{Binding FinishPaymentCommand}">
 
                     <Label
                         Style="{DynamicResource ButtonTextStyle}"
@@ -349,10 +351,11 @@
                 </Frame>
 
                 <Frame
+                    Style="{DynamicResource ButtonStyle}"
                     BorderColor="{DynamicResource AppColor_i1}"
+                    xct:TouchEffect.PressedScale="0.97"
                     xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.PrintReceipt}"
-                    xct:TouchEffect.Command="{Binding FinishPaymentCommand}"
-                    Style="{DynamicResource ButtonStyle}">
+                    xct:TouchEffect.Command="{Binding FinishPaymentCommand}">
 
                     <Label
                         Style="{DynamicResource ButtonTextStyle}"
@@ -361,10 +364,11 @@
                 </Frame>
 
                 <Frame
+                    Style="{DynamicResource ButtonStyle}"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
+                    xct:TouchEffect.PressedScale="0.97"
                     xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.WithoutReceipt}"
-                    xct:TouchEffect.Command="{Binding FinishPaymentCommand}"
-                    Style="{DynamicResource ButtonStyle}">
+                    xct:TouchEffect.Command="{Binding FinishPaymentCommand}">
 
                     <Label
                         Style="{DynamicResource ButtonTextStyle}"

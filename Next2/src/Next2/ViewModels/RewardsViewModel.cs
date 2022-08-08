@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.Customers;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -16,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels
@@ -218,26 +220,40 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.CUSTOMER, out CustomerBindableModel customer))
             {
-                var resultOfCreatingNewCustomer = await _customersService.CreateCustomerAsync(customer);
-
-                if (resultOfCreatingNewCustomer.IsSuccess)
+                if (IsInternetConnected)
                 {
-                    var resultOfGettingCustomer = await _customersService.GetCustomersAsync(x => x.Id == resultOfCreatingNewCustomer.Result);
+                    var customerDTO = _mapper.Map<CustomerModelDTO>(customer);
 
-                    if (resultOfGettingCustomer.IsSuccess)
+                    var resultOfCreatingNewCustomer = await _customersService.CreateCustomerAsync(customerDTO);
+
+                    if (resultOfCreatingNewCustomer.IsSuccess)
                     {
-                        _orderService.CurrentOrder.Customer = resultOfGettingCustomer.Result.FirstOrDefault();
+                        var createdCustomerId = resultOfCreatingNewCustomer.Result;
 
-                        await RefreshPageDataAsync();
+                        var resultOfGettingCustomer = await _customersService.GetCustomersAsync(x => x.Id == createdCustomerId);
+
+                        if (resultOfGettingCustomer.IsSuccess)
+                        {
+                            _orderService.CurrentOrder.Customer = resultOfGettingCustomer.Result.FirstOrDefault();
+
+                            await RefreshPageDataAsync();
+                        }
+                        else
+                        {
+                            await _notificationsService.ResponseToBadRequestAsync(resultOfGettingCustomer.Exception?.Message);
+                        }
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(resultOfGettingCustomer.Exception?.Message);
+                        await _notificationsService.ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
+                    await _notificationsService.ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["NoInternetConnection"],
+                        LocalizationResourceManager.Current["Ok"]);
                 }
             }
         }
@@ -257,44 +273,62 @@ namespace Next2.ViewModels
         {
             if (selectedReward is not null)
             {
-                if (App.IsTablet)
+                if (IsInternetConnected)
                 {
-                    selectedReward.IsApplied = !selectedReward.IsApplied;
-                    ApplyCancelRewardToDish(Order.Seats, selectedReward);
-                    LockUnlockSimilarRewards(Order.Seats, selectedReward);
-                }
-                else if (selectedReward.IsApplied)
-                {
-                    selectedReward.IsApplied = false;
-                    selectedReward.IsConfirmedApply = false;
-                    ApplyCancelRewardToDish(Order.Seats, selectedReward);
-                    LockUnlockSimilarRewards(Order.Seats, selectedReward);
+                    if (App.IsTablet)
+                    {
+                        selectedReward.IsApplied = !selectedReward.IsApplied;
+                        ApplyCancelRewardToDish(Order.Seats, selectedReward);
+                        LockUnlockSimilarRewards(Order.Seats, selectedReward);
+                    }
+                    else if (selectedReward.IsApplied)
+                    {
+                        selectedReward.IsApplied = false;
+                        selectedReward.IsConfirmedApply = false;
+                        ApplyCancelRewardToDish(Order.Seats, selectedReward);
+                        LockUnlockSimilarRewards(Order.Seats, selectedReward);
+                    }
+                    else
+                    {
+                        ObservableCollection<SeatWithFreeDishesBindableModel> seatsForRewardApplying = new(Order.Seats);
+
+                        selectedReward.IsApplied = true;
+                        ApplyCancelRewardToDish(seatsForRewardApplying, selectedReward);
+
+                        var parameters = new NavigationParameters
+                        {
+                            { Constants.Navigations.REWARD, selectedReward },
+                            { Constants.Navigations.SEATS, seatsForRewardApplying },
+                        };
+
+                        NavigateAsync(new NavigationMessage(nameof(OrderWithRewardsPage), parameters));
+                    }
                 }
                 else
                 {
-                    ObservableCollection<SeatWithFreeDishesBindableModel> seatsForRewardApplying = new (Order.Seats);
-
-                    selectedReward.IsApplied = true;
-                    ApplyCancelRewardToDish(seatsForRewardApplying, selectedReward);
-
-                    var parameters = new NavigationParameters
-                    {
-                        { Constants.Navigations.REWARD, selectedReward },
-                        { Constants.Navigations.SEATS, seatsForRewardApplying },
-                    };
-
-                    NavigateAsync(new NavigationMessage(nameof(OrderWithRewardsPage), parameters));
+                    return _notificationsService.ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["SomethingWentWrong"],
+                        LocalizationResourceManager.Current["Ok"]);
                 }
             }
 
             return Task.CompletedTask;
         }
 
-        private Task OnGoToCompleteTabCommandAsync()
+        private async Task OnGoToCompleteTabCommandAsync()
         {
-            GoToPaymentStep(EPaymentSteps.Complete);
-
-            return Task.CompletedTask;
+            if (IsInternetConnected)
+            {
+                GoToPaymentStep(EPaymentSteps.Complete);
+            }
+            else
+            {
+                await _notificationsService.ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
         }
 
         #endregion

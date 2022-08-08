@@ -27,7 +27,9 @@
         </Style>
     </StackLayout.Resources>
 
-    <pancakeview:PancakeView xct:TouchEffect.Command="{Binding ScrollToLeftCommand, Source={RelativeSource AncestorType={x:Type local:StepperCarousel}}}">
+    <pancakeview:PancakeView
+        xct:TouchEffect.PressedScale="0.98"
+        xct:TouchEffect.Command="{Binding ScrollToLeftCommand, Source={RelativeSource AncestorType={x:Type local:StepperCarousel}}}">
 
         <ffimageloading:CachedImage 
             HeightRequest="24"
@@ -81,7 +83,9 @@
 
     </CollectionView>
 
-    <pancakeview:PancakeView xct:TouchEffect.Command="{Binding ScrollToRightCommand, Source={RelativeSource AncestorType={x:Type local:StepperCarousel}}}">
+    <pancakeview:PancakeView
+        xct:TouchEffect.PressedScale="0.98"
+        xct:TouchEffect.Command="{Binding ScrollToRightCommand, Source={RelativeSource AncestorType={x:Type local:StepperCarousel}}}">
 
         <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png"/>
 

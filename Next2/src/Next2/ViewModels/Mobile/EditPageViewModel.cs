@@ -30,12 +30,14 @@ namespace Next2.ViewModels.Mobile
 
         public EditPageViewModel(
             INavigationService navigationService,
+            INotificationsService notificationsService,
             IOrderService orderService,
             IMenuService menuService,
             IMapper mapper)
           : base(navigationService)
         {
             _orderService = orderService;
+            _notificationsService = notificationsService;
             _menuService = menuService;
             _mapper = mapper;
         }

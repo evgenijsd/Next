@@ -72,7 +72,7 @@ namespace Next2.Controls
         {
             try
             {
-                ItemsSource = Enumerable.Range(min, max - min).Select(x => x.ToString(StringFormat));
+                ItemsSource = Enumerable.Range(min, 1 + max - min).Select(x => x.ToString(StringFormat));
             }
             catch (Exception)
             {
