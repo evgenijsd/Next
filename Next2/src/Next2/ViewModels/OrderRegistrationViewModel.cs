@@ -77,6 +77,8 @@ namespace Next2.ViewModels
             _deleteSeatCommand = new AsyncCommand<DishesGroupedBySeat>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
             _removeOrderCommand = new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
             _selectDishCommand = new AsyncCommand<DishBindableModel>(OnSelectDishCommandAsync, allowsMultipleExecutions: false);
+
+            Device.StartTimer(TimeSpan.FromSeconds(10), OnTimerTick);
         }
 
         #region -- Public properties --
@@ -104,6 +106,8 @@ namespace Next2.ViewModels
         public TableBindableModel SelectedTable { get; set; } = new();
 
         public int NumberOfSeats { get; set; }
+
+        public TimeSpan TimerHoldSelectedDish { get; set; }
 
         public bool IsOrderWithTax { get; set; } = true;
 
@@ -351,6 +355,27 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
+        private bool OnTimerTick()
+        {
+            foreach (var seat in CurrentOrder.Seats)
+            {
+                foreach (var dish in seat.SelectedDishes)
+                {
+                    if (dish.HoldTime is DateTime holdTime && holdTime <= DateTime.Now)
+                    {
+                        dish.HoldTime = null;
+                    }
+                }
+            }
+
+            if (SelectedDish is not null && SelectedDish.HoldTime is DateTime selectedHoldTime)
+            {
+                TimerHoldSelectedDish = selectedHoldTime - DateTime.Now;
+            }
+
+            return true;
+        }
+
         private Task UpdateDishGroupsAsync()
         {
             var updatedDishesGroupedBySeats = new ObservableCollection<DishesGroupedBySeat>();
@@ -526,6 +551,11 @@ namespace Next2.ViewModels
                     _seatWithSelectedDish = seat;
                     seat.Checked = true;
 
+                    if (SelectedDish.HoldTime is DateTime holdTime)
+                    {
+                        TimerHoldSelectedDish = holdTime - DateTime.Now;
+                    }
+
                     foreach (var item in CurrentOrder.Seats)
                     {
                         if (item.SeatNumber != seatNumber)
@@ -548,7 +578,9 @@ namespace Next2.ViewModels
                         }
                         else
                         {
-                            await _navigationService.NavigateAsync(nameof(EditPage));
+                            var param = new NavigationParameters { { Constants.Navigations.ORDER, this }, };
+
+                            await _navigationService.NavigateAsync(nameof(EditPage), param);
                         }
                     }
                 }
@@ -888,19 +920,12 @@ namespace Next2.ViewModels
         {
             if (dish is DishBindableModel selectedDish)
             {
-                //SelectedCustomer = customer;
-                //---
                 var param = new DialogParameters { { Constants.DialogParameterKeys.DISH, selectedDish } };
 
-                //PopupPage customerInfoDialog = App.IsTablet
-                //    ? new Views.Tablet.Dialogs.CustomerInfoDialog(param, CloseCustomerInfoDialogCallback)
-                //    : new Views.Mobile.Dialogs.CustomerInfoDialog(param, CloseCustomerInfoDialogCallback);
                 PopupPage holdDishDialog = new Views.Tablet.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallback);
 
                 await PopupNavigation.PushAsync(holdDishDialog);
             }
-
-            //return Task.CompletedTask;
         }
 
         private async void CloseHoldDishDialogCallback(IDialogParameters parameters)
@@ -911,14 +936,13 @@ namespace Next2.ViewModels
             {
                 if (parameters.TryGetValue(Constants.DialogParameterKeys.DISMISS, out bool isDismiss))
                 {
-                    //await OnAddCustomerToOrderCommandAsync();
                     SelectedDish.HoldTime = null;
                 }
 
                 if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
                 {
-                    //await OnAddCustomerToOrderCommandAsync();
                     SelectedDish.HoldTime = holdTime;
+                    TimerHoldSelectedDish = holdTime - DateTime.Now;
                 }
             }
         }

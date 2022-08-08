@@ -34,6 +34,13 @@ namespace Next2.ViewModels.Dialogs
             {
                 SelectedDish = selectedDish;
 
+                if (selectedDish.HoldTime is DateTime holdTime)
+                {
+                    _holdTime = holdTime;
+                    Hour = _holdTime.Hour;
+                    Minute = _holdTime.Minute;
+                }
+
                 foreach (var product in selectedDish.Products ?? new())
                 {
                     if (!string.IsNullOrEmpty(product.Name))

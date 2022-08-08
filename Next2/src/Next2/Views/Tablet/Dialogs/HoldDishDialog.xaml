@@ -55,21 +55,20 @@
 
             <StackLayout 
                 HorizontalOptions="FillAndExpand"
-                Orientation="Horizontal">
+                Orientation="Horizontal"
+                Padding="20, 23">
                 
                 <Label
                     VerticalTextAlignment="Center"
-                    Padding="20, 23"
                     MaxLines="1"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     FontSize="{DynamicResource TSize_i6}"
                     FontFamily="Barlow-SemiBold"
-                    Text="{Binding SelectedDish.Name}" />
+                    Text="{xct:Translate HoldItem}" />
                 
                 <Label
                     VerticalTextAlignment="Center"
                     HorizontalOptions="EndAndExpand"
-                    Padding="20, 23"
                     MaxLines="1"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     FontSize="{DynamicResource TSize_i6}"

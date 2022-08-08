@@ -191,6 +191,9 @@
     <Compile Update="Views\Mobile\Dialogs\AddDishToOrderDialog.xaml.cs">
       <DependentUpon>AddDishToOrderDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Mobile\Dialogs\HoldDishDialog.xaml.cs">
+      <DependentUpon>HoldDishDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Mobile\Dialogs\InfoDialog.xaml.cs">
       <DependentUpon>InfoDialog.xaml</DependentUpon>
     </Compile>

@@ -194,7 +194,8 @@
                 Style="{DynamicResource BorderButtonStyle_i2}"
                 Background="{DynamicResource IndicationColor_i5}"
                 Text="{xct:Translate HoldItem}"
-                Command="{Binding OpenHoldSelectionCommand}"/>
+                Command="{Binding OpenHoldSelectionCommand}"
+                CommandParameter="{Binding SelectedDish}" />
             
             <buttons:BorderButton
                 Grid.Row="2"

@@ -732,12 +732,21 @@
                                                 TextColor="{DynamicResource IndicationColor_i5}" />
 
                                             <Label
-                                                Text="00:00"
                                                 Margin="0, 7, 0, 0"
                                                 HorizontalOptions="EndAndExpand"
                                                 FontSize="{DynamicResource TSize_i8}"
                                                 FontFamily="Barlow-SemiBold"
-                                                TextColor="{DynamicResource IndicationColor_i5}" />
+                                                TextColor="{DynamicResource IndicationColor_i5}">
+                                                
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding OrderRegistrationViewModel.TimerHoldSelectedDish.Hours, StringFormat='{0:D2}'}" />
+                                                        <Span Text=":" />
+                                                        <Span Text="{Binding OrderRegistrationViewModel.TimerHoldSelectedDish.Minutes, StringFormat='{0:D2}'}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                                
+                                            </Label>
 
                                         </StackLayout>
 

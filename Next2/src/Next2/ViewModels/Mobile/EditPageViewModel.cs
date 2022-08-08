@@ -8,6 +8,7 @@ using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -46,6 +47,8 @@ namespace Next2.ViewModels.Mobile
 
         public DishBindableModel? SelectedDish { get; set; }
 
+        public TimeSpan TimerHoldSelectedDish { get; set; }
+
         private ICommand _openModifyCommand;
         public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync, allowsMultipleExecutions: false);
 
@@ -53,7 +56,7 @@ namespace Next2.ViewModels.Mobile
         public ICommand OpenRemoveCommand => _openRemoveCommand ??= new AsyncCommand(OnOpenRemoveCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _openHoldSelectionCommand;
-        public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync, allowsMultipleExecutions: false);
+        public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand<DishBindableModel?>(OnOpenHoldSelectionCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
@@ -71,6 +74,11 @@ namespace Next2.ViewModels.Mobile
                 _isModifiedDish = isModifiedDish;
             }
 
+            if (parameters.TryGetValue(Constants.Navigations.ORDER, out OrderRegistrationViewModel orderPage))
+            {
+                TimerHoldSelectedDish = orderPage.TimerHoldSelectedDish;
+            }
+
             var seat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
             _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
@@ -84,9 +92,35 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Private helpers --
 
-        private Task OnOpenHoldSelectionCommandAsync()
+        private async Task OnOpenHoldSelectionCommandAsync(DishBindableModel? dish)
         {
-            return Task.CompletedTask;
+            if (dish is DishBindableModel selectedDish)
+            {
+                var param = new DialogParameters { { Constants.DialogParameterKeys.DISH, selectedDish } };
+
+                PopupPage holdDishDialog = new Views.Mobile.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallback);
+
+                await PopupNavigation.PushAsync(holdDishDialog);
+            }
+        }
+
+        private async void CloseHoldDishDialogCallback(IDialogParameters parameters)
+        {
+            await _notificationsService.CloseAllPopupAsync();
+
+            if (SelectedDish is not null)
+            {
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.DISMISS, out bool isDismiss))
+                {
+                    SelectedDish.HoldTime = null;
+                }
+
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
+                {
+                    SelectedDish.HoldTime = holdTime;
+                    //TimerHoldSelectedDish = holdTime - DateTime.Now;
+                }
+            }
         }
 
         private Task OnOpenModifyCommandAsync()
