@@ -79,11 +79,10 @@ namespace Next2.Droid.Effects
             // Get the id that identifies a finger over the course of its progress
             int id = motionEvent.GetPointerId(pointerIndex);
 
-
             senderView.GetLocationOnScreen(twoIntArray);
-            Point screenPointerCoords = new Point(twoIntArray[0] + motionEvent.GetX(pointerIndex),
-                                                  twoIntArray[1] + motionEvent.GetY(pointerIndex));
-
+            Point screenPointerCoords = new Point(
+                twoIntArray[0] + motionEvent.GetX(pointerIndex),
+                twoIntArray[1] + motionEvent.GetY(pointerIndex));
 
             // Use ActionMasked here rather than Action to reduce the number of possibilities
             switch (args.Event.ActionMasked)
@@ -122,6 +121,7 @@ namespace Next2.Droid.Effects
                             }
                         }
                     }
+
                     break;
 
                 case MotionEventActions.Up:
@@ -139,6 +139,7 @@ namespace Next2.Droid.Effects
                             FireEvent(idToEffectDictionary[id], id, ETouchActionType.Released, screenPointerCoords, false);
                         }
                     }
+
                     idToEffectDictionary.Remove(id);
                     break;
 
@@ -170,10 +171,11 @@ namespace Next2.Droid.Effects
                 {
                     view.GetLocationOnScreen(twoIntArray);
                 }
-                catch // System.ObjectDisposedException: Cannot access a disposed object.
+                catch
                 {
                     continue;
                 }
+
                 Rectangle viewRect = new Rectangle(twoIntArray[0], twoIntArray[1], view.Width, view.Height);
 
                 if (viewRect.Contains(pointerLocation))

@@ -21,9 +21,8 @@ namespace Next2.Droid.Renderers
 
         #region -- Protected properties --
 
-        private CustomScrollBarCollectionView _customScrollBarCollectionViewElement;
-
-        protected CustomScrollBarCollectionView CustomScrollBarCollectionViewElement => this._customScrollBarCollectionViewElement ??= this.Element as CustomScrollBarCollectionView;
+        protected CustomScrollBarCollectionView _customScrollBarCollectionViewElement;
+        protected CustomScrollBarCollectionView CustomScrollBarCollectionViewElement => _customScrollBarCollectionViewElement ??= Element as CustomScrollBarCollectionView;
 
         #endregion
 
@@ -36,10 +35,10 @@ namespace Next2.Droid.Renderers
             switch (changedProperty.PropertyName)
             {
                 case "Renderer":
-                case nameof(this._customScrollBarCollectionViewElement.ScrollBarTrackColor):
-                case nameof(this._customScrollBarCollectionViewElement.ScrollBarThumbColor):
-                case nameof(this._customScrollBarCollectionViewElement.ThumbWidth):
-                    this.ConfigureScrollBar();
+                case nameof(_customScrollBarCollectionViewElement.ScrollBarTrackColor):
+                case nameof(_customScrollBarCollectionViewElement.ScrollBarThumbColor):
+                case nameof(_customScrollBarCollectionViewElement.ThumbWidth):
+                    ConfigureScrollBar();
                     break;
             }
         }
@@ -50,16 +49,16 @@ namespace Next2.Droid.Renderers
 
         private void ConfigureScrollBar()
         {
-            this.ScrollBarSize = this.CustomScrollBarCollectionViewElement.ThumbWidth;
+            ScrollBarSize = CustomScrollBarCollectionViewElement.ThumbWidth;
 
             try
             {
-                int scrollBarCornerRadius = this.CustomScrollBarCollectionViewElement.ScrollBarCornerRadius;
-                Color scrollBarThumbColor = this.CustomScrollBarCollectionViewElement.ScrollBarThumbColor.ToAndroid();
-                Color scrollBarTrackColor = this.CustomScrollBarCollectionViewElement.ScrollBarTrackColor.ToAndroid();
+                int scrollBarCornerRadius = CustomScrollBarCollectionViewElement.ScrollBarCornerRadius;
+                Color scrollBarThumbColor = CustomScrollBarCollectionViewElement.ScrollBarThumbColor.ToAndroid();
+                Color scrollBarTrackColor = CustomScrollBarCollectionViewElement.ScrollBarTrackColor.ToAndroid();
 
-                this.VerticalScrollbarThumbDrawable = this.GetGradientDrawable(scrollBarThumbColor, scrollBarCornerRadius);
-                this.VerticalScrollbarTrackDrawable = this.GetGradientDrawable(scrollBarTrackColor, scrollBarCornerRadius);
+                VerticalScrollbarThumbDrawable = GetGradientDrawable(scrollBarThumbColor, scrollBarCornerRadius);
+                VerticalScrollbarTrackDrawable = GetGradientDrawable(scrollBarTrackColor, scrollBarCornerRadius);
             }
             catch (Exception)
             {
