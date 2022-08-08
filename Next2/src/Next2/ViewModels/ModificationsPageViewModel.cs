@@ -107,31 +107,31 @@ namespace Next2.ViewModels
 
         public int HeightIngredientCategories { get; set; }
 
-        private ICommand _tapSubmenuCommand;
+        private ICommand? _tapSubmenuCommand;
         public ICommand TapSubmenuCommand => _tapSubmenuCommand ??= new AsyncCommand<SpoilerBindableModel>(OnTapSubmenuCommandAsync);
 
-        private ICommand _tapOpenProportionsCommand;
+        private ICommand? _tapOpenProportionsCommand;
         public ICommand TapOpenProportionsCommand => _tapOpenProportionsCommand ??= new AsyncCommand(OnTapOpenProportionsCommandAsync);
 
-        private ICommand _openMenuCommand;
+        private ICommand? _openMenuCommand;
         public ICommand OpenMenuCommand => _openMenuCommand ??= new AsyncCommand(OnOpenMenuCommandAsync);
 
-        private ICommand _closeMenuCommand;
+        private ICommand? _closeMenuCommand;
         public ICommand CloseMenuCommand => _closeMenuCommand ??= new AsyncCommand(OnCloseMenuCommandAsync);
 
-        private ICommand _saveCommand;
+        private ICommand? _saveCommand;
         public ICommand SaveCommand => _saveCommand ??= new AsyncCommand(OnSaveCommandAsync);
 
-        private ICommand _changingOrderSortReplacementProductsCommand;
+        private ICommand? _changingOrderSortReplacementProductsCommand;
         public ICommand ChangingOrderSortReplacementProductsCommand => _changingOrderSortReplacementProductsCommand ??= new AsyncCommand(OnChangingOrderSortReplacementProductsCommandAsync);
 
-        private ICommand _changingOrderSortInventoryCommand;
+        private ICommand? _changingOrderSortInventoryCommand;
         public ICommand ChangingOrderSortInventoryCommand => _changingOrderSortInventoryCommand ??= new AsyncCommand(OnChangingOrderSortInventoryCommandAsync);
 
-        private ICommand _expandIngredientCategoriesCommand;
+        private ICommand? _expandIngredientCategoriesCommand;
         public ICommand ExpandIngredientCategoriesCommand => _expandIngredientCategoriesCommand ??= new AsyncCommand(OnExpandIngredientCategoriesCommandAsync);
 
-        private ICommand _changingToggleCommand;
+        private ICommand? _changingToggleCommand;
         public ICommand ChangingToggleCommand => _changingToggleCommand ??= new Command<IngredientBindableModel>(OnChangingToggleCommand);
 
         #endregion

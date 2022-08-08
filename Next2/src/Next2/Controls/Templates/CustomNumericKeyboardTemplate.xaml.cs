@@ -175,10 +175,10 @@ namespace Next2.Controls.Templates
             set => SetValue(IsErrorPlaceholderVisibleProperty, value);
         }
 
-        private ICommand _buttonTapCommand;
+        private ICommand? _buttonTapCommand;
         public ICommand ButtonTapCommand => _buttonTapCommand ??= new AsyncCommand<object>(OnTabAsync);
 
-        private ICommand _buttonClearTapCommand;
+        private ICommand? _buttonClearTapCommand;
         public ICommand ButtonClearTapCommand => _buttonClearTapCommand ??= new AsyncCommand<object>(OnTabClearAsync);
 
         #endregion

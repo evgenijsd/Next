@@ -77,22 +77,22 @@ namespace Next2.ViewModels.Tablet
 
         public SubcategoryModel? SelectedSubcategoriesItem { get; set; }
 
-        private ICommand _tapDishCommand;
+        private ICommand? _tapDishCommand;
         public ICommand TapDishCommand => _tapDishCommand ??= new AsyncCommand<DishModelDTO>(OnTapDishCommand, allowsMultipleExecutions: false);
 
-        private ICommand _tapSortCommand;
+        private ICommand? _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _tapExpandCommand;
+        private ICommand? _tapExpandCommand;
         public ICommand TapExpandCommand => _tapExpandCommand ??= new AsyncCommand(OnTapExpandCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _openEmployeeWorkingHoursCommand;
+        private ICommand? _openEmployeeWorkingHoursCommand;
         public ICommand OpenEmployeeWorkingHoursCommand => _openEmployeeWorkingHoursCommand ??= new AsyncCommand(OnOpenEmployeeWorkingHoursCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _refreshDishesCommand;
+        private ICommand? _refreshDishesCommand;
         public ICommand RefreshDishesCommand => _refreshDishesCommand ??= new AsyncCommand(OnRefreshDishesCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _refreshCategoriesCommand;
+        private ICommand? _refreshCategoriesCommand;
         public ICommand RefreshCategoriesCommand => _refreshCategoriesCommand ??= new AsyncCommand(OnRefreshCategoriesCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

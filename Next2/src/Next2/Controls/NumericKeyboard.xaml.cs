@@ -125,10 +125,10 @@ namespace Next2.Controls
             set => SetValue(PlaceholderProperty, value);
         }
 
-        private ICommand _buttonTapCommand;
+        private ICommand? _buttonTapCommand;
         public ICommand ButtonTapCommand => _buttonTapCommand ??= new AsyncCommand<object>(OnButtonTapCommandAsync);
 
-        private ICommand _buttonClearTapCommand;
+        private ICommand? _buttonClearTapCommand;
         public ICommand ButtonClearTapCommand => _buttonClearTapCommand ??= new AsyncCommand<object>(OnButtonClearTapCommandAsync);
 
         #endregion

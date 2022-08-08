@@ -56,15 +56,16 @@ namespace Next2.ViewModels.Mobile
 
         public ObservableCollection<CategoryModel> Categories { get; set; }
 
-        private ICommand _tapCategoryCommand;
+        private ICommand? _tapCategoryCommand;
         public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
-        private ICommand _openNewOrderPageCommand;
+
+        private ICommand? _openNewOrderPageCommand;
         public ICommand OpenNewOrderPageCommand => _openNewOrderPageCommand ??= new AsyncCommand(OnOpenNewOrderPageCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _goToSettingsCommand;
+        private ICommand? _goToSettingsCommand;
         public ICommand GoToSettingsCommand => _goToSettingsCommand ??= new AsyncCommand(GoToSettingsCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _refreshCategoriesCommand;
+        private ICommand? _refreshCategoriesCommand;
         public ICommand RefreshCategoriesCommand => _refreshCategoriesCommand ??= new AsyncCommand(OnRefreshCategoriesCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

@@ -58,14 +58,14 @@ namespace Next2.ViewModels.Mobile
 
         public CustomerBindableModel? Customer { get; set; }
 
-        private ICommand _goBackCommand;
-        public ICommand GoBackCommand => _goBackCommand = new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _addGiftCardCommand;
-        public ICommand AddGiftCardCommand => _addGiftCardCommand = new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _addGiftCardCommand;
+        public ICommand AddGiftCardCommand => _addGiftCardCommand ??= new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _displayErrorNotification;
-        public ICommand DisplayErrorNotification => _displayErrorNotification = new AsyncCommand(OnDisplayErrorNotificationCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _displayErrorNotification;
+        public ICommand DisplayErrorNotification => _displayErrorNotification ??= new AsyncCommand(OnDisplayErrorNotificationCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 

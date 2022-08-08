@@ -53,10 +53,10 @@ namespace Next2.ViewModels.Tablet
 
         public SubcategoryModel? SelectedSubcategoriesItem { get; set; }
 
-        private ICommand _tapDishCommand;
+        private ICommand? _tapDishCommand;
         public ICommand TapDishCommand => _tapDishCommand ??= new AsyncCommand<DishModelDTO>(OnTapDishCommand, allowsMultipleExecutions: false);
 
-        private ICommand _tapSortCommand;
+        private ICommand? _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

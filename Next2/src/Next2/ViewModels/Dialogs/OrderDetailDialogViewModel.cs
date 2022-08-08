@@ -45,7 +45,7 @@ namespace Next2.ViewModels.Dialogs
 
         public ICommand DeleteOrderCommand { get; }
 
-        private ICommand _showHideOrderDetailsCommand;
+        private ICommand? _showHideOrderDetailsCommand;
         public ICommand ShowHideOrderDetailsCommand => _showHideOrderDetailsCommand ??= new Command(OnShowHideOrderDetailsCommand);
 
         #endregion

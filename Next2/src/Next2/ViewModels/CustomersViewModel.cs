@@ -62,28 +62,28 @@ namespace Next2.ViewModels
 
         public CustomerBindableModel? SelectedCustomer { get; set; }
 
-        private ICommand _showInfoCommand;
+        private ICommand? _showInfoCommand;
         public ICommand ShowInfoCommand => _showInfoCommand ??= new AsyncCommand<CustomerBindableModel>(ShowCustomerInfoAsync, allowsMultipleExecutions: false);
 
-        private ICommand _sortCommand;
+        private ICommand? _sortCommand;
         public ICommand SortCommand => _sortCommand ??= new AsyncCommand<ECustomersSorting>(SortAsync, allowsMultipleExecutions: false);
 
-        private ICommand _refreshCommand;
+        private ICommand? _refreshCommand;
         public ICommand RefreshCommand => _refreshCommand ??= new AsyncCommand(RefreshCustomersAsync, allowsMultipleExecutions: false);
 
-        private ICommand _addNewCustomerCommand;
+        private ICommand? _addNewCustomerCommand;
         public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _addCustomerToOrderCommand;
+        private ICommand? _addCustomerToOrderCommand;
         public ICommand AddCustomerToOrderCommand => _addCustomerToOrderCommand ??= new AsyncCommand(OnAddCustomerToOrderCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _searchCommand;
+        private ICommand? _searchCommand;
         public ICommand SearchCommand => _searchCommand ??= new AsyncCommand(OnSearchCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _clearSearchCommand;
+        private ICommand? _clearSearchCommand;
         public ICommand ClearSearchCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _selectDeselectItemCommand;
+        private ICommand? _selectDeselectItemCommand;
         public ICommand SelectDeselectItemCommand => _selectDeselectItemCommand ??= new AsyncCommand<CustomerBindableModel>(OnSelectDeselectItemAsync, allowsMultipleExecutions: false);
 
         #endregion

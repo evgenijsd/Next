@@ -55,10 +55,10 @@ namespace Next2.ViewModels.Dialogs
 
         public DelegateCommand DeclineCommand { get; }
 
-        private ICommand _goToStepCommand;
+        private ICommand? _goToStepCommand;
         public ICommand GoToStepCommand => _goToStepCommand ??= new AsyncCommand<EClientAdditionStep>(OnGoToStepCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _addNewCustomerCommand;
+        private ICommand? _addNewCustomerCommand;
         public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

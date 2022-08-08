@@ -106,11 +106,11 @@ namespace Next2.ViewModels
 
         public PaymentCompleteViewModel PaymentCompleteViewModel { get; set; }
 
-        private ICommand _backCancelCommand;
+        private ICommand? _backCancelCommand;
         public ICommand BackCancelCommand => _backCancelCommand ??= new AsyncCommand(OnBackCancelCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _OpenTipsCommand;
-        public ICommand OpenTipsCommand => _OpenTipsCommand ??= new AsyncCommand(OnOpenTipsCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _openTipsCommand;
+        public ICommand OpenTipsCommand => _openTipsCommand ??= new AsyncCommand(OnOpenTipsCommandAsync, allowsMultipleExecutions: false);
 
         private Task OnOpenTipsCommandAsync()
         {

@@ -7,7 +7,6 @@ namespace Next2.Droid.Effects
 {
     public class NoOverScrollEffect : PlatformEffect
     {
-
         #region -- Overrides --
 
         protected override void OnAttached()

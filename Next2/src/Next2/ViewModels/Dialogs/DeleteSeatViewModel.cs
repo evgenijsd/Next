@@ -40,7 +40,7 @@ namespace Next2.ViewModels.Dialogs
 
         public ICommand AcceptCommand { get; }
 
-        private ICommand _selectDeletingDishesCommand;
+        private ICommand? _selectDeletingDishesCommand;
         public ICommand SelectDeletingDishesCommand => _selectDeletingDishesCommand ??= new Command(OnSelectDeletingDishesCommand);
 
         #endregion

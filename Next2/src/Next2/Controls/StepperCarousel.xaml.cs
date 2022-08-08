@@ -55,10 +55,10 @@ namespace Next2.Controls
             set => SetValue(ItemWidthProperty, value);
         }
 
-        private ICommand _scrollToLeftCommand;
+        private ICommand? _scrollToLeftCommand;
         public ICommand ScrollToLeftCommand => _scrollToLeftCommand ??= new Command(OnScrollToLeftCommand);
 
-        private ICommand _scrollToRightCommand;
+        private ICommand? _scrollToRightCommand;
         public ICommand ScrollToRightCommand => _scrollToRightCommand ??= new Command(OnScrollToRightCommand);
 
         #endregion

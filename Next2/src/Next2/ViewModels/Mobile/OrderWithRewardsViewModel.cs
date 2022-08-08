@@ -21,7 +21,7 @@ namespace Next2.ViewModels.Mobile
 
         public ObservableCollection<SeatWithFreeDishesBindableModel> Seats { get; set; } = new();
 
-        private ICommand _applyRewardCommand;
+        private ICommand? _applyRewardCommand;
         public ICommand ApplyRewardCommand => _applyRewardCommand ??= new AsyncCommand(OnApplyRewardCommandAsync);
 
         #endregion

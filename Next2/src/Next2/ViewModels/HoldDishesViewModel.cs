@@ -52,19 +52,19 @@ namespace Next2.ViewModels
 
         public TableBindableModel? SelectedTable { get; set; }
 
-        private ICommand _refreshHoldDishesCommand;
+        private ICommand? _refreshHoldDishesCommand;
         public ICommand RefreshHoldDishesCommand => _refreshHoldDishesCommand ??= new AsyncCommand(OnRefreshHoldDishesCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _changeSortHoldDishesCommand;
+        private ICommand? _changeSortHoldDishesCommand;
         public ICommand ChangeSortHoldDishesCommand => _changeSortHoldDishesCommand ??= new AsyncCommand<EHoldDishesSortingType>(OnChangeSortHoldDishesCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _setSelectedHoldDishesCommand;
+        private ICommand? _setSelectedHoldDishesCommand;
         public ICommand SetSelectedHoldDishesCommand => _setSelectedHoldDishesCommand ??= new AsyncCommand<List<object>?>(OnSetSelectedHoldDishesCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _setHoldDishesByTableNumberCommand;
+        private ICommand? _setHoldDishesByTableNumberCommand;
         public ICommand SetHoldDishesByTableNumberCommand => _setHoldDishesByTableNumberCommand ??= new AsyncCommand(OnSetHoldDishesByTableNumberCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _selectAllHoldDishesTableCommand;
+        private ICommand? _selectAllHoldDishesTableCommand;
         public ICommand SelectAllHoldDishesTableCommand => _selectAllHoldDishesTableCommand ??= new AsyncCommand(OnSelectAllHoldDishesTableCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

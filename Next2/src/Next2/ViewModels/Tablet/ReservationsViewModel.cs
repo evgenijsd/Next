@@ -52,28 +52,28 @@ namespace Next2.ViewModels.Tablet
 
         public ObservableCollection<ReservationModel> Reservations { get; set; } = new();
 
-        private ICommand _goToSearchQueryInputCommand;
+        private ICommand? _goToSearchQueryInputCommand;
         public ICommand GoToSearchQueryInputCommand => _goToSearchQueryInputCommand ??= new AsyncCommand(OnGoToSearchQueryInputCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _clearSearchResultCommand;
+        private ICommand? _clearSearchResultCommand;
         public ICommand ClearSearchResultCommand => _clearSearchResultCommand ??= new AsyncCommand(OnClearSearchResultCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _refreshReservationsCommand;
+        private ICommand? _refreshReservationsCommand;
         public ICommand RefreshReservationsCommand => _refreshReservationsCommand ??= new AsyncCommand(OnRefreshReservationsCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _changeSortReservationCommand;
+        private ICommand? _changeSortReservationCommand;
         public ICommand ChangeSortReservationCommand => _changeSortReservationCommand ??= new AsyncCommand<EReservationsSortingType>(OnChangeSortReservationCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _selectReservationCommand;
+        private ICommand? _selectReservationCommand;
         public ICommand SelectReservationCommand => _selectReservationCommand ??= new AsyncCommand<ReservationModel>(OnSelectReservationCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _addNewReservationCommand;
+        private ICommand? _addNewReservationCommand;
         public ICommand AddNewReservationCommand => _addNewReservationCommand ??= new AsyncCommand(OnAddNewReservationCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _removeReservationCommand;
+        private ICommand? _removeReservationCommand;
         public ICommand RemoveReservationCommand => _removeReservationCommand ??= new AsyncCommand(OnRemoveReservationCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _infoAboutReservationCommand;
+        private ICommand? _infoAboutReservationCommand;
         public ICommand InfoAboutReservationCommand => _infoAboutReservationCommand ??= new AsyncCommand(OnInfoAboutReservationCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

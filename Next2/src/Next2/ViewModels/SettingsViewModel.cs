@@ -34,7 +34,7 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        private ICommand _logOutCommand;
+        private ICommand? _logOutCommand;
         public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
