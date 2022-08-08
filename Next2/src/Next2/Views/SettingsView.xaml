@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<ContentView
+<Grid
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
@@ -10,10 +10,12 @@
     xmlns:tablet="clr-namespace:Next2.Views.Tablet"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:enums="clr-namespace:Next2.Enums"
+    RowDefinitions="auto, *"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
     x:Class="Next2.Views.SettingsView"
     x:DataType="viewModels:SettingsViewModel">
 
-    <ContentView.Resources>
+    <Grid.Resources>
         <Style x:Key="IconTextButtonStyle" TargetType="buttons:IconTextButton">
             <Setter Property="HeightRequest" Value="36" />
             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
@@ -23,110 +25,105 @@
             <Setter Property="IconSource" Value="ic_arrow_right_24x24.png" />
             <Setter Property="IsIconPlacedOnRight" Value="True" />
         </Style>
-    </ContentView.Resources>
+    </Grid.Resources>
 
-    <Grid
-        RowDefinitions="auto, *"
+    <Frame
+        Grid.Row="0"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
-        <Frame
-            Grid.Row="0"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+        <StackLayout
+            Margin="30, 18, 0, 18"
+            Orientation="Horizontal"
+            Spacing="30">
+
+            <ffimageloading:CachedImage
+                IsVisible="{Binding PageState, Converter={xct:NotEqualConverter}, ConverterParameter={Static enums:ESettingsPageState.Default}}"
+                Source="ic_arrow_left_tail_24x24.png"
+                xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.Default}"
+                xct:TouchEffect.Command="{Binding ChangeStateCommand}" />
+
+            <Label
+                VerticalTextAlignment="Center"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                Text="{Binding Title}"
+                FontFamily="Barlow-Bold"
+                FontSize="{DynamicResource TSize_i4_5}" />
+
+        </StackLayout>
+
+    </Frame>
+
+    <BoxView
+        Grid.Row="0"
+        VerticalOptions="End"
+        HeightRequest="2"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+
+    <sc:StateContainer
+        Grid.Row="1"
+        State="{Binding PageState}">
+
+        <sc:StateCondition State="{Static enums:ESettingsPageState.Default}">
 
             <StackLayout
-                Margin="30, 18, 0, 18"
+                Padding="30"
                 Orientation="Horizontal"
-                Spacing="30">
-
-                <ffimageloading:CachedImage
-                    IsVisible="{Binding PageState, Converter={xct:NotEqualConverter}, ConverterParameter={Static enums:ESettingsPageState.Default}}"
-                    Source="ic_arrow_left_tail_24x24.png"
-                    xct:TouchEffect.Command="{Binding GoBackCommand}" />
-
-                <Label
-                    VerticalTextAlignment="Center"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    Text="{Binding Title}"
-                    FontFamily="Barlow-Bold"
-                    FontSize="{DynamicResource TSize_i4_5}" />
-
-            </StackLayout>
-
-        </Frame>
-
-        <BoxView
-            Grid.Row="0"
-            VerticalOptions="End"
-            HeightRequest="2"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
-
-        <sc:StateContainer
-            Grid.Row="1"
-            State="{Binding PageState}">
-
-            <sc:StateCondition State="{Static enums:ESettingsPageState.Default}">
+                Spacing="24">
 
                 <StackLayout
-                    Padding="30"
-                    Orientation="Horizontal"
-                    Spacing="24">
+                    HorizontalOptions="FillAndExpand"
+                    Spacing="12">
 
-                    <StackLayout
-                        HorizontalOptions="FillAndExpand"
-                        Spacing="12">
+                    <buttons:IconTextButton
+                        Style="{DynamicResource IconTextButtonStyle}"
+                        Padding="12"
+                        Text="{xct:Translate ReAssignTable}"
+                        Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
+                        xct:TouchEffect.Command="{Binding ChangeStateCommand}"
+                        xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.ReAssignTable}" />
 
-                        <buttons:IconTextButton
-                            Style="{DynamicResource IconTextButtonStyle}"
-                            Padding="12"
-                            Text="{xct:Translate ReAssignTable}"
-                            Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
-                            xct:TouchEffect.Command="{Binding ChangeStateCommand}"
-                            xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.ReAssignTable}" />
-
-                        <buttons:IconTextButton
-                            Style="{DynamicResource IconTextButtonStyle}"
-                            Padding="12"
-                            Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
-                            Text="{xct:Translate PrintReceipt}"
-                            xct:TouchEffect.Command="{Binding ChangeStateCommand}"
-                            xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.PrintReceipt}" />
-
-                    </StackLayout>
-
-                    <StackLayout
-                        HorizontalOptions="FillAndExpand"
-                        Spacing="12">
-
-                        <buttons:IconTextButton
-                            Style="{DynamicResource IconTextButtonStyle}"
-                            Padding="12"
-                            Text="{xct:Translate BackOffice}"
-                            Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
-                            xct:TouchEffect.Command="{Binding ChangeStateCommand}"
-                            xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.BackOffice}" />
-
-                        <buttons:IconTextButton
-                            Style="{DynamicResource IconTextButtonStyle}"
-                            Padding="12"
-                            Text="{xct:Translate ProgramDevice}"
-                            Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
-                            xct:TouchEffect.Command="{Binding ChangeStateCommand}"
-                            xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.ProgramDevice}" />
-
-                    </StackLayout>
+                    <buttons:IconTextButton
+                        Style="{DynamicResource IconTextButtonStyle}"
+                        Padding="12"
+                        Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
+                        Text="{xct:Translate PrintReceipt}"
+                        xct:TouchEffect.Command="{Binding ChangeStateCommand}"
+                        xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.PrintReceipt}" />
 
                 </StackLayout>
 
-            </sc:StateCondition>
+                <StackLayout
+                    HorizontalOptions="FillAndExpand"
+                    Spacing="12">
 
-            <sc:StateCondition State="{Static enums:ESettingsPageState.PrintReceipt}">
+                    <buttons:IconTextButton
+                        Style="{DynamicResource IconTextButtonStyle}"
+                        Padding="12"
+                        Text="{xct:Translate BackOffice}"
+                        Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
+                        xct:TouchEffect.Command="{Binding ChangeStateCommand}"
+                        xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.BackOffice}" />
 
-                <tablet:PrintReceiptView BindingContext="{Binding PrintReceiptViewModel}" />
+                    <buttons:IconTextButton
+                        Style="{DynamicResource IconTextButtonStyle}"
+                        Padding="12"
+                        Text="{xct:Translate ProgramDevice}"
+                        Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
+                        xct:TouchEffect.Command="{Binding ChangeStateCommand}"
+                        xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.ProgramDevice}" />
 
-            </sc:StateCondition>
+                </StackLayout>
 
-        </sc:StateContainer>
+            </StackLayout>
 
-    </Grid>
+        </sc:StateCondition>
 
-</ContentView>
+        <sc:StateCondition State="{Static enums:ESettingsPageState.PrintReceipt}">
+
+            <tablet:PrintReceiptView BindingContext="{Binding PrintReceiptViewModel}" />
+
+        </sc:StateCondition>
+
+    </sc:StateContainer>
+
+</Grid>

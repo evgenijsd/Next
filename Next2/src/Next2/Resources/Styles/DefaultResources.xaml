@@ -48,6 +48,11 @@
         <Setter Property="Padding" Value="0" />
     </Style>
 
+    <Style TargetType="controls:CustomFrame">
+        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
     <Style TargetType="StackLayout">
         <Setter Property="Spacing" Value="0" />
     </Style>
@@ -202,7 +207,7 @@
         <Setter Property="MonthFontSize" Value="{DynamicResource TSize_i6}"/>
         <Setter Property="DayFontSize" Value="{DynamicResource TSize_i9}"/>
         <Setter Property="MonthStepperIconSize" Value="30"/>
-        <Setter Property="DropdownWidthRequest" Value="90"/>
+        <Setter Property="DropdownWidthRequest" Value="88"/>
         <Setter Property="DropdownHeaderWidthRequest" Value="90"/>
         <Setter Property="DropdownHeaderHeightRequest" Value="30"/>
     </Style>

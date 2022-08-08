@@ -27,17 +27,20 @@ namespace Next2.ViewModels
     {
         private readonly IOrderService _orderService;
         private readonly INotificationsService _notificationsService;
+        private readonly IMapper _mapper;
 
         private IEnumerable<SimpleOrderBindableModel> _allClosedOrders;
 
         public PrintReceiptViewModel(
             INavigationService navigationService,
+            IMapper mapper,
             INotificationsService notificationsService,
             IOrderService orderService)
             : base(navigationService)
         {
             _orderService = orderService;
             _notificationsService = notificationsService;
+            _mapper = mapper;
         }
 
         #region -- Public properties --
@@ -143,16 +146,13 @@ namespace Next2.ViewModels
                 {
                     var closedOrders = gettingOrdersResult.Result;
 
-                    var config = new MapperConfiguration(cfg => cfg.CreateMap<SimpleOrderModelDTO, SimpleOrderBindableModel>()
-                        .ForMember<string>(x => x.TableNumberOrName, s => s.MapFrom(x => GetTableName(x.TableNumber))));
-
-                    var mapper = new Mapper(config);
-
-                    Orders = mapper.Map<IEnumerable<SimpleOrderModelDTO>, ObservableCollection<SimpleOrderBindableModel>>(closedOrders);
+                    Orders = _mapper.Map<IEnumerable<SimpleOrderModelDTO>, ObservableCollection<SimpleOrderBindableModel>>(closedOrders);
 
                     _allClosedOrders = Orders.Select(x => x);
+
                     await AddDummyClosingDateToOrders();
                     await FilterOrdersByDateAsync(SelectedDate);
+
                     isOrdersLoaded = true;
                 }
                 else
@@ -181,10 +181,10 @@ namespace Next2.ViewModels
             var ordersCount = _allClosedOrders.Count();
             var ordersArray = _allClosedOrders.ToArray();
 
-            var now = DateTime.Now;
+            var currentDate = DateTime.Now;
             var rand = new Random();
-            var previousDay = now;
-            var theDayBeforeYesterday = now;
+            var previousDay = currentDate;
+            var theDayBeforeYesterday = currentDate;
 
             previousDay = previousDay.AddDays(-1);
             theDayBeforeYesterday = theDayBeforeYesterday.AddDays(-2);
@@ -196,15 +196,15 @@ namespace Next2.ViewModels
 
                 if (i < ordersCount / 3)
                 {
-                    ordersArray[i].Close = new DateTime(now.Year, now.Month, now.Day, randomHours, randomMinutes, 0);
+                    ordersArray[i].Close = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, randomHours, randomMinutes, 0);
                 }
                 else if (i < ordersCount / 2)
                 {
-                    ordersArray[i].Close = new DateTime(now.Year, previousDay.Month, previousDay.Day, randomHours, randomMinutes, 0);
+                    ordersArray[i].Close = new DateTime(currentDate.Year, previousDay.Month, previousDay.Day, randomHours, randomMinutes, 0);
                 }
                 else
                 {
-                    ordersArray[i].Close = new DateTime(now.Year, theDayBeforeYesterday.Month, theDayBeforeYesterday.Day, randomHours, randomMinutes, 0);
+                    ordersArray[i].Close = new DateTime(currentDate.Year, theDayBeforeYesterday.Month, theDayBeforeYesterday.Day, randomHours, randomMinutes, 0);
                 }
             }
 
@@ -215,13 +215,6 @@ namespace Next2.ViewModels
         {
             Orders = new(_allClosedOrders.Where(x => x.Close.ToShortDateString() == date.ToShortDateString()));
             return Task.CompletedTask;
-        }
-
-        private string GetTableName(int? tableNumber)
-        {
-            return tableNumber == null
-                ? LocalizationResourceManager.Current["NotDefined"]
-                : $"{LocalizationResourceManager.Current["Table"]} {tableNumber}";
         }
 
         private void OnSelectOrderCommand(SimpleOrderBindableModel? order)

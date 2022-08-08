@@ -46,20 +46,12 @@ namespace Next2.ViewModels
         private ICommand _logOutCommand;
         public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _goBackCommand;
-        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommand, allowsMultipleExecutions: false);
-
         private ICommand _changeStateCommand;
         public ICommand ChangeStateCommand => _changeStateCommand ??= new AsyncCommand<ESettingsPageState>(OnChangeStateCommand, allowsMultipleExecutions: false);
 
         #endregion
 
         #region -- Private helpers --
-
-        private Task OnGoBackCommand()
-        {
-            return OnChangeStateCommand(ESettingsPageState.Default);
-        }
 
         private Task OnChangeStateCommand(ESettingsPageState state)
         {
@@ -81,8 +73,6 @@ namespace Next2.ViewModels
                     break;
                 case ESettingsPageState.ProgramDevice:
                     Title = LocalizationResourceManager.Current["ProgramDevice"];
-                    break;
-                default:
                     break;
             }
 

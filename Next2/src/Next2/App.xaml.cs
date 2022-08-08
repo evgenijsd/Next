@@ -234,7 +234,16 @@ namespace Next2
                 cfg.CreateMap<HoldDishModel, HoldDishBindableModel>().ReverseMap();
                 cfg.CreateMap<HoldDishBindableModel, TableBindableModel>()
                     .ForMember(x => x.Id, s => s.Ignore());
+                cfg.CreateMap<SimpleOrderModelDTO, SimpleOrderBindableModel>()
+                        .ForMember<string>(x => x.TableNumberOrName, s => s.MapFrom(x => GetTableName(x.TableNumber)));
             }).CreateMapper();
+        }
+
+        private string GetTableName(int? tableNumber)
+        {
+            return tableNumber == null
+                ? LocalizationResourceManager.Current["NotDefined"]
+                : $"{LocalizationResourceManager.Current["Table"]} {tableNumber}";
         }
 
         #endregion

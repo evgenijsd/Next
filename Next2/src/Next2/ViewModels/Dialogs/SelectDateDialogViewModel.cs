@@ -13,6 +13,7 @@ namespace Next2.ViewModels.Dialogs
             Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
+
             InitParameters(param);
         }
 

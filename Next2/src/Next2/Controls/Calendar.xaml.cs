@@ -234,7 +234,7 @@ namespace Next2.Controls
         public static readonly BindableProperty DropdownWidthRequestProperty = BindableProperty.Create(
            propertyName: nameof(DropdownWidthRequest),
            returnType: typeof(double),
-           defaultValue: 122d,
+           defaultValue: 120d,
            declaringType: typeof(Calendar),
            defaultBindingMode: BindingMode.OneWay);
 
@@ -306,74 +306,52 @@ namespace Next2.Controls
 
                 case nameof(OffsetYears):
 
-                    var now = DateTime.Now;
+                    var currentDate = DateTime.Now;
 
-                    if (now.Year + OffsetYears > Constants.Limits.MAX_YEAR)
+                    if (currentDate.Year + OffsetYears > Constants.Limits.MAX_YEAR)
                     {
-                        OffsetYears = Constants.Limits.MAX_YEAR - now.Year;
+                        OffsetYears = Constants.Limits.MAX_YEAR - currentDate.Year;
                     }
 
-                    for (int i = now.Year; i <= now.Year + OffsetYears; i++)
+                    var firstYear = Years.FirstOrDefault(x => x.YearValue == currentDate.Year);
+                    var index = Years.IndexOf(firstYear);
+
+                    for (int i = index; i <= index + OffsetYears; i++)
                     {
-                        var year = Years[i];
-                        year.Opacity = 1;
+                        Years[i].Opacity = 1;
                     }
 
                     break;
 
                 case nameof(SelectedDay):
 
-                    now = DateTime.Now;
-
                     if (dropdownFrame.IsVisible)
                     {
                         dropdownFrame.IsVisible = false;
-                    }
-                    else if (propertyName == nameof(SelectedYear))
-                    {
-                        if (SelectedYear.YearValue > now.Year + OffsetYears && !_isFutureYearSelected)
-                        {
-                            _isFutureYearSelected = true;
-                            SelectedYear = Years.FirstOrDefault(x => x.YearValue == now.Year + OffsetYears);
-                            yearsCollectionView.SelectedItem = null;
-                        }
-
-                        _isFutureYearSelected = false;
-                    }
-
-                    break;
-
-                case nameof(SelectedMonth):
-
-                    if (SelectedDate is not null && SelectedYear?.YearValue == SelectedDate.Value.Year && SelectedMonth == SelectedDate.Value.Month)
-                    {
-                        SelectedDay = new Day
-                        {
-                            DayOfMonth = SelectedDate.Value.Day.ToString(),
-                            State = EDayState.DayMonth,
-                        };
-                    }
-                    else
-                    {
-                        SelectedDay = new();
                     }
 
                     break;
 
                 case nameof(SelectedYear):
 
-                    if (SelectedDate is not null && SelectedYear?.YearValue == SelectedDate.Value.Year && SelectedMonth == SelectedDate.Value.Month)
+                    currentDate = DateTime.Now;
+
+                    if (SelectedYear.YearValue > currentDate.Year + OffsetYears && !_isFutureYearSelected)
                     {
-                        SelectedDay = new Day
-                        {
-                            DayOfMonth = SelectedDate.Value.Day.ToString(),
-                            State = EDayState.DayMonth,
-                        };
+                        _isFutureYearSelected = true;
+                        SelectedYear = Years.FirstOrDefault(x => x.YearValue == currentDate.Year + OffsetYears);
+                        yearsCollectionView.SelectedItem = null;
                     }
-                    else
-                    {
-                        SelectedDay = new();
-                    }
+
+                    _isFutureYearSelected = false;
+
+                    CreateSelectedDay();
+
+                    break;
+
+                case nameof(SelectedMonth):
+
+                    CreateSelectedDay();
 
                     break;
             }
@@ -382,6 +360,24 @@ namespace Next2.Controls
         #endregion
 
         #region -- Private helpers --
+
+        private Task CreateSelectedDay()
+        {
+            if (SelectedDate is not null && SelectedYear?.YearValue == SelectedDate.Value.Year && SelectedMonth == SelectedDate.Value.Month)
+            {
+                SelectedDay = new Day
+                {
+                    DayOfMonth = SelectedDate.Value.Day.ToString(),
+                    State = EDayState.DayMonth,
+                };
+            }
+            else
+            {
+                SelectedDay = new();
+            }
+
+            return Task.CompletedTask;
+        }
 
         private Task OnYearDropdownTapCommandAsync()
         {
