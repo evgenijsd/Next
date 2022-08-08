@@ -316,7 +316,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish)
+        public Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish)
         {
             var result = new AOResult();
 
@@ -353,10 +353,10 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(AddDishInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        public async Task<AOResult> AddSeatInCurrentOrderAsync()
+        public Task<AOResult> AddSeatInCurrentOrderAsync()
         {
             var result = new AOResult();
 
@@ -386,10 +386,10 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(AddSeatInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        public async Task<AOResult> DeleteSeatFromCurrentOrder(SeatBindableModel seat)
+        public Task<AOResult> DeleteSeatFromCurrentOrder(SeatBindableModel seat)
         {
             var result = new AOResult();
 
@@ -419,10 +419,10 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(DeleteSeatFromCurrentOrder)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        public async Task<AOResult> RedirectDishesFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber)
+        public Task<AOResult> RedirectDishesFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber)
         {
             var result = new AOResult();
 
@@ -451,10 +451,10 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(RedirectDishesFromSeatInCurrentOrder)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        public async Task<AOResult> DeleteDishFromCurrentSeatAsync()
+        public Task<AOResult> DeleteDishFromCurrentSeatAsync()
         {
             var result = new AOResult();
 
@@ -475,7 +475,7 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(DeleteDishFromCurrentSeatAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
         public async Task<AOResult<Guid>> UpdateOrderAsync(OrderModelDTO order)
@@ -584,7 +584,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients)
+        public Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients)
         {
             var result = new AOResult<DishBindableModel>();
 
@@ -619,7 +619,7 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(ChangeDishProportionAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
         public decimal CalculateDishPriceBaseOnProportion(DishBindableModel dish, decimal priceRatio, IEnumerable<IngredientModelDTO> ingredients)
@@ -660,7 +660,7 @@ namespace Next2.Services.Order
 
         #region -- Private helpers --
 
-        private async Task<AOResult<Guid>> GetIdLastCreatedOrderFromSettingsAsync(string employeeId)
+        private Task<AOResult<Guid>> GetIdLastCreatedOrderFromSettingsAsync(string employeeId)
         {
             var result = new AOResult<Guid>();
 
@@ -681,10 +681,10 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(GetIdLastCreatedOrderFromSettingsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        private async Task<AOResult> SaveLastOrderIdToSettingsAsync(string employeeId, Guid orderId)
+        private Task<AOResult> SaveLastOrderIdToSettingsAsync(string employeeId, Guid orderId)
         {
             var result = new AOResult();
 
@@ -717,7 +717,7 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(SaveLastOrderIdToSettingsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
         private async Task<AOResult> AddAdditionalDishesInformationToOrderAsync(FullOrderBindableModel currentOrder)
