@@ -21,11 +21,10 @@ namespace Next2.ViewModels.Dialogs
         private List<int[]> _splitGroupList = new();
         private bool _canExecute;
 
-        public SplitOrderDialogViewModel(
-            DialogParameters param,
-            Action<IDialogParameters> requestClose)
+        public SplitOrderDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
+
             LoadData(param);
         }
 
@@ -59,28 +58,28 @@ namespace Next2.ViewModels.Dialogs
 
         public Action<IDialogParameters> RequestClose;
 
-        private ICommand _selectValueCommand;
+        private ICommand? _selectValueCommand;
         public ICommand SelectValueCommand => _selectValueCommand ??= new AsyncCommand<object>(OnSelectValueCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _incrementSplitValueCommand;
+        private ICommand? _incrementSplitValueCommand;
         public ICommand IncrementSplitValueCommand => _incrementSplitValueCommand ??= new AsyncCommand(OnIncrementSplitValueCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _decrementSplitValueCommand;
+        private ICommand? _decrementSplitValueCommand;
         public ICommand DecrementSplitValueCommand => _decrementSplitValueCommand ??= new AsyncCommand(OnDecrementSplitValueCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _cancelCommand;
+        private ICommand? _cancelCommand;
         public ICommand CancelCommand => _cancelCommand ??= new Command(() => RequestClose(new DialogParameters { }));
 
-        private ICommand _splitCommand;
+        private ICommand? _splitCommand;
         public ICommand SplitCommand => _splitCommand ??= new AsyncCommand(OnSplitCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _selectCommand;
+        private ICommand? _selectCommand;
         public ICommand SelectCommand => _selectCommand ??= new Command(OnSelectCommand);
 
-        private ICommand _nextCommand;
+        private ICommand? _nextCommand;
         public ICommand NextCommand => _nextCommand ??= new AsyncCommand(OnNextCommand, allowsMultipleExecutions: false);
 
-        private ICommand _goBackCommand;
+        private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommand, allowsMultipleExecutions: false);
 
         #endregion

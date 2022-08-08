@@ -136,7 +136,7 @@ namespace Next2.Controls
             set => SetValue(OffsetYearsProperty, value);
         }
 
-        private ICommand _selectYearCommand;
+        private ICommand? _selectYearCommand;
         public ICommand SelectYearCommand => _selectYearCommand ??= new Command(OnSelectYearCommand);
 
         #endregion

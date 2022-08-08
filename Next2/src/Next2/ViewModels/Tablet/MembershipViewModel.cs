@@ -57,19 +57,19 @@ namespace Next2.ViewModels.Tablet
 
         public string SearchText { get; set; } = string.Empty;
 
-        private ICommand _refreshMembersCommand;
+        private ICommand? _refreshMembersCommand;
         public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _memberSortingChangeCommand;
+        private ICommand? _memberSortingChangeCommand;
         public ICommand MemberSortingChangeCommand => _memberSortingChangeCommand ??= new AsyncCommand<EMemberSorting>(OnMemberSortingChangeCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _MembershipEditCommand;
-        public ICommand MembershipEditCommand => _MembershipEditCommand ??= new AsyncCommand<MemberBindableModel?>(OnMembershipEditCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _membershipEditCommand;
+        public ICommand MembershipEditCommand => _membershipEditCommand ??= new AsyncCommand<MemberBindableModel?>(OnMembershipEditCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _searchCommand;
+        private ICommand? _searchCommand;
         public ICommand SearchCommand => _searchCommand ??= new AsyncCommand(OnSearchCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _clearSearchCommand;
+        private ICommand? _clearSearchCommand;
         public ICommand ClearSearchCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

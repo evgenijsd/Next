@@ -9,7 +9,8 @@ using Xamarin.Forms;
 
 namespace Next2.Droid
 {
-    [Activity(Label = "Next2",
+    [Activity(
+        Label = "Next2",
         Icon = "@mipmap/next_icon",
         Theme = "@style/MainTheme",
         MainLauncher = true,
@@ -43,7 +44,7 @@ namespace Next2.Droid
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
-        { 
+        {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);

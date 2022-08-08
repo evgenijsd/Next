@@ -46,16 +46,16 @@ namespace Next2.ViewModels.Mobile
 
         public DishBindableModel? SelectedDish { get; set; }
 
-        private ICommand _openModifyCommand;
+        private ICommand? _openModifyCommand;
         public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _openRemoveCommand;
+        private ICommand? _openRemoveCommand;
         public ICommand OpenRemoveCommand => _openRemoveCommand ??= new AsyncCommand(OnOpenRemoveCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _openHoldSelectionCommand;
+        private ICommand? _openHoldSelectionCommand;
         public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _goBackCommand;
+        private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -121,7 +121,7 @@ namespace Next2.ViewModels.Mobile
             {
                 await _notificationsService.CloseAllPopupAsync();
 
-                if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
                 {
                     if (isDishRemovingAccepted)
                     {

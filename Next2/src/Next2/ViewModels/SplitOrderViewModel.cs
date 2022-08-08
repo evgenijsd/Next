@@ -49,13 +49,13 @@ namespace Next2.ViewModels
 
         public DishBindableModel SelectedDish { get; set; }
 
-        private ICommand _goBackCommand;
+        private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _splitByCommand;
+        private ICommand? _splitByCommand;
         public ICommand SplitByCommand => _splitByCommand ??= new AsyncCommand<ESplitOrderConditions>(OnSplitByCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _selectDishCommand;
+        private ICommand? _selectDishCommand;
         public ICommand SelectDishCommand => _selectDishCommand ??= new AsyncCommand<object?>(OnSelectDishCommandAsync);
 
         #endregion

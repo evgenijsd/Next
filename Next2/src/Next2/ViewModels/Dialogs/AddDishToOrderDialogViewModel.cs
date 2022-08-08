@@ -18,7 +18,9 @@ namespace Next2.ViewModels
         public AddDishToOrderDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
-            CloseCommand = new Command(() => RequestClose(null));
+
+            CloseCommand = new Command(() => RequestClose(new DialogParameters()));
+
             TapAddCommand = new Command(
                 execute: () =>
                 {

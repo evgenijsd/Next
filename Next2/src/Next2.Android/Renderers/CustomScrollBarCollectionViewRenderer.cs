@@ -14,13 +14,17 @@ namespace Next2.Droid.Renderers
 {
     public class CustomScrollBarCollectionViewRenderer : CollectionViewRenderer
     {
-        protected CustomScrollBarCollectionView _customScrollBarCollectionViewElement;
-        protected CustomScrollBarCollectionView CustomScrollBarCollectionViewElement => _customScrollBarCollectionViewElement ??= Element as CustomScrollBarCollectionView;
-
         public CustomScrollBarCollectionViewRenderer(Context context)
             : base(context)
         {
         }
+
+        #region -- Protected properties --
+
+        protected CustomScrollBarCollectionView _customScrollBarCollectionViewElement;
+        protected CustomScrollBarCollectionView CustomScrollBarCollectionViewElement => _customScrollBarCollectionViewElement ??= Element as CustomScrollBarCollectionView;
+
+        #endregion
 
         #region -- Overrides --
 
@@ -45,16 +49,16 @@ namespace Next2.Droid.Renderers
 
         protected void ConfigureScrollBar()
         {
-            this.ScrollBarSize = this.CustomScrollBarCollectionViewElement.ThumbWidth;
+            ScrollBarSize = CustomScrollBarCollectionViewElement.ThumbWidth;
 
             try
             {
-                int scrollBarCornerRadius = this.CustomScrollBarCollectionViewElement.ScrollBarCornerRadius;
-                Color scrollBarThumbColor = this.CustomScrollBarCollectionViewElement.ScrollBarThumbColor.ToAndroid();
-                Color scrollBarTrackColor = this.CustomScrollBarCollectionViewElement.ScrollBarTrackColor.ToAndroid();
+                int scrollBarCornerRadius = CustomScrollBarCollectionViewElement.ScrollBarCornerRadius;
+                Color scrollBarThumbColor = CustomScrollBarCollectionViewElement.ScrollBarThumbColor.ToAndroid();
+                Color scrollBarTrackColor = CustomScrollBarCollectionViewElement.ScrollBarTrackColor.ToAndroid();
 
-                this.VerticalScrollbarThumbDrawable = this.GetGradientDrawable(scrollBarThumbColor, scrollBarCornerRadius);
-                this.VerticalScrollbarTrackDrawable = this.GetGradientDrawable(scrollBarTrackColor, scrollBarCornerRadius);
+                VerticalScrollbarThumbDrawable = GetGradientDrawable(scrollBarThumbColor, scrollBarCornerRadius);
+                VerticalScrollbarTrackDrawable = GetGradientDrawable(scrollBarTrackColor, scrollBarCornerRadius);
             }
             catch (Exception)
             {
@@ -64,6 +68,7 @@ namespace Next2.Droid.Renderers
         protected GradientDrawable GetGradientDrawable(Color color, float cornerRadius)
         {
             GradientDrawable gradient = new GradientDrawable();
+
             gradient.SetCornerRadius(cornerRadius);
             gradient.SetColorFilter(color, PorterDuff.Mode.SrcIn);
 

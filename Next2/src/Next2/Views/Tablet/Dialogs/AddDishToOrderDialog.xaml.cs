@@ -10,6 +10,7 @@ namespace Next2.Views.Tablet.Dialogs
         public AddDishToOrderDialog(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
+
             BindingContext = new AddDishToOrderDialogViewModel(param, requestClose);
         }
     }
