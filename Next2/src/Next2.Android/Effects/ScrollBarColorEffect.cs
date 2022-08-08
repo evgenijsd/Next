@@ -35,8 +35,7 @@ namespace Next2.Droid.Effects
             var scrollBarThumbColor = Color.FromHex("#F45E49").ToAndroid();
             var scrollBarTrackColor = Color.FromHex("#424861").ToAndroid();
 
-            var effect = (UIEffects.ScrollBarColorEffect)this.Element.Effects.FirstOrDefault(e => e is UIEffects.ScrollBarColorEffect);
-
+            var effect = (UIEffects.ScrollBarColorEffect)Element.Effects.FirstOrDefault(e => e is UIEffects.ScrollBarColorEffect);
             if (effect != null)
             {
                 scrollBarThumbWidth = effect.ScrollBarThumbWidth;
@@ -53,7 +52,7 @@ namespace Next2.Droid.Effects
                 Java.Lang.Reflect.Field mScrollCacheField = Class.FromType(typeof(Android.Views.View)).GetDeclaredField("mScrollCache");
                 mScrollCacheField.Accessible = true;
 
-                var mScrollCache = mScrollCacheField.Get(this.Control);
+                var mScrollCache = mScrollCacheField.Get(Control);
                 var scrollBarField = mScrollCache.Class.GetDeclaredField("scrollBar");
                 scrollBarField.Accessible = true;
 
@@ -72,8 +71,8 @@ namespace Next2.Droid.Effects
             {
                 try
                 {
-                    this.Control.VerticalScrollbarThumbDrawable = drawableThumb;
-                    this.Control.VerticalScrollbarTrackDrawable = drawableTrack;
+                    Control.VerticalScrollbarThumbDrawable = drawableThumb;
+                    Control.VerticalScrollbarTrackDrawable = drawableTrack;
                 }
                 catch
                 {

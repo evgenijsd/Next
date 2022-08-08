@@ -12,7 +12,6 @@ using Next2.Services.WorkLog;
 using Next2.Views.Tablet;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

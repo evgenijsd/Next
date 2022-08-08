@@ -5,17 +5,23 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRenderer(typeof(LineSpacingLabel), typeof(LineSpacingLabelRenderer))]
+
 namespace Next2.Droid.Renderers
 {
     public class LineSpacingLabelRenderer : LabelRenderer
     {
-        protected LineSpacingLabel _lineSpacingLabel;
-        protected LineSpacingLabel LineSpacingLabel => _lineSpacingLabel ??= Element as LineSpacingLabel;
-
         public LineSpacingLabelRenderer(Context context)
             : base(context)
         {
         }
+
+        #region -- Protected properties --
+
+        private LineSpacingLabel _lineSpacingLabel;
+
+        protected LineSpacingLabel LineSpacingLabel => _lineSpacingLabel ??= Element as LineSpacingLabel;
+
+        #endregion
 
         #region -- Overrides --
 

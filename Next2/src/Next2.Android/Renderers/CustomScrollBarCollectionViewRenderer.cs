@@ -22,6 +22,7 @@ namespace Next2.Droid.Renderers
         #region -- Protected properties --
 
         private CustomScrollBarCollectionView _customScrollBarCollectionViewElement;
+
         protected CustomScrollBarCollectionView CustomScrollBarCollectionViewElement => this._customScrollBarCollectionViewElement ??= this.Element as CustomScrollBarCollectionView;
 
         #endregion
