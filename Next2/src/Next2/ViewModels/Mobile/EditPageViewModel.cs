@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels.Mobile
 {
@@ -41,6 +42,8 @@ namespace Next2.ViewModels.Mobile
             _notificationsService = notificationsService;
             _menuService = menuService;
             _mapper = mapper;
+
+            Device.StartTimer(TimeSpan.FromSeconds(10), OnTimerTick);
         }
 
         #region -- Public properties --
@@ -49,16 +52,16 @@ namespace Next2.ViewModels.Mobile
 
         public TimeSpan TimerHoldSelectedDish { get; set; }
 
-        private ICommand _openModifyCommand;
+        private ICommand? _openModifyCommand;
         public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _openRemoveCommand;
+        private ICommand? _openRemoveCommand;
         public ICommand OpenRemoveCommand => _openRemoveCommand ??= new AsyncCommand(OnOpenRemoveCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _openHoldSelectionCommand;
+        private ICommand? _openHoldSelectionCommand;
         public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand<DishBindableModel?>(OnOpenHoldSelectionCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _goBackCommand;
+        private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -74,11 +77,6 @@ namespace Next2.ViewModels.Mobile
                 _isModifiedDish = isModifiedDish;
             }
 
-            if (parameters.TryGetValue(Constants.Navigations.ORDER, out OrderRegistrationViewModel orderPage))
-            {
-                TimerHoldSelectedDish = orderPage.TimerHoldSelectedDish;
-            }
-
             var seat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
             _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
@@ -86,11 +84,26 @@ namespace Next2.ViewModels.Mobile
             SelectedDish = new();
 
             SelectedDish = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
+
+            if (SelectedDish?.HoldTime is DateTime holdTime)
+            {
+                TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
+            }
         }
 
         #endregion
 
         #region -- Private helpers --
+
+        private bool OnTimerTick()
+        {
+            if (SelectedDish is not null && SelectedDish.HoldTime is DateTime holdTime)
+            {
+                TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
+            }
+
+            return true;
+        }
 
         private async Task OnOpenHoldSelectionCommandAsync(DishBindableModel? dish)
         {
@@ -118,7 +131,7 @@ namespace Next2.ViewModels.Mobile
                 if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
                 {
                     SelectedDish.HoldTime = holdTime;
-                    //TimerHoldSelectedDish = holdTime - DateTime.Now;
+                    TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
                 }
             }
         }
@@ -155,7 +168,7 @@ namespace Next2.ViewModels.Mobile
             {
                 await _notificationsService.CloseAllPopupAsync();
 
-                if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
                 {
                     if (isDishRemovingAccepted)
                     {

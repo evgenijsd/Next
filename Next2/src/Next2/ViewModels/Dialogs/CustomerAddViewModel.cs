@@ -19,7 +19,8 @@ namespace Next2.ViewModels.Dialogs
             Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
-            CloseCommand = new DelegateCommand(() => RequestClose(null));
+
+            CloseCommand = new DelegateCommand(() => RequestClose(new DialogParameters()));
             AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }));
             DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
         }
@@ -54,10 +55,10 @@ namespace Next2.ViewModels.Dialogs
 
         public DelegateCommand DeclineCommand { get; }
 
-        private ICommand _goToStepCommand;
+        private ICommand? _goToStepCommand;
         public ICommand GoToStepCommand => _goToStepCommand ??= new AsyncCommand<EClientAdditionStep>(OnGoToStepCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _addNewCustomerCommand;
+        private ICommand? _addNewCustomerCommand;
         public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -78,7 +79,7 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private helpers --
 
-        private async Task OnAddNewCustomerCommandAsync()
+        private Task OnAddNewCustomerCommandAsync()
         {
             if (CanAddNewCustomer)
             {
@@ -108,6 +109,8 @@ namespace Next2.ViewModels.Dialogs
                 {
                 }
             }
+
+            return Task.CompletedTask;
         }
 
         private Task OnGoToStepCommandAsync(EClientAdditionStep step)

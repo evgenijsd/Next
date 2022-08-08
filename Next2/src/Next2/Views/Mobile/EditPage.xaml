@@ -51,6 +51,39 @@
                 RowDefinitions="auto, auto, auto, *"
                 Margin="20, 0, 20, 0">
 
+                <StackLayout
+                    Grid.Row="0"
+                    HorizontalOptions="EndAndExpand"
+                    Margin="0, 47, 0, 0"
+                    VerticalOptions="StartAndExpand"
+                    Orientation="Horizontal"
+                    IsVisible="{Binding SelectedDish.HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}">
+
+                    <Label
+                        Text="{xct:Translate ItemOnHold}"
+                        FontSize="{DynamicResource TSize_i7}"
+                        FontFamily="Barlow-SemiBold"
+                        TextColor="{DynamicResource IndicationColor_i5}" />
+
+                    <Label
+                        HorizontalOptions="EndAndExpand"
+                        FontSize="{DynamicResource TSize_i7}"
+                        FontFamily="Barlow-SemiBold"
+                        TextColor="{DynamicResource IndicationColor_i5}">
+
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="  " />
+                                <Span Text="{Binding TimerHoldSelectedDish.Hours, StringFormat='{0:D2}'}" />
+                                <Span Text=":" />
+                                <Span Text="{Binding TimerHoldSelectedDish.Minutes, StringFormat='{0:D2}'}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+
+                    </Label>
+
+                </StackLayout>
+                
                 <StackLayout 
                     Grid.Row="0"
                     Margin="0, 15"
@@ -65,11 +98,34 @@
                         BackgroundColor="Transparent"
                         IsClippedToBounds="True">
 
-                        <ffimageloading:CachedImage 
-                            HeightRequest="60"
-                            WidthRequest="60"
-                            Source="{Binding SelectedDish.ImageSource}"                            
-                            Aspect="AspectFill"/>
+                        <Grid>
+                            <ffimageloading:CachedImage
+                                HeightRequest="60"
+                                WidthRequest="60"
+                                Source="{Binding SelectedDish.ImageSource}"
+                                Aspect="AspectFill">
+
+                                <ffimageloading:CachedImage.Triggers>
+
+                                    <DataTrigger
+                                        TargetType="ffimageloading:CachedImage"
+                                        Binding="{Binding SelectedDish.HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                        Value="True">
+
+                                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i4}" />
+
+                                    </DataTrigger>
+
+                                </ffimageloading:CachedImage.Triggers>
+                                
+                            </ffimageloading:CachedImage>
+
+                            <ffimageloading:CachedImage
+                                Source="ic_time_circle_orange_32px"
+                                Margin="15"
+                                IsVisible="{Binding SelectedDish.HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}" />
+                            
+                        </Grid>
 
                     </Frame>
 
@@ -77,18 +133,18 @@
                         VerticalOptions="Center"
                         Orientation="Vertical">
 
-                        <Label 
+                        <Label
                             Text="{Binding SelectedDish.Name}"
                             FontFamily="Barlow-Medium"
-                            FontSize="{DynamicResource TSize_i6}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            FontSize="{DynamicResource TSize_i7}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
-                        <Label 
+                        <Label
                             Text="{Binding SelectedDish.TotalPrice, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                             Margin="0, 5, 0, 0"
                             FontFamily="Barlow-SemiBold"
-                            FontSize="{DynamicResource TSize_i6}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            FontSize="{DynamicResource TSize_i7}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                     </StackLayout>
 

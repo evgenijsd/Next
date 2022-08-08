@@ -32,11 +32,11 @@ namespace Next2.ViewModels.Mobile
 
         public TipItem SelectedTipItem { get; set; }
 
-        private ICommand _tapTipItemCommand;
-        public ICommand TapTipItemCommand => _tapTipItemCommand = new AsyncCommand<object>(OnTapTipItemCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _tapTipItemCommand;
+        public ICommand TapTipItemCommand => _tapTipItemCommand ??= new AsyncCommand<object>(OnTapTipItemCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _goBackCommand;
-        public ICommand GoBackCommand => _goBackCommand = new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 

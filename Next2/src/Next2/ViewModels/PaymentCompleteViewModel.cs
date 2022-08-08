@@ -33,9 +33,8 @@ namespace Next2.ViewModels
         private readonly IMapper _mapper;
         private readonly INotificationsService _notificationsService;
 
-        private ICommand _tapPaymentOptionCommand;
-
-        private ICommand _tapTipItemCommand;
+        private readonly ICommand _tapPaymentOptionCommand;
+        private readonly ICommand _tapTipItemCommand;
 
         private List<GiftCardModelDTO> _listGiftCardsToBeUpdated;
 
@@ -115,22 +114,22 @@ namespace Next2.ViewModels
 
         public bool IsPaymentComplete { get; set; } = false;
 
-        private ICommand _tapExpandCommand;
-        public ICommand TapExpandCommand => _tapExpandCommand = new Command(() => IsExpandedSummary = !IsExpandedSummary);
+        private ICommand? _tapExpandCommand;
+        public ICommand TapExpandCommand => _tapExpandCommand ??= new Command(() => IsExpandedSummary = !IsExpandedSummary);
 
-        private ICommand _changeCardPaymentStatusCommand;
+        private ICommand? _changeCardPaymentStatusCommand;
         public ICommand ChangeCardPaymentStatusCommand => _changeCardPaymentStatusCommand ??= new AsyncCommand(OnChangeCardPaymentStatusCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _clearDrawPanelCommand;
+        private ICommand? _clearDrawPanelCommand;
         public ICommand ClearDrawPanelCommand => _clearDrawPanelCommand ??= new Command(() => IsCleared = true);
 
-        private ICommand _tapCheckBoxSignatureReceiptCommand;
+        private ICommand? _tapCheckBoxSignatureReceiptCommand;
         public ICommand TapCheckBoxSignatureReceiptCommand => _tapCheckBoxSignatureReceiptCommand ??= new Command(() => NeedSignatureReceipt = !NeedSignatureReceipt);
 
-        private ICommand _addGiftCardCommand;
-        public ICommand AddGiftCardCommand => _addGiftCardCommand = new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _addGiftCardCommand;
+        public ICommand AddGiftCardCommand => _addGiftCardCommand ??= new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _finishPaymentCommand;
+        private ICommand? _finishPaymentCommand;
         public ICommand FinishPaymentCommand => _finishPaymentCommand ??= new AsyncCommand(OnFinishPaymentCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -342,12 +341,12 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private async Task OnTapPaymentOptionCommandAsync(PaymentItem item)
+        private async Task OnTapPaymentOptionCommandAsync(PaymentItem? item)
         {
             string path = string.Empty;
             NavigationParameters navigationParams = new();
 
-            switch (item.PaymentType)
+            switch (item?.PaymentType)
             {
                 case EPaymentItems.Cash:
                     if (!App.IsTablet)
@@ -502,11 +501,11 @@ namespace Next2.ViewModels
             }
         }
 
-        private Task<bool> SendReceiptAsync(IDialogParameters par)
+        private Task<bool> SendReceiptAsync(IDialogParameters parameters)
         {
             bool isReceiptPrint = false;
 
-            if (par.TryGetValue(Constants.DialogParameterKeys.PAYMENT_COMPLETE, out EPaymentReceiptOptions options))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.PAYMENT_COMPLETE, out EPaymentReceiptOptions options))
             {
                 switch (options)
                 {

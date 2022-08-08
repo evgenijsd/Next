@@ -10,6 +10,7 @@ namespace Next2.Views.Tablet.Dialogs
         public ConfirmDialog(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
+
             BindingContext = new ConfirmViewModel(param, requestClose);
         }
     }

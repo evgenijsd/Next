@@ -6,7 +6,7 @@ namespace Next2.Services.Notifications
     {
         Task ShowInfoDialogAsync(string titleText, string descriptionText, string okText);
 
-        Task ResponseToBadRequestAsync(string statusCode);
+        Task ResponseToBadRequestAsync(string? statusCode);
 
         Task CloseAllPopupAsync();
 

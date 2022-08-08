@@ -42,14 +42,14 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public Action<IDialogParameters> RequestClose;
 
-        private ICommand _goBackCommand;
+        private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand<string>(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
         #region -- Private helpers --
 
-        private Task OnGoBackCommandAsync(string text)
+        private Task OnGoBackCommandAsync(string? text)
         {
             Animation = new MoveAnimation(MoveAnimationOptions.Top, MoveAnimationOptions.Bottom);
 

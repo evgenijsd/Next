@@ -9,8 +9,8 @@ namespace Next2.Helpers.ProcessHelpers
         private readonly DateTime _creationUtcTime;
 
         public AOResult(
-            [CallerMemberName] string callerName = null,
-            [CallerFilePath] string callerFile = null,
+            [CallerMemberName] string? callerName = null,
+            [CallerFilePath] string? callerFile = null,
             [CallerLineNumber] int callerLineNumber = 0)
         {
             _creationUtcTime = DateTime.UtcNow;
@@ -25,15 +25,15 @@ namespace Next2.Helpers.ProcessHelpers
 
         public bool IsSuccess { get; private set; }
 
-        public Exception Exception { get; private set; }
+        public Exception? Exception { get; private set; }
 
-        public string ErrorId { get; private set; }
+        public string? ErrorId { get; private set; }
 
-        public string Message { get; private set; }
+        public string? Message { get; private set; }
 
-        public string CallerName { get; private set; }
+        public string? CallerName { get; private set; }
 
-        public string CallerFile { get; private set; }
+        public string? CallerFile { get; private set; }
 
         public int CallerLineNumber { get; private set; }
 
@@ -89,12 +89,12 @@ namespace Next2.Helpers.ProcessHelpers
             SetError("ArgumentNullException", $"argumentName: {argumentName}");
         }
 
-        public void SetError(string errorId, string message, Exception ex = null)
+        public void SetError(string errorId, string message, Exception? ex = null)
         {
             SetResult(false, errorId, message, ex);
         }
 
-        public void SetResult(bool isSuccess, string errorId, string message, Exception ex)
+        public void SetResult(bool isSuccess, string? errorId, string? message, Exception? ex)
         {
             var finishTime = DateTime.UtcNow;
             OperationTime = finishTime - _creationUtcTime;
@@ -122,7 +122,7 @@ namespace Next2.Helpers.ProcessHelpers
 #endif
                 // Use analytics service when installed
                 //var analyticsService = App.Resolve<IAnalyticsService>();
-                var param = new Dictionary<string, string>();
+                var param = new Dictionary<string, string?>();
                 param[nameof(CallerName)] = CallerName;
                 param[nameof(CallerFile)] = CallerFile;
                 param[nameof(CallerLineNumber)] = CallerLineNumber.ToString();
@@ -155,7 +155,7 @@ namespace Next2.Helpers.ProcessHelpers
 
     public class AOResult<T> : AOResult
     {
-        public AOResult([CallerMemberName] string callerName = null, [CallerFilePath] string callerFile = null, [CallerLineNumber] int callerLineNumber = 0)
+        public AOResult([CallerMemberName] string? callerName = null, [CallerFilePath] string? callerFile = null, [CallerLineNumber] int callerLineNumber = 0)
             : base(callerName, callerFile, callerLineNumber)
         {
         }
@@ -180,7 +180,7 @@ namespace Next2.Helpers.ProcessHelpers
             SetSuccess();
         }
 
-        public void SetResult(T result, bool isSuccess, string errorId, string message, Exception ex = null)
+        public void SetResult(T result, bool isSuccess, string errorId, string message, Exception? ex = null)
         {
             Result = result;
             SetResult(isSuccess, errorId, message, ex);

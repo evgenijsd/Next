@@ -22,7 +22,7 @@ namespace Next2.ViewModels.Dialogs
             _workLogService = workLogService;
 
             RequestClose = requestClose;
-            CloseCommand = new DelegateCommand(() => RequestClose(null));
+            CloseCommand = new DelegateCommand(() => RequestClose(new DialogParameters()));
         }
 
         #region -- Public properties --
@@ -39,10 +39,10 @@ namespace Next2.ViewModels.Dialogs
 
         public DateTime DateTime { get; set; }
 
-        private ICommand _applyCommand;
+        private ICommand? _applyCommand;
         public ICommand ApplyCommand => _applyCommand ??= new AsyncCommand(OnApplyCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _cancelCommand;
+        private ICommand? _cancelCommand;
         public ICommand CancelCommand => _cancelCommand ??= new AsyncCommand(OnCancelCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

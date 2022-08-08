@@ -10,6 +10,7 @@ namespace Next2.Views.Tablet.Dialogs
         public CustomerAddDialog(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
+
             BindingContext = new CustomerAddViewModel(param, requestClose);
         }
     }

@@ -18,10 +18,10 @@ namespace Next2.ViewModels.Mobile
 
         public bool NeedSignatureReceipt { get; set; }
 
-        private ICommand _changeCardPaymentStatusCommand;
+        private ICommand? _changeCardPaymentStatusCommand;
         public ICommand ChangeCardPaymentStatusCommand => _changeCardPaymentStatusCommand ??= new AsyncCommand(OnChangeCardPaymentStatusCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _tapCheckBoxSignatureReceiptCommand;
+        private ICommand? _tapCheckBoxSignatureReceiptCommand;
         public ICommand TapCheckBoxSignatureReceiptCommand => _tapCheckBoxSignatureReceiptCommand ??= new Command(() => NeedSignatureReceipt = !NeedSignatureReceipt);
 
         #endregion

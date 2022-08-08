@@ -70,37 +70,37 @@ namespace Next2.ViewModels
 
         public ObservableCollection<SimpleOrderBindableModel> Orders { get; set; } = new();
 
-        private ICommand _switchToOrdersCommand;
+        private ICommand? _switchToOrdersCommand;
         public ICommand SwitchToOrdersCommand => _switchToOrdersCommand ??= new Command(OnSwitchToOrdersCommand);
 
-        private ICommand _switchToTabsComamnd;
+        private ICommand? _switchToTabsComamnd;
         public ICommand SwitchToTabsComamnd => _switchToTabsComamnd ??= new Command(OnSwitchToTabsComamnd);
 
-        private ICommand _goToSearchQueryInputCommand;
+        private ICommand? _goToSearchQueryInputCommand;
         public ICommand GoToSearchQueryInputCommand => _goToSearchQueryInputCommand ??= new AsyncCommand(OnGoToSearchQueryInputCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _refreshOrdersCommand;
+        private ICommand? _refreshOrdersCommand;
         public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
 
-        private ICommand _changeSortOrderCommand;
+        private ICommand? _changeSortOrderCommand;
         public ICommand ChangeSortOrderCommand => _changeSortOrderCommand ??= new Command<EOrdersSortingType>(OnChangeSortOrderCommand);
 
-        private ICommand _selectOrderCommand;
+        private ICommand? _selectOrderCommand;
         public ICommand SelectOrderCommand => _selectOrderCommand ??= new Command<SimpleOrderBindableModel?>(OnSelectOrderCommand);
 
-        private ICommand _removeOrderCommand;
+        private ICommand? _removeOrderCommand;
         public ICommand RemoveOrderCommand => _removeOrderCommand ??= new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _printCommand;
+        private ICommand? _printCommand;
         public ICommand PrintCommand => _printCommand ??= new AsyncCommand(OnPrintCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _editOrderCommand;
+        private ICommand? _editOrderCommand;
         public ICommand EditOrderCommand => _editOrderCommand ??= new AsyncCommand(OnEditOrderCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _splitCommand;
+        private ICommand? _splitCommand;
         public ICommand SplitCommand => _splitCommand ??= new AsyncCommand(OnSplitCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _clearSearchCommand;
+        private ICommand? _clearSearchCommand;
         public ICommand ClearSearchCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -380,8 +380,7 @@ namespace Next2.ViewModels
 
         private async void CloseRemoveOrderDialogCallbackAsync(IDialogParameters parameters)
         {
-            if (parameters is not null
-                && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
             {
                 if (isOrderDeletionConfirmationRequestCalled)
                 {
@@ -409,7 +408,7 @@ namespace Next2.ViewModels
 
         private async void CloseRemoveConfirmationDialogCallback(IDialogParameters parameters)
         {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted)
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted)
                 && isOrderRemovingAccepted && SelectedOrder is not null)
             {
                 if (IsInternetConnected)
@@ -506,7 +505,7 @@ namespace Next2.ViewModels
 
         private async void ClosePrintOrderDialogCallbackAsync(IDialogParameters parameters)
         {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderPrintingAccepted))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderPrintingAccepted))
             {
                 if (isOrderPrintingAccepted && SelectedOrder is not null)
                 {

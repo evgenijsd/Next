@@ -59,25 +59,27 @@ namespace Next2.ViewModels.Mobile
 
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
-        private ICommand _tapDishCommand;
+        private ICommand? _tapDishCommand;
         public ICommand TapDishCommand => _tapDishCommand ??= new AsyncCommand<DishModelDTO>(OnTapDishCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _tapSortCommand;
+        private ICommand? _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _refreshDishesCommand;
+        private ICommand? _refreshDishesCommand;
         public ICommand RefreshDishesCommand => _refreshDishesCommand ??= new AsyncCommand(OnRefreshDishesCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
         #region -- Overrides --
 
-        public override async Task InitializeAsync(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.TryGetValue(Constants.Navigations.CATEGORY, out CategoryModel category))
             {
                 SelectedCategoriesItem = category;
             }
+
+            return Task.CompletedTask;
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -122,7 +124,7 @@ namespace Next2.ViewModels.Mobile
         {
             if (IsInternetConnected)
             {
-                if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                 {
                     _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
                     _tempCurrentSeat = _mapper.Map<SeatBindableModel>(_orderService.CurrentSeat);

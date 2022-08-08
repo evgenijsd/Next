@@ -20,15 +20,19 @@ namespace Next2.iOS.Renderers
 
             if (e.OldElement == null)
             {
-                this.Control.BorderStyle = UIKit.UITextBorderStyle.None;
-                this.Control.TintColor = UIColor.SystemRedColor;
+                Control.BorderStyle = UIKit.UITextBorderStyle.None;
+                Control.TintColor = UIColor.SystemRedColor;
             }
 
-            if (this.Element == null)
+            if (Element == null)
+            {
                 return;
+            }
 
-            if (this.Element.Keyboard == Keyboard.Numeric)
-                this.AddDoneButton();
+            if (Element.Keyboard == Keyboard.Numeric)
+            {
+                AddDoneButton();
+            }
         }
 
         public override bool CanPerform(Selector action, NSObject withSender)
@@ -48,19 +52,20 @@ namespace Next2.iOS.Renderers
 
             var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, (sender, e) =>
             {
-                this.Control.ResignFirstResponder();
-                var baseEntry = this.Element.GetType();
+                Control.ResignFirstResponder();
+                var baseEntry = Element.GetType();
                 ((IEntryController)Element).SendCompleted();
             });
 
-            toolbar.Items = new UIBarButtonItem[] {
-                new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace),
-                doneButton
+            toolbar.Items = new UIBarButtonItem[]
+            {
+                new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace),
+                doneButton,
             };
 
-            this.Control.InputAccessoryView = toolbar;
+            Control.InputAccessoryView = toolbar;
         }
 
         #endregion
     }
-} 
+}

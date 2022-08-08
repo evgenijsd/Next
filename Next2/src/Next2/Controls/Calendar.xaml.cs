@@ -82,7 +82,7 @@ namespace Next2.Controls
 
         public Day SelectedDay { get; set; }
 
-        private ICommand _selectYearCommand;
+        private ICommand? _selectYearCommand;
         public ICommand SelectYearCommand => _selectYearCommand ??= new Command(OnSelectYearCommand);
 
         #endregion

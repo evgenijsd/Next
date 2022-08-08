@@ -175,17 +175,17 @@ namespace Next2.Controls.Templates
             set => SetValue(IsErrorPlaceholderVisibleProperty, value);
         }
 
-        private ICommand _buttonTapCommand;
+        private ICommand? _buttonTapCommand;
         public ICommand ButtonTapCommand => _buttonTapCommand ??= new AsyncCommand<object>(OnTabAsync);
 
-        private ICommand _buttonClearTapCommand;
+        private ICommand? _buttonClearTapCommand;
         public ICommand ButtonClearTapCommand => _buttonClearTapCommand ??= new AsyncCommand<object>(OnTabClearAsync);
 
         #endregion
 
         #region -- Ovverides --
 
-        protected override void OnPropertyChanging([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanging([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanging(propertyName);
 
@@ -203,7 +203,7 @@ namespace Next2.Controls.Templates
 
         #region -- Private helpers --
 
-        private async Task OnTabAsync(object? sender)
+        private Task OnTabAsync(object? sender)
         {
             if (sender is string str && str is not null)
             {
@@ -238,15 +238,19 @@ namespace Next2.Controls.Templates
 
                 ScreenKeyboard = IsNumericMode ? string.Format(ValueFormat, _numericValue) : string.Format(ValueFormat, Value);
             }
+
+            return Task.CompletedTask;
         }
 
-        private async Task OnTabClearAsync(object? arg)
+        private Task OnTabClearAsync(object? arg)
         {
             ScreenKeyboard = Placeholder;
             Value = string.Empty;
             _numericValue = 0;
             IsKeyBoardTyped = false;
             IsErrorNotificationVisible = false;
+
+            return Task.CompletedTask;
         }
 
         #endregion
