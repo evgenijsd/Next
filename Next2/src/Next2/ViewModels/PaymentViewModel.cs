@@ -106,11 +106,11 @@ namespace Next2.ViewModels
 
         public PaymentCompleteViewModel PaymentCompleteViewModel { get; set; }
 
-        private ICommand _backCancelCommand;
+        private ICommand? _backCancelCommand;
         public ICommand BackCancelCommand => _backCancelCommand ??= new AsyncCommand(OnBackCancelCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _OpenTipsCommand;
-        public ICommand OpenTipsCommand => _OpenTipsCommand ??= new AsyncCommand(OnOpenTipsCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _openTipsCommand;
+        public ICommand OpenTipsCommand => _openTipsCommand ??= new AsyncCommand(OnOpenTipsCommandAsync, allowsMultipleExecutions: false);
 
         private Task OnOpenTipsCommandAsync()
         {
@@ -121,7 +121,7 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
@@ -236,7 +236,7 @@ namespace Next2.ViewModels
 
         private async void CloseConfirmExitFromPaymentCallbackAsync(IDialogParameters parameters)
         {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isExitConfirmed))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isExitConfirmed))
             {
                 await _notificationsService.CloseAllPopupAsync();
 

@@ -16,6 +16,7 @@ namespace Next2.iOS.Renderers
             base.OnElementPropertyChanged(sender, e);
 
             var s = sender as CustomFrame;
+
             if (e.PropertyName == "BorderColor")
             {
                 Layer.BorderColor = s.BorderColor.ToCGColor();
@@ -28,7 +29,7 @@ namespace Next2.iOS.Renderers
             {
                 Layer.BorderWidth = frame.BorderWidth;
                 Layer.CornerRadius = frame.CornerRadius;
-                Layer.BorderColor = frame.BorderColor.ToCGColor(); 
+                Layer.BorderColor = frame.BorderColor.ToCGColor();
             }
 
             base.OnElementChanged(e);

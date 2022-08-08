@@ -10,6 +10,7 @@ namespace Next2.Views.Mobile.Dialogs
         public DeleteSeatDialog(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
+
             BindingContext = new DeleteSeatViewModel(param, requestClose);
         }
     }

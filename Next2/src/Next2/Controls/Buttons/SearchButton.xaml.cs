@@ -126,7 +126,7 @@ namespace Next2.Controls.Buttons
             set => SetValue(ClearCommandProperty, value);
         }
 
-        private ICommand _tapButtonCommand;
+        private ICommand? _tapButtonCommand;
         public ICommand TapButtonCommand => _tapButtonCommand ??= new AsyncCommand(OnTapButtonCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

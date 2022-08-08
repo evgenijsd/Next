@@ -35,7 +35,7 @@ namespace Next2.iOS.Renderers
             {
                 var paragraphStyle = new NSMutableParagraphStyle()
                 {
-                    LineSpacing = (nfloat)lineSpacingLabel.LineSpacing
+                    LineSpacing = (nfloat)lineSpacingLabel.LineSpacing,
                 };
 
                 var text = new NSMutableAttributedString(lineSpacingLabel.Text);

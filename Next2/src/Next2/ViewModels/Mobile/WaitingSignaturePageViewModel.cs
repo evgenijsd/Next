@@ -19,10 +19,10 @@ namespace Next2.ViewModels.Mobile
 
         public bool IsCleared { get; set; } = true;
 
-        private ICommand _clearDrawPanelCommand;
+        private ICommand? _clearDrawPanelCommand;
         public ICommand ClearDrawPanelCommand => _clearDrawPanelCommand ??= new Command(() => IsCleared = true);
 
-        private ICommand _tapPaymentCompleteCommand;
+        private ICommand? _tapPaymentCompleteCommand;
         public ICommand TapPaymentCompleteCommand => _tapPaymentCompleteCommand ??= new AsyncCommand(OnTapPaymentCompleteCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

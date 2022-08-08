@@ -28,7 +28,7 @@ namespace Next2.Services.Notifications
 
         #region -- INotificationsService implementation --
 
-        public async Task ResponseToBadRequestAsync(string statusCode)
+        public async Task ResponseToBadRequestAsync(string? statusCode)
         {
             if (statusCode == Constants.StatusCode.UNAUTHORIZED)
             {

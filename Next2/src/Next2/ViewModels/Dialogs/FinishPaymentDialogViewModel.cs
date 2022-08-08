@@ -17,6 +17,7 @@ namespace Next2.ViewModels.Dialogs
             Action<IDialogParameters> requestClose)
         {
             SetupParameters(param);
+
             RequestClose = requestClose;
         }
 
@@ -32,7 +33,7 @@ namespace Next2.ViewModels.Dialogs
 
         public string TipValue { get; set; }
 
-        private ICommand _finishPaymentCommand;
+        private ICommand? _finishPaymentCommand;
         public ICommand FinishPaymentCommand => _finishPaymentCommand ??= new AsyncCommand<EPaymentReceiptOptions>(OnFinishPaymentCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

@@ -11,7 +11,8 @@ namespace Next2.ViewModels.Dialogs
         public PaymentCompleteDialogViewModel(Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
-            OkCommand = new Command(() => RequestClose(null));
+
+            OkCommand = new Command(() => RequestClose(new DialogParameters()));
         }
 
         #region -- Public properties --

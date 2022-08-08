@@ -28,13 +28,13 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public Action<IDialogParameters> RequestClose;
 
-        private ICommand _removeCommand;
+        private ICommand? _removeCommand;
         public ICommand RemoveCommand => _removeCommand ??= new AsyncCommand(OnRemoveCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _assignCommand;
+        private ICommand? _assignCommand;
         public ICommand AssignCommand => _assignCommand ??= new AsyncCommand(OnAssignCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _cancelCommand;
+        private ICommand? _cancelCommand;
         public ICommand CancelCommand => _cancelCommand ??= new AsyncCommand(OnCancelCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
