@@ -47,8 +47,6 @@ namespace Next2.Services.Order
 
         #region -- Public properties --
 
-        public TimeSpan TimerHoldSelectedDish { get; set; }
-
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
         public SeatBindableModel? CurrentSeat { get; set; }

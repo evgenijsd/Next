@@ -11,8 +11,6 @@ namespace Next2.Services.Order
 {
     public interface IOrderService
     {
-        TimeSpan TimerHoldSelectedDish { get; set; }
-
         FullOrderBindableModel CurrentOrder { get; set; }
 
         SeatBindableModel? CurrentSeat { get; set; }
