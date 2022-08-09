@@ -61,8 +61,8 @@ namespace Next2.ViewModels.Tablet
         private ICommand? _logOutCommand;
         public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync, allowsMultipleExecutions: false);
 
-        private MenuItemBindableModel _selectedMenuItem;
-        public MenuItemBindableModel SelectedMenuItem
+        private MenuItemBindableModel? _selectedMenuItem;
+        public MenuItemBindableModel? SelectedMenuItem
         {
             get => _selectedMenuItem;
             set
@@ -74,7 +74,7 @@ namespace Next2.ViewModels.Tablet
             }
         }
 
-        public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
+        public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; } = new();
 
         public NewOrderViewModel NewOrderViewModel { get; set; }
 

@@ -112,7 +112,11 @@ namespace Next2.Services.Menu
 
                 if (resultOfGettingIngredients.Success && resultOfGettingIngredients.Value is not null)
                 {
-                    result.SetSuccess(resultOfGettingIngredients.Value.Ingredients);
+                    var ingridients = resultOfGettingIngredients.Value.Ingredients is null
+                        ? new List<IngredientModelDTO>()
+                        : resultOfGettingIngredients.Value.Ingredients;
+
+                    result.SetSuccess(ingridients);
                 }
             }
             catch (Exception ex)

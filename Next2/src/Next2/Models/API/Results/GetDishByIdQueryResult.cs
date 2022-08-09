@@ -4,6 +4,6 @@ namespace Next2.Models.API.Results
 {
     public class GetDishByIdQueryResult
     {
-        public DishModelDTO Dish { get; set; }
+        public DishModelDTO Dish { get; set; } = new();
     }
 }

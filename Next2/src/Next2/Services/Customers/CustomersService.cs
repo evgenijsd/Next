@@ -287,7 +287,7 @@ namespace Next2.Services.Customers
                     {
                         result = await UpdateGiftCardAsync(giftCard);
 
-                        if (!result.IsSuccess)
+                        if (!result.IsSuccess && result.Exception is not null)
                         {
                             throw result.Exception;
                         }

@@ -12,14 +12,13 @@ namespace Next2.Services.Mock
     {
         private readonly TaskCompletionSource<bool> _initCompletionSource = new();
 
-        private IList<RewardModel> _rewards;
-        private IList<WorkLogRecordModel> _workLogBook;
-        private IList<GiftCardModelDTO> _giftCards;
-        private IList<ReservationModel> _reservationsList;
-        private IList<HoldDishModel> _holdDishes;
+        private IList<RewardModel> _rewards = new List<RewardModel>();
+        private IList<WorkLogRecordModel> _workLogBook = new List<WorkLogRecordModel>();
+        private IList<ReservationModel> _reservationsList = new List<ReservationModel>();
+        private IList<HoldDishModel> _holdDishes = new List<HoldDishModel>();
 
-        private Dictionary<Type, object> _base;
-        private Dictionary<Type, int> _maxIdentifiers;
+        private Dictionary<Type, object> _base = new();
+        private Dictionary<Type, int> _maxIdentifiers = new();
 
         public MockService()
         {
@@ -155,7 +154,6 @@ namespace Next2.Services.Mock
             {
                 { typeof(RewardModel), _rewards },
                 { typeof(WorkLogRecordModel), _workLogBook },
-                { typeof(GiftCardModelDTO), _giftCards },
                 { typeof(ReservationModel), _reservationsList },
                 { typeof(HoldDishModel), _holdDishes },
             };

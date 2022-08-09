@@ -16,7 +16,7 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly INotificationsService _notificationsService;
 
-        private TipItem _tipItem;
+        private TipItem _tipItem = new();
 
         public TipsPageViewModel(
             INotificationsService notificationsService,

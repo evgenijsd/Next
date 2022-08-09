@@ -40,7 +40,7 @@ namespace Next2.Models.API.Commands
 
         public Guid? CustomerId { get; set; }
 
-        public string EmployeeId { get; set; }
+        public string EmployeeId { get; set; } = string.Empty;
 
         public IEnumerable<IncomingSeatModel>? Seats { get; set; }
     }

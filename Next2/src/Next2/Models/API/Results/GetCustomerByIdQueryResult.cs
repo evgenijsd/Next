@@ -4,6 +4,6 @@ namespace Next2.Models.API.Results
 {
     public class GetCustomerByIdQueryResult
     {
-        public CustomerModelDTO Customer { get; set; }
+        public CustomerModelDTO Customer { get; set; } = new();
     }
 }

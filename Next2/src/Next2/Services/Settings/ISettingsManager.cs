@@ -10,13 +10,13 @@ namespace Next2.Services.Settings
 
         bool IsUserAdmin { get; set; }
 
-        string? Token { get; set; }
+        string Token { get; set; }
 
-        string? RefreshToken { get; set; }
+        string RefreshToken { get; set; }
 
         DateTime TokenExpirationDate { get; set; }
 
-        string? LastCurrentOrderIds { get; set; }
+        string LastCurrentOrderIds { get; set; }
 
         void Clear();
     }

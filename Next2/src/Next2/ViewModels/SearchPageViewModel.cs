@@ -23,7 +23,7 @@ namespace Next2.ViewModels
 
         public bool IsOrderTabsSelected { get; set; } = true;
 
-        public Func<string, string> ApplySearchFilter;
+        public Func<string, string>? ApplySearchFilter;
 
         public string SearchLine { get; set; } = string.Empty;
 

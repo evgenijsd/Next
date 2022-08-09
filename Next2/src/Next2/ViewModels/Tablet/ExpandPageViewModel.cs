@@ -43,13 +43,13 @@ namespace Next2.ViewModels.Tablet
 
         public int HeightCollectionView { get; set; }
 
-        public ObservableCollection<CategoryModel> Categories { get; set; }
+        public ObservableCollection<CategoryModel> Categories { get; set; } = new();
 
         public CategoryModel? SelectedCategoriesItem { get; set; }
 
-        public ObservableCollection<DishModelDTO> Dishes { get; set; }
+        public ObservableCollection<DishModelDTO> Dishes { get; set; } = new();
 
-        public ObservableCollection<SubcategoryModel> Subcategories { get; set; }
+        public ObservableCollection<SubcategoryModel> Subcategories { get; set; } = new();
 
         public SubcategoryModel? SelectedSubcategoriesItem { get; set; }
 
@@ -98,7 +98,7 @@ namespace Next2.ViewModels.Tablet
             return Task.CompletedTask;
         }
 
-        private Task OnTapDishCommand(DishModelDTO dish)
+        private Task OnTapDishCommand(DishModelDTO? dish)
         {
             var param = new DialogParameters
             {

@@ -25,13 +25,13 @@ namespace Next2.Services.Settings
             set => Preferences.Set(nameof(IsUserAdmin), value);
         }
 
-        public string? Token
+        public string Token
         {
             get => Preferences.Get(nameof(Token), string.Empty);
             set => Preferences.Set(nameof(Token), value);
         }
 
-        public string? RefreshToken
+        public string RefreshToken
         {
             get => Preferences.Get(nameof(RefreshToken), string.Empty);
             set => Preferences.Set(nameof(RefreshToken), value);

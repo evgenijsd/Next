@@ -38,11 +38,11 @@ namespace Next2.ViewModels
         private bool _isOrderedByDescendingInventory = true;
 
         private DishBindableModel _currentDish;
-        private FullOrderBindableModel _tempCurrentOrder;
-        private SeatBindableModel _tempCurrentSeat;
+        private FullOrderBindableModel _tempCurrentOrder = new();
+        private SeatBindableModel _tempCurrentSeat = new();
 
         private IEnumerable<IngredientModelDTO>? _allIngredients;
-        private IEnumerable<IngredientsCategoryModelDTO> _allIngredientCategories;
+        private IEnumerable<IngredientsCategoryModelDTO>? _allIngredientCategories;
 
         public ModificationsPageViewModel(
             INavigationService navigationService,
@@ -70,6 +70,7 @@ namespace Next2.ViewModels
             _currentDish = CurrentOrder.Seats[_indexOfSeat].SelectedItem ?? new();
 
             InitProductsDish();
+
             SelectedProduct = new() { SelectedItem = new() { State = ESubmenuItemsModifactions.Proportions } };
         }
 
@@ -79,27 +80,27 @@ namespace Next2.ViewModels
 
         public SpoilerBindableModel SelectedProduct { get; set; }
 
-        public SpoilerBindableModel SelectedProductDish { get; set; }
+        public SpoilerBindableModel SelectedProductDish { get; set; } = new();
 
-        public ObservableCollection<SpoilerBindableModel> ProductsDish { get; set; }
+        public ObservableCollection<SpoilerBindableModel> ProductsDish { get; set; } = new();
 
         public ProportionModel? SelectedProportion { get; set; }
 
-        public ObservableCollection<ProportionModel> PortionsDish { get; set; }
+        public ObservableCollection<ProportionModel> PortionsDish { get; set; } = new();
 
         public OptionModelDTO? SelectedOption { get; set; }
 
-        public ObservableCollection<OptionModelDTO> OptionsProduct { get; set; }
+        public ObservableCollection<OptionModelDTO> OptionsProduct { get; set; } = new();
 
         public SimpleProductModelDTO? SelectedReplacementProduct { get; set; }
 
-        public ObservableCollection<SimpleProductModelDTO> ReplacementProducts { get; set; }
+        public ObservableCollection<SimpleProductModelDTO> ReplacementProducts { get; set; } = new();
 
         public IngredientsCategoryModelDTO? SelectedIngredientCategory { get; set; }
 
-        public ObservableCollection<IngredientsCategoryModelDTO> IngredientCategories { get; set; }
+        public ObservableCollection<IngredientsCategoryModelDTO> IngredientCategories { get; set; } = new();
 
-        public ObservableCollection<IngredientBindableModel> Ingredients { get; set; }
+        public ObservableCollection<IngredientBindableModel> Ingredients { get; set; } = new();
 
         public bool IsMenuOpen { get; set; }
 
@@ -245,11 +246,11 @@ namespace Next2.ViewModels
 
         private void OnChangingToggleCommand(IngredientBindableModel toggleIngredient)
         {
-            var product = _currentDish?.SelectedProducts?.FirstOrDefault();
+            var product = _currentDish.SelectedProducts?.FirstOrDefault();
 
             var ingredient = product?.AddedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id);
 
-            if (product is not null)
+            if (product is not null && SelectedIngredientCategory is not null)
             {
                 if (ingredient is null)
                 {
@@ -399,15 +400,17 @@ namespace Next2.ViewModels
         {
             if (_allIngredients is not null)
             {
-                var product = _currentDish?.SelectedProducts?.FirstOrDefault();
+                var product = _currentDish.SelectedProducts?.FirstOrDefault();
 
                 Ingredients = new(_allIngredients.Where(row => row.IngredientsCategoryId == categoryId).Select(row => new IngredientBindableModel()
                 {
                     Id = row.Id,
                     CategoryId = row.IngredientsCategoryId,
-                    IsToggled = product is not null ? product.AddedIngredients.Any(item => item.Id == row.Id) : false,
+                    IsToggled = product is not null
+                        ? product.AddedIngredients.Any(item => item.Id == row.Id)
+                        : false,
                     Name = row.Name,
-                    Price = _currentDish?.SelectedDishProportion.PriceRatio == 1
+                    Price = _currentDish.SelectedDishProportion.PriceRatio == 1
                         ? row.Price
                         : row.Price * (1 + _currentDish.SelectedDishProportion.PriceRatio),
                     ImageSource = row.ImageSource,
@@ -432,7 +435,7 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(ingredientsResult.Exception.Message);
+                        await _notificationsService.ResponseToBadRequestAsync(ingredientsResult.Exception?.Message);
                     }
                 }
                 else
@@ -627,7 +630,7 @@ namespace Next2.ViewModels
 
                     _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == selectedSeat.SeatNumber).SelectedItem = selectedDishInSelectedSeat;
 
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                 }
                 else
                 {
@@ -645,7 +648,7 @@ namespace Next2.ViewModels
 
         private void SelectReplacementProduct()
         {
-            if (SelectedReplacementProduct is not null)
+            if (SelectedReplacementProduct is not null && _currentDish.SelectedProducts is not null)
             {
                 int selectedProductIndex = 0;
 
