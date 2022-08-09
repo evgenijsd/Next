@@ -8,6 +8,7 @@ using Next2.Services.Rest;
 using Next2.Services.Settings;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -112,11 +113,11 @@ namespace Next2.Services.Menu
 
                 if (resultOfGettingIngredients.Success && resultOfGettingIngredients.Value is not null)
                 {
-                    var ingridients = resultOfGettingIngredients.Value.Ingredients is null
-                        ? new List<IngredientModelDTO>()
+                    var ingredients = resultOfGettingIngredients.Value.Ingredients is null
+                        ? Enumerable.Empty<IngredientModelDTO>()
                         : resultOfGettingIngredients.Value.Ingredients;
 
-                    result.SetSuccess(ingridients);
+                    result.SetSuccess(ingredients);
                 }
             }
             catch (Exception ex)

@@ -126,7 +126,7 @@ namespace Next2.ViewModels.Mobile
                     RemainingGiftCardTotal = Customer.GiftCardsTotalFund;
 
                     var giftCardsId = Customer.GiftCardsId is null
-                        ? new List<Guid>()
+                        ? Enumerable.Empty<Guid>()
                         : Customer.GiftCardsId;
 
                     PopupPage giftCardDialog = new Views.Mobile.Dialogs.AddGiftCardDialog(giftCardsId, _customersService, GiftCardViewDialogCallBack);

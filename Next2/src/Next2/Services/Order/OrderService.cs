@@ -579,7 +579,9 @@ namespace Next2.Services.Order
             try
             {
                 UpdateTotalSum(CurrentOrder);
-                OrderModelDTO? orderDTO = CurrentOrder.ToOrderModelDTO();
+
+                var orderDTO = CurrentOrder.ToOrderModelDTO();
+
                 result = await UpdateOrderAsync(orderDTO);
             }
             catch (Exception ex)

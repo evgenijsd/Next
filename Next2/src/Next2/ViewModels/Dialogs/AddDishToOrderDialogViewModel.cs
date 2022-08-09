@@ -131,7 +131,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                Proportions = new List<ProportionModel>();
+                Proportions = Enumerable.Empty<ProportionModel>();
             }
         }
 

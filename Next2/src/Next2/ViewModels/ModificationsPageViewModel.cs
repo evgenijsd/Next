@@ -406,9 +406,7 @@ namespace Next2.ViewModels
                 {
                     Id = row.Id,
                     CategoryId = row.IngredientsCategoryId,
-                    IsToggled = product is not null
-                        ? product.AddedIngredients.Any(item => item.Id == row.Id)
-                        : false,
+                    IsToggled = product is not null && product.AddedIngredients.Any(item => item.Id == row.Id),
                     Name = row.Name,
                     Price = _currentDish.SelectedDishProportion.PriceRatio == 1
                         ? row.Price
