@@ -188,9 +188,16 @@
             Margin="18, 9"
             WidthRequest="145"
             ItemHeight="46.5"
-            HeaderText="{Binding SelectedTable.TableNumber, StringFormat='Table {0}'}"
             SelectedItem="{Binding SelectedTable}"
             ItemsSource="{Binding Tables}">
+
+            <controls:DropDownList.HeaderText>
+                <FormattedString>
+                    <Span Text="{xct:Translate Table}"/>
+                    <Span Text=" "/>
+                    <Span Text="{Binding SelectedTable.TableNumber}"/>
+                </FormattedString>
+            </controls:DropDownList.HeaderText>
 
             <controls:DropDownList.Triggers>
 
@@ -226,8 +233,17 @@
                             <Label
                                 HorizontalOptions="FillAndExpand"
                                 FontFamily="Barlow-Medium"
-                                FontSize="{DynamicResource TSize_i7}"
-                                Text="{Binding TableNumber, StringFormat='Table {0}'}" />
+                                FontSize="{DynamicResource TSize_i7}">
+
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{xct:Translate Table}"/>
+                                        <Span Text=" "/>
+                                        <Span Text="{Binding TableNumber}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                                
+                            </Label>
 
                         </StackLayout>
 

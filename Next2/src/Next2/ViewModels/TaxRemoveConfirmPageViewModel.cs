@@ -34,13 +34,13 @@ namespace Next2.ViewModels
 
         public string EmployeeId { get; set; } = string.Empty;
 
-        private ICommand _ClearCommand;
-        public ICommand ClearCommand => _ClearCommand ??= new AsyncCommand(OnClearCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _clearCommand;
+        public ICommand ClearCommand => _clearCommand ??= new AsyncCommand(OnClearCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _RemoveTaxCommand;
-        public ICommand RemoveTaxCommand => _RemoveTaxCommand ??= new AsyncCommand(OnRemoveTaxCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _removeTaxCommand;
+        public ICommand RemoveTaxCommand => _removeTaxCommand ??= new AsyncCommand(OnRemoveTaxCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _openEmployeeIdInputPageCommand;
+        private ICommand? _openEmployeeIdInputPageCommand;
         public ICommand OpenEmployeeIdInputPageCommand => _openEmployeeIdInputPageCommand ??= new AsyncCommand(OnOpenEmployeeIdInputPageCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -114,11 +114,15 @@ namespace Next2.ViewModels
             if (employeeId.Length == Constants.Limits.LOGIN_LENGTH)
             {
                 var resultOfGettingUser = await _authenticationService.GetUserById(employeeId);
-                var roles = resultOfGettingUser.Result.Roles;
 
-                if (resultOfGettingUser.IsSuccess && roles is not null)
+                if (resultOfGettingUser.IsSuccess)
                 {
-                    isAdminAccount = roles.Contains(Constants.ROLE_ADMIN);
+                    var roles = resultOfGettingUser.Result?.Roles;
+
+                    if (roles is not null)
+                    {
+                        isAdminAccount = roles.Contains(Constants.ROLE_ADMIN);
+                    }
                 }
             }
 

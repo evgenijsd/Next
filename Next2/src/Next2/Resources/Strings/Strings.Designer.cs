@@ -926,6 +926,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No notes.
+        /// </summary>
+        internal static string NoNotes {
+            get {
+                return ResourceManager.GetString("NoNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Receipt.
         /// </summary>
         internal static string NoReceipt {
@@ -1340,6 +1349,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reservation Info.
+        /// </summary>
+        internal static string ReservationInfo {
+            get {
+                return ResourceManager.GetString("ReservationInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reservations.
         /// </summary>
         internal static string Reservations {
@@ -1453,6 +1471,15 @@ namespace Next2.Resources.Strings {
         internal static string SelectCoupon {
             get {
                 return ResourceManager.GetString("SelectCoupon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected Table.
+        /// </summary>
+        internal static string SelectedTable {
+            get {
+                return ResourceManager.GetString("SelectedTable", resourceCulture);
             }
         }
         
@@ -1797,6 +1824,15 @@ namespace Next2.Resources.Strings {
         internal static string ThisDishWillBeRemoved {
             get {
                 return ResourceManager.GetString("ThisDishWillBeRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This reservation will be removed..
+        /// </summary>
+        internal static string ThisReservationWillBeRemoved {
+            get {
+                return ResourceManager.GetString("ThisReservationWillBeRemoved", resourceCulture);
             }
         }
         

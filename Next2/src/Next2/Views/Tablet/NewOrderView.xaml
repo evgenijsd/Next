@@ -1100,10 +1100,17 @@
                 Margin="18, 13"
                 WidthRequest="135"
                 ScrollBarVisibility="Never"
-                HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.TableNumber, StringFormat='Table {0}'}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedTable}"
                 ItemsSource="{Binding OrderRegistrationViewModel.Tables}">
-                                                
+
+                <controls:DropDownList.HeaderText>
+                    <FormattedString>
+                        <Span Text="{xct:Translate Table}"/>
+                        <Span Text=" "/>
+                        <Span Text="{Binding OrderRegistrationViewModel.SelectedTable.TableNumber}"/>
+                    </FormattedString>
+                </controls:DropDownList.HeaderText>
+
                 <controls:DropDownList.Triggers>
                         
                     <DataTrigger TargetType="controls:DropDownList" Binding="{Binding OrderRegistrationViewModel.SelectedTable, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
@@ -1140,8 +1147,17 @@
                                 <Label
                                     FontFamily="Barlow-Medium"
                                     FontSize="{DynamicResource TSize_i8}"
-                                    HorizontalOptions="FillAndExpand"
-                                    Text="{Binding TableNumber, StringFormat='Table {0}'}" />
+                                    HorizontalOptions="FillAndExpand">
+
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{xct:Translate Table}"/>
+                                            <Span Text=" "/>
+                                            <Span Text="{Binding TableNumber}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                    
+                                </Label>
 
                             </StackLayout>
 

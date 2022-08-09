@@ -118,14 +118,14 @@ namespace Next2.Controls
             set => SetValue(ChangingToggleCommandParameterProperty, value);
         }
 
-        private ICommand _tapCommand;
+        private ICommand? _tapCommand;
         public ICommand TapCommand => _tapCommand ??= new AsyncCommand(OnTapCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 

@@ -50,6 +50,7 @@ namespace Next2.ViewModels
         private SeatBindableModel _firstNotEmptySeat;
         private SeatBindableModel _seatWithSelectedDish;
         private DishBindableModel? _rememberPositionSelection;
+
         private bool _isAnyDishChosen;
 
         public OrderRegistrationViewModel(
@@ -113,43 +114,43 @@ namespace Next2.ViewModels
 
         public bool IsOrderSavingAndPaymentEnabled { get; set; }
 
-        private ICommand _closeEditStateCommand;
+        private ICommand? _closeEditStateCommand;
         public ICommand CloseEditStateCommand => _closeEditStateCommand ??= new AsyncCommand(OnCloseEditStateCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _openModifyCommand;
+        private ICommand? _openModifyCommand;
         public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _openRemoveCommand;
+        private ICommand? _openRemoveCommand;
         public ICommand OpenRemoveCommand => _openRemoveCommand ??= new AsyncCommand(OnOpenRemoveCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _openHoldSelectionCommand;
+        private ICommand? _openHoldSelectionCommand;
         public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _openDiscountSelectionCommand;
+        private ICommand? _openDiscountSelectionCommand;
         public ICommand OpenDiscountSelectionCommand => _openDiscountSelectionCommand ??= new AsyncCommand(OnOpenDiscountSelectionCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _removeTaxFromOrderCommand;
+        private ICommand? _removeTaxFromOrderCommand;
         public ICommand RemoveTaxFromOrderCommand => _removeTaxFromOrderCommand ??= new AsyncCommand(OnRemoveTaxFromOrderCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _orderCommand;
+        private ICommand? _orderCommand;
         public ICommand OrderCommand => _orderCommand ??= new AsyncCommand(OnOrderCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _tabCommand;
+        private ICommand? _tabCommand;
         public ICommand TabCommand => _tabCommand ??= new AsyncCommand(OnTabCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _payCommand;
+        private ICommand? _payCommand;
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _deleteLastSeatCommand;
+        private ICommand? _deleteLastSeatCommand;
         public ICommand DeleteLastSeatCommand => _deleteLastSeatCommand ??= new AsyncCommand(OnDeleteLastSeatCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _hideOrderNotificationCommand;
+        private ICommand? _hideOrderNotificationCommand;
         public ICommand HideOrderNotificationCommnad => _hideOrderNotificationCommand ??= new AsyncCommand(OnHideOrderNotificationCommnadAsync, allowsMultipleExecutions: false);
 
-        private ICommand _goToOrderTabsCommand;
+        private ICommand? _goToOrderTabsCommand;
         public ICommand GoToOrderTabsCommand => _goToOrderTabsCommand ??= new AsyncCommand(OnGoToOrderTabsCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _addNewSeatCommand;
+        private ICommand? _addNewSeatCommand;
         public ICommand AddNewSeatCommand => _addNewSeatCommand ??= new AsyncCommand(OnAddNewSeatCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -626,8 +627,7 @@ namespace Next2.ViewModels
             var isRedirectedSets = false;
             var isDeletedSeat = false;
 
-            if (dialogResult is not null
-                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_DISHES, out EActionOnDishes actionOnDishes)
+            if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_DISHES, out EActionOnDishes actionOnDishes)
                 && dialogResult.TryGetValue(Constants.DialogParameterKeys.REMOVAL_SEAT, out SeatBindableModel removalSeat))
             {
                 if (actionOnDishes is EActionOnDishes.DeleteDishes)
@@ -778,8 +778,7 @@ namespace Next2.ViewModels
 
         private async void CloseDeleteOrderDialogCallbackAsync(IDialogParameters parameters)
         {
-            if (parameters is not null
-                && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
             {
                 if (isOrderDeletionConfirmationRequestCalled)
                 {
@@ -809,7 +808,7 @@ namespace Next2.ViewModels
 
         private async void CloseOrderDeletionConfirmationDialogCallback(IDialogParameters parameters)
         {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
             {
                 if (isOrderRemovingAccepted)
                 {
@@ -1004,7 +1003,7 @@ namespace Next2.ViewModels
         {
             if (IsInternetConnected)
             {
-                if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted) && isMovedOrderAccepted)
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted) && isMovedOrderAccepted)
                 {
                     if (isMovedOrderAccepted)
                     {
@@ -1058,7 +1057,7 @@ namespace Next2.ViewModels
         {
             if (IsInternetConnected)
             {
-                if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
                 {
                     if (isDishRemovingAccepted)
                     {
@@ -1288,7 +1287,7 @@ namespace Next2.ViewModels
 
         private async Task SelectOrderType()
         {
-            if (SelectedOrderType.OrderType != CurrentOrder.OrderType)
+            if (SelectedOrderType?.OrderType != CurrentOrder?.OrderType)
             {
                 if (IsInternetConnected)
                 {

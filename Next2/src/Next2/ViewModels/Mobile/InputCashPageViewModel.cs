@@ -21,8 +21,8 @@ namespace Next2.ViewModels.Mobile
 
         public string InputValue { get; set; }
 
-        private ICommand _goBackCommand;
-        public ICommand GoBackCommand => _goBackCommand = new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 

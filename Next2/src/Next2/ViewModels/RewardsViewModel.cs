@@ -63,13 +63,13 @@ namespace Next2.ViewModels
 
         private readonly Action<EPaymentSteps> GoToPaymentStep;
 
-        private ICommand _addNewCustomerCommand;
+        private ICommand? _addNewCustomerCommand;
         public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _selectRewardCommand;
+        private ICommand? _selectRewardCommand;
         public ICommand SelectRewardCommand => _selectRewardCommand ??= new AsyncCommand<RewardBindabledModel>(OnSelectRewardCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _goToCompleteTabCommand;
+        private ICommand? _goToCompleteTabCommand;
         public ICommand GoToCompleteTabCommand => _goToCompleteTabCommand ??= new AsyncCommand(OnGoToCompleteTabCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

@@ -12,7 +12,6 @@ using Next2.Services.WorkLog;
 using Next2.Views.Tablet;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -78,22 +77,22 @@ namespace Next2.ViewModels.Tablet
 
         public SubcategoryModel? SelectedSubcategoriesItem { get; set; }
 
-        private ICommand _tapDishCommand;
+        private ICommand? _tapDishCommand;
         public ICommand TapDishCommand => _tapDishCommand ??= new AsyncCommand<DishModelDTO>(OnTapDishCommand, allowsMultipleExecutions: false);
 
-        private ICommand _tapSortCommand;
+        private ICommand? _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _tapExpandCommand;
+        private ICommand? _tapExpandCommand;
         public ICommand TapExpandCommand => _tapExpandCommand ??= new AsyncCommand(OnTapExpandCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _openEmployeeWorkingHoursCommand;
+        private ICommand? _openEmployeeWorkingHoursCommand;
         public ICommand OpenEmployeeWorkingHoursCommand => _openEmployeeWorkingHoursCommand ??= new AsyncCommand(OnOpenEmployeeWorkingHoursCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _refreshDishesCommand;
+        private ICommand? _refreshDishesCommand;
         public ICommand RefreshDishesCommand => _refreshDishesCommand ??= new AsyncCommand(OnRefreshDishesCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _refreshCategoriesCommand;
+        private ICommand? _refreshCategoriesCommand;
         public ICommand RefreshCategoriesCommand => _refreshCategoriesCommand ??= new AsyncCommand(OnRefreshCategoriesCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -144,10 +143,12 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Private methods --
 
-        private async Task OnTapSortCommandAsync()
+        private Task OnTapSortCommandAsync()
         {
             _shouldOrderDishesByDESC = !_shouldOrderDishesByDESC;
             Dishes = new(Dishes.Reverse());
+
+            return Task.CompletedTask;
         }
 
         private Task OnTapDishCommand(DishModelDTO dish)
@@ -165,7 +166,7 @@ namespace Next2.ViewModels.Tablet
         {
             if (IsInternetConnected)
             {
-                if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.DISH))
+                if (dialogResult.ContainsKey(Constants.DialogParameterKeys.DISH))
                 {
                     if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                     {

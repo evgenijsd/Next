@@ -735,22 +735,34 @@ A receipt has been printed for you.</value>
   <data name="CannotSplitWithoutSeats" xml:space="preserve">
     <value>You cannot split an order with less than two seats</value>
   </data>
-	<data name="CannotSplitWithZeroCost" xml:space="preserve">
+  <data name="CannotSplitWithZeroCost" xml:space="preserve">
     <value>You cannot split an order with a zero total cost</value>
   </data>
-	<data name="OrderSplitted" xml:space="preserve">
+  <data name="OrderSplitted" xml:space="preserve">
     <value>The order has been successfully splitted</value>
   </data>
-	<data name="OrderUpdated" xml:space="preserve">
+  <data name="OrderUpdated" xml:space="preserve">
     <value>The order has been successfully updated</value>
   </data>
-	<data name="Splitted" xml:space="preserve"> 
+  <data name="Splitted" xml:space="preserve">
     <value>Splitted</value>
   </data>
-	<data name="ThisDishAlreadySplitted" xml:space="preserve">
+  <data name="ThisDishAlreadySplitted" xml:space="preserve">
     <value>This dish is already splitted</value>
   </data>
-	<data name="Warning" xml:space="preserve">
+  <data name="Warning" xml:space="preserve">
     <value>Warning</value>
+  </data>
+  <data name="ThisReservationWillBeRemoved" xml:space="preserve">
+    <value>This reservation will be removed.</value>
+  </data>
+  <data name="ReservationInfo" xml:space="preserve">
+    <value>Reservation Info</value>
+  </data>
+  <data name="SelectedTable" xml:space="preserve">
+    <value>Selected Table</value>
+  </data>
+  <data name="NoNotes" xml:space="preserve">
+    <value>No notes</value>
   </data>
 </root>

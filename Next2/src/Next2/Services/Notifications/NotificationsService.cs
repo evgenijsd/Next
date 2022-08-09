@@ -4,10 +4,7 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Helpers;
 
@@ -31,7 +28,7 @@ namespace Next2.Services.Notifications
 
         #region -- INotificationsService implementation --
 
-        public async Task ResponseToBadRequestAsync(string statusCode)
+        public async Task ResponseToBadRequestAsync(string? statusCode)
         {
             if (statusCode == Constants.StatusCode.UNAUTHORIZED)
             {
@@ -74,6 +71,14 @@ namespace Next2.Services.Notifications
             if (_popupNavigation.PopupStack.Any())
             {
                 await _popupNavigation.PopAllAsync();
+            }
+        }
+
+        public async Task ClosePopupAsync()
+        {
+            if (_popupNavigation.PopupStack.Any())
+            {
+                await _popupNavigation.PopAsync();
             }
         }
 

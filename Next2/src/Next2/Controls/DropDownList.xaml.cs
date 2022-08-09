@@ -247,17 +247,17 @@ namespace Next2.Controls
 
         public double ListHeight { get; private set; }
 
-        private ICommand _selectItemCommand;
+        private ICommand? _selectItemCommand;
         public ICommand SelectItemCommand => _selectItemCommand ??= new Command(OnSelectItemCommand);
 
-        private ICommand _expandListCommand;
+        private ICommand? _expandListCommand;
         public ICommand ExpandListCommand => _expandListCommand ??= new Command(OnExpandListCommand);
 
         #endregion
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 

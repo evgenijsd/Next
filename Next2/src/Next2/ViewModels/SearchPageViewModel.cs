@@ -29,7 +29,7 @@ namespace Next2.ViewModels
 
         public string Placeholder { get; set; } = string.Empty;
 
-        private ICommand _goBackCommand;
+        private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand<string>(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

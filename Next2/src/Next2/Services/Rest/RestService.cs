@@ -24,7 +24,7 @@ namespace Next2.Services.Rest
 
         #region -- IRestService implementation --
 
-        public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, Dictionary<string, string> additionalHeaders = null, bool isIgnoreRefreshToken = false)
+        public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, Dictionary<string, string>? additionalHeaders = null, bool isIgnoreRefreshToken = false)
         {
             if (_settingsManager.IsAuthorizationComplete && !isIgnoreRefreshToken)
             {
@@ -43,7 +43,7 @@ namespace Next2.Services.Rest
             }
         }
 
-        public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, object requestBody, Dictionary<string, string> additionalHeaders = null, bool isIgnoreRefreshToken = false)
+        public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, object requestBody, Dictionary<string, string>? additionalHeaders = null, bool isIgnoreRefreshToken = false)
         {
             if (_settingsManager.IsAuthorizationComplete && !isIgnoreRefreshToken)
             {
@@ -66,7 +66,7 @@ namespace Next2.Services.Rest
 
         #region -- Private helpers --
 
-        private static void ThrowIfNotSuccess(HttpResponseMessage response, object dataObj = null)
+        private static void ThrowIfNotSuccess(HttpResponseMessage response, object? dataObj = null)
         {
             if (!response.IsSuccessStatusCode)
             {
@@ -74,7 +74,7 @@ namespace Next2.Services.Rest
             }
         }
 
-        private async Task<HttpResponseMessage> MakeRequestAsync(HttpMethod method, string requestUrl, object requestBody = null, Dictionary<string, string> additioalHeaders = null)
+        private async Task<HttpResponseMessage> MakeRequestAsync(HttpMethod method, string requestUrl, object? requestBody = null, Dictionary<string, string>? additioalHeaders = null)
         {
             var client = new HttpClient();
 
@@ -182,7 +182,7 @@ namespace Next2.Services.Rest
             }
         }
 
-        private Dictionary<string, string> GenerateAuthorizationHeader(Dictionary<string, string> additionalHeaders)
+        private Dictionary<string, string> GenerateAuthorizationHeader(Dictionary<string, string>? additionalHeaders)
         {
             additionalHeaders ??= new();
 

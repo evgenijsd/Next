@@ -316,7 +316,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish)
+        public Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish)
         {
             var result = new AOResult();
 
@@ -353,10 +353,10 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(AddDishInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        public async Task<AOResult> AddSeatInCurrentOrderAsync()
+        public Task<AOResult> AddSeatInCurrentOrderAsync()
         {
             var result = new AOResult();
 
@@ -386,10 +386,10 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(AddSeatInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        public async Task<AOResult> DeleteSeatFromCurrentOrder(SeatBindableModel seat)
+        public Task<AOResult> DeleteSeatFromCurrentOrder(SeatBindableModel seat)
         {
             var result = new AOResult();
 
@@ -419,10 +419,10 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(DeleteSeatFromCurrentOrder)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        public async Task<AOResult> RedirectDishesFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber)
+        public Task<AOResult> RedirectDishesFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber)
         {
             var result = new AOResult();
 
@@ -451,10 +451,10 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(RedirectDishesFromSeatInCurrentOrder)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        public async Task<AOResult> DeleteDishFromCurrentSeatAsync()
+        public Task<AOResult> DeleteDishFromCurrentSeatAsync()
         {
             var result = new AOResult();
 
@@ -475,7 +475,7 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(DeleteDishFromCurrentSeatAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
         public async Task<AOResult<Guid>> UpdateOrderAsync(OrderModelDTO order)
@@ -584,7 +584,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients)
+        public Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients)
         {
             var result = new AOResult<DishBindableModel>();
 
@@ -619,7 +619,7 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(ChangeDishProportionAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
         public decimal CalculateDishPriceBaseOnProportion(DishBindableModel dish, decimal priceRatio, IEnumerable<IngredientModelDTO> ingredients)
@@ -660,17 +660,17 @@ namespace Next2.Services.Order
 
         #region -- Private helpers --
 
-        private async Task<AOResult<Guid>> GetIdLastCreatedOrderFromSettingsAsync(string employeeId)
+        private Task<AOResult<Guid>> GetIdLastCreatedOrderFromSettingsAsync(string employeeId)
         {
             var result = new AOResult<Guid>();
 
             try
             {
-                if (_settingsManager?.LastCurrentOrderIds != string.Empty)
+                if (!string.IsNullOrEmpty(_settingsManager.LastCurrentOrderIds))
                 {
                     var lastCurrentOrderIds = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
 
-                    if (lastCurrentOrderIds.ContainsKey(employeeId))
+                    if (lastCurrentOrderIds is not null && lastCurrentOrderIds.ContainsKey(employeeId))
                     {
                         result.SetSuccess(lastCurrentOrderIds[employeeId]);
                     }
@@ -681,16 +681,21 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(GetIdLastCreatedOrderFromSettingsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        private async Task<AOResult> SaveLastOrderIdToSettingsAsync(string employeeId, Guid orderId)
+        private Task<AOResult> SaveLastOrderIdToSettingsAsync(string employeeId, Guid orderId)
         {
             var result = new AOResult();
 
             try
             {
-                var employeeIdAndOrderIdPairs = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
+                Dictionary<string, Guid>? employeeIdAndOrderIdPairs = new();
+
+                if (!string.IsNullOrEmpty(_settingsManager.LastCurrentOrderIds))
+                {
+                    employeeIdAndOrderIdPairs = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
+                }
 
                 employeeIdAndOrderIdPairs ??= new();
 
@@ -712,7 +717,7 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(SaveLastOrderIdToSettingsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
         private async Task<AOResult> AddAdditionalDishesInformationToOrderAsync(FullOrderBindableModel currentOrder)
@@ -745,7 +750,7 @@ namespace Next2.Services.Order
                         foreach (var dish in seat.SelectedDishes)
                         {
                             var dishId = dish.DishId;
-                            var sourceDish = dishes.FirstOrDefault(row => row.Id == dishId);
+                            var sourceDish = dishes.FirstOrDefault(row => row?.Id == dishId);
 
                             if (sourceDish is not null)
                             {
@@ -842,9 +847,9 @@ namespace Next2.Services.Order
             var addedIngredients = product?.AddedIngredients;
             var excludedIngredients = product?.ExcludedIngredients;
 
-            if (allIngredients.Any())
+            if (allIngredients is not null && allIngredients.Any())
             {
-                if (addedIngredients.Any())
+                if (addedIngredients is not null && addedIngredients.Any())
                 {
                     foreach (var ingredient in addedIngredients)
                     {
@@ -853,7 +858,7 @@ namespace Next2.Services.Order
                             : allIngredients.FirstOrDefault(row => row.Id == ingredient.Id).Price * (1 + priceRatio);
                     }
                 }
-                else if (excludedIngredients.Any())
+                else if (excludedIngredients is not null && excludedIngredients.Any())
                 {
                     foreach (var ingredient in excludedIngredients)
                     {

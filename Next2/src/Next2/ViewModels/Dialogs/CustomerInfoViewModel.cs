@@ -11,8 +11,10 @@ namespace Next2.ViewModels.Dialogs
         public CustomerInfoViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             SetupParameters(param);
+
             RequestClose = requestClose;
-            CloseCommand = new DelegateCommand(() => RequestClose(null));
+
+            CloseCommand = new DelegateCommand(() => RequestClose(new DialogParameters()));
             AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }));
             DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
         }
