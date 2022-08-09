@@ -159,7 +159,7 @@
 
                     <LinearItemsLayout
                         Orientation="Horizontal"
-                        ItemSpacing="9"/>
+                        ItemSpacing="9" />
 
                 </CollectionView.ItemsLayout>
 
