@@ -7,7 +7,6 @@
     xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:bindableModels="clr-namespace:Next2.Models.Bindables"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
@@ -88,6 +87,7 @@
 
             <!-- DISH LIST -->
             <controls:CustomCollectionView
+                VerticalScrollBarVisibility="Never"
                 BounceMode="DisabledForAndroidAndiOS"
                 IsVisible="{Binding IsOrderDetailsDisplayed}"
                 ItemsSource="{Binding Seats}">
@@ -115,6 +115,7 @@
                             </Label>
 
                             <controls:CustomCollectionView
+                                VerticalScrollBarVisibility="Never"
                                 BounceMode="DisabledForAndroidAndiOS"
                                 HeightRequest="{Binding SelectedDishes, Converter={StaticResource listHeightConverter}, ConverterParameter=70}"
                                 ItemsSource="{Binding SelectedDishes}">
