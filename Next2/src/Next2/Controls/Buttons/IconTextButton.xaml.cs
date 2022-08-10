@@ -106,22 +106,15 @@ namespace Next2.Controls.Buttons
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 
-            switch (propertyName)
+            if (propertyName is nameof(IsIconPlacedOnRight) && IsIconPlacedOnRight)
             {
-                case nameof(IsIconPlacedOnRight):
-
-                    if (IsIconPlacedOnRight)
-                    {
-                        bodyStackLayout.RaiseChild(image);
-                        label.HorizontalOptions = LayoutOptions.StartAndExpand;
-                        image.HorizontalOptions = LayoutOptions.EndAndExpand;
-                    }
-
-                    break;
+                bodyStackLayout.RaiseChild(image);
+                label.HorizontalOptions = LayoutOptions.StartAndExpand;
+                image.HorizontalOptions = LayoutOptions.EndAndExpand;
             }
         }
 

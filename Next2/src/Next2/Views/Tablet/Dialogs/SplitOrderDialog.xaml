@@ -32,6 +32,28 @@
 
             </Style>
 
+            <Style x:Key="ButtonsStyle" TargetType="buttons:BorderButton">
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+                <Setter Property="CornerRadius" Value="5" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            </Style>
+
+            <Style x:Key="ValueButtonStyle" TargetType="buttons:BorderButton">
+
+                <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                <Setter Property="HeightRequest" Value="32" />
+                <Setter Property="WidthRequest" Value="80" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="Background" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+                <Setter Property="Padding" Value="0" />
+
+            </Style>
+
         </ResourceDictionary>
 
     </rg:PopupPage.Resources>
@@ -164,25 +186,8 @@
                                     Orientation="Horizontal"
                                     Spacing="12">
 
-                                    <StackLayout.Resources>
-
-                                        <Style TargetType="buttons:BorderButton">
-
-                                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
-                                            <Setter Property="HeightRequest" Value="32" />
-                                            <Setter Property="WidthRequest" Value="80" />
-                                            <Setter Property="BorderWidth" Value="0" />
-                                            <Setter Property="Background" Value="{DynamicResource TextAndBackgroundColor_i2}" />
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
-                                            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                                            <Setter Property="FontFamily" Value="Barlow-SemiBold" />
-                                            <Setter Property="Padding" Value="0" />
-
-                                        </Style>
-
-                                    </StackLayout.Resources>
-
                                     <buttons:BorderButton
+                                        Style="{DynamicResource ValueButtonStyle}"
                                         Text="25 %"
                                         CornerRadius="2"
                                         IsEnabled="False"
@@ -209,6 +214,7 @@
                                     </buttons:BorderButton>
 
                                     <buttons:BorderButton
+                                        Style="{DynamicResource ValueButtonStyle}"
                                         CornerRadius="2"
                                         IsEnabled="False"
                                         Text="50 %"
@@ -237,6 +243,7 @@
                                     </buttons:BorderButton>
 
                                     <buttons:BorderButton
+                                        Style="{DynamicResource ValueButtonStyle}"
                                         CornerRadius="2"
                                         Text="75 %"
                                         IsEnabled="False"
@@ -494,25 +501,15 @@
                 Orientation="Horizontal"
                 Spacing="12">
 
-                <StackLayout.Resources>
-
-                    <Style TargetType="buttons:BorderButton">
-                        <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
-                        <Setter Property="FontFamily" Value="Barlow-SemiBold" />
-                        <Setter Property="CornerRadius" Value="5" />
-                        <Setter Property="Padding" Value="0" />
-                        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-                    </Style>
-
-                </StackLayout.Resources>
-
                 <buttons:BorderButton
+                    Style="{DynamicResource ButtonsStyle}"
                     BorderColor="{DynamicResource AppColor_i1}"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     Text="{xct:Translate Cancel}"
                     xct:TouchEffect.Command="{Binding CancelCommand}" />
 
                 <buttons:BorderButton
+                    Style="{DynamicResource ButtonsStyle}"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     Opacity="{DynamicResource OpacityWhenDisabled_i1}"

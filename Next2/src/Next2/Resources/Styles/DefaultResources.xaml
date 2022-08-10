@@ -43,7 +43,7 @@
 
     <x:Double x:Key="TSize_i6_5">17</x:Double>
 
-    <x:Double x:Key="TSize_i4_5_5">22</x:Double>
+    <x:Double x:Key="TSize_i4_6">22</x:Double>
 
     <x:Double x:Key="OpacityWhenDisabled_i1">0.5</x:Double>
     <x:Double x:Key="OpacityWhenDisabled_i2">0.6</x:Double>

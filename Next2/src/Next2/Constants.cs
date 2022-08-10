@@ -13,6 +13,7 @@
             public const string LONG_DATE = "{0:dddd, d MMMM yyyy}";
             public const string PRICE_FORMAT = "{0:0.00}";
             public const string POINT_FORMAT = "{0:D} pt";
+            public const string DIGIT_FORMAT = "{0:D}";
             public const string CASH_FORMAT = "$ {0:#,0.#0}";
             public const string PERCENT_FORMAT = "{0} %";
             public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";

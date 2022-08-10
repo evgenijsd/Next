@@ -1259,6 +1259,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to pt.
+        /// </summary>
+        internal static string Pt {
+            get {
+                return ResourceManager.GetString("Pt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Re-assign Table.
         /// </summary>
         internal static string ReAssignTable {

@@ -72,12 +72,10 @@
 
                     <MultiTrigger TargetType="StackLayout">
                         <MultiTrigger.Conditions>
-                            <BindingCondition
-                                Binding="{Binding AnyCustomersLoaded}"
-                                Value="true" />
-                            <BindingCondition
-                                Binding="{Binding DisplayedCustomers.Count}"
-                                Value="0" />
+                            
+                            <BindingCondition Binding="{Binding AnyCustomersLoaded}" Value="true" />
+                            <BindingCondition Binding="{Binding DisplayedCustomers.Count}" Value="0" />
+                            
                         </MultiTrigger.Conditions>
 
                         <Setter Property="IsVisible" Value="false" />
@@ -93,7 +91,7 @@
                     CornerRadius="12, 12, 0, 0"
                     BackgroundColor="{StaticResource TextAndBackgroundColor_i3}">
 
-                    <Grid ColumnSpacing="0">
+                    <Grid>
 
                         <Label
                             Grid.Column="0"
@@ -159,19 +157,14 @@
                             ItemsSource="{Binding DisplayedCustomers}"
                             SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
 
-                                <controls:CustomCollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:CustomerBindableModel">
+                            <controls:CustomCollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:CustomerBindableModel">
 
                                     <Grid
                                         RowDefinitions="0.98*, 0.02*"
+                                        xct:TouchEffect.Command="{Binding ShowInfoCommand}"
+                                        xct:TouchEffect.CommandParameter="{Binding .}"
                                         HeightRequest="45">
-
-                                        <Grid.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding ShowInfoCommand}"
-                                                CommandParameter="{Binding .}" />
-
-                                        </Grid.GestureRecognizers>
 
                                         <Label
                                             Grid.Row="0"
@@ -245,12 +238,10 @@
 
                     <MultiTrigger TargetType="StackLayout">
                         <MultiTrigger.Conditions>
-                            <BindingCondition
-                                Binding="{Binding AnyCustomersLoaded}"
-                                Value="true" />
-                            <BindingCondition
-                                Binding="{Binding DisplayedCustomers.Count}"
-                                Value="0" />
+                            
+                            <BindingCondition Binding="{Binding AnyCustomersLoaded}" Value="true" />
+                            <BindingCondition Binding="{Binding DisplayedCustomers.Count}" Value="0" />
+                            
                         </MultiTrigger.Conditions>
                         <Setter Property="IsVisible" Value="true" />
                     </MultiTrigger>
@@ -279,12 +270,12 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
             <buttons:BorderButton
-                CornerRadius="5"
-                VerticalOptions="Center"
                 Margin="20, 14"
-                WidthRequest="492"
-                HeightRequest="52"
                 Padding="0"
+                VerticalOptions="Center"
+                HeightRequest="52"
+                WidthRequest="492"
+                CornerRadius="5"
                 BackgroundColor="{DynamicResource AppColor_i1}"
                 FontSize="{DynamicResource TSize_i6}"
                 FontFamily="Barlow-SemiBold"

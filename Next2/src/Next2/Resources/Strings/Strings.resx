@@ -765,4 +765,7 @@ A receipt has been printed for you.</value>
   <data name="NoNotes" xml:space="preserve">
     <value>No notes</value>
   </data>
+  <data name="Pt" xml:space="preserve">
+    <value>pt</value>
+  </data>
 </root>

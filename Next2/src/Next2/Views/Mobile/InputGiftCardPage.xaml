@@ -89,11 +89,8 @@
             <ffimageloading:CachedImage
                 HorizontalOptions="EndAndExpand"
                 IsVisible="{Binding IsInSufficientGiftCardFunds}"
+                xct:TouchEffect.Command="{Binding DisplayErrorNotificationCommand}"
                 Source="ic_danger_triangle">
-
-                <ffimageloading:CachedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding DisplayErrorNotification}" />
-                </ffimageloading:CachedImage.GestureRecognizers>
 
             </ffimageloading:CachedImage>
 

@@ -20,11 +20,28 @@
 
         <ResourceDictionary>
 
-            <Style x:Key="ViewCellLabelStyle" TargetType="Label">
+            <Style x:Key="HeaderTableLabelStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
                 <Setter Property="FontFamily" Value="Barlow-Medium" />
                 <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="ViewCellLabelStyle" TargetType="Label" BasedOn="{StaticResource HeaderTableLabelStyle}">
+                <Setter Property="LineBreakMode" Value="TailTruncation" />
+                <Setter Property="Margin" Value="1, 0, 0, 0" />
+            </Style>
+
+            <Style x:Key="ButtonsStyle" TargetType="buttons:BorderButton">
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="CornerRadius" Value="5" />
+                <Setter Property="HorizontalOptions" Value="End" />
+                <Setter Property="WidthRequest" Value="88" />
+                <Setter Property="HeightRequest" Value="34" />
+                <Setter Property="Padding" Value="0" />
             </Style>
 
         </ResourceDictionary>
@@ -82,23 +99,8 @@
                             HorizontalOptions="End"
                             Orientation="Horizontal">
 
-                            <StackLayout.Resources>
-
-                                <Style TargetType="buttons:BorderButton">
-                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
-                                    <Setter Property="FontFamily" Value="Barlow-SemiBold" />
-                                    <Setter Property="VerticalOptions" Value="Center" />
-                                    <Setter Property="CornerRadius" Value="5" />
-                                    <Setter Property="HorizontalOptions" Value="End" />
-                                    <Setter Property="WidthRequest" Value="88" />
-                                    <Setter Property="HeightRequest" Value="34" />
-                                    <Setter Property="Padding" Value="0" />
-                                </Style>
-
-                            </StackLayout.Resources>
-
                             <buttons:BorderButton
+                                Style="{DynamicResource ButtonsStyle}"
                                 BorderColor="{DynamicResource IndicationColor_i7}"
                                 BorderWidth="2"
                                 IsEnabled="False"
@@ -119,6 +121,7 @@
                             </buttons:BorderButton>
 
                             <buttons:BorderButton
+                                Style="{DynamicResource ButtonsStyle}"
                                 Margin="15, 0, 0, 0"
                                 WidthRequest="105"
                                 Text="{xct:Translate AddNew}"
@@ -180,37 +183,33 @@
 
                                     <Label
                                         Grid.Column="0"
-                                        Style="{DynamicResource ViewCellLabelStyle}"
+                                        Style="{DynamicResource HeaderTableLabelStyle}"
                                         IsVisible="false" />
 
                                     <StackLayout
                                         Grid.Column="1"
-                                        Orientation="Horizontal">
+                                        Orientation="Horizontal"
+                                        xct:TouchEffect.Command="{Binding SortCommand}"
+                                        xct:TouchEffect.CommandParameter="{x:Static enums:ECustomersSorting.ByName}">
 
                                         <Label
-                                            Style="{DynamicResource ViewCellLabelStyle}"
+                                            Style="{DynamicResource HeaderTableLabelStyle}"
                                             Text="{xct:Translate CustomerName}" />
 
                                         <Image
                                             WidthRequest="20"
                                             Source="ic_sort_primary_24x24" />
 
-                                        <StackLayout.GestureRecognizers>
-
-                                            <TapGestureRecognizer
-                                                Command="{Binding SortCommand}"
-                                                CommandParameter="{x:Static enums:ECustomersSorting.ByName}" />
-
-                                        </StackLayout.GestureRecognizers>
-
                                     </StackLayout>
 
                                     <StackLayout
                                         Grid.Column="2"
-                                        Orientation="Horizontal">
+                                        Orientation="Horizontal"
+                                        xct:TouchEffect.Command="{Binding SortCommand}"
+                                        xct:TouchEffect.CommandParameter="{x:Static enums:ECustomersSorting.ByPoints}">
 
                                         <Label
-                                            Style="{DynamicResource ViewCellLabelStyle}"
+                                            Style="{DynamicResource HeaderTableLabelStyle}"
                                             Text="{xct:Translate Points}" />
 
                                         <Image
@@ -219,29 +218,21 @@
                                             Source="ic_sort_primary_24x24"
                                             x:Name="sortPointsImage" />
 
-                                        <StackLayout.GestureRecognizers>
-
-                                            <TapGestureRecognizer
-                                                Command="{Binding SortCommand}"
-                                                CommandParameter="{x:Static enums:ECustomersSorting.ByPoints}" />
-
-                                        </StackLayout.GestureRecognizers>
-
                                     </StackLayout>
 
                                     <Label
                                         Grid.Column="3"
-                                        Style="{DynamicResource ViewCellLabelStyle}"
+                                        Style="{DynamicResource HeaderTableLabelStyle}"
                                         Text="{xct:Translate Rewards}" />
 
                                     <Label
                                         Grid.Column="4"
-                                        Style="{DynamicResource ViewCellLabelStyle}"
+                                        Style="{DynamicResource HeaderTableLabelStyle}"
                                         Text="{xct:Translate GiftCardCount}" />
 
                                     <Label
                                         Grid.Column="5"
-                                        Style="{DynamicResource ViewCellLabelStyle}"
+                                        Style="{DynamicResource HeaderTableLabelStyle}"
                                         Text="{xct:Translate GiftCardTotal}" />
 
                                 </Grid>
@@ -305,11 +296,11 @@
                                         x:Name="collectiomView">
 
                                         <controls:CustomCollectionView.Behaviors>
-                                            <behaviors:ScrollToCenterBehavior/>
+                                            <behaviors:ScrollToCenterBehavior />
                                         </controls:CustomCollectionView.Behaviors>
 
                                         <CollectionView.Effects>
-                                            
+
                                             <effects:ScrollBarColorEffect
                                                 ScrollBarThumbWidth="6"
                                                 ScrollBarCornerRadius="9"
@@ -351,40 +342,30 @@
                                                         Grid.Row="0"
                                                         Grid.Column="1"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
-                                                        Margin="1, 0, 0, 0"
-                                                        LineBreakMode="TailTruncation"
                                                         Text="{Binding FullName}" />
 
                                                     <Label
                                                         Grid.Row="0"
                                                         Grid.Column="2"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
-                                                        Margin="1, 0, 0, 0"
-                                                        LineBreakMode="TailTruncation"
                                                         Text="{Binding Points, StringFormat={Static local:Constants+Formats.POINT_FORMAT}}" />
 
                                                     <Label
                                                         Grid.Row="0"
                                                         Grid.Column="3"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
-                                                        Margin="1, 0, 0, 0"
-                                                        LineBreakMode="TailTruncation"
                                                         Text="{Binding Rewards}" />
 
                                                     <Label
                                                         Grid.Row="0"
                                                         Grid.Column="4"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
-                                                        Margin="1, 0, 0, 0"
-                                                        LineBreakMode="TailTruncation"
                                                         Text="{Binding GiftCards.Count}" />
 
                                                     <Label
                                                         Grid.Row="0"
                                                         Grid.Column="5"
-                                                        Style="{DynamicResource ViewCellLabelStyle}"
-                                                        Margin="1, 0, 0, 0"
-                                                        LineBreakMode="TailTruncation">
+                                                        Style="{DynamicResource ViewCellLabelStyle}">
 
                                                         <Label.FormattedText>
                                                             <FormattedString>
@@ -465,20 +446,20 @@
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroupList>
                             <VisualStateGroup x:Name="AdaptiveTriggers">
-                                
+
                                 <VisualState Name="MoreThenSamsungTabA7">
-                                    
+
                                     <VisualState.StateTriggers>
                                         <AdaptiveTrigger MinWindowHeight="601" />
                                     </VisualState.StateTriggers>
-                                    
+
                                     <VisualState.Setters>
                                         <Setter Property="HeightRequest" Value="44" />
                                         <Setter Property="Margin" Value="24, 18" />
                                     </VisualState.Setters>
-                                    
+
                                 </VisualState>
-                                
+
                             </VisualStateGroup>
                         </VisualStateGroupList>
                     </VisualStateManager.VisualStateGroups>

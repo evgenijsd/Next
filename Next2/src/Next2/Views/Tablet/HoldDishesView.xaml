@@ -139,6 +139,19 @@
                         MinimumHeightRequest="42"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
+                        <Grid.Resources>
+                            <Style TargetType="buttons:IconTextButton">
+                                <Setter Property="FontFamily" Value="Barlow-Medium"/>
+                                <Setter Property="FontSize" Value="{DynamicResource TSize_i9}"/>
+                                <Setter Property="IconSize" Value="20, 20"/>
+                                <Setter Property="IconSource" Value="ic_sort_primary_24x24"/>
+                                <Setter Property="HorizontalOptions" Value="Start"/>
+                                <Setter Property="IsIconPlacedOnRight" Value="True"/>
+                                <Setter Property="Padding" Value="15, 0"/>
+                                <Setter Property="Spacing" Value="5"/>
+                            </Style>
+                        </Grid.Resources>
+
                         <StackLayout xct:TouchEffect.Command="{Binding SelectAllHoldDishesTableCommand}">
 
                             <ffimageloading:CachedImage
@@ -179,30 +192,14 @@
 
                         <buttons:IconTextButton
                             Grid.Column="1"
-                            HorizontalOptions="Start"
                             Text="{xct:Translate TableName}"
-                            FontSize="{DynamicResource TSize_i9}"
-                            FontFamily="Barlow-Medium"
-                            IconSource="ic_sort_primary_24x24"
-                            IconSize="20, 20"
-                            IsIconPlacedOnRight="True"
-                            Padding="14, 0"
-                            Spacing="5"
                             Border="{pancakeview:BorderMarkup Color=Transparent, Thickness=0}"
                             xct:TouchEffect.Command="{Binding ChangeSortHoldDishesCommand}"
                             xct:TouchEffect.CommandParameter="{x:Static enums:EHoldDishesSortingType.ByTableNumber}"/>
 
                         <buttons:IconTextButton
                             Grid.Column="2"
-                            HorizontalOptions="Start"
                             Text="{xct:Translate Item}"
-                            FontSize="{DynamicResource TSize_i9}"
-                            FontFamily="Barlow-Medium"
-                            IconSource="ic_sort_primary_24x24"
-                            IconSize="20, 20"
-                            IsIconPlacedOnRight="True"
-                            Padding="15, 0"
-                            Spacing="5"
                             Border="{pancakeview:BorderMarkup Color=Transparent, Thickness=0}"
                             xct:TouchEffect.Command="{Binding ChangeSortHoldDishesCommand}"
                             xct:TouchEffect.CommandParameter="{x:Static enums:EHoldDishesSortingType.ByDishName}"/>
