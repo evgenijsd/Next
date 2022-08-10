@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:local="clr-namespace:Next2.Controls"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
@@ -86,11 +87,7 @@
 
             </CollectionView.ItemsLayout>
 
-            <CollectionView.Effects>
-                <effects:NoOverScrollEffect />
-            </CollectionView.Effects>
-
-            <CollectionView.ItemTemplate>
+        <CollectionView.ItemTemplate>
 
                 <DataTemplate x:DataType="helpers:Day">
 
@@ -164,19 +161,16 @@
             IsVisible="false"
             x:Name="dropdownFrame">
 
-            <CollectionView
-                VerticalScrollBarVisibility="Never"
-                SelectionMode="Single"
-                ItemsSource="{Binding Years, Source={x:Reference calendar}}"
-                SelectedItem="{Binding SelectedYear, Source={x:Reference calendar}}"
-                x:Name="yearsCollectionView">
-
-                <CollectionView.Effects>
-                    <effects:NoOverScrollEffect />
-                </CollectionView.Effects>
-
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="helpers:Year">
+        <controls:CustomCollectionView
+            VerticalScrollBarVisibility="Never"
+            SelectionMode="Single"
+            BounceMode="DisabledForAndroidAndiOS"
+            ItemsSource="{Binding Years, Source={x:Reference calendar}}"
+            SelectedItem="{Binding SelectedYear, Source={x:Reference calendar}}"
+            x:Name="yearsCollectionView">
+            
+            <controls:CustomCollectionView.ItemTemplate>
+                <DataTemplate x:DataType="helpers:Year">
 
                         <Frame
                             HeightRequest="32"
@@ -207,10 +201,10 @@
                             </VisualStateManager.VisualStateGroups>
                         </Frame>
 
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+                </DataTemplate>
+            </controls:CustomCollectionView.ItemTemplate>
 
-            </CollectionView>
+        </controls:CustomCollectionView>
 
         </pancakeview:PancakeView>
 

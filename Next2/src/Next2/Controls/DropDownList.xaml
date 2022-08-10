@@ -5,7 +5,6 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     IsClippedToBounds="True"
     Grid.RowSpan="10"
@@ -53,8 +52,9 @@
 
         </StackLayout>
 
-        <controls:CustomScrollBarCollectionView
+        <controls:CustomCollectionView
             Style="{DynamicResource CustomScrollBarCollectionView_i1}"
+            BounceMode="DisabledForAndroidAndiOS"
             VerticalScrollBarVisibility="{Binding ScrollBarVisibility, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
             HeightRequest="{Binding ListHeight, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
             Background="{DynamicResource TextAndBackgroundColor_i5}"
@@ -63,13 +63,7 @@
             SelectedItem="{Binding SelectedItem, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
             ItemTemplate="{Binding DataTemplate, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
             SelectionChangedCommand="{Binding SelectionChangedCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
-            x:Name="itemsCollection" >
-
-            <CollectionView.Effects>
-                <effects:NoOverScrollEffect/>
-            </CollectionView.Effects>
-
-        </controls:CustomScrollBarCollectionView>
+            x:Name="itemsCollection"/>
 
     </StackLayout>
 

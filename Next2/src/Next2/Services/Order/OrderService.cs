@@ -68,18 +68,21 @@ namespace Next2.Services.Order
                 {
                     decimal totalProductsPrice = 0;
 
-                    foreach (var product in dish.SelectedProducts)
+                    if (dish.SelectedProducts is not null)
                     {
-                        var ingredientsPrice = product.AddedIngredients is not null
-                            ? product.AddedIngredients.Sum(row => row.Price)
-                            : 0;
+                        foreach (var product in dish.SelectedProducts)
+                        {
+                            var ingredientsPrice = product.AddedIngredients is not null
+                                ? product.AddedIngredients.Sum(row => row.Price)
+                                : 0;
 
-                        ingredientsPrice += product.ExcludedIngredients is not null
-                            ? product.ExcludedIngredients.Sum(row => row.Price)
-                            : 0;
+                            ingredientsPrice += product.ExcludedIngredients is not null
+                                ? product.ExcludedIngredients.Sum(row => row.Price)
+                                : 0;
 
-                        var productPrice = product.Price;
-                        totalProductsPrice += ingredientsPrice + productPrice;
+                            var productPrice = product.Price;
+                            totalProductsPrice += ingredientsPrice + productPrice;
+                        }
                     }
 
                     var discountProductsPrice = totalProductsPrice;
@@ -138,7 +141,7 @@ namespace Next2.Services.Order
 
                 if (order is not null)
                 {
-                    var newOrder = new OrderModelDTO()
+                    OrderModelDTO newOrder = new()
                     {
                         Id = order.Id,
                         Number = order.OrderNumber,
@@ -513,30 +516,33 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<Guid>> UpdateTableAsync(SimpleTableModelDTO table, bool isAvailable = false)
+        public async Task<AOResult<Guid>> UpdateTableAsync(SimpleTableModelDTO? table, bool isAvailable = false)
         {
             var result = new AOResult<Guid>();
 
-            var updateCommand = new UpdateTableCommand()
+            if (table is not null)
             {
-                Id = table.Id,
-                Number = table.Number,
-                SeatNumbers = table.SeatNumbers,
-                IsAvailable = isAvailable,
-            };
-
-            try
-            {
-                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/tables", updateCommand);
-
-                if (response.Success)
+                var updateCommand = new UpdateTableCommand()
                 {
-                    result.SetSuccess(response.Value);
+                    Id = table.Id,
+                    Number = table.Number,
+                    SeatNumbers = table.SeatNumbers,
+                    IsAvailable = isAvailable,
+                };
+
+                try
+                {
+                    var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/tables", updateCommand);
+
+                    if (response.Success)
+                    {
+                        result.SetSuccess(response.Value);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(UpdateTableAsync)}: exception", Strings.SomeIssues, ex);
+                catch (Exception ex)
+                {
+                    result.SetError($"{nameof(UpdateTableAsync)}: exception", Strings.SomeIssues, ex);
+                }
             }
 
             return result;
@@ -583,7 +589,9 @@ namespace Next2.Services.Order
             try
             {
                 UpdateTotalSum(CurrentOrder);
+
                 var orderDTO = CurrentOrder.ToOrderModelDTO();
+
                 result = await UpdateOrderAsync(orderDTO);
             }
             catch (Exception ex)

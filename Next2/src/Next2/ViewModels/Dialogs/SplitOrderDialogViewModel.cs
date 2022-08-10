@@ -30,9 +30,9 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Public properties --
 
-        public ObservableCollection<SeatBindableModel> Seats { get; set; }
+        public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
-        public DishBindableModel SelectedDish { get; set; }
+        public DishBindableModel SelectedDish { get; set; } = new();
 
         public List<object> SelectedSeats { get; set; } = new();
 
@@ -50,7 +50,7 @@ namespace Next2.ViewModels.Dialogs
 
         public bool IsNextStepAvailable { get; set; }
 
-        public string HeaderText { get; set; }
+        public string HeaderText { get; set; } = string.Empty;
 
         public decimal AvailableValue { get; set; }
 
@@ -229,7 +229,10 @@ namespace Next2.ViewModels.Dialogs
                 {
                     foreach (var seat in selectedSeats)
                     {
-                        seat.SelectedItem.TotalPrice = Math.Round(price, 2);
+                        if (seat.SelectedItem is not null)
+                        {
+                            seat.SelectedItem.TotalPrice = Math.Round(price, 2);
+                        }
                     }
                 }
 
@@ -249,7 +252,10 @@ namespace Next2.ViewModels.Dialogs
                 {
                     foreach (var seat in selectedSeats)
                     {
-                        seat.SelectedItem.TotalPrice = Math.Round(SplitValue, 2);
+                        if (seat.SelectedItem is not null)
+                        {
+                            seat.SelectedItem.TotalPrice = Math.Round(SplitValue, 2);
+                        }
                     }
 
                     RaisePropertyChanged(nameof(SplitTotal));

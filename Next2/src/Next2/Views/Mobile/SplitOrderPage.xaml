@@ -67,13 +67,13 @@
 
         </StackLayout>
 
-        <CollectionView
+        <controls:CustomCollectionView
+            BounceMode="DisabledForAndroidAndiOS"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
             VerticalScrollBarVisibility="Always"
             ItemsSource="{Binding Seats}">
 
             <CollectionView.Effects>
-                <effects:NoOverScrollEffect />
 
                 <effects:ScrollBarColorEffect
                     ScrollBarCornerRadius="9"
@@ -95,7 +95,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
-        </CollectionView>
+        </controls:CustomCollectionView>
 
         <Grid
             Grid.Row="1"

@@ -5,10 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
@@ -159,10 +157,6 @@
                                 SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                                 IndexLastVisible="{Binding IndexLastVisibleElement}">
-
-                                <controls:CustomCollectionView.Effects>
-                                    <effects:NoOverScrollEffect />
-                                </controls:CustomCollectionView.Effects>
 
                                 <controls:CustomCollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="models:CustomerBindableModel">

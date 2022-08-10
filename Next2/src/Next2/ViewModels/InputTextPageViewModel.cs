@@ -8,7 +8,7 @@ namespace Next2.ViewModels
 {
     public class InputTextPageViewModel : BaseViewModel
     {
-        private string _oldText;
+        private string? _oldText;
 
         public InputTextPageViewModel(INavigationService navigationService)
           : base(navigationService)
@@ -17,9 +17,9 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        public string Text { get; set; }
+        public string Text { get; set; } = string.Empty;
 
-        public string Placeholder { get; set; }
+        public string Placeholder { get; set; } = string.Empty;
 
         private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);

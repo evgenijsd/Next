@@ -156,7 +156,7 @@ namespace Next2.ViewModels.Tablet
             }
             else
             {
-                await _notificationsService.ResponseToBadRequestAsync(resultOfGettingReservations.Exception.Message);
+                await _notificationsService.ResponseToBadRequestAsync(resultOfGettingReservations.Exception?.Message);
             }
         }
 
@@ -178,7 +178,7 @@ namespace Next2.ViewModels.Tablet
             return Task.CompletedTask;
         }
 
-        private Task OnSelectReservationCommandAsync(ReservationModel reservation)
+        private Task OnSelectReservationCommandAsync(ReservationModel? reservation)
         {
             SelectedReservation = reservation == SelectedReservation
                 ? null

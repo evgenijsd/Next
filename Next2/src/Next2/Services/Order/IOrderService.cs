@@ -40,7 +40,7 @@ namespace Next2.Services.Order
 
         Task<AOResult> SetEmptyCurrentOrderAsync();
 
-        Task<AOResult<Guid>> UpdateTableAsync(SimpleTableModelDTO table, bool isAvailable = false);
+        Task<AOResult<Guid>> UpdateTableAsync(SimpleTableModelDTO? table, bool isAvailable = false);
 
         Task<AOResult> SetCurrentOrderAsync(Guid orderId);
 

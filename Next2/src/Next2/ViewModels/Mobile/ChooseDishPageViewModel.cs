@@ -28,8 +28,8 @@ namespace Next2.ViewModels.Mobile
         private readonly IMapper _mapper;
         private readonly INotificationsService _notificationsService;
 
-        private FullOrderBindableModel _tempCurrentOrder;
-        private SeatBindableModel _tempCurrentSeat;
+        private FullOrderBindableModel _tempCurrentOrder = new();
+        private SeatBindableModel _tempCurrentSeat = new();
 
         private bool _shouldOrderDishesByDESC;
 
@@ -53,9 +53,9 @@ namespace Next2.ViewModels.Mobile
 
         public CategoryModel SelectedCategoriesItem { get; set; }
 
-        public ObservableCollection<DishModelDTO> Dishes { get; set; }
+        public ObservableCollection<DishModelDTO> Dishes { get; set; } = new();
 
-        public ObservableCollection<SubcategoryModel> Subcategories { get; set; }
+        public ObservableCollection<SubcategoryModel> Subcategories { get; set; } = new();
 
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
@@ -109,7 +109,7 @@ namespace Next2.ViewModels.Mobile
             return Task.CompletedTask;
         }
 
-        private Task OnTapDishCommandAsync(DishModelDTO dish)
+        private Task OnTapDishCommandAsync(DishModelDTO? dish)
         {
             var param = new DialogParameters
             {
@@ -153,7 +153,7 @@ namespace Next2.ViewModels.Mobile
                             _orderService.CurrentSeat = _tempCurrentSeat;
                             _orderService.UpdateTotalSum(_orderService.CurrentOrder);
 
-                            await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
+                            await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                         }
                     }
                     else

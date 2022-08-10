@@ -21,18 +21,20 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Public properties --
 
-        public string CancelButtonText { get; set; }
+        public string CancelButtonText { get; set; } = string.Empty;
 
-        public string SelectButtonText { get; set; }
+        public string SelectButtonText { get; set; } = string.Empty;
 
-        public CustomerBindableModel Customer { get; set; }
+        public CustomerBindableModel Customer { get; set; } = new();
 
         #endregion
 
         public DelegateCommand CloseCommand { get; }
 
         public Action<IDialogParameters> RequestClose;
+
         public DelegateCommand AcceptCommand { get; }
+
         public DelegateCommand DeclineCommand { get; }
 
         #region -- Private helpers --
@@ -44,14 +46,14 @@ namespace Next2.ViewModels.Dialogs
                 Customer = customer;
             }
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_TEXT, out string text))
+            if (param.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_TEXT, out string buttonText))
             {
-                SelectButtonText = text;
+                SelectButtonText = buttonText;
             }
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, out string text2))
+            if (param.TryGetValue(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, out string cancelText))
             {
-                CancelButtonText = text2;
+                CancelButtonText = cancelText;
             }
         }
 

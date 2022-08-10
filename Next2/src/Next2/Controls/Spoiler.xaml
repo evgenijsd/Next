@@ -5,7 +5,6 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:effects="clr-namespace:Next2.Effects"
     Spacing="0"
     x:Class="Next2.Controls.Spoiler"
     x:DataType="controls:Spoiler">
@@ -41,7 +40,8 @@
 
     </StackLayout>
 
-    <CollectionView
+    <controls:CustomCollectionView
+        BounceMode="DisabledForAndroidAndiOS"
         IsVisible="{Binding IsRolled, Source={RelativeSource AncestorType={x:Type controls:Spoiler}}, Converter={xct:InvertedBoolConverter}}"
         ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type controls:Spoiler}}}"
         SelectedItem="{Binding SelectedItem, Source={RelativeSource AncestorType={x:Type controls:Spoiler}}}"
@@ -52,12 +52,6 @@
         HeightRequest="{Binding HeightList, Source={RelativeSource AncestorType={x:Type controls:Spoiler}}}"
         MinimumHeightRequest="{Binding HeightList, Source={RelativeSource AncestorType={x:Type controls:Spoiler}}}"
         VerticalScrollBarVisibility="Never"
-        HorizontalScrollBarVisibility="Never">
-
-        <CollectionView.Effects>
-            <effects:NoOverScrollEffect/>
-        </CollectionView.Effects>
-
-    </CollectionView>
-
+        HorizontalScrollBarVisibility="Never"/>
+    
 </StackLayout>
