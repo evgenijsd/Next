@@ -36,17 +36,22 @@
             <Style x:Key="LabelStyle_i1" TargetType="Label">
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
                 <Setter Property="VerticalTextAlignment" Value="Center" />
-                <Setter Property="FontSize" Value="{DynamicResource TSize_i0_6}" />
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i13}" />
                 <Setter Property="FontFamily" Value="Barlow-Bold" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
             </Style>
 
             <Style x:Key="IconButtonStyle_i3" TargetType="buttons:IconButton">
                 <Setter Property="VerticalOptions" Value="CenterAndExpand" />
-                <Setter Property="xct:TouchEffect.Command" Value="{Binding ChangingTimeHoldCommand}" />
+                <Setter Property="xct:TouchEffect.Command" Value="{Binding ChangeTimeHoldCommand}" />
                 <Setter Property="HeightRequest" Value="45" />
                 <Setter Property="WidthRequest" Value="45" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            </Style>
+
+            <Style x:Key="LabelStyle_i4" TargetType="Label">
+                <Setter Property="MaxLines" Value="1" />
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             </Style>
 
         </pancakeview:PancakeView.Resources>
@@ -62,17 +67,15 @@
 
                 <Label
                     VerticalTextAlignment="Center"
-                    MaxLines="1"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    Style="{DynamicResource LabelStyle_i4}"
                     FontSize="{DynamicResource TSize_i6}"
                     FontFamily="Barlow-SemiBold"
                     Text="{xct:Translate HoldItem}" />
 
                 <Label
                     VerticalTextAlignment="Center"
+                    Style="{DynamicResource LabelStyle_i4}"
                     HorizontalOptions="EndAndExpand"
-                    MaxLines="1"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     FontSize="{DynamicResource TSize_i6}"
                     FontFamily="Barlow-Regular"
                     Text="{Binding CurrentTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
@@ -81,65 +84,63 @@
 
             <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
-            <pancakeview:PancakeView
-                CornerRadius="8"
-                Margin="20, 15, 20, 20"
-                Border="{pancakeview:BorderMarkup Thickness=1, Color={StaticResource TextAndBackgroundColor_i2}}">
-
-                <StackLayout
-                    Orientation="Horizontal"
-                    Spacing="5">
-
-                    <pancakeview:PancakeView
-                        HeightRequest="44"
-                        MinimumWidthRequest="44"
-                        WidthRequest="44"
-                        CornerRadius="8"
-                        HorizontalOptions="Start"
-                        VerticalOptions="Center"
-                        Margin="15, 10, 10, 10">
-
-                        <ffimageloading:CachedImage
-                            Aspect="AspectFill"
-                            Source="{Binding SelectedDish.ImageSource}" />
-
-                    </pancakeview:PancakeView>
+                <pancakeview:PancakeView
+                    CornerRadius="8"
+                    Margin="20, 15, 20, 20"
+                    Border="{pancakeview:BorderMarkup Thickness=1, Color={StaticResource TextAndBackgroundColor_i2}}">
 
                     <StackLayout
-                        VerticalOptions="CenterAndExpand"
-                        Spacing="6"
-                        Margin="0, 14">
+                        Orientation="Horizontal"
+                        Spacing="5">
 
-                        <Label
+                        <pancakeview:PancakeView
+                            HeightRequest="44"
+                            MinimumWidthRequest="44"
+                            WidthRequest="44"
+                            CornerRadius="8"
+                            HorizontalOptions="Start"
                             VerticalOptions="Center"
-                            Padding="0, 0, 10, 0"
-                            Text="{Binding SelectedDish.Name}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontSize="{DynamicResource TSize_i8}"
-                            FontFamily="Barlow-Medium"
-                            LineBreakMode="TailTruncation"
-                            MaxLines="1" />
+                            Margin="15, 10, 10, 10">
 
-                        <Label
-                            VerticalOptions="Center"
-                            Padding="0, 0, 10, 0"
-                            Text="{Binding SetNames}"
-                            FontSize="{DynamicResource TSize_i9}"
-                            FontFamily="Barlow-Regular"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            LineBreakMode="TailTruncation"
-                            MaxLines="1" />
+                            <ffimageloading:CachedImage
+                                Aspect="AspectFill"
+                                Source="{Binding SelectedDish.ImageSource}" />
+
+                        </pancakeview:PancakeView>
+
+                        <StackLayout
+                            VerticalOptions="CenterAndExpand"
+                            Spacing="6"
+                            Margin="0, 14">
+
+                            <Label
+                                VerticalOptions="Center"
+                                Style="{DynamicResource LabelStyle_i4}"
+                                Padding="0, 0, 10, 0"
+                                Text="{Binding SelectedDish.Name}"
+                                FontSize="{DynamicResource TSize_i8}"
+                                FontFamily="Barlow-Medium"
+                                LineBreakMode="TailTruncation" />
+
+                            <Label
+                                VerticalOptions="Center"
+                                Style="{DynamicResource LabelStyle_i4}"
+                                Padding="0, 0, 10, 0"
+                                Text="{Binding ProductNames}"
+                                FontSize="{DynamicResource TSize_i9}"
+                                FontFamily="Barlow-Regular"
+                                LineBreakMode="TailTruncation" />
+
+                        </StackLayout>
 
                     </StackLayout>
 
-                </StackLayout>
+                </pancakeview:PancakeView>
 
-            </pancakeview:PancakeView>
-
-            <BoxView
-                HeightRequest="1"
-                Margin=" 20, 0"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+                <BoxView
+                    HeightRequest="1"
+                    Margin=" 20, 0"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
                 <ScrollView>
                     
@@ -180,7 +181,7 @@
                             </CollectionView.Effects>
 
                             <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="helpers:TimeItem">
+                                <DataTemplate x:DataType="{x:Type x:Int32}">
 
                                     <Frame
                                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -225,7 +226,7 @@
 
                                                 <Label.FormattedText>
                                                     <FormattedString>
-                                                        <Span Text="{Binding Minute}" />
+                                                        <Span Text="{Binding .}" />
                                                         <Span Text=" " />
                                                         <Span Text="{xct:Translate min}" />
                                                     </FormattedString>

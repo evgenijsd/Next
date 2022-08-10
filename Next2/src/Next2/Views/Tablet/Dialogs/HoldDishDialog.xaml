@@ -44,7 +44,12 @@
             
             <Style x:Key="IconButtonStyle_i3" TargetType="buttons:IconButton">
                 <Setter Property="VerticalOptions" Value="Center" />
-                <Setter Property="xct:TouchEffect.Command" Value="{Binding ChangingTimeHoldCommand}" />
+                <Setter Property="xct:TouchEffect.Command" Value="{Binding ChangeTimeHoldCommand}" />
+            </Style>
+            
+            <Style x:Key="LabelStyle_i4" TargetType="Label">
+                <Setter Property="MaxLines" Value="1" />
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             </Style>
             
         </pancakeview:PancakeView.Resources>
@@ -57,18 +62,16 @@
                 Padding="20, 23">
                 
                 <Label
+                    Style="{DynamicResource LabelStyle_i4}"
                     VerticalTextAlignment="Center"
-                    MaxLines="1"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     FontSize="{DynamicResource TSize_i6}"
                     FontFamily="Barlow-SemiBold"
                     Text="{xct:Translate HoldItem}" />
                 
                 <Label
+                    Style="{DynamicResource LabelStyle_i4}"
                     VerticalTextAlignment="Center"
                     HorizontalOptions="EndAndExpand"
-                    MaxLines="1"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     FontSize="{DynamicResource TSize_i6}"
                     FontFamily="Barlow-Regular"
                     Text="{Binding CurrentTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
@@ -109,24 +112,22 @@
                         Margin="0, 14">
 
                         <Label
+                            Style="{DynamicResource LabelStyle_i4}"
                             VerticalOptions="Center"
                             Padding="0, 0, 10, 0"
                             Text="{Binding SelectedDish.Name}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             FontSize="{DynamicResource TSize_i8}"
                             FontFamily="Barlow-Medium"
-                            LineBreakMode="TailTruncation"
-                            MaxLines="1" />
+                            LineBreakMode="TailTruncation"  />
 
                         <Label
+                            Style="{DynamicResource LabelStyle_i4}"
                             VerticalOptions="Center"
                             Padding="0, 0, 10, 0"
-                            Text="{Binding SetNames}"
+                            Text="{Binding ProductNames}"
                             FontSize="{DynamicResource TSize_i9}"
                             FontFamily="Barlow-Regular"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            LineBreakMode="TailTruncation"
-                            MaxLines="1" />
+                            LineBreakMode="TailTruncation" />
 
                     </StackLayout>
 
@@ -168,7 +169,7 @@
                 </CollectionView.Effects>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="helpers:TimeItem">
+                    <DataTemplate x:DataType="{x:Type x:Int32}">
 
                         <Frame
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
@@ -214,7 +215,7 @@
 
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding Minute}" />
+                                            <Span Text="{Binding .}" />
                                             <Span Text=" " />
                                             <Span Text="{xct:Translate min}" />
                                         </FormattedString>

@@ -43,7 +43,7 @@ namespace Next2.ViewModels.Mobile
             _menuService = menuService;
             _mapper = mapper;
 
-            Device.StartTimer(TimeSpan.FromSeconds(10), OnTimerTick);
+            Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.TIMER), OnTimerTick);
         }
 
         #region -- Public properties --

@@ -79,7 +79,7 @@ namespace Next2.ViewModels
             _removeOrderCommand = new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
             _selectDishCommand = new AsyncCommand<DishBindableModel>(OnSelectDishCommandAsync, allowsMultipleExecutions: false);
 
-            Device.StartTimer(TimeSpan.FromSeconds(10), OnTimerTick);
+            Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.TIMER), OnTimerTick);
         }
 
         #region -- Public properties --

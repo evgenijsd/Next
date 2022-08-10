@@ -9,8 +9,6 @@
     x:Class="Next2.Resources.Styles.DefaultResources">
 
     <!--  TEXT SIZE  -->
-    <!--  72px  -->
-    <x:Double x:Key="TSize_i0_6">44</x:Double>
     <!--  56px  -->
     <x:Double x:Key="TSize_i0_7">42</x:Double>
     <!--  48px  -->
@@ -39,7 +37,9 @@
     <x:Double x:Key="TSize_i10">10</x:Double>
     
     <x:Double x:Key="TSize_i12">8</x:Double>
-    
+    <!--  72px  -->
+    <x:Double x:Key="TSize_i13">44</x:Double>
+
     <x:Double x:Key="OpacityWhenDisabled_i1">0.5</x:Double>
     <x:Double x:Key="OpacityWhenDisabled_i2">0.6</x:Double>
     <x:Double x:Key="OpacityWhenDisabled_i3">0.32</x:Double>
