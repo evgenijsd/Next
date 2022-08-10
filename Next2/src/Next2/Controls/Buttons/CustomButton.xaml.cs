@@ -24,6 +24,19 @@ namespace Next2.Controls.Buttons
             set => SetValue(CornerRadiusProperty, value);
         }
 
+        public static readonly BindableProperty DeselectedBackgroundColorProperty = BindableProperty.Create(
+            propertyName: nameof(DeselectedBackgroundColor),
+            returnType: typeof(Color),
+            defaultValue: (Color)Application.Current.Resources["TextAndBackgroundColor_i4"],
+            declaringType: typeof(CustomButton),
+            defaultBindingMode: BindingMode.OneWay);
+
+        public Color DeselectedBackgroundColor
+        {
+            get => (Color)GetValue(DeselectedBackgroundColorProperty);
+            set => SetValue(DeselectedBackgroundColorProperty, value);
+        }
+
         public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
             propertyName: nameof(IsSelected),
             returnType: typeof(bool),

@@ -104,6 +104,8 @@
             Grid.RowSpan="2"
             Grid.Column="2"
             VerticalOptions="Center"
+            InputTransparent="True"
+            Color="{DynamicResource AppColor_i1}"
             IsRunning="{Binding IsActivityIndicatorRunning}"/>
 
     </Grid>

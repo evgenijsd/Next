@@ -110,6 +110,7 @@ namespace Next2
                 containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
                 containerRegistry.RegisterSingleton<OrderRegistrationViewModel>();
+                containerRegistry.RegisterSingleton<PrintReceiptViewModel>();
             }
             else
             {
@@ -136,6 +137,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.WaitingSignaturePage, WaitingSignaturePageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.TaxRemoveConfirmPage, TaxRemoveConfirmPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SplitOrderPage, SplitOrderViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.PrintReceiptPage, PrintReceiptViewModel>();
             }
         }
 
@@ -232,7 +234,16 @@ namespace Next2
                 cfg.CreateMap<HoldDishModel, HoldDishBindableModel>().ReverseMap();
                 cfg.CreateMap<HoldDishBindableModel, TableBindableModel>()
                     .ForMember(x => x.Id, s => s.Ignore());
+                cfg.CreateMap<SimpleOrderModelDTO, SimpleOrderBindableModel>()
+                        .ForMember<string>(x => x.TableNumberOrName, s => s.MapFrom(x => GetTableName(x.TableNumber)));
             }).CreateMapper();
+        }
+
+        private string GetTableName(int? tableNumber)
+        {
+            return tableNumber == null
+                ? LocalizationResourceManager.Current["NotDefined"]
+                : $"{LocalizationResourceManager.Current["Table"]} {tableNumber}";
         }
 
         #endregion
