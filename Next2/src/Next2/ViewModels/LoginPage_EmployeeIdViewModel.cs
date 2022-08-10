@@ -15,9 +15,9 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        public string EmployeeId { get; set; }
+        public string EmployeeId { get; set; } = string.Empty;
 
-        private ICommand _goBackCommand;
+        private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
 
         #endregion

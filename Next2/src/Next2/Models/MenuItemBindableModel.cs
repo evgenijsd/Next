@@ -8,9 +8,9 @@ namespace Next2.Models
     {
         public EMenuItems State { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
-        public string ImagePath { get; set; }
+        public string ImagePath { get; set; } = string.Empty;
 
         public BaseViewModel ViewModel { get; set; }
     }

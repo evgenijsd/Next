@@ -152,7 +152,9 @@ namespace Next2.ViewModels
 
                     Order.PriceTax = _orderService.CurrentOrder.PriceTax;
                     Order.Total = _orderService.CurrentOrder.TotalPrice;
-                    Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
+                    Order.GiftCardsTotalFunds = Order.Customer is null
+                        ? 0
+                        : Order.Customer.GiftCardsTotalFund;
                     Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
                 }
 

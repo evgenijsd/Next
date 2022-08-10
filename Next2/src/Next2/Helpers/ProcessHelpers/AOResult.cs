@@ -39,7 +39,7 @@ namespace Next2.Helpers.ProcessHelpers
 
         public bool TrackingResult { get; set; } = true;
 
-        public IDictionary<int, string> AdditionalMessages { get; private set; }
+        public IDictionary<int, string>? AdditionalMessages { get; private set; }
 
         #endregion
 

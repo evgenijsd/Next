@@ -4,6 +4,6 @@ namespace Next2.Models.API.Results
 {
     public class GetGiftCardQueryResult
     {
-        public GiftCardModelDTO GiftCard { get; set; }
+        public GiftCardModelDTO GiftCard { get; set; } = new();
     }
 }

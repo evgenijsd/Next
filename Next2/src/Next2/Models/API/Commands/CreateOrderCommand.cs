@@ -9,7 +9,7 @@ namespace Next2.Models.API.Commands
 
         public bool IsTab { get; set; } = true;
 
-        public string EmployeeId { get; set; }
+        public string EmployeeId { get; set; } = string.Empty;
 
         public Guid? TableId { get; set; }
 

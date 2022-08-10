@@ -25,14 +25,14 @@ namespace Next2.ViewModels.Tablet
 {
     public class NewOrderViewModel : BaseViewModel, IPageActionsHandler
     {
+        private readonly IMapper _mapper;
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
         private readonly IWorkLogService _workLogService;
-        private readonly IMapper _mapper;
         private readonly INotificationsService _notificationsService;
 
-        private FullOrderBindableModel _tempCurrentOrder;
-        private SeatBindableModel _tempCurrentSeat;
+        private FullOrderBindableModel _tempCurrentOrder = new();
+        private SeatBindableModel _tempCurrentSeat = new();
 
         private bool _shouldOrderDishesByDESC;
 
@@ -65,13 +65,13 @@ namespace Next2.ViewModels.Tablet
 
         public DateTime CurrentDateTime { get; set; } = DateTime.Now;
 
-        public ObservableCollection<CategoryModel> Categories { get; set; }
+        public ObservableCollection<CategoryModel> Categories { get; set; } = new();
 
         public CategoryModel? SelectedCategoriesItem { get; set; }
 
-        public ObservableCollection<DishModelDTO> Dishes { get; set; }
+        public ObservableCollection<DishModelDTO> Dishes { get; set; } = new();
 
-        public ObservableCollection<SubcategoryModel> Subcategories { get; set; }
+        public ObservableCollection<SubcategoryModel> Subcategories { get; set; } = new();
 
         public OrderRegistrationViewModel OrderRegistrationViewModel { get; set; }
 
@@ -105,7 +105,7 @@ namespace Next2.ViewModels.Tablet
 
             _shouldOrderDishesByDESC = false;
 
-            await OrderRegistrationViewModel.InitializeAsync(null);
+            await OrderRegistrationViewModel.InitializeAsync(new NavigationParameters());
 
             await OnRefreshCategoriesCommandAsync();
         }
@@ -151,7 +151,7 @@ namespace Next2.ViewModels.Tablet
             return Task.CompletedTask;
         }
 
-        private Task OnTapDishCommand(DishModelDTO dish)
+        private Task OnTapDishCommand(DishModelDTO? dish)
         {
             var param = new DialogParameters
             {
@@ -201,7 +201,7 @@ namespace Next2.ViewModels.Tablet
                                 _orderService.CurrentSeat = _tempCurrentSeat;
 
                                 await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
-                                await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
+                                await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                             }
                         }
                         else
