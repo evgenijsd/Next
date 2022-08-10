@@ -1,198 +1,161 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Grid
+<StackLayout
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:local="clr-namespace:Next2.Controls"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:helpers="clr-namespace:Next2.Helpers"
-    RowDefinitions="0.12*, 0.24*, *"
-    Padding="21"
     x:Class="Next2.Controls.Calendar"
     x:Name="calendar">
 
-    <!--  year  -->
-    <Frame
-        Grid.Row="0"
-        HorizontalOptions="EndAndExpand"
-        WidthRequest="90"
-        CornerRadius="4"
-        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-        x:Name="yearDropdownFrame">
-        
-        <StackLayout Orientation="Horizontal">
+    <Grid
+        Padding="{OnIdiom Phone=21, Tablet=16}"
+        BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}">
 
-            <Label
-                VerticalTextAlignment="Center" 
-                Margin="10, 6, 0, 6"
-                FontFamily="Barlow-Medium"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                Text="{Binding SelectedYear.YearValue, Source={x:Reference calendar}}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{OnIdiom Phone=0.12*, Tablet=0.134*}" />
+            <RowDefinition Height="0.24*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+            </Style>
+        </Grid.Resources>
+
+        <Label
+            Margin="0, 8, 0, 0"
+            FontFamily="Barlow-Medium"
+            FontSize="{DynamicResource TSize_i8}"
+            Text="{Binding Title, Source={x:RelativeSource AncestorType={x:Type local:Calendar}}}" />
+
+        <StackLayout
+            Grid.Row="1"
+            Orientation="Horizontal"
+            BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}">
 
             <ffimageloading:CachedImage
-                HorizontalOptions="EndAndExpand"
+                Margin="6, 0, 0, 0"
+                HorizontalOptions="StartAndExpand"
+                HeightRequest="{Binding MonthStepperIconSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                WidthRequest="{Binding MonthStepperIconSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                Source="ic_primary_arrow_left_circle_56x56"
+                xct:TouchEffect.Command="{Binding LeftMonthTapCommand, Source={RelativeSource AncestorType={x:Type local:Calendar}}}" />
+
+            <Label
+                VerticalTextAlignment="Center"
+                HorizontalOptions="FillAndExpand"
+                FontFamily="{Binding MonthFontFamily, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                FontSize="{Binding MonthFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                Text="{Binding Month.Name, Source={x:Reference calendar}}"
+                x:Name="monthLabel" />
+
+            <ffimageloading:CachedImage
                 Margin="0, 0, 6, 0"
-                Scale="0.7"
-                Source="ic_arrow_down_primary_24x24" 
-                x:Name="yearDropdownIcon"/>
+                HeightRequest="{Binding MonthStepperIconSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                WidthRequest="{Binding MonthStepperIconSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                Source="ic_primary_arrow_right_circle_56x56.png"
+                xct:TouchEffect.Command="{Binding RightMonthTapCommand, Source={RelativeSource AncestorType={x:Type local:Calendar}}}" />
 
         </StackLayout>
 
-        <Frame.GestureRecognizers>
-            <TapGestureRecognizer Tapped="OnYearDropDownTapped" />
-        </Frame.GestureRecognizers>
+        <local:CalendarGridCollectionView
+            Grid.Row="2"
+            Margin="{OnIdiom Phone='16, 0, 16, 1', Tablet='6, 0, 6, 1'}"
+            BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+            Month="{Binding SelectedMonth, Source={x:RelativeSource AncestorType={x:Type local:Calendar}}}"
+            Year="{Binding SelectedYear.YearValue, Source={x:RelativeSource AncestorType={x:Type local:Calendar}}}"
+            OffsetYears="{Binding OffsetYears, Source={x:RelativeSource AncestorType={x:Type local:Calendar}}}"
+            SelectedDate="{Binding SelectedDate, Source={x:RelativeSource AncestorType={x:Type local:Calendar}}}"
+            SelectedStartDate="{Binding SelectedStartDate, Source={x:RelativeSource AncestorType={x:Type local:Calendar}}}"
+            SelectedItem="{Binding SelectedDay, Source={x:RelativeSource AncestorType={x:Type local:Calendar}}}"
+            x:Name="calendarGrid">
 
-    </Frame>
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout
+                    Orientation="Vertical"
+                    HorizontalItemSpacing="0"
+                    Span="7"
+                    VerticalItemSpacing="0" />
 
-    <!--  month  -->
-    <StackLayout
-        Grid.Row="1"
-        Orientation="Horizontal">
-
-        <ffimageloading:CachedImage
-            HorizontalOptions="StartAndExpand"
-            Margin="6, 0, 0, 0"
-            Scale="0.5"
-            Source="ic_primary_arrow_left_circle_56x56">
-
-            <ffimageloading:CachedImage.GestureRecognizers>
-                <TapGestureRecognizer Tapped="OnLeftMonthButtonTapped" />
-            </ffimageloading:CachedImage.GestureRecognizers>
-
-        </ffimageloading:CachedImage>
-
-        <Label
-            HorizontalOptions="FillAndExpand"
-            VerticalTextAlignment="Center"
-            FontFamily="Barlow-Bold"
-            FontSize="{DynamicResource TSize_i4}"
-            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-            Text="{Binding Month.Name, Source={x:Reference calendar}}"
-            x:Name="monthLabel">
-
-            <Label.GestureRecognizers>
-                
-                <SwipeGestureRecognizer
-                    Direction="Left"
-                    Swiped="OnRightMonthButtonTapped"
-                    Threshold="24" />
-                
-                <SwipeGestureRecognizer
-                    Direction="Right"
-                    Swiped="OnLeftMonthButtonTapped"
-                    Threshold="24" />
-                
-            </Label.GestureRecognizers>
-
-        </Label>
-
-        <ffimageloading:CachedImage
-            Margin="0, 0, 6, 0"
-            Scale="0.5"
-            Source="ic_primary_arrow_right_circle_56x56.png">
-
-            <ffimageloading:CachedImage.GestureRecognizers>
-                <TapGestureRecognizer Tapped="OnRightMonthButtonTapped" />
-            </ffimageloading:CachedImage.GestureRecognizers>
-
-        </ffimageloading:CachedImage>
-
-    </StackLayout>
-
-    <controls:CalendarGridCollectionView
-        Grid.Row="2"
-        Margin="16, 0, 16, 1"
-        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-        BounceMode="DisabledForAndroidAndiOS"
-        Month="{Binding SelectedMonth, Source={x:Reference calendar}}"
-        Year="{Binding SelectedYear.YearValue, Source={x:Reference calendar}}"
-        SelectedDate="{Binding SelectedDate, Source={x:Reference calendar}, Mode=TwoWay}"
-        SelectedItem="{Binding SelectedDay, Source={x:Reference calendar}}"
-        x:Name="calendarGrid">
-
-        <CollectionView.ItemsLayout>
-            
-            <GridItemsLayout
-                HorizontalItemSpacing="0"
-                Orientation="Vertical"
-                Span="7"
-                VerticalItemSpacing="0" />
-            
-        </CollectionView.ItemsLayout>
+            </CollectionView.ItemsLayout>
 
         <CollectionView.ItemTemplate>
 
-            <DataTemplate x:DataType="helpers:Day">
+                <DataTemplate x:DataType="helpers:Day">
 
-                <StackLayout
-                    Padding="3, 2.4, 3, 2.4" 
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
-                    
-                    <Frame
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        Margin="0"
-                        HeightRequest="34"
-                        WidthRequest="34"
-                        CornerRadius="16"
-                        BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                        x:Name="itemFrame">
+                    <StackLayout
+                        Padding="{OnIdiom Phone='3, 2.4', Tablet='0'}"
+                        BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}">
 
-                        <Label
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            FontFamily="Barlow-SemiBold"
-                            FontSize="{DynamicResource TSize_i6}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            Text="{Binding DayOfMonth}">
+                        <VisualStateManager.VisualStateGroups>
 
-                            <Label.Triggers>
-                                <DataTrigger Binding="{Binding State}" TargetType="Label" Value="NoDayMonth">
-                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i11}" />
-                                </DataTrigger>
-                            </Label.Triggers>
+                            <VisualStateGroup Name="CommonStates">
 
-                        </Label>
+                                <VisualState Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="itemFrame" Property="Frame.BackgroundColor" Value="{DynamicResource AppColor_i1}" />
+                                        <Setter TargetName="itemFrame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
+                                    </VisualState.Setters>
+                                </VisualState>
 
-                    </Frame>
+                                <VisualState Name="Normal" />
+                            </VisualStateGroup>
 
-                    <VisualStateManager.VisualStateGroups>
+                        </VisualStateManager.VisualStateGroups>
 
-                        <VisualStateGroup Name="CommonStates">
+                        <Frame
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            HeightRequest="{OnIdiom Phone=34, Tablet=30}"
+                            WidthRequest="{OnIdiom Phone=34, Tablet=30}"
+                            CornerRadius="16"
+                            BorderColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                            BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                            x:Name="itemFrame">
 
-                            <VisualState Name="Selected">
-                                <VisualState.Setters>
-                                    <Setter TargetName="itemFrame" Property="Frame.BackgroundColor" Value="{DynamicResource AppColor_i1}" />
-                                    <Setter TargetName="itemFrame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
-                                </VisualState.Setters>
-                            </VisualState>
+                            <Label
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                FontFamily="Barlow-SemiBold"
+                                FontSize="{Binding DayFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                                Text="{Binding DayOfMonth}">
 
-                            <VisualState Name="Normal" />
-                        </VisualStateGroup>
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding State}" Value="NoDayMonth">
+                                        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i11}" />
+                                    </DataTrigger>
+                                </Label.Triggers>
 
-                    </VisualStateManager.VisualStateGroups>
-                </StackLayout>
+                            </Label>
 
-            </DataTemplate>
+                        </Frame>
 
-        </CollectionView.ItemTemplate>
+                    </StackLayout>
 
-    </controls:CalendarGridCollectionView>
+                </DataTemplate>
 
-    <!--  Dropdown list  -->
-    <Frame
-        Grid.Row="0"
-        Grid.RowSpan="3"
-        HorizontalOptions="EndAndExpand"
-        VerticalOptions="StartAndExpand"
-        Margin="0, 30, 0, 0"
-        HeightRequest="169"
-        WidthRequest="90"
-        IsVisible="false"
-        xct:CornerRadiusEffect.CornerRadius="0, 0, 4, 4"
-        x:Name="dropdownFrame">
+            </CollectionView.ItemTemplate>
+
+        </local:CalendarGridCollectionView>
+
+        <pancakeview:PancakeView
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            Margin="0, 32, 1, 0"
+            Padding="0"
+            VerticalOptions="StartAndExpand"
+            HorizontalOptions="EndAndExpand"
+            HeightRequest="169"
+            WidthRequest="{Binding DropdownWidthRequest, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+            CornerRadius="0, 0, 5, 5"
+            Shadow="{pancakeview:ShadowMarkup Color={StaticResource TextAndBackgroundColor_i6}, Offset='3, 3'}"
+            IsVisible="false"
+            x:Name="dropdownFrame">
 
         <controls:CustomCollectionView
             VerticalScrollBarVisibility="Never"
@@ -205,40 +168,102 @@
             <controls:CustomCollectionView.ItemTemplate>
                 <DataTemplate x:DataType="helpers:Year">
 
-                    <Frame
-                        CornerRadius="0"
-                        HeightRequest="32"
-                        WidthRequest="120"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        xct:TouchEffect.Command="{Binding SelectYearCommand, Source={RelativeSource AncestorType={x:Type controls:Calendar}}}">
-                        
-                        <Label
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center" 
-                            Opacity="{Binding Opacity}"
-                            FontSize="{DynamicResource TSize_i9}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            Text="{Binding YearValue}"/>
+                        <Frame
+                            HeightRequest="32"
+                            WidthRequest="120"
+                            CornerRadius="0"
+                            BackgroundColor="{Binding DropdownListBackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                            xct:TouchEffect.Command="{Binding SelectYearCommand, Source={RelativeSource AncestorType={x:Type local:Calendar}}}">
 
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup Name="CommonStates">
+                            <Label
+                                VerticalTextAlignment="Center"
+                                HorizontalTextAlignment="Center"
+                                FontFamily="{Binding DropdownListFontFamily, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                                Opacity="{Binding Opacity}"
+                                FontSize="{Binding DropdownHeaderFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                                Text="{Binding YearValue}" />
 
-                                <VisualState Name="Selected">
-                                    <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i1}" />
-                                    </VisualState.Setters>
-                                </VisualState>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
 
-                                <VisualState Name="Normal" />
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                    </Frame>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i1}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                    <VisualState Name="Normal" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Frame>
 
                 </DataTemplate>
             </controls:CustomCollectionView.ItemTemplate>
 
         </controls:CustomCollectionView>
 
-    </Frame>
+        </pancakeview:PancakeView>
 
-</Grid>
+        <pancakeview:PancakeView
+            Grid.Row="0"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="EndAndExpand"
+            HeightRequest="{Binding DropdownHeaderHeightRequest, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+            WidthRequest="{Binding DropdownHeaderWidthRequest, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+            CornerRadius="5"
+            Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
+            BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+            xct:TouchEffect.Command="{Binding YearDropdownTapCommand, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+            x:Name="yearDropdownFrame">
+
+            <pancakeview:PancakeView.Triggers>
+                <DataTrigger TargetType="pancakeview:PancakeView" Binding="{Binding IsVisible, Source={x:Reference dropdownFrame}}" Value="True">
+
+                    <Setter Property="CornerRadius" Value="5, 5, 0, 0" />
+                    <Setter Property="BackgroundColor" Value="{Binding DropdownHeaderDroppedBackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}" />
+                    <Setter Property="Border">
+                        <Setter.Value>
+                            <pancakeview:Border
+                                Thickness="1"
+                                Color="{StaticResource TextAndBackgroundColor_i6}" />
+                        </Setter.Value>
+                    </Setter>
+
+                </DataTrigger>
+            </pancakeview:PancakeView.Triggers>
+
+            <StackLayout
+                Margin="10, 0, 6, 0"
+                VerticalOptions="Center"
+                Orientation="Horizontal">
+
+                <Label
+                    VerticalTextAlignment="Center"
+                    FontSize="{Binding DropdownHeaderFontSize, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+                    FontFamily="Barlow-Medium"
+                    Text="{Binding SelectedYear.YearValue, Source={x:Reference calendar}}" />
+
+                <ffimageloading:CachedImage
+                    HorizontalOptions="EndAndExpand"
+                    HeightRequest="24"
+                    Source="ic_arrow_down_primary_24x24"
+                    x:Name="yearDropdownIcon">
+
+                    <ffimageloading:CachedImage.Triggers>
+
+                        <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding IsVisible, Source={x:Reference dropdownFrame}}" Value="True">
+
+                            <Setter Property="Source" Value="ic_arrow_up_24x24" />
+
+                        </DataTrigger>
+
+                    </ffimageloading:CachedImage.Triggers>
+                </ffimageloading:CachedImage>
+
+            </StackLayout>
+
+        </pancakeview:PancakeView>
+
+    </Grid>
+
+</StackLayout>

@@ -2,7 +2,7 @@
 
 namespace Next2.Views
 {
-    public partial class SettingsView : ContentView
+    public partial class SettingsView : Grid
     {
         public SettingsView()
         {

@@ -10,6 +10,7 @@
             public const string DATE_FORMAT = "{0:h:mm:ss}";
             public const string DATE_FORMAT2 = "MM/dd/yyyy";
             public const string SHORT_TIME = "{0:h:mm:ss tt}";
+            public const string SIMPLE_TIME = "{0:h:mm tt}";
             public const string LONG_DATE = "{0:dddd, d MMMM yyyy}";
             public const string PRICE_FORMAT = "{0:0.00}";
             public const string POINT_FORMAT = "{0:D} pt";
@@ -17,6 +18,7 @@
             public const string PERCENT_FORMAT = "{0} %";
             public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
             public const string TIME_FORMAT = "{0:hh:mm tt}";
+            public const string SHORT_DATE_FORMAT = "{0:dd.MM.yyyy}";
             public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
         }
 
@@ -129,6 +131,7 @@
             public const string PAYMENT_COMPLETE = "PAYMENT_COMPLETE";
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
+            public const string SELECTED_DATE = "SELECTED_DATE";
             public const string DISH = "DISH";
             public const string DISCOUNT_PRICE = "DISCOUNT_PRICE";
             public const string GIFT_GARD = "GIFT_GARD";

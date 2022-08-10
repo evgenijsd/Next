@@ -24,22 +24,60 @@ namespace Next2.ViewModels
             INavigationService navigationService,
             IAuthenticationService authenticationService,
             INotificationsService notificationsService,
+            PrintReceiptViewModel printReceiptViewModel,
             IOrderService orderService)
             : base(navigationService)
         {
             _authenticationService = authenticationService;
             _orderService = orderService;
             _notificationsService = notificationsService;
+
+            PrintReceiptViewModel = printReceiptViewModel;
         }
 
         #region -- Public properties --
 
+        public string Title { get; set; } = LocalizationResourceManager.Current["Settings"];
+
+        public ESettingsPageState PageState { get; set; } = ESettingsPageState.Default;
+
+        public PrintReceiptViewModel PrintReceiptViewModel { get; set; }
+
         private ICommand? _logOutCommand;
         public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand? _changeStateCommand;
+        public ICommand ChangeStateCommand => _changeStateCommand ??= new AsyncCommand<ESettingsPageState>(OnChangeStateCommand, allowsMultipleExecutions: false);
 
         #endregion
 
         #region -- Private helpers --
+
+        private Task OnChangeStateCommand(ESettingsPageState state)
+        {
+            PageState = state;
+
+            switch (state)
+            {
+                case ESettingsPageState.Default:
+                    Title = LocalizationResourceManager.Current["Settings"];
+                    break;
+                case ESettingsPageState.ReAssignTable:
+                    Title = LocalizationResourceManager.Current["ReAssignTable"];
+                    break;
+                case ESettingsPageState.BackOffice:
+                    Title = LocalizationResourceManager.Current["BackOffice"];
+                    break;
+                case ESettingsPageState.PrintReceipt:
+                    Title = LocalizationResourceManager.Current["PrintReceipt"];
+                    break;
+                case ESettingsPageState.ProgramDevice:
+                    Title = LocalizationResourceManager.Current["ProgramDevice"];
+                    break;
+            }
+
+            return Task.CompletedTask;
+        }
 
         private Task OnLogOutCommandAsync()
         {

@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Runtime.CompilerServices;
+using Xamarin.Forms;
 using Xamarin.Forms.PancakeView;
 
 namespace Next2.Controls.Buttons
@@ -86,6 +87,41 @@ namespace Next2.Controls.Buttons
         {
             get => (string)GetValue(TextProperty);
             set => SetValue(TextProperty, value);
+        }
+
+        public static readonly BindableProperty IsIconPlacedOnRightProperty = BindableProperty.Create(
+            propertyName: nameof(IsIconPlacedOnRight),
+            returnType: typeof(bool),
+            declaringType: typeof(IconTextButton),
+            defaultBindingMode: BindingMode.OneWay);
+
+        public bool IsIconPlacedOnRight
+        {
+            get => (bool)GetValue(IsIconPlacedOnRightProperty);
+            set => SetValue(IsIconPlacedOnRightProperty, value);
+        }
+
+        #endregion
+
+        #region -- Overrides --
+
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            switch (propertyName)
+            {
+                case nameof(IsIconPlacedOnRight):
+
+                    if (IsIconPlacedOnRight)
+                    {
+                        bodyStackLayout.RaiseChild(image);
+                        label.HorizontalOptions = LayoutOptions.StartAndExpand;
+                        image.HorizontalOptions = LayoutOptions.EndAndExpand;
+                    }
+
+                    break;
+            }
         }
 
         #endregion

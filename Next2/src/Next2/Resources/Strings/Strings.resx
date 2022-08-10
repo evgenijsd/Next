@@ -726,6 +726,21 @@ A receipt has been printed for you.</value>
   <data name="NoTable" xml:space="preserve">
     <value>No table</value>
   </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="BackOffice" xml:space="preserve">
+    <value>Back Office</value>
+  </data>
+  <data name="ProgramDevice" xml:space="preserve">
+    <value>Program Device</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="SelectDate" xml:space="preserve">
+    <value>Select Date</value>
+  </data>
   <data name="NoTablesAvailable" xml:space="preserve">
     <value>No tables available</value>
   </data>
