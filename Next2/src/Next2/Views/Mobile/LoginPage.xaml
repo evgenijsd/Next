@@ -204,6 +204,7 @@
         <ActivityIndicator
             Grid.Row="0"
             VerticalOptions="CenterAndExpand"
+            InputTransparent="True"
             IsRunning="{Binding IsActivityIndicatorRunning}"/>
 
     </Grid>

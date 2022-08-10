@@ -104,6 +104,7 @@
             Grid.RowSpan="2"
             Grid.Column="2"
             VerticalOptions="Center"
+            InputTransparent="True"
             IsRunning="{Binding IsActivityIndicatorRunning}"/>
 
     </Grid>
