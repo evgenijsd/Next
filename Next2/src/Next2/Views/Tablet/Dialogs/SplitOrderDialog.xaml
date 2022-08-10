@@ -360,18 +360,19 @@
 
                 </sc:StateContainer>
 
-                <CollectionView
+                <controls:CustomCollectionView
                     Grid.RowSpan="3"
                     Grid.Column="0"
                     Margin="0, 0, 18, 0"
                     SelectionMode="Multiple"
                     VerticalScrollBarVisibility="Never"
+                    BounceMode="DisabledForAndroidAndiOS"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     ItemsSource="{Binding Seats}"
                     SelectedItems="{Binding SelectedSeats}"
                     SelectionChangedCommand="{Binding SelectCommand}">
 
-                    <CollectionView.Triggers>
+                    <controls:CustomCollectionView.Triggers>
 
                         <DataTrigger TargetType="CollectionView" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
@@ -379,23 +380,23 @@
 
                         </DataTrigger>
 
-                    </CollectionView.Triggers>
+                    </controls:CustomCollectionView.Triggers>
 
-                    <CollectionView.Effects>
+                    <controls:CustomCollectionView.Effects>
                         <effects:NoOverScrollEffect />
-                    </CollectionView.Effects>
+                    </controls:CustomCollectionView.Effects>
 
-                    <CollectionView.Header>
+                    <controls:CustomCollectionView.Header>
                         <Label Text="{xct:Translate Seats}" />
-                    </CollectionView.Header>
+                    </controls:CustomCollectionView.Header>
 
-                    <CollectionView.ItemsLayout>
+                    <controls:CustomCollectionView.ItemsLayout>
                         <LinearItemsLayout
                             Orientation="Vertical"
                             ItemSpacing="9" />
-                    </CollectionView.ItemsLayout>
+                    </controls:CustomCollectionView.ItemsLayout>
 
-                    <CollectionView.ItemTemplate>
+                    <controls:CustomCollectionView.ItemTemplate>
 
                         <DataTemplate x:DataType="models:SeatBindableModel">
 
@@ -490,9 +491,9 @@
 
                         </DataTemplate>
 
-                    </CollectionView.ItemTemplate>
+                    </controls:CustomCollectionView.ItemTemplate>
 
-                </CollectionView>
+                </controls:CustomCollectionView>
 
             </Grid>
 

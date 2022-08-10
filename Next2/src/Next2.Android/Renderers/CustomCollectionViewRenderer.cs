@@ -5,18 +5,22 @@ using Next2.Enums;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(NoBounceCollectionView), typeof(NoBounceCollectionViewRenderer))]
+[assembly: ExportRenderer(typeof(CustomCollectionView), typeof(CustomCollectionViewRenderer))]
 namespace Next2.Droid.Renderers
 {
-    public class NoBounceCollectionViewRenderer : CollectionViewRenderer
+    public class CustomCollectionViewRenderer : CollectionViewRenderer
     {
-        protected NoBounceCollectionView _noBounceCollectionView;
-        protected NoBounceCollectionView NoBounceCollectionView => _noBounceCollectionView ??= (NoBounceCollectionView)Element;
-
-        public NoBounceCollectionViewRenderer(Context context)
+        public CustomCollectionViewRenderer(Context context)
             : base(context)
         {
         }
+
+        #region -- Protected properties --
+
+        protected CustomCollectionView _customCollectionView;
+        protected CustomCollectionView CustomCollectionView => _customCollectionView ??= (CustomCollectionView)Element;
+
+        #endregion
 
         #region -- Overrides --
 
@@ -26,7 +30,7 @@ namespace Next2.Droid.Renderers
 
             if (elementChangedEvent.NewElement != null)
             {
-                DisableBounces();
+                UpdateOverScrollMode();
             }
         }
 
@@ -34,9 +38,9 @@ namespace Next2.Droid.Renderers
 
         #region -- Protected helpers --
 
-        protected void DisableBounces()
+        protected void UpdateOverScrollMode()
         {
-            OverScrollMode = NoBounceCollectionView.DisableBounceMode == EDisableBounceMode.AndroidOnly || NoBounceCollectionView.DisableBounceMode == EDisableBounceMode.All
+            OverScrollMode = CustomCollectionView.BounceMode == EBounceMode.DisabledForAndroid || CustomCollectionView.BounceMode == EBounceMode.DisabledForAndroidAndiOS
                 ? OverScrollMode = Android.Views.OverScrollMode.Never
                 : OverScrollMode = Android.Views.OverScrollMode.Always;
         }

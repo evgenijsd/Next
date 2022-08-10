@@ -45,10 +45,10 @@ namespace Next2.ViewModels
         private readonly ICommand _removeOrderCommand;
         private readonly ICommand _selectDishCommand;
 
-        private FullOrderBindableModel _tempCurrentOrder;
-        private SeatBindableModel _firstSeat;
-        private SeatBindableModel _firstNotEmptySeat;
-        private SeatBindableModel _seatWithSelectedDish;
+        private FullOrderBindableModel _tempCurrentOrder = new();
+        private SeatBindableModel _firstSeat = new();
+        private SeatBindableModel _firstNotEmptySeat = new();
+        private SeatBindableModel? _seatWithSelectedDish;
         private DishBindableModel? _rememberPositionSelection;
 
         private bool _isAnyDishChosen;
@@ -237,14 +237,15 @@ namespace Next2.ViewModels
             if (IsInternetConnected)
             {
                 _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
+
                 CurrentOrder = currentOrder;
                 _orderService.CurrentOrder = CurrentOrder;
 
-                var currentSeatNumber = _orderService?.CurrentSeat != null
-                    ? _orderService?.CurrentSeat.SeatNumber
+                var currentSeatNumber = _orderService.CurrentSeat != null
+                    ? _orderService.CurrentSeat.SeatNumber
                     : CurrentOrder.Seats.FirstOrDefault().SeatNumber;
 
-                _orderService.CurrentSeat = _orderService?.CurrentOrder?.Seats?.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
+                _orderService.CurrentSeat = _orderService.CurrentOrder?.Seats?.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
                 SeatWithSelectedDish = currentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
                 var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
@@ -286,7 +287,7 @@ namespace Next2.ViewModels
 
                     _orderService.CurrentOrder = _tempCurrentOrder;
 
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                 }
 
                 await RefreshCurrentOrderAsync();
@@ -446,7 +447,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ResponseToBadRequestAsync(freeTablesResult.Exception.Message);
+                await _notificationsService.ResponseToBadRequestAsync(freeTablesResult.Exception?.Message);
             }
         }
 
@@ -1074,7 +1075,7 @@ namespace Next2.ViewModels
 
                             if (CurrentState == ENewOrderViewState.Edit)
                             {
-                                if (_seatWithSelectedDish.SelectedDishes.Any())
+                                if (_seatWithSelectedDish is not null && _seatWithSelectedDish.SelectedDishes.Any())
                                 {
                                     _seatWithSelectedDish.SelectedItem = _seatWithSelectedDish.SelectedDishes.FirstOrDefault();
                                 }
@@ -1105,7 +1106,7 @@ namespace Next2.ViewModels
                             {
                                 _orderService.CurrentOrder = _tempCurrentOrder;
 
-                                await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception.Message);
+                                await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
                                 await RefreshCurrentOrderAsync();
                             }
                         }
@@ -1291,8 +1292,8 @@ namespace Next2.ViewModels
             {
                 if (IsInternetConnected)
                 {
-                    var tempCurrentOrderType = CurrentOrder.OrderType;
-                    CurrentOrder.OrderType = SelectedOrderType.OrderType;
+                    var tempCurrentOrderType = CurrentOrder?.OrderType;
+                    CurrentOrder.OrderType = SelectedOrderType?.OrderType;
 
                     var resultOfUpdatingOrderType = await _orderService.UpdateCurrentOrderAsync();
 
@@ -1308,7 +1309,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder.OrderType);
+                    SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder?.OrderType);
 
                     await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],

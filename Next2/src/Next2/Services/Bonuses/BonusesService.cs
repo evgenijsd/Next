@@ -59,7 +59,7 @@ namespace Next2.Services.Bonuses
                 var query = $"{Constants.API.HOST_URL}/api/coupons";
 
                 var response = await _restService.RequestAsync<GenericExecutionResult<GetCouponsListQueryResult>>(HttpMethod.Get, query);
-                var coupons = response?.Value?.Coupons;
+                var coupons = response.Value?.Coupons;
 
                 if (response.Success && coupons is not null)
                 {
@@ -85,7 +85,7 @@ namespace Next2.Services.Bonuses
                 var query = $"{Constants.API.HOST_URL}/api/discounts";
 
                 var response = await _restService.RequestAsync<GenericExecutionResult<GetDiscountsListQueryResult>>(HttpMethod.Get, query);
-                var discounts = response?.Value?.Discounts;
+                var discounts = response.Value?.Discounts;
 
                 if (response.Success && discounts is not null)
                 {

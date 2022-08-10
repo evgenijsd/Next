@@ -5,7 +5,6 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:bindableModels="clr-namespace:Next2.Models.Bindables"
     xmlns:local="clr-namespace:Next2"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
@@ -33,7 +32,8 @@
         Margin="0, 0, 0, 16"
         Text="{Binding SeatNumber, StringFormat='Seat {0}'}" />
 
-    <CollectionView
+    <controls:CustomCollectionView
+        BounceMode="DisabledForAndroidAndiOS"
         HeightRequest="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}, Converter={StaticResource listHeightConverter}, ConverterParameter=95}"
         SelectionMode="Single"
         MinimumHeightRequest="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}, Converter={StaticResource listHeightConverter}, ConverterParameter=95}"
@@ -42,11 +42,7 @@
         SelectionChangedCommand="{Binding DishSelectionCommand}"
         SelectionChangedCommandParameter="{Binding .}">
 
-        <CollectionView.Effects>
-            <effects:NoOverScrollEffect />
-        </CollectionView.Effects>
-
-        <CollectionView.ItemTemplate>
+        <controls:CustomCollectionView.ItemTemplate>
 
             <DataTemplate x:DataType="bindableModels:DishBindableModel">
 
@@ -179,7 +175,7 @@
 
             </DataTemplate>
 
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+        </controls:CustomCollectionView.ItemTemplate>
+    </controls:CustomCollectionView>
 
 </StackLayout>

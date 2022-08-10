@@ -41,13 +41,13 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        public OrderModelDTO Order { get; set; }
+        public OrderModelDTO Order { get; set; } = new();
 
         public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
         public IEnumerable<SeatModelDTO>? OriginalSeats { get; set; }
 
-        public DishBindableModel SelectedDish { get; set; }
+        public DishBindableModel SelectedDish { get; set; } = new();
 
         private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
@@ -176,12 +176,12 @@ namespace Next2.ViewModels
 
                 if (!isOrderUpdated)
                 {
-                    await EmergencyRestoreSeatsAsync(updateResult.Exception.Message);
+                    await EmergencyRestoreSeatsAsync(updateResult.Exception?.Message);
                 }
             }
             else
             {
-                await EmergencyRestoreSeatsAsync(createOrderResult.Exception.Message);
+                await EmergencyRestoreSeatsAsync(createOrderResult.Exception?.Message);
             }
 
             return isOrderUpdated;
@@ -197,7 +197,7 @@ namespace Next2.ViewModels
 
             if (!updateResult.IsSuccess)
             {
-                await EmergencyRestoreSeatsAsync(updateResult.Exception.Message);
+                await EmergencyRestoreSeatsAsync(updateResult.Exception?.Message);
             }
 
             return updateResult.IsSuccess;
@@ -259,11 +259,11 @@ namespace Next2.ViewModels
             }
             else
             {
-                await EmergencyRestoreSeatsAsync(orderUpdateResult.Exception.Message);
+                await EmergencyRestoreSeatsAsync(orderUpdateResult.Exception?.Message);
             }
         }
 
-        private async Task EmergencyRestoreSeatsAsync(string exeptionMessage)
+        private async Task EmergencyRestoreSeatsAsync(string? exeptionMessage)
         {
             await _notificationsService.CloseAllPopupAsync();
 
@@ -282,15 +282,19 @@ namespace Next2.ViewModels
             {
                 var seats = Seats.Where(s => group.Any(x => x == s.SeatNumber));
                 var outSeats = seats.ToSeatsModelsDTO();
+
                 bool isSuccessfull = false;
 
-                if (group.Contains(_selectedSeatNumber))
+                if (outSeats is not null)
                 {
-                    isSuccessfull = await UpdateSplittedOrderAsync(outSeats);
-                }
-                else
-                {
-                    isSuccessfull = await CreateNewSplittedOrderAsync(outSeats);
+                    if (group.Contains(_selectedSeatNumber))
+                    {
+                        isSuccessfull = await UpdateSplittedOrderAsync(outSeats);
+                    }
+                    else
+                    {
+                        isSuccessfull = await CreateNewSplittedOrderAsync(outSeats);
+                    }
                 }
 
                 if (isSuccessfull)
@@ -321,29 +325,36 @@ namespace Next2.ViewModels
 
         private async Task CopyCurrentOrderTo(OrderModelDTO order)
         {
-            var updateTableResult = await _orderService.UpdateTableAsync(Order.Table, true);
-
-            if (updateTableResult.IsSuccess)
+            if (Order.Table is not null)
             {
-                order.IsCashPayment = Order.IsCashPayment;
-                order.IsTab = Order.IsTab;
-                order.Open = Order.Open;
-                order.OrderStatus = Order.OrderStatus;
-                order.TaxCoefficient = Order.TaxCoefficient;
-                order.OrderType = Order.OrderType;
-                order.Coupon = Order.Coupon;
-                order.Discount = Order.Discount;
-                order.TotalPrice = Order.TotalPrice;
-                order.Table = new SimpleTableModelDTO
+                var updateTableResult = await _orderService.UpdateTableAsync(Order.Table, true);
+
+                if (updateTableResult.IsSuccess)
                 {
-                    Id = Order.Table.Id,
-                    Number = Order.Table.Number,
-                    SeatNumbers = Order.Table.SeatNumbers,
-                };
+                    order.IsCashPayment = Order.IsCashPayment;
+                    order.IsTab = Order.IsTab;
+                    order.Open = Order.Open;
+                    order.OrderStatus = Order.OrderStatus;
+                    order.TaxCoefficient = Order.TaxCoefficient;
+                    order.OrderType = Order.OrderType;
+                    order.Coupon = Order.Coupon;
+                    order.Discount = Order.Discount;
+                    order.TotalPrice = Order.TotalPrice;
+                    order.Table = new SimpleTableModelDTO
+                    {
+                        Id = Order.Table.Id,
+                        Number = Order.Table.Number,
+                        SeatNumbers = Order.Table.SeatNumbers,
+                    };
+                }
+                else
+                {
+                    await _notificationsService.ResponseToBadRequestAsync(updateTableResult.Exception?.Message);
+                }
             }
             else
             {
-                await _notificationsService.ResponseToBadRequestAsync(updateTableResult.Exception.Message);
+                await _notificationsService.ResponseToBadRequestAsync(string.Empty);
             }
         }
 
@@ -357,7 +368,9 @@ namespace Next2.ViewModels
                 {
                     if (SelectedDish.Clone() is DishBindableModel dish)
                     {
-                        dish.TotalPrice = incomingSeat.SelectedItem.TotalPrice;
+                        dish.TotalPrice = incomingSeat.SelectedItem is null
+                            ? 0
+                            : incomingSeat.SelectedItem.TotalPrice;
                         dish.HasSplittedPrice = true;
                         seat.SelectedDishes.Add(dish);
                     }

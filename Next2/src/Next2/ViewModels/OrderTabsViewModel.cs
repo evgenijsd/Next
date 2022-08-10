@@ -202,7 +202,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(gettingOrdersResult.Exception.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(gettingOrdersResult.Exception?.Message);
                 }
             }
             else
@@ -223,7 +223,7 @@ namespace Next2.ViewModels
 
         private MapperConfiguration GetOrderConfig(bool isTabsLoading)
         {
-            MapperConfiguration config = null;
+            MapperConfiguration? config = null;
 
             if (isTabsLoading)
             {
@@ -365,7 +365,7 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(orderResult.Exception.Message);
+                        await _notificationsService.ResponseToBadRequestAsync(orderResult.Exception?.Message);
                     }
                 }
                 else
@@ -435,12 +435,12 @@ namespace Next2.ViewModels
                         }
                         else
                         {
-                            await _notificationsService.ResponseToBadRequestAsync(updateOrderResult.Exception.Message);
+                            await _notificationsService.ResponseToBadRequestAsync(updateOrderResult.Exception?.Message);
                         }
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(orderResult.Exception.Message);
+                        await _notificationsService.ResponseToBadRequestAsync(orderResult.Exception?.Message);
                     }
                 }
                 else
@@ -490,7 +490,7 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(orderResult.Exception.Message);
+                        await _notificationsService.ResponseToBadRequestAsync(orderResult.Exception?.Message);
                     }
                 }
                 else
@@ -555,7 +555,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfSetCurrentOrder.Exception.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfSetCurrentOrder.Exception?.Message);
                 }
             }
         }
@@ -611,7 +611,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfGettingOrder.Exception.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfGettingOrder.Exception?.Message);
                 }
             }
             else

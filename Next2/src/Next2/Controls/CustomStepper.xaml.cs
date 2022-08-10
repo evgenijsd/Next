@@ -201,7 +201,7 @@ namespace Next2.Controls
 
         public bool CanIncrement { get; set; }
 
-        public string DisplayingValue { get; private set; }
+        public string DisplayingValue { get; private set; } = string.Empty;
 
         #endregion
 

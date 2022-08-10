@@ -19,11 +19,11 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Public properties --
 
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
-        public string CloseText { get; set; }
+        public string CloseText { get; set; } = string.Empty;
 
         public ICommand CloseCommand { get; }
 

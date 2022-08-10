@@ -11,7 +11,7 @@ namespace Next2.Effects
 
         #region -- Public properties --
 
-        public event TouchActionEventHandler TouchAction;
+        public event TouchActionEventHandler? TouchAction;
 
         public bool Capture { get; set; }
 

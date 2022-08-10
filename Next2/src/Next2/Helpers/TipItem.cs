@@ -15,6 +15,6 @@ namespace Next2.Helpers
 
         public decimal Value { get; set; }
 
-        public ICommand TapCommand { get; set; }
+        public ICommand? TapCommand { get; set; }
     }
 }
