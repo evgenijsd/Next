@@ -38,6 +38,17 @@
             <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
         </Style>
 
+        <Style TargetType="buttons:IconTextButton">
+            <Setter Property="FontFamily" Value="Barlow-Medium"/>
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i9}"/>
+            <Setter Property="IconSize" Value="20, 20"/>
+            <Setter Property="IconSource" Value="ic_sort_primary_24x24"/>
+            <Setter Property="HorizontalOptions" Value="Start"/>
+            <Setter Property="IsIconPlacedOnRight" Value="True"/>
+            <Setter Property="Padding" Value="15, 0"/>
+            <Setter Property="Spacing" Value="5"/>
+        </Style>
+
     </ContentView.Resources>
 
     <Grid>
@@ -138,19 +149,6 @@
                         HeightRequest="42"
                         MinimumHeightRequest="42"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-
-                        <Grid.Resources>
-                            <Style TargetType="buttons:IconTextButton">
-                                <Setter Property="FontFamily" Value="Barlow-Medium"/>
-                                <Setter Property="FontSize" Value="{DynamicResource TSize_i9}"/>
-                                <Setter Property="IconSize" Value="20, 20"/>
-                                <Setter Property="IconSource" Value="ic_sort_primary_24x24"/>
-                                <Setter Property="HorizontalOptions" Value="Start"/>
-                                <Setter Property="IsIconPlacedOnRight" Value="True"/>
-                                <Setter Property="Padding" Value="15, 0"/>
-                                <Setter Property="Spacing" Value="5"/>
-                            </Style>
-                        </Grid.Resources>
 
                         <StackLayout xct:TouchEffect.Command="{Binding SelectAllHoldDishesTableCommand}">
 

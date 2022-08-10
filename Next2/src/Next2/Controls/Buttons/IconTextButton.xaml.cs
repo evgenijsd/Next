@@ -112,6 +112,7 @@ namespace Next2.Controls.Buttons
             if (propertyName is nameof(IsIconPlacedOnRight) && IsIconPlacedOnRight)
             {
                 bodyStackLayout.RaiseChild(image);
+
                 label.HorizontalOptions = LayoutOptions.StartAndExpand;
                 image.HorizontalOptions = LayoutOptions.EndAndExpand;
             }

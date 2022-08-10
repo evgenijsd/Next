@@ -155,7 +155,7 @@
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                             IndexLastVisible="{Binding IndexLastVisibleElement}"
                             ItemsSource="{Binding DisplayedCustomers}"
-                            SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
+                            SelectedItem="{Binding SelectedCustomer}">
 
                             <controls:CustomCollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:CustomerBindableModel">
@@ -237,13 +237,16 @@
                 <StackLayout.Triggers>
 
                     <MultiTrigger TargetType="StackLayout">
+                        
                         <MultiTrigger.Conditions>
                             
                             <BindingCondition Binding="{Binding AnyCustomersLoaded}" Value="true" />
                             <BindingCondition Binding="{Binding DisplayedCustomers.Count}" Value="0" />
                             
                         </MultiTrigger.Conditions>
+                        
                         <Setter Property="IsVisible" Value="true" />
+                        
                     </MultiTrigger>
 
                 </StackLayout.Triggers>

@@ -11,7 +11,212 @@
     x:Class="Next2.Views.Tablet.Dialogs.CustomerInfoDialog"
     x:DataType="dialogs:CustomerInfoViewModel">
 
-    <rg:PopupPage.Resources />
+    <rg:PopupPage.Resources>
+
+        <Style x:Key="HeadLayoutStyle" TargetType="StackLayout">
+            <Setter Property="Margin" Value="0, 15, 0, 0" />
+            <Setter Property="VerticalOptions" Value="FillAndExpand" />
+            <Setter Property="Spacing" Value="4" />
+        </Style>
+
+        <Style x:Key="GridLayoutStyle" TargetType="StackLayout">
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="Margin" Value="0, 8, 0, 0" />
+        </Style>
+
+        <Style x:Key="AdaptiveLabelStyle_i8" TargetType="Label">
+
+            <Setter Property="VisualStateManager.VisualStateGroups">
+
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="AdaptiveStyles">
+
+                        <VisualState Name="IPadPro11">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowHeight="834" />
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+
+            </Setter>
+
+            <Setter Property="FontFamily" Value="Barlow-Medium" />
+
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i11}" />
+
+            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+
+        </Style>
+
+        <Style x:Key="AdaptiveLabelStyle_i9" TargetType="Label">
+
+            <Setter Property="VisualStateManager.VisualStateGroups">
+
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="AdaptiveStyles">
+
+                        <VisualState Name="IPadPro11">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowHeight="834" />
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+
+            </Setter>
+
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i9_5}" />
+
+            <Setter Property="FontFamily" Value="Barlow-Medium" />
+
+            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+
+        </Style>
+
+        <Style x:Key="AdaptiveLabelStyle_i6" TargetType="Label">
+
+            <Setter Property="VisualStateManager.VisualStateGroups">
+
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="AdaptiveStyles">
+
+                        <VisualState Name="IPadMini">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowHeight="768" />
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="FontSize" Value="{DynamicResource TSize_i6_5}" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                        <VisualState Name="IPadPro11">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowHeight="834" />
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+
+            </Setter>
+
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
+
+        </Style>
+
+        <Style x:Key="AdaptiveLabelStyle_i4_5" TargetType="Label">
+
+            <Setter Property="VisualStateManager.VisualStateGroups">
+
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="AdaptiveStyles">
+
+                        <VisualState Name="IPadMini">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowHeight="768" />
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="FontSize" Value="{DynamicResource TSize_i4_6}" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                        <VisualState Name="IPadPro11">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowHeight="834" />
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="FontSize" Value="{DynamicResource TSize_i4_5}" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+
+            </Setter>
+
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i5}" />
+
+        </Style>
+
+        <Style TargetType="buttons:BorderButton">
+
+            <Setter Property="VisualStateManager.VisualStateGroups">
+
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="AdaptiveStyles">
+
+                        <VisualState Name="IPadMini">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowHeight="768" />
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="FontSize" Value="{DynamicResource TSize_i11}" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                        <VisualState Name="IPadPro11">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowHeight="834" />
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+
+            </Setter>
+
+            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="WidthRequest" Value="157" />
+            <Setter Property="HeightRequest" Value="38" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
+
+        </Style>
+
+    </rg:PopupPage.Resources>
 
     <pancakeview:PancakeView
         VerticalOptions="Center"
@@ -140,167 +345,6 @@
             <StackLayout
                 Grid.Row="1"
                 Margin="20, 0">
-
-                <StackLayout.Resources>
-
-                    <Style x:Key="HeadLayoutStyle" TargetType="StackLayout">
-                        <Setter Property="Margin" Value="0, 15, 0, 0" />
-                        <Setter Property="VerticalOptions" Value="FillAndExpand" />
-                        <Setter Property="Spacing" Value="4" />
-                    </Style>
-
-                    <Style x:Key="GridLayoutStyle" TargetType="StackLayout">
-                        <Setter Property="VerticalOptions" Value="Center" />
-                        <Setter Property="HorizontalOptions" Value="Center" />
-                        <Setter Property="Margin" Value="0, 8, 0, 0" />
-                    </Style>
-
-                    <Style x:Key="AdaptiveLabelStyle_i8" TargetType="Label">
-
-                        <Setter Property="VisualStateManager.VisualStateGroups">
-
-                            <VisualStateGroupList>
-                                <VisualStateGroup x:Name="AdaptiveStyles">
-
-                                    <VisualState Name="IPadPro11">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="834" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                </VisualStateGroup>
-                            </VisualStateGroupList>
-
-                        </Setter>
-
-                        <Setter Property="FontFamily" Value="Barlow-Medium" />
-
-                        <Setter Property="FontSize" Value="{DynamicResource TSize_i11}" />
-
-                        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-
-                    </Style>
-
-                    <Style x:Key="AdaptiveLabelStyle_i9" TargetType="Label">
-
-                        <Setter Property="VisualStateManager.VisualStateGroups">
-
-                            <VisualStateGroupList>
-                                <VisualStateGroup x:Name="AdaptiveStyles">
-
-                                    <VisualState Name="IPadPro11">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="834" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                </VisualStateGroup>
-                            </VisualStateGroupList>
-
-                        </Setter>
-
-                        <Setter Property="FontSize" Value="{DynamicResource TSize_i9_5}" />
-
-                        <Setter Property="FontFamily" Value="Barlow-Medium" />
-                        
-                        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-
-                    </Style>
-
-                    <Style x:Key="AdaptiveLabelStyle_i6" TargetType="Label">
-
-                        <Setter Property="VisualStateManager.VisualStateGroups">
-
-                            <VisualStateGroupList>
-                                <VisualStateGroup x:Name="AdaptiveStyles">
-
-                                    <VisualState Name="IPadMini">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="768" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i6_5}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                    <VisualState Name="IPadPro11">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="834" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                </VisualStateGroup>
-                            </VisualStateGroupList>
-
-                        </Setter>
-
-                        <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
-
-                    </Style>
-
-                    <Style x:Key="AdaptiveLabelStyle_i4_5" TargetType="Label">
-
-                        <Setter Property="VisualStateManager.VisualStateGroups">
-
-                            <VisualStateGroupList>
-                                <VisualStateGroup x:Name="AdaptiveStyles">
-
-                                    <VisualState Name="IPadMini">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="768" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i4_6}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                    <VisualState Name="IPadPro11">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="834" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i4_5}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                </VisualStateGroup>
-                            </VisualStateGroupList>
-
-                        </Setter>
-
-                        <Setter Property="FontSize" Value="{DynamicResource TSize_i5}" />
-
-                    </Style>
-
-
-                </StackLayout.Resources>
 
                 <StackLayout Style="{DynamicResource HeadLayoutStyle}">
 
@@ -522,57 +566,6 @@
                     </VisualStateGroupList>
 
                 </VisualStateManager.VisualStateGroups>
-
-                <StackLayout.Resources>
-
-                    <Style TargetType="buttons:BorderButton">
-
-                        <Setter Property="VisualStateManager.VisualStateGroups">
-
-                            <VisualStateGroupList>
-                                <VisualStateGroup x:Name="AdaptiveStyles">
-
-                                    <VisualState Name="IPadMini">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="768" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i11}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                    <VisualState Name="IPadPro11">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="834" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                </VisualStateGroup>
-                            </VisualStateGroupList>
-
-                        </Setter>
-
-                        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-                        <Setter Property="CornerRadius" Value="5" />
-                        <Setter Property="WidthRequest" Value="157" />
-                        <Setter Property="HeightRequest" Value="38" />
-                        <Setter Property="Padding" Value="0" />
-                        <Setter Property="FontFamily" Value="Barlow-SemiBold" />
-                        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                        <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
-
-                    </Style>
-
-                </StackLayout.Resources>
 
                 <buttons:BorderButton
                     Margin="0, 0, 5, 0"
