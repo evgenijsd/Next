@@ -10,13 +10,17 @@ namespace Next2.Droid.Renderers
 {
     public class CustomCollectionViewRenderer : CollectionViewRenderer
     {
-        protected CustomCollectionView _customCollectionView;
-        protected CustomCollectionView CustomCollectionView => _customCollectionView ??= (CustomCollectionView)Element;
-
         public CustomCollectionViewRenderer(Context context)
             : base(context)
         {
         }
+
+        #region -- Protected properties --
+
+        protected CustomCollectionView _customCollectionView;
+        protected CustomCollectionView CustomCollectionView => _customCollectionView ??= (CustomCollectionView)Element;
+
+        #endregion
 
         #region -- Overrides --
 

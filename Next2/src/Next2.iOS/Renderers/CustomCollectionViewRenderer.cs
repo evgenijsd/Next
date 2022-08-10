@@ -34,7 +34,7 @@ namespace Next2.iOS.Renderers
             var bounceMode = (Element as CustomCollectionView).BounceMode;
 
             Controller.CollectionView.Bounces = !(bounceMode == EBounceMode.DisabledForiOS || bounceMode == EBounceMode.DisabledForAndroidAndiOS);
-        } 
+        }
 
         #endregion
     }
