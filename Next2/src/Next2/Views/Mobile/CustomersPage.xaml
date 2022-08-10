@@ -7,7 +7,6 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
@@ -160,12 +159,8 @@
                             ItemsSource="{Binding DisplayedCustomers}"
                             SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
 
-                            <controls:CustomCollectionView.Effects>
-                                <effects:NoOverScrollEffect />
-                            </controls:CustomCollectionView.Effects>
-
-                            <controls:CustomCollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="models:CustomerBindableModel">
+                                <controls:CustomCollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:CustomerBindableModel">
 
                                     <Grid
                                         RowDefinitions="0.98*, 0.02*"

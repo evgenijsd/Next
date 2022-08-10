@@ -296,7 +296,7 @@
                                     IsRefreshing="{Binding IsRefreshing}"
                                     Command="{Binding RefreshCommand}">
 
-                                    <controls:CustomScrollBarCollectionView
+                                    <controls:CustomCollectionView
                                         Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                                         HeightRequest="{Binding DisplayedCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=40}"
                                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
@@ -304,14 +304,12 @@
                                         SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
                                         x:Name="collectiomView">
 
-                                        <controls:CustomScrollBarCollectionView.Behaviors>
-                                            <behaviors:ScrollToCenterBehavior />
-                                        </controls:CustomScrollBarCollectionView.Behaviors>
+                                        <controls:CustomCollectionView.Behaviors>
+                                            <behaviors:ScrollToCenterBehavior/>
+                                        </controls:CustomCollectionView.Behaviors>
 
                                         <CollectionView.Effects>
-
-                                            <effects:NoOverScrollEffect />
-
+                                            
                                             <effects:ScrollBarColorEffect
                                                 ScrollBarThumbWidth="6"
                                                 ScrollBarCornerRadius="9"
@@ -432,7 +430,7 @@
                                             </DataTemplate>
                                         </CollectionView.ItemTemplate>
 
-                                    </controls:CustomScrollBarCollectionView>
+                                    </controls:CustomCollectionView>
 
                                 </RefreshView>
 

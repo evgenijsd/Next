@@ -15,7 +15,7 @@ namespace Next2.Services.Rest
     {
         private readonly ISettingsManager _settingsManager;
 
-        private TaskCompletionSource<bool> _tokenRefreshingSource;
+        private TaskCompletionSource<bool>? _tokenRefreshingSource;
 
         public RestService(ISettingsManager settingsManager)
         {
@@ -119,6 +119,7 @@ namespace Next2.Services.Rest
             if (_tokenRefreshingSource is null || _tokenRefreshingSource.Task.IsCompleted)
             {
                 _tokenRefreshingSource = new TaskCompletionSource<bool>();
+
                 result = TryRefreshAccessTokenAsync();
             }
             else
@@ -151,11 +152,15 @@ namespace Next2.Services.Rest
                 {
                     var tokens = resultData.Value.Tokens;
 
-                    _settingsManager.Token = tokens.AccessToken;
-                    _settingsManager.RefreshToken = tokens.RefreshToken;
+                    _settingsManager.Token = tokens.AccessToken is null
+                        ? string.Empty
+                        : tokens.AccessToken;
+                    _settingsManager.RefreshToken = tokens.RefreshToken is null
+                        ? string.Empty
+                        : tokens.RefreshToken;
                     _settingsManager.TokenExpirationDate = DateTime.Now.AddHours(Constants.API.TOKEN_EXPIRATION_TIME);
 
-                    _tokenRefreshingSource.TrySetResult(true);
+                    _tokenRefreshingSource?.TrySetResult(true);
 #if DEBUG
                     System.Diagnostics.Debug.WriteLine("Token refreshed");
 #endif
@@ -167,7 +172,7 @@ namespace Next2.Services.Rest
                     _settingsManager.RefreshToken = string.Empty;
                     _settingsManager.TokenExpirationDate = DateTime.Now;
 
-                    _tokenRefreshingSource.TrySetResult(false);
+                    _tokenRefreshingSource?.TrySetResult(false);
 #if DEBUG
                     System.Diagnostics.Debug.WriteLine("Refreshing token failed");
 #endif
@@ -175,7 +180,7 @@ namespace Next2.Services.Rest
             }
             catch (Exception ex)
             {
-                _tokenRefreshingSource.TrySetResult(false);
+                _tokenRefreshingSource?.TrySetResult(false);
 #if DEBUG
                 System.Diagnostics.Debug.WriteLine($"Bad Request: {ex.Message}");
 #endif

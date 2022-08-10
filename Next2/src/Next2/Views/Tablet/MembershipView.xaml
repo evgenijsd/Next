@@ -190,15 +190,13 @@
                     Command="{Binding RefreshMembersCommand}"
                     IsRefreshing="{Binding IsMembersRefreshing}">
 
-                    <controls:CustomScrollBarCollectionView
+                    <controls:CustomCollectionView
                         HeightRequest="{Binding DisplayMembers, Converter={StaticResource listHeightConverter}, ConverterParameter=42}"
                         Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                         ItemsSource="{Binding DisplayMembers}">
 
                         <CollectionView.Effects>
                             
-                            <effects:NoOverScrollEffect />
-
                             <effects:ScrollBarColorEffect
                                 ScrollBarThumbWidth="6"
                                 ScrollBarCornerRadius="9"
@@ -251,7 +249,7 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
 
-                    </controls:CustomScrollBarCollectionView>
+                    </controls:CustomCollectionView>
 
                 </RefreshView>
                 

@@ -36,11 +36,11 @@ namespace Next2.ViewModels
         private readonly ICommand _tapPaymentOptionCommand;
         private readonly ICommand _tapTipItemCommand;
 
-        private List<GiftCardModelDTO> _listGiftCardsToBeUpdated;
+        private List<GiftCardModelDTO> _listGiftCardsToBeUpdated = new();
 
-        private List<GiftCardModelDTO> _listGiftCardsToBeUpdateToPreviousStage;
+        private List<GiftCardModelDTO> _listGiftCardsToBeUpdateToPreviousStage = new();
 
-        private List<GiftCardModelDTO> _backupGiftCards;
+        private List<GiftCardModelDTO> _backupGiftCards = new();
 
         private decimal _subtotalWithBonus;
 
@@ -98,11 +98,11 @@ namespace Next2.ViewModels
 
         public byte[] BitmapSignature { get; set; }
 
-        public string InputValue { get; set; }
+        public string InputValue { get; set; } = string.Empty;
 
-        public string InputTip { get; set; }
+        public string InputTip { get; set; } = string.Empty;
 
-        public string InputGiftCardFounds { get; set; }
+        public string InputGiftCardFounds { get; set; } = string.Empty;
 
         public ECardPaymentStatus CardPaymentStatus { get; set; }
 
@@ -496,7 +496,10 @@ namespace Next2.ViewModels
                             LocalizationResourceManager.Current["Ok"]);
                     }
 
-                    Order.Customer.GiftCards = _backupGiftCards;
+                    if (Order.Customer is not null)
+                    {
+                        Order.Customer.GiftCards = _backupGiftCards;
+                    }
                 }
             }
         }
@@ -532,6 +535,7 @@ namespace Next2.ViewModels
             var tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 
             var order = _orderService.CurrentOrder;
+
             order.IsCashPayment = Order.Cash > 0;
             order.OrderStatus = EOrderStatus.Closed;
             order.Close = DateTime.Now;

@@ -139,13 +139,13 @@ namespace Next2.Controls
 
         #region -- Private helpers --
 
-        private async Task StartAnimationAsync()
+        private Task StartAnimationAsync()
         {
             var x = IsToggled
                 ? thumbFrame.X + trackFrame.WidthRequest - thumbFrame.WidthRequest - ThumbOffset
                 : thumbFrame.X + ThumbOffset;
 
-            await thumbFrame.TranslateTo(x, 0, 100, Easing.CubicInOut);
+            return thumbFrame.TranslateTo(x, 0, 100, Easing.CubicInOut);
         }
 
         private Task OnTapCommandAsync()

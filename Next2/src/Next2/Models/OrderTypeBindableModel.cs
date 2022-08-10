@@ -7,6 +7,6 @@ namespace Next2.Models
     {
         public EOrderType OrderType { get; set; }
 
-        public string Text { get; set; }
+        public string Text { get; set; } = string.Empty;
     }
 }

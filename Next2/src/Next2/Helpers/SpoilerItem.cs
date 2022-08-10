@@ -7,11 +7,11 @@ namespace Next2.Helpers
     {
         public ESubmenuItemsModifactions State { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
-        public string ImagePath { get; set; }
+        public string ImagePath { get; set; } = string.Empty;
 
-        public string SelectedImagePath { get; set; }
+        public string SelectedImagePath { get; set; } = string.Empty;
 
         public bool CanShowDot { get; set; }
     }

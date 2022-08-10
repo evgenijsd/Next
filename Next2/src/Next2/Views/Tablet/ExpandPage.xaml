@@ -117,12 +117,13 @@
 
             </controls:CustomNavigationBar>
 
-            <CollectionView
+            <controls:CustomCollectionView
                 MinimumHeightRequest="{Binding HeightCollectionView}"
                 HeightRequest="{Binding HeightCollectionView}"
                 Margin="12, 10, 12, 16"
                 VerticalOptions="Start"
                 SelectionMode="Single"
+                BounceMode="DisabledForAndroidAndiOS"
                 ItemsSource="{Binding Categories}"
                 SelectedItem="{Binding SelectedCategoriesItem}">
 
@@ -156,7 +157,7 @@
                     </VisualStateGroup>
                 </VisualStateManager.VisualStateGroups>
 
-                <CollectionView.ItemsLayout>
+                <controls:CustomCollectionView.ItemsLayout>
 
                     <GridItemsLayout
                         Orientation="Vertical"
@@ -164,13 +165,9 @@
                         VerticalItemSpacing="8"
                         HorizontalItemSpacing="8"/>
 
-                </CollectionView.ItemsLayout>
+                </controls:CustomCollectionView.ItemsLayout>
 
-                <CollectionView.Effects>
-                    <effects:NoOverScrollEffect/>
-                </CollectionView.Effects>
-
-                <CollectionView.ItemTemplate>
+                <controls:CustomCollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:CategoryModel">
 
                         <templates:CategoryItemTemplate
@@ -181,9 +178,9 @@
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"/>
 
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
+                </controls:CustomCollectionView.ItemTemplate>
 
-            </CollectionView>
+            </controls:CustomCollectionView>
 
             <BoxView
                 HeightRequest="1"
@@ -288,13 +285,14 @@
 
         <!--Menu-->
 
-        <CollectionView
+        <controls:CustomCollectionView
             Margin="12, 8, 12, 0"
             VerticalOptions="StartAndExpand"
             VerticalScrollBarVisibility="Always"
+            BounceMode="DisabledForAndroidAndiOS"
             ItemsSource="{Binding Dishes}">
 
-            <CollectionView.ItemsLayout>
+            <controls:CustomCollectionView.ItemsLayout>
 
                 <GridItemsLayout
                     Orientation="Vertical"
@@ -302,7 +300,7 @@
                     VerticalItemSpacing="12"
                     Span="5"/>
 
-            </CollectionView.ItemsLayout>
+            </controls:CustomCollectionView.ItemsLayout>
 
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup Name="AdaptiveColumn">
@@ -334,8 +332,7 @@
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
 
-            <CollectionView.Effects>
-                <effects:NoOverScrollEffect/>
+            <controls:CustomCollectionView.Effects>
 
                 <effects:ScrollBarColorEffect
                     ScrollBarThumbWidth="6"
@@ -343,9 +340,9 @@
                     ScrollBarThumbColor="{StaticResource AppColor_i1}"
                     ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
 
-            </CollectionView.Effects>
+            </controls:CustomCollectionView.Effects>
 
-            <CollectionView.ItemTemplate>
+            <controls:CustomCollectionView.ItemTemplate>
                 <DataTemplate>
                     <templates:DishItemTemplate
                         xct:TouchEffect.Command="{Binding TapDishCommand, Source={RelativeSource AncestorType={x:Type viewModels:ExpandPageViewModel}}}"
@@ -353,9 +350,9 @@
                         x:DataType="dto:DishModelDTO"/>
 
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
+            </controls:CustomCollectionView.ItemTemplate>
 
-        </CollectionView>
+        </controls:CustomCollectionView>
 
         <!--Tabs Subcategories Menu-->
 
@@ -363,10 +360,11 @@
             Padding="3, 0, 0, 0"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
-            <CollectionView
+            <controls:CustomCollectionView
                 HeightRequest="50"
                 MinimumHeightRequest="50"
                 VerticalOptions="End"
+                BounceMode="DisabledForAndroidAndiOS"
                 ItemsSource="{Binding Subcategories}"
                 SelectedItem="{Binding SelectedSubcategoriesItem}"
                 VerticalScrollBarVisibility="Never"
@@ -391,20 +389,16 @@
                     </VisualStateGroup>
                 </VisualStateManager.VisualStateGroups>
 
-                <CollectionView.Effects>
-                    <effects:NoOverScrollEffect/>
-                </CollectionView.Effects>
-
-                <CollectionView.ItemsLayout>
+                <controls:CustomCollectionView.ItemsLayout>
 
                     <GridItemsLayout
                         Orientation="Vertical"
                         Span="5"
                         HorizontalItemSpacing="2"/>
 
-                </CollectionView.ItemsLayout>
+                </controls:CustomCollectionView.ItemsLayout>
 
-                <CollectionView.ItemTemplate>
+                <controls:CustomCollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:SubcategoryModel">
 
                         <templates:SubCategoryItemTemplate
@@ -438,9 +432,9 @@
                         </templates:SubCategoryItemTemplate>
 
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
+                </controls:CustomCollectionView.ItemTemplate>
 
-            </CollectionView>
+            </controls:CustomCollectionView>
 
         </Frame>
 

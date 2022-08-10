@@ -19,7 +19,7 @@ namespace Next2.ViewModels.Mobile
 
         public decimal Change { get; set; }
 
-        public string InputValue { get; set; }
+        public string InputValue { get; set; } = string.Empty;
 
         private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);

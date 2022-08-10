@@ -9,7 +9,6 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enum="clr-namespace:Next2.Enums"
     xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
@@ -43,14 +42,15 @@
                         ColumnDefinitions="0.37*, 0.63*"
                         VerticalOptions="FillAndExpand">
 
-                        <CollectionView
+                        <controls:CustomCollectionView
                             Grid.Column="0"
                             Margin="35, 95, 0, 0"
                             SelectionMode="Single"
+                            BounceMode="DisabledForAndroidAndiOS"
                             SelectedItem="{Binding SelectedTipItem}"
                             ItemsSource="{Binding TipValueItems}">
 
-                            <CollectionView.ItemsLayout>
+                            <controls:CustomCollectionView.ItemsLayout>
 
                                 <GridItemsLayout
                                     Orientation="Vertical"
@@ -58,13 +58,9 @@
                                     VerticalItemSpacing="10"
                                     HorizontalItemSpacing="0" />
 
-                            </CollectionView.ItemsLayout>
+                            </controls:CustomCollectionView.ItemsLayout>
 
-                            <CollectionView.Effects>
-                                <effects:NoOverScrollEffect />
-                            </CollectionView.Effects>
-
-                            <CollectionView.ItemTemplate>
+                            <controls:CustomCollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="helpers:TipItem">
 
                                     <Frame
@@ -125,9 +121,9 @@
                                     </Frame>
 
                                 </DataTemplate>
-                            </CollectionView.ItemTemplate>
+                            </controls:CustomCollectionView.ItemTemplate>
 
-                        </CollectionView>
+                        </controls:CustomCollectionView>
 
                         <templates:CustomNumericKeyboardTemplate
                             Grid.Column="1"
@@ -567,14 +563,15 @@
                 Text="{xct:Translate Payment}"
                 Padding="18, 15, 18, 0"/>
 
-            <CollectionView
+            <controls:CustomCollectionView
                 VerticalOptions="Start"
                 Margin="18, 15, 18, 0"
                 SelectionMode="Single"
+                BounceMode="DisabledForAndroidAndiOS"
                 SelectedItem="{Binding SelectedPaymentOption}"
                 ItemsSource="{Binding PaymentOptionsItems}">
 
-                <CollectionView.ItemsLayout>
+                <controls:CustomCollectionView.ItemsLayout>
 
                     <GridItemsLayout
                         Orientation="Vertical"
@@ -582,13 +579,9 @@
                         VerticalItemSpacing="8"
                         HorizontalItemSpacing="0"/>
 
-                </CollectionView.ItemsLayout>
+                </controls:CustomCollectionView.ItemsLayout>
 
-                <CollectionView.Effects>
-                    <effects:NoOverScrollEffect/>
-                </CollectionView.Effects>
-
-                <CollectionView.ItemTemplate>
+                <controls:CustomCollectionView.ItemTemplate>
                     <DataTemplate x:DataType="helpers:PaymentItem">
 
                         <Frame
@@ -645,9 +638,9 @@
                         </Frame>
 
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
+                </controls:CustomCollectionView.ItemTemplate>
 
-            </CollectionView>
+            </controls:CustomCollectionView>
 
             <StackLayout>
 

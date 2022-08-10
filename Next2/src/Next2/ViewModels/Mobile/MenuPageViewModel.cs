@@ -25,7 +25,7 @@ namespace Next2.ViewModels.Mobile
 
         private readonly INotificationsService _notificationsService;
 
-        private MenuItemBindableModel _oldSelectedMenuItem;
+        private MenuItemBindableModel _oldSelectedMenuItem = new();
 
         public MenuPageViewModel(
             INavigationService navigationService,
@@ -50,11 +50,11 @@ namespace Next2.ViewModels.Mobile
 
         public bool CanShowOrder { get; set; }
 
-        public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
+        public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; } = new();
 
         public MenuItemBindableModel SelectedMenuItem { get; set; }
 
-        public ObservableCollection<CategoryModel> Categories { get; set; }
+        public ObservableCollection<CategoryModel> Categories { get; set; } = new();
 
         private ICommand? _tapCategoryCommand;
         public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
@@ -198,7 +198,7 @@ namespace Next2.ViewModels.Mobile
             }
         }
 
-        private Task OnTapCategoryCommandAsync(CategoryModel category)
+        private Task OnTapCategoryCommandAsync(CategoryModel? category)
         {
             var navigationParams = new NavigationParameters
             {

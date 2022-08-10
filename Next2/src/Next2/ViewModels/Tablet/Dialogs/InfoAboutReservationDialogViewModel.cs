@@ -24,7 +24,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         #region -- Public properties --
 
-        public ReservationModel Reservation { get; set; }
+        public ReservationModel Reservation { get; set; } = new();
 
         public Action<IDialogParameters> RequestClose;
 

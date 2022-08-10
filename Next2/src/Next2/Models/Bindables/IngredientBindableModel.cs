@@ -21,6 +21,6 @@ namespace Next2.Models.Bindables
 
         public bool IsDefault { get; set; }
 
-        public ICommand ChangingToggle { get; set; }
+        public ICommand? ChangingToggle { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Next2.Controls
 {
-    public class ExpandedGridCollectionView : CollectionView
+    public class ExpandedGridCollectionView : CustomCollectionView
     {
         #region -- Public properties --
 

@@ -9,8 +9,8 @@ namespace Next2.Helpers
     {
         public EPaymentItems PaymentType { get; set; }
 
-        public string Text { get; set; }
+        public string Text { get; set; } = string.Empty;
 
-        public ICommand TapCommand { get; set; }
+        public ICommand? TapCommand { get; set; }
     }
 }

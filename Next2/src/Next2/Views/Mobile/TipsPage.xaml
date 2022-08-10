@@ -6,7 +6,6 @@
     xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enum="clr-namespace:Next2.Enums"
     xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:mobile="clr-namespace:Next2.ViewModels.Mobile"
@@ -59,14 +58,15 @@
 
         </StackLayout>
 
-        <CollectionView
+        <controls:CustomCollectionView
             Grid.Row="1"
             Margin="20, 93, 20, 20"
             SelectionMode="Single"
+            BounceMode="DisabledForAndroidAndiOS"
             SelectedItem="{Binding SelectedTipItem}"
             ItemsSource="{Binding TipDisplayItems}">
 
-            <CollectionView.ItemsLayout>
+            <controls:CustomCollectionView.ItemsLayout>
 
                 <GridItemsLayout
                     Orientation="Vertical"
@@ -74,13 +74,9 @@
                     VerticalItemSpacing="10"
                     HorizontalItemSpacing="10" />
 
-            </CollectionView.ItemsLayout>
+            </controls:CustomCollectionView.ItemsLayout>
 
-            <CollectionView.Effects>
-                <effects:NoOverScrollEffect />
-            </CollectionView.Effects>
-
-            <CollectionView.ItemTemplate>
+            <controls:CustomCollectionView.ItemTemplate>
                 <DataTemplate x:DataType="helpers:TipItem">
 
                     <Frame
@@ -148,9 +144,9 @@
                     </Frame>
 
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
+            </controls:CustomCollectionView.ItemTemplate>
 
-            <CollectionView.Footer>
+            <controls:CustomCollectionView.Footer>
                 <StackLayout>
 
                     <BoxView
@@ -209,9 +205,9 @@
                     </StackLayout>
 
                 </StackLayout>
-            </CollectionView.Footer>
+            </controls:CustomCollectionView.Footer>
 
-        </CollectionView>
+        </controls:CustomCollectionView>
 
     </Grid>
 

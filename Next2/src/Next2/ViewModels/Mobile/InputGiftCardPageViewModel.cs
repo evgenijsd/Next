@@ -8,6 +8,8 @@ using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,7 +50,7 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Public properties --
 
-        public string InputGiftCardFounds { get; set; }
+        public string InputGiftCardFounds { get; set; } = string.Empty;
 
         public decimal RemainingGiftCardTotal { get; set; }
 
@@ -123,7 +125,11 @@ namespace Next2.ViewModels.Mobile
 
                     RemainingGiftCardTotal = Customer.GiftCardsTotalFund;
 
-                    PopupPage giftCardDialog = new Views.Mobile.Dialogs.AddGiftCardDialog(Customer.GiftCardsId, _customersService, GiftCardViewDialogCallBack);
+                    var giftCardsId = Customer.GiftCardsId is null
+                        ? Enumerable.Empty<Guid>()
+                        : Customer.GiftCardsId;
+
+                    PopupPage giftCardDialog = new Views.Mobile.Dialogs.AddGiftCardDialog(giftCardsId, _customersService, GiftCardViewDialogCallBack);
 
                     await PopupNavigation.PushAsync(giftCardDialog);
                 }

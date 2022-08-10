@@ -8,7 +8,6 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:tablet="clr-namespace:Next2.Controls.Templates.Tablet"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
@@ -104,11 +103,9 @@
                         
                         <StackLayout>
                             
-                            <CollectionView ItemsSource="{Binding Order.Seats}">
-                                    
-                                <CollectionView.Effects>
-                                    <effects:NoOverScrollEffect/>
-                                </CollectionView.Effects>
+                            <controls:CustomCollectionView 
+                                BounceMode="DisabledForAndroidAndiOS"
+                                ItemsSource="{Binding Order.Seats}">
                                     
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="models:SeatWithFreeDishesBindableModel"> 
@@ -149,7 +146,7 @@
                                                 
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
-                            </CollectionView>
+                            </controls:CustomCollectionView>
                         </StackLayout>
                     </sc:StateCondition>
                     
@@ -206,23 +203,20 @@
                 FontSize="{DynamicResource TSize_i9}"
                 Text="{xct:Translate RewardsOptions}"/>
                 
-            <CollectionView
+            <controls:CustomCollectionView
+                BounceMode="DisabledForAndroidAndiOS"
                 HeightRequest="{Binding Order.Rewards, Converter={StaticResource listHeightConverter}, ConverterParameter=94}"
                 ItemsSource="{Binding Order.Rewards}">
-                    
-                <CollectionView.Effects>
-                    <effects:NoOverScrollEffect/>
-                </CollectionView.Effects>
-                    
-                <CollectionView.ItemTemplate>
+
+                <controls:CustomCollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:RewardBindabledModel">
                             
                         <tablet:RewardItemTemplate/>
                             
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
+                </controls:CustomCollectionView.ItemTemplate>
                     
-            </CollectionView>
+            </controls:CustomCollectionView>
                                                     
         </StackLayout>
             

@@ -9,7 +9,6 @@
     xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models.Bindables"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
@@ -205,10 +204,6 @@
                                     <Setter Property="HeightRequest" Value="{Binding Orders, Converter={StaticResource listHeightConverter}, ConverterParameter=50}"/>
                                 </DataTrigger>           
                             </controls:CustomCollectionView.Triggers>
-
-                            <controls:CustomCollectionView.Effects>
-                                <effects:NoOverScrollEffect />
-                            </controls:CustomCollectionView.Effects>
 
                             <controls:CustomCollectionView.Behaviors>
                                 <behaviors:ScrollToCenterBehavior />

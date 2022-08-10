@@ -25,11 +25,11 @@ namespace Next2.ViewModels.Dialogs
 
         public int OrderNumber { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
-        public string CancellationText { get; set; }
+        public string CancellationText { get; set; } = string.Empty;
 
-        public string ConfirmationText { get; set; }
+        public string ConfirmationText { get; set; } = string.Empty;
 
         public Color OkButtonBackgroundColor { get; set; }
 
