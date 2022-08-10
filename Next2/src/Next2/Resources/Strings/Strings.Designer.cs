@@ -847,9 +847,9 @@ namespace Next2.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to min.
         /// </summary>
-        internal static string min {
+        internal static string Min {
             get {
-                return ResourceManager.GetString("min", resourceCulture);
+                return ResourceManager.GetString("Min", resourceCulture);
             }
         }
         

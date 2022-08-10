@@ -759,7 +759,7 @@ A receipt has been printed for you.</value>
   <data name="Warning" xml:space="preserve">
     <value>Warning</value>
   </data>
-  <data name="min" xml:space="preserve">
+  <data name="Min" xml:space="preserve">
     <value>min</value>
   </data>
   <data name="SelectTime" xml:space="preserve">

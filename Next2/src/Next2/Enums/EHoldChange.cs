@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Next2.Enums
+﻿namespace Next2.Enums
 {
     public enum EHoldChange
     {
+        None,
         HourIncrement,
         HourDecrement,
         MinuteIncrement,

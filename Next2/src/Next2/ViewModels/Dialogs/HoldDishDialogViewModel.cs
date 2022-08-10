@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -15,7 +16,7 @@ namespace Next2.ViewModels.Dialogs
     public class HoldDishDialogViewModel : BindableBase
     {
         private DateTime _holdTime = DateTime.Now;
-        private TimeItem? _preSelectedTimeItem;
+        private int? _preSelectedTimeItem;
 
         public HoldDishDialogViewModel(
             DialogParameters parameters,
@@ -24,6 +25,7 @@ namespace Next2.ViewModels.Dialogs
             CurrentTime = DateTime.Now;
             Hour = _holdTime.Hour;
             Minute = _holdTime.Minute;
+
             Device.StartTimer(TimeSpan.FromSeconds(10), OnTimerTick);
 
             RequestClose = requestClose;
@@ -41,27 +43,17 @@ namespace Next2.ViewModels.Dialogs
                     Minute = _holdTime.Minute;
                 }
 
-                foreach (var product in selectedDish.Products ?? new())
-                {
-                    if (!string.IsNullOrEmpty(product.Name))
-                    {
-                        SetNames = SetNames == string.Empty
-                            ? SetNames = product.Name
-                            : SetNames += $", {product.Name}";
-                    }
-                }
+                ProductNames = string.Join(", ", selectedDish.Products.Where(x => !string.IsNullOrEmpty(x.Name)).Select(x => x.Name).ToArray());
             }
-
-            InitTimeItems();
         }
 
         #region -- Public properties --
 
         public DishBindableModel SelectedDish { get; set; }
 
-        public ObservableCollection<TimeItem> TimeDisplayItems { get; set; } = new();
+        public ObservableCollection<int> TimeDisplayItems { get; set; } = new() { 15, 20, 40 };
 
-        public TimeItem? SelectedTimeItem { get; set; }
+        public int? SelectedTimeItem { get; set; }
 
         public DateTime CurrentTime { get; set; }
 
@@ -69,7 +61,7 @@ namespace Next2.ViewModels.Dialogs
 
         public int Minute { get; set; }
 
-        public string SetNames { get; set; } = string.Empty;
+        public string ProductNames { get; set; } = string.Empty;
 
         public ICommand CloseCommand { get; }
 
@@ -77,13 +69,13 @@ namespace Next2.ViewModels.Dialogs
 
         public Action<IDialogParameters> RequestClose;
 
-        private ICommand _selectTimeItemCommand;
+        private ICommand? _selectTimeItemCommand;
         public ICommand SelectTimeItemCommand => _selectTimeItemCommand ??= new AsyncCommand(OnSelectTimeItemCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _changingTimeHoldCommand;
-        public ICommand ChangingTimeHoldCommand => _changingTimeHoldCommand ??= new AsyncCommand<EHoldChange>(OnChangingTimeHoldCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _changeTimeHoldCommand;
+        public ICommand ChangeTimeHoldCommand => _changeTimeHoldCommand ??= new AsyncCommand<EHoldChange?>(OnChangeTimeHoldCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _holdCommand;
+        private ICommand? _holdCommand;
         public ICommand HoldCommand => _holdCommand ??= new AsyncCommand(OnHoldCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -111,7 +103,7 @@ namespace Next2.ViewModels.Dialogs
                 : SelectedTimeItem;
 
             _holdTime = DateTime.Now;
-            _holdTime = _holdTime.AddMinutes(SelectedTimeItem?.Minute ?? 0);
+            _holdTime = _holdTime.AddMinutes(SelectedTimeItem ?? 0);
             Hour = _holdTime.Hour;
             Minute = _holdTime.Minute;
 
@@ -120,12 +112,12 @@ namespace Next2.ViewModels.Dialogs
             return Task.CompletedTask;
         }
 
-        private Task OnChangingTimeHoldCommandAsync(EHoldChange holdChange)
+        private Task OnChangeTimeHoldCommandAsync(EHoldChange? holdChange)
         {
             var hour = Hour;
             var minute = Minute;
 
-            switch (holdChange)
+            switch (holdChange ?? EHoldChange.None)
             {
                 case EHoldChange.HourIncrement:
                     hour++;
@@ -155,8 +147,6 @@ namespace Next2.ViewModels.Dialogs
                         : minute;
 
                     break;
-                default:
-                    break;
             }
 
             var holdTime = new DateTime(CurrentTime.Year, CurrentTime.Month, CurrentTime.Day, hour, minute, second: 0);
@@ -177,29 +167,10 @@ namespace Next2.ViewModels.Dialogs
             return Task.CompletedTask;
         }
 
-        private void InitTimeItems()
-        {
-            TimeDisplayItems = new()
-            {
-                new()
-                {
-                    Minute = 15,
-                },
-                new()
-                {
-                    Minute = 20,
-                },
-                new()
-                {
-                    Minute = 40,
-                },
-            };
-        }
-
         private bool OnTimerTick()
         {
             CurrentTime = DateTime.Now;
-            var currentTime = CurrentTime.AddMinutes(SelectedTimeItem?.Minute ?? 0);
+            var currentTime = CurrentTime.AddMinutes(SelectedTimeItem ?? 0);
 
             if (_holdTime < currentTime)
             {
