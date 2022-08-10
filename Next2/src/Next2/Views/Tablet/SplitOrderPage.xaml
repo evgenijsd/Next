@@ -532,14 +532,14 @@
 
             </Grid.Resources>
 
-            <CollectionView
+            <controls:CustomCollectionView
                 Grid.Row="0"
                 VerticalScrollBarVisibility="Always"
+                BounceMode="DisabledForAndroidAndiOS"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                 ItemsSource="{Binding Seats}">
 
-                <CollectionView.Effects>
-                    <effects:NoOverScrollEffect />
+                <controls:CustomCollectionView.Effects>
 
                     <effects:ScrollBarColorEffect
                         ScrollBarThumbWidth="6"
@@ -547,9 +547,9 @@
                         ScrollBarThumbColor="{StaticResource AppColor_i1}"
                         ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}" />
 
-                </CollectionView.Effects>
+                </controls:CustomCollectionView.Effects>
 
-                <CollectionView.ItemTemplate>
+                <controls:CustomCollectionView.ItemTemplate>
 
                     <DataTemplate x:DataType="models1:SeatBindableModel">
 
@@ -561,9 +561,9 @@
 
                     </DataTemplate>
 
-                </CollectionView.ItemTemplate>
+                </controls:CustomCollectionView.ItemTemplate>
 
-            </CollectionView>
+            </controls:CustomCollectionView>
 
         </Grid>
 

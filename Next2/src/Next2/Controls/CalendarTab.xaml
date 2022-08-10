@@ -5,7 +5,6 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:helpers="clr-namespace:Next2.Helpers"
     RowDefinitions="0.134*, 0.24*, *"
     Padding="16"
@@ -125,6 +124,7 @@
     <controls:CalendarGridCollectionView
         Grid.Row="2"
         Margin="6, 0, 6, 1"
+        BounceMode="DisabledForAndroidAndiOS"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
         Month="{Binding SelectedMonth, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
         Year="{Binding SelectedYear.YearValue, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
@@ -135,6 +135,7 @@
         x:Name="calendarGrid">
 
         <CollectionView.ItemsLayout>
+            
             <GridItemsLayout
                 HorizontalItemSpacing="0"
                 VerticalItemSpacing="1" 
@@ -142,10 +143,6 @@
                 Span="7"/>
             
         </CollectionView.ItemsLayout>
-
-        <CollectionView.Effects>
-            <effects:NoOverScrollEffect />
-        </CollectionView.Effects>
 
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="helpers:Day">
@@ -221,18 +218,15 @@
                 HeightRequest="{OnPlatform Android=1, iOS=0.5}"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
 
-            <CollectionView
+            <controls:CustomCollectionView
                 VerticalScrollBarVisibility="Never"
                 SelectionMode="Single"
+                BounceMode="DisabledForAndroidAndiOS"
                 ItemsSource="{Binding Years, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
                 SelectedItem="{Binding SelectedYear, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
                 x:Name="yearsCollectionView">
 
-                <CollectionView.Effects>
-                    <effects:NoOverScrollEffect />
-                </CollectionView.Effects>
-
-                <CollectionView.ItemTemplate>
+                <controls:CustomCollectionView.ItemTemplate>
 
                     <DataTemplate x:DataType="helpers:Year">
 
@@ -267,9 +261,9 @@
 
                     </DataTemplate>
 
-                </CollectionView.ItemTemplate>
+                </controls:CustomCollectionView.ItemTemplate>
 
-            </CollectionView>
+            </controls:CustomCollectionView>
 
         </StackLayout>
 

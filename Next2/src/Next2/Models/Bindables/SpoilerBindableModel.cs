@@ -11,12 +11,12 @@ namespace Next2.Models.Bindables
     {
         public Guid Id { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
-        public ObservableCollection<SpoilerItem> Items { get; set; }
+        public ObservableCollection<SpoilerItem> Items { get; set; } = new();
 
         public SpoilerItem? SelectedItem { get; set; }
 
-        public ICommand TapCommand { get; set; }
+        public ICommand? TapCommand { get; set; }
     }
 }

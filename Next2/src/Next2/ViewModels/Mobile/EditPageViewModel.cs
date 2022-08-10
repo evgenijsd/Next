@@ -28,7 +28,7 @@ namespace Next2.ViewModels.Mobile
         private int _indexOfSeat;
         private bool _isModifiedDish;
 
-        private FullOrderBindableModel _tempCurrentOrder;
+        private FullOrderBindableModel _tempCurrentOrder = new();
 
         public EditPageViewModel(
             INavigationService navigationService,

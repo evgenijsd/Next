@@ -29,7 +29,7 @@ namespace Next2.ViewModels.Tablet
         private readonly IMembershipService _membershipService;
         private readonly INotificationsService _notificationsService;
 
-        private MembershipModelDTO _member;
+        private MembershipModelDTO _member = new();
         private List<MemberBindableModel> _allMembers = new();
 
         public MembershipViewModel(
@@ -126,7 +126,7 @@ namespace Next2.ViewModels.Tablet
             {
                 EMemberSorting.ByMembershipStartTime => x => x.StartDate,
                 EMemberSorting.ByMembershipEndTime => x => x.EndDate,
-                EMemberSorting.ByCustomerName => x => x.Customer.FullName,
+                EMemberSorting.ByCustomerName => x => x.Customer?.FullName,
                 _ => throw new NotImplementedException(),
             };
 

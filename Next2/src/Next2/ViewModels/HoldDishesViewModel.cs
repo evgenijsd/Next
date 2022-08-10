@@ -195,7 +195,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ResponseToBadRequestAsync(result.Exception.Message);
+                await _notificationsService.ResponseToBadRequestAsync(result.Exception?.Message);
             }
 
             IsNothingFound = !holdDishes.Any();

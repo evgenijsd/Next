@@ -17,7 +17,7 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Public properties --
 
-        public RewardBindabledModel Reward { get; set; }
+        public RewardBindabledModel Reward { get; set; } = new();
 
         public ObservableCollection<SeatWithFreeDishesBindableModel> Seats { get; set; } = new();
 

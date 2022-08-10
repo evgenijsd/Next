@@ -7,7 +7,6 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:bindableModels="clr-namespace:Next2.Models"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
@@ -160,18 +159,15 @@
 
                 <sc:StateCondition State="Completed">
 
-                    <CollectionView
+                    <controls:CustomCollectionView
                         Margin="0, 0, 20, 0"
+                        BounceMode="DisabledForAndroidAndiOS"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                         HorizontalScrollBarVisibility="Never"
                         ItemsSource="{Binding Categories}"
                         VerticalScrollBarVisibility="Never">
 
-                        <CollectionView.Effects>
-                            <effects:NoOverScrollEffect />
-                        </CollectionView.Effects>
-
-                        <CollectionView.ItemsLayout>
+                        <controls:CustomCollectionView.ItemsLayout>
 
                             <GridItemsLayout
                                 HorizontalItemSpacing="2"
@@ -179,7 +175,7 @@
                                 Span="2"
                                 VerticalItemSpacing="2" />
 
-                        </CollectionView.ItemsLayout>
+                        </controls:CustomCollectionView.ItemsLayout>
 
                         <CollectionView.EmptyView>
 
@@ -224,7 +220,7 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
 
-                    </CollectionView>
+                    </controls:CustomCollectionView>
                     
                 </sc:StateCondition>
 
@@ -244,13 +240,14 @@
                 HeightRequest="1"
                 Color="{DynamicResource TextAndBackgroundColor_i2}"/>
 
-            <CollectionView
+            <controls:CustomCollectionView
                 Margin="10, 6"
+                BounceMode="DisabledForAndroidAndiOS"
                 ItemsSource="{Binding MenuItems}"
                 SelectedItem="{Binding SelectedMenuItem}"
                 SelectionMode="Single">
 
-                <CollectionView.ItemsLayout>
+                <controls:CustomCollectionView.ItemsLayout>
 
                     <GridItemsLayout
                         HorizontalItemSpacing="0"
@@ -258,13 +255,9 @@
                         Span="4"
                         VerticalItemSpacing="0" />
 
-                </CollectionView.ItemsLayout>
+                </controls:CustomCollectionView.ItemsLayout>
 
-                <CollectionView.Effects>
-                    <effects:NoOverScrollEffect />
-                </CollectionView.Effects>
-
-                <CollectionView.ItemTemplate>
+                <controls:CustomCollectionView.ItemTemplate>
                     <DataTemplate x:DataType="bindableModels:MenuItemBindableModel">
 
                         <templates:MenuItemTemplate
@@ -272,9 +265,9 @@
                             Text="{Binding Title}" />
 
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
+                </controls:CustomCollectionView.ItemTemplate>
 
-            </CollectionView>
+            </controls:CustomCollectionView>
 
         </StackLayout>
 

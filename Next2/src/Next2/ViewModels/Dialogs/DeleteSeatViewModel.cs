@@ -14,7 +14,7 @@ namespace Next2.ViewModels.Dialogs
 {
     public class DeleteSeatViewModel : BindableBase
     {
-        private SeatBindableModel _removalSeat;
+        private SeatBindableModel? _removalSeat;
 
         public DeleteSeatViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {

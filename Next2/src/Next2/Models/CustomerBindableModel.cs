@@ -59,10 +59,10 @@ namespace Next2.Models
 
         public bool IsUpdatedCustomer { get; set; }
 
-        public ImageSource CheckboxImage { get; set; }
+        public ImageSource? CheckboxImage { get; set; }
 
-        public ICommand SelectItemCommand { get; set; }
+        public ICommand? SelectItemCommand { get; set; }
 
-        public ICommand ShowInfoCommand { get; set; }
+        public ICommand? ShowInfoCommand { get; set; }
     }
 }

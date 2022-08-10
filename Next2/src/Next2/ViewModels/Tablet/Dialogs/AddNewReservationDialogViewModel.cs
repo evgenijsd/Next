@@ -191,7 +191,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
             }
         }
 
-        private Task OnChangeTimeFormatCommandAsync(string state)
+        private Task OnChangeTimeFormatCommandAsync(string? state)
         {
             TimeFormat = state;
 
