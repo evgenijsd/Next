@@ -158,7 +158,7 @@ namespace Next2.Controls
             returnType: typeof(int),
             declaringType: typeof(Calendar),
             defaultValue: 0,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.OneWay);
 
         public int OffsetYears
         {

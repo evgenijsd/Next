@@ -29,7 +29,7 @@ namespace Next2.ViewModels
         private readonly INotificationsService _notificationsService;
         private readonly IMapper _mapper;
 
-        private IEnumerable<SimpleOrderBindableModel> _allClosedOrders;
+        private IEnumerable<SimpleOrderBindableModel> _allClosedOrders = Enumerable.Empty<SimpleOrderBindableModel>();
 
         public PrintReceiptViewModel(
             INavigationService navigationService,
@@ -112,10 +112,7 @@ namespace Next2.ViewModels
         {
             var param = new DialogParameters()
             {
-                {
-                    Constants.DialogParameterKeys.SELECTED_DATE,
-                    SelectedDate
-                },
+                { Constants.DialogParameterKeys.SELECTED_DATE, SelectedDate },
             };
 
             var popupPage = new SelectDateDialog(param, CloseDialogCallBack);
@@ -157,7 +154,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(gettingOrdersResult.Exception.Message);
+                    await _notificationsService.ResponseToBadRequestAsync(gettingOrdersResult.Exception?.Message);
                 }
             }
             else

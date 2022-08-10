@@ -14,7 +14,7 @@ namespace Next2.Views
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanging([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanging([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanging(propertyName);
 

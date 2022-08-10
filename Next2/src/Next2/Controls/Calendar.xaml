@@ -6,7 +6,6 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:local="clr-namespace:Next2.Controls"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:helpers="clr-namespace:Next2.Helpers"
     x:Class="Next2.Controls.Calendar"
@@ -34,7 +33,6 @@
             FontSize="{DynamicResource TSize_i8}"
             Text="{Binding Title, Source={x:RelativeSource AncestorType={x:Type local:Calendar}}}" />
 
-        <!--  month  -->
         <StackLayout
             Grid.Row="1"
             Orientation="Horizontal"
@@ -65,7 +63,6 @@
 
         </StackLayout>
 
-        <!--  grid  -->
         <local:CalendarGridCollectionView
             Grid.Row="2"
             Margin="{OnIdiom Phone='16, 0, 16, 1', Tablet='6, 0, 6, 1'}"
@@ -146,7 +143,6 @@
 
         </local:CalendarGridCollectionView>
 
-        <!--  Dropdown list  -->
         <pancakeview:PancakeView
             Grid.Row="0"
             Grid.RowSpan="3"
@@ -177,7 +173,7 @@
                             WidthRequest="120"
                             CornerRadius="0"
                             BackgroundColor="{Binding DropdownListBackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
-                            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:Calendar}}, Path=SelectYearCommand}">
+                            xct:TouchEffect.Command="{Binding SelectYearCommand, Source={RelativeSource AncestorType={x:Type local:Calendar}}}">
 
                             <Label
                                 VerticalTextAlignment="Center"
@@ -208,8 +204,6 @@
 
         </pancakeview:PancakeView>
 
-        <!--  year  -->
-
         <pancakeview:PancakeView
             Grid.Row="0"
             VerticalOptions="FillAndExpand"
@@ -223,7 +217,7 @@
             x:Name="yearDropdownFrame">
 
             <pancakeview:PancakeView.Triggers>
-                <DataTrigger TargetType="pancakeview:PancakeView" Binding="{Binding Source={x:Reference dropdownFrame}, Path=IsVisible}" Value="True">
+                <DataTrigger TargetType="pancakeview:PancakeView" Binding="{Binding IsVisible, Source={x:Reference dropdownFrame}}" Value="True">
 
                     <Setter Property="CornerRadius" Value="5, 5, 0, 0" />
                     <Setter Property="BackgroundColor" Value="{Binding DropdownHeaderDroppedBackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}" />
@@ -231,7 +225,7 @@
                         <Setter.Value>
                             <pancakeview:Border
                                 Thickness="1"
-                                Color="#212430" />
+                                Color="{StaticResource TextAndBackgroundColor_i6}" />
                         </Setter.Value>
                     </Setter>
 

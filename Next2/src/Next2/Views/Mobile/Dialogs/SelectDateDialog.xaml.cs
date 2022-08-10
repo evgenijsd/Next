@@ -12,6 +12,7 @@ namespace Next2.Views.Mobile.Dialogs
             Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
+
             BindingContext = new SelectDateDialogViewModel(param, requestClose);
         }
     }

@@ -35,7 +35,7 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private Helpers --
 
-        private void InitParameters(DialogParameters param)
+        private void InitParameters(IDialogParameters param)
         {
             if (param.TryGetValue(Constants.DialogParameterKeys.SELECTED_DATE, out DateTime selectedDate))
             {
