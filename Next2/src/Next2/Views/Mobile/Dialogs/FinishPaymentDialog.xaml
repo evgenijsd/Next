@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:enum="clr-namespace:Next2.Enums"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:local="clr-namespace:Next2"
     xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
@@ -14,53 +15,47 @@
     <rg:PopupPage.Resources>
 
         <Style x:Key="SeparatorStyle" TargetType="BoxView">
-            
+
             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
             <Setter Property="HeightRequest" Value="{OnPlatform Android=1.5, iOS=1}" />
             <Setter Property="HorizontalOptions" Value="FillAndExpand" />
             <Setter Property="VerticalOptions" Value="End" />
-            
+
         </Style>
 
-        <Style x:Key="ButtonStyle" TargetType="Frame">
-            
+        <Style x:Key="ButtonStyle" TargetType="buttons:BorderButton">
+
             <Setter Property="WidthRequest" Value="126" />
+            <Setter Property="Padding" Value="0" />
             <Setter Property="HeightRequest" Value="38" />
             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
             <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
+
         </Style>
 
         <Style x:Key="LabelStyle" TargetType="Label">
-            
+
             <Setter Property="FontFamily" Value="Barlow-SemiBold" />
             <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             <Setter Property="HorizontalTextAlignment" Value="Start" />
             <Setter Property="VerticalTextAlignment" Value="Center" />
-            
-        </Style>
 
-        <Style x:Key="ButtonTextStyle" TargetType="Label">
-            
-            <Setter Property="FontFamily" Value="Barlow-SemiBold" />
-            <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
-            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-            <Setter Property="HorizontalTextAlignment" Value="Center" />
-            <Setter Property="VerticalTextAlignment" Value="Center" />
-            
         </Style>
 
     </rg:PopupPage.Resources>
 
     <pcView:PancakeView
         Margin="18"
-        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-        Border="{pcView:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2},Thickness=3}"
-        CornerRadius="6"
-        HeightRequest="785"
-        HorizontalOptions="CenterAndExpand"
         VerticalOptions="CenterAndExpand"
-        WidthRequest="492">
+        HorizontalOptions="CenterAndExpand"
+        HeightRequest="785"
+        WidthRequest="492"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+        Border="{pcView:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=3}"
+        CornerRadius="6">
 
         <Grid RowDefinitions="0.1*, 0.27*, 0.43*, 0.2*">
 
@@ -69,46 +64,46 @@
                 <Label
                     Grid.Row="0"
                     Margin="18, 0, 0, 0"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
                     FontFamily="Barlow-SemiBold"
                     FontSize="{DynamicResource TSize_i5}"
-                    HorizontalOptions="Start"
                     Text="{xct:Translate PaymentComplete}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    VerticalOptions="Center" />
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
             </Frame>
 
             <BoxView
                 Grid.Row="0"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
-                Style="{DynamicResource SeparatorStyle}" />
+                Style="{DynamicResource SeparatorStyle}"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
 
             <StackLayout
                 Grid.Row="1"
                 Margin="18, 0, 0, 0"
+                VerticalOptions="Center"
                 HorizontalOptions="Start"
                 Orientation="Vertical"
-                Spacing="14"
-                VerticalOptions="Center">
+                Spacing="14">
 
                 <Label
-                    FontFamily="Barlow-Medium"
                     Style="{DynamicResource LabelStyle}"
+                    FontFamily="Barlow-Medium"
                     Text="{xct:Translate Subtotal}" />
 
                 <Label
-                    FontFamily="Barlow-Medium"
                     Style="{DynamicResource LabelStyle}"
+                    FontFamily="Barlow-Medium"
                     Text="{xct:Translate Coupon}">
 
                     <Label.Triggers>
-                        <DataTrigger Binding="{Binding BonusType}" TargetType="Label" Value="{x:Static enum:EBonusType.Discount}">
+                        <DataTrigger TargetType="Label" Binding="{Binding BonusType}" Value="{x:Static enum:EBonusType.Discount}">
 
                             <Setter Property="Text" Value="{xct:Translate Discount}" />
 
                         </DataTrigger>
 
-                        <DataTrigger Binding="{Binding BonusType}" TargetType="Label" Value="{x:Static enum:EBonusType.None}">
+                        <DataTrigger TargetType="Label" Binding="{Binding BonusType}" Value="{x:Static enum:EBonusType.None}">
 
                             <Setter Property="IsVisible" Value="False" />
 
@@ -119,15 +114,15 @@
                 </Label>
 
                 <Label
+                    Style="{DynamicResource LabelStyle}"
                     FontFamily="Barlow-Medium"
                     IsVisible="{Binding Order.PriceTax, Converter={StaticResource decimalToBoolConverter}}"
-                    Style="{DynamicResource LabelStyle}"
                     Text="{xct:Translate Tax}" />
 
                 <Label
+                    Style="{DynamicResource LabelStyle}"
                     FontFamily="Barlow-Medium"
                     IsVisible="{Binding Order.Tip, Converter={StaticResource decimalToBoolConverter}}"
-                    Style="{DynamicResource LabelStyle}"
                     Text="{xct:Translate Tip}" />
 
             </StackLayout>
@@ -135,14 +130,14 @@
             <StackLayout
                 Grid.Row="1"
                 Margin="0, 0, 18, 0"
+                VerticalOptions="Center"
                 HorizontalOptions="End"
                 Orientation="Vertical"
-                Spacing="14"
-                VerticalOptions="Center">
+                Spacing="14">
 
                 <Label
-                    HorizontalOptions="EndAndExpand"
-                    Style="{DynamicResource LabelStyle}">
+                    Style="{DynamicResource LabelStyle}"
+                    HorizontalOptions="EndAndExpand">
 
                     <Label.FormattedText>
                         <FormattedString>
@@ -157,9 +152,9 @@
                 </Label>
 
                 <Label
+                    Style="{DynamicResource LabelStyle}"
                     HorizontalOptions="EndAndExpand"
-                    IsVisible="{Binding Order.Bonus, Converter={xct:IsNotNullOrEmptyConverter}}"
-                    Style="{DynamicResource LabelStyle}">
+                    IsVisible="{Binding Order.Bonus, Converter={xct:IsNotNullOrEmptyConverter}}">
 
                     <Label.FormattedText>
                         <FormattedString>
@@ -175,9 +170,9 @@
                 </Label>
 
                 <Label
+                    Style="{DynamicResource LabelStyle}"
                     HorizontalOptions="EndAndExpand"
-                    IsVisible="{Binding Order.PriceTax, Converter={StaticResource decimalToBoolConverter}}"
-                    Style="{DynamicResource LabelStyle}">
+                    IsVisible="{Binding Order.PriceTax, Converter={StaticResource decimalToBoolConverter}}">
 
                     <Label.FormattedText>
                         <FormattedString>
@@ -193,17 +188,17 @@
                 </Label>
 
                 <Label
+                    Style="{DynamicResource LabelStyle}"
                     HorizontalOptions="EndAndExpand"
                     IsVisible="{Binding Order.Tip, Converter={StaticResource decimalToBoolConverter}}"
-                    Style="{DynamicResource LabelStyle}" 
-                    Text="{Binding TipValue}"/>
+                    Text="{Binding TipValue}" />
 
             </StackLayout>
 
             <BoxView
                 Grid.Row="1"
-                Margin="18, 0"
-                Style="{DynamicResource SeparatorStyle}" />
+                Style="{DynamicResource SeparatorStyle}"
+                Margin="18, 0" />
 
             <StackLayout
                 Grid.Row="2"
@@ -213,27 +208,27 @@
                 Spacing="14">
 
                 <Label
+                    Style="{DynamicResource LabelStyle}"
                     FontFamily="Barlow-Medium"
                     IsVisible="{Binding Order.Cash, Converter={StaticResource decimalToBoolConverter}}"
-                    Style="{DynamicResource LabelStyle}"
                     Text="{xct:Translate Cash}" />
 
                 <Label
+                    Style="{DynamicResource LabelStyle}"
                     FontFamily="Barlow-Medium"
                     IsVisible="{Binding Order.GiftCard, Converter={StaticResource decimalToBoolConverter}}"
-                    Style="{DynamicResource LabelStyle}"
                     Text="{xct:Translate GiftCards}" />
 
                 <Label
+                    Style="{DynamicResource LabelStyle}"
                     FontFamily="Barlow-Medium"
                     IsVisible="{Binding Order.Change, Converter={StaticResource decimalToBoolConverter}}"
-                    Style="{DynamicResource LabelStyle}"
                     Text="{xct:Translate Change}" />
 
                 <Label
+                    Style="{DynamicResource LabelStyle}"
                     FontFamily="Barlow-Regular"
                     FontSize="{DynamicResource TSize_i6}"
-                    Style="{DynamicResource LabelStyle}"
                     Text="{xct:Translate Total}" />
 
             </StackLayout>
@@ -246,9 +241,9 @@
                 Spacing="14">
 
                 <Label
+                    Style="{DynamicResource LabelStyle}"
                     HorizontalOptions="EndAndExpand"
-                    IsVisible="{Binding Order.Cash, Converter={StaticResource decimalToBoolConverter}}"
-                    Style="{DynamicResource LabelStyle}">
+                    IsVisible="{Binding Order.Cash, Converter={StaticResource decimalToBoolConverter}}">
 
                     <Label.FormattedText>
                         <FormattedString>
@@ -262,9 +257,9 @@
                 </Label>
 
                 <Label
+                    Style="{DynamicResource LabelStyle}"
                     HorizontalOptions="EndAndExpand"
-                    IsVisible="{Binding Order.GiftCard, Converter={StaticResource decimalToBoolConverter}}"
-                    Style="{DynamicResource LabelStyle}">
+                    IsVisible="{Binding Order.GiftCard, Converter={StaticResource decimalToBoolConverter}}">
 
                     <Label.FormattedText>
                         <FormattedString>
@@ -279,9 +274,9 @@
                 </Label>
 
                 <Label
+                    Style="{DynamicResource LabelStyle}"
                     HorizontalOptions="EndAndExpand"
-                    IsVisible="{Binding Order.Change, Converter={StaticResource decimalToBoolConverter}}"
-                    Style="{DynamicResource LabelStyle}">
+                    IsVisible="{Binding Order.Change, Converter={StaticResource decimalToBoolConverter}}">
 
                     <Label.FormattedText>
                         <FormattedString>
@@ -295,10 +290,10 @@
                 </Label>
 
                 <Label
-                    FontFamily="Barlow-Regular"
-                    FontSize="{DynamicResource TSize_i6}"
+                    Style="{DynamicResource LabelStyle}"
                     HorizontalOptions="EndAndExpand"
-                    Style="{DynamicResource LabelStyle}">
+                    FontFamily="Barlow-Regular"
+                    FontSize="{DynamicResource TSize_i6}">
 
                     <Label.FormattedText>
                         <FormattedString>
@@ -318,71 +313,48 @@
                 Grid.Row="2"
                 Style="{DynamicResource SeparatorStyle}" />
 
-            <!--  Buttons  -->
             <StackLayout
                 Grid.Row="3"
-                Margin="18, 16, 18, 0"
-                Orientation="Horizontal"
-                Spacing="12"
-                VerticalOptions="StartAndExpand">
+                Margin="18, 16"
+                Spacing="12">
 
-                <Frame
+                <StackLayout
+                    Orientation="Horizontal"
+                    Spacing="12">
+
+                    <buttons:BorderButton
+                        Style="{DynamicResource ButtonStyle}"
+                        Text="{xct:Translate Email}"
+                        BorderColor="{DynamicResource IndicationColor_i5}"
+                        xct:TouchEffect.Command="{Binding FinishPaymentCommand}"
+                        xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.SendByEmail}" />
+
+                    <buttons:BorderButton
+                        Style="{DynamicResource ButtonStyle}"
+                        BorderColor="{DynamicResource IndicationColor_i7}"
+                        Text="{xct:Translate Text}"
+                        xct:TouchEffect.Command="{Binding FinishPaymentCommand}"
+                        xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.SendBySMS}" />
+
+                    <buttons:BorderButton
+                        Style="{DynamicResource ButtonStyle}"
+                        BorderColor="{DynamicResource AppColor_i1}"
+                        Text="{xct:Translate Print}"
+                        xct:TouchEffect.Command="{Binding FinishPaymentCommand}"
+                        xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.PrintReceipt}" />
+
+                </StackLayout>
+
+                <buttons:BorderButton
                     Style="{DynamicResource ButtonStyle}"
-                    BorderColor="{DynamicResource IndicationColor_i5}"
-                    xct:TouchEffect.PressedScale="0.97"
-                    xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.SendByEmail}"
-                    xct:TouchEffect.Command="{Binding FinishPaymentCommand}">
-
-                    <Label
-                        Style="{DynamicResource ButtonTextStyle}"
-                        Text="{xct:Translate Email}" />
-                    
-                </Frame>
-
-                <Frame
-                    Style="{DynamicResource ButtonStyle}"
-                    BorderColor="{DynamicResource IndicationColor_i7}"
-                    xct:TouchEffect.PressedScale="0.97"
-                    xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.SendBySMS}"
-                    xct:TouchEffect.Command="{Binding FinishPaymentCommand}">
-
-                    <Label
-                        Style="{DynamicResource ButtonTextStyle}"
-                        Text="{xct:Translate Text}" />
-                    
-                </Frame>
-
-                <Frame
-                    Style="{DynamicResource ButtonStyle}"
-                    BorderColor="{DynamicResource AppColor_i1}"
-                    xct:TouchEffect.PressedScale="0.97"
-                    xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.PrintReceipt}"
-                    xct:TouchEffect.Command="{Binding FinishPaymentCommand}">
-
-                    <Label
-                        Style="{DynamicResource ButtonTextStyle}"
-                        Text="{xct:Translate Print}" />
-                    
-                </Frame>
+                    VerticalOptions="EndAndExpand"
+                    Text="{xct:Translate NoReceipt}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    BackgroundColor="{DynamicResource IndicationColor_i1}"
+                    xct:TouchEffect.Command="{Binding FinishPaymentCommand}"
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.WithoutReceipt}" />
 
             </StackLayout>
-
-            <Frame
-                Grid.Row="3"
-                Style="{DynamicResource ButtonStyle}"
-                Margin="18, 0, 18, 16"
-                BackgroundColor="{DynamicResource IndicationColor_i1}"
-                VerticalOptions="EndAndExpand"
-                xct:TouchEffect.PressedScale="0.97"
-                xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.WithoutReceipt}"
-                xct:TouchEffect.Command="{Binding FinishPaymentCommand}">
-
-                <Label
-                    Style="{DynamicResource ButtonTextStyle}"
-                    Text="{xct:Translate NoReceipt}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
-                
-            </Frame>
 
         </Grid>
 
