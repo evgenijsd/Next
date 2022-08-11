@@ -164,10 +164,6 @@
 
                 </CollectionView.ItemsLayout>
 
-                <CollectionView.Effects>
-                    <effects:NoOverScrollEffect />
-                </CollectionView.Effects>
-
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="{x:Type x:Int32}">
 
