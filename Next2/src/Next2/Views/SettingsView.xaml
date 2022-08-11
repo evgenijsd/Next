@@ -1,21 +1,129 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Grid
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:tablet="clr-namespace:Next2.Views.Tablet"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:enums="clr-namespace:Next2.Enums"
+    RowDefinitions="auto, *"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
     x:Class="Next2.Views.SettingsView"
     x:DataType="viewModels:SettingsViewModel">
 
-    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+    <Grid.Resources>
+        <Style x:Key="IconTextButtonStyle" TargetType="buttons:IconTextButton">
+            <Setter Property="HeightRequest" Value="36" />
+            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+            <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+            <Setter Property="IconSize" Value="24, 24" />
+            <Setter Property="IconSource" Value="ic_arrow_right_24x24.png" />
+            <Setter Property="IsIconPlacedOnRight" Value="True" />
+        </Style>
+    </Grid.Resources>
 
-        <Label
-            Text="{xct:Translate Settings}"   
-            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-            VerticalOptions="CenterAndExpand"
-            VerticalTextAlignment="Center"
-            HorizontalTextAlignment="Center"/>
+    <Frame
+        Grid.Row="0"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
-    </StackLayout>
+        <StackLayout
+            Margin="30, 18, 0, 18"
+            Orientation="Horizontal"
+            Spacing="30">
 
-</ContentView>
+            <ffimageloading:CachedImage
+                IsVisible="{Binding PageState, Converter={xct:NotEqualConverter}, ConverterParameter={Static enums:ESettingsPageState.Default}}"
+                Source="ic_arrow_left_tail_24x24.png"
+                xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.Default}"
+                xct:TouchEffect.Command="{Binding ChangeStateCommand}" />
+
+            <Label
+                VerticalTextAlignment="Center"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                Text="{Binding Title}"
+                FontFamily="Barlow-Bold"
+                FontSize="{DynamicResource TSize_i4_5}" />
+
+        </StackLayout>
+
+    </Frame>
+
+    <BoxView
+        Grid.Row="0"
+        VerticalOptions="End"
+        HeightRequest="2"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+
+    <sc:StateContainer
+        Grid.Row="1"
+        State="{Binding PageState}">
+
+        <sc:StateCondition State="{Static enums:ESettingsPageState.Default}">
+
+            <StackLayout
+                Padding="30"
+                Orientation="Horizontal"
+                Spacing="24">
+
+                <StackLayout
+                    HorizontalOptions="FillAndExpand"
+                    Spacing="12">
+
+                    <buttons:IconTextButton
+                        Style="{DynamicResource IconTextButtonStyle}"
+                        Padding="12"
+                        Text="{xct:Translate ReAssignTable}"
+                        Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
+                        xct:TouchEffect.Command="{Binding ChangeStateCommand}"
+                        xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.ReAssignTable}" />
+
+                    <buttons:IconTextButton
+                        Style="{DynamicResource IconTextButtonStyle}"
+                        Padding="12"
+                        Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
+                        Text="{xct:Translate PrintReceipt}"
+                        xct:TouchEffect.Command="{Binding ChangeStateCommand}"
+                        xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.PrintReceipt}" />
+
+                </StackLayout>
+
+                <StackLayout
+                    HorizontalOptions="FillAndExpand"
+                    Spacing="12">
+
+                    <buttons:IconTextButton
+                        Style="{DynamicResource IconTextButtonStyle}"
+                        Padding="12"
+                        Text="{xct:Translate BackOffice}"
+                        Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
+                        xct:TouchEffect.Command="{Binding ChangeStateCommand}"
+                        xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.BackOffice}" />
+
+                    <buttons:IconTextButton
+                        Style="{DynamicResource IconTextButtonStyle}"
+                        Padding="12"
+                        Text="{xct:Translate ProgramDevice}"
+                        Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
+                        xct:TouchEffect.Command="{Binding ChangeStateCommand}"
+                        xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.ProgramDevice}" />
+
+                </StackLayout>
+
+            </StackLayout>
+
+        </sc:StateCondition>
+
+        <sc:StateCondition State="{Static enums:ESettingsPageState.PrintReceipt}">
+
+            <tablet:PrintReceiptView BindingContext="{Binding PrintReceiptViewModel}" />
+
+        </sc:StateCondition>
+
+    </sc:StateContainer>
+
+</Grid>

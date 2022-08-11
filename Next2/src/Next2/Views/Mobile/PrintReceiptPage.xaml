@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:viewmodels="clr-namespace:Next2.ViewModels"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:models="clr-namespace:Next2.Models.Bindables"
+    xmlns:enums="clr-namespace:Next2.Enums"
+    xmlns:local="clr-namespace:Next2"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+    x:Class="Next2.Views.Mobile.PrintReceiptPage"
+    x:DataType="viewmodels:PrintReceiptViewModel">
+
+    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+
+        <Grid RowDefinitions="65, 75">
+
+            <controls:CustomNavigationBar
+                Title="{xct:Translate PrintReceipt}"
+                HeightRequest="84"
+                HeightImage="24"
+                FontSize="{DynamicResource TSize_i5}"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                FontFamily="Barlow-Bold"
+                LeftButtonCommand="{prism:GoBack}" />
+
+            <buttons:IconTextButton
+                Grid.Row="1"
+                Margin="24, 0, 0, 14"
+                VerticalOptions="End"
+                Padding="12, 8"
+                CornerRadius="5"
+                Spacing="32"
+                HorizontalOptions="Start"
+                FontSize="{DynamicResource TSize_i8}"
+                FontFamily="Barlow-Medium"
+                Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
+                IsIconPlacedOnRight="True"
+                IconSize="22, 22"
+                Text="{Binding SelectedDate, StringFormat={x:Static local:Constants+Formats.SHORT_DATE_FORMAT}}"
+                IconSource="ic_calendar_24x24.png"
+                xct:TouchEffect.Command="{Binding SelectingDateCommand}" />
+
+            <StackLayout
+                Grid.Row="2"
+                Margin="0, 0, 32, 100"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand"
+                IsVisible="{Binding IsNothingFound}">
+
+                <ffimageloading:CachedImage
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    HeightRequest="230"
+                    Source="pic_nothing_found" />
+
+            </StackLayout>
+
+            <yummy:PancakeView
+                Grid.Row="2"
+                Margin="24, 0"
+                VerticalOptions="Start"
+                CornerRadius="10, 10, 0, 0"
+                IsVisible="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}">
+
+                <yummy:PancakeView.Triggers>
+
+                    <DataTrigger TargetType="yummy:PancakeView" Value="0">
+
+                        <DataTrigger.Binding>
+                            <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
+
+                                <Binding Path="Orders.Count" />
+                                <Binding Path="IndexLastVisibleElement" />
+
+                            </MultiBinding>
+                        </DataTrigger.Binding>
+
+                        <Setter Property="CornerRadius" Value="10" />
+
+                    </DataTrigger>
+
+                </yummy:PancakeView.Triggers>
+
+                <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+                    <Grid
+                        ColumnDefinitions="*, *, *"
+                        Margin="20, 15, 0, 0"
+                        VerticalOptions="Start"
+                        HeightRequest="35"
+                        MinimumHeightRequest="35">
+
+                        <Label
+                            Grid.Column="0"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            HeightRequest="{DynamicResource TSize_i8}"
+                            Text="{xct:Translate Order}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            LineBreakMode="TailTruncation"
+                            FontSize="{DynamicResource TSize_i8}"
+                            FontFamily="Barlow-Medium"
+                            xct:TouchEffect.Command="{Binding ChangeSortOrderCommand}"
+                            xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByOrderNumber}" />
+
+                        <Label
+                            Grid.Column="1"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            HeightRequest="{DynamicResource TSize_i8}"
+                            LineBreakMode="TailTruncation"
+                            Text="{xct:Translate Total}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i8}"
+                            FontFamily="Barlow-Medium"
+                            xct:TouchEffect.Command="{Binding ChangeSortOrderCommand}"
+                            xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByTotalPrice}" />
+
+                        <Label
+                            Grid.Column="2"
+                            HorizontalOptions="FillAndExpand"
+                            Text="{xct:Translate Time}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i8}"
+                            FontFamily="Barlow-Medium" />
+
+                    </Grid>
+
+                    <BoxView
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
+                        HeightRequest="1"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
+                    <RefreshView
+                        VerticalOptions="Start"
+                        IsRefreshing="{Binding IsOrdersRefreshing}"
+                        Command="{Binding RefreshOrdersCommand}">
+
+                        <controls:CustomCollectionView
+                            HeightRequest="400"
+                            SelectionMode="Single"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                            VerticalScrollBarVisibility="Never"
+                            IndexLastVisible="{Binding IndexLastVisibleElement}"
+                            ItemsSource="{Binding Orders}"
+                            SelectedItem="{Binding SelectedOrder}">
+
+                            <controls:CustomCollectionView.Triggers>
+                                <DataTrigger TargetType="CollectionView" Binding="{Binding IsPreloadStateActive}" Value="False">
+                                    <Setter Property="HeightRequest" Value="{Binding Orders, Converter={StaticResource listHeightConverter}, ConverterParameter=50}" />
+                                </DataTrigger>
+                            </controls:CustomCollectionView.Triggers>
+
+                            <controls:CustomCollectionView.Effects>
+                                <effects:NoOverScrollEffect />
+                            </controls:CustomCollectionView.Effects>
+
+                            <controls:CustomCollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:SimpleOrderBindableModel">
+
+                                    <Grid
+                                        RowDefinitions="0.98*, 0.02*"
+                                        HeightRequest="50"
+                                        MinimumHeightRequest="50">
+
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup Name="CommonStates">
+
+                                                <VisualState Name="Normal">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+
+                                                <VisualState Name="Selected">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+
+                                        <Label
+                                            Grid.Column="0"
+                                            Margin="20, 15, 0, 0"
+                                            HorizontalOptions="FillAndExpand"
+                                            HeightRequest="{DynamicResource TSize_i8}"
+                                            Text="{Binding Number}"
+                                            LineBreakMode="TailTruncation"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                            FontSize="{DynamicResource TSize_i8}"
+                                            FontFamily="Barlow-Regular" />
+
+                                        <Label
+                                            Grid.Column="1"
+                                            Margin="15, 15, 0, 0"
+                                            HorizontalOptions="FillAndExpand"
+                                            Text="{Binding TotalPrice}"
+                                            FontFamily="Barlow-Regular"
+                                            FontSize="{DynamicResource TSize_i8}"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}">
+
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{xct:Translate CurrencySign}" />
+                                                    <Span Text=" " />
+                                                    <Span Text="{Binding TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+
+                                        </Label>
+
+                                        <Label
+                                            Grid.Column="2"
+                                            Margin="10, 15, 0, 0"
+                                            HorizontalOptions="FillAndExpand"
+                                            FontFamily="Barlow-Regular"
+                                            Text="{Binding Close, StringFormat={x:Static local:Constants+Formats.SIMPLE_TIME}}"
+                                            FontSize="{DynamicResource TSize_i8}"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                                        <BoxView
+                                            Grid.Row="1"
+                                            Grid.ColumnSpan="3"
+                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding SelectOrderCommand, Source={RelativeSource AncestorType={x:Type viewmodels:PrintReceiptViewModel}}}"
+                                                CommandParameter="{Binding .}" />
+                                        </Grid.GestureRecognizers>
+
+                                    </Grid>
+
+                                </DataTemplate>
+                            </controls:CustomCollectionView.ItemTemplate>
+
+                        </controls:CustomCollectionView>
+
+                    </RefreshView>
+
+                </StackLayout>
+
+            </yummy:PancakeView>
+
+        </Grid>
+
+        <StackLayout
+            VerticalOptions="EndAndExpand"
+            HeightRequest="87"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+            IsVisible="{Binding SelectedOrder, Converter={xct:IsNotNullOrEmptyConverter}}">
+
+            <BoxView
+                VerticalOptions="StartAndExpand"
+                HeightRequest="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+            <buttons:BorderButton
+                Margin="20, 12"
+                Padding="0"
+                HeightRequest="65"
+                BorderWidth="1"
+                FontFamily="Barlow-SemiBold"
+                Text="{xct:Translate Print}"
+                FontSize="{DynamicResource TSize_i6}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                BorderColor="Transparent"
+                BackgroundColor="{DynamicResource IndicationColor_i1}" />
+
+            <BoxView
+                VerticalOptions="EndAndExpand"
+                HeightRequest="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
+        </StackLayout>
+
+    </StackLayout>
+
+</views:BaseContentPage>

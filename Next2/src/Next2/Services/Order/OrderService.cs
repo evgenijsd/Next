@@ -192,7 +192,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync()
+        public async Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync(EOrderStatus? orderStatus = null, Func<SimpleOrderModelDTO, bool>? condition = null)
         {
             var result = new AOResult<IEnumerable<SimpleOrderModelDTO>>();
 
@@ -204,7 +204,17 @@ namespace Next2.Services.Order
 
                 if (responce.Success && responce.Value?.Orders is not null)
                 {
-                    result.SetSuccess(responce.Value.Orders);
+                    var allOrders = responce.Value.Orders;
+
+                    var filteredByStatusOrders = orderStatus is null
+                        ? allOrders
+                        : allOrders.Where(x => x.OrderStatus == orderStatus);
+
+                    var filteredByConditionOrders = condition is null
+                        ? filteredByStatusOrders
+                        : filteredByStatusOrders.Where(condition);
+
+                    result.SetSuccess(filteredByConditionOrders);
                 }
             }
             catch (Exception ex)
@@ -662,6 +672,19 @@ namespace Next2.Services.Order
             }
 
             return dishPrice;
+        }
+
+        public IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders, EOrdersSortingType sortingType)
+        {
+            Func<SimpleOrderBindableModel, object> sortingSelector = sortingType switch
+            {
+                EOrdersSortingType.ByOrderNumber => x => x.Number,
+                EOrdersSortingType.ByTableNumber => x => x.TableNumber,
+                EOrdersSortingType.ByTotalPrice => x => x.TotalPrice,
+                _ => throw new NotImplementedException(),
+            };
+
+            return orders.OrderBy(sortingSelector);
         }
 
         #endregion

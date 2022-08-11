@@ -1,4 +1,5 @@
-﻿using Next2.Helpers.ProcessHelpers;
+﻿using Next2.Enums;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models.API;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
@@ -19,7 +20,7 @@ namespace Next2.Services.Order
 
         Task<AOResult<IEnumerable<TableModelDTO>>> GetFreeTablesAsync();
 
-        Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync();
+        Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync(EOrderStatus? orderStatus = null, Func<SimpleOrderModelDTO, bool>? condition = null);
 
         Task<AOResult<OrderModelDTO>> GetOrderByIdAsync(Guid orderId);
 
@@ -46,6 +47,8 @@ namespace Next2.Services.Order
         Task<AOResult<Guid>> UpdateCurrentOrderAsync();
 
         Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients);
+
+        IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders, EOrdersSortingType sortingType);
 
         decimal CalculateDishPriceBaseOnProportion(DishBindableModel dish, decimal priceRatio, IEnumerable<IngredientModelDTO> ingredients);
 
