@@ -92,7 +92,7 @@ namespace Next2.ViewModels
                     DiscountPrice = discountPrice,
                     DishProportions = dish.DishProportions,
                     Products = new(dish.Products),
-                    SelectedProducts = new(dish.Products.Select(row => new ProductBindableModel()
+                    SelectedProducts = new(dish.Products.Take(1).Select(row => new ProductBindableModel()
                     {
                         Id = row.Id,
                         SelectedOptions = row.Options.FirstOrDefault(),
@@ -115,8 +115,6 @@ namespace Next2.ViewModels
                         },
                     })),
                 };
-
-                Dish.SelectedProducts = new(Dish.SelectedProducts.Take(1));
 
                 Proportions = dish.DishProportions.Select(row => new ProportionModel()
                 {
