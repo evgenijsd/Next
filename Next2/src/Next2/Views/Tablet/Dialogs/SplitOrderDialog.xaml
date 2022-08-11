@@ -46,7 +46,7 @@
                 <Setter Property="HeightRequest" Value="32" />
                 <Setter Property="WidthRequest" Value="80" />
                 <Setter Property="BorderWidth" Value="0" />
-                <Setter Property="Background" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
                 <Setter Property="FontFamily" Value="Barlow-SemiBold" />

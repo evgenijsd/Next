@@ -32,7 +32,7 @@
             <Setter Property="WidthRequest" Value="140" />
             <Setter Property="BorderWidth" Value="1" />
             <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
-            <Setter Property="Background" Value="{DynamicResource TextAndBackgroundColor_i3}" />
+            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             <Setter Property="FontFamily" Value="Barlow-SemiBold" />
             <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
