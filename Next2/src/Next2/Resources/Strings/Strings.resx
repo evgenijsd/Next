@@ -783,4 +783,16 @@ A receipt has been printed for you.</value>
   <data name="Pt" xml:space="preserve">
     <value>pt</value>
   </data>
+  <data name="AssignFrom" xml:space="preserve">
+    <value>Assign From</value>
+  </data>
+  <data name="AssignTo" xml:space="preserve">
+    <value>Assign To</value>
+  </data>
+  <data name="ChooseWaiter" xml:space="preserve">
+    <value>Choose Waiter</value>
+  </data>
+  <data name="NoEmployeesWereFound" xml:space="preserve">
+    <value>No Employees were found</value>
+  </data>
 </root>

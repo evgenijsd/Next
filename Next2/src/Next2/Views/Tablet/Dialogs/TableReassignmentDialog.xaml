@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
+    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:controls="clr-namespace:Next2.Controls" 
+    xmlns:modelsApi="clr-namespace:Next2.Models.API.DTO" 
+    x:Class="Next2.Views.Tablet.Dialogs.TableReassignmentDialog"
+    x:DataType="viewmodels:TableReassignmentDialogViewModel">
+
+    <rg:PopupPage.Resources>
+
+        <Style x:Key="LabelStyle_i1" TargetType="Label">
+            <Setter Property="FontFamily" Value="Barlow-Medium" />
+            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
+        </Style>
+
+        <Style x:Key="LabelStyle_i2" TargetType="Label">
+            <Setter Property="FontFamily" Value="Barlow-Medium" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
+        </Style>
+
+    </rg:PopupPage.Resources>
+
+    <Frame
+        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+        CornerRadius="10"
+        WidthRequest="460"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+
+        <Grid RowDefinitions="80, auto, auto, auto, auto, auto, auto, auto, auto">
+
+            <Label 
+                Grid.Row="0" 
+                Margin="24, 0, 0, 0"
+                Text="{xct:Translate ReAssignTable}"
+                FontFamily="Barlow-Bold"
+                FontSize="{DynamicResource TSize_i4_5}"/>
+
+            <BoxView 
+                Grid.Row="0" 
+                VerticalOptions="End"
+                HeightRequest="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+
+            <Label
+                Grid.Row="1"
+                Style="{DynamicResource LabelStyle_i2}"
+                Margin="24, 24, 0, 8"
+                Text="{xct:Translate AssignFrom}"/>
+
+            <controls:DropDownList
+                Grid.Row="2"
+                Style="{DynamicResource DropDownListStyle_i1}"
+                HorizontalOptions="Fill"
+                VerticalOptions="Start"
+                Margin="24, 0"
+                ScrollBarVisibility="Never"
+                SelectionChangedCommand="{Binding SelectItemCommand}"
+                HeaderText="{xct:Translate ChooseWaiter}"     
+                SelectedItem="{Binding SelectedEmployeeToAssignFrom}"
+                ItemsSource="{Binding Employees}">
+
+                <controls:DropDownList.Triggers>
+
+                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding SelectedEmployeeToAssignFrom, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
+
+                        <Setter Property="HeaderText" Value="{Binding SelectedEmployeeToAssignFrom.UserName}"/>
+
+                    </DataTrigger>
+
+                </controls:DropDownList.Triggers>
+
+                <controls:DropDownList.DataTemplate>
+
+                    <DataTemplate x:DataType="modelsApi:EmployeeModelDTO">
+                        
+                        <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+
+                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+
+                            <StackLayout
+                                Padding="14, 9"
+                                HeightRequest="21"
+                                Orientation="Horizontal">
+
+                                <Label Style="{DynamicResource LabelStyle_i1}"
+                                       Text="{Binding UserName}"/>
+
+                            </StackLayout>
+
+                        </StackLayout>
+                        
+                    </DataTemplate>
+                    
+                </controls:DropDownList.DataTemplate>
+
+            </controls:DropDownList>
+
+            <Label
+                Grid.Row="3"
+                Style="{DynamicResource LabelStyle_i2}"
+                Margin="24, 48, 0, 8"
+                Text="{xct:Translate AssignTo}"/>
+
+            <controls:DropDownList
+                Grid.Row="4"
+                Style="{DynamicResource DropDownListStyle_i1}"
+                HorizontalOptions="Fill"
+                VerticalOptions="Start"
+                Margin="24, 0"
+                ScrollBarVisibility="Never"
+                HeaderText="{xct:Translate ChooseWaiter}"                          
+                SelectedItem="{Binding SelectedEmployeeToAssignTo}"
+                ItemsSource="{Binding Employees}">
+
+                <controls:DropDownList.Triggers>
+
+                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding SelectedEmployeeToAssignTo, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
+
+                        <Setter Property="HeaderText" Value="{Binding SelectedEmployeeToAssignTo.UserName}"/>
+
+                    </DataTrigger>
+                    
+                </controls:DropDownList.Triggers>
+
+                <controls:DropDownList.DataTemplate>
+
+                    <DataTemplate x:DataType="modelsApi:EmployeeModelDTO">
+                        
+                        <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+
+                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+
+                            <StackLayout
+                                Padding="14, 9"
+                                HeightRequest="21"
+                                Orientation="Horizontal">
+
+                                <Label Style="{DynamicResource LabelStyle_i1}"
+                                       Text="{Binding UserName}">
+
+                                </Label>
+
+                            </StackLayout>
+
+                        </StackLayout>
+                        
+                    </DataTemplate>
+                    
+                </controls:DropDownList.DataTemplate>
+
+            </controls:DropDownList>
+
+            <Label
+                Grid.Row="5"
+                Style="{DynamicResource LabelStyle_i2}"
+                Margin="24, 70, 0, 8"
+                Text="{xct:Translate SelectTable}" />
+
+            <controls:DropDownList
+                Grid.Row="6"
+                Style="{DynamicResource DropDownListStyle_i1}"
+                HorizontalOptions="Fill"
+                VerticalOptions="Start"
+                Margin="24, 0"
+                ScrollBarVisibility="Never"
+                HeaderText="{xct:Translate SelectTable}"                        
+                SelectedItem="{Binding SelectedTable}"
+                ItemsSource="{Binding Tables}">
+
+                <controls:DropDownList.Triggers>
+
+                    <MultiTrigger TargetType="controls:DropDownList">
+
+                        <MultiTrigger.Conditions>
+
+                            <BindingCondition Binding="{Binding Tables.Count, Converter={xct:IntToBoolConverter}}" Value="False" />
+
+                            <BindingCondition Binding="{Binding SelectedEmployeeToAssignFrom, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True" />
+
+                        </MultiTrigger.Conditions>
+
+                        <Setter Property="HeaderText" Value="{xct:Translate NoTablesAvailable}"/>
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
+
+                    </MultiTrigger>
+
+                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding SelectedTable, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
+
+                        <Setter Property="HeaderText">
+                            <FormattedString>
+                                <Span Text="{xct:Translate Table}" />
+                                <Span Text=" " />
+                                <Span Text="{Binding SelectedTableNumberClue}" />
+                            </FormattedString>
+                        </Setter>
+
+                    </DataTrigger>
+
+                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding IsAllTablesChecked}" Value="True">
+
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
+
+                     </DataTrigger>
+
+                </controls:DropDownList.Triggers>
+
+                <controls:DropDownList.DataTemplate>
+
+                    <DataTemplate x:DataType="modelsApi:OccupiedTableModelDTO">
+
+                        <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+
+                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+
+                            <StackLayout
+                                Padding="14, 9"
+                                HeightRequest="21"
+                                Orientation="Horizontal">
+
+                                <Label Style="{DynamicResource LabelStyle_i1}">
+                                    
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{xct:Translate Table}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding Number}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+
+                                </Label>
+
+                            </StackLayout>
+
+                        </StackLayout>
+                        
+                    </DataTemplate>
+                    
+                </controls:DropDownList.DataTemplate>
+
+            </controls:DropDownList>
+
+            <StackLayout
+                Grid.Row="7"
+                Margin="24, 48, 24, 24"
+                Orientation="Horizontal">
+
+                <ffimageloading:CachedImage
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Source="ic_check_box_unhecked_24x24"
+                    HeightRequest="20"
+                    WidthRequest="20"
+                    xct:TouchEffect.Command="{Binding SelectDeselectTablesCommand}">
+
+                    <ffimageloading:CachedImage.Triggers>
+
+                        <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding IsAllTablesChecked}" Value="True">
+
+                            <Setter Property="Source" Value="ic_check_box_checked_primary_24x24" />
+
+                        </DataTrigger>
+
+                    </ffimageloading:CachedImage.Triggers>
+
+                </ffimageloading:CachedImage>
+
+                <Label
+                    Text="{xct:Translate AllTables}"
+                    FontSize="{DynamicResource TSize_i8}"
+                    FontFamily="Barlow-Medium"
+                    Margin="10, 0, 0, 0"/>
+
+            </StackLayout>
+
+            <BoxView 
+                Grid.Row="8" 
+                VerticalOptions="StartAndExpand"
+                HeightRequest="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+
+            <Grid
+                Grid.Row="8"
+                ColumnDefinitions="0.5*, 0.5*"
+                ColumnSpacing="10"
+                Padding="20, 16">
+
+                <buttons:BorderButton
+                    Grid.Column="0"
+                    Style="{DynamicResource BorderButtonStyle_i2}"
+                    BorderColor="{DynamicResource AppColor_i1}"
+                    Text="{xct:Translate Cancel}"
+                    Command="{Binding CloseCommand}"/>
+
+                <buttons:BorderButton
+                    Grid.Column="1"
+                    Style="{DynamicResource BorderButtonStyle_i2}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    BackgroundColor="{DynamicResource IndicationColor_i2}"
+                    Text="{xct:Translate Ok}"
+                    IsEnabled="False"
+                    Command="{Binding AcceptCommand}">
+                    
+                    <buttons:BorderButton.Triggers>
+                        
+                        <MultiTrigger TargetType="buttons:BorderButton">
+
+                            <MultiTrigger.Conditions>
+
+                                <BindingCondition Binding="{Binding SelectedTable, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True" />
+
+                                <BindingCondition Binding="{Binding SelectedEmployeeToAssignFrom, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True" />
+
+                                <BindingCondition Binding="{Binding SelectedEmployeeToAssignTo, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True" />
+
+                            </MultiTrigger.Conditions>
+                            
+                            <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
+                            <Setter Property="IsEnabled" Value="True" />
+
+                        </MultiTrigger>
+
+                        <MultiTrigger TargetType="buttons:BorderButton">
+
+                            <MultiTrigger.Conditions>
+
+                                <BindingCondition Binding="{Binding IsAllTablesChecked}" Value="True" />
+
+                                <BindingCondition Binding="{Binding SelectedEmployeeToAssignFrom, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True" />
+
+                                <BindingCondition Binding="{Binding SelectedEmployeeToAssignTo, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True" />
+
+                            </MultiTrigger.Conditions>
+
+                            <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
+                            <Setter Property="IsEnabled" Value="True" />
+
+                        </MultiTrigger>
+
+                    </buttons:BorderButton.Triggers>
+
+                </buttons:BorderButton>
+
+            </Grid>
+
+        </Grid>
+
+    </Frame>
+
+</rg:PopupPage>

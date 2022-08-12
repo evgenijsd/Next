@@ -40,6 +40,7 @@ using Next2.Services.Notifications;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using Next2.Services.DishesHolding;
+using Next2.Services.Employees;
 
 namespace Next2
 {
@@ -81,6 +82,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<IWorkLogService, WorkLogService>();
             containerRegistry.RegisterSingleton<IReservationService, ReservationService>();
             containerRegistry.RegisterSingleton<IDishesHoldingService, DishesHoldingService>();
+            containerRegistry.RegisterSingleton<IEmployeesService, EmployeesService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
@@ -236,6 +238,8 @@ namespace Next2
                     .ForMember(x => x.Id, s => s.Ignore());
                 cfg.CreateMap<SimpleOrderModelDTO, SimpleOrderBindableModel>()
                         .ForMember<string>(x => x.TableNumberOrName, s => s.MapFrom(x => GetTableName(x.TableNumber)));
+                cfg.CreateMap<TableModelDTO, SimpleTableModelDTO>();
+                cfg.CreateMap<SimpleTableModelDTO, SimpleTableModelDTO>();
             }).CreateMapper();
         }
 

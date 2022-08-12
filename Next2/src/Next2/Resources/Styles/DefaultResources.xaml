@@ -211,6 +211,11 @@
         <Setter Property="Margin" Value="0, 2" />
     </Style>
 
+    <Style TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+    </Style>
+
     <Style x:Key="CalendarTabletStyle" TargetType="controls:Calendar">
         <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
         <Setter Property="DropdownListBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
@@ -224,6 +229,17 @@
         <Setter Property="DropdownWidthRequest" Value="88"/>
         <Setter Property="DropdownHeaderWidthRequest" Value="90"/>
         <Setter Property="DropdownHeaderHeightRequest" Value="30"/>
+    </Style>
+
+    <Style x:Key="CustomFrameStyle_1" TargetType="controls:CustomFrame">
+        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>
+        <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
+        <Setter Property="CornerRadius" Value="{OnPlatform Android='5', iOS='8'}"/>
+        <Setter Property="HasShadow" Value="False"/>
+        <Setter Property="BorderWidth" Value="1"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="HeightRequest" Value="{OnIdiom Tablet='50', Phone='57'}"/>
+        <Setter Property="VerticalOptions" Value="Start"/>
     </Style>
 
     <!-- CONVERTERS -->

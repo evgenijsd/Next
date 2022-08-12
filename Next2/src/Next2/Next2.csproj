@@ -399,6 +399,9 @@
     <EmbeddedResource Update="Views\Mobile\Dialogs\SplitOrderDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\Dialogs\TableReassignmentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\InputCashPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
@@ -488,6 +491,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\SplitOrderDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\TableReassignmentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\PaymentCompleteView.xaml">
           <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

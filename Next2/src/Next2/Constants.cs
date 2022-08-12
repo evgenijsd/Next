@@ -139,6 +139,11 @@
             public const string ACTION = "ACTION";
             public const string REMOVE = "REMOVE";
             public const string ASSIGN = "ASSIGN";
+            public const string ORDER = "ORDER";
+            public const string ORDERS_ID = "ORDERS_ID";
+            public const string EMPLOYEES = "EMPLOYEES";
+            public const string EMPLOYEE_ID = "EMPLOYEE_ID";
+            public const string TABLE = "TABLE";
         }
 
         public static class API
