@@ -16,7 +16,7 @@ namespace Next2.ViewModels.Dialogs
     public class HoldDishDialogViewModel : BindableBase
     {
         private DateTime _holdTime = DateTime.Now;
-        private int? _preSelectedTimeItem;
+        private int? _preSelectedHoldingTimeInMinutes;
 
         public HoldDishDialogViewModel(
             DialogParameters parameters,
@@ -26,7 +26,7 @@ namespace Next2.ViewModels.Dialogs
             Hour = _holdTime.Hour;
             Minute = _holdTime.Minute;
 
-            Device.StartTimer(TimeSpan.FromSeconds(10), OnTimerTick);
+            Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.HELD_DISH_RELEASE_FREQUENCY), OnTimerTick);
 
             RequestClose = requestClose;
             CloseCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.CANCEL, true } }));
@@ -51,9 +51,9 @@ namespace Next2.ViewModels.Dialogs
 
         public DishBindableModel SelectedDish { get; set; }
 
-        public ObservableCollection<int> TimeDisplayItems { get; set; } = new() { 15, 20, 40 };
+        public ObservableCollection<int> AvailableHoldingTimeInMinutes { get; set; } = new() { 15, 20, 40 };
 
-        public int? SelectedTimeItem { get; set; }
+        public int? SelectedHoldingTimeInMinutes { get; set; }
 
         public DateTime CurrentTime { get; set; }
 
@@ -98,16 +98,16 @@ namespace Next2.ViewModels.Dialogs
 
         private Task OnSelectTimeItemCommandAsync()
         {
-            SelectedTimeItem = _preSelectedTimeItem == SelectedTimeItem
+            SelectedHoldingTimeInMinutes = _preSelectedHoldingTimeInMinutes == SelectedHoldingTimeInMinutes
                 ? null
-                : SelectedTimeItem;
+                : SelectedHoldingTimeInMinutes;
 
             _holdTime = DateTime.Now;
-            _holdTime = _holdTime.AddMinutes(SelectedTimeItem ?? 0);
+            _holdTime = _holdTime.AddMinutes(SelectedHoldingTimeInMinutes ?? 0);
             Hour = _holdTime.Hour;
             Minute = _holdTime.Minute;
 
-            _preSelectedTimeItem = SelectedTimeItem;
+            _preSelectedHoldingTimeInMinutes = SelectedHoldingTimeInMinutes;
 
             return Task.CompletedTask;
         }
@@ -170,7 +170,7 @@ namespace Next2.ViewModels.Dialogs
         private bool OnTimerTick()
         {
             CurrentTime = DateTime.Now;
-            var currentTime = CurrentTime.AddMinutes(SelectedTimeItem ?? 0);
+            var currentTime = CurrentTime.AddMinutes(SelectedHoldingTimeInMinutes ?? 0);
 
             if (_holdTime < currentTime)
             {

@@ -79,7 +79,7 @@ namespace Next2.ViewModels
             _removeOrderCommand = new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
             _selectDishCommand = new AsyncCommand<DishBindableModel>(OnSelectDishCommandAsync, allowsMultipleExecutions: false);
 
-            Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.TIMER), OnTimerTick);
+            Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.HELD_DISH_RELEASE_FREQUENCY), OnTimerTick);
         }
 
         #region -- Public properties --
@@ -914,9 +914,9 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnOpenHoldSelectionCommandAsync(DishBindableModel? dish)
+        private async Task OnOpenHoldSelectionCommandAsync(DishBindableModel? selectedDish)
         {
-            if (dish is DishBindableModel selectedDish)
+            if (selectedDish is not null)
             {
                 var param = new DialogParameters { { Constants.DialogParameterKeys.DISH, selectedDish } };
 

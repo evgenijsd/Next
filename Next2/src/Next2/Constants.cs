@@ -46,7 +46,7 @@
             public const int MAX_HOUR = 12;
             public const int MIN_MINUTE = 0;
             public const int MAX_MINUTE = 59;
-            public const int TIMER = 10;
+            public const int HELD_DISH_RELEASE_FREQUENCY = 10;
         }
 
         public static class Navigations

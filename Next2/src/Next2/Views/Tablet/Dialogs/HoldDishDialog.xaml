@@ -152,8 +152,8 @@
                 Margin="18, 0"
                 HeightRequest="32"
                 SelectionMode="Single"
-                SelectedItem="{Binding SelectedTimeItem}"
-                ItemsSource="{Binding TimeDisplayItems}"
+                SelectedItem="{Binding SelectedHoldingTimeInMinutes}"
+                ItemsSource="{Binding AvailableHoldingTimeInMinutes}"
                 ItemSizingStrategy="MeasureFirstItem" >
 
                 <CollectionView.ItemsLayout>
@@ -237,7 +237,7 @@
                 <Grid.Triggers>
                     <DataTrigger
                         TargetType="Grid"
-                        Binding="{Binding SelectedTimeItem, Converter={xct:IsNotNullOrEmptyConverter}}"
+                        Binding="{Binding SelectedHoldingTimeInMinutes, Converter={xct:IsNotNullOrEmptyConverter}}"
                         Value="True">
                         
                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />

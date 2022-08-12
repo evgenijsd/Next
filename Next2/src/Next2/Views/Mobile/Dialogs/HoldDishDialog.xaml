@@ -161,8 +161,8 @@
                         <CollectionView
                             Margin="18, 0"
                             SelectionMode="Single"
-                            SelectedItem="{Binding SelectedTimeItem}"
-                            ItemsSource="{Binding TimeDisplayItems}"
+                            SelectedItem="{Binding SelectedHoldingTimeInMinutes}"
+                            ItemsSource="{Binding AvailableHoldingTimeInMinutes}"
                             HeightRequest="40"
                             HorizontalOptions="FillAndExpand"
                             ItemSizingStrategy="MeasureFirstItem">
@@ -175,10 +175,6 @@
                                     HorizontalItemSpacing="10" />
 
                             </CollectionView.ItemsLayout>
-
-                            <CollectionView.Effects>
-                                <effects:NoOverScrollEffect />
-                            </CollectionView.Effects>
 
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="{x:Type x:Int32}">
@@ -252,7 +248,7 @@
                             <Grid.Triggers>
                                 <DataTrigger
                                     TargetType="Grid"
-                                    Binding="{Binding SelectedTimeItem, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                    Binding="{Binding SelectedHoldingTimeInMinutes, Converter={xct:IsNotNullOrEmptyConverter}}"
                                     Value="True">
                                     
                                     <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
