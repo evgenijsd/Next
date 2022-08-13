@@ -1020,16 +1020,16 @@
                 ItemsSource="{Binding OrderRegistrationViewModel.OrderTypes}">
                 
                 <controls:DropDownList.Triggers>
-                        
+
                     <DataTrigger TargetType="controls:DropDownList" Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}" Value="True">
-                        
+
                         <Setter Property="IsEnabled" Value="False"/>
                         <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
-                        
+
                     </DataTrigger>
-                    
+
                 </controls:DropDownList.Triggers>
-                
+
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup Name="AdaptiveDropDownList">
 
@@ -1062,7 +1062,7 @@
 
                 <controls:DropDownList.DataTemplate>
                     <DataTemplate>
-                        <StackLayout 
+                        <StackLayout
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                             xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}" >
 

@@ -66,8 +66,8 @@ namespace Next2.ViewModels.Mobile
         private ICommand? _addGiftCardCommand;
         public ICommand AddGiftCardCommand => _addGiftCardCommand ??= new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand? _displayErrorNotification;
-        public ICommand DisplayErrorNotification => _displayErrorNotification ??= new AsyncCommand(OnDisplayErrorNotificationCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _displayErrorNotificationCommand;
+        public ICommand DisplayErrorNotificationCommand => _displayErrorNotificationCommand ??= new AsyncCommand(OnDisplayErrorNotificationCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
