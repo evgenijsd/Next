@@ -254,7 +254,7 @@
 
                         <controls:StepperCarousel
                             HeightRequest="100"
-                            Margin="12, 10, 12, 16"
+                            Margin="24, 10, 24, 16"
                             ItemsSource="{Binding Categories}"
                             SelectedItem="{Binding SelectedCategoriesItem}">
 
