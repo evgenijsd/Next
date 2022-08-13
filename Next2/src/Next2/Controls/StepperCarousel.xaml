@@ -4,9 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:local="clr-namespace:Next2.Controls"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     MinimumHeightRequest="116"
@@ -53,20 +52,21 @@
     
     <pancakeview:PancakeView
         Style="{DynamicResource PancakeViewStyle_i1}"
-        xct:TouchEffect.Command="{Binding ScrollToLeftCommand, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}">
+        xct:TouchEffect.Command="{Binding ScrollToLeftCommand, Source={RelativeSource AncestorType={x:Type local:StepperCarousel}}}">
 
         <ffimageloading:CachedImage Source="ic_arrow_left_24x24.png"/>
 
     </pancakeview:PancakeView>
 
-    <CollectionView
+    <local:CustomCollectionView
         HorizontalOptions="StartAndExpand"
         VerticalScrollBarVisibility="Never"
         HorizontalScrollBarVisibility="Never"
         HeightRequest="100"
         SelectionMode="Single"
-        ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}"
-        SelectedItem="{Binding SelectedItem, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}"
+        BounceMode="DisabledForAndroidAndiOS"
+        ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type local:StepperCarousel}}}"
+        SelectedItem="{Binding SelectedItem, Source={RelativeSource AncestorType={x:Type local:StepperCarousel}}}"
         Scrolled="OnCollectionViewScrolled"
         x:Name="collectionView">
 
@@ -111,10 +111,6 @@
 
         </CollectionView.ItemsLayout>
 
-        <CollectionView.Effects>
-            <effects:NoOverScrollEffect/>
-        </CollectionView.Effects>
-
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:CategoryModel">
 
@@ -129,11 +125,11 @@
             </DataTemplate>
         </CollectionView.ItemTemplate>
 
-    </CollectionView>
+    </local:CustomCollectionView>
 
     <pancakeview:PancakeView
         Style="{DynamicResource PancakeViewStyle_i1}"
-        xct:TouchEffect.Command="{Binding ScrollToRightCommand, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}">
+        xct:TouchEffect.Command="{Binding ScrollToRightCommand, Source={RelativeSource AncestorType={x:Type local:StepperCarousel}}}">
 
         <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png"/>
 
