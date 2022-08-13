@@ -11,6 +11,7 @@ using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -26,7 +27,8 @@ namespace Next2.ViewModels
         private readonly INotificationsService _notificationsService;
         private readonly IEmployeesService _employeesService;
 
-        private bool _isAnyPopUpNeeded = true;
+        private CancellationTokenSource _cancelTokenSource;
+        private CancellationToken _token;
 
         public SettingsViewModel(
             INavigationService navigationService,
@@ -72,14 +74,16 @@ namespace Next2.ViewModels
         {
             base.OnAppearing();
 
-            _isAnyPopUpNeeded = true;
+            _cancelTokenSource = new CancellationTokenSource();
+            _token = _cancelTokenSource.Token;
         }
 
         public override void OnDisappearing()
         {
             base.OnDisappearing();
 
-            _isAnyPopUpNeeded = false;
+            _cancelTokenSource.Cancel();
+            _cancelTokenSource.Dispose();
         }
 
         #endregion
@@ -166,16 +170,13 @@ namespace Next2.ViewModels
 
                 if (employees.Any())
                 {
-                    if (_isAnyPopUpNeeded)
-                    {
-                        var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.EMPLOYEES, employees } };
+                    var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.EMPLOYEES, employees } };
 
-                        PopupPage confirmDialog = App.IsTablet
-                            ? new Next2.Views.Tablet.Dialogs.TableReassignmentDialog(dialogParameters, CloseReassignTableDialogCallback)
-                            : new Next2.Views.Mobile.Dialogs.TableReassignmentDialog(dialogParameters, CloseReassignTableDialogCallback);
+                    PopupPage confirmDialog = App.IsTablet
+                        ? new Next2.Views.Tablet.Dialogs.TableReassignmentDialog(dialogParameters, CloseReassignTableDialogCallback)
+                        : new Next2.Views.Mobile.Dialogs.TableReassignmentDialog(dialogParameters, CloseReassignTableDialogCallback);
 
-                        await PopupNavigation.PushAsync(confirmDialog);
-                    }
+                    await PopupNavigation.PushAsync(confirmDialog);
 
                     IsLoading = false;
                 }
@@ -195,20 +196,18 @@ namespace Next2.ViewModels
 
             if (IsInternetConnected)
             {
-                if (dialogResult is not null)
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isTableReassignAccepted)
+                    && isTableReassignAccepted
+                    && dialogResult.TryGetValue(Constants.DialogParameterKeys.ORDERS_ID, out IEnumerable<Guid> ordersId)
+                    && ordersId is not null
+                    && dialogResult.TryGetValue(Constants.DialogParameterKeys.EMPLOYEE_ID, out string employeeIdToAssignTo)
+                    && employeeIdToAssignTo is not null)
                 {
-                    if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isTableReassignAccepted)
-                        && isTableReassignAccepted
-                        && dialogResult.TryGetValue(Constants.DialogParameterKeys.ORDERS_ID, out IEnumerable<Guid> ordersId)
-                        && dialogResult.TryGetValue(Constants.DialogParameterKeys.EMPLOYEE_ID, out string employeeIdToAssignTo))
-                    {
-                        if (ordersId is not null && employeeIdToAssignTo is not null)
-                        {
-                            IsLoading = true;
-                            await UpdateOrdersAsync(ordersId, employeeIdToAssignTo);
-                            IsLoading = false;
-                        }
-                    }
+                    IsLoading = true;
+
+                    await UpdateOrdersAsync(ordersId, employeeIdToAssignTo);
+
+                    IsLoading = false;
                 }
             }
             else
@@ -232,7 +231,7 @@ namespace Next2.ViewModels
                 {
                     employees = resultOfGettingEmployees.Result;
                 }
-                else if (_isAnyPopUpNeeded)
+                else
                 {
                     await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
@@ -256,13 +255,18 @@ namespace Next2.ViewModels
             {
                 foreach (var order in orders)
                 {
+                    if (_token.IsCancellationRequested)
+                    {
+                        break;
+                    }
+
                     order.EmployeeId = employeeId;
 
                     var resultOfUpdatingOrder = await _orderService.UpdateOrderAsync(order);
 
-                    if (!resultOfUpdatingOrder.IsSuccess)
+                    if (resultOfUpdatingOrder.IsSuccess)
                     {
-                        if (_isAnyPopUpNeeded)
+                        if (resultOfUpdatingOrder.IsSuccess)
                         {
                             await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                         }
@@ -283,15 +287,21 @@ namespace Next2.ViewModels
 
             for (int i = 0; i < orderIdsNumber; i++)
             {
+                if (_token.IsCancellationRequested)
+                {
+                    break;
+                }
+
                 var resultOfGettingOrder = await _orderService.GetOrderByIdAsync(orderIds[i]);
 
                 if (resultOfGettingOrder.IsSuccess)
                 {
                     orderModelsDTO[i] = resultOfGettingOrder.Result;
                 }
-                else if (_isAnyPopUpNeeded)
+                else
                 {
                     await _notificationsService.ResponseToBadRequestAsync(resultOfGettingOrder.Exception?.Message);
+
                     break;
                 }
             }

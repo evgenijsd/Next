@@ -51,15 +51,7 @@ namespace Next2.ViewModels.Dialogs
 
         public int SelectedTableNumberClue { get; set; }
 
-        private EmployeeModelDTO? _selectedEmployeeToAssignFrom;
-        public EmployeeModelDTO? SelectedEmployeeToAssignFrom
-        {
-            get => _selectedEmployeeToAssignFrom;
-            set
-            {
-                SetProperty(ref _selectedEmployeeToAssignFrom, value);
-            }
-        }
+        public EmployeeModelDTO? SelectedEmployeeToAssignFrom { get; set; }
 
         public EmployeeModelDTO? SelectedEmployeeToAssignTo { get; set; }
 

@@ -1,14 +1,11 @@
 ﻿using Next2.Helpers.ProcessHelpers;
-using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
 using Next2.Resources.Strings;
-using Next2.Services.Mock;
 using Next2.Services.Rest;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Next2.Services.Employees

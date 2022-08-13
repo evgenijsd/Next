@@ -80,8 +80,9 @@
                                 HeightRequest="21"
                                 Orientation="Horizontal">
 
-                                <Label Style="{DynamicResource LabelStyle_i1}"
-                                       Text="{Binding UserName}"/>
+                                <Label 
+                                    Style="{DynamicResource LabelStyle_i1}"
+                                    Text="{Binding UserName}"/>
 
                             </StackLayout>
 
@@ -127,8 +128,9 @@
                                 HeightRequest="21"
                                 Orientation="Horizontal">
 
-                                <Label Style="{DynamicResource LabelStyle_i1}"
-                                       Text="{Binding UserName}"/>
+                                <Label 
+                                    Style="{DynamicResource LabelStyle_i1}"
+                                    Text="{Binding UserName}"/>
 
                             </StackLayout>
 
