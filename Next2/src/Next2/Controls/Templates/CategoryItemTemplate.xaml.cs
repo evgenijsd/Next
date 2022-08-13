@@ -3,7 +3,7 @@ using Xamarin.Forms.PancakeView;
 
 namespace Next2.Controls.Templates
 {
-    public partial class CategoryItemTemplate : PancakeView
+    public partial class CategoryItemTemplate : StackLayout
     {
         public CategoryItemTemplate()
         {
