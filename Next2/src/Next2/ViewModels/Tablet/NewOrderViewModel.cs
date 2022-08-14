@@ -243,11 +243,11 @@ namespace Next2.ViewModels.Tablet
 
                 if (resultGettingCategories.IsSuccess)
                 {
-                    Categories = new(resultGettingCategories.Result);
-                    SelectedCategoriesItem = Categories.FirstOrDefault();
-
                     CategoriesLoadingState = ELoadingState.Completed;
                     OrderRegistrationViewModel.CurrentState = ENewOrderViewState.Default;
+
+                    Categories = new(resultGettingCategories.Result);
+                    SelectedCategoriesItem = Categories.FirstOrDefault();
                 }
                 else
                 {
