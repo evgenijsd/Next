@@ -14,7 +14,7 @@ namespace Next2.Models.API.DTO
 
         public string? ImageSource { get; set; }
 
-        public Guid DefaultProductId { get; set; }
+        public IEnumerable<DishReplacementProductModelDTO>? ReplacementProducts { get; set; }
 
         public SimpleCategoryModelDTO Category { get; set; } = new();
 
