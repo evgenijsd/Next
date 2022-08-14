@@ -284,7 +284,7 @@
 
                             <Label
                                 Grid.Row="0"
-                                Text="{Binding PopUpInfo}"
+                                Text="{xct:Translate TheOrderHasBeenRemoved}"
                                 FontFamily="Barlow-Medium"
                                 FontSize="{DynamicResource TSize_i8}"
                                 VerticalOptions="Start"
