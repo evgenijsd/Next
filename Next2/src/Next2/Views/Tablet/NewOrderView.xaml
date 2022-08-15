@@ -972,7 +972,16 @@
                 
                 <controls:DropDownList.Triggers>
 
-                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}" Value="True">
+                    <DataTrigger TargetType="controls:DropDownList" Value="True">
+
+                        <DataTrigger.Binding>
+                            <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=Any}">
+
+                                <Binding Path="OrderRegistrationViewModel.IsOrderSavedNotificationVisible"/>
+                                <Binding Path="OrderRegistrationViewModel.IsOrderRemovedNotificationVisible"/>
+
+                            </MultiBinding>
+                        </DataTrigger.Binding>
 
                         <Setter Property="IsEnabled" Value="False"/>
                         <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
@@ -1074,13 +1083,19 @@
 
                     <controls:CustomStepper.Triggers>
                         
-                         <DataTrigger 
-                            TargetType="controls:CustomStepper"
-                            Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible, Converter={xct:InvertedBoolConverter}}"
-                            Value="False">
-                            
+                        <DataTrigger TargetType="controls:CustomStepper" Value="True">
+
+                            <DataTrigger.Binding>
+                                <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=Any}">
+
+                                    <Binding Path="OrderRegistrationViewModel.IsOrderSavedNotificationVisible"/>
+                                    <Binding Path="OrderRegistrationViewModel.IsOrderRemovedNotificationVisible"/>
+
+                                </MultiBinding>
+                            </DataTrigger.Binding>
+
                             <Setter Property="IsEnabled" Value="False"/>
-                            
+
                         </DataTrigger>
 
                     </controls:CustomStepper.Triggers>
@@ -1117,14 +1132,23 @@
                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
                         
                     </DataTrigger>
-                        
-                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}" Value="True">
-                        
+
+                    <DataTrigger TargetType="controls:DropDownList" Value="True">
+
+                        <DataTrigger.Binding>
+                            <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=Any}">
+
+                                <Binding Path="OrderRegistrationViewModel.IsOrderSavedNotificationVisible"/>
+                                <Binding Path="OrderRegistrationViewModel.IsOrderRemovedNotificationVisible"/>
+
+                            </MultiBinding>
+                        </DataTrigger.Binding>
+
                         <Setter Property="IsEnabled" Value="False"/>
                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
-                        
+
                     </DataTrigger>
-                    
+
                 </controls:DropDownList.Triggers>
                 
                 <controls:DropDownList.DataTemplate>
@@ -1193,14 +1217,39 @@
                     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                         <pancakeview:PancakeView
-                            IsVisible="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
+                            IsVisible="False"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"
                             Shadow="{pancakeview:ShadowMarkup BlurRadius=15}"
-                            HeightRequest="66"
+                            HeightRequest="42"
                             WidthRequest="250"
                             Margin="15, 15, 15, 0"
                             CornerRadius="6">
+
+                            <pancakeview:PancakeView.Triggers>
+
+                                <DataTrigger TargetType="pancakeview:PancakeView" Value="True">
+
+                                    <DataTrigger.Binding>
+                                        <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=Any}">
+
+                                            <Binding Path="OrderRegistrationViewModel.IsOrderSavedNotificationVisible"/>
+                                            <Binding Path="OrderRegistrationViewModel.IsOrderRemovedNotificationVisible"/>
+
+                                        </MultiBinding>
+                                    </DataTrigger.Binding>
+
+                                    <Setter Property="IsVisible" Value="True"/>
+
+                                </DataTrigger>
+
+                                <DataTrigger TargetType="pancakeview:PancakeView" Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}" Value="True">
+
+                                    <Setter Property="HeightRequest" Value="66"/>
+
+                                </DataTrigger>
+
+                            </pancakeview:PancakeView.Triggers>
 
                             <StackLayout
                                 Spacing="6"
@@ -1225,6 +1274,7 @@
                                 <StackLayout
                                     Orientation="Horizontal"
                                     Spacing="6"
+                                    IsVisible="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
                                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.GoToOrderTabsCommand}">
 
                                     <ffimageloading:CachedImage
@@ -1247,16 +1297,24 @@
                         <StackLayout
                             Margin="0, 30, 0, 0"
                             Spacing="6">
-                            
+
                             <StackLayout.Triggers>
-                                <DataTrigger
-                                    TargetType="StackLayout"
-                                    Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
-                                    Value="True">
+                                
+                                <DataTrigger TargetType="StackLayout" Value="True">
+
+                                    <DataTrigger.Binding>
+                                        <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=Any}">
+
+                                            <Binding Path="OrderRegistrationViewModel.IsOrderSavedNotificationVisible"/>
+                                            <Binding Path="OrderRegistrationViewModel.IsOrderRemovedNotificationVisible"/>
+
+                                        </MultiBinding>
+                                    </DataTrigger.Binding>
 
                                     <Setter Property="Margin" Value="0, 40, 0, 0" />
 
                                 </DataTrigger>
+                                
                             </StackLayout.Triggers>
 
                             <ffimageloading:CachedImage

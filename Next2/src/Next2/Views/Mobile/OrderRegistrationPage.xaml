@@ -109,14 +109,23 @@
             ItemsSource="{Binding OrderTypes}">
 
             <controls:DropDownList.Triggers>
-                
-                <DataTrigger TargetType="controls:DropDownList" Binding="{Binding IsOrderSavedNotificationVisible}" Value="True">
-                        
+
+                <DataTrigger TargetType="controls:DropDownList" Value="True">
+
+                    <DataTrigger.Binding>
+                        <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=Any}">
+
+                            <Binding Path="IsOrderSavedNotificationVisible"/>
+                            <Binding Path="IsOrderRemovedNotificationVisible"/>
+
+                        </MultiBinding>
+                    </DataTrigger.Binding>
+
                     <Setter Property="IsEnabled" Value="False"/>
                     <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
-                        
+
                 </DataTrigger>
-                
+
             </controls:DropDownList.Triggers>
             
             <controls:DropDownList.DataTemplate>
@@ -174,9 +183,27 @@
             <controls:CustomStepper
                 MaxValue="{Binding SelectedTable.SeatNumbers}"
                 Value="{Binding NumberOfSeats}"
-                IsEnabled="{Binding IsOrderSavedNotificationVisible, Converter={xct:InvertedBoolConverter}}"
                 IncrementCommand="{Binding AddNewSeatCommand}"
-                DecrementCommand="{Binding DeleteLastSeatCommand}"/>
+                DecrementCommand="{Binding DeleteLastSeatCommand}">
+
+                <controls:CustomStepper.Triggers>
+                    <DataTrigger TargetType="controls:CustomStepper" Value="True">
+
+                        <DataTrigger.Binding>
+                            <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=Any}">
+
+                                <Binding Path="IsOrderSavedNotificationVisible"/>
+                                <Binding Path="IsOrderRemovedNotificationVisible"/>
+
+                            </MultiBinding>
+                        </DataTrigger.Binding>
+
+                        <Setter Property="IsEnabled" Value="False"/>
+
+                    </DataTrigger>
+                </controls:CustomStepper.Triggers>
+                
+            </controls:CustomStepper>
 
         </StackLayout>
 
@@ -208,14 +235,23 @@
                     <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
 
                 </DataTrigger>
-                
-                <DataTrigger TargetType="controls:DropDownList" Binding="{Binding IsOrderSavedNotificationVisible}" Value="True">
-                        
+
+                <DataTrigger TargetType="controls:DropDownList" Value="True">
+
+                    <DataTrigger.Binding>
+                        <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=Any}">
+
+                            <Binding Path="IsOrderSavedNotificationVisible"/>
+                            <Binding Path="IsOrderRemovedNotificationVisible"/>
+
+                        </MultiBinding>
+                    </DataTrigger.Binding>
+
                     <Setter Property="IsEnabled" Value="False"/>
                     <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
-                        
+
                 </DataTrigger>
-                
+
             </controls:DropDownList.Triggers>
             
             <controls:DropDownList.DataTemplate>
@@ -272,37 +308,61 @@
                 <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                     <Frame
-                        IsVisible="{Binding IsOrderSavedNotificationVisible}"
+                        IsVisible="False"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        HeightRequest="88"
                         HorizontalOptions="FillAndExpand"
-                        Margin="15, 15, 15, 0"
-                        CornerRadius="10">
+                        Margin="15"
+                        CornerRadius="10"
+                        MinimumHeightRequest="64">
 
-                        <Grid RowDefinitions="0.50*, 0.50*">
+                        <Frame.Triggers>
 
-                            <Label
-                                Grid.Row="0"
-                                Text="{xct:Translate TheOrderHasBeenRemoved}"
-                                FontFamily="Barlow-Medium"
-                                FontSize="{DynamicResource TSize_i8}"
-                                VerticalOptions="Start"
-                                Margin="15, 15, 0, 0" />
+                            <DataTrigger TargetType="Frame" Value="True">
 
-                            <ffimageloading:CachedImage
-                                Grid.Row="0"
-                                Source="ic_close_square_24x24"
-                                HeightRequest="24"
-                                WidthRequest="24"
-                                HorizontalOptions="EndAndExpand"
-                                VerticalOptions="Start"
-                                Margin="0, 15, 15, 0"
-                                xct:TouchEffect.Command="{Binding HideOrderNotificationCommnad}" />
+                                <DataTrigger.Binding>
+                                    <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=Any}">
+
+                                        <Binding Path="IsOrderSavedNotificationVisible"/>
+                                        <Binding Path="IsOrderRemovedNotificationVisible"/>
+
+                                    </MultiBinding>
+                                </DataTrigger.Binding>
+
+                                <Setter Property="IsVisible" Value="True"/>
+
+                            </DataTrigger>
+
+                            <DataTrigger TargetType="Frame" Binding="{Binding IsOrderSavedNotificationVisible}" Value="True">
+
+                                <Setter Property="MinimumHeightRequest" Value="88"/>
+
+                            </DataTrigger>
+
+                        </Frame.Triggers>
+
+                        <StackLayout Margin="15">
+
+                            <StackLayout Orientation="Horizontal">
+
+                                <Label
+                                    Text="{Binding PopUpInfo}"
+                                    VerticalTextAlignment="Center"
+                                    FontFamily="Barlow-Medium"
+                                    FontSize="{DynamicResource TSize_i8}"/>
+
+                                <ffimageloading:CachedImage
+                                    Source="ic_close_square_24x24"
+                                    HeightRequest="24"
+                                    WidthRequest="24"
+                                    HorizontalOptions="EndAndExpand"
+                                    xct:TouchEffect.Command="{Binding HideOrderNotificationCommnad}"/>
+                                
+                            </StackLayout>
 
                             <StackLayout
-                                Grid.Row="1"
                                 Orientation="Horizontal"
+                                IsVisible="{Binding IsOrderSavedNotificationVisible}"
                                 xct:TouchEffect.Command="{Binding GoToOrderTabsCommand}">
 
                                 <ffimageloading:CachedImage
@@ -311,7 +371,7 @@
                                     WidthRequest="24"
                                     HorizontalOptions="Start"
                                     VerticalOptions="EndAndExpand"
-                                    Margin="15, 5, 0, 15" />
+                                    Margin="0, 5, 0, 0" />
 
                                 <Label
                                     Text="{xct:Translate OrderTabs}"
@@ -324,7 +384,7 @@
                                 
                             </StackLayout>
 
-                        </Grid>
+                        </StackLayout>
 
                     </Frame>
 
