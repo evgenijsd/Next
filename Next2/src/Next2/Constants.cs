@@ -153,7 +153,7 @@
             public const string HOST_URL = "http://139.59.208.79";
 #endif
             public const int TOKEN_EXPIRATION_TIME = 12;
-            public const int REQUEST_TIMEOUT = 7;
+            public const int REQUEST_TIMEOUT = 20;
         }
 
         public static class StatusCode
