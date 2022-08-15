@@ -752,7 +752,7 @@ namespace Next2.ViewModels
                 {
                     await RemoveOrderAsync();
 
-                    if (!IsOrderRemovedNotificationVisible && !App.IsTablet)
+                    if (!App.IsTablet)
                     {
                         await _navigationService.GoBackAsync();
                     }
