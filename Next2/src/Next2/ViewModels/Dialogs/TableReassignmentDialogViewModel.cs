@@ -35,15 +35,7 @@ namespace Next2.ViewModels.Dialogs
 
         public bool IsAllTablesChecked { get; set; }
 
-        private OccupiedTableModelDTO? _selectedTable;
-        public OccupiedTableModelDTO? SelectedTable
-        {
-            get => _selectedTable;
-            set
-            {
-                SetProperty(ref _selectedTable, value);
-            }
-        }
+        public OccupiedTableModelDTO? SelectedTable { get; set; }
 
         public int SelectedTableNumberClue { get; set; }
 
@@ -77,9 +69,9 @@ namespace Next2.ViewModels.Dialogs
 
             if (args.PropertyName is nameof(SelectedTable))
             {
-                if (_selectedTable is not null)
+                if (SelectedTable is not null)
                 {
-                    SelectedTableNumberClue = _selectedTable.Number;
+                    SelectedTableNumberClue = SelectedTable.Number;
                 }
             }
         }
