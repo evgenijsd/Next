@@ -795,4 +795,7 @@ A receipt has been printed for you.</value>
   <data name="ItemOnHold" xml:space="preserve">
     <value>Item on hold</value>
   </data>
+  <data name="Pt" xml:space="preserve">
+    <value>pt</value>
+  </data>
 </root>

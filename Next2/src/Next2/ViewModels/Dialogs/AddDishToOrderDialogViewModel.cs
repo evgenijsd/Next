@@ -91,8 +91,8 @@ namespace Next2.ViewModels
                     TotalPrice = dish.OriginalPrice,
                     DiscountPrice = discountPrice,
                     DishProportions = dish.DishProportions,
-                    Products = new (dish.Products),
-                    SelectedProducts = new (dish.Products.Where(row => row.Id == dish.DefaultProductId).Select(row => new ProductBindableModel()
+                    Products = new(dish.Products),
+                    SelectedProducts = new(dish.Products.Take(1).Select(row => new ProductBindableModel()
                     {
                         Id = row.Id,
                         SelectedOptions = row.Options.FirstOrDefault(),
@@ -115,6 +115,7 @@ namespace Next2.ViewModels
                         },
                     })),
                 };
+
                 Proportions = dish.DishProportions.Select(row => new ProportionModel()
                 {
                     Id = row.Id,

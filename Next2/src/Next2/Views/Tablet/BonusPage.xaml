@@ -170,7 +170,7 @@
                                                                                 FontSize="{DynamicResource TSize_i9}"
                                                                                 LineBreakMode="TailTruncation"
                                                                                 Opacity="{DynamicResource OpacityWhenDisabled_i2}"
-                                                                                Text="{Binding Name}"
+                                                                                Text="{Binding SelectedProductsNames}"
                                                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                                                                         </StackLayout>

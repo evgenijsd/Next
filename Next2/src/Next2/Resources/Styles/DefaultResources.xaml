@@ -3,6 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:converters="clr-namespace:Next2.Converters"
     xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
@@ -35,10 +36,16 @@
     <x:Double x:Key="TSize_i9">12</x:Double>
     <!--  8px  -->
     <x:Double x:Key="TSize_i10">10</x:Double>
-    
+
     <x:Double x:Key="TSize_i12">8</x:Double>
     <!--  72px  -->
     <x:Double x:Key="TSize_i13">44</x:Double>
+    
+    <x:Double x:Key="TSize_i9_5">11</x:Double>
+
+    <x:Double x:Key="TSize_i6_5">17</x:Double>
+
+    <x:Double x:Key="TSize_i4_6">22</x:Double>
 
     <x:Double x:Key="OpacityWhenDisabled_i1">0.5</x:Double>
     <x:Double x:Key="OpacityWhenDisabled_i2">0.6</x:Double>
@@ -109,7 +116,14 @@
         <Setter Property="FontFamily" Value="Barlow-Regular"/>
         <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
     </Style>
-    
+
+    <Style TargetType="buttons:BorderButton">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="xct:TouchEffect.PressedScale" Value="0.97" />
+    </Style>
+
     <Style x:Key="BorderButtonStyle_i1" TargetType="buttons:BorderButton">
         <Setter Property="FontFamily" Value="Barlow-SemiBold" />
         <Setter Property="Padding" Value="4" />

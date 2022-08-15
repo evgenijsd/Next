@@ -1313,6 +1313,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to pt.
+        /// </summary>
+        internal static string Pt {
+            get {
+                return ResourceManager.GetString("Pt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Re-assign Table.
         /// </summary>
         internal static string ReAssignTable {
@@ -1900,20 +1909,20 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Time.
-        /// </summary>
-        internal static string Time {
-            get {
-                return ResourceManager.GetString("Time", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to This reservation will be removed..
         /// </summary>
         internal static string ThisReservationWillBeRemoved {
             get {
                 return ResourceManager.GetString("ThisReservationWillBeRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        internal static string Time {
+            get {
+                return ResourceManager.GetString("Time", resourceCulture);
             }
         }
         
