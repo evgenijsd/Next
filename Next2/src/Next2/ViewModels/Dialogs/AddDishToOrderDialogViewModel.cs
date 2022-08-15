@@ -91,8 +91,8 @@ namespace Next2.ViewModels
                     TotalPrice = dish.OriginalPrice,
                     DiscountPrice = discountPrice,
                     DishProportions = dish.DishProportions,
-                    Products = new(dish.Products),
-                    SelectedProducts = new(dish.Products.Take(1).Select(row => new ProductBindableModel()
+                    Products = new(dish.ReplacementProducts.SelectMany(x => x.Products)),
+                    SelectedProducts = new(dish.ReplacementProducts.SelectMany(x => x.Products).Where(row => row.Name == dish.Name).Select(row => new ProductBindableModel()
                     {
                         Id = row.Id,
                         SelectedOptions = row.Options.FirstOrDefault(),

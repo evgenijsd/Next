@@ -53,7 +53,7 @@
                 VerticalOptions="Start"
                 Margin="24, 24, 24, 12"
                 ScrollBarVisibility="Never"
-                SelectionChangedCommand="{Binding SelectItemCommand}"
+                SelectionChangedCommand="{Binding SelectEmployeeToAssignFromCommand}"
                 HeaderText="{xct:Translate AssignFrom}"     
                 SelectedItem="{Binding SelectedEmployeeToAssignFrom}"
                 ItemsSource="{Binding Employees}">

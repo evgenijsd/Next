@@ -309,6 +309,7 @@
 
             <StackLayout
                 Grid.Row="3"
+                Padding="0, 18"
                 Margin="14, 0"
                 VerticalOptions="CenterAndExpand"
                 Orientation="Horizontal"

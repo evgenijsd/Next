@@ -27,8 +27,8 @@ namespace Next2.ViewModels
         private readonly INotificationsService _notificationsService;
         private readonly IEmployeesService _employeesService;
 
-        private CancellationTokenSource _cancelTokenSource;
-        private CancellationToken _token;
+        private CancellationTokenSource _cancelTokenSource = new();
+        private CancellationToken _token = new();
 
         public SettingsViewModel(
             INavigationService navigationService,

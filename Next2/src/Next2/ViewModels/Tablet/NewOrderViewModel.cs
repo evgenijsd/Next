@@ -248,13 +248,13 @@ namespace Next2.ViewModels.Tablet
 
                 if (resultGettingCategories.IsSuccess)
                 {
-                    Categories = new(resultGettingCategories.Result);
-                    SelectedCategoriesItem = Categories.FirstOrDefault();
-
                     CategoriesLoadingState = ELoadingState.Completed;
                     OrderRegistrationViewModel.CurrentState = ENewOrderViewState.Default;
 
                     _eventAggregator.GetEvent<LoadingStateEvent>().Publish(ELoadingState.Completed);
+
+                    Categories = new(resultGettingCategories.Result);
+                    SelectedCategoriesItem = Categories.FirstOrDefault();
                 }
                 else
                 {

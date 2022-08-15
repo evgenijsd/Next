@@ -4,6 +4,7 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -41,11 +42,6 @@ namespace Next2.ViewModels.Dialogs
             set
             {
                 SetProperty(ref _selectedTable, value);
-
-                if (_selectedTable is not null)
-                {
-                    SelectedTableNumberClue = _selectedTable.Number;
-                }
             }
         }
 
@@ -68,8 +64,25 @@ namespace Next2.ViewModels.Dialogs
         private ICommand? _selectDeselectTablesCommand;
         public ICommand? SelectDeselectTablesCommand => _selectDeselectTablesCommand ??= new AsyncCommand(OnSelectDeselectTablesCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand? _selectItemCommand;
-        public ICommand? SelectItemCommand => _selectItemCommand ??= new AsyncCommand(OnSelectItemCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _selectEmployeeToAssignFromCommand;
+        public ICommand? SelectEmployeeToAssignFromCommand => _selectEmployeeToAssignFromCommand ??= new AsyncCommand(OnSelectEmployeeToAssignFromCommandAsync, allowsMultipleExecutions: false);
+
+        #endregion
+
+        #region -- Overrides --
+
+        protected override async void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName is nameof(SelectedTable))
+            {
+                if (_selectedTable is not null)
+                {
+                    SelectedTableNumberClue = _selectedTable.Number;
+                }
+            }
+        }
 
         #endregion
 
@@ -90,7 +103,7 @@ namespace Next2.ViewModels.Dialogs
             return Task.CompletedTask;
         }
 
-        private Task OnSelectItemCommandAsync()
+        private Task OnSelectEmployeeToAssignFromCommandAsync()
         {
             SelectedEmployeeToAssignTo = null;
 
