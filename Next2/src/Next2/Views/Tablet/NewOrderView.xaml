@@ -1131,38 +1131,19 @@
                 </controls:DropDownList.Triggers>
                 
                 <controls:DropDownList.DataTemplate>
-                    <DataTemplate>
-                        <StackLayout 
+
+                    <DataTemplate x:DataType="modelsBindable:TableBindableModel">
+
+                        <templates:TableItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
+                            FontSize="{DynamicResource TSize_i8}"
+                            TableNumber="{Binding TableNumber}">
 
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+                        </templates:TableItemTemplate>
 
-                            <StackLayout
-                                Padding="14, 9"
-                                HeightRequest="21"
-                                Orientation="Horizontal"
-                                x:DataType="modelsBindable:TableBindableModel">
-
-                                <Label
-                                    FontFamily="Barlow-Medium"
-                                    FontSize="{DynamicResource TSize_i8}"
-                                    HorizontalOptions="FillAndExpand">
-
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="{xct:Translate Table}"/>
-                                            <Span Text=" "/>
-                                            <Span Text="{Binding TableNumber}"/>
-                                        </FormattedString>
-                                    </Label.FormattedText>
-                                    
-                                </Label>
-
-                            </StackLayout>
-
-                        </StackLayout>
                     </DataTemplate>
+                    
                 </controls:DropDownList.DataTemplate>
 
             </controls:DropDownList>

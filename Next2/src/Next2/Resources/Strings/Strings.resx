@@ -792,7 +792,4 @@ A receipt has been printed for you.</value>
   <data name="ChooseWaiter" xml:space="preserve">
     <value>Choose Waiter</value>
   </data>
-  <data name="NoEmployeesWereFound" xml:space="preserve">
-    <value>No Employees were found</value>
-  </data>
 </root>

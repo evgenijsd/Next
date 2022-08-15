@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    x:Class="Next2.Controls.Templates.TableItemTemplate">
+
+    <BoxView
+        HeightRequest="{OnPlatform Android=0.25, iOS=1}"
+        Color="{DynamicResource TextAndBackgroundColor_i6}"/>
+
+    <StackLayout
+        Padding="14, 9"
+        HeightRequest="{Binding ItemHeightRequest, Source={RelativeSource AncestorType={x:Type templates:TableItemTemplate}}}"
+        Orientation="Horizontal">
+
+        <Label
+            FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type templates:TableItemTemplate}}}"
+            FontFamily="Barlow-Medium"
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+            VerticalTextAlignment="Center"
+            HorizontalOptions="FillAndExpand">
+
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="{xct:Translate Table}" />
+                    <Span Text=" " />
+                    <Span Text="{Binding TableNumber, Source={RelativeSource AncestorType={x:Type templates:TableItemTemplate}}}" />
+                </FormattedString>
+            </Label.FormattedText>
+
+        </Label>
+
+    </StackLayout>
+
+</StackLayout>

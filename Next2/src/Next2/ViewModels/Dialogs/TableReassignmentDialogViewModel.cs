@@ -123,10 +123,10 @@ namespace Next2.ViewModels.Dialogs
         private void OnAcceptCommand()
         {
             _collectionOfOrderIdsBeUpdated = IsAllTablesChecked
-                    ? Tables.Select(row => row.OrderId)
-                    : SelectedTable is not null
-                        ? _collectionOfOrderIdsBeUpdated.Concat(new[] { SelectedTable.OrderId })
-                        : _collectionOfOrderIdsBeUpdated;
+                ? Tables.Select(row => row.OrderId)
+                : SelectedTable is not null
+                    ? _collectionOfOrderIdsBeUpdated.Concat(new[] { SelectedTable.OrderId })
+                    : _collectionOfOrderIdsBeUpdated;
 
             RequestClose(new DialogParameters()
             {

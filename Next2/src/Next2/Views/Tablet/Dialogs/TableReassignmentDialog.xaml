@@ -9,6 +9,7 @@
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:controls="clr-namespace:Next2.Controls" 
     xmlns:modelsApi="clr-namespace:Next2.Models.API.DTO" 
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
     x:Class="Next2.Views.Tablet.Dialogs.TableReassignmentDialog"
     x:DataType="viewmodels:TableReassignmentDialogViewModel">
 
@@ -219,31 +220,13 @@
 
                     <DataTemplate x:DataType="modelsApi:OccupiedTableModelDTO">
 
-                        <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+                        <templates:TableItemTemplate
+                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            FontSize="{DynamicResource TSize_i8}"
+                            TableNumber="{Binding Number}">
 
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+                        </templates:TableItemTemplate>
 
-                            <StackLayout
-                                Padding="14, 9"
-                                HeightRequest="21"
-                                Orientation="Horizontal">
-
-                                <Label Style="{DynamicResource LabelStyle_i1}">
-                                    
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="{xct:Translate Table}" />
-                                            <Span Text=" " />
-                                            <Span Text="{Binding Number}" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
-
-                                </Label>
-
-                            </StackLayout>
-
-                        </StackLayout>
-                        
                     </DataTemplate>
                     
                 </controls:DropDownList.DataTemplate>

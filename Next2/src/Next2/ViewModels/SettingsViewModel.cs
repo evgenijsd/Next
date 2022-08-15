@@ -227,17 +227,7 @@ namespace Next2.ViewModels
 
             if (resultOfGettingEmployees.IsSuccess)
             {
-                if (resultOfGettingEmployees.Result is not null)
-                {
-                    employees = resultOfGettingEmployees.Result;
-                }
-                else
-                {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoEmployeesWereFound"],
-                        LocalizationResourceManager.Current["Ok"]);
-                }
+                employees = resultOfGettingEmployees.Result;
             }
             else
             {
@@ -264,12 +254,9 @@ namespace Next2.ViewModels
 
                     var resultOfUpdatingOrder = await _orderService.UpdateOrderAsync(order);
 
-                    if (resultOfUpdatingOrder.IsSuccess)
+                    if (!resultOfUpdatingOrder.IsSuccess)
                     {
-                        if (resultOfUpdatingOrder.IsSuccess)
-                        {
-                            await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
-                        }
+                        await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
 
                         break;
                     }

@@ -219,38 +219,20 @@
             </controls:DropDownList.Triggers>
             
             <controls:DropDownList.DataTemplate>
-                <DataTemplate>
-                    <StackLayout 
-                        Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                        xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
-                        <StackLayout
-                            HeightRequest="30"
-                            Padding="14, 8"
-                            Orientation="Horizontal"
-                            x:DataType="modelsBindable:TableBindableModel">
+                    <DataTemplate x:DataType="modelsBindable:TableBindableModel">
 
-                            <Label
-                                HorizontalOptions="FillAndExpand"
-                                FontFamily="Barlow-Medium"
-                                FontSize="{DynamicResource TSize_i7}">
+                        <templates:TableItemTemplate
+                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
+                            ItemHeightRequest="30"
+                            FontSize="{DynamicResource TSize_i7}"
+                            TableNumber="{Binding TableNumber}">
 
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{xct:Translate Table}"/>
-                                        <Span Text=" "/>
-                                        <Span Text="{Binding TableNumber}"/>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                                
-                            </Label>
+                        </templates:TableItemTemplate>
 
-                        </StackLayout>
+                    </DataTemplate>
 
-                        <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
-
-                    </StackLayout>
-                </DataTemplate>
             </controls:DropDownList.DataTemplate>
 
         </controls:DropDownList>

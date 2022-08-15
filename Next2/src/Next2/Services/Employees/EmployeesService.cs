@@ -31,16 +31,9 @@ namespace Next2.Services.Employees
 
                 var response = await _restService.RequestAsync<GenericExecutionResult<GetEmployeesListQueryResult>>(HttpMethod.Get, query);
 
-                if (response.Success)
+                if (response.Success && response.Value?.Employees is not null)
                 {
-                    if (response.Value?.Employees is not null)
-                    {
-                        result.SetSuccess(response.Value.Employees);
-                    }
-                    else if (response.Success)
-                    {
-                        result.SetSuccess();
-                    }
+                    result.SetSuccess(response.Value.Employees);
                 }
             }
             catch (Exception ex)

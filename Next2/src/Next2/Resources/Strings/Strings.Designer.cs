@@ -944,15 +944,6 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No Employees were found.
-        /// </summary>
-        internal static string NoEmployeesWereFound {
-            get {
-                return ResourceManager.GetString("NoEmployeesWereFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No internet connection.
         /// </summary>
         internal static string NoInternetConnection {
