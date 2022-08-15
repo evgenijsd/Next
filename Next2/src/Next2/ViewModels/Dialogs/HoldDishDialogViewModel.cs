@@ -16,12 +16,13 @@ namespace Next2.ViewModels.Dialogs
     public class HoldDishDialogViewModel : BindableBase
     {
         private DateTime _holdTime = DateTime.Now;
-        private int? _preSelectedHoldingTimeInMinutes;
 
         public HoldDishDialogViewModel(
             DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
+            InitTimeItems();
+
             CurrentTime = DateTime.Now;
             Hour = _holdTime.Hour;
             Minute = _holdTime.Minute;
@@ -51,9 +52,9 @@ namespace Next2.ViewModels.Dialogs
 
         public DishBindableModel SelectedDish { get; set; }
 
-        public ObservableCollection<int> AvailableHoldingTimeInMinutes { get; set; } = new() { 15, 20, 40 };
+        public ObservableCollection<TimeItem> AvailableHoldingTimeInMinutes { get; set; }
 
-        public int? SelectedHoldingTimeInMinutes { get; set; }
+        public TimeItem? SelectedHoldingTimeInMinutes { get; set; }
 
         public DateTime CurrentTime { get; set; }
 
@@ -70,7 +71,7 @@ namespace Next2.ViewModels.Dialogs
         public Action<IDialogParameters> RequestClose;
 
         private ICommand? _selectTimeItemCommand;
-        public ICommand SelectTimeItemCommand => _selectTimeItemCommand ??= new AsyncCommand(OnSelectTimeItemCommandAsync, allowsMultipleExecutions: false);
+        public ICommand SelectTimeItemCommand => _selectTimeItemCommand ??= new AsyncCommand<TimeItem?>(OnSelectTimeItemCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand? _changeTimeHoldCommand;
         public ICommand ChangeTimeHoldCommand => _changeTimeHoldCommand ??= new AsyncCommand<EHoldChange?>(OnChangeTimeHoldCommandAsync, allowsMultipleExecutions: false);
@@ -96,18 +97,29 @@ namespace Next2.ViewModels.Dialogs
             return Task.CompletedTask;
         }
 
-        private Task OnSelectTimeItemCommandAsync()
+        private Task OnSelectTimeItemCommandAsync(TimeItem? selectedHoldTime)
         {
-            SelectedHoldingTimeInMinutes = _preSelectedHoldingTimeInMinutes == SelectedHoldingTimeInMinutes
-                ? null
-                : SelectedHoldingTimeInMinutes;
+            if (selectedHoldTime is not null)
+            {
+                selectedHoldTime.IsSelected = true;
 
-            _holdTime = DateTime.Now;
-            _holdTime = _holdTime.AddMinutes(SelectedHoldingTimeInMinutes ?? 0);
-            Hour = _holdTime.Hour;
-            Minute = _holdTime.Minute;
+                if (SelectedHoldingTimeInMinutes is not null)
+                {
+                    SelectedHoldingTimeInMinutes.IsSelected = false;
+                    SelectedHoldingTimeInMinutes = selectedHoldTime == SelectedHoldingTimeInMinutes
+                        ? null
+                        : selectedHoldTime;
+                }
+                else
+                {
+                    SelectedHoldingTimeInMinutes = selectedHoldTime;
+                }
 
-            _preSelectedHoldingTimeInMinutes = SelectedHoldingTimeInMinutes;
+                _holdTime = DateTime.Now;
+                _holdTime = _holdTime.AddMinutes(SelectedHoldingTimeInMinutes?.Minute ?? 0);
+                Hour = _holdTime.Hour;
+                Minute = _holdTime.Minute;
+            }
 
             return Task.CompletedTask;
         }
@@ -170,7 +182,7 @@ namespace Next2.ViewModels.Dialogs
         private bool OnTimerTick()
         {
             CurrentTime = DateTime.Now;
-            var currentTime = CurrentTime.AddMinutes(SelectedHoldingTimeInMinutes ?? 0);
+            var currentTime = CurrentTime.AddMinutes(SelectedHoldingTimeInMinutes?.Minute ?? 0);
 
             if (_holdTime < currentTime)
             {
@@ -180,6 +192,28 @@ namespace Next2.ViewModels.Dialogs
             }
 
             return true;
+        }
+
+        private void InitTimeItems()
+        {
+            AvailableHoldingTimeInMinutes = new()
+            {
+                new()
+                {
+                    Minute = 15,
+                    TapCommand = SelectTimeItemCommand,
+                },
+                new()
+                {
+                    Minute = 20,
+                    TapCommand = SelectTimeItemCommand,
+                },
+                new()
+                {
+                    Minute = 40,
+                    TapCommand = SelectTimeItemCommand,
+                },
+            };
         }
 
         #endregion
