@@ -141,6 +141,9 @@
     <Compile Update="Controls\Templates\SeatHeaderItemTemplate.xaml.cs">
       <DependentUpon>SeatHeaderItemTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\Templates\TextItemTemplate.xaml.cs">
+      <DependentUpon>TextItemTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\TimeAndDateBar.xaml.cs">
       <DependentUpon>TimeAndDateBar.xaml</DependentUpon>
     </Compile>
@@ -302,7 +305,7 @@
     <EmbeddedResource Update="Controls\Templates\ExpanderHeaderTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\Templates\TableItemTemplate.xaml">
+    <EmbeddedResource Update="Controls\Templates\TextItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\TimeAndDateBar.xaml">

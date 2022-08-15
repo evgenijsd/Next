@@ -1012,29 +1012,18 @@
                 </VisualStateManager.VisualStateGroups>
 
                 <controls:DropDownList.DataTemplate>
-                    <DataTemplate>
-                        <StackLayout
+                    
+                    <DataTemplate x:DataType="models:OrderTypeBindableModel">
+
+                        <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
+                            ItemHeightRequest="21"
+                            FontSize="{DynamicResource TSize_i8}"
+                            Text="{Binding Text}"
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"/>
 
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
-
-                            <StackLayout
-                                Padding="14, 9"
-                                HeightRequest="21"
-                                Orientation="Horizontal">
-
-                                <Label
-                                    x:DataType="models:OrderTypeBindableModel"
-                                    HorizontalOptions="FillAndExpand"
-                                    FontFamily="Barlow-Medium"
-                                    FontSize="{DynamicResource TSize_i8}"
-                                    Text="{Binding Text}" />
-
-                            </StackLayout>
-
-                        </StackLayout>
                     </DataTemplate>
+                    
                 </controls:DropDownList.DataTemplate>
 
             </controls:DropDownList>
@@ -1131,13 +1120,13 @@
 
                     <DataTemplate x:DataType="modelsBindable:TableBindableModel">
 
-                        <templates:TableItemTemplate
+                        <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                             xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
                             FontSize="{DynamicResource TSize_i8}"
-                            TableNumber="{Binding TableNumber}">
-
-                        </templates:TableItemTemplate>
+                            FirstPrefixText="{xct:Translate Table}"
+                            SecondPrefixText=" "
+                            Text="{Binding TableNumber}"/>
 
                     </DataTemplate>
                     
@@ -1145,7 +1134,7 @@
 
             </controls:DropDownList>
 
-            <!-- DISHES_GROUP LIST -->
+             <!-- DISHES_GROUP LIST -->
             <controls:CustomCollectionView
                 Grid.Row="2"
                 VerticalScrollBarVisibility="Always"
