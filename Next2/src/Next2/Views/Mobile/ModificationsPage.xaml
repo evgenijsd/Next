@@ -266,7 +266,6 @@
 
                                 <templates:CategoryItemTemplate
                                     HeightRequest="40"
-                                    CornerRadius="5"
                                     Text="{Binding Name}"
                                     FontSize="{DynamicResource TSize_i8}"
                                     FontFamily="Barlow-SemiBold"/>

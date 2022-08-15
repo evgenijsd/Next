@@ -253,44 +253,41 @@
                         </StackLayout>
 
                         <controls:StepperCarousel
-                            VerticalOptions="Start"
-                            HeightRequest="114"
-                            MinimumHeightRequest="114"
-                            Margin="24, 0, 24, 16"
+                            HeightRequest="100"
+                            Margin="24, 10, 24, 16"
                             ItemsSource="{Binding Categories}"
                             SelectedItem="{Binding SelectedCategoriesItem}">
 
                             <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroupList>
-                                    <VisualStateGroup Name="AdaptiveTime">
+                                <VisualStateGroup Name="AdaptiveStepperCarousel">
 
-                                        <VisualState Name="IPadPro11">
+                                    <VisualState Name="minHeight">
 
-                                            <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowWidth="1194"/>
-                                            </VisualState.StateTriggers>
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="601" />
+                                        </VisualState.StateTriggers>
 
-                                            <VisualState.Setters>
-                                                <Setter Property="Margin" Value="40, 0, 40, 40"/>
-                                            </VisualState.Setters>
+                                        <VisualState.Setters>
+                                            <Setter Property="Margin" Value="24, 26, 24, 32" />
+                                            <Setter Property="HeightRequest" Value="116" />
+                                        </VisualState.Setters>
 
-                                        </VisualState>
+                                    </VisualState>
 
-                                        <VisualState Name="IPadPro12_9">
+                                    <VisualState Name="moreiPadMini">
 
-                                            <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowWidth="1366"/>
-                                            </VisualState.StateTriggers>
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601" />
+                                        </VisualState.StateTriggers>
 
-                                            <VisualState.Setters>
-                                                <Setter Property="ItemWidth" Value="133"/>
-                                                <Setter Property="Margin" Value="40, 0, 40, 40"/>
-                                            </VisualState.Setters>
+                                        <VisualState.Setters>
+                                            <Setter Property="Margin" Value="40, 26, 40, 32" />
+                                            <Setter Property="HeightRequest" Value="116" />
+                                        </VisualState.Setters>
 
-                                        </VisualState>
+                                    </VisualState>
 
-                                    </VisualStateGroup>
-                                </VisualStateGroupList>
+                                </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
 
                         </controls:StepperCarousel>

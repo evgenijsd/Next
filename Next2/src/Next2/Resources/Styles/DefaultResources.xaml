@@ -121,6 +121,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="HasShadow" Value="False" />
         <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Padding" Value="0" />
         <Setter Property="xct:TouchEffect.PressedScale" Value="0.97" />
     </Style>
 
