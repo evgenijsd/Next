@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,13 +12,11 @@ using Xamarin.Forms.Xaml;
 
 namespace Next2.Controls
 {
-    public partial class HoldClock : Grid
+    public partial class StepperTimePicker : Grid
     {
-        public HoldClock()
+        public StepperTimePicker()
         {
             InitializeComponent();
-
-            Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.HELD_DISH_RELEASE_FREQUENCY), OnTimerTick);
         }
 
         #region -- Public properties --
@@ -29,7 +28,7 @@ namespace Next2.Controls
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
             propertyName: nameof(FontSize),
             returnType: typeof(double),
-            declaringType: typeof(HoldClock),
+            declaringType: typeof(StepperTimePicker),
             defaultBindingMode: BindingMode.OneWay);
 
         public double FontSize
@@ -38,56 +37,64 @@ namespace Next2.Controls
             set => SetValue(FontSizeProperty, value);
         }
 
-        public static readonly BindableProperty HoldTimeProperty = BindableProperty.Create(
-            propertyName: nameof(HoldTime),
+        public static readonly BindableProperty TimeProperty = BindableProperty.Create(
+            propertyName: nameof(Time),
             returnType: typeof(DateTime),
-            declaringType: typeof(HoldClock),
+            declaringType: typeof(StepperTimePicker),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public DateTime HoldTime
+        public DateTime Time
         {
-            get => (DateTime)GetValue(HoldTimeProperty);
-            set => SetValue(HoldTimeProperty, value);
+            get => (DateTime)GetValue(TimeProperty);
+            set => SetValue(TimeProperty, value);
         }
 
-        public static readonly BindableProperty CurrentTimeProperty = BindableProperty.Create(
-            propertyName: nameof(CurrentTime),
+        public static readonly BindableProperty StartTimeProperty = BindableProperty.Create(
+            propertyName: nameof(StartTime),
             returnType: typeof(DateTime),
-            declaringType: typeof(HoldClock),
+            declaringType: typeof(StepperTimePicker),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public DateTime CurrentTime
+        public DateTime StartTime
         {
-            get => (DateTime)GetValue(CurrentTimeProperty);
-            set => SetValue(CurrentTimeProperty, value);
+            get => (DateTime)GetValue(StartTimeProperty);
+            set => SetValue(StartTimeProperty, value);
         }
 
-        public static readonly BindableProperty ImageHeightProperty = BindableProperty.Create(
-            propertyName: nameof(ImageHeight),
+        public static readonly BindableProperty ImageSizeProperty = BindableProperty.Create(
+            propertyName: nameof(ImageSize),
             returnType: typeof(double),
-            declaringType: typeof(HoldClock),
+            declaringType: typeof(StepperTimePicker),
             defaultBindingMode: BindingMode.OneWay);
 
-        public double ImageHeight
+        public double ImageSize
         {
-            get => (double)GetValue(ImageHeightProperty);
-            set => SetValue(ImageHeightProperty, value);
-        }
-
-        public static readonly BindableProperty ImageWidthProperty = BindableProperty.Create(
-            propertyName: nameof(ImageWidth),
-            returnType: typeof(double),
-            declaringType: typeof(HoldClock),
-            defaultBindingMode: BindingMode.OneWay);
-
-        public double ImageWidth
-        {
-            get => (double)GetValue(ImageWidthProperty);
-            set => SetValue(ImageWidthProperty, value);
+            get => (double)GetValue(ImageSizeProperty);
+            set => SetValue(ImageSizeProperty, value);
         }
 
         private ICommand? _changeTimeHoldCommand;
         public ICommand ChangeTimeHoldCommand => _changeTimeHoldCommand ??= new AsyncCommand<EHoldChange?>(OnChangeTimeHoldCommandAsync, allowsMultipleExecutions: false);
+
+        #endregion
+
+        #region -- Overrides --
+
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            if (propertyName is nameof(StartTime))
+            {
+                if (Time < StartTime)
+                {
+                    Time = StartTime;
+                }
+
+                Hour = Time.Hour;
+                Minute = Time.Minute;
+            }
+        }
 
         #endregion
 
@@ -130,31 +137,16 @@ namespace Next2.Controls
                     break;
             }
 
-            var holdTime = new DateTime(CurrentTime.Year, CurrentTime.Month, CurrentTime.Day, hour, minute, second: 0);
+            var time = new DateTime(StartTime.Year, StartTime.Month, StartTime.Day, hour, minute, second: 0);
 
-            if (holdTime >= CurrentTime)
+            if (time >= StartTime)
             {
                 Hour = hour;
                 Minute = minute;
-                HoldTime = holdTime;
+                Time = time;
             }
 
             return Task.CompletedTask;
-        }
-
-        private bool OnTimerTick()
-        {
-            CurrentTime = DateTime.Now;
-
-            if (HoldTime < CurrentTime)
-            {
-                HoldTime = CurrentTime;
-            }
-
-            Hour = HoldTime.Hour;
-            Minute = HoldTime.Minute;
-
-            return true;
         }
 
         #endregion

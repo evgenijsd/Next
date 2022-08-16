@@ -10,7 +10,7 @@
     ColumnDefinitions="*, 70, 30, 70, 0.9*"
     RowDefinitions="*, *, *"
     VerticalOptions="FillAndExpand"
-    x:Class="Next2.Controls.HoldClock">
+    x:Class="Next2.Controls.StepperTimePicker">
 
     <Grid.Resources>
 
@@ -19,7 +19,7 @@
             TargetType="Label">
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             <Setter Property="VerticalTextAlignment" Value="Center" />
-            <Setter Property="FontSize" Value="{Binding FontSize, Source={RelativeSource AncestorType={x:Type controls:HoldClock}}}" />
+            <Setter Property="FontSize" Value="{Binding FontSize, Source={RelativeSource AncestorType={x:Type controls:StepperTimePicker}}}" />
             <Setter Property="FontFamily" Value="Barlow-Bold" />
             <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         </Style>
@@ -28,9 +28,9 @@
             x:Key="IconButtonStyle_i2"
             TargetType="buttons:IconButton">
             <Setter Property="VerticalOptions" Value="CenterAndExpand" />
-            <Setter Property="xct:TouchEffect.Command" Value="{Binding ChangeTimeHoldCommand, Source={RelativeSource AncestorType={x:Type controls:HoldClock}}}" />
-            <Setter Property="HeightRequest" Value="{Binding ImageHeight, Source={RelativeSource AncestorType={x:Type controls:HoldClock}}}" />
-            <Setter Property="WidthRequest" Value="{Binding ImageWidth, Source={RelativeSource AncestorType={x:Type controls:HoldClock}}}" />
+            <Setter Property="xct:TouchEffect.Command" Value="{Binding ChangeTimeHoldCommand, Source={RelativeSource AncestorType={x:Type controls:StepperTimePicker}}}" />
+            <Setter Property="HeightRequest" Value="{Binding ImageSize, Source={RelativeSource AncestorType={x:Type controls:StepperTimePicker}}}" />
+            <Setter Property="WidthRequest" Value="{Binding ImageSize, Source={RelativeSource AncestorType={x:Type controls:StepperTimePicker}}}" />
             <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         </Style>
 
@@ -42,7 +42,7 @@
         Style="{DynamicResource LabelStyle_i1}"
         HorizontalTextAlignment="End"
         Padding="0, 10, 15, 0"
-        Text="{Binding Hour, StringFormat='{0:D2}', Source={RelativeSource AncestorType={x:Type controls:HoldClock}}}" />
+        Text="{Binding Hour, StringFormat='{0:D2}', Source={RelativeSource AncestorType={x:Type controls:StepperTimePicker}}}" />
 
     <Label
         Grid.Row="1"
@@ -58,7 +58,7 @@
         Style="{DynamicResource LabelStyle_i1}"
         HorizontalTextAlignment="End"
         Padding="{OnIdiom Phone='0, 10, 10, 0', Tablet='0, 10, 15, 0'}"
-        Text="{Binding Minute, StringFormat='{0:D2}', Source={RelativeSource AncestorType={x:Type controls:HoldClock}}}" />
+        Text="{Binding Minute, StringFormat='{0:D2}', Source={RelativeSource AncestorType={x:Type controls:StepperTimePicker}}}" />
 
     <buttons:IconButton
         Grid.Row="0"

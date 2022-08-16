@@ -132,6 +132,9 @@
     <Compile Update="Controls\DataLoadingState.xaml.cs">
       <DependentUpon>DataLoadingState.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\StepperTimePicker.xaml.cs">
+      <DependentUpon>StepperTimePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\Templates\DishesGroupedBySeatItemTemplate.xaml.cs">
       <DependentUpon>DishesGroupedBySeatItemTemplate.xaml</DependentUpon>
     </Compile>
@@ -305,7 +308,7 @@
     <EmbeddedResource Update="Controls\DataLoadingState.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\HoldClock.xaml">
+    <EmbeddedResource Update="Controls\StepperTimePicker.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\NumericPicker.xaml">

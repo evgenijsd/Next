@@ -21,6 +21,8 @@ namespace Next2.ViewModels.Dialogs
         {
             InitTimeItems();
 
+            Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.HELD_DISH_RELEASE_FREQUENCY), OnTimerTick);
+
             RequestClose = requestClose;
             CloseCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.CANCEL, true } }));
             DismissCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.DISMISS, true } }));
@@ -127,6 +129,13 @@ namespace Next2.ViewModels.Dialogs
                     TapCommand = SelectTimeItemCommand,
                 },
             };
+        }
+
+        private bool OnTimerTick()
+        {
+            CurrentTime = DateTime.Now;
+
+            return true;
         }
 
         #endregion

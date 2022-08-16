@@ -181,17 +181,16 @@
 
                         </CollectionView>
 
-                        <controls:HoldClock
+                        <controls:StepperTimePicker
                             Margin="0, 30, 0, 0"
-                            ImageHeight="45"
-                            ImageWidth="45"
+                            ImageSize="45"
                             FontSize="{DynamicResource TSize_i13}"
-                            HoldTime="{Binding HoldTime}"
-                            CurrentTime="{Binding CurrentTime}">
+                            Time="{Binding HoldTime}"
+                            StartTime="{Binding CurrentTime}">
 
-                            <controls:HoldClock.Triggers>
+                            <controls:StepperTimePicker.Triggers>
                                 <DataTrigger
-                                    TargetType="controls:HoldClock"
+                                    TargetType="controls:StepperTimePicker"
                                     Binding="{Binding SelectedHoldingTimeInMinutes, Converter={xct:IsNotNullOrEmptyConverter}}"
                                     Value="True">
 
@@ -199,9 +198,9 @@
                                     <Setter Property="IsEnabled" Value="False" />
 
                                 </DataTrigger>
-                            </controls:HoldClock.Triggers>
+                            </controls:StepperTimePicker.Triggers>
                             
-                        </controls:HoldClock>
+                        </controls:StepperTimePicker>
                         
                     </StackLayout>
                     
