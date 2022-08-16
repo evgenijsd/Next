@@ -152,9 +152,9 @@
                 Text="{xct:Translate SelectTime}" />
 
             <CollectionView
-                Margin="8, 0, 18, 0"
+                Margin="10, 0, 16, 0"
                 ItemsSource="{Binding AvailableHoldingTimeInMinutes}"
-                HeightRequest="32"
+                HeightRequest="34"
                 HorizontalOptions="CenterAndExpand"
                 ItemSizingStrategy="MeasureFirstItem"
                 ItemTemplate="{DynamicResource timeItemTemplate}" >

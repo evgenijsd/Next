@@ -11,7 +11,7 @@
     <StackLayout>
         
         <Frame
-            Margin="10, 0, 0, 0"
+            Margin="8, 0, 2, 0"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
             CornerRadius="{OnPlatform Android='3', iOS='5'}"
