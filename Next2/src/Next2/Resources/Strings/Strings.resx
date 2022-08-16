@@ -792,4 +792,7 @@ A receipt has been printed for you.</value>
   <data name="ChooseWaiter" xml:space="preserve">
     <value>Choose Waiter</value>
   </data>
+  <data name="TheOrderHasBeenRemoved" xml:space="preserve">
+    <value>The order #{0} has been removed</value>
+  </data>
 </root>
