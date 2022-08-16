@@ -90,8 +90,6 @@ namespace Next2.ViewModels
 
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
-        public string PopUpInfo => string.Format(LocalizationResourceManager.Current["TheOrderWasPlacedTo"], CurrentOrder.Number);
-
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
 
         public OrderTypeBindableModel SelectedOrderType { get; set; }
@@ -114,7 +112,7 @@ namespace Next2.ViewModels
 
         public bool IsSideMenuVisible { get; set; } = true;
 
-        public bool IsOrderSavedNotificationVisible { get; set; }
+        public ENotificationType OrderNotificationStatus { get; set; } = ENotificationType.None;
 
         public bool IsOrderSavingAndPaymentEnabled { get; set; }
 
@@ -320,7 +318,7 @@ namespace Next2.ViewModels
         {
             if (IsInternetConnected)
             {
-                IsOrderSavedNotificationVisible = false;
+                OrderNotificationStatus = ENotificationType.None;
 
                 CurrentOrder = _orderService.CurrentOrder;
 
@@ -860,13 +858,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            if (!App.IsTablet && !CurrentOrder.Seats.Any())
-            {
-                await _navigationService.GoBackAsync();
-            }
-
             await UpdateDishGroupsAsync();
-            await _orderService.UpdateCurrentOrderAsync();
         }
 
         private async Task RemoveOrderAsync()
@@ -887,9 +879,16 @@ namespace Next2.ViewModels
 
                     if (resultOfSettingEmptyCurrentOrder.IsSuccess)
                     {
-                        InitOrderTypes();
+                        OrderNotificationStatus = ENotificationType.OrderRemoved;
 
-                        await RefreshCurrentOrderAsync();
+                        IsOrderSavingAndPaymentEnabled = false;
+
+                        CurrentOrder.Seats = new();
+
+                        if (App.IsTablet)
+                        {
+                            await OnCloseEditStateCommandAsync();
+                        }
                     }
                     else
                     {
@@ -998,7 +997,8 @@ namespace Next2.ViewModels
 
                     if (resultOfSettingEmptyCurrentOrder.IsSuccess)
                     {
-                        IsOrderSavedNotificationVisible = true;
+                        OrderNotificationStatus = ENotificationType.OrderSaved;
+
                         IsOrderSavingAndPaymentEnabled = false;
 
                         CurrentOrder.Seats = new();
@@ -1211,7 +1211,9 @@ namespace Next2.ViewModels
 
         private Task OnHideOrderNotificationCommnadAsync()
         {
-            return RefreshCurrentOrderAsync();
+            return App.IsTablet
+                ? RefreshCurrentOrderAsync()
+                : _navigationService.GoBackAsync();
         }
 
         private async Task OnGoToOrderTabsCommandAsync()
@@ -1242,7 +1244,7 @@ namespace Next2.ViewModels
 
                 if (NumberOfSeats <= SelectedTable.SeatNumbers && CurrentOrder.Seats.Count != NumberOfSeats)
                 {
-                    IsOrderSavedNotificationVisible = false;
+                    OrderNotificationStatus = ENotificationType.None;
 
                     var resultOfAddingSeatInOrder = await _orderService.AddSeatInCurrentOrderAsync();
 
