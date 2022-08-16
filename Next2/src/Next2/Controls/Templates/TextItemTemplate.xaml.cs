@@ -44,19 +44,6 @@ namespace Next2.Controls.Templates
             set => SetValue(TextMarginProperty, value);
         }
 
-        public static readonly BindableProperty ItemHeightRequestProperty = BindableProperty.Create(
-            propertyName: nameof(ItemHeightRequestProperty),
-            returnType: typeof(double),
-            defaultValue: 21d,
-            declaringType: typeof(TextItemTemplate),
-            defaultBindingMode: BindingMode.OneWay);
-
-        public double ItemHeightRequest
-        {
-            get => (double)GetValue(ItemHeightRequestProperty);
-            set => SetValue(ItemHeightRequestProperty, value);
-        }
-
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
             propertyName: nameof(FontSize),
             returnType: typeof(double),
