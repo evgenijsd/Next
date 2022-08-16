@@ -15,8 +15,9 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:dto="clr-namespace:Next2.Models.API.DTO"
     xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
+    xmlns:strings="clr-namespace:Next2.Resources.Strings"
     xmlns:tabletViewModels="clr-namespace:Next2.ViewModels.Tablet"
-    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"    
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Views.Tablet.NewOrderView"
     x:DataType="tabletViewModels:NewOrderViewModel">
 
@@ -972,7 +973,10 @@
                 
                 <controls:DropDownList.Triggers>
 
-                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}" Value="True">
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
+                        Binding="{Binding OrderRegistrationViewModel.OrderNotificationStatus, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:ENotificationType.None}}"
+                        Value="False">
 
                         <Setter Property="IsEnabled" Value="False"/>
                         <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
@@ -1063,7 +1067,6 @@
                 </Label>
 
                 <controls:CustomStepper
-                    IsEnabled="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}"
                     Spacing="10"
                     Style="{DynamicResource CustomStepperStyle_i1}"
                     MaxValue="{Binding OrderRegistrationViewModel.SelectedTable.SeatNumbers}"
@@ -1074,13 +1077,26 @@
 
                     <controls:CustomStepper.Triggers>
                         
-                         <DataTrigger 
-                            TargetType="controls:CustomStepper"
-                            Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible, Converter={xct:InvertedBoolConverter}}"
-                            Value="False">
-                            
+                        <DataTrigger TargetType="controls:CustomStepper" Value="True">
+
+                            <DataTrigger.Binding>
+                                <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=Any}">
+
+                                    <Binding
+                                        Path="OrderRegistrationViewModel.OrderNotificationStatus"
+                                        Converter="{xct:NotEqualConverter}"
+                                        ConverterParameter="{x:Static enums:ENotificationType.None}"/>
+                                    
+                                    <Binding
+                                        Path="OrderRegistrationViewModel.CurrentOrder.Seats.Count"
+                                        Converter="{xct:EqualConverter}"
+                                        ConverterParameter="0"/>
+
+                                </MultiBinding>
+                            </DataTrigger.Binding>
+
                             <Setter Property="IsEnabled" Value="False"/>
-                            
+
                         </DataTrigger>
 
                     </controls:CustomStepper.Triggers>
@@ -1110,21 +1126,27 @@
 
                 <controls:DropDownList.Triggers>
                         
-                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding OrderRegistrationViewModel.SelectedTable, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
+                        Binding="{Binding OrderRegistrationViewModel.SelectedTable, Converter={xct:IsNullOrEmptyConverter}}"
+                        Value="True">
 
                         <Setter Property="HeaderText" Value="{xct:Translate NoTablesAvailable}"/>
                         <Setter Property="IsEnabled" Value="False"/>
                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
                         
                     </DataTrigger>
-                        
-                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}" Value="True">
-                        
+
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
+                        Binding="{Binding OrderRegistrationViewModel.OrderNotificationStatus, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:ENotificationType.None}}"
+                        Value="False">
+
                         <Setter Property="IsEnabled" Value="False"/>
                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
-                        
+
                     </DataTrigger>
-                    
+
                 </controls:DropDownList.Triggers>
                 
                 <controls:DropDownList.DataTemplate>
@@ -1193,14 +1215,27 @@
                     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                         <pancakeview:PancakeView
-                            IsVisible="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
+                            IsVisible="{Binding OrderRegistrationViewModel.OrderNotificationStatus, Converter={xct:NotEqualConverter}, ConverterParameter={x:Static enums:ENotificationType.None}}"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"
                             Shadow="{pancakeview:ShadowMarkup BlurRadius=15}"
-                            HeightRequest="66"
+                            HeightRequest="42"
                             WidthRequest="250"
                             Margin="15, 15, 15, 0"
                             CornerRadius="6">
+
+                            <pancakeview:PancakeView.Triggers>
+
+                                <DataTrigger
+                                    TargetType="pancakeview:PancakeView"
+                                    Binding="{Binding OrderRegistrationViewModel.OrderNotificationStatus}"
+                                    Value="{x:Static enums:ENotificationType.OrderSaved}">
+
+                                    <Setter Property="HeightRequest" Value="66"/>
+
+                                </DataTrigger>
+
+                            </pancakeview:PancakeView.Triggers>
 
                             <StackLayout
                                 Spacing="6"
@@ -1209,9 +1244,24 @@
                                 <StackLayout Orientation="Horizontal">
 
                                     <Label
-                                        Text="{Binding OrderRegistrationViewModel.PopUpInfo}"
+                                        Text="{Binding OrderRegistrationViewModel.CurrentOrder.Number, StringFormat={Static strings:Strings.TheOrderHasBeenRemoved}}"
                                         FontFamily="Barlow-Medium"
-                                        FontSize="{DynamicResource TSize_i9}" />
+                                        FontSize="{DynamicResource TSize_i9}">
+
+                                        <Label.Triggers>
+
+                                            <DataTrigger
+                                                TargetType="Label"
+                                                Binding="{Binding OrderRegistrationViewModel.OrderNotificationStatus}"
+                                                Value="{x:Static enums:ENotificationType.OrderSaved}">
+
+                                                <Setter Property="Text" Value="{Binding OrderRegistrationViewModel.CurrentOrder.Number, StringFormat={Static strings:Strings.TheOrderWasPlacedTo}}"/>
+
+                                            </DataTrigger>
+
+                                        </Label.Triggers>
+
+                                    </Label>
 
                                     <ffimageloading:CachedImage
                                         HorizontalOptions="EndAndExpand"
@@ -1225,6 +1275,7 @@
                                 <StackLayout
                                     Orientation="Horizontal"
                                     Spacing="6"
+                                    IsVisible="{Binding OrderRegistrationViewModel.OrderNotificationStatus, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:ENotificationType.OrderSaved}}"
                                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.GoToOrderTabsCommand}">
 
                                     <ffimageloading:CachedImage
@@ -1247,16 +1298,18 @@
                         <StackLayout
                             Margin="0, 30, 0, 0"
                             Spacing="6">
-                            
+
                             <StackLayout.Triggers>
+
                                 <DataTrigger
                                     TargetType="StackLayout"
-                                    Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
-                                    Value="True">
+                                    Binding="{Binding OrderRegistrationViewModel.OrderNotificationStatus, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:ENotificationType.None}}"
+                                    Value="False">
 
                                     <Setter Property="Margin" Value="0, 40, 0, 0" />
 
                                 </DataTrigger>
+                                
                             </StackLayout.Triggers>
 
                             <ffimageloading:CachedImage
