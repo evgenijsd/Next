@@ -475,6 +475,7 @@
                     <StackLayout.Triggers>
 
                         <MultiTrigger TargetType="StackLayout">
+                            
                             <MultiTrigger.Conditions>
                                 <BindingCondition Binding="{Binding CurrentOrder.Coupon, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
                                 <BindingCondition Binding="{Binding CurrentOrder.Discount, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
