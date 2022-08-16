@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary
-    x:Class="Next2.Resources.Styles.DarkModeResources"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Next2.Resources.Styles.DarkModeResources">
 
     <!--  APP COLORS  -->
 
@@ -35,7 +35,7 @@
     <Color x:Key="TextAndBackgroundColor_i8">#2E3143</Color>
 
     <Color x:Key="TextAndBackgroundColor_i9">#757785</Color>
-    
+
     <Color x:Key="TextAndBackgroundColor_i10">#A7A8AD</Color>
 
     <Color x:Key="TextAndBackgroundColor_i11">#71737E</Color>
@@ -60,5 +60,5 @@
     <Color x:Key="IndicationColor_i8">#454279</Color>
 
     <Color x:Key="IndicationColor_i9">#4e3844</Color>
-    
+
 </ResourceDictionary>
