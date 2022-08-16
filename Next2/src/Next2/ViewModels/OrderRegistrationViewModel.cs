@@ -46,7 +46,7 @@ namespace Next2.ViewModels
         private readonly ICommand _selectDishCommand;
 
         private FullOrderBindableModel _tempCurrentOrder = new();
-        private SeatBindableModel _firstSeat = new();
+        private SeatBindableModel? _firstSeat;
         private SeatBindableModel _firstNotEmptySeat = new();
         private SeatBindableModel? _seatWithSelectedDish;
         private DishBindableModel? _rememberPositionSelection;
@@ -715,7 +715,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private Task SelectSeatAsync(SeatBindableModel seatToBeSelected)
+        private Task SelectSeatAsync(SeatBindableModel? seatToBeSelected)
         {
             foreach (var seat in CurrentOrder.Seats)
             {
@@ -723,7 +723,10 @@ namespace Next2.ViewModels
                 seat.SelectedItem = null;
             }
 
-            seatToBeSelected.Checked = true;
+            if (seatToBeSelected is not null)
+            {
+                seatToBeSelected.Checked = true;
+            }
 
             SelectedDish = null;
             _rememberPositionSelection = null;
