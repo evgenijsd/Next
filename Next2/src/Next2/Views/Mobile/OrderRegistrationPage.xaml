@@ -10,8 +10,10 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
+    xmlns:strings="clr-namespace:Next2.Resources.Strings"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -110,16 +112,10 @@
 
             <controls:DropDownList.Triggers>
 
-                <DataTrigger TargetType="controls:DropDownList" Value="True">
-
-                    <DataTrigger.Binding>
-                        <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=Any}">
-
-                            <Binding Path="IsOrderSavedNotificationVisible"/>
-                            <Binding Path="IsOrderRemovedNotificationVisible"/>
-
-                        </MultiBinding>
-                    </DataTrigger.Binding>
+                <DataTrigger
+                    TargetType="controls:DropDownList"
+                    Binding="{Binding OrderNotificationStatus, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:ENotificationType.None}}"
+                    Value="False">
 
                     <Setter Property="IsEnabled" Value="False"/>
                     <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
@@ -181,29 +177,11 @@
             </Label>
 
             <controls:CustomStepper
+                IsEnabled="{Binding OrderNotificationStatus, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:ENotificationType.None}}"
                 MaxValue="{Binding SelectedTable.SeatNumbers}"
                 Value="{Binding NumberOfSeats}"
                 IncrementCommand="{Binding AddNewSeatCommand}"
-                DecrementCommand="{Binding DeleteLastSeatCommand}">
-
-                <controls:CustomStepper.Triggers>
-                    <DataTrigger TargetType="controls:CustomStepper" Value="True">
-
-                        <DataTrigger.Binding>
-                            <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=Any}">
-
-                                <Binding Path="IsOrderSavedNotificationVisible"/>
-                                <Binding Path="IsOrderRemovedNotificationVisible"/>
-
-                            </MultiBinding>
-                        </DataTrigger.Binding>
-
-                        <Setter Property="IsEnabled" Value="False"/>
-
-                    </DataTrigger>
-                </controls:CustomStepper.Triggers>
-                
-            </controls:CustomStepper>
+                DecrementCommand="{Binding DeleteLastSeatCommand}"/>
 
         </StackLayout>
 
@@ -236,16 +214,10 @@
 
                 </DataTrigger>
 
-                <DataTrigger TargetType="controls:DropDownList" Value="True">
-
-                    <DataTrigger.Binding>
-                        <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=Any}">
-
-                            <Binding Path="IsOrderSavedNotificationVisible"/>
-                            <Binding Path="IsOrderRemovedNotificationVisible"/>
-
-                        </MultiBinding>
-                    </DataTrigger.Binding>
+                <DataTrigger
+                    TargetType="controls:DropDownList"
+                    Binding="{Binding OrderNotificationStatus, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:ENotificationType.None}}"
+                    Value="False">
 
                     <Setter Property="IsEnabled" Value="False"/>
                     <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
@@ -308,7 +280,7 @@
                 <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                     <Frame
-                        IsVisible="False"
+                        IsVisible="{Binding OrderNotificationStatus, Converter={xct:NotEqualConverter}, ConverterParameter={x:Static enums:ENotificationType.None}}"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                         HorizontalOptions="FillAndExpand"
@@ -318,22 +290,7 @@
 
                         <Frame.Triggers>
 
-                            <DataTrigger TargetType="Frame" Value="True">
-
-                                <DataTrigger.Binding>
-                                    <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=Any}">
-
-                                        <Binding Path="IsOrderSavedNotificationVisible"/>
-                                        <Binding Path="IsOrderRemovedNotificationVisible"/>
-
-                                    </MultiBinding>
-                                </DataTrigger.Binding>
-
-                                <Setter Property="IsVisible" Value="True"/>
-
-                            </DataTrigger>
-
-                            <DataTrigger TargetType="Frame" Binding="{Binding IsOrderSavedNotificationVisible}" Value="True">
+                            <DataTrigger TargetType="Frame" Binding="{Binding OrderNotificationStatus}" Value="{x:Static enums:ENotificationType.OrderSaved}">
 
                                 <Setter Property="MinimumHeightRequest" Value="88"/>
 
@@ -346,10 +303,22 @@
                             <StackLayout Orientation="Horizontal">
 
                                 <Label
-                                    Text="{Binding PopUpInfo}"
+                                    Text="{Binding CurrentOrder.Number, StringFormat={Static strings:Strings.TheOrderHasBeenRemoved}}"
                                     VerticalTextAlignment="Center"
                                     FontFamily="Barlow-Medium"
-                                    FontSize="{DynamicResource TSize_i8}"/>
+                                    FontSize="{DynamicResource TSize_i8}">
+
+                                    <Label.Triggers>
+
+                                        <DataTrigger TargetType="Label" Binding="{Binding OrderNotificationStatus}" Value="{x:Static enums:ENotificationType.OrderSaved}">
+                                            
+                                            <Setter Property="Text" Value="{Binding CurrentOrder.Number, StringFormat={Static strings:Strings.TheOrderWasPlacedTo}}"/>
+                                            
+                                        </DataTrigger>
+                                        
+                                    </Label.Triggers>
+
+                                </Label>
 
                                 <ffimageloading:CachedImage
                                     Source="ic_close_square_24x24"
@@ -362,7 +331,7 @@
 
                             <StackLayout
                                 Orientation="Horizontal"
-                                IsVisible="{Binding IsOrderSavedNotificationVisible}"
+                                IsVisible="{Binding OrderNotificationStatus, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:ENotificationType.OrderSaved}}"
                                 xct:TouchEffect.Command="{Binding GoToOrderTabsCommand}">
 
                                 <ffimageloading:CachedImage

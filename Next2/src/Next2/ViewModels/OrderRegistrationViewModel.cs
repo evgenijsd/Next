@@ -88,8 +88,6 @@ namespace Next2.ViewModels
 
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
-        public string PopUpInfo { get; set; } = string.Empty;
-
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
 
         public OrderTypeBindableModel SelectedOrderType { get; set; }
@@ -110,9 +108,7 @@ namespace Next2.ViewModels
 
         public bool IsSideMenuVisible { get; set; } = true;
 
-        public bool IsOrderSavedNotificationVisible { get; set; }
-
-        public bool IsOrderRemovedNotificationVisible { get; set; }
+        public ENotificationType OrderNotificationStatus { get; set; } = ENotificationType.None;
 
         public bool IsOrderSavingAndPaymentEnabled { get; set; }
 
@@ -227,14 +223,6 @@ namespace Next2.ViewModels
                     IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 
                     break;
-
-                case nameof(IsOrderSavedNotificationVisible):
-                case nameof(IsOrderRemovedNotificationVisible):
-                    PopUpInfo = IsOrderSavedNotificationVisible
-                        ? string.Format(LocalizationResourceManager.Current["TheOrderWasPlacedTo"], CurrentOrder.Number)
-                        : string.Format(LocalizationResourceManager.Current["TheOrderHasBeenRemoved"], CurrentOrder.Number);
-
-                    break;
             }
         }
 
@@ -326,8 +314,7 @@ namespace Next2.ViewModels
         {
             if (IsInternetConnected)
             {
-                IsOrderSavedNotificationVisible = false;
-                IsOrderRemovedNotificationVisible = false;
+                OrderNotificationStatus = ENotificationType.None;
 
                 CurrentOrder = _orderService.CurrentOrder;
 
@@ -859,7 +846,8 @@ namespace Next2.ViewModels
 
                     if (resultOfSettingEmptyCurrentOrder.IsSuccess)
                     {
-                        IsOrderRemovedNotificationVisible = true;
+                        OrderNotificationStatus = ENotificationType.OrderRemoved;
+
                         IsOrderSavingAndPaymentEnabled = false;
 
                         CurrentOrder.Seats = new();
@@ -950,7 +938,8 @@ namespace Next2.ViewModels
 
                     if (resultOfSettingEmptyCurrentOrder.IsSuccess)
                     {
-                        IsOrderSavedNotificationVisible = true;
+                        OrderNotificationStatus = ENotificationType.OrderSaved;
+
                         IsOrderSavingAndPaymentEnabled = false;
 
                         CurrentOrder.Seats = new();
@@ -1196,8 +1185,7 @@ namespace Next2.ViewModels
 
                 if (NumberOfSeats <= SelectedTable.SeatNumbers && CurrentOrder.Seats.Count != NumberOfSeats)
                 {
-                    IsOrderSavedNotificationVisible = false;
-                    IsOrderRemovedNotificationVisible = false;
+                    OrderNotificationStatus = ENotificationType.None;
 
                     var resultOfAddingSeatInOrder = await _orderService.AddSeatInCurrentOrderAsync();
 
