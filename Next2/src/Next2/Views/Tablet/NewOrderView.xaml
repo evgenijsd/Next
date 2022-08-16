@@ -1018,7 +1018,6 @@
                         <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                             ItemHeightRequest="21"
-                            FontSize="{DynamicResource TSize_i8}"
                             Text="{Binding Text}"
                             xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"/>
 
@@ -1122,11 +1121,17 @@
 
                         <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
-                            FontSize="{DynamicResource TSize_i8}"
-                            FirstPrefixText="{xct:Translate Table}"
-                            SecondPrefixText=" "
-                            Text="{Binding TableNumber}"/>
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
+
+                            <templates:TextItemTemplate.Text>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate Table}"/>
+                                    <Span Text=" "/>
+                                    <Span Text="{Binding TableNumber}"/>
+                                </FormattedString>
+                            </templates:TextItemTemplate.Text>
+
+                        </templates:TextItemTemplate>
 
                     </DataTemplate>
                     

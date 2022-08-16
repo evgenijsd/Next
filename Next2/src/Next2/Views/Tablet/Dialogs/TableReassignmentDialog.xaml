@@ -82,26 +82,13 @@
                 <controls:DropDownList.DataTemplate>
 
                     <DataTemplate x:DataType="modelsApi:EmployeeModelDTO">
-                        
-                        <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
 
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+                        <templates:TextItemTemplate
+                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            Text="{Binding UserName}"/>
 
-                            <StackLayout
-                                Padding="14, 9"
-                                HeightRequest="21"
-                                Orientation="Horizontal">
-
-                                <Label 
-                                    Style="{DynamicResource LabelStyle_i1}"
-                                    Text="{Binding UserName}"/>
-
-                            </StackLayout>
-
-                        </StackLayout>
-                        
                     </DataTemplate>
-                    
+
                 </controls:DropDownList.DataTemplate>
 
             </controls:DropDownList>
@@ -136,26 +123,13 @@
                 <controls:DropDownList.DataTemplate>
 
                     <DataTemplate x:DataType="modelsApi:EmployeeModelDTO">
-                        
-                        <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
 
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+                        <templates:TextItemTemplate
+                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            Text="{Binding UserName}"/>
 
-                            <StackLayout
-                                Padding="14, 9"
-                                HeightRequest="21"
-                                Orientation="Horizontal">
-
-                                <Label 
-                                    Style="{DynamicResource LabelStyle_i1}"
-                                    Text="{Binding UserName}"/>
-
-                            </StackLayout>
-
-                        </StackLayout>
-                        
                     </DataTemplate>
-                    
+
                 </controls:DropDownList.DataTemplate>
 
             </controls:DropDownList>
@@ -218,14 +192,19 @@
 
                 <controls:DropDownList.DataTemplate>
 
-                    <DataTemplate x:DataType="modelsApi:OccupiedTableModelDTO">
+                    <DataTemplate>
 
-                        <templates:TextItemTemplate
-                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            FontSize="{DynamicResource TSize_i8}"
-                            FirstPrefixText="{xct:Translate Table}"
-                            SecondPrefixText=" "
-                            Text="{Binding Number}">
+                        <templates:TextItemTemplate 
+                            x:DataType="modelsApi:OccupiedTableModelDTO"
+                            Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+
+                            <templates:TextItemTemplate.Text>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate Table}"/>
+                                    <Span Text=" "/>
+                                    <Span Text="{Binding Number}"/>
+                                </FormattedString>
+                            </templates:TextItemTemplate.Text>
 
                         </templates:TextItemTemplate>
 

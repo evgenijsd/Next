@@ -20,38 +20,14 @@ namespace Next2.Controls.Templates
 
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
-            returnType: typeof(string),
+            returnType: typeof(FormattedString),
             declaringType: typeof(TextItemTemplate),
             defaultBindingMode: BindingMode.OneWay);
 
-        public string Text
+        public FormattedString Text
         {
-            get => (string)GetValue(TextProperty);
+            get => (FormattedString)GetValue(TextProperty);
             set => SetValue(TextProperty, value);
-        }
-
-        public static readonly BindableProperty FirstPrefixTextProperty = BindableProperty.Create(
-            propertyName: nameof(FirstPrefixText),
-            returnType: typeof(string),
-            declaringType: typeof(TextItemTemplate),
-            defaultBindingMode: BindingMode.OneWay);
-
-        public string FirstPrefixText
-        {
-            get => (string)GetValue(FirstPrefixTextProperty);
-            set => SetValue(FirstPrefixTextProperty, value);
-        }
-
-        public static readonly BindableProperty SecondPrefixTextProperty = BindableProperty.Create(
-            propertyName: nameof(SecondPrefixText),
-            returnType: typeof(string),
-            declaringType: typeof(TextItemTemplate),
-            defaultBindingMode: BindingMode.OneWay);
-
-        public string SecondPrefixText
-        {
-            get => (string)GetValue(SecondPrefixTextProperty);
-            set => SetValue(SecondPrefixTextProperty, value);
         }
 
         public static readonly BindableProperty ItemHeightRequestProperty = BindableProperty.Create(
