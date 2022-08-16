@@ -1012,17 +1012,16 @@
                 </VisualStateManager.VisualStateGroups>
 
                 <controls:DropDownList.DataTemplate>
-                    
+
                     <DataTemplate x:DataType="models:OrderTypeBindableModel">
 
                         <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            ItemHeightRequest="21"
                             Text="{Binding Text}"
                             xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"/>
 
                     </DataTemplate>
-                    
+
                 </controls:DropDownList.DataTemplate>
 
             </controls:DropDownList>

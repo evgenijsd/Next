@@ -263,10 +263,10 @@
                 HorizontalOptions="Start"
                 VerticalOptions="Start">
 
+                    <!--ItemHeight="46.5"-->
                 <controls:DropDownList
                     Style="{DynamicResource DropDownListStyle_i1}"
                     WidthRequest="110"
-                    ItemHeight="46.5"
                     ScrollBarVisibility="Never"
                     HeaderTextSize="{DynamicResource TSize_i8}"
                     SelectedItem="{Binding SelectedTable}"

@@ -5,22 +5,17 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     x:Class="Next2.Controls.Templates.TextItemTemplate">
 
-    <BoxView
-        HeightRequest="{OnPlatform Android=0.25, iOS=1}"
-        Color="{DynamicResource TextAndBackgroundColor_i6}"/>
+    <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
     <StackLayout
-        Margin="14, 9"
-        HeightRequest="{Binding ItemHeightRequest, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}"
+        Margin="{Binding TextMargin, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}"
         Orientation="Horizontal">
 
         <Label
-            FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}"
+            HorizontalOptions="FillAndExpand"
             FontFamily="Barlow-Medium"
-            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-            FormattedText="{Binding Text, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}"
-            VerticalTextAlignment="Center"
-            HorizontalOptions="FillAndExpand"/>
+            FontSize="{DynamicResource TSize_i7}"
+            FormattedText="{Binding Text, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}"/>
 
     </StackLayout>
 

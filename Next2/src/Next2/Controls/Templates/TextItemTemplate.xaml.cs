@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,6 +29,19 @@ namespace Next2.Controls.Templates
         {
             get => (FormattedString)GetValue(TextProperty);
             set => SetValue(TextProperty, value);
+        }
+
+        public static readonly BindableProperty TextMarginProperty = BindableProperty.Create(
+            propertyName: nameof(TextMargin),
+            returnType: typeof(Thickness),
+            defaultValue: new Thickness(14d, 0d),
+            declaringType: typeof(TextItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
+
+        public Thickness TextMargin
+        {
+            get => (Thickness)GetValue(TextMarginProperty);
+            set => SetValue(TextMarginProperty, value);
         }
 
         public static readonly BindableProperty ItemHeightRequestProperty = BindableProperty.Create(

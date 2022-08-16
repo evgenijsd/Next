@@ -74,6 +74,7 @@
 
                         <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            HeightRequest="35"
                             Text="{Binding UserName}"/>
 
                     </DataTemplate>
@@ -109,6 +110,7 @@
 
                         <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            HeightRequest="35"
                             Text="{Binding UserName}"/>
 
                     </DataTemplate>
@@ -171,7 +173,9 @@
 
                     <DataTemplate x:DataType="modelsApi:OccupiedTableModelDTO">
 
-                        <templates:TextItemTemplate Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+                        <templates:TextItemTemplate 
+                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            HeightRequest="35">
 
                             <templates:TextItemTemplate.Text>
                                 <FormattedString>

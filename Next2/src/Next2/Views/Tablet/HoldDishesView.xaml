@@ -426,13 +426,13 @@
                         
                         <StackLayout
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            HeightRequest="40"
                             xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
                             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                             <StackLayout
                                 Padding="14, 9"
-                                HeightRequest="21"
                                 Orientation="Horizontal"
                                 x:DataType="models:TableBindableModel">
 

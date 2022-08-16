@@ -161,18 +161,6 @@ namespace Next2.Controls
             set => SetValue(DataTemplateProperty, value);
         }
 
-        public static readonly BindableProperty ItemHeightProperty = BindableProperty.Create(
-            propertyName: nameof(ItemHeight),
-            returnType: typeof(double),
-            declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.OneWay);
-
-        public double ItemHeight
-        {
-            get => (double)GetValue(ItemHeightProperty);
-            set => SetValue(ItemHeightProperty, value);
-        }
-
         public static readonly BindableProperty MaxNumberOfVisibleItemsProperty = BindableProperty.Create(
             propertyName: nameof(MaxNumberOfVisibleItems),
             returnType: typeof(int),
@@ -247,6 +235,8 @@ namespace Next2.Controls
 
         public double ListHeight { get; private set; }
 
+        public double ItemHeight { get; private set; }
+
         private ICommand? _selectItemCommand;
         public ICommand SelectItemCommand => _selectItemCommand ??= new Command(OnSelectItemCommand);
 
@@ -288,11 +278,11 @@ namespace Next2.Controls
             }
 
             if (propertyName
-                is nameof(ItemHeight)
-                or nameof(ItemsSource)
+                is nameof(ItemsSource)
+                or nameof(ItemHeight)
                 or nameof(MaxNumberOfVisibleItems))
             {
-                if (ItemsSource is not null)
+                if (ItemsSource is not null && ItemHeight > 0)
                 {
                     ListHeight = ItemHeight * (ItemsSource.Count < MaxNumberOfVisibleItems
                         ? ItemsSource.Count
@@ -307,6 +297,12 @@ namespace Next2.Controls
             if (propertyName is nameof(IsExpanded) && IsExpanded)
             {
                 itemsCollection.ScrollTo(itemsCollection.SelectedItem, position: ScrollToPosition.Center, animate: false);
+            }
+
+            if (propertyName is nameof(ItemsSource))
+            {
+                var itemView = (View)itemsCollection.ItemTemplate.CreateContent();
+                ItemHeight = itemView.HeightRequest;
             }
 
             base.OnPropertyChanging(propertyName);
