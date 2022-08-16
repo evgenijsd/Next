@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:enums="clr-namespace:Next2.Enums"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    ColumnDefinitions="*, 70, 30, 70, 0.9*"
+    RowDefinitions="*, *, *"
+    VerticalOptions="FillAndExpand"
+    x:Class="Next2.Controls.HoldClock">
+
+    <Grid.Resources>
+
+        <Style
+            x:Key="LabelStyle_i1"
+            TargetType="Label">
+            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="{Binding FontSize, Source={RelativeSource AncestorType={x:Type controls:HoldClock}}}" />
+            <Setter Property="FontFamily" Value="Barlow-Bold" />
+            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+        </Style>
+
+        <Style
+            x:Key="IconButtonStyle_i2"
+            TargetType="buttons:IconButton">
+            <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+            <Setter Property="xct:TouchEffect.Command" Value="{Binding ChangeTimeHoldCommand, Source={RelativeSource AncestorType={x:Type controls:HoldClock}}}" />
+            <Setter Property="HeightRequest" Value="{Binding ImageHeight, Source={RelativeSource AncestorType={x:Type controls:HoldClock}}}" />
+            <Setter Property="WidthRequest" Value="{Binding ImageWidth, Source={RelativeSource AncestorType={x:Type controls:HoldClock}}}" />
+            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+        </Style>
+
+    </Grid.Resources>
+    
+    <Label
+        Grid.Row="1"
+        Grid.Column="1"
+        Style="{DynamicResource LabelStyle_i1}"
+        HorizontalTextAlignment="End"
+        Padding="0, 10, 15, 0"
+        Text="{Binding Hour, StringFormat='{0:D2}', Source={RelativeSource AncestorType={x:Type controls:HoldClock}}}" />
+
+    <Label
+        Grid.Row="1"
+        Grid.Column="2"
+        Style="{DynamicResource LabelStyle_i1}"
+        Padding="5, 5, 0, 0"
+        Text=":"
+        Opacity="{DynamicResource OpacityWhenDisabled_i3}" />
+
+    <Label
+        Grid.Row="1"
+        Grid.Column="3"
+        Style="{DynamicResource LabelStyle_i1}"
+        HorizontalTextAlignment="End"
+        Padding="{OnIdiom Phone='0, 10, 10, 0', Tablet='0, 10, 15, 0'}"
+        Text="{Binding Minute, StringFormat='{0:D2}', Source={RelativeSource AncestorType={x:Type controls:HoldClock}}}" />
+
+    <buttons:IconButton
+        Grid.Row="0"
+        Grid.Column="1"
+        Style="{DynamicResource IconButtonStyle_i2}"
+        HorizontalOptions="Center"
+        Padding="0, 5, 5, 0"
+        Border="{pancakeview:BorderMarkup Thickness=0}"
+        IconSource="ic_arrow_up_circle_primary_40x40"
+        xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.HourIncrement}" />
+
+    <buttons:IconButton
+        Grid.Row="0"
+        Grid.Column="3"
+        Style="{DynamicResource IconButtonStyle_i2}"
+        Padding="5, 5, 10, 0"
+        Border="{pancakeview:BorderMarkup Thickness=0}"
+        IconSource="ic_arrow_up_circle_primary_40x40"
+        xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.MinuteIncrement}" />
+
+    <buttons:IconButton
+        Grid.Row="2"
+        Grid.Column="1"
+        Style="{DynamicResource IconButtonStyle_i2}"
+        HorizontalOptions="Center"
+        Padding="0, 20, 5, 0"
+        Border="{pancakeview:BorderMarkup Thickness=0}"
+        IconSource="ic_arrow_down_circle_primary_40x40"
+        xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.HourDecrement}" />
+
+    <buttons:IconButton
+        Grid.Row="2"
+        Grid.Column="3"
+        Style="{DynamicResource IconButtonStyle_i2}"
+        Padding="5, 20, 10, 0"
+        Border="{pancakeview:BorderMarkup Thickness=0}"
+        IconSource="ic_arrow_down_circle_primary_40x40"
+        xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.MinuteDecrement}" />
+    
+</Grid>

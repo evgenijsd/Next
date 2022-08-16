@@ -6,6 +6,7 @@
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:enums="clr-namespace:Next2.Enums"
+    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:local="clr-namespace:Next2"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
@@ -55,7 +56,7 @@
             </Style>
 
             <DataTemplate x:Key="timeItemTemplate">
-                <templates:TimeItemTemplate HeightItems="40" />
+                <templates:HoldTimeItemTemplate ItemHeight="40" />
             </DataTemplate>
 
         </pancakeview:PancakeView.Resources>
@@ -143,7 +144,7 @@
 
                 <BoxView
                     HeightRequest="1"
-                    Margin=" 20, 0"
+                    Margin="20, 0"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
                 <ScrollView>
@@ -180,87 +181,27 @@
 
                         </CollectionView>
 
-                        <Grid
+                        <controls:HoldClock
                             Margin="0, 30, 0, 0"
-                            ColumnDefinitions="*, 70, 30, 70, 0.9*"
-                            RowDefinitions="*, *, *"
-                            VerticalOptions="FillAndExpand">
+                            ImageHeight="45"
+                            ImageWidth="45"
+                            FontSize="{DynamicResource TSize_i13}"
+                            HoldTime="{Binding HoldTime}"
+                            CurrentTime="{Binding CurrentTime}">
 
-                            <Grid.Triggers>
+                            <controls:HoldClock.Triggers>
                                 <DataTrigger
-                                    TargetType="Grid"
+                                    TargetType="controls:HoldClock"
                                     Binding="{Binding SelectedHoldingTimeInMinutes, Converter={xct:IsNotNullOrEmptyConverter}}"
                                     Value="True">
-                                    
+
                                     <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                                     <Setter Property="IsEnabled" Value="False" />
-                                    
+
                                 </DataTrigger>
-                            </Grid.Triggers>
-
-                            <Label
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Style="{DynamicResource LabelStyle_i1}"
-                                HorizontalTextAlignment="End"
-                                Padding="0, 10, 15, 0"
-                                Text="{Binding Hour, StringFormat='{0:D2}'}" />
-
-                            <Label
-                                Grid.Row="1"
-                                Grid.Column="2"
-                                Style="{DynamicResource LabelStyle_i1}"
-                                Padding="5, 5, 0, 0"
-                                Text=":"
-                                Opacity="{DynamicResource OpacityWhenDisabled_i3}" />
-
-                            <Label
-                                Grid.Row="1"
-                                Grid.Column="3"
-                                Style="{DynamicResource LabelStyle_i1}"
-                                HorizontalTextAlignment="End"
-                                Padding="0, 10, 10, 0"
-                                Text="{Binding Minute, StringFormat='{0:D2}'}" />
-
-                            <buttons:IconButton
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                Style="{DynamicResource IconButtonStyle_i3}"
-                                HorizontalOptions="Center"
-                                Padding="0, 5, 5, 0"
-                                Border="{pancakeview:BorderMarkup Thickness=0}"
-                                IconSource="ic_arrow_up_circle_primary_40x40"
-                                xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.HourIncrement}" />
-
-                            <buttons:IconButton
-                                Grid.Row="0"
-                                Grid.Column="3"
-                                Style="{DynamicResource IconButtonStyle_i3}"
-                                Padding="5, 5, 10, 0"
-                                Border="{pancakeview:BorderMarkup Thickness=0}"
-                                IconSource="ic_arrow_up_circle_primary_40x40"
-                                xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.MinuteIncrement}" />
-
-                            <buttons:IconButton
-                                Grid.Row="2"
-                                Grid.Column="1"
-                                Style="{DynamicResource IconButtonStyle_i3}"
-                                HorizontalOptions="Center"
-                                Padding="0, 20, 5, 0"
-                                Border="{pancakeview:BorderMarkup Thickness=0}"
-                                IconSource="ic_arrow_down_circle_primary_40x40"
-                                xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.HourDecrement}" />
-
-                            <buttons:IconButton
-                                Grid.Row="2"
-                                Grid.Column="3"
-                                Style="{DynamicResource IconButtonStyle_i3}"
-                                Padding="5, 20, 10, 0"
-                                Border="{pancakeview:BorderMarkup Thickness=0}"
-                                IconSource="ic_arrow_down_circle_primary_40x40"
-                                xct:TouchEffect.CommandParameter="{x:Static enums:EHoldChange.MinuteDecrement}" />
-
-                        </Grid>
+                            </controls:HoldClock.Triggers>
+                            
+                        </controls:HoldClock>
                         
                     </StackLayout>
                     

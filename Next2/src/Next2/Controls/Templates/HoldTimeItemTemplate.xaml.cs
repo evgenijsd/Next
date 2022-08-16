@@ -4,9 +4,9 @@ using Xamarin.Forms;
 
 namespace Next2.Controls.Templates
 {
-    public partial class TimeItemTemplate : Grid
+    public partial class HoldTimeItemTemplate : Grid
     {
-        public TimeItemTemplate()
+        public HoldTimeItemTemplate()
         {
             InitializeComponent();
         }
@@ -14,13 +14,13 @@ namespace Next2.Controls.Templates
         #region -- Public properties --
 
         public static readonly BindableProperty HeightItemsProperty = BindableProperty.Create(
-            propertyName: nameof(HeightItems),
+            propertyName: nameof(ItemHeight),
             returnType: typeof(double),
-            defaultValue: 70d,
-            declaringType: typeof(TimeItemTemplate),
+            defaultValue: 40d,
+            declaringType: typeof(HoldTimeItemTemplate),
             defaultBindingMode: BindingMode.OneWay);
 
-        public double HeightItems
+        public double ItemHeight
         {
             get => (double)GetValue(HeightItemsProperty);
             set => SetValue(HeightItemsProperty, value);

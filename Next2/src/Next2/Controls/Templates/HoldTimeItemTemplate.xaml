@@ -5,8 +5,8 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:helpers="clr-namespace:Next2.Helpers"
-    x:Class="Next2.Controls.Templates.TimeItemTemplate"
-    x:DataType="helpers:TimeItem">
+    x:Class="Next2.Controls.Templates.HoldTimeItemTemplate"
+    x:DataType="helpers:HoldTimeItem">
     
     <StackLayout>
         
@@ -15,7 +15,7 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
             CornerRadius="{OnPlatform Android='3', iOS='5'}"
-            HeightRequest="{Binding HeightItems, Source={RelativeSource AncestorType={x:Type templates:TimeItemTemplate}}}"
+            HeightRequest="{Binding ItemHeight, Source={RelativeSource AncestorType={x:Type templates:HoldTimeItemTemplate}}}"
             HorizontalOptions="FillAndExpand"
             xct:TouchEffect.Command="{Binding TapCommand}"
             xct:TouchEffect.CommandParameter="{Binding .}">

@@ -138,8 +138,8 @@
     <Compile Update="Controls\Templates\DishItemTemplate.xaml.cs">
       <DependentUpon>DishItemTemplate.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Controls\Templates\TimeItemTemplate.xaml.cs">
-      <DependentUpon>TimeItemTemplate.xaml</DependentUpon>
+    <Compile Update="Controls\Templates\HoldTimeItemTemplate.xaml.cs">
+      <DependentUpon>HoldTimeItemTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\Templates\SeatHeaderItemTemplate.xaml.cs">
       <DependentUpon>SeatHeaderItemTemplate.xaml</DependentUpon>
@@ -303,6 +303,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\DataLoadingState.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\HoldClock.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\NumericPicker.xaml">

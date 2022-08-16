@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Next2.Helpers
 {
-    public class TimeItem : BindableBase, ITappable
+    public class HoldTimeItem : BindableBase, ITappable
     {
         public int Minute { get; set; }
 

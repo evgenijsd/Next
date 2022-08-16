@@ -291,8 +291,7 @@
                         Margin="15, 15, 15, 0"
                         CornerRadius="10">
 
-                        <Grid
-                            RowDefinitions="0.50*, 0.50*">
+                        <Grid RowDefinitions="0.50*, 0.50*">
 
                             <Label
                                 Grid.Row="0"
