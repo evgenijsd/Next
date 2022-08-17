@@ -783,4 +783,7 @@ A receipt has been printed for you.</value>
   <data name="Pt" xml:space="preserve">
     <value>pt</value>
   </data>
+  <data name="TheOrderHasBeenRemoved" xml:space="preserve">
+    <value>The order #{0} has been removed</value>
+  </data>
 </root>
