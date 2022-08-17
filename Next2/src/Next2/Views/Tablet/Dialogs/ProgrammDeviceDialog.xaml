@@ -32,7 +32,7 @@
 
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             <Setter Property="FontFamily" Value="Barlow-SemiBold" />
-            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
             <Setter Property="Margin" Value="18, 18, 0, 0" />
 
         </Style>
@@ -43,7 +43,7 @@
             <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
             <Setter Property="FontFamily" Value="Barlow-SemiBold" />
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
-            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
             <Setter Property="HeightRequest" Value="38" />
             <Setter Property="WidthRequest" Value="156" />
             <Setter Property="Padding" Value="0" />
@@ -62,12 +62,12 @@
 
                     <Label
                         Style="{DynamicResource LableStyle}"
-                        Text="Are you sure?"
-                        FontSize="20" />
+                        Text="{xct:Translate AreYouSure}"
+                        FontSize="{DynamicResource TSize_i5}" />
 
                     <Label
                         Style="{DynamicResource LableStyle}"
-                        Text="Start reprogramming the device."
+                        Text="{xct:Translate StartReprogrammingTheDevice}"
                         FontFamily="Barlow-Medium" />
 
                     <BoxView
@@ -80,7 +80,7 @@
                         Spacing="12">
 
                         <buttons:BorderButton
-                            Text="Cancel"
+                            Text="{xct:Translate Cancel}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             BorderColor="{DynamicResource AppColor_i1}"
@@ -88,7 +88,7 @@
                             xct:TouchEffect.Command="{Binding CancelCommand}" />
 
                         <buttons:BorderButton
-                            Text="Start"
+                            Text="{xct:Translate Start}"
                             xct:TouchEffect.Command="{Binding StartProgrammingCommand}" />
 
                     </StackLayout>
@@ -107,8 +107,8 @@
 
                     <Label
                         Style="{DynamicResource LableStyle}"
-                        Text="Please wait"
-                        FontSize="20" />
+                        Text="{xct:Translate PleaseWait}"
+                        FontSize="{DynamicResource TSize_i5}" />
 
                     <BoxView
                         Style="{DynamicResource SeparatorStyle_i6}"
@@ -119,13 +119,15 @@
                         HorizontalOptions="Center"
                         HeightRequest="210"
                         WidthRequest="210"
+                        Rotation="{Binding ImageRotation}"
+                        Scale="{Binding ImageScale}"
                         Source="pic_settings.png" />
 
                     <Label
                         Style="{DynamicResource LableStyle}"
                         Margin="0, 6, 0, 0"
                         HorizontalOptions="Center"
-                        Text="Programming your device..."
+                        Text="{xct:Translate ProgrammingYourDevice}"
                         FontFamily="Barlow-Medium" />
 
                     <BoxView
@@ -136,7 +138,8 @@
                         Margin="18"
                         HorizontalOptions="FillAndExpand"
                         Opacity="{DynamicResource OpacityWhenDisabled_i3}"
-                        Text="Finished" />
+                        IsEnabled="False"
+                        Text="{xct:Translate Finished}" />
 
                 </StackLayout>
 
@@ -153,11 +156,11 @@
                     <Label
                         Style="{DynamicResource LableStyle}"
                         Text="Complete"
-                        FontSize="20" />
+                        FontSize="{DynamicResource TSize_i5}" />
 
                     <Label
                         Style="{DynamicResource LableStyle}"
-                        Text="Your device is reprogrammed."
+                        Text="{xct:Translate YourDeviceIsReprogrammed}"
                         FontFamily="Barlow-Medium" />
 
                     <BoxView
@@ -167,7 +170,7 @@
                     <buttons:BorderButton
                         Margin="18"
                         HorizontalOptions="FillAndExpand"
-                        Text="Finished"
+                        Text="{xct:Translate Finished}"
                         xct:TouchEffect.Command="{Binding CancelCommand}" />
 
                 </StackLayout>
