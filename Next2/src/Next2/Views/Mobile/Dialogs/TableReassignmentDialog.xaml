@@ -37,6 +37,8 @@
                 Grid.Row="0" 
                 Margin="24, 0, 0, 0"
                 Text="{xct:Translate ReAssignTable}"
+                VerticalTextAlignment="Center"
+                VerticalOptions="Center"
                 FontFamily="Barlow-Bold"
                 FontSize="{DynamicResource TSize_i4_5}"/>
 

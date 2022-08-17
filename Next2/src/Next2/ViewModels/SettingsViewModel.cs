@@ -1,6 +1,7 @@
 using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models.API.DTO;
+using Next2.Resources.Strings;
 using Next2.Services.Authentication;
 using Next2.Services.Employees;
 using Next2.Services.Notifications;
@@ -163,35 +164,38 @@ namespace Next2.ViewModels
 
         private async Task OnReassignTableCommandAsync()
         {
-            if (IsInternetConnected && !IsLoading)
+            if (!IsLoading)
             {
-                IsLoading = true;
-
-                var resultOfGettingEmployees = await LoadAllEmployeesAsync();
-
-                if (resultOfGettingEmployees.IsSuccess)
+                if (IsInternetConnected)
                 {
-                    var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.EMPLOYEES, resultOfGettingEmployees.Result } };
+                    IsLoading = true;
 
-                    PopupPage confirmDialog = App.IsTablet
-                        ? new Next2.Views.Tablet.Dialogs.TableReassignmentDialog(dialogParameters, CloseReassignTableDialogCallback)
-                        : new Next2.Views.Mobile.Dialogs.TableReassignmentDialog(dialogParameters, CloseReassignTableDialogCallback);
+                    var resultOfGettingEmployees = await _employeesService.GetEmployeesAsync();
 
-                    await PopupNavigation.PushAsync(confirmDialog);
+                    if (resultOfGettingEmployees.IsSuccess)
+                    {
+                        var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.EMPLOYEES, resultOfGettingEmployees.Result } };
 
-                    IsLoading = false;
+                        PopupPage confirmDialog = App.IsTablet
+                            ? new Next2.Views.Tablet.Dialogs.TableReassignmentDialog(dialogParameters, CloseReassignTableDialogCallback)
+                            : new Next2.Views.Mobile.Dialogs.TableReassignmentDialog(dialogParameters, CloseReassignTableDialogCallback);
+
+                        await PopupNavigation.PushAsync(confirmDialog);
+
+                        IsLoading = false;
+                    }
+                    else
+                    {
+                        await _notificationsService.ResponseToBadRequestAsync(resultOfGettingEmployees.Exception?.Message);
+                    }
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfGettingEmployees.Exception?.Message);
+                    await _notificationsService.ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["NoInternetConnection"],
+                        LocalizationResourceManager.Current["Ok"]);
                 }
-            }
-            else
-            {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
             }
         }
 
@@ -210,9 +214,9 @@ namespace Next2.ViewModels
                 {
                     IsLoading = true;
 
-                    var resultOfUpdatingOrders = await UpdateOrdersAsync(ordersId, employeeIdToAssignTo);
+                    var resultOfUpdatingOrders = await _orderService.UpdateOrdersAsync(ordersId, employeeIdToAssignTo);
 
-                    if (!resultOfUpdatingOrders.IsSuccess)
+                    if (!resultOfUpdatingOrders.IsSuccess && _token.IsCancellationRequested)
                     {
                         await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrders.Exception?.Message);
                     }
@@ -227,72 +231,6 @@ namespace Next2.ViewModels
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
             }
-        }
-
-        private async Task<AOResult<IEnumerable<EmployeeModelDTO>>> LoadAllEmployeesAsync()
-        {
-            var resultOfGettingEmployees = await _employeesService.GetEmployeesAsync();
-
-            return resultOfGettingEmployees;
-        }
-
-        private async Task<AOResult<Guid>> UpdateOrdersAsync(IEnumerable<Guid> ordersId, string employeeId)
-        {
-            AOResult<Guid>? resultOfUpdatingOrder = new();
-
-            var orders = await GetOrdersAsync(ordersId);
-
-            if (orders.Count() == ordersId.Count())
-            {
-                foreach (var order in orders)
-                {
-                    if (_token.IsCancellationRequested)
-                    {
-                        break;
-                    }
-
-                    order.EmployeeId = employeeId;
-
-                    resultOfUpdatingOrder = await _orderService.UpdateOrderAsync(order);
-
-                    if (!resultOfUpdatingOrder.IsSuccess)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            return resultOfUpdatingOrder;
-        }
-
-        private async Task<IEnumerable<OrderModelDTO>> GetOrdersAsync(IEnumerable<Guid> ordersId)
-        {
-            var orderIdsNumber = ordersId.Count();
-
-            OrderModelDTO[] orderModelsDTO = new OrderModelDTO[orderIdsNumber];
-
-            List<Guid> orderIds = new(ordersId);
-
-            for (int i = 0; i < orderIdsNumber; i++)
-            {
-                if (_token.IsCancellationRequested)
-                {
-                    break;
-                }
-
-                var resultOfGettingOrder = await _orderService.GetOrderByIdAsync(orderIds[i]);
-
-                if (resultOfGettingOrder.IsSuccess)
-                {
-                    orderModelsDTO[i] = resultOfGettingOrder.Result;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            return orderModelsDTO;
         }
 
         #endregion

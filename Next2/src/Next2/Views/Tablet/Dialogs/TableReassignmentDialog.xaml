@@ -43,6 +43,8 @@
                 Margin="24, 0, 0, 0"
                 Text="{xct:Translate ReAssignTable}"
                 FontFamily="Barlow-Bold"
+                VerticalOptions="Center"
+                VerticalTextAlignment="Center"
                 FontSize="{DynamicResource TSize_i4_5}"/>
 
             <BoxView 

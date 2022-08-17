@@ -299,7 +299,7 @@ namespace Next2.Controls
                 itemsCollection.ScrollTo(itemsCollection.SelectedItem, position: ScrollToPosition.Center, animate: false);
             }
 
-            if (propertyName is nameof(ItemsSource))
+            if (propertyName is nameof(DataTemplate))
             {
                 var itemView = (View)itemsCollection.ItemTemplate.CreateContent();
                 _itemHeight = itemView.HeightRequest;

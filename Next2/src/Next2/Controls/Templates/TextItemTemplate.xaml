@@ -8,13 +8,17 @@
     <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
     <StackLayout
+        VerticalOptions="FillAndExpand"
+        Spacing="0"
         Margin="{Binding TextMargin, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}"
         Orientation="Horizontal">
 
         <Label
+            VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
             FontFamily="Barlow-Medium"
-            FontSize="{DynamicResource TSize_i7}"
+            VerticalTextAlignment="Center"
+            FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}"
             FormattedText="{Binding FormattedText, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}"/>
 
     </StackLayout>
