@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 
 namespace Next2.Controls.Templates
 {
@@ -19,16 +11,16 @@ namespace Next2.Controls.Templates
 
         #region -- Public properties --
 
-        public static readonly BindableProperty TextProperty = BindableProperty.Create(
-            propertyName: nameof(Text),
+        public static readonly BindableProperty FormattedTextProperty = BindableProperty.Create(
+            propertyName: nameof(FormattedText),
             returnType: typeof(FormattedString),
             declaringType: typeof(TextItemTemplate),
             defaultBindingMode: BindingMode.OneWay);
 
-        public FormattedString Text
+        public FormattedString FormattedText
         {
-            get => (FormattedString)GetValue(TextProperty);
-            set => SetValue(TextProperty, value);
+            get => (FormattedString)GetValue(FormattedTextProperty);
+            set => SetValue(FormattedTextProperty, value);
         }
 
         public static readonly BindableProperty TextMarginProperty = BindableProperty.Create(

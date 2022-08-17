@@ -1,4 +1,5 @@
 using Next2.Enums;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models.API.DTO;
 using Next2.Services.Authentication;
 using Next2.Services.Employees;
@@ -166,11 +167,11 @@ namespace Next2.ViewModels
             {
                 IsLoading = true;
 
-                var employees = await LoadAllEmployeesAsync();
+                var resultOfGettingEmployees = await LoadAllEmployeesAsync();
 
-                if (employees.Any())
+                if (resultOfGettingEmployees.IsSuccess)
                 {
-                    var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.EMPLOYEES, employees } };
+                    var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.EMPLOYEES, resultOfGettingEmployees.Result } };
 
                     PopupPage confirmDialog = App.IsTablet
                         ? new Next2.Views.Tablet.Dialogs.TableReassignmentDialog(dialogParameters, CloseReassignTableDialogCallback)
@@ -179,6 +180,10 @@ namespace Next2.ViewModels
                     await PopupNavigation.PushAsync(confirmDialog);
 
                     IsLoading = false;
+                }
+                else
+                {
+                    await _notificationsService.ResponseToBadRequestAsync(resultOfGettingEmployees.Exception?.Message);
                 }
             }
             else
@@ -205,7 +210,12 @@ namespace Next2.ViewModels
                 {
                     IsLoading = true;
 
-                    await UpdateOrdersAsync(ordersId, employeeIdToAssignTo);
+                    var resultOfUpdatingOrders = await UpdateOrdersAsync(ordersId, employeeIdToAssignTo);
+
+                    if (!resultOfUpdatingOrders.IsSuccess)
+                    {
+                        await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrders.Exception?.Message);
+                    }
 
                     IsLoading = false;
                 }
@@ -219,26 +229,17 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task<IEnumerable<EmployeeModelDTO>> LoadAllEmployeesAsync()
+        private async Task<AOResult<IEnumerable<EmployeeModelDTO>>> LoadAllEmployeesAsync()
         {
-            IEnumerable<EmployeeModelDTO> employees = Enumerable.Empty<EmployeeModelDTO>();
-
             var resultOfGettingEmployees = await _employeesService.GetEmployeesAsync();
 
-            if (resultOfGettingEmployees.IsSuccess)
-            {
-                employees = resultOfGettingEmployees.Result;
-            }
-            else
-            {
-                await _notificationsService.ResponseToBadRequestAsync(resultOfGettingEmployees.Exception?.Message);
-            }
-
-            return employees;
+            return resultOfGettingEmployees;
         }
 
-        private async Task UpdateOrdersAsync(IEnumerable<Guid> ordersId, string employeeId)
+        private async Task<AOResult<Guid>> UpdateOrdersAsync(IEnumerable<Guid> ordersId, string employeeId)
         {
+            AOResult<Guid>? resultOfUpdatingOrder = new();
+
             var orders = await GetOrdersAsync(ordersId);
 
             if (orders.Count() == ordersId.Count())
@@ -252,16 +253,16 @@ namespace Next2.ViewModels
 
                     order.EmployeeId = employeeId;
 
-                    var resultOfUpdatingOrder = await _orderService.UpdateOrderAsync(order);
+                    resultOfUpdatingOrder = await _orderService.UpdateOrderAsync(order);
 
                     if (!resultOfUpdatingOrder.IsSuccess)
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
-
                         break;
                     }
                 }
             }
+
+            return resultOfUpdatingOrder;
         }
 
         private async Task<IEnumerable<OrderModelDTO>> GetOrdersAsync(IEnumerable<Guid> ordersId)
@@ -287,8 +288,6 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfGettingOrder.Exception?.Message);
-
                     break;
                 }
             }

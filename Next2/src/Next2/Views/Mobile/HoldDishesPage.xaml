@@ -263,7 +263,6 @@
                 HorizontalOptions="Start"
                 VerticalOptions="Start">
 
-                    <!--ItemHeight="46.5"-->
                 <controls:DropDownList
                     Style="{DynamicResource DropDownListStyle_i1}"
                     WidthRequest="110"
@@ -300,6 +299,7 @@
 
                             <StackLayout
                                 Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                                HeightRequest="40"
                                 xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
                                 <BoxView Style="{DynamicResource SeparatorStyle_i3}" />

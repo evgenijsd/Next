@@ -1021,7 +1021,7 @@
 
                         <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            Text="{Binding Text}"
+                            FormattedText="{Binding Text}"
                             xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"/>
 
                     </DataTemplate>
@@ -1144,13 +1144,13 @@
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                             xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
-                            <templates:TextItemTemplate.Text>
+                            <templates:TextItemTemplate.FormattedText>
                                 <FormattedString>
                                     <Span Text="{xct:Translate Table}"/>
                                     <Span Text=" "/>
                                     <Span Text="{Binding TableNumber}"/>
                                 </FormattedString>
-                            </templates:TextItemTemplate.Text>
+                            </templates:TextItemTemplate.FormattedText>
 
                         </templates:TextItemTemplate>
 

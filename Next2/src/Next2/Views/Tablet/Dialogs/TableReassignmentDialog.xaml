@@ -85,7 +85,7 @@
 
                         <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            Text="{Binding UserName}"/>
+                            FormattedText="{Binding UserName}"/>
 
                     </DataTemplate>
 
@@ -126,7 +126,7 @@
 
                         <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            Text="{Binding UserName}"/>
+                            FormattedText="{Binding UserName}"/>
 
                     </DataTemplate>
 
@@ -198,13 +198,13 @@
                             x:DataType="modelsApi:OccupiedTableModelDTO"
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}">
 
-                            <templates:TextItemTemplate.Text>
+                            <templates:TextItemTemplate.FormattedText>
                                 <FormattedString>
                                     <Span Text="{xct:Translate Table}"/>
                                     <Span Text=" "/>
                                     <Span Text="{Binding Number}"/>
                                 </FormattedString>
-                            </templates:TextItemTemplate.Text>
+                            </templates:TextItemTemplate.FormattedText>
 
                         </templates:TextItemTemplate>
 

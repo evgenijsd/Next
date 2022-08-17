@@ -9,6 +9,8 @@ namespace Next2.Controls
 {
     public partial class DropDownList : PancakeView
     {
+        private double _itemHeight;
+
         public DropDownList()
         {
             InitializeComponent();
@@ -235,8 +237,6 @@ namespace Next2.Controls
 
         public double ListHeight { get; private set; }
 
-        public double ItemHeight { get; private set; }
-
         private ICommand? _selectItemCommand;
         public ICommand SelectItemCommand => _selectItemCommand ??= new Command(OnSelectItemCommand);
 
@@ -279,12 +279,12 @@ namespace Next2.Controls
 
             if (propertyName
                 is nameof(ItemsSource)
-                or nameof(ItemHeight)
+                or nameof(_itemHeight)
                 or nameof(MaxNumberOfVisibleItems))
             {
-                if (ItemsSource is not null && ItemHeight > 0)
+                if (ItemsSource is not null && _itemHeight > 0)
                 {
-                    ListHeight = ItemHeight * (ItemsSource.Count < MaxNumberOfVisibleItems
+                    ListHeight = _itemHeight * (ItemsSource.Count < MaxNumberOfVisibleItems
                         ? ItemsSource.Count
                         : MaxNumberOfVisibleItems);
                 }
@@ -302,7 +302,7 @@ namespace Next2.Controls
             if (propertyName is nameof(ItemsSource))
             {
                 var itemView = (View)itemsCollection.ItemTemplate.CreateContent();
-                ItemHeight = itemView.HeightRequest;
+                _itemHeight = itemView.HeightRequest;
             }
 
             base.OnPropertyChanging(propertyName);

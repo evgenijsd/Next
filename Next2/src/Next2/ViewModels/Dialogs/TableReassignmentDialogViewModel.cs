@@ -63,16 +63,13 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Overrides --
 
-        protected override async void OnPropertyChanged(PropertyChangedEventArgs args)
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName is nameof(SelectedTable))
+            if (args.PropertyName is nameof(SelectedTable) && SelectedTable is not null)
             {
-                if (SelectedTable is not null)
-                {
-                    SelectedTableNumberClue = SelectedTable.Number;
-                }
+                SelectedTableNumberClue = SelectedTable.Number;
             }
         }
 
