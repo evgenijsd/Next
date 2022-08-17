@@ -302,6 +302,9 @@
     <EmbeddedResource Update="Controls\Templates\ExpanderHeaderTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Templates\Mobile\TipItemTemplate.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Controls\TimeAndDateBar.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

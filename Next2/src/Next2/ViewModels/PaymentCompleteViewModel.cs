@@ -378,7 +378,7 @@ namespace Next2.ViewModels
                         if (SelectedTipItem != null)
                         {
                             navigationParams.Add(Constants.Navigations.TIP_TYPE, SelectedTipItem.TipType);
-                            navigationParams.Add(Constants.Navigations.TIP_VALUE, SelectedTipItem.Value);
+                            navigationParams.Add(Constants.Navigations.TIP_PERCENT, SelectedTipItem.PercentTip);
                         }
                     }
 
