@@ -104,6 +104,7 @@ namespace Next2.ViewModels
             if (!IsLoading)
             {
                 PageState = state;
+            }
 
             switch (state)
             {

@@ -28,11 +28,11 @@ namespace Next2.Views.Tablet.Dialogs
             {
                 if ((EStep)stateContainer.State == EStep.Second)
                 {
-                    var animation = new Animation(v => settingsImage.Scale = v, 1, 0.94);
+                    var animation = new Animation(v => settingsImage.Scale = v, 1, 0.96);
                     var animation2 = new Animation(v => settingsImage.Rotation = v, 0, 3600);
 
-                    animation.Commit(this, "PulseAnimation", 1, 80, Easing.SpringIn, (v, c) => settingsImage.Scale = 1, () => true);
-                    animation2.Commit(this, "RotateAnimation", 1, 20000, Easing.Linear, (v, c) => settingsImage.Rotation = 0, () => true);
+                    animation.Commit(this, "PulseAnimation", 16, 80, Easing.Linear, (v, c) => settingsImage.Scale = 1, () => true);
+                    animation2.Commit(this, "RotateAnimation", 8, 20000, Easing.Linear, (v, c) => settingsImage.Rotation = 0, () => true);
                 }
                 else if ((EStep)stateContainer.State == EStep.Third)
                 {
