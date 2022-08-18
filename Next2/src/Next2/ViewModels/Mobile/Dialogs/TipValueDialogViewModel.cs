@@ -37,6 +37,7 @@ namespace Next2.ViewModels.Dialogs
             }
 
             var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.TIP_VALUE_DIALOG, tipValue } };
+
             RequestClose(dialogParameters);
 
             return Task.CompletedTask;

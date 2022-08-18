@@ -1,4 +1,6 @@
 ﻿using Next2.Models;
+using Next2.Services.Authentication;
+using Next2.Services.Notifications;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -10,8 +12,10 @@ namespace Next2.ViewModels.Mobile
     public class OrderWithRewardsViewModel : BaseViewModel
     {
         public OrderWithRewardsViewModel(
-            INavigationService navigationService)
-            : base(navigationService)
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService)
+            : base(navigationService, authenticationService, notificationsService)
         {
         }
 

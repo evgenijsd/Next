@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Services.Authentication;
 using Next2.Services.Customers;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -28,25 +29,24 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
         private readonly ICustomersService _customersService;
         private readonly IRewardsService _rewardService;
-        private readonly INotificationsService _notificationsService;
 
         public RewardsViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService,
             IMapper mapper,
             IOrderService orderService,
             ICustomersService customersService,
             IRewardsService rewardService,
             PaidOrderBindableModel order,
-            INotificationsService notificationsService,
             Action<NavigationMessage> navigateAsync,
             Action<EPaymentSteps> goToPaymentStep)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _mapper = mapper;
             _orderService = orderService;
             _customersService = customersService;
             _rewardService = rewardService;
-            _notificationsService = notificationsService;
 
             Order = order;
             NavigateAsync = navigateAsync;
@@ -240,20 +240,17 @@ namespace Next2.ViewModels
                         }
                         else
                         {
-                            await _notificationsService.ResponseToBadRequestAsync(resultOfGettingCustomer.Exception?.Message);
+                            await ResponseToUnsuccessfulRequestAsync(resultOfGettingCustomer.Exception?.Message);
                         }
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
+                        await ResponseToUnsuccessfulRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
         }
@@ -306,10 +303,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    return _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["SomethingWentWrong"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    return _notificationsService.ShowSomethingWentWrongDialogAsync();
                 }
             }
 
@@ -324,10 +318,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 

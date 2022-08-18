@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -23,26 +24,26 @@ namespace Next2.ViewModels
         private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
         private readonly IBonusesService _bonusesService;
-        private readonly INotificationsService _notificationsService;
 
         private int _indexOfSeat;
         private int _indexOfSelectedDish = -1;
 
         public BonusPageViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService,
             IOrderService orderService,
             IMapper mapper,
-            INotificationsService notificationsService,
             IBonusesService bonusesService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _mapper = mapper;
             _bonusesService = bonusesService;
             _orderService = orderService;
-            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
+
         public ObservableCollection<BonusBindableModel> Coupons { get; set; } = new();
 
         public ObservableCollection<BonusBindableModel> Discounts { get; set; } = new();
@@ -136,10 +137,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
         }
@@ -175,7 +173,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(couponResult.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(couponResult.Exception?.Message);
                 }
             }
 
@@ -197,7 +195,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(discountResult.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(discountResult.Exception?.Message);
                 }
             }
 

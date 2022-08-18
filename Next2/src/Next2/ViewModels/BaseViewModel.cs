@@ -1,4 +1,7 @@
 ﻿using Next2.Interfaces;
+using Next2.Services.Authentication;
+using Next2.Services.Notifications;
+using Next2.Views.Mobile;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Rg.Plugins.Popup.Contracts;
@@ -11,11 +14,20 @@ namespace Next2.ViewModels
     {
         protected INavigationService _navigationService { get; }
 
+        protected IAuthenticationService _authenticationService { get; }
+
+        protected INotificationsService _notificationsService { get; }
+
         protected bool IsInternetConnected => Connectivity.NetworkAccess == NetworkAccess.Internet;
 
-        public BaseViewModel(INavigationService navigationService)
+        public BaseViewModel(
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService)
         {
             _navigationService = navigationService;
+            _authenticationService = authenticationService;
+            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -70,6 +82,29 @@ namespace Next2.ViewModels
 
         public virtual void OnDisappearing()
         {
+        }
+
+        #endregion
+
+        #region -- Public helpers --
+
+        public Task ResponseToUnsuccessfulRequestAsync(string? statusCode)
+        {
+            return statusCode == Constants.StatusCode.UNAUTHORIZED
+                ? PerformLogoutAsync()
+                : _notificationsService.ResponseToBadRequestAsync(statusCode);
+        }
+
+        public Task PerformLogoutAsync()
+        {
+            _authenticationService.ClearSession();
+
+            var navigationParameters = new NavigationParameters
+            {
+                { Constants.Navigations.LOGOUT, true },
+            };
+
+            return _navigationService.NavigateAsync($"{nameof(LoginPage)}", navigationParameters);
         }
 
         #endregion

@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Services.Authentication;
 using Next2.Services.Notifications;
 using Next2.Services.Reservation;
 using Next2.Views.Mobile;
@@ -22,20 +23,19 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMapper _mapper;
         private readonly IReservationService _reservationService;
-        private readonly INotificationsService _notificationsService;
 
         private EReservationsSortingType _reservationsSortingType;
 
         public ReservationsViewModel(
-            IReservationService reservationService,
-            IMapper mapper,
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
-            INavigationService navigationService)
-            : base(navigationService)
+            IReservationService reservationService,
+            IMapper mapper)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _mapper = mapper;
             _reservationService = reservationService;
-            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -156,7 +156,7 @@ namespace Next2.ViewModels.Tablet
             }
             else
             {
-                await _notificationsService.ResponseToBadRequestAsync(resultOfGettingReservations.Exception?.Message);
+                await ResponseToUnsuccessfulRequestAsync(resultOfGettingReservations.Exception?.Message);
             }
         }
 
@@ -210,9 +210,7 @@ namespace Next2.ViewModels.Tablet
                 }
                 else
                 {
-                    var message = resultOfAddingReservation.Exception?.Message;
-
-                    await _notificationsService.ResponseToBadRequestAsync(message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfAddingReservation.Exception?.Message);
                 }
             }
             else
@@ -251,10 +249,7 @@ namespace Next2.ViewModels.Tablet
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["SomethingWentWrong"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await ResponseToUnsuccessfulRequestAsync(reservationRemovingResult.Exception?.Message);
                 }
             }
             else

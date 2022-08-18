@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Helpers;
-using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
-using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Customers;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -31,10 +30,11 @@ namespace Next2.ViewModels
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
-        private readonly INotificationsService _notificationsService;
 
         private readonly ICommand _tapPaymentOptionCommand;
         private readonly ICommand _tapTipItemCommand;
+
+        private readonly decimal _subtotalWithBonus;
 
         private List<GiftCardModelDTO> _listGiftCardsToBeUpdated = new();
 
@@ -42,21 +42,19 @@ namespace Next2.ViewModels
 
         private List<GiftCardModelDTO> _backupGiftCards = new();
 
-        private decimal _subtotalWithBonus;
-
         public PaymentCompleteViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService,
             ICustomersService customersService,
             IOrderService orderService,
             IMapper mapper,
-            INotificationsService notificationsService,
             PaidOrderBindableModel order)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _customersService = customersService;
             _orderService = orderService;
             _mapper = mapper;
-            _notificationsService = notificationsService;
 
             Order = order;
 
@@ -446,10 +444,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -552,7 +547,7 @@ namespace Next2.ViewModels
 
                 _orderService.CurrentOrder = tempCurrentOrder;
 
-                await _notificationsService.ResponseToBadRequestAsync(updateResult.Exception?.Message);
+                await ResponseToUnsuccessfulRequestAsync(updateResult.Exception?.Message);
             }
 
             return updateResult.IsSuccess;
@@ -580,10 +575,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -637,7 +629,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfAddingGiftCard.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfAddingGiftCard.Exception?.Message);
                 }
             }
         }
@@ -679,7 +671,7 @@ namespace Next2.ViewModels
 
                     Order.Customer.GiftCards = _backupGiftCards;
 
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingGiftCards.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingGiftCards.Exception?.Message);
 
                     isGiftCardPaymentSuccessful = false;
                 }

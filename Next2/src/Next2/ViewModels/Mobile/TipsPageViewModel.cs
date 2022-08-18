@@ -1,5 +1,6 @@
 ﻿using Next2.Enums;
 using Next2.Helpers;
+using Next2.Services.Authentication;
 using Next2.Services.Notifications;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -14,16 +15,14 @@ namespace Next2.ViewModels.Mobile
 {
     public class TipsPageViewModel : BaseViewModel
     {
-        private readonly INotificationsService _notificationsService;
-
         private TipItem _tipItem = new();
 
         public TipsPageViewModel(
-            INotificationsService notificationsService,
-            INavigationService navigationService)
-            : base(navigationService)
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService)
+            : base(navigationService, authenticationService, notificationsService)
         {
-            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --

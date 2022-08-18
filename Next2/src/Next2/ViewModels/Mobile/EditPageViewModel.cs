@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Menu;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -21,7 +22,6 @@ namespace Next2.ViewModels.Mobile
         private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
         private readonly IMenuService _menuService;
-        private readonly INotificationsService _notificationsService;
 
         private int _indexOfSeat;
         private bool _isModifiedDish;
@@ -30,14 +30,14 @@ namespace Next2.ViewModels.Mobile
 
         public EditPageViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
             IOrderService orderService,
             IMenuService menuService,
             IMapper mapper)
-          : base(navigationService)
+          : base(navigationService, authenticationService, notificationsService)
         {
             _orderService = orderService;
-            _notificationsService = notificationsService;
             _menuService = menuService;
             _mapper = mapper;
         }
@@ -93,10 +93,7 @@ namespace Next2.ViewModels.Mobile
         {
             return IsInternetConnected
                 ? _navigationService.NavigateAsync(nameof(ModificationsPage))
-                : _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                : _notificationsService.ShowNoInternetConnectionDialogAsync();
         }
 
         private Task OnOpenRemoveCommandAsync()
@@ -146,15 +143,12 @@ namespace Next2.ViewModels.Mobile
                             {
                                 _orderService.CurrentOrder = _tempCurrentOrder;
 
-                                await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+                                await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                             }
                         }
                         else
                         {
-                            await _notificationsService.ShowInfoDialogAsync(
-                                LocalizationResourceManager.Current["Error"],
-                                LocalizationResourceManager.Current["SomethingWentWrong"],
-                                LocalizationResourceManager.Current["Ok"]);
+                            await _notificationsService.ShowSomethingWentWrongDialogAsync();
                         }
                     }
                 }
@@ -163,10 +157,7 @@ namespace Next2.ViewModels.Mobile
             {
                 await _notificationsService.CloseAllPopupAsync();
 
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 

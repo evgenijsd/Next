@@ -16,9 +16,7 @@ namespace Next2.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        private readonly IAuthenticationService _authenticationService;
         private readonly IOrderService _orderService;
-        private readonly INotificationsService _notificationsService;
 
         public SettingsViewModel(
             INavigationService navigationService,
@@ -26,11 +24,9 @@ namespace Next2.ViewModels
             INotificationsService notificationsService,
             PrintReceiptViewModel printReceiptViewModel,
             IOrderService orderService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
-            _authenticationService = authenticationService;
             _orderService = orderService;
-            _notificationsService = notificationsService;
 
             PrintReceiptViewModel = printReceiptViewModel;
         }
