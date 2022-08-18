@@ -11,7 +11,7 @@
     <Frame
         Padding="0, 12"
         HeightRequest="35"
-        Margin="10, 0, 0, 0"
+        Margin="10, 10, 0, 0"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
         BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
         CornerRadius="{OnPlatform Android='5', iOS='8'}"
@@ -30,32 +30,34 @@
             </DataTrigger>
         </Frame.Triggers>
 
-        <Label
-            Text="{Binding Text}"
-            Padding="20, 0"
-            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-            VerticalTextAlignment="Center"
-            HorizontalTextAlignment="Center"
-            FontSize="{DynamicResource TSize_i7}"
-            FontFamily="Barlow-Medium"
-            HorizontalOptions="FillAndExpand">
+        <StackLayout Orientation="Horizontal">
 
-            <Label.Triggers>
+            <Label
+                Text="{Binding Text}"
+                Padding="20, 0"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Center"
+                FontSize="{DynamicResource TSize_i7}"
+                FontFamily="Barlow-Medium"
+                HorizontalOptions="FillAndExpand">
 
-                <DataTrigger
-                    TargetType="Label"
-                    Binding="{Binding TipType}"
-                    Value="{Static enum:ETipType.Other}">
+                <Label.Triggers>
 
-                    <Setter
-                        Property="Text"
-                        Value="{xct:Translate Other}" />
+                    <DataTrigger
+                        TargetType="Label"
+                        Binding="{Binding TipType}"
+                        Value="{Static enum:ETipType.Other}">
 
-                </DataTrigger>
+                        <Setter Property="Text" Value="{xct:Translate Other}" />
 
-            </Label.Triggers>
+                    </DataTrigger>
 
-        </Label>
+                </Label.Triggers>
+
+            </Label>
+
+        </StackLayout>
 
     </Frame>
     
