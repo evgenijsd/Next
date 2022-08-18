@@ -1,6 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.Bindables;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,10 +11,10 @@ namespace Next2.Services.Reservation
     {
         Task<AOResult<IEnumerable<ReservationModel>>> GetReservationsAsync(string? searchQuery = null);
 
-        IEnumerable<ReservationModel> GetSortedReservations(EReservationsSortingType typeSort, IEnumerable<ReservationModel> reservations);
+        IEnumerable<ReservationBindableModel> GetSortedReservations(EReservationsSortingType typeSort, IEnumerable<ReservationBindableModel> reservations);
 
         Task<AOResult<int>> AddReservationAsync(ReservationModel reservation);
 
-        Task<AOResult> RemoveReservationAsync(ReservationModel reservation);
+        Task<AOResult> RemoveReservationByIdAsync(int reservationId);
     }
 }

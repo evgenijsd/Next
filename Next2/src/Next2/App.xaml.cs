@@ -241,6 +241,8 @@ namespace Next2
                         .ForMember<string>(x => x.TableNumberOrName, s => s.MapFrom(x => GetTableName(x.TableNumber)));
                 cfg.CreateMap<TableModelDTO, SimpleTableModelDTO>();
                 cfg.CreateMap<SimpleTableModelDTO, SimpleTableModelDTO>();
+                cfg.CreateMap<ReservationModel, ReservationBindableModel>()
+                    .ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Table.Number));
             }).CreateMapper();
         }
 

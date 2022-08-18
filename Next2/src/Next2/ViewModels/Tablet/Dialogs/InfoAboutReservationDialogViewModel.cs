@@ -1,4 +1,4 @@
-﻿using Next2.Models;
+﻿using Next2.Models.Bindables;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -16,7 +16,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
         {
             RequestClose = requestClose;
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.MODEL, out ReservationModel reservation))
+            if (param.TryGetValue(Constants.DialogParameterKeys.MODEL, out ReservationBindableModel reservation))
             {
                 Reservation = reservation;
             }
@@ -24,7 +24,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         #region -- Public properties --
 
-        public ReservationModel Reservation { get; set; } = new();
+        public ReservationBindableModel Reservation { get; set; } = new();
 
         public Action<IDialogParameters> RequestClose;
 

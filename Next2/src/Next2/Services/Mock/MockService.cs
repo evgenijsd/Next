@@ -1,5 +1,6 @@
 using Next2.Interfaces;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -256,150 +257,300 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = reservationId++,
+                    Server = new()
+                    {
+                        EmployeeId = "111111",
+                        UserName = "111111",
+                    },
                     CustomerName = "Assunta Dickinson",
                     Phone = "7452735838",
                     GuestsAmount = 1,
-                    TableNumber = 12,
+                    Table = new()
+                    {
+                        Id = Guid.Parse("356c8276-0540-484a-9b5a-cd2ae9127dda"),
+                        Number = 23,
+                        SeatNumbers = 10,
+                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
+                    Server = new()
+                    {
+                        EmployeeId = "111111",
+                        UserName = "111111",
+                    },
                     CustomerName = "Jonas Jenkins",
                     Phone = "4454631426",
                     GuestsAmount = 2,
-                    TableNumber = 19,
+                    Table = new()
+                    {
+                        Id = Guid.Parse("729f2eeb-437a-4323-ba43-523ab6255801"),
+                        Number = 24,
+                        SeatNumbers = 10,
+                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
+                    Server = new()
+                    {
+                        EmployeeId = "111111",
+                        UserName = "111111",
+                    },
                     CustomerName = "Amiya Emard",
                     Phone = "7923342784",
                     GuestsAmount = 4,
-                    TableNumber = 9,
+                    Table = new()
+                    {
+                        Id = Guid.Parse("7b7024cd-b002-4db5-b904-290c59def000"),
+                        Number = 25,
+                        SeatNumbers = 10,
+                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
+                    Server = new()
+                    {
+                        EmployeeId = "111111",
+                        UserName = "111111",
+                    },
                     CustomerName = "Lillie Skiles",
                     Phone = "2974674030",
                     GuestsAmount = 3,
-                    TableNumber = 21,
+                    Table = new()
+                    {
+                        Id = Guid.Parse("925634a3-7e86-409b-9076-a0492bb08425"),
+                        Number = 26,
+                        SeatNumbers = 10,
+                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
+                    Server = new()
+                    {
+                        EmployeeId = "555555",
+                        UserName = "555555",
+                    },
                     CustomerName = "Ara Predovic",
                     Phone = "1691358155",
                     GuestsAmount = 5,
-                    TableNumber = 10,
+                    Table = new()
+                    {
+                        Id = Guid.Parse("3fd89029-6eef-48fe-bf02-3a18b113d97c"),
+                        Number = 27,
+                        SeatNumbers = 10,
+                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
+                    Server = new()
+                    {
+                        EmployeeId = "555555",
+                        UserName = "555555",
+                    },
                     CustomerName = "Jarrell Keebler",
                     Phone = "1334331439",
                     GuestsAmount = 2,
-                    TableNumber = 20,
+                    Table = new()
+                    {
+                        Id = Guid.Parse("176d3142-a5a1-4e3d-8c5c-daef051ad7ff"),
+                        Number = 28,
+                        SeatNumbers = 10,
+                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
+                    Server = new()
+                    {
+                        EmployeeId = "555555",
+                        UserName = "555555",
+                    },
                     CustomerName = "Ernestina Walter",
                     Phone = "5637335818",
                     GuestsAmount = 2,
-                    TableNumber = 2,
+                    Table = new()
+                    {
+                        Id = Guid.Parse("6ef2b7cc-680a-4dcb-a73f-25126bd45746"),
+                        Number = 29,
+                        SeatNumbers = 10,
+                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
+                    Server = new()
+                    {
+                        EmployeeId = "555555",
+                        UserName = "555555",
+                    },
                     CustomerName = "Queen Christiansen",
                     Phone = "4711804745",
                     GuestsAmount = 3,
-                    TableNumber = 6,
+                    Table = new()
+                    {
+                        Id = Guid.Parse("0294f5b8-d731-4b11-ae37-c5dce1c45f36"),
+                        Number = 30,
+                        SeatNumbers = 10,
+                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
+                    Server = new()
+                    {
+                        EmployeeId = "555555",
+                        UserName = "555555",
+                    },
                     CustomerName = "Samantha Quigley",
                     Phone = "7834775681",
                     GuestsAmount = 1,
-                    TableNumber = 13,
+                    Table = new()
+                    {
+                        Id = Guid.Parse("73ddc3b9-5af9-4263-a481-86a77f46e7aa"),
+                        Number = 31,
+                        SeatNumbers = 10,
+                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
+                    Server = new()
+                    {
+                        EmployeeId = "555555",
+                        UserName = "555555",
+                    },
                     CustomerName = "Tia Casper",
                     Phone = "4283749819",
                     GuestsAmount = 1,
-                    TableNumber = 4,
+                    Table = new()
+                    {
+                        Id = Guid.Parse("d5b6480e-6634-49ab-bcfe-4bde785cf989"),
+                        Number = 32,
+                        SeatNumbers = 10,
+                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
+                    Server = new()
+                    {
+                        EmployeeId = "555555",
+                        UserName = "555555",
+                    },
                     CustomerName = "James Carder",
                     Phone = "6351341232",
                     GuestsAmount = 3,
-                    TableNumber = 16,
+                    Table = new()
+                    {
+                        Id = Guid.Parse("d434c3d1-4bab-4246-a96f-609de3f7ffb0"),
+                        Number = 33,
+                        SeatNumbers = 10,
+                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
+                    Server = new()
+                    {
+                        EmployeeId = "111111",
+                        UserName = "111111",
+                    },
                     CustomerName = "Cooper Kenter",
                     Phone = "3110419788",
                     GuestsAmount = 4,
-                    TableNumber = 12,
+                    Table = new()
+                    {
+                        Id = Guid.Parse("f9a7cdb2-84df-4146-93df-2f021c06abfe"),
+                        Number = 34,
+                        SeatNumbers = 10,
+                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
+                    Server = new()
+                    {
+                        EmployeeId = "111111",
+                        UserName = "111111",
+                    },
                     CustomerName = "Terry Bergson",
                     Phone = "2347852424",
                     GuestsAmount = 1,
-                    TableNumber = 7,
+                    Table = new()
+                    {
+                        Id = Guid.Parse("c721f174-32d0-4832-9f73-3198c2a7232d"),
+                        Number = 35,
+                        SeatNumbers = 10,
+                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
+                    Server = new()
+                    {
+                        EmployeeId = "111111",
+                        UserName = "111111",
+                    },
                     CustomerName = "Cooper Torff",
                     Phone = "1320761237",
                     GuestsAmount = 3,
-                    TableNumber = 10,
+                    Table = new()
+                    {
+                        Id = Guid.Parse("343be7c3-94a2-4ba9-8781-317ea1a84d97"),
+                        Number = 36,
+                        SeatNumbers = 10,
+                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
+                    Server = new()
+                    {
+                        EmployeeId = "111111",
+                        UserName = "111111",
+                    },
                     CustomerName = "Makenna Calzoni",
                     Phone = "8672130872",
                     GuestsAmount = 1,
-                    TableNumber = 18,
+                    Table = new()
+                    {
+                        Id = Guid.Parse("2681c6e5-4301-4041-a8c0-a4aff794e8c5"),
+                        Number = 37,
+                        SeatNumbers = 10,
+                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },

@@ -1,14 +1,11 @@
 ﻿using Next2.Interfaces;
-using Next2.Models.API.DTO;
 using System;
 
-namespace Next2.Models
+namespace Next2.Models.Bindables
 {
-    public class ReservationModel : IBaseModel
+    public class ReservationBindableModel : IBaseModel
     {
         public int Id { get; set; }
-
-        public EmployeeModelDTO Server { get; set; } = new();
 
         public string CustomerName { get; set; } = string.Empty;
 
@@ -16,7 +13,7 @@ namespace Next2.Models
 
         public int GuestsAmount { get; set; }
 
-        public TableModelDTO Table { get; set; } = new();
+        public int TableNumber { get; set; }
 
         public string? Comment { get; set; }
 

@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Models.Bindables;
 using Next2.Services.Authentication;
 using Next2.Services.Notifications;
 using Next2.Services.Reservation;
@@ -10,6 +11,7 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,9 +50,9 @@ namespace Next2.ViewModels.Tablet
 
         public bool IsPreloadStateActive => !string.IsNullOrEmpty(SearchQuery) && (!IsInternetConnected || (IsReservationsRefreshing && !Reservations.Any()));
 
-        public ReservationModel? SelectedReservation { get; set; }
+        public ReservationBindableModel? SelectedReservation { get; set; }
 
-        public ObservableCollection<ReservationModel> Reservations { get; set; } = new();
+        public ObservableCollection<ReservationBindableModel> Reservations { get; set; } = new();
 
         private ICommand? _goToSearchQueryInputCommand;
         public ICommand GoToSearchQueryInputCommand => _goToSearchQueryInputCommand ??= new AsyncCommand(OnGoToSearchQueryInputCommandAsync, allowsMultipleExecutions: false);
@@ -65,7 +67,7 @@ namespace Next2.ViewModels.Tablet
         public ICommand ChangeSortReservationCommand => _changeSortReservationCommand ??= new AsyncCommand<EReservationsSortingType>(OnChangeSortReservationCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand? _selectReservationCommand;
-        public ICommand SelectReservationCommand => _selectReservationCommand ??= new AsyncCommand<ReservationModel>(OnSelectReservationCommandAsync, allowsMultipleExecutions: false);
+        public ICommand SelectReservationCommand => _selectReservationCommand ??= new AsyncCommand<ReservationBindableModel>(OnSelectReservationCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand? _addNewReservationCommand;
         public ICommand AddNewReservationCommand => _addNewReservationCommand ??= new AsyncCommand(OnAddNewReservationCommandAsync, allowsMultipleExecutions: false);
@@ -153,7 +155,9 @@ namespace Next2.ViewModels.Tablet
             {
                 SelectedReservation = null;
 
-                var sortedReservations = _reservationService.GetSortedReservations(_reservationsSortingType, resultOfGettingReservations.Result);
+                var allReservations = _mapper.Map<IEnumerable<ReservationModel>, IEnumerable<ReservationBindableModel>>(resultOfGettingReservations.Result);
+
+                var sortedReservations = _reservationService.GetSortedReservations(_reservationsSortingType, allReservations);
 
                 Reservations = new(sortedReservations);
             }
@@ -181,7 +185,7 @@ namespace Next2.ViewModels.Tablet
             return Task.CompletedTask;
         }
 
-        private Task OnSelectReservationCommandAsync(ReservationModel? reservation)
+        private Task OnSelectReservationCommandAsync(ReservationBindableModel? reservation)
         {
             SelectedReservation = reservation == SelectedReservation
                 ? null
@@ -242,7 +246,7 @@ namespace Next2.ViewModels.Tablet
         {
             if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool accept) && accept && SelectedReservation is not null)
             {
-                var reservationRemovingResult = await _reservationService.RemoveReservationAsync(SelectedReservation);
+                var reservationRemovingResult = await _reservationService.RemoveReservationByIdAsync(SelectedReservation.Id);
 
                 if (reservationRemovingResult.IsSuccess)
                 {
@@ -281,6 +285,10 @@ namespace Next2.ViewModels.Tablet
                 {
                     case Constants.DialogParameterKeys.REMOVE:
                         await OnRemoveReservationCommandAsync();
+
+                        break;
+                    case Constants.DialogParameterKeys.ASSIGN:
+                        await OnAssignReservationCommandAsync();
 
                         break;
                 }

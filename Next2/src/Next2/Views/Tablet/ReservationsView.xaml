@@ -9,7 +9,7 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
-    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:bindableModels="clr-namespace:Next2.Models.Bindables"
     xmlns:viewModelsTablet="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     RowDefinitions="auto, 2, 83"
@@ -239,7 +239,7 @@
 
                         <CollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="models:ReservationModel">
+                            <DataTemplate x:DataType="bindableModels:ReservationBindableModel">
 
                                 <Grid
                                     HorizontalOptions="Fill"

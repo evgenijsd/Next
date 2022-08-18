@@ -145,10 +145,11 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
                     var newReservation = new ReservationModel()
                     {
+                        Server = new(),
                         CustomerName = Name,
                         Phone = phone,
                         GuestsAmount = SelectedAmountGuests,
-                        TableNumber = SelectedTable,
+                        Table = new(),
                         Comment = Notes,
                         DateTime = SelectedTime,
                     };

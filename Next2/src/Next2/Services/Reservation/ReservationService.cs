@@ -1,6 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.Bindables;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using System;
@@ -49,9 +50,9 @@ namespace Next2.Services.Reservation
             return result;
         }
 
-        public IEnumerable<ReservationModel> GetSortedReservations(EReservationsSortingType typeSort, IEnumerable<ReservationModel> reservations)
+        public IEnumerable<ReservationBindableModel> GetSortedReservations(EReservationsSortingType typeSort, IEnumerable<ReservationBindableModel> reservations)
         {
-            Func<ReservationModel, object> sortingSelector = typeSort switch
+            Func<ReservationBindableModel, object> sortingSelector = typeSort switch
             {
                 EReservationsSortingType.ByCustomerName => x => x.CustomerName,
                 EReservationsSortingType.ByTableNumber => x => x.TableNumber,
@@ -82,22 +83,27 @@ namespace Next2.Services.Reservation
             return result;
         }
 
-        public async Task<AOResult> RemoveReservationAsync(ReservationModel reservation)
+        public async Task<AOResult> RemoveReservationByIdAsync(int reservationId)
         {
             var result = new AOResult();
 
             try
             {
-                var isReservationRemoved = await _mockService.RemoveAsync(reservation);
+                var reservationForRemove = await _mockService.GetByIdAsync<ReservationModel>(reservationId);
 
-                if (isReservationRemoved)
+                if (reservationForRemove is not null)
                 {
-                    result.SetSuccess();
+                    var isReservationRemoved = await _mockService.RemoveAsync(reservationForRemove);
+
+                    if (isReservationRemoved)
+                    {
+                        result.SetSuccess();
+                    }
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(RemoveReservationAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(RemoveReservationByIdAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
