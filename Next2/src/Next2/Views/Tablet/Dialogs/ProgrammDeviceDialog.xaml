@@ -156,7 +156,7 @@
 
                     <Label
                         Style="{DynamicResource LableStyle}"
-                        Text="Complete"
+                        Text="{xct:Translate Complete}"
                         FontSize="{DynamicResource TSize_i5}" />
 
                     <Label

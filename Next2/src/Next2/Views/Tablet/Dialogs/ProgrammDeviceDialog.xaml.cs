@@ -5,22 +5,17 @@ using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
 using System;
 using System.ComponentModel;
-using System.Threading;
+using Xamarin.Forms;
 
 namespace Next2.Views.Tablet.Dialogs
 {
     public partial class ProgrammDeviceDialog : PopupPage
     {
-        private Timer t;
-        private Timer t2;
         public ProgrammDeviceDialog(Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
             BindingContext = new ProgrammDeviceDialogViewModel(requestClose);
-
-            t = new(new TimerCallback(PulseImage));
-            t2 = new(new TimerCallback(RotateImage));
         }
 
         #region -- Private helpers --
@@ -33,32 +28,18 @@ namespace Next2.Views.Tablet.Dialogs
             {
                 if ((EStep)stateContainer.State == EStep.Second)
                 {
-                    t.Change(0, 80);
-                    t2.Change(0, 100);
+                    var animation = new Animation(v => settingsImage.Scale = v, 1, 0.94);
+                    var animation2 = new Animation(v => settingsImage.Rotation = v, 0, 3600);
+
+                    animation.Commit(this, "PulseAnimation", 1, 80, Easing.SpringIn, (v, c) => settingsImage.Scale = 1, () => true);
+                    animation2.Commit(this, "RotateAnimation", 1, 20000, Easing.Linear, (v, c) => settingsImage.Rotation = 0, () => true);
                 }
                 else if ((EStep)stateContainer.State == EStep.Third)
                 {
-                    t.Dispose();
-                    t2.Dispose();
+                    this.AbortAnimation("PulseAnimation");
+                    this.AbortAnimation("RotateAnimation");
                 }
             }
-        }
-
-        private void PulseImage(object state)
-        {
-            if (settingsImage.Scale == 1)
-            {
-                settingsImage.Scale = 0.98;
-            }
-            else
-            {
-                settingsImage.Scale = 1;
-            }
-        }
-
-        private void RotateImage(object state)
-        {
-            settingsImage.Rotation += 10;
         }
 
         #endregion
