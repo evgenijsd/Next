@@ -81,14 +81,26 @@ namespace Next2.Controls
 
         public static readonly BindableProperty HeaderTextProperty = BindableProperty.Create(
             propertyName: nameof(HeaderText),
+            returnType: typeof(string),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.OneWay);
+
+        public string HeaderText
+        {
+            get => (string)GetValue(HeaderTextProperty);
+            set => SetValue(HeaderTextProperty, value);
+        }
+
+        public static readonly BindableProperty HeaderFormattedTextProperty = BindableProperty.Create(
+            propertyName: nameof(HeaderFormattedText),
             returnType: typeof(FormattedString),
             declaringType: typeof(DropDownList),
             defaultBindingMode: BindingMode.OneWay);
 
-        public FormattedString HeaderText
+        public FormattedString HeaderFormattedText
         {
-            get => (FormattedString)GetValue(HeaderTextProperty);
-            set => SetValue(HeaderTextProperty, value);
+            get => (FormattedString)GetValue(HeaderFormattedTextProperty);
+            set => SetValue(HeaderFormattedTextProperty, value);
         }
 
         public static readonly BindableProperty WrappedListIconSourceProperty = BindableProperty.Create(

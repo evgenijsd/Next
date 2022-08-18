@@ -13,9 +13,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
 {
     public class AssignReservationDialogViewModel : BindableBase
     {
-        public AssignReservationDialogViewModel(
-            DialogParameters param,
-            Action<IDialogParameters> requestClose)
+        public AssignReservationDialogViewModel(Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
 
@@ -41,7 +39,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public DelegateCommand DeclineCommand { get; }
 
-        private ICommand _assignReservationCommand;
+        private ICommand? _assignReservationCommand;
         public ICommand AssignReservationCommand => _assignReservationCommand ??= new AsyncCommand(OnAssignReservationCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

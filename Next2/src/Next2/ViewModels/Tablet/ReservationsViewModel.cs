@@ -293,9 +293,7 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnAssignReservationCommandAsync()
         {
-            var param = new DialogParameters();
-
-            var popupPage = new Views.Tablet.Dialogs.AssignReservationDialog(param, CloseAssignReservationDialogCallBack);
+            var popupPage = new Views.Tablet.Dialogs.AssignReservationDialog(CloseAssignReservationDialogCallBack);
 
             return PopupNavigation.PushAsync(popupPage);
         }

@@ -160,19 +160,20 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Assign Reservation.
-        /// </summary>
-        internal static string AssignReservation {
-            get {
-                return ResourceManager.GetString("AssignReservation", resourceCulture);
-            }
-        }
-        
         ///   Looks up a localized string similar to Assign From.
         /// </summary>
         internal static string AssignFrom {
             get {
                 return ResourceManager.GetString("AssignFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assign Reservation.
+        /// </summary>
+        internal static string AssignReservation {
+            get {
+                return ResourceManager.GetString("AssignReservation", resourceCulture);
             }
         }
         

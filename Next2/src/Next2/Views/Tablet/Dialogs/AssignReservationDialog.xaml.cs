@@ -7,11 +7,11 @@ namespace Next2.Views.Tablet.Dialogs
 {
     public partial class AssignReservationDialog : PopupPage
     {
-        public AssignReservationDialog(DialogParameters param, Action<IDialogParameters> requestClose)
+        public AssignReservationDialog(Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new AssignReservationDialogViewModel(param, requestClose);
+            BindingContext = new AssignReservationDialogViewModel(requestClose);
         }
     }
 }

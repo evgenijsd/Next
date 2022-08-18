@@ -181,19 +181,19 @@
             SelectedItem="{Binding SelectedTable}"
             ItemsSource="{Binding Tables}">
 
-            <controls:DropDownList.HeaderText>
+            <controls:DropDownList.HeaderFormattedText>
                 <FormattedString>
                     <Span Text="{xct:Translate Table}"/>
                     <Span Text=" "/>
                     <Span Text="{Binding SelectedTable.TableNumber}"/>
                 </FormattedString>
-            </controls:DropDownList.HeaderText>
+            </controls:DropDownList.HeaderFormattedText>
 
             <controls:DropDownList.Triggers>
 
                 <DataTrigger TargetType="controls:DropDownList" Binding="{Binding SelectedTable, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
 
-                    <Setter Property="HeaderText" Value="{xct:Translate NoTablesAvailable}"/>
+                    <Setter Property="HeaderFormattedText" Value="{xct:Translate NoTablesAvailable}"/>
                     <Setter Property="IsEnabled" Value="False"/>
                     <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
 

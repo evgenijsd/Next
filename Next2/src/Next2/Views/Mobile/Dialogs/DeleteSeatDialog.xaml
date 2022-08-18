@@ -6,6 +6,7 @@
     xmlns:ffimageLoading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
@@ -82,35 +83,20 @@
                     </controls:DropDownList.Triggers>
                 
                     <controls:DropDownList.DataTemplate>
-                        <DataTemplate>
-                            <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+                        <DataTemplate x:DataType="models:SeatListItemBindableModel">
 
-                                <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+                            <templates:TextItemTemplate Style="{DynamicResource StackLayoutTemplateStyle_i1}">
 
-                                <StackLayout
-                                    Padding="14, 9, 14, 10"
-                                    HeightRequest="20"
-                                    Orientation="Horizontal">
+                                <templates:TextItemTemplate.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{xct:Translate Seat}"/>
+                                        <Span Text=" "/>
+                                        <Span Text="{Binding SeatNumber}"/>
+                                    </FormattedString>
+                                </templates:TextItemTemplate.FormattedText>
 
-                                    <Label
-                                        HorizontalOptions="FillAndExpand"
-                                        FontFamily="Barlow-Medium"
-                                        FontSize="{DynamicResource TSize_i8}"
-                                        x:DataType="models:SeatListItemBindableModel">
-                                    
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="{xct:Translate Seat}"/>
-                                                <Span Text=" "/>
-                                                <Span Text="{Binding SeatNumber}"/>
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    
-                                    </Label>
-
-                                </StackLayout>
-
-                            </StackLayout>
+                            </templates:TextItemTemplate>
+                            
                         </DataTemplate>
                     </controls:DropDownList.DataTemplate>
 

@@ -177,26 +177,11 @@
 
                                         <controls:DropDownList.DataTemplate>
                                             <DataTemplate x:DataType="{x:Type x:Int32}">
-                                                <StackLayout 
+                                                
+                                                <templates:TextItemTemplate
                                                     Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                                                    xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
-
-                                                    <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
-
-                                                    <StackLayout
-                                                        Padding="14, 9"
-                                                        HeightRequest="21">
-
-                                                        <Label
-                                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                            FontFamily="Barlow-Medium"
-                                                            FontSize="{DynamicResource TSize_i8}"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Text="{Binding .}" />
-
-                                                    </StackLayout>
-
-                                                </StackLayout>
+                                                    Text="{Binding .}"/>
+                                                
                                             </DataTemplate>
                                         </controls:DropDownList.DataTemplate>
 
@@ -253,26 +238,11 @@
 
                                     <controls:DropDownList.DataTemplate>
                                         <DataTemplate x:DataType="{x:Type x:Int32}">
-                                            <StackLayout 
+                                            
+                                            <templates:TextItemTemplate
                                                 Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                                                xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
-
-                                                <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
-
-                                                <StackLayout
-                                                    Padding="14, 9"
-                                                    HeightRequest="21">
-
-                                                    <Label
-                                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                        FontFamily="Barlow-Medium"
-                                                        FontSize="{DynamicResource TSize_i8}"
-                                                        HorizontalOptions="FillAndExpand"
-                                                        Text="{Binding .}" />
-
-                                                </StackLayout>
-
-                                            </StackLayout>
+                                                Text="{Binding .}"/>
+                                            
                                         </DataTemplate>
                                     </controls:DropDownList.DataTemplate>
 

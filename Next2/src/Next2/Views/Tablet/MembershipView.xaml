@@ -206,10 +206,9 @@
                         </CollectionView.Effects>
 
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <StackLayout
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-                                    x:DataType="models:MemberBindableModel">
+                            <DataTemplate x:DataType="models:MemberBindableModel">
+                                
+                                <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}">
 
                                     <Grid ColumnDefinitions="0.26*, 0.26*, 0.24*, 0.24*">
 
@@ -246,6 +245,7 @@
                                         Color="{DynamicResource TextAndBackgroundColor_i5}" />
 
                                 </StackLayout>
+                                
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
 

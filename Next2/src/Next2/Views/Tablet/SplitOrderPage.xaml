@@ -8,7 +8,7 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
-    xmlns:models1="clr-namespace:Next2.Models.Bindables"
+    xmlns:bindablesModels="clr-namespace:Next2.Models.Bindables"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
     x:Class="Next2.Views.Tablet.SplitOrderPage"
@@ -551,7 +551,7 @@
 
                 <controls:CustomCollectionView.ItemTemplate>
 
-                    <DataTemplate x:DataType="models1:SeatBindableModel">
+                    <DataTemplate x:DataType="bindablesModels:SeatBindableModel">
 
                         <controls:SeatItemForSplitOrder
                             Padding="18, 9, 18, 0"
