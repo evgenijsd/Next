@@ -161,14 +161,6 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (!App.IsTablet)
-            {
-                CurrentOrder = _orderService.CurrentOrder;
-                IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
-
-                await UpdateDishGroupsAsync();
-            }
-
             if (parameters.ContainsKey(Constants.Navigations.DISH_MODIFIED))
             {
                 await RefreshCurrentOrderAsync();
@@ -484,7 +476,7 @@ namespace Next2.ViewModels
                 var seatNumber = seatGroup?.SeatNumber ?? 0;
                 var seat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == seatNumber);
 
-                if (seat is not null)
+                if (seat is not null && seatGroup is not null && !seatGroup.Checked)
                 {
                     seat.Checked = true;
 
