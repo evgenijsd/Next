@@ -3,11 +3,11 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Services.Authentication;
 using Next2.Services.Membership;
 using Next2.Services.Notifications;
 using Next2.Views.Tablet;
 using Next2.Views.Tablet.Dialogs;
-using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
@@ -27,22 +27,20 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMapper _mapper;
         private readonly IMembershipService _membershipService;
-        private readonly INotificationsService _notificationsService;
 
         private MembershipModelDTO _member = new();
         private List<MemberBindableModel> _allMembers = new();
 
         public MembershipViewModel(
-            IMapper mapper,
             INavigationService navigationService,
-            IEventAggregator eventAggregator,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
+            IMapper mapper,
             IMembershipService membershipService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _mapper = mapper;
             _membershipService = membershipService;
-            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -155,6 +153,10 @@ namespace Next2.ViewModels.Tablet
                 DisplayMembers = new(GetSortedMembers(SearchMembers(SearchText)));
 
                 IsMembersRefreshing = false;
+            }
+            else
+            {
+                await ResponseToUnsuccessfulRequestAsync(membersResult.Exception?.Message);
             }
         }
 

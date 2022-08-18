@@ -1,4 +1,6 @@
 ﻿using Next2.Enums;
+using Next2.Services.Authentication;
+using Next2.Services.Notifications;
 using Prism.Navigation;
 using System;
 using System.ComponentModel;
@@ -12,8 +14,11 @@ namespace Next2.ViewModels
     {
         private ESearchType _searchType;
 
-        public SearchPageViewModel(INavigationService navigationService)
-            : base(navigationService)
+        public SearchPageViewModel(
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService)
+            : base(navigationService, authenticationService, notificationsService)
         {
         }
 

@@ -1,4 +1,6 @@
-﻿using Next2.Views.Mobile;
+﻿using Next2.Services.Authentication;
+using Next2.Services.Notifications;
+using Next2.Views.Mobile;
 using Prism.Navigation;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -9,8 +11,11 @@ namespace Next2.ViewModels.Mobile
 {
     public class WaitingSwipeCardPageViewModel : BaseViewModel
     {
-        public WaitingSwipeCardPageViewModel(INavigationService navigationService)
-            : base(navigationService)
+        public WaitingSwipeCardPageViewModel(
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService)
+            : base(navigationService, authenticationService, notificationsService)
         {
         }
 

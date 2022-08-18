@@ -1,14 +1,13 @@
 ﻿using Acr.UserDialogs;
 using Next2.Enums;
 using Next2.Extensions;
-using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
@@ -24,19 +23,18 @@ namespace Next2.ViewModels
     public class SplitOrderViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
-        private readonly INotificationsService _notificationsService;
 
         private bool _isOneTime = true;
         private int _selectedSeatNumber = 0;
 
         public SplitOrderViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
             IOrderService orderService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _orderService = orderService;
-            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -267,7 +265,7 @@ namespace Next2.ViewModels
         {
             await _notificationsService.CloseAllPopupAsync();
 
-            await _notificationsService.ResponseToBadRequestAsync(exeptionMessage);
+            await ResponseToUnsuccessfulRequestAsync(exeptionMessage);
 
             RestoreSeats();
         }
@@ -349,12 +347,12 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(updateTableResult.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(updateTableResult.Exception?.Message);
                 }
             }
             else
             {
-                await _notificationsService.ResponseToBadRequestAsync(string.Empty);
+                await ResponseToUnsuccessfulRequestAsync(string.Empty);
             }
         }
 

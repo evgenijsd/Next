@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Services.Authentication;
 using Next2.Services.Customers;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -28,24 +29,23 @@ namespace Next2.ViewModels
         private readonly IMapper _mapper;
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
-        private readonly INotificationsService _notificationsService;
 
         private ECustomersSorting _sortCriterion;
 
         private List<CustomerBindableModel> _allCustomers = new();
 
         public CustomersViewModel(
-            IMapper mapper,
             INavigationService navigationService,
-            ICustomersService customersService,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
+            IMapper mapper,
+            ICustomersService customersService,
             IOrderService orderService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _mapper = mapper;
             _customersService = customersService;
             _orderService = orderService;
-            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -170,17 +170,14 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfGettingCustomers.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfGettingCustomers.Exception?.Message);
                 }
 
                 IsRefreshing = false;
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -263,15 +260,12 @@ namespace Next2.ViewModels
                     {
                         _orderService.CurrentOrder.Customer = new();
 
-                        await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
+                        await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
         }
@@ -310,15 +304,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
+                        await ResponseToUnsuccessfulRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
         }

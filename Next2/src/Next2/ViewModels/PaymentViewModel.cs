@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Services.Authentication;
 using Next2.Services.Customers;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -22,22 +23,21 @@ namespace Next2.ViewModels
     {
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
-        private readonly INotificationsService _notificationsService;
 
-        private decimal _subtotalWithBonus;
+        private readonly decimal _subtotalWithBonus;
 
         public PaymentViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService,
             IMapper mapper,
             IOrderService orderService,
             ICustomersService customerService,
-            INotificationsService notificationsService,
             IRewardsService rewardsService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _orderService = orderService;
             _mapper = mapper;
-            _notificationsService = notificationsService;
 
             if (_orderService.CurrentOrder.Discount is null && _orderService.CurrentOrder.Coupon is null)
             {
@@ -78,21 +78,23 @@ namespace Next2.ViewModels
 
             RewardsViewModel = new(
                 navigationService,
+                authenticationService,
+                notificationsService,
                 mapper,
                 orderService,
                 customerService,
                 rewardsService,
                 Order,
-                notificationsService,
                 NavigateAsync,
                 GoToPaymentStep);
 
             PaymentCompleteViewModel = new(
                 navigationService,
+                authenticationService,
+                notificationsService,
                 customerService,
                 orderService,
                 mapper,
-                notificationsService,
                 Order);
         }
 
@@ -247,11 +249,6 @@ namespace Next2.ViewModels
                     await _navigationService.GoBackAsync();
                 }
             }
-        }
-
-        private async void ClosePaymentCompleteCallbackAsync(IDialogParameters parameters)
-        {
-            await _navigationService.GoBackAsync();
         }
 
         #endregion

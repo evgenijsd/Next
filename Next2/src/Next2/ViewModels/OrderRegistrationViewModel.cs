@@ -35,10 +35,8 @@ namespace Next2.ViewModels
         private readonly IMapper _mapper;
 
         private readonly IOrderService _orderService;
-        private readonly IAuthenticationService _authenticationService;
         private readonly IMenuService _menuService;
         private readonly IBonusesService _bonusesService;
-        private readonly INotificationsService _notificationsService;
 
         private readonly ICommand _seatSelectionCommand;
         private readonly ICommand _deleteSeatCommand;
@@ -57,22 +55,20 @@ namespace Next2.ViewModels
 
         public OrderRegistrationViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService,
             IEventAggregator eventAggregator,
             IMapper mapper,
             IOrderService orderService,
             IBonusesService bonusesService,
-            IAuthenticationService authenticationService,
-            INotificationsService notificationsService,
             IMenuService menuService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _eventAggregator = eventAggregator;
             _mapper = mapper;
             _orderService = orderService;
-            _authenticationService = authenticationService;
             _menuService = menuService;
             _bonusesService = bonusesService;
-            _notificationsService = notificationsService;
 
             CurrentState = ENewOrderViewState.InProgress;
 
@@ -257,15 +253,13 @@ namespace Next2.ViewModels
                     _orderService.CurrentOrder = _tempCurrentOrder;
 
                     await RefreshCurrentOrderAsync();
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+
+                    await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                 }
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -289,17 +283,14 @@ namespace Next2.ViewModels
 
                     _orderService.CurrentOrder = _tempCurrentOrder;
 
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                 }
 
                 await RefreshCurrentOrderAsync();
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -344,10 +335,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -449,7 +437,7 @@ namespace Next2.ViewModels
             }
             else if (_externalPageLoadStatus == ELoadingState.Completed)
             {
-                await _notificationsService.ResponseToBadRequestAsync(freeTablesResult.Exception?.Message);
+                await ResponseToUnsuccessfulRequestAsync(freeTablesResult.Exception?.Message);
             }
         }
 
@@ -509,10 +497,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -617,10 +602,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -649,10 +631,7 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _notificationsService.ShowInfoDialogAsync(
-                            LocalizationResourceManager.Current["Error"],
-                            LocalizationResourceManager.Current["SomethingWentWrong"],
-                            LocalizationResourceManager.Current["Ok"]);
+                        await _notificationsService.ShowSomethingWentWrongDialogAsync();
                     }
                 }
                 else if (actionOnDishes is EActionOnDishes.RedirectDishes
@@ -687,10 +666,7 @@ namespace Next2.ViewModels
 
                     if (!isRedirectedSets || !isDeletedSeat)
                     {
-                        await _notificationsService.ShowInfoDialogAsync(
-                            LocalizationResourceManager.Current["Error"],
-                            LocalizationResourceManager.Current["SomethingWentWrong"],
-                            LocalizationResourceManager.Current["Ok"]);
+                        await _notificationsService.ShowSomethingWentWrongDialogAsync();
                     }
                 }
             }
@@ -708,7 +684,7 @@ namespace Next2.ViewModels
 
                 if (!resultOfUpdatingOrder.IsSuccess)
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
 
                     _orderService.CurrentOrder = _tempCurrentOrder;
 
@@ -775,10 +751,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -866,15 +839,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _notificationsService.ShowInfoDialogAsync(
-                            LocalizationResourceManager.Current["Error"],
-                            LocalizationResourceManager.Current["SomethingWentWrong"],
-                            LocalizationResourceManager.Current["Ok"]);
+                        await _notificationsService.ShowSomethingWentWrongDialogAsync();
                     }
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
 
                     _orderService.CurrentOrder = _tempCurrentOrder;
 
@@ -883,10 +853,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -901,10 +868,7 @@ namespace Next2.ViewModels
 
             return IsInternetConnected
                 ? _navigationService.NavigateAsync(nameof(TabletViews.BonusPage), parameters)
-                : _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                : _notificationsService.ShowNoInternetConnectionDialogAsync();
         }
 
         private async Task OnRemoveTaxFromOrderCommandAsync()
@@ -924,10 +888,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -957,10 +918,7 @@ namespace Next2.ViewModels
                     {
                         CurrentOrder.IsTab = !isTab;
 
-                        await _notificationsService.ShowInfoDialogAsync(
-                            LocalizationResourceManager.Current["Error"],
-                            LocalizationResourceManager.Current["SomethingWentWrong"],
-                            LocalizationResourceManager.Current["Ok"]);
+                        await ResponseToUnsuccessfulRequestAsync(resultOfSettingEmptyCurrentOrder.Exception?.Message);
                     }
 
                     await _notificationsService.CloseAllPopupAsync();
@@ -971,17 +929,14 @@ namespace Next2.ViewModels
 
                     CurrentOrder.IsTab = !isTab;
 
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
                 }
             }
             else
             {
                 await _notificationsService.CloseAllPopupAsync();
 
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -1027,10 +982,7 @@ namespace Next2.ViewModels
             {
                 await _notificationsService.CloseAllPopupAsync();
 
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -1038,10 +990,7 @@ namespace Next2.ViewModels
         {
             return IsInternetConnected
                 ? _navigationService.NavigateAsync(nameof(ModificationsPage))
-                : _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                : _notificationsService.ShowNoInternetConnectionDialogAsync();
         }
 
         private Task OnOpenRemoveCommandAsync()
@@ -1065,72 +1014,67 @@ namespace Next2.ViewModels
         {
             if (IsInternetConnected)
             {
-                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted) && isDishRemovingAccepted)
                 {
-                    if (isDishRemovingAccepted)
+                    _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
+
+                    var resultOfDeletingDishFromCurrentSeat = await _orderService.DeleteDishFromCurrentSeatAsync();
+
+                    if (resultOfDeletingDishFromCurrentSeat.IsSuccess)
                     {
-                        _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
+                        _orderService.UpdateTotalSum(CurrentOrder);
 
-                        var resultOfDeletingDishFromCurrentSeat = await _orderService.DeleteDishFromCurrentSeatAsync();
+                        _rememberPositionSelection = null;
+                        await RefreshCurrentOrderAsync();
 
-                        if (resultOfDeletingDishFromCurrentSeat.IsSuccess)
+                        if (CurrentState == ENewOrderViewState.Edit)
                         {
-                            _orderService.UpdateTotalSum(CurrentOrder);
+                            if (_seatWithSelectedDish is not null && _seatWithSelectedDish.SelectedDishes.Any())
+                            {
+                                _seatWithSelectedDish.SelectedItem = _seatWithSelectedDish.SelectedDishes.FirstOrDefault();
+                            }
+                            else if (_isAnyDishChosen)
+                            {
+                                foreach (var set in CurrentOrder.Seats)
+                                {
+                                    set.SelectedItem = null;
+                                }
 
-                            _rememberPositionSelection = null;
+                                _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.SelectedDishes.FirstOrDefault();
+
+                                _rememberPositionSelection = null;
+                                await UpdateDishGroupsAsync();
+                            }
+                            else
+                            {
+                                if (App.IsTablet)
+                                {
+                                    await OnCloseEditStateCommandAsync();
+                                }
+                            }
+                        }
+
+                        var resultOfUpdatingCurrentOrder = await _orderService.UpdateCurrentOrderAsync();
+
+                        if (!resultOfUpdatingCurrentOrder.IsSuccess)
+                        {
+                            _orderService.CurrentOrder = _tempCurrentOrder;
+
+                            await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
+
                             await RefreshCurrentOrderAsync();
-
-                            if (CurrentState == ENewOrderViewState.Edit)
-                            {
-                                if (_seatWithSelectedDish is not null && _seatWithSelectedDish.SelectedDishes.Any())
-                                {
-                                    _seatWithSelectedDish.SelectedItem = _seatWithSelectedDish.SelectedDishes.FirstOrDefault();
-                                }
-                                else if (_isAnyDishChosen)
-                                {
-                                    foreach (var set in CurrentOrder.Seats)
-                                    {
-                                        set.SelectedItem = null;
-                                    }
-
-                                    _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.SelectedDishes.FirstOrDefault();
-
-                                    _rememberPositionSelection = null;
-                                    await UpdateDishGroupsAsync();
-                                }
-                                else
-                                {
-                                    if (App.IsTablet)
-                                    {
-                                        await OnCloseEditStateCommandAsync();
-                                    }
-                                }
-                            }
-
-                            var resultOfUpdatingCurrentOrder = await _orderService.UpdateCurrentOrderAsync();
-
-                            if (!resultOfUpdatingCurrentOrder.IsSuccess)
-                            {
-                                _orderService.CurrentOrder = _tempCurrentOrder;
-
-                                await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
-                                await RefreshCurrentOrderAsync();
-                            }
                         }
-                        else
-                        {
-                            await _notificationsService.CloseAllPopupAsync();
+                    }
+                    else
+                    {
+                        await _notificationsService.CloseAllPopupAsync();
 
-                            await _notificationsService.ShowInfoDialogAsync(
-                                LocalizationResourceManager.Current["Error"],
-                                LocalizationResourceManager.Current["SomethingWentWrong"],
-                                LocalizationResourceManager.Current["Ok"]);
-                        }
+                        await _notificationsService.ShowSomethingWentWrongDialogAsync();
+                    }
 
-                        if (!App.IsTablet)
-                        {
-                            await _navigationService.GoBackToRootAsync();
-                        }
+                    if (!App.IsTablet)
+                    {
+                        await _navigationService.GoBackToRootAsync();
                     }
                 }
 
@@ -1140,10 +1084,7 @@ namespace Next2.ViewModels
             {
                 await _notificationsService.CloseAllPopupAsync();
 
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -1151,10 +1092,7 @@ namespace Next2.ViewModels
         {
             return IsInternetConnected
                 ? _navigationService.NavigateAsync(nameof(PaymentPage))
-                : _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                : _notificationsService.ShowNoInternetConnectionDialogAsync();
         }
 
         private Task OnHideOrderNotificationCommnadAsync()
@@ -1227,7 +1165,7 @@ namespace Next2.ViewModels
                                 await _navigationService.GoBackAsync();
                             }
 
-                            await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
+                            await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
 
                             await RefreshCurrentOrderAsync();
                         }
@@ -1238,19 +1176,13 @@ namespace Next2.ViewModels
                     {
                         NumberOfSeats = CurrentOrder.Seats.Count;
 
-                        await _notificationsService.ShowInfoDialogAsync(
-                            LocalizationResourceManager.Current["Error"],
-                            LocalizationResourceManager.Current["SomethingWentWrong"],
-                            LocalizationResourceManager.Current["Ok"]);
+                        await _notificationsService.ShowSomethingWentWrongDialogAsync();
                     }
                 }
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -1260,37 +1192,31 @@ namespace Next2.ViewModels
             {
                 if (IsInternetConnected)
                 {
-                    if (SelectedTable is not null && SelectedTable.TableNumber != CurrentOrder?.Table?.Number)
+                    var tempCurrentTableNumber = CurrentOrder?.Table?.Number;
+                    _orderService.CurrentOrder.Table = _mapper.Map<SimpleTableModelDTO>(SelectedTable);
+
+                    var resultOfUpdatingOrderTable = await _orderService.UpdateCurrentOrderAsync();
+
+                    if (!resultOfUpdatingOrderTable.IsSuccess)
                     {
-                        var tempCurrentTableNumber = CurrentOrder?.Table?.Number;
-                        _orderService.CurrentOrder.Table = _mapper.Map<SimpleTableModelDTO>(SelectedTable);
+                        var tempCurrentTable = Tables.FirstOrDefault(row => row.TableNumber == tempCurrentTableNumber);
 
-                        var resultOfUpdatingOrderTable = await _orderService.UpdateCurrentOrderAsync();
-
-                        if (!resultOfUpdatingOrderTable.IsSuccess)
+                        if (tempCurrentTable is not null)
                         {
-                            var tempCurrentTable = Tables.FirstOrDefault(row => row.TableNumber == tempCurrentTableNumber);
-
-                            if (tempCurrentTable is not null)
-                            {
-                                _orderService.CurrentOrder.Table = _mapper.Map<SimpleTableModelDTO>(tempCurrentTable);
-                                SelectedTable = tempCurrentTable;
-                            }
-
-                            await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrderTable.Exception?.Message);
+                            _orderService.CurrentOrder.Table = _mapper.Map<SimpleTableModelDTO>(tempCurrentTable);
+                            SelectedTable = tempCurrentTable;
                         }
 
-                        await UpdateDishGroupsAsync();
+                        await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrderTable.Exception?.Message);
                     }
+
+                    await UpdateDishGroupsAsync();
                 }
                 else
                 {
                     SelectedTable = Tables.FirstOrDefault(row => row.TableNumber == CurrentOrder?.Table?.Number);
 
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
         }
@@ -1311,7 +1237,7 @@ namespace Next2.ViewModels
                         CurrentOrder.OrderType = tempCurrentOrderType;
                         SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == tempCurrentOrderType);
 
-                        await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrderType.Exception?.Message);
+                        await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrderType.Exception?.Message);
                     }
 
                     await UpdateDishGroupsAsync();
@@ -1320,10 +1246,7 @@ namespace Next2.ViewModels
                 {
                     SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder?.OrderType);
 
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
         }

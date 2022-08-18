@@ -276,6 +276,10 @@ namespace Next2.Services.Order
                             isCurrentOrderSet = resultOfSettingCurrentOrder.IsSuccess;
                         }
                     }
+                    else if (resultOfGettingOrder.Exception is not null)
+                    {
+                        throw resultOfGettingOrder.Exception;
+                    }
                 }
 
                 if (!isCurrentOrderSet)
@@ -289,6 +293,10 @@ namespace Next2.Services.Order
                         var resultOfSettingCurrentOrder = await SetCurrentOrderAsync(orderCreationResult.Result);
 
                         isCurrentOrderSet = resultOfSettingCurrentOrder.IsSuccess;
+                    }
+                    else if (orderCreationResult.Exception is not null)
+                    {
+                        throw orderCreationResult.Exception;
                     }
                 }
 
@@ -480,6 +488,7 @@ namespace Next2.Services.Order
                 if (dishTobeRemoved is not null)
                 {
                     CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).SelectedDishes.Remove(dishTobeRemoved);
+
                     UpdateTotalSum(CurrentOrder);
                 }
 
