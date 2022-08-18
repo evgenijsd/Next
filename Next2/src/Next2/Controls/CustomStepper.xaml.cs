@@ -201,13 +201,13 @@ namespace Next2.Controls
 
         public bool CanIncrement { get; set; }
 
-        public string DisplayingValue { get; private set; }
+        public string DisplayingValue { get; private set; } = string.Empty;
 
         #endregion
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 

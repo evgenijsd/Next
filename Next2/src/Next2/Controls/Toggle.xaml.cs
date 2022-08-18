@@ -118,14 +118,14 @@ namespace Next2.Controls
             set => SetValue(ChangingToggleCommandParameterProperty, value);
         }
 
-        private ICommand _tapCommand;
+        private ICommand? _tapCommand;
         public ICommand TapCommand => _tapCommand ??= new AsyncCommand(OnTapCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 
@@ -139,13 +139,13 @@ namespace Next2.Controls
 
         #region -- Private helpers --
 
-        private async Task StartAnimationAsync()
+        private Task StartAnimationAsync()
         {
             var x = IsToggled
                 ? thumbFrame.X + trackFrame.WidthRequest - thumbFrame.WidthRequest - ThumbOffset
                 : thumbFrame.X + ThumbOffset;
 
-            await thumbFrame.TranslateTo(x, 0, 100, Easing.CubicInOut);
+            return thumbFrame.TranslateTo(x, 0, 100, Easing.CubicInOut);
         }
 
         private Task OnTapCommandAsync()

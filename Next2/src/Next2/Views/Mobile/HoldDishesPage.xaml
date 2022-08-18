@@ -5,15 +5,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:local="clr-namespace:Next2"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:models="clr-namespace:Next2.Models.Bindables"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
-    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:templates="clr-namespace:Next2.Controls.Templates"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
     x:Class="Next2.Views.Mobile.HoldDishesPage"
     x:DataType="viewModels:HoldDishesViewModel">
@@ -173,10 +172,6 @@
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                                 IndexLastVisible="{Binding IndexLastVisibleElement}">
 
-                                <controls:CustomCollectionView.Effects>
-                                    <effects:NoOverScrollEffect />
-                                </controls:CustomCollectionView.Effects>
-
                                 <controls:CustomCollectionView.Behaviors>
 
                                     <behaviors:ScrollToCenterBehavior />
@@ -271,7 +266,6 @@
                 <controls:DropDownList
                     Style="{DynamicResource DropDownListStyle_i1}"
                     WidthRequest="110"
-                    ItemHeight="46.5"
                     ScrollBarVisibility="Never"
                     HeaderTextSize="{DynamicResource TSize_i8}"
                     SelectedItem="{Binding SelectedTable}"
@@ -301,56 +295,39 @@
                     </controls:DropDownList.Triggers>
 
                     <controls:DropDownList.DataTemplate>
-                        <DataTemplate>
 
-                            <StackLayout
+                        <DataTemplate x:DataType="models:TableBindableModel">
+
+                            <templates:TextItemTemplate
                                 Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                                FontSize="{DynamicResource TSize_i7}"
                                 xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
-                                <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+                                <templates:TextItemTemplate.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{xct:Translate Table}"/>
+                                        <Span Text=" "/>
+                                        <Span Text="{Binding TableNumber}"/>
+                                    </FormattedString>
+                                </templates:TextItemTemplate.FormattedText>
 
-                                <StackLayout
-                                    Padding="14, 8"
-                                    HeightRequest="30"
-                                    Orientation="Horizontal"
-                                    x:DataType="models:TableBindableModel">
+                                <templates:TextItemTemplate.Triggers>
 
-                                    <Label
-                                        FontFamily="Barlow-Medium"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                        FontSize="{DynamicResource TSize_i7}"
-                                        HorizontalOptions="FillAndExpand">
+                                    <DataTrigger
+                                        TargetType="templates:TextItemTemplate"
+                                        Binding="{Binding TableNumber}"
+                                        Value="{x:Static local:Constants+Limits.ALL_TABLES}">
 
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="{xct:Translate Table}" />
-                                                <Span Text=" " />
-                                                <Span Text="{Binding TableNumber}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
+                                        <Setter Property="FormattedText" Value="{xct:Translate AllTables}" />
 
-                                        <Label.Triggers>
+                                    </DataTrigger>
 
-                                            <DataTrigger
-                                                TargetType="Label"
-                                                Binding="{Binding TableNumber}"
-                                                Value="{x:Static local:Constants+Limits.ALL_TABLES}">
+                                </templates:TextItemTemplate.Triggers>
 
-                                                <Setter Property="FormattedText" Value="{xct:Translate AllTables}" />
-
-                                            </DataTrigger>
-
-                                        </Label.Triggers>
-
-                                    </Label>
-
-                                </StackLayout>
-
-                                <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
-
-                            </StackLayout>
+                            </templates:TextItemTemplate>
 
                         </DataTemplate>
+
                     </controls:DropDownList.DataTemplate>
 
                 </controls:DropDownList>

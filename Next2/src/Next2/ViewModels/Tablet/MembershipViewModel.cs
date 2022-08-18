@@ -3,11 +3,11 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Services.Authentication;
 using Next2.Services.Membership;
 using Next2.Services.Notifications;
 using Next2.Views.Tablet;
 using Next2.Views.Tablet.Dialogs;
-using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
@@ -27,22 +27,20 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMapper _mapper;
         private readonly IMembershipService _membershipService;
-        private readonly INotificationsService _notificationsService;
 
-        private MembershipModelDTO _member;
+        private MembershipModelDTO _member = new();
         private List<MemberBindableModel> _allMembers = new();
 
         public MembershipViewModel(
-            IMapper mapper,
             INavigationService navigationService,
-            IEventAggregator eventAggregator,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
+            IMapper mapper,
             IMembershipService membershipService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _mapper = mapper;
             _membershipService = membershipService;
-            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -57,19 +55,19 @@ namespace Next2.ViewModels.Tablet
 
         public string SearchText { get; set; } = string.Empty;
 
-        private ICommand _refreshMembersCommand;
+        private ICommand? _refreshMembersCommand;
         public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _memberSortingChangeCommand;
+        private ICommand? _memberSortingChangeCommand;
         public ICommand MemberSortingChangeCommand => _memberSortingChangeCommand ??= new AsyncCommand<EMemberSorting>(OnMemberSortingChangeCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _MembershipEditCommand;
-        public ICommand MembershipEditCommand => _MembershipEditCommand ??= new AsyncCommand<MemberBindableModel?>(OnMembershipEditCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _membershipEditCommand;
+        public ICommand MembershipEditCommand => _membershipEditCommand ??= new AsyncCommand<MemberBindableModel?>(OnMembershipEditCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _searchCommand;
+        private ICommand? _searchCommand;
         public ICommand SearchCommand => _searchCommand ??= new AsyncCommand(OnSearchCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _clearSearchCommand;
+        private ICommand? _clearSearchCommand;
         public ICommand ClearSearchCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -126,7 +124,7 @@ namespace Next2.ViewModels.Tablet
             {
                 EMemberSorting.ByMembershipStartTime => x => x.StartDate,
                 EMemberSorting.ByMembershipEndTime => x => x.EndDate,
-                EMemberSorting.ByCustomerName => x => x.Customer.FullName,
+                EMemberSorting.ByCustomerName => x => x.Customer?.FullName,
                 _ => throw new NotImplementedException(),
             };
 
@@ -155,6 +153,10 @@ namespace Next2.ViewModels.Tablet
                 DisplayMembers = new(GetSortedMembers(SearchMembers(SearchText)));
 
                 IsMembersRefreshing = false;
+            }
+            else
+            {
+                await ResponseToUnsuccessfulRequestAsync(membersResult.Exception?.Message);
             }
         }
 

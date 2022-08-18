@@ -5,13 +5,13 @@ using Next2.Helpers;
 using Next2.Helpers.Events;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
@@ -29,20 +29,19 @@ namespace Next2.ViewModels
     {
         private readonly IOrderService _orderService;
         private readonly IEventAggregator _eventAggregator;
-        private readonly INotificationsService _notificationsService;
 
         private Guid _lastSavedOrderId;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
             IOrderService orderService,
             INotificationsService notificationsService,
             IEventAggregator eventAggregator)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _orderService = orderService;
             _eventAggregator = eventAggregator;
-            _notificationsService = notificationsService;
 
             _eventAggregator.GetEvent<OrderSelectedEvent>().Subscribe(SetLastSavedOrderId);
             _eventAggregator.GetEvent<OrderMovedEvent>().Subscribe(SetOrderType);
@@ -70,37 +69,37 @@ namespace Next2.ViewModels
 
         public ObservableCollection<SimpleOrderBindableModel> Orders { get; set; } = new();
 
-        private ICommand _switchToOrdersCommand;
+        private ICommand? _switchToOrdersCommand;
         public ICommand SwitchToOrdersCommand => _switchToOrdersCommand ??= new Command(OnSwitchToOrdersCommand);
 
-        private ICommand _switchToTabsComamnd;
+        private ICommand? _switchToTabsComamnd;
         public ICommand SwitchToTabsComamnd => _switchToTabsComamnd ??= new Command(OnSwitchToTabsComamnd);
 
-        private ICommand _goToSearchQueryInputCommand;
+        private ICommand? _goToSearchQueryInputCommand;
         public ICommand GoToSearchQueryInputCommand => _goToSearchQueryInputCommand ??= new AsyncCommand(OnGoToSearchQueryInputCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _refreshOrdersCommand;
+        private ICommand? _refreshOrdersCommand;
         public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
 
-        private ICommand _changeSortOrderCommand;
+        private ICommand? _changeSortOrderCommand;
         public ICommand ChangeSortOrderCommand => _changeSortOrderCommand ??= new Command<EOrdersSortingType>(OnChangeSortOrderCommand);
 
-        private ICommand _selectOrderCommand;
+        private ICommand? _selectOrderCommand;
         public ICommand SelectOrderCommand => _selectOrderCommand ??= new Command<SimpleOrderBindableModel?>(OnSelectOrderCommand);
 
-        private ICommand _removeOrderCommand;
+        private ICommand? _removeOrderCommand;
         public ICommand RemoveOrderCommand => _removeOrderCommand ??= new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _printCommand;
+        private ICommand? _printCommand;
         public ICommand PrintCommand => _printCommand ??= new AsyncCommand(OnPrintCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _editOrderCommand;
+        private ICommand? _editOrderCommand;
         public ICommand EditOrderCommand => _editOrderCommand ??= new AsyncCommand(OnEditOrderCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _splitCommand;
+        private ICommand? _splitCommand;
         public ICommand SplitCommand => _splitCommand ??= new AsyncCommand(OnSplitCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _clearSearchCommand;
+        private ICommand? _clearSearchCommand;
         public ICommand ClearSearchCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -202,15 +201,12 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(gettingOrdersResult.Exception.Message);
+                    await ResponseToUnsuccessfulRequestAsync(gettingOrdersResult.Exception?.Message);
                 }
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
 
             if (!isOrdersLoaded)
@@ -223,7 +219,7 @@ namespace Next2.ViewModels
 
         private MapperConfiguration GetOrderConfig(bool isTabsLoading)
         {
-            MapperConfiguration config = null;
+            MapperConfiguration? config = null;
 
             if (isTabsLoading)
             {
@@ -365,23 +361,19 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(orderResult.Exception.Message);
+                        await ResponseToUnsuccessfulRequestAsync(orderResult.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
         }
 
         private async void CloseRemoveOrderDialogCallbackAsync(IDialogParameters parameters)
         {
-            if (parameters is not null
-                && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
             {
                 if (isOrderDeletionConfirmationRequestCalled)
                 {
@@ -409,7 +401,7 @@ namespace Next2.ViewModels
 
         private async void CloseRemoveConfirmationDialogCallback(IDialogParameters parameters)
         {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted)
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted)
                 && isOrderRemovingAccepted && SelectedOrder is not null)
             {
                 if (IsInternetConnected)
@@ -436,21 +428,18 @@ namespace Next2.ViewModels
                         }
                         else
                         {
-                            await _notificationsService.ResponseToBadRequestAsync(updateOrderResult.Exception.Message);
+                            await ResponseToUnsuccessfulRequestAsync(updateOrderResult.Exception?.Message);
                         }
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(orderResult.Exception.Message);
+                        await ResponseToUnsuccessfulRequestAsync(orderResult.Exception?.Message);
                     }
                 }
                 else
                 {
                     await _notificationsService.CloseAllPopupAsync();
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
             else
@@ -491,22 +480,19 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(orderResult.Exception.Message);
+                        await ResponseToUnsuccessfulRequestAsync(orderResult.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
         }
 
         private async void ClosePrintOrderDialogCallbackAsync(IDialogParameters parameters)
         {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderPrintingAccepted))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderPrintingAccepted))
             {
                 if (isOrderPrintingAccepted && SelectedOrder is not null)
                 {
@@ -556,7 +542,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfSetCurrentOrder.Exception.Message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfSetCurrentOrder.Exception?.Message);
                 }
             }
         }
@@ -612,7 +598,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfGettingOrder.Exception.Message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfGettingOrder.Exception?.Message);
                 }
             }
             else

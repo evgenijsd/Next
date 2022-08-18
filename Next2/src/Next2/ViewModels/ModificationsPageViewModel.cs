@@ -4,6 +4,7 @@ using Next2.Helpers;
 using Next2.Models.API;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
 using Next2.Services.Menu;
 using Next2.Services.Notifications;
@@ -29,46 +30,46 @@ namespace Next2.ViewModels
         private readonly IBonusesService _bonusesService;
         private readonly IMenuService _menuService;
         private readonly IMapper _mapper;
-        private readonly INotificationsService _notificationsService;
 
-        private int _indexOfSeat;
-        private int _indexOfSelectedDish;
+        private readonly int _indexOfSeat;
+        private readonly int _indexOfSelectedDish;
 
         private bool _isOrderedByAscendingReplacementProducts = true;
         private bool _isOrderedByDescendingInventory = true;
 
         private DishBindableModel _currentDish;
-        private FullOrderBindableModel _tempCurrentOrder;
-        private SeatBindableModel _tempCurrentSeat;
+        private FullOrderBindableModel _tempCurrentOrder = new();
+        private SeatBindableModel _tempCurrentSeat = new();
 
         private IEnumerable<IngredientModelDTO>? _allIngredients;
-        private IEnumerable<IngredientsCategoryModelDTO> _allIngredientCategories;
+        private IEnumerable<IngredientsCategoryModelDTO>? _allIngredientCategories;
 
         public ModificationsPageViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService,
             IOrderService orderService,
             IMenuService menuService,
             IMapper mapper,
-            INotificationsService notificationsService,
             IBonusesService bonusService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _orderService = orderService;
             _menuService = menuService;
             _bonusesService = bonusService;
-            _notificationsService = notificationsService;
             _mapper = mapper;
-            _notificationsService = notificationsService;
 
             CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 
             var seat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
+
             _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
             _indexOfSelectedDish = seat.SelectedDishes.IndexOf(seat.SelectedItem);
 
             _currentDish = CurrentOrder.Seats[_indexOfSeat].SelectedItem ?? new();
 
             InitProductsDish();
+
             SelectedProduct = new() { SelectedItem = new() { State = ESubmenuItemsModifactions.Proportions } };
         }
 
@@ -78,27 +79,27 @@ namespace Next2.ViewModels
 
         public SpoilerBindableModel SelectedProduct { get; set; }
 
-        public SpoilerBindableModel SelectedProductDish { get; set; }
+        public SpoilerBindableModel SelectedProductDish { get; set; } = new();
 
-        public ObservableCollection<SpoilerBindableModel> ProductsDish { get; set; }
+        public ObservableCollection<SpoilerBindableModel> ProductsDish { get; set; } = new();
 
         public ProportionModel? SelectedProportion { get; set; }
 
-        public ObservableCollection<ProportionModel> PortionsDish { get; set; }
+        public ObservableCollection<ProportionModel> PortionsDish { get; set; } = new();
 
         public OptionModelDTO? SelectedOption { get; set; }
 
-        public ObservableCollection<OptionModelDTO> OptionsProduct { get; set; }
+        public ObservableCollection<OptionModelDTO> OptionsProduct { get; set; } = new();
 
         public SimpleProductModelDTO? SelectedReplacementProduct { get; set; }
 
-        public ObservableCollection<SimpleProductModelDTO> ReplacementProducts { get; set; }
+        public ObservableCollection<SimpleProductModelDTO> ReplacementProducts { get; set; } = new();
 
         public IngredientsCategoryModelDTO? SelectedIngredientCategory { get; set; }
 
-        public ObservableCollection<IngredientsCategoryModelDTO> IngredientCategories { get; set; }
+        public ObservableCollection<IngredientsCategoryModelDTO> IngredientCategories { get; set; } = new();
 
-        public ObservableCollection<IngredientBindableModel> Ingredients { get; set; }
+        public ObservableCollection<IngredientBindableModel> Ingredients { get; set; } = new();
 
         public bool IsMenuOpen { get; set; }
 
@@ -106,31 +107,31 @@ namespace Next2.ViewModels
 
         public int HeightIngredientCategories { get; set; }
 
-        private ICommand _tapSubmenuCommand;
+        private ICommand? _tapSubmenuCommand;
         public ICommand TapSubmenuCommand => _tapSubmenuCommand ??= new AsyncCommand<SpoilerBindableModel>(OnTapSubmenuCommandAsync);
 
-        private ICommand _tapOpenProportionsCommand;
+        private ICommand? _tapOpenProportionsCommand;
         public ICommand TapOpenProportionsCommand => _tapOpenProportionsCommand ??= new AsyncCommand(OnTapOpenProportionsCommandAsync);
 
-        private ICommand _openMenuCommand;
+        private ICommand? _openMenuCommand;
         public ICommand OpenMenuCommand => _openMenuCommand ??= new AsyncCommand(OnOpenMenuCommandAsync);
 
-        private ICommand _closeMenuCommand;
+        private ICommand? _closeMenuCommand;
         public ICommand CloseMenuCommand => _closeMenuCommand ??= new AsyncCommand(OnCloseMenuCommandAsync);
 
-        private ICommand _saveCommand;
+        private ICommand? _saveCommand;
         public ICommand SaveCommand => _saveCommand ??= new AsyncCommand(OnSaveCommandAsync);
 
-        private ICommand _changingOrderSortReplacementProductsCommand;
+        private ICommand? _changingOrderSortReplacementProductsCommand;
         public ICommand ChangingOrderSortReplacementProductsCommand => _changingOrderSortReplacementProductsCommand ??= new AsyncCommand(OnChangingOrderSortReplacementProductsCommandAsync);
 
-        private ICommand _changingOrderSortInventoryCommand;
+        private ICommand? _changingOrderSortInventoryCommand;
         public ICommand ChangingOrderSortInventoryCommand => _changingOrderSortInventoryCommand ??= new AsyncCommand(OnChangingOrderSortInventoryCommandAsync);
 
-        private ICommand _expandIngredientCategoriesCommand;
+        private ICommand? _expandIngredientCategoriesCommand;
         public ICommand ExpandIngredientCategoriesCommand => _expandIngredientCategoriesCommand ??= new AsyncCommand(OnExpandIngredientCategoriesCommandAsync);
 
-        private ICommand _changingToggleCommand;
+        private ICommand? _changingToggleCommand;
         public ICommand ChangingToggleCommand => _changingToggleCommand ??= new Command<IngredientBindableModel>(OnChangingToggleCommand);
 
         #endregion
@@ -244,11 +245,11 @@ namespace Next2.ViewModels
 
         private void OnChangingToggleCommand(IngredientBindableModel toggleIngredient)
         {
-            var product = _currentDish?.SelectedProducts?.FirstOrDefault();
+            var product = _currentDish.SelectedProducts?.FirstOrDefault();
 
             var ingredient = product?.AddedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id);
 
-            if (product is not null)
+            if (product is not null && SelectedIngredientCategory is not null)
             {
                 if (ingredient is null)
                 {
@@ -331,8 +332,22 @@ namespace Next2.ViewModels
                         TapCommand = TapSubmenuCommand,
                     };
 
+                    result.PropertyChanged += SelectedOptionPropertyChanged;
+
                     return result;
                 }));
+            }
+        }
+
+        private void SelectedOptionPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is SpoilerBindableModel spoiler
+                && e.PropertyName is nameof(spoiler.SelectedItem)
+                && SelectedIngredientCategory is not null
+                && spoiler.SelectedItem is not null
+                && spoiler.SelectedItem.State != ESubmenuItemsModifactions.Inventory)
+            {
+                SelectedIngredientCategory = null;
             }
         }
 
@@ -375,15 +390,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(ingredientCategories.Exception?.Message);
+                        await ResponseToUnsuccessfulRequestAsync(ingredientCategories.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
 
@@ -398,15 +410,15 @@ namespace Next2.ViewModels
         {
             if (_allIngredients is not null)
             {
-                var product = _currentDish?.SelectedProducts?.FirstOrDefault();
+                var product = _currentDish.SelectedProducts?.FirstOrDefault();
 
                 Ingredients = new(_allIngredients.Where(row => row.IngredientsCategoryId == categoryId).Select(row => new IngredientBindableModel()
                 {
                     Id = row.Id,
                     CategoryId = row.IngredientsCategoryId,
-                    IsToggled = product is not null ? product.AddedIngredients.Any(item => item.Id == row.Id) : false,
+                    IsToggled = product is not null && product.AddedIngredients.Any(item => item.Id == row.Id),
                     Name = row.Name,
-                    Price = _currentDish?.SelectedDishProportion.PriceRatio == 1
+                    Price = _currentDish.SelectedDishProportion.PriceRatio == 1
                         ? row.Price
                         : row.Price * (1 + _currentDish.SelectedDishProportion.PriceRatio),
                     ImageSource = row.ImageSource,
@@ -431,15 +443,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(ingredientsResult.Exception.Message);
+                        await ResponseToUnsuccessfulRequestAsync(ingredientsResult.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
         }
@@ -540,10 +549,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -626,7 +632,7 @@ namespace Next2.ViewModels
 
                     _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == selectedSeat.SeatNumber).SelectedItem = selectedDishInSelectedSeat;
 
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                 }
                 else
                 {
@@ -635,16 +641,13 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
         private void SelectReplacementProduct()
         {
-            if (SelectedReplacementProduct is not null)
+            if (SelectedReplacementProduct is not null && _currentDish.SelectedProducts is not null)
             {
                 int selectedProductIndex = 0;
 
@@ -713,10 +716,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["SomethingWentWrong"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowSomethingWentWrongDialogAsync();
                 }
             }
         }

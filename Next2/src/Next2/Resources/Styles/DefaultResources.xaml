@@ -3,7 +3,9 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:converters="clr-namespace:Next2.Converters"
     xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Resources.Styles.DefaultResources">
@@ -36,14 +38,25 @@
     <x:Double x:Key="TSize_i9">12</x:Double>
     <!--  8px  -->
     <x:Double x:Key="TSize_i10">10</x:Double>
-    
+
     <x:Double x:Key="TSize_i12">8</x:Double>
     
+    <x:Double x:Key="TSize_i9_5">11</x:Double>
+
+    <x:Double x:Key="TSize_i6_5">17</x:Double>
+
+    <x:Double x:Key="TSize_i4_6">22</x:Double>
+
     <x:Double x:Key="OpacityWhenDisabled_i1">0.5</x:Double>
     <x:Double x:Key="OpacityWhenDisabled_i2">0.6</x:Double>
     <x:Double x:Key="OpacityWhenDisabled_i3">0.32</x:Double>
 
     <Style TargetType="Frame">
+        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <Style TargetType="controls:CustomFrame">
         <Setter Property="HasShadow" Value="False" />
         <Setter Property="Padding" Value="0" />
     </Style>
@@ -79,6 +92,16 @@
         <Setter Property="HeightRequest" Value="4"/>
     </Style>
 
+    <Style x:Key="SeparatorStyle_i5" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="{OnPlatform Android=1.5, iOS=2}" />
+        <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i6}" />
+    </Style>
+
+    <Style x:Key="SeparatorStyle_i6" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="{OnPlatform Android=1.5, iOS=2}" />
+        <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+    </Style>
+
     <!-- CONTROLS -->
     <Style TargetType="controls:LineSpacingLabel">
         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
@@ -92,7 +115,15 @@
         <Setter Property="FontFamily" Value="Barlow-Regular"/>
         <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
     </Style>
-    
+
+    <Style TargetType="buttons:BorderButton">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="xct:TouchEffect.PressedScale" Value="0.97" />
+    </Style>
+
     <Style x:Key="BorderButtonStyle_i1" TargetType="buttons:BorderButton">
         <Setter Property="FontFamily" Value="Barlow-SemiBold" />
         <Setter Property="Padding" Value="4" />
@@ -141,7 +172,6 @@
         <Setter Property="HeaderFontFamily" Value="Barlow-Medium"/>
         <Setter Property="HeaderTextSize" Value="12"/>
         <Setter Property="MaxNumberOfVisibleItems" Value="3"/>
-        <Setter Property="ItemHeight" Value="40"/>
         <Style.Triggers>
             <Trigger TargetType="controls:DropDownList" Property="IsExpanded" Value="true">
                 <Setter Property="HeaderBackgroundColor" Value="#2E3143" />
@@ -181,6 +211,42 @@
         <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
         <Setter Property="Margin" Value="0, 2" />
     </Style>
+
+    <Style TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+    </Style>
+
+    <Style x:Key="CalendarTabletStyle" TargetType="controls:Calendar">
+        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
+        <Setter Property="DropdownListBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
+        <Setter Property="DropdownHeaderDroppedBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>
+        <Setter Property="MonthFontFamily" Value="Barlow-Regular"/>
+        <Setter Property="DropdownListFontFamily" Value="Barlow-Medium"/>
+        <Setter Property="DropdownHeaderFontSize" Value="{DynamicResource TSize_i8}"/>
+        <Setter Property="MonthFontSize" Value="{DynamicResource TSize_i6}"/>
+        <Setter Property="DayFontSize" Value="{DynamicResource TSize_i9}"/>
+        <Setter Property="MonthStepperIconSize" Value="30"/>
+        <Setter Property="DropdownWidthRequest" Value="88"/>
+        <Setter Property="DropdownHeaderWidthRequest" Value="90"/>
+        <Setter Property="DropdownHeaderHeightRequest" Value="30"/>
+    </Style>
+
+    <Style x:Key="CustomFrameStyle_1" TargetType="controls:CustomFrame">
+        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>
+        <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
+        <Setter Property="CornerRadius" Value="{OnPlatform Android='5', iOS='8'}"/>
+        <Setter Property="HasShadow" Value="False"/>
+        <Setter Property="BorderWidth" Value="1"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="HeightRequest" Value="{OnIdiom Tablet='50', Phone='57'}"/>
+        <Setter Property="VerticalOptions" Value="Start"/>
+    </Style>
+
+    <Style TargetType="templates:TextItemTemplate">
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="Spacing" Value="0"/>
+    </Style>
+    
 
     <!-- CONVERTERS -->
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>

@@ -1,14 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="http://prismlibrary.com"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
@@ -37,282 +35,263 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ContentPage.Content>
-        <Grid RowDefinitions="0.1*, 0.9*, 0.1*">
+    <Grid RowDefinitions="65, *, 75">
 
-            <controls:CustomNavigationBar
-                Title="{xct:Translate Customer}"
-                Padding="12, 0, 0, 0"
-                HeightImage="24"
-                FontFamily="Barlow-Bold"
-                FontSize="{DynamicResource TSize_i5}"
-                LeftButtonCommand="{prism:GoBack}" />
+        <controls:CustomNavigationBar
+            Title="{xct:Translate Customer}"
+            Padding="12, 0, 0, 0"
+            HeightImage="24"
+            FontFamily="Barlow-Bold"
+            FontSize="{DynamicResource TSize_i5}"
+            LeftButtonCommand="{prism:GoBack}" />
+
+        <StackLayout
+            Grid.Row="1"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+
+            <buttons:SearchButton
+                Margin="24, 20"
+                HeightRequest="40"
+                CornerRadius="5"
+                Text="{Binding SearchText}"
+                Placeholder="{xct:Translate SearchByNameOrPhone}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                BackColor="Transparent"
+                BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
+                MinimumHeightRequest="40"
+                ClearCommand="{Binding ClearSearchCommand}"
+                Command="{Binding SearchCommand}" />
 
             <StackLayout
-                Grid.Row="1"
-                HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+                HorizontalOptions="FillAndExpand">
 
-                <buttons:SearchButton
-                    CornerRadius="5"
-                    Text="{Binding SearchText}"
-                    Placeholder="{xct:Translate SearchByNameOrPhone}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    BackColor="Transparent"
-                    BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    Margin="24, 20"
-                    HeightRequest="40"
-                    MinimumHeightRequest="40"
-                    Command="{Binding SearchCommand}"
-                    ClearCommand="{Binding ClearSearchCommand}"/>
+                <StackLayout.Triggers>
 
-                <StackLayout
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="FillAndExpand">
-
-                    <StackLayout.Triggers>
-                        
-                        <MultiTrigger TargetType="StackLayout">
-                            <MultiTrigger.Conditions>
-                                <BindingCondition Binding="{Binding AnyCustomersLoaded}" Value="true" />
-                                <BindingCondition Binding="{Binding DisplayedCustomers.Count}" Value="0" />
-                            </MultiTrigger.Conditions>
+                    <MultiTrigger TargetType="StackLayout">
+                        <MultiTrigger.Conditions>
                             
-                            <Setter Property="IsVisible" Value="false" />
+                            <BindingCondition Binding="{Binding AnyCustomersLoaded}" Value="true" />
+                            <BindingCondition Binding="{Binding DisplayedCustomers.Count}" Value="0" />
                             
-                        </MultiTrigger>
-                        
-                    </StackLayout.Triggers>
+                        </MultiTrigger.Conditions>
 
-                    <!--  Table header  -->
-                    <yummy:PancakeView
-                        Margin="24, 0"
-                        HeightRequest="50"
-                        MinimumHeightRequest="50"
-                        CornerRadius="12, 12, 0, 0"
-                        BackgroundColor="{StaticResource TextAndBackgroundColor_i3}">
+                        <Setter Property="IsVisible" Value="false" />
 
-                        <Grid ColumnSpacing="0">
+                    </MultiTrigger>
 
-                            <Label
-                                Grid.Column="0"
-                                Style="{DynamicResource HeaderLabelStyle}"
-                                Text="{xct:Translate CustomerName}" />
+                </StackLayout.Triggers>
 
-                            <Label
-                                Grid.Column="1"
-                                Style="{DynamicResource HeaderLabelStyle}"
-                                Text="{xct:Translate Phone}" />
+                <yummy:PancakeView
+                    Margin="24, 0"
+                    HeightRequest="50"
+                    MinimumHeightRequest="50"
+                    CornerRadius="12, 12, 0, 0"
+                    BackgroundColor="{StaticResource TextAndBackgroundColor_i3}">
 
-                            <Label
-                                Grid.Column="2"
-                                Margin="0, 0, 15, 0"
-                                Style="{DynamicResource HeaderLabelStyle}"
-                                Text="{xct:Translate Email}" />
-
-                        </Grid>
-
-                    </yummy:PancakeView>
-
-                    <!--  Table content  -->
-                    <yummy:PancakeView
-                        Margin="24, 0"
-                        HeightRequest="{Binding DisplayedCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
-                        CornerRadius="0"
-                        BackgroundColor="{StaticResource TextAndBackgroundColor_i3}"
-                        VerticalOptions="Start">
-
-                        <yummy:PancakeView.Triggers>
-
-                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding AnyCustomersLoaded}" Value="False">
-
-                                <Setter Property="VerticalOptions" Value="FillAndExpand" />
-
-                            </DataTrigger>
-
-                            <DataTrigger TargetType="yummy:PancakeView" Value="0">
-
-                                <DataTrigger.Binding>
-                                    <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
-
-                                        <Binding Path="DisplayedCustomers.Count" />
-                                        <Binding Path="IndexLastVisibleElement" />
-
-                                    </MultiBinding>
-                                </DataTrigger.Binding>
-
-                                <Setter Property="CornerRadius" Value="0, 0, 12, 12" />
-
-                            </DataTrigger>
-
-                        </yummy:PancakeView.Triggers>
-
-                        <RefreshView
-                            IsRefreshing="{Binding IsRefreshing}"
-                            Command="{Binding RefreshCommand}">
-
-                            <controls:CustomCollectionView
-                                VerticalScrollBarVisibility="Never"
-                                SelectionMode="Single"
-                                ItemsSource="{Binding DisplayedCustomers}"
-                                SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
-                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-                                IndexLastVisible="{Binding IndexLastVisibleElement}">
-
-                                <controls:CustomCollectionView.Effects>
-                                    <effects:NoOverScrollEffect />
-                                </controls:CustomCollectionView.Effects>
-
-                                <controls:CustomCollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:CustomerBindableModel">
-
-                                        <Grid
-                                            RowDefinitions="0.98*, 0.02*"
-                                            HeightRequest="45">
-
-                                            <Grid.GestureRecognizers>
-                                                <TapGestureRecognizer
-                                                    Command="{Binding ShowInfoCommand}"
-                                                    CommandParameter="{Binding .}" />
-                                                
-                                            </Grid.GestureRecognizers>
-
-                                            <Label
-                                                Grid.Row="0"
-                                                Grid.Column="0"
-                                                LineBreakMode="TailTruncation"
-                                                Style="{DynamicResource ViewCellLabelStyle}"
-                                                Text="{Binding FullName}" />
-
-                                            <Label
-                                                Grid.Row="0"
-                                                Grid.Column="1"
-                                                LineBreakMode="TailTruncation"
-                                                Style="{DynamicResource ViewCellLabelStyle}"
-                                                Text="{Binding Phone,  Converter={StaticResource formattedPhoneConverter}}" />
-
-                                            <Label
-                                                Grid.Row="0"
-                                                Grid.Column="2"
-                                                Margin="0, 0, 15, 0"
-                                                LineBreakMode="TailTruncation"
-                                                Style="{DynamicResource ViewCellLabelStyle}"
-                                                Text="{Binding Email}" />
-
-                                            <BoxView
-                                                Grid.Row="1"
-                                                Grid.ColumnSpan="3"
-                                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
-
-                                            <VisualStateManager.VisualStateGroups>
-                                                <VisualStateGroup Name="CommonStates">
-                                                    
-                                                    <VisualState Name="Selected">
-                                                        
-                                                        <VisualState.Setters>
-                                                            <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-                                                        </VisualState.Setters>
-                                                        
-                                                    </VisualState>
-                                                    
-                                                    <VisualState Name="Normal">
-                                                        
-                                                        <VisualState.Setters>
-                                                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i8}" />
-                                                        </VisualState.Setters>
-                                                        
-                                                    </VisualState>
-                                                    
-                                                </VisualStateGroup>
-                                            </VisualStateManager.VisualStateGroups>
-                                            
-                                        </Grid>
-
-                                    </DataTemplate>
-                                </controls:CustomCollectionView.ItemTemplate>
-
-                            </controls:CustomCollectionView>
-
-                        </RefreshView>
-
-                    </yummy:PancakeView>
-
-                </StackLayout>
-
-                <StackLayout
-                    Grid.Row="3"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"
-                    IsVisible="false">
-
-                    <StackLayout.Triggers>
-                        
-                        <MultiTrigger TargetType="StackLayout">
-                            <MultiTrigger.Conditions>
-                                <BindingCondition Binding="{Binding AnyCustomersLoaded}" Value="true" />
-                                <BindingCondition Binding="{Binding DisplayedCustomers.Count}" Value="0" />
-                            </MultiTrigger.Conditions>
-                            <Setter Property="IsVisible" Value="true" />
-                        </MultiTrigger>
-                        
-                    </StackLayout.Triggers>
-
-                    <ffimageloading:CachedImage
-                        Source="pic_nothing_found"
-                        HeightRequest="230"
-                        VerticalOptions="CenterAndExpand"
-                        HorizontalOptions="CenterAndExpand"
-                        Margin="0, 0, 0, 100" />
-
-                </StackLayout>
-
-            </StackLayout>
-
-            <StackLayout
-                Grid.Row="2"
-                VerticalOptions="FillAndExpand">
-
-                <BoxView
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                    HeightRequest="1" />
-
-                <Frame
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="FillAndExpand"
-                    Padding="20, 14"
-                    CornerRadius="0"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-
-                    <!--  add button  -->
-                    <Frame
-                        CornerRadius="4"
-                        BackgroundColor="{DynamicResource AppColor_i1}"
-                        xct:TouchEffect.PressedScale="0.96">
+                    <Grid>
 
                         <Label
-                            VerticalOptions="Center"
-                            HorizontalOptions="Center"
-                            FontSize="{DynamicResource TSize_i6}"
-                            FontFamily="Barlow-SemiBold"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            Text="{xct:Translate AddNew}" />
+                            Grid.Column="0"
+                            Style="{DynamicResource HeaderLabelStyle}"
+                            Text="{xct:Translate CustomerName}" />
 
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding AddNewCustomerCommand}" />
-                        </Frame.GestureRecognizers>
+                        <Label
+                            Grid.Column="1"
+                            Style="{DynamicResource HeaderLabelStyle}"
+                            Text="{xct:Translate Phone}" />
 
-                    </Frame>
+                        <Label
+                            Grid.Column="2"
+                            Style="{DynamicResource HeaderLabelStyle}"
+                            Margin="0, 0, 15, 0"
+                            Text="{xct:Translate Email}" />
 
-                </Frame>
+                    </Grid>
 
-                <BoxView
-                    HeightRequest="1"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+                </yummy:PancakeView>
+
+                <yummy:PancakeView
+                    Margin="24, 0"
+                    VerticalOptions="Start"
+                    HeightRequest="{Binding DisplayedCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
+                    CornerRadius="0"
+                    BackgroundColor="{StaticResource TextAndBackgroundColor_i3}">
+
+                    <yummy:PancakeView.Triggers>
+
+                        <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding AnyCustomersLoaded}" Value="False">
+
+                            <Setter Property="VerticalOptions" Value="FillAndExpand" />
+
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="yummy:PancakeView" Value="0">
+
+                            <DataTrigger.Binding>
+                                <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
+
+                                    <Binding Path="DisplayedCustomers.Count" />
+                                    <Binding Path="IndexLastVisibleElement" />
+
+                                </MultiBinding>
+                            </DataTrigger.Binding>
+
+                            <Setter Property="CornerRadius" Value="0, 0, 12, 12" />
+
+                        </DataTrigger>
+
+                    </yummy:PancakeView.Triggers>
+
+                    <RefreshView
+                        IsRefreshing="{Binding IsRefreshing}"
+                        Command="{Binding RefreshCommand}">
+
+                        <controls:CustomCollectionView
+                            VerticalScrollBarVisibility="Never"
+                            SelectionMode="Single"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
+                            IndexLastVisible="{Binding IndexLastVisibleElement}"
+                            ItemsSource="{Binding DisplayedCustomers}"
+                            SelectedItem="{Binding SelectedCustomer}">
+
+                            <controls:CustomCollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:CustomerBindableModel">
+
+                                    <Grid
+                                        RowDefinitions="0.98*, 0.02*"
+                                        xct:TouchEffect.Command="{Binding ShowInfoCommand}"
+                                        xct:TouchEffect.CommandParameter="{Binding .}"
+                                        HeightRequest="45">
+
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Style="{DynamicResource ViewCellLabelStyle}"
+                                            LineBreakMode="TailTruncation"
+                                            Text="{Binding FullName}" />
+
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Style="{DynamicResource ViewCellLabelStyle}"
+                                            LineBreakMode="TailTruncation"
+                                            Text="{Binding Phone, Converter={StaticResource formattedPhoneConverter}}" />
+
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Style="{DynamicResource ViewCellLabelStyle}"
+                                            Margin="0, 0, 15, 0"
+                                            LineBreakMode="TailTruncation"
+                                            Text="{Binding Email}" />
+
+                                        <BoxView
+                                            Grid.Row="1"
+                                            Grid.ColumnSpan="3"
+                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup Name="CommonStates">
+
+                                                <VisualState Name="Selected">
+
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+                                                    </VisualState.Setters>
+
+                                                </VisualState>
+
+                                                <VisualState Name="Normal">
+
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i8}" />
+                                                    </VisualState.Setters>
+
+                                                </VisualState>
+
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+
+                                    </Grid>
+
+                                </DataTemplate>
+                            </controls:CustomCollectionView.ItemTemplate>
+
+                        </controls:CustomCollectionView>
+
+                    </RefreshView>
+
+                </yummy:PancakeView>
 
             </StackLayout>
 
-        </Grid>
-    </ContentPage.Content>
+            <StackLayout
+                Grid.Row="3"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
+                IsVisible="false">
+
+                <StackLayout.Triggers>
+
+                    <MultiTrigger TargetType="StackLayout">
+                        
+                        <MultiTrigger.Conditions>
+                            
+                            <BindingCondition Binding="{Binding AnyCustomersLoaded}" Value="true" />
+                            <BindingCondition Binding="{Binding DisplayedCustomers.Count}" Value="0" />
+                            
+                        </MultiTrigger.Conditions>
+                        
+                        <Setter Property="IsVisible" Value="true" />
+                        
+                    </MultiTrigger>
+
+                </StackLayout.Triggers>
+
+                <ffimageloading:CachedImage
+                    Margin="0, 0, 0, 100"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    HeightRequest="230"
+                    Source="pic_nothing_found" />
+
+            </StackLayout>
+
+        </StackLayout>
+
+        <StackLayout
+            Grid.Row="2"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+            <BoxView
+                HeightRequest="1"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+            <buttons:BorderButton
+                Margin="20, 14"
+                Padding="0"
+                VerticalOptions="Center"
+                HeightRequest="52"
+                WidthRequest="492"
+                CornerRadius="5"
+                BackgroundColor="{DynamicResource AppColor_i1}"
+                FontSize="{DynamicResource TSize_i6}"
+                FontFamily="Barlow-SemiBold"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                Text="{xct:Translate AddNew}"
+                xct:TouchEffect.Command="{Binding AddNewCustomerCommand}" />
+
+            <BoxView
+                HeightRequest="1"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
+        </StackLayout>
+
+    </Grid>
 
 </views:BaseContentPage>

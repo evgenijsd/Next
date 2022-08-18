@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Services.Authentication;
 using Next2.Services.Customers;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -22,22 +23,21 @@ namespace Next2.ViewModels
     {
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
-        private readonly INotificationsService _notificationsService;
 
-        private decimal _subtotalWithBonus;
+        private readonly decimal _subtotalWithBonus;
 
         public PaymentViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService,
             IMapper mapper,
             IOrderService orderService,
             ICustomersService customerService,
-            INotificationsService notificationsService,
             IRewardsService rewardsService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _orderService = orderService;
             _mapper = mapper;
-            _notificationsService = notificationsService;
 
             if (_orderService.CurrentOrder.Discount is null && _orderService.CurrentOrder.Coupon is null)
             {
@@ -78,21 +78,23 @@ namespace Next2.ViewModels
 
             RewardsViewModel = new(
                 navigationService,
+                authenticationService,
+                notificationsService,
                 mapper,
                 orderService,
                 customerService,
                 rewardsService,
                 Order,
-                notificationsService,
                 NavigateAsync,
                 GoToPaymentStep);
 
             PaymentCompleteViewModel = new(
                 navigationService,
+                authenticationService,
+                notificationsService,
                 customerService,
                 orderService,
                 mapper,
-                notificationsService,
                 Order);
         }
 
@@ -106,11 +108,11 @@ namespace Next2.ViewModels
 
         public PaymentCompleteViewModel PaymentCompleteViewModel { get; set; }
 
-        private ICommand _backCancelCommand;
+        private ICommand? _backCancelCommand;
         public ICommand BackCancelCommand => _backCancelCommand ??= new AsyncCommand(OnBackCancelCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _OpenTipsCommand;
-        public ICommand OpenTipsCommand => _OpenTipsCommand ??= new AsyncCommand(OnOpenTipsCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _openTipsCommand;
+        public ICommand OpenTipsCommand => _openTipsCommand ??= new AsyncCommand(OnOpenTipsCommandAsync, allowsMultipleExecutions: false);
 
         private Task OnOpenTipsCommandAsync()
         {
@@ -121,11 +123,11 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue(Constants.Navigations.TIP_VALUE, out TipItem tipItem))
+            if (parameters.TryGetValue(Constants.Navigations.TIP_PERCENT, out TipItem tipItem))
             {
                 Order.Tip = tipItem.Value;
                 PaymentCompleteViewModel.SelectedTipItem = tipItem;
@@ -152,7 +154,9 @@ namespace Next2.ViewModels
 
                     Order.PriceTax = _orderService.CurrentOrder.PriceTax;
                     Order.Total = _orderService.CurrentOrder.TotalPrice;
-                    Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
+                    Order.GiftCardsTotalFunds = Order.Customer is null
+                        ? 0
+                        : Order.Customer.GiftCardsTotalFund;
                     Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
                 }
 
@@ -236,7 +240,7 @@ namespace Next2.ViewModels
 
         private async void CloseConfirmExitFromPaymentCallbackAsync(IDialogParameters parameters)
         {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isExitConfirmed))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isExitConfirmed))
             {
                 await _notificationsService.CloseAllPopupAsync();
 
@@ -245,11 +249,6 @@ namespace Next2.ViewModels
                     await _navigationService.GoBackAsync();
                 }
             }
-        }
-
-        private async void ClosePaymentCompleteCallbackAsync(IDialogParameters parameters)
-        {
-            await _navigationService.GoBackAsync();
         }
 
         #endregion

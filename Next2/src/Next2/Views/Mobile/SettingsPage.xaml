@@ -14,6 +14,25 @@
 
     <StackLayout>
 
+        <StackLayout.Resources>
+
+            <Style x:Key="LabelStyle_i1" TargetType="Label">
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
+                <Setter Property="FontFamily" Value="Barlow-Medium"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="Margin" Value="15, 0, 0, 0"/>
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+            </Style>
+
+            <Style x:Key="CachedImageStyle_i1" TargetType="ffimageloading:CachedImage">
+                <Setter Property="Margin" Value="0, 0, 18, 0"/>
+                <Setter Property="HeightRequest" Value="24"/>
+                <Setter Property="HorizontalOptions" Value="End"/>
+            </Style>
+
+        </StackLayout.Resources>
+
         <controls:CustomNavigationBar
             Spacing="14"
             Padding="12, 18, 12, 16"
@@ -28,68 +47,48 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
         <controls:CustomFrame
-            VerticalOptions="Start"
-            Padding="0"
+            Style="{DynamicResource CustomFrameStyle_1}"
             Margin="20, 25, 20, 0"
-            HeightRequest="57"
-            BorderWidth="1"
-            HasShadow="False"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-            BorderColor="{DynamicResource TextAndBackgroundColor_i2}" 
-            CornerRadius="{OnPlatform Android='5', iOS='8'}">
-            
+            xct:TouchEffect.Command="{Binding ReassignTableCommand}">
+
             <StackLayout Orientation="Horizontal">
 
                 <Label
-                    Text="{xct:Translate ReAssignTable}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    VerticalTextAlignment="Center"
-                    FontSize="{DynamicResource TSize_i8}"
-                    FontFamily="Barlow-Medium"
-                    Margin="15, 0, 0, 0"
-                    HorizontalOptions="FillAndExpand"/>
-               
+                    Style="{DynamicResource LabelStyle_i1}"
+                    Text="{xct:Translate ReAssignTable}"/>
+
                 <ffimageloading:CachedImage 
-                    Source="ic_arrow_right_40x40"
-                    HeightRequest="24"
-                    HorizontalOptions="End"
-                    Margin="0, 0, 18, 0"/>
-                    
+                    Style="{DynamicResource CachedImageStyle_i1}"
+                    Source="ic_arrow_right_40x40"/>
+
             </StackLayout>
-            
+
         </controls:CustomFrame>
 
-        <controls:CustomFrame
-            VerticalOptions="Start"
-            Padding="0"
+        <controls:CustomFrame 
+            Style="{DynamicResource CustomFrameStyle_1}"
             Margin="20, 15, 20, 0"
-            HeightRequest="57"
-            BorderWidth="1"
-            HasShadow="False"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-            BorderColor="{DynamicResource TextAndBackgroundColor_i2}" 
-            CornerRadius="{OnPlatform Android='5', iOS='8'}">
+            IsEnabled="{Binding IsLoading, Converter={xct:InvertedBoolConverter}}"
+            xct:TouchEffect.Command="{prism:NavigateTo Name='PrintReceiptPage'}">
 
             <StackLayout Orientation="Horizontal">
 
                 <Label
-                    Text="{xct:Translate PrintReceipt}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    VerticalTextAlignment="Center"
-                    FontSize="{DynamicResource TSize_i8}"
-                    FontFamily="Barlow-Medium"
-                    Margin="15, 0, 0, 0"
-                    HorizontalOptions="FillAndExpand"/>
+                    Style="{DynamicResource LabelStyle_i1}"
+                    Text="{xct:Translate PrintReceipt}"/>
 
                 <ffimageloading:CachedImage 
-                    Source="ic_arrow_right_40x40"
-                    HeightRequest="24"
-                    HorizontalOptions="End"
-                    Margin="0, 0, 18, 0"/>
+                    Style="{DynamicResource CachedImageStyle_i1}"
+                    Source="ic_arrow_right_40x40"/>
 
             </StackLayout>
 
         </controls:CustomFrame>
+
+        <ActivityIndicator
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            IsRunning="{Binding IsLoading}"/>
 
         <StackLayout 
             VerticalOptions="EndAndExpand"
@@ -108,13 +107,11 @@
                 BorderColor="Transparent"
                 HeightRequest="65"
                 FontSize="{DynamicResource TSize_i6}"
-                Margin="20, 12, 20, 12"
+                Margin="20, 12"
                 FontFamily="Barlow-SemiBold"
                 Text="{xct:Translate LogOut_UpperCase}"
-                Command="{Binding LogOutCommand}">
+                Command="{Binding LogOutCommand}"/>
 
-            </buttons:BorderButton>
-            
         </StackLayout>
 
     </StackLayout>

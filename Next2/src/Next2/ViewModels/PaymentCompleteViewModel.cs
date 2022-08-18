@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Helpers;
-using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
-using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Customers;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -31,33 +30,31 @@ namespace Next2.ViewModels
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
-        private readonly INotificationsService _notificationsService;
 
-        private ICommand _tapPaymentOptionCommand;
+        private readonly ICommand _tapPaymentOptionCommand;
+        private readonly ICommand _tapTipItemCommand;
 
-        private ICommand _tapTipItemCommand;
+        private readonly decimal _subtotalWithBonus;
 
-        private List<GiftCardModelDTO> _listGiftCardsToBeUpdated;
+        private List<GiftCardModelDTO> _listGiftCardsToBeUpdated = new();
 
-        private List<GiftCardModelDTO> _listGiftCardsToBeUpdateToPreviousStage;
+        private List<GiftCardModelDTO> _listGiftCardsToBeUpdateToPreviousStage = new();
 
-        private List<GiftCardModelDTO> _backupGiftCards;
-
-        private decimal _subtotalWithBonus;
+        private List<GiftCardModelDTO> _backupGiftCards = new();
 
         public PaymentCompleteViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService,
             ICustomersService customersService,
             IOrderService orderService,
             IMapper mapper,
-            INotificationsService notificationsService,
             PaidOrderBindableModel order)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _customersService = customersService;
             _orderService = orderService;
             _mapper = mapper;
-            _notificationsService = notificationsService;
 
             Order = order;
 
@@ -99,11 +96,11 @@ namespace Next2.ViewModels
 
         public byte[] BitmapSignature { get; set; }
 
-        public string InputValue { get; set; }
+        public string InputValue { get; set; } = string.Empty;
 
-        public string InputTip { get; set; }
+        public string InputTip { get; set; } = string.Empty;
 
-        public string InputGiftCardFounds { get; set; }
+        public string InputGiftCardFounds { get; set; } = string.Empty;
 
         public ECardPaymentStatus CardPaymentStatus { get; set; }
 
@@ -115,22 +112,22 @@ namespace Next2.ViewModels
 
         public bool IsPaymentComplete { get; set; } = false;
 
-        private ICommand _tapExpandCommand;
-        public ICommand TapExpandCommand => _tapExpandCommand = new Command(() => IsExpandedSummary = !IsExpandedSummary);
+        private ICommand? _tapExpandCommand;
+        public ICommand TapExpandCommand => _tapExpandCommand ??= new Command(() => IsExpandedSummary = !IsExpandedSummary);
 
-        private ICommand _changeCardPaymentStatusCommand;
+        private ICommand? _changeCardPaymentStatusCommand;
         public ICommand ChangeCardPaymentStatusCommand => _changeCardPaymentStatusCommand ??= new AsyncCommand(OnChangeCardPaymentStatusCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _clearDrawPanelCommand;
+        private ICommand? _clearDrawPanelCommand;
         public ICommand ClearDrawPanelCommand => _clearDrawPanelCommand ??= new Command(() => IsCleared = true);
 
-        private ICommand _tapCheckBoxSignatureReceiptCommand;
+        private ICommand? _tapCheckBoxSignatureReceiptCommand;
         public ICommand TapCheckBoxSignatureReceiptCommand => _tapCheckBoxSignatureReceiptCommand ??= new Command(() => NeedSignatureReceipt = !NeedSignatureReceipt);
 
-        private ICommand _addGiftCardCommand;
-        public ICommand AddGiftCardCommand => _addGiftCardCommand = new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _addGiftCardCommand;
+        public ICommand AddGiftCardCommand => _addGiftCardCommand ??= new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _finishPaymentCommand;
+        private ICommand? _finishPaymentCommand;
         public ICommand FinishPaymentCommand => _finishPaymentCommand ??= new AsyncCommand(OnFinishPaymentCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -201,9 +198,11 @@ namespace Next2.ViewModels
             {
                 if (decimal.TryParse(InputTip, out decimal tip))
                 {
-                    if (SelectedTipItem?.TipType != ETipType.Other)
+                    if (SelectedTipItem is TipItem selectedTipItem && selectedTipItem.TipType != ETipType.Other)
                     {
+                        SelectedTipItem.IsSelected = false;
                         SelectedTipItem = TipValueItems.FirstOrDefault(x => x.TipType == ETipType.Other);
+                        SelectedTipItem.IsSelected = true;
                     }
 
                     Order.Tip = tip / 100;
@@ -306,8 +305,13 @@ namespace Next2.ViewModels
                 },
             };
 
-            SelectedTipItem = TipValueItems.FirstOrDefault();
             var sign = LocalizationResourceManager.Current["CurrencySign"];
+            SelectedTipItem = TipValueItems.FirstOrDefault();
+
+            if (SelectedTipItem is not null)
+            {
+                SelectedTipItem.IsSelected = true;
+            }
 
             foreach (var tip in TipValueItems)
             {
@@ -324,17 +328,29 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnTapTipsItemCommandAsync(TipItem? item)
+        private Task OnTapTipsItemCommandAsync(TipItem? selectedTipItem)
         {
-            if (item is not null && item.TipType != ETipType.Other)
+            if (selectedTipItem is not null)
             {
-                IsClearedTip = true;
-                Order.Tip = item.Value;
-                IsClearedTip = false;
-            }
-            else
-            {
-                Order.Tip = 0;
+                selectedTipItem.IsSelected = true;
+
+                if (SelectedTipItem is not null && selectedTipItem != SelectedTipItem)
+                {
+                    SelectedTipItem.IsSelected = false;
+                }
+
+                SelectedTipItem = selectedTipItem;
+
+                if (selectedTipItem.TipType != ETipType.Other)
+                {
+                    IsClearedTip = true;
+                    Order.Tip = selectedTipItem.Value;
+                    IsClearedTip = false;
+                }
+                else
+                {
+                    Order.Tip = 0;
+                }
             }
 
             RecalculateTotal();
@@ -342,12 +358,12 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private async Task OnTapPaymentOptionCommandAsync(PaymentItem item)
+        private async Task OnTapPaymentOptionCommandAsync(PaymentItem? item)
         {
             string path = string.Empty;
             NavigationParameters navigationParams = new();
 
-            switch (item.PaymentType)
+            switch (item?.PaymentType)
             {
                 case EPaymentItems.Cash:
                     if (!App.IsTablet)
@@ -379,7 +395,7 @@ namespace Next2.ViewModels
                         if (SelectedTipItem != null)
                         {
                             navigationParams.Add(Constants.Navigations.TIP_TYPE, SelectedTipItem.TipType);
-                            navigationParams.Add(Constants.Navigations.TIP_VALUE, SelectedTipItem.Value);
+                            navigationParams.Add(Constants.Navigations.TIP_PERCENT, SelectedTipItem.PercentTip);
                         }
                     }
 
@@ -447,10 +463,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -497,16 +510,19 @@ namespace Next2.ViewModels
                             LocalizationResourceManager.Current["Ok"]);
                     }
 
-                    Order.Customer.GiftCards = _backupGiftCards;
+                    if (Order.Customer is not null)
+                    {
+                        Order.Customer.GiftCards = _backupGiftCards;
+                    }
                 }
             }
         }
 
-        private Task<bool> SendReceiptAsync(IDialogParameters par)
+        private Task<bool> SendReceiptAsync(IDialogParameters parameters)
         {
             bool isReceiptPrint = false;
 
-            if (par.TryGetValue(Constants.DialogParameterKeys.PAYMENT_COMPLETE, out EPaymentReceiptOptions options))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.PAYMENT_COMPLETE, out EPaymentReceiptOptions options))
             {
                 switch (options)
                 {
@@ -533,6 +549,7 @@ namespace Next2.ViewModels
             var tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 
             var order = _orderService.CurrentOrder;
+
             order.IsCashPayment = Order.Cash > 0;
             order.OrderStatus = EOrderStatus.Closed;
             order.Close = DateTime.Now;
@@ -549,7 +566,7 @@ namespace Next2.ViewModels
 
                 _orderService.CurrentOrder = tempCurrentOrder;
 
-                await _notificationsService.ResponseToBadRequestAsync(updateResult.Exception?.Message);
+                await ResponseToUnsuccessfulRequestAsync(updateResult.Exception?.Message);
             }
 
             return updateResult.IsSuccess;
@@ -577,10 +594,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -634,7 +648,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfAddingGiftCard.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfAddingGiftCard.Exception?.Message);
                 }
             }
         }
@@ -676,7 +690,7 @@ namespace Next2.ViewModels
 
                     Order.Customer.GiftCards = _backupGiftCards;
 
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingGiftCards.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingGiftCards.Exception?.Message);
 
                     isGiftCardPaymentSuccessful = false;
                 }

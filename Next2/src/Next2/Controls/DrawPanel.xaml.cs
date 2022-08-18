@@ -11,11 +11,11 @@ namespace Next2.Controls
 {
     public partial class DrawPanel : Grid
     {
-        private SKBitmap _bitmap;
-        private List<SKPath> _completedPaths = new List<SKPath>();
-        private Dictionary<long, SKPath> _inProgressPaths = new Dictionary<long, SKPath>();
+        private readonly Dictionary<long, SKPath> _inProgressPaths = new();
+        private readonly List<SKPath> _completedPaths = new();
+        private SKBitmap? _bitmap;
 
-        private SKPaint _paint = new SKPaint
+        private SKPaint _paint = new()
         {
             Style = SKPaintStyle.Stroke,
             Color = SKColors.White,
@@ -60,16 +60,13 @@ namespace Next2.Controls
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 
-            if (propertyName == nameof(IsCleared))
+            if (IsCleared && propertyName == nameof(IsCleared))
             {
-                if (IsCleared)
-                {
-                    Clear();
-                }
+                Clear();
             }
         }
 
@@ -79,21 +76,21 @@ namespace Next2.Controls
 
         private void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
-            SKImageInfo info = args.Info;
-            SKSurface surface = args.Surface;
-            SKCanvas canvas = surface.Canvas;
+            var info = args.Info;
+            var surface = args.Surface;
+            var canvas = surface.Canvas;
 
             if (_bitmap == null)
             {
-                _bitmap = new SKBitmap(info.Width, info.Height);
+                _bitmap = new(info.Width, info.Height);
             }
             else if (_bitmap.Width < info.Width || _bitmap.Height < info.Height)
             {
-                SKBitmap newBitmap = new SKBitmap(
+                SKBitmap newBitmap = new(
                     Math.Max(_bitmap.Width, info.Width),
                     Math.Max(_bitmap.Height, info.Height));
 
-                using (SKCanvas newCanvas = new SKCanvas(newBitmap))
+                using (SKCanvas newCanvas = new(newBitmap))
                 {
                     newCanvas.Clear();
                     newCanvas.DrawBitmap(_bitmap, 0, 0);
@@ -113,7 +110,7 @@ namespace Next2.Controls
                 case ETouchActionType.Pressed:
                     if (!_inProgressPaths.ContainsKey(args.Id))
                     {
-                        SKPath path = new SKPath();
+                        var path = new SKPath();
                         path.MoveTo(ConvertToPixel(args.Location));
                         _inProgressPaths.Add(args.Id, path);
 
@@ -125,7 +122,7 @@ namespace Next2.Controls
                 case ETouchActionType.Moved:
                     if (_inProgressPaths.ContainsKey(args.Id))
                     {
-                        SKPath path = _inProgressPaths[args.Id];
+                        var path = _inProgressPaths[args.Id];
                         path.LineTo(ConvertToPixel(args.Location));
                     }
 
@@ -154,23 +151,23 @@ namespace Next2.Controls
 
         private SKPoint ConvertToPixel(Point pt)
         {
-            return new SKPoint(
+            return new(
                 (float)(canvasView.CanvasSize.Width * pt.X / canvasView.Width),
                 (float)(canvasView.CanvasSize.Height * pt.Y / canvasView.Height));
         }
 
         private void UpdateBitmap()
         {
-            using (SKCanvas saveBitmapCanvas = new SKCanvas(_bitmap))
+            using (var saveBitmapCanvas = new SKCanvas(_bitmap))
             {
                 saveBitmapCanvas.Clear();
 
-                foreach (SKPath path in _completedPaths)
+                foreach (var path in _completedPaths)
                 {
                     saveBitmapCanvas.DrawPath(path, _paint);
                 }
 
-                foreach (SKPath path in _inProgressPaths.Values)
+                foreach (var path in _inProgressPaths.Values)
                 {
                     saveBitmapCanvas.DrawPath(path, _paint);
                 }
@@ -178,7 +175,10 @@ namespace Next2.Controls
 
             canvasView.InvalidateSurface();
 
-            Bitmap = _bitmap.Bytes;
+            if (_bitmap is not null)
+            {
+                Bitmap = _bitmap.Bytes;
+            }
         }
 
         private void Clear()
@@ -190,7 +190,10 @@ namespace Next2.Controls
 
             canvasView.InvalidateSurface();
 
-            Bitmap = _bitmap.Bytes;
+            if (_bitmap is not null)
+            {
+                Bitmap = _bitmap.Bytes;
+            }
         }
 
         #endregion

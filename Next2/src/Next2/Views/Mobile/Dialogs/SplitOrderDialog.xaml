@@ -1,16 +1,17 @@
 ﻿<rg:PopupPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-    xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:models="clr-namespace:Next2.Models.Bindables"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
     xmlns:enums="clr-namespace:Next2.Enums"
+    xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
+    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:models="clr-namespace:Next2.Models.Bindables"
     x:Class="Next2.Views.Mobile.Dialogs.SplitOrderDialog"
     x:DataType="dialogs:SplitOrderDialogViewModel">
 
@@ -23,12 +24,29 @@
 
         </Style>
 
+        <Style x:Key="ButtonStyle" TargetType="buttons:BorderButton">
+
+            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HeightRequest" Value="51" />
+            <Setter Property="WidthRequest" Value="140" />
+            <Setter Property="BorderWidth" Value="1" />
+            <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
+            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+            <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
+
+        </Style>
+
     </rg:PopupPage.Resources>
 
     <Frame
-        Margin="24, 32"
+        Margin="12, 24"
         VerticalOptions="FillAndExpand"
         HorizontalOptions="FillAndExpand"
+        HeightRequest="786"
+        WidthRequest="492"
         CornerRadius="8"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}">
@@ -48,11 +66,12 @@
                 Grid.Row="0"
                 Margin="2, 0"
                 VerticalOptions="EndAndExpand"
-                HeightRequest="2"
+                HeightRequest="1"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
 
             <sc:StateContainer
                 Grid.Row="1"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                 State="{Binding PopupNavigationStep}">
 
                 <sc:StateCondition State="{Static enums:EStep.First}">
@@ -62,19 +81,16 @@
                         Margin="2, 0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
-                        <CollectionView
+                        <controls:CustomCollectionView
                             Grid.Row="1"
                             Margin="18"
                             SelectionMode="Multiple"
                             VerticalScrollBarVisibility="Never"
+                            BounceMode="DisabledForAndroidAndiOS"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                             ItemsSource="{Binding Seats}"
                             SelectedItems="{Binding SelectedSeats}"
                             SelectionChangedCommand="{Binding SelectCommand}">
-
-                            <CollectionView.Effects>
-                                <effects:NoOverScrollEffect />
-                            </CollectionView.Effects>
 
                             <CollectionView.Header>
                                 <Label Text="{xct:Translate Seats}" />
@@ -179,7 +195,7 @@
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
 
-                        </CollectionView>
+                        </controls:CustomCollectionView>
 
                     </Frame>
 
@@ -192,51 +208,37 @@
                         <sc:StateCondition State="{Static enums:ESplitOrderConditions.ByPercents}">
 
                             <Grid
-                                Padding="24"
+                                RowDefinitions="0.17*, 0.415*, 0.415*"
+                                Padding="24, 0"
                                 MinimumHeightRequest="623">
 
-                                <StackLayout
+                                <Label
                                     Grid.Row="0"
-                                    Spacing="12">
+                                    VerticalOptions="Center"
+                                    Text="{xct:Translate SelectValue}"
+                                    FontSize="{DynamicResource TSize_i6}"
+                                    FontFamily="Barlow-Regular" />
 
-                                    <StackLayout.Resources>
-
-                                        <Style x:Key="frameStyle" TargetType="Frame">
-
-                                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
-                                            <Setter Property="HeightRequest" Value="51" />
-                                            <Setter Property="WidthRequest" Value="139" />
-                                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
-
-                                        </Style>
-
-                                        <Style x:Key="labelStyle" TargetType="Label">
-
-                                            <Setter Property="VerticalTextAlignment" Value="Center" />
-                                            <Setter Property="HorizontalTextAlignment" Value="Center" />
-                                            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                                            <Setter Property="FontFamily" Value="Barlow-SemiBold" />
-
-                                        </Style>
-
-                                    </StackLayout.Resources>
-
-                                    <Label
-                                        Text="{xct:Translate SelectValue}"
-                                        FontSize="{DynamicResource TSize_i6}"
-                                        FontFamily="Barlow-SemiBold" />
+                                <StackLayout
+                                    Grid.Row="1"
+                                    VerticalOptions="FillAndExpand">
 
                                     <StackLayout
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="CenterAndExpand"
                                         Orientation="Horizontal"
                                         Spacing="12">
 
-                                        <Frame
-                                            Style="{DynamicResource frameStyle}"
+                                        <buttons:BorderButton
+                                            Style="{DynamicResource ButtonStyle}"
+                                            CornerRadius="2"
+                                            Text="25 %"
+                                            IsEnabled="False"
                                             xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                             xct:TouchEffect.CommandParameter="25">
 
-                                            <Frame.Triggers>
-                                                <DataTrigger TargetType="Frame" Value="25">
+                                            <buttons:BorderButton.Triggers>
+                                                <DataTrigger TargetType="buttons:BorderButton" Value="25">
 
                                                     <DataTrigger.Binding>
                                                         <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 25)">
@@ -247,23 +249,23 @@
                                                     </DataTrigger.Binding>
 
                                                     <Setter Property="Opacity" Value="1" />
+                                                    <Setter Property="IsEnabled" Value="True" />
 
                                                 </DataTrigger>
-                                            </Frame.Triggers>
+                                            </buttons:BorderButton.Triggers>
 
-                                            <Label
-                                                Style="{DynamicResource labelStyle}"
-                                                Text="25 %" />
+                                        </buttons:BorderButton>
 
-                                        </Frame>
-
-                                        <Frame
-                                            Style="{DynamicResource frameStyle}"
+                                        <buttons:BorderButton
+                                            Style="{DynamicResource ButtonStyle}"
+                                            CornerRadius="2"
+                                            Text="50 %"
+                                            IsEnabled="False"
                                             xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                             xct:TouchEffect.CommandParameter="50">
 
-                                            <Frame.Triggers>
-                                                <DataTrigger TargetType="Frame" Value="50">
+                                            <buttons:BorderButton.Triggers>
+                                                <DataTrigger TargetType="buttons:BorderButton" Value="50">
 
                                                     <DataTrigger.Binding>
                                                         <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 50)">
@@ -274,23 +276,23 @@
                                                     </DataTrigger.Binding>
 
                                                     <Setter Property="Opacity" Value="1" />
+                                                    <Setter Property="IsEnabled" Value="True" />
 
                                                 </DataTrigger>
-                                            </Frame.Triggers>
+                                            </buttons:BorderButton.Triggers>
 
-                                            <Label
-                                                Style="{DynamicResource labelStyle}"
-                                                Text="50 %" />
+                                        </buttons:BorderButton>
 
-                                        </Frame>
-
-                                        <Frame
-                                            Style="{DynamicResource frameStyle}"
+                                        <buttons:BorderButton
+                                            Style="{DynamicResource ButtonStyle}"
+                                            CornerRadius="2"
+                                            Text="75 %"
+                                            IsEnabled="False"
                                             xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                             xct:TouchEffect.CommandParameter="75">
 
-                                            <Frame.Triggers>
-                                                <DataTrigger TargetType="Frame" Value="75">
+                                            <buttons:BorderButton.Triggers>
+                                                <DataTrigger TargetType="buttons:BorderButton" Value="75">
 
                                                     <DataTrigger.Binding>
                                                         <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 75)">
@@ -301,33 +303,30 @@
                                                     </DataTrigger.Binding>
 
                                                     <Setter Property="Opacity" Value="1" />
+                                                    <Setter Property="IsEnabled" Value="True" />
 
                                                 </DataTrigger>
-                                            </Frame.Triggers>
+                                            </buttons:BorderButton.Triggers>
 
-                                            <Label
-                                                Style="{DynamicResource labelStyle}"
-                                                Text="75 %" />
-
-                                        </Frame>
+                                        </buttons:BorderButton>
 
                                     </StackLayout>
 
-                                </StackLayout>
+                                    <controls:CustomStepper
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Spacing="32"
+                                        IconSizes="53"
+                                        MaxValue="{Binding AvailableValue}"
+                                        FontSize="{DynamicResource TSize_i0_7}"
+                                        FontFamily="Barlow-Bold"
+                                        IncrementCommand="{Binding IncrementSplitValueCommand}"
+                                        DecrementCommand="{Binding DecrementSplitValueCommand}"
+                                        TextWidth="110"
+                                        ValueFormat="{Static local:Constants+Formats.PERCENT_FORMAT}"
+                                        Value="{Binding SplitValue}" />
 
-                                <controls:CustomStepper
-                                    Grid.Row="1"
-                                    HorizontalOptions="CenterAndExpand"
-                                    Spacing="32"
-                                    IconSizes="53"
-                                    MaxValue="{Binding AvailableValue}"
-                                    FontSize="{DynamicResource TSize_i0_7}"
-                                    FontFamily="Barlow-Bold"
-                                    IncrementCommand="{Binding IncrementSplitValueCommand}"
-                                    DecrementCommand="{Binding DecrementSplitValueCommand}"
-                                    TextWidth="110"
-                                    ValueFormat="{Static local:Constants+Formats.PERCENT_FORMAT}"
-                                    Value="{Binding SplitValue}" />
+                                </StackLayout>
 
                                 <BoxView
                                     Grid.Row="2"
@@ -384,7 +383,7 @@
                                 IsTextRightToLeft="True"
                                 MaxValue="{Binding AvailableValue}"
                                 ValueFormat="{Static local:Constants+Formats.CASH_FORMAT}"
-                                ButtonBackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                ButtonBackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                                 Value="{Binding SplitValue, Mode=TwoWay}" />
 
                         </sc:StateCondition>
@@ -396,19 +395,16 @@
                                 Margin="2, 0"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
-                                <CollectionView
+                                <controls:CustomCollectionView
                                     Grid.Row="1"
                                     Margin="18"
                                     SelectionMode="Multiple"
                                     VerticalScrollBarVisibility="Never"
+                                    BounceMode="DisabledForAndroidAndiOS"
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                                     ItemsSource="{Binding Seats}"
                                     SelectedItems="{Binding SelectedSeats}"
                                     SelectionChangedCommand="{Binding SelectCommand}">
-
-                                    <CollectionView.Effects>
-                                        <effects:NoOverScrollEffect />
-                                    </CollectionView.Effects>
 
                                     <CollectionView.Header>
                                         <Label Text="{xct:Translate Seats}" />
@@ -514,7 +510,7 @@
                                         </DataTemplate>
                                     </CollectionView.ItemTemplate>
 
-                                </CollectionView>
+                                </controls:CustomCollectionView>
 
                             </Frame>
 
@@ -529,41 +525,39 @@
             <BoxView
                 Grid.Row="2"
                 VerticalOptions="StartAndExpand"
-                HeightRequest="2"
+                HeightRequest="1"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
             <Grid
                 Grid.Row="2"
                 ColumnSpacing="12"
-                Padding="12">
+                Padding="14">
 
-                <Frame
+                <buttons:BorderButton
                     Grid.Column="0"
+                    Padding="0"
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="Start"
+                    HeightRequest="52"
                     WidthRequest="216"
                     BorderColor="{DynamicResource AppColor_i1}"
                     CornerRadius="5"
+                    Text="{xct:Translate Cancel}"
+                    FontSize="{DynamicResource TSize_i6}"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     xct:TouchEffect.Command="{Binding CancelCommand}">
 
-                    <Frame.Triggers>
+                    <buttons:BorderButton.Triggers>
 
-                        <DataTrigger TargetType="Frame" Binding="{Binding PopupNavigationStep}" Value="{Static enums:EStep.Second}">
+                        <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding PopupNavigationStep}" Value="{Static enums:EStep.Second}">
 
                             <Setter Property="xct:TouchEffect.Command" Value="{Binding GoBackCommand}" />
 
                         </DataTrigger>
 
-                    </Frame.Triggers>
+                    </buttons:BorderButton.Triggers>
 
-                    <Label
-                        VerticalTextAlignment="Center"
-                        HorizontalTextAlignment="Center"
-                        Text="{xct:Translate Cancel}"
-                        FontSize="{DynamicResource TSize_i4_5}" />
-
-                </Frame>
+                </buttons:BorderButton>
 
                 <sc:StateContainer
                     Grid.Column="1"
@@ -574,73 +568,65 @@
 
                     <sc:StateCondition State="{Static enums:EStep.First}">
 
-                        <Frame
+                        <buttons:IconTextButton
+                            Padding="55, 0"
+                            HeightRequest="52"
+                            WidthRequest="216"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            BorderColor="{DynamicResource IndicationColor_i1}"
+                            Border="{pancakeview:BorderMarkup Color={StaticResource IndicationColor_i1}, Thickness=2}"
                             Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                             CornerRadius="5"
                             IsEnabled="False"
+                            Spacing="0"
+                            IconSource="ic_arrow_right_24x24.png"
+                            IsIconPlacedOnRight="True"
+                            Text="{xct:Translate Next}"
+                            FontSize="{DynamicResource TSize_i6}"
                             xct:TouchEffect.Command="{Binding NextCommand}">
 
-                            <Frame.Triggers>
+                            <buttons:IconTextButton.Triggers>
 
-                                <DataTrigger TargetType="Frame" Binding="{Binding IsNextStepAvailable}" Value="true">
+                                <DataTrigger TargetType="buttons:IconTextButton" Binding="{Binding IsNextStepAvailable}" Value="true">
 
                                     <Setter Property="Opacity" Value="1" />
                                     <Setter Property="IsEnabled" Value="True" />
 
                                 </DataTrigger>
 
-                            </Frame.Triggers>
+                            </buttons:IconTextButton.Triggers>
 
-                            <StackLayout
-                                VerticalOptions="Center"
-                                HorizontalOptions="CenterAndExpand"
-                                Orientation="Horizontal"
-                                Spacing="16">
-
-                                <Label
-                                    Text="{xct:Translate Next}"
-                                    FontSize="{DynamicResource TSize_i4_5}" />
-
-                                <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png" />
-
-                            </StackLayout>
-
-                        </Frame>
+                        </buttons:IconTextButton>
 
                     </sc:StateCondition>
 
                     <sc:StateCondition State="{Static enums:EStep.Second}">
 
-                        <Frame
+                        <buttons:BorderButton
+                            Padding="0"
+                            HeightRequest="52"
+                            WidthRequest="216"
                             BackgroundColor="{DynamicResource IndicationColor_i1}"
                             BorderColor="{DynamicResource IndicationColor_i1}"
                             Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                             CornerRadius="5"
+                            Text="{xct:Translate Split}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i6}"
+                            FontSize="{DynamicResource TSize_i6}"
                             IsEnabled="False"
-                            xct:TouchEffect.PressedScale="0.97"
                             xct:TouchEffect.Command="{Binding SplitCommand}">
 
-                            <Frame.Triggers>
+                            <buttons:BorderButton.Triggers>
 
-                                <DataTrigger TargetType="Frame" Binding="{Binding IsSplitAvailable}" Value="true">
+                                <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsSplitAvailable}" Value="true">
 
                                     <Setter Property="Opacity" Value="1" />
                                     <Setter Property="IsEnabled" Value="True" />
 
                                 </DataTrigger>
 
-                            </Frame.Triggers>
+                            </buttons:BorderButton.Triggers>
 
-                            <Label
-                                VerticalTextAlignment="Center"
-                                HorizontalTextAlignment="Center"
-                                Text="{xct:Translate Split}"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i6}"
-                                FontSize="{DynamicResource TSize_i4_5}" />
-
-                        </Frame>
+                        </buttons:BorderButton>
 
                     </sc:StateCondition>
 

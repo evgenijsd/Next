@@ -12,6 +12,7 @@ namespace Next2.Views.Tablet.Dialogs
             Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
+
             BindingContext = new SplitOrderDialogViewModel(param, requestClose);
         }
     }

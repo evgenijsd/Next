@@ -1,4 +1,6 @@
 ﻿using Next2.Models;
+using Next2.Services.Authentication;
+using Next2.Services.Notifications;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -10,18 +12,20 @@ namespace Next2.ViewModels.Mobile
     public class OrderWithRewardsViewModel : BaseViewModel
     {
         public OrderWithRewardsViewModel(
-            INavigationService navigationService)
-            : base(navigationService)
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService)
+            : base(navigationService, authenticationService, notificationsService)
         {
         }
 
         #region -- Public properties --
 
-        public RewardBindabledModel Reward { get; set; }
+        public RewardBindabledModel Reward { get; set; } = new();
 
         public ObservableCollection<SeatWithFreeDishesBindableModel> Seats { get; set; } = new();
 
-        private ICommand _applyRewardCommand;
+        private ICommand? _applyRewardCommand;
         public ICommand ApplyRewardCommand => _applyRewardCommand ??= new AsyncCommand(OnApplyRewardCommandAsync);
 
         #endregion

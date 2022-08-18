@@ -13,5 +13,7 @@ namespace Next2.Services.Reservation
         IEnumerable<ReservationModel> GetSortedReservations(EReservationsSortingType typeSort, IEnumerable<ReservationModel> reservations);
 
         Task<AOResult<int>> AddReservationAsync(ReservationModel reservation);
+
+        Task<AOResult> RemoveReservationAsync(ReservationModel reservation);
     }
 }

@@ -10,6 +10,7 @@ namespace Next2.Views.Mobile.Dialogs
         public FinishPaymentDialog(DialogParameters dialogParameters, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
+
             BindingContext = new FinishPaymentDialogViewModel(dialogParameters, requestClose);
         }
     }

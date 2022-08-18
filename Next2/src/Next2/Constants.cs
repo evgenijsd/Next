@@ -10,13 +10,16 @@
             public const string DATE_FORMAT = "{0:h:mm:ss}";
             public const string DATE_FORMAT2 = "MM/dd/yyyy";
             public const string SHORT_TIME = "{0:h:mm:ss tt}";
+            public const string SIMPLE_TIME = "{0:h:mm tt}";
             public const string LONG_DATE = "{0:dddd, d MMMM yyyy}";
             public const string PRICE_FORMAT = "{0:0.00}";
             public const string POINT_FORMAT = "{0:D} pt";
+            public const string DIGIT_FORMAT = "{0:D}";
             public const string CASH_FORMAT = "$ {0:#,0.#0}";
             public const string PERCENT_FORMAT = "{0} %";
             public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
             public const string TIME_FORMAT = "{0:hh:mm tt}";
+            public const string SHORT_DATE_FORMAT = "{0:dd.MM.yyyy}";
             public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
         }
 
@@ -72,7 +75,7 @@
             public const string PAYMENT_COMPLETE = "PAYMENT_COMPLETE";
             public const string SIGNATURE = "SIGNATURE";
             public const string DISH_MODIFIED = "DISH_MODIFIED";
-            public const string TIP_VALUE = "TIP_VALUE";
+            public const string TIP_PERCENT = "TIP_PERCENT";
             public const string TIP_ITEMS = "TIP_ITEMS";
             public const string TIP_TYPE = "TIP_TYPE";
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
@@ -129,9 +132,18 @@
             public const string PAYMENT_COMPLETE = "PAYMENT_COMPLETE";
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
+            public const string SELECTED_DATE = "SELECTED_DATE";
             public const string DISH = "DISH";
             public const string DISCOUNT_PRICE = "DISCOUNT_PRICE";
             public const string GIFT_GARD = "GIFT_GARD";
+            public const string ACTION = "ACTION";
+            public const string REMOVE = "REMOVE";
+            public const string ASSIGN = "ASSIGN";
+            public const string ORDER = "ORDER";
+            public const string ORDERS_ID = "ORDERS_ID";
+            public const string EMPLOYEES = "EMPLOYEES";
+            public const string EMPLOYEE_ID = "EMPLOYEE_ID";
+            public const string TABLE = "TABLE";
         }
 
         public static class API
@@ -146,7 +158,7 @@
             public const string HOST_URL = "http://139.59.208.79";
 #endif
             public const int TOKEN_EXPIRATION_TIME = 12;
-            public const int REQUEST_TIMEOUT = 7;
+            public const int REQUEST_TIMEOUT = 20;
         }
 
         public static class StatusCode

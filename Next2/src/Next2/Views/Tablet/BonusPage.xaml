@@ -102,7 +102,7 @@
                             <ScrollView Margin="0, 11, 0, 0">
 
                                 <ScrollView.Effects>
-                                    
+
                                     <effects:NoOverScrollEffect />
 
                                     <effects:ScrollBarColorEffect
@@ -152,7 +152,7 @@
                                                                                 HeightRequest="45"
                                                                                 WidthRequest="45"
                                                                                 Aspect="AspectFill" />
-                                                                            
+
                                                                         </Frame>
 
                                                                         <StackLayout HorizontalOptions="FillAndExpand">
@@ -170,7 +170,7 @@
                                                                                 FontSize="{DynamicResource TSize_i9}"
                                                                                 LineBreakMode="TailTruncation"
                                                                                 Opacity="{DynamicResource OpacityWhenDisabled_i2}"
-                                                                                Text="{Binding Name}"
+                                                                                Text="{Binding SelectedProductsNames}"
                                                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                                                                         </StackLayout>
@@ -207,13 +207,13 @@
                                                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                                                 TextDecorations="Strikethrough">
 
-                                                                                    <Label.FormattedText>
-                                                                                        <FormattedString>
-                                                                                            <Span Text="{xct:Translate CurrencySign}" />
-                                                                                            <Span Text=" " />
-                                                                                            <Span Text="{Binding TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
-                                                                                        </FormattedString>
-                                                                                    </Label.FormattedText>
+                                                                                <Label.FormattedText>
+                                                                                    <FormattedString>
+                                                                                        <Span Text="{xct:Translate CurrencySign}" />
+                                                                                        <Span Text=" " />
+                                                                                        <Span Text="{Binding TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                                                                    </FormattedString>
+                                                                                </Label.FormattedText>
 
                                                                                 <Label.Triggers>
 
@@ -224,8 +224,8 @@
                                                                                                 Converter="{xct:MultiMathExpressionConverter}"
                                                                                                 ConverterParameter="x0 - x1">
 
-                                                                                                    <Binding Path="TotalPrice" />
-                                                                                                    <Binding Path="DiscountPrice" />
+                                                                                                <Binding Path="TotalPrice" />
+                                                                                                <Binding Path="DiscountPrice" />
 
                                                                                             </MultiBinding>
                                                                                         </DataTrigger.Binding>
@@ -241,7 +241,7 @@
                                                                         </StackLayout>
 
                                                                     </StackLayout>
-                                                                    
+
                                                                     <BoxView
                                                                         Margin="0, 12, 0, 18"
                                                                         HeightRequest="2"
@@ -326,13 +326,14 @@
                         FontSize="{DynamicResource TSize_i9}"
                         FontFamily="Barlow-SemiBold" />
 
-                    <CollectionView
+                    <controls:CustomCollectionView
                         Grid.Row="1"
                         SelectionMode="Single"
+                        BounceMode="DisabledForAndroidAndiOS"
                         ItemsSource="{Binding Coupons}"
                         SelectedItem="{Binding SelectedBonus}">
 
-                        <CollectionView.ItemTemplate>
+                        <controls:CustomCollectionView.ItemTemplate>
 
                             <DataTemplate x:DataType="models:BonusBindableModel">
 
@@ -345,9 +346,9 @@
 
                             </DataTemplate>
 
-                        </CollectionView.ItemTemplate>
+                        </controls:CustomCollectionView.ItemTemplate>
 
-                    </CollectionView>
+                    </controls:CustomCollectionView>
 
                     <Label
                         Grid.Row="2"                    
@@ -356,13 +357,14 @@
                         FontSize="{DynamicResource TSize_i9}"
                         FontFamily="Barlow-Medium" />
 
-                    <CollectionView
+                    <controls:CustomCollectionView
                         Grid.Row="3"
                         SelectionMode="Single"
+                        BounceMode="DisabledForAndroidAndiOS"
                         ItemsSource="{Binding Discounts}"
                         SelectedItem="{Binding SelectedBonus}">
 
-                        <CollectionView.ItemTemplate>
+                        <controls:CustomCollectionView.ItemTemplate>
 
                             <DataTemplate x:DataType="models:BonusBindableModel">
 
@@ -375,9 +377,9 @@
 
                             </DataTemplate>
 
-                        </CollectionView.ItemTemplate>
+                        </controls:CustomCollectionView.ItemTemplate>
 
-                    </CollectionView>
+                    </controls:CustomCollectionView>
 
                 </Grid>
 

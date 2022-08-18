@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Services.Authentication;
 using Next2.Services.Customers;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -28,24 +29,23 @@ namespace Next2.ViewModels
         private readonly IMapper _mapper;
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
-        private readonly INotificationsService _notificationsService;
 
         private ECustomersSorting _sortCriterion;
 
         private List<CustomerBindableModel> _allCustomers = new();
 
         public CustomersViewModel(
-            IMapper mapper,
             INavigationService navigationService,
-            ICustomersService customersService,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
+            IMapper mapper,
+            ICustomersService customersService,
             IOrderService orderService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _mapper = mapper;
             _customersService = customersService;
             _orderService = orderService;
-            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -62,28 +62,28 @@ namespace Next2.ViewModels
 
         public CustomerBindableModel? SelectedCustomer { get; set; }
 
-        private ICommand _showInfoCommand;
+        private ICommand? _showInfoCommand;
         public ICommand ShowInfoCommand => _showInfoCommand ??= new AsyncCommand<CustomerBindableModel>(ShowCustomerInfoAsync, allowsMultipleExecutions: false);
 
-        private ICommand _sortCommand;
+        private ICommand? _sortCommand;
         public ICommand SortCommand => _sortCommand ??= new AsyncCommand<ECustomersSorting>(SortAsync, allowsMultipleExecutions: false);
 
-        private ICommand _refreshCommand;
+        private ICommand? _refreshCommand;
         public ICommand RefreshCommand => _refreshCommand ??= new AsyncCommand(RefreshCustomersAsync, allowsMultipleExecutions: false);
 
-        private ICommand _addNewCustomerCommand;
-        public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand<CustomerBindableModel>(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
+        private ICommand? _addNewCustomerCommand;
+        public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _addCustomerToOrderCommand;
+        private ICommand? _addCustomerToOrderCommand;
         public ICommand AddCustomerToOrderCommand => _addCustomerToOrderCommand ??= new AsyncCommand(OnAddCustomerToOrderCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _searchCommand;
+        private ICommand? _searchCommand;
         public ICommand SearchCommand => _searchCommand ??= new AsyncCommand(OnSearchCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _clearSearchCommand;
+        private ICommand? _clearSearchCommand;
         public ICommand ClearSearchCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _selectDeselectItemCommand;
+        private ICommand? _selectDeselectItemCommand;
         public ICommand SelectDeselectItemCommand => _selectDeselectItemCommand ??= new AsyncCommand<CustomerBindableModel>(OnSelectDeselectItemAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -170,17 +170,14 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfGettingCustomers.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfGettingCustomers.Exception?.Message);
                 }
 
                 IsRefreshing = false;
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -196,7 +193,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private Task OnSelectDeselectItemAsync(CustomerBindableModel customer)
+        private Task OnSelectDeselectItemAsync(CustomerBindableModel? customer)
         {
             SelectedCustomer = SelectedCustomer == customer
                 ? null
@@ -205,7 +202,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private async Task ShowCustomerInfoAsync(CustomerBindableModel customer)
+        private async Task ShowCustomerInfoAsync(CustomerBindableModel? customer)
         {
             if (customer is CustomerBindableModel selectedCustomer)
             {
@@ -263,20 +260,17 @@ namespace Next2.ViewModels
                     {
                         _orderService.CurrentOrder.Customer = new();
 
-                        await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
+                        await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingCurrentOrder.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
         }
 
-        private Task OnAddNewCustomerCommandAsync(CustomerBindableModel customer)
+        private Task OnAddNewCustomerCommandAsync()
         {
             var param = new DialogParameters();
 
@@ -310,15 +304,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
+                        await ResponseToUnsuccessfulRequestAsync(resultOfCreatingNewCustomer.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
         }

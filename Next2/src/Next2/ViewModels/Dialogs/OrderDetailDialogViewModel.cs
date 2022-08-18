@@ -14,8 +14,10 @@ namespace Next2.ViewModels.Dialogs
         public OrderDetailDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             LoadPageData(param);
+
             RequestClose = requestClose;
-            CancelCommand = new Command(() => RequestClose(null));
+
+            CancelCommand = new Command(() => RequestClose(new DialogParameters()));
             DeleteOrderCommand = new Command(OnDeleteOrderCommand);
         }
 
@@ -23,11 +25,11 @@ namespace Next2.ViewModels.Dialogs
 
         public int OrderNumber { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
-        public string CancellationText { get; set; }
+        public string CancellationText { get; set; } = string.Empty;
 
-        public string ConfirmationText { get; set; }
+        public string ConfirmationText { get; set; } = string.Empty;
 
         public Color OkButtonBackgroundColor { get; set; }
 
@@ -43,7 +45,7 @@ namespace Next2.ViewModels.Dialogs
 
         public ICommand DeleteOrderCommand { get; }
 
-        private ICommand _showHideOrderDetailsCommand;
+        private ICommand? _showHideOrderDetailsCommand;
         public ICommand ShowHideOrderDetailsCommand => _showHideOrderDetailsCommand ??= new Command(OnShowHideOrderDetailsCommand);
 
         #endregion
@@ -52,8 +54,7 @@ namespace Next2.ViewModels.Dialogs
 
         private void LoadPageData(IDialogParameters dialogParameters)
         {
-            if (dialogParameters is not null
-                && dialogParameters.TryGetValue(Constants.DialogParameterKeys.ORDER_NUMBER, out int orderNumber))
+            if (dialogParameters.TryGetValue(Constants.DialogParameterKeys.ORDER_NUMBER, out int orderNumber))
             {
                 if (dialogParameters.TryGetValue(Constants.DialogParameterKeys.SEATS, out IEnumerable<SeatBindableModel> seats))
                 {

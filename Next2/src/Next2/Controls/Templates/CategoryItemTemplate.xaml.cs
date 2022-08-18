@@ -1,9 +1,8 @@
 ﻿using Xamarin.Forms;
-using Xamarin.Forms.PancakeView;
 
 namespace Next2.Controls.Templates
 {
-    public partial class CategoryItemTemplate : PancakeView
+    public partial class CategoryItemTemplate : StackLayout
     {
         public CategoryItemTemplate()
         {
@@ -11,6 +10,18 @@ namespace Next2.Controls.Templates
         }
 
         #region -- Public properties --
+
+        public static readonly BindableProperty ItemColorProperty = BindableProperty.Create(
+            propertyName: nameof(ItemColor),
+            returnType: typeof(Color),
+            declaringType: typeof(CategoryItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
+
+        public Color ItemColor
+        {
+            get => (Color)GetValue(ItemColorProperty);
+            set => SetValue(ItemColorProperty, value);
+        }
 
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),

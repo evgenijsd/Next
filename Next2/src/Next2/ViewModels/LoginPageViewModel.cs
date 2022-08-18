@@ -1,4 +1,5 @@
 using Next2.Services.Authentication;
+using Next2.Services.Notifications;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using System.ComponentModel;
@@ -11,14 +12,12 @@ namespace Next2.ViewModels
 {
     public class LoginPageViewModel : BaseViewModel
     {
-        private readonly IAuthenticationService _authenticationService;
-
         public LoginPageViewModel(
             INavigationService navigationService,
-            IAuthenticationService authenticationService)
-            : base(navigationService)
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService)
+            : base(navigationService, authenticationService, notificationsService)
         {
-            _authenticationService = authenticationService;
         }
 
         #region -- Public properties --
@@ -31,13 +30,13 @@ namespace Next2.ViewModels
 
         public string EmployeeId { get; set; } = string.Empty;
 
-        private ICommand _ClearCommand;
-        public ICommand ClearCommand => _ClearCommand ??= new AsyncCommand(OnClearCommandAsync);
+        private ICommand? _clearCommand;
+        public ICommand ClearCommand => _clearCommand ??= new AsyncCommand(OnClearCommandAsync);
 
-        private ICommand _goToStartPageCommand;
+        private ICommand? _goToStartPageCommand;
         public ICommand GoToStartPageCommand => _goToStartPageCommand ??= new AsyncCommand(OnGoToStartPageCommandAsync);
 
-        private ICommand _goToEmployeeIdPageCommand;
+        private ICommand? _goToEmployeeIdPageCommand;
         public ICommand GoToEmployeeIdPageCommand => _goToEmployeeIdPageCommand ??= new AsyncCommand(OnGoToEmployeeIdPageCommandAsync);
 
         #endregion
@@ -62,7 +61,7 @@ namespace Next2.ViewModels
 
                 EmployeeId = inputtedEmployeeId;
             }
-            else if (parameters.TryGetValue(Constants.Navigations.LOGOUT, out bool isUserLoggedOut))
+            else if (parameters.ContainsKey(Constants.Navigations.LOGOUT))
             {
                 await OnClearCommandAsync();
             }

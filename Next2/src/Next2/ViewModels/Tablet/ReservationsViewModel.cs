@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Services.Authentication;
 using Next2.Services.Notifications;
 using Next2.Services.Reservation;
 using Next2.Views.Mobile;
@@ -22,20 +23,19 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMapper _mapper;
         private readonly IReservationService _reservationService;
-        private readonly INotificationsService _notificationsService;
 
         private EReservationsSortingType _reservationsSortingType;
 
         public ReservationsViewModel(
-            IReservationService reservationService,
-            IMapper mapper,
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
-            INavigationService navigationService)
-            : base(navigationService)
+            IReservationService reservationService,
+            IMapper mapper)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _mapper = mapper;
             _reservationService = reservationService;
-            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -52,26 +52,32 @@ namespace Next2.ViewModels.Tablet
 
         public ObservableCollection<ReservationModel> Reservations { get; set; } = new();
 
-        private ICommand _goToSearchQueryInputCommand;
+        private ICommand? _goToSearchQueryInputCommand;
         public ICommand GoToSearchQueryInputCommand => _goToSearchQueryInputCommand ??= new AsyncCommand(OnGoToSearchQueryInputCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _clearSearchResultCommand;
+        private ICommand? _clearSearchResultCommand;
         public ICommand ClearSearchResultCommand => _clearSearchResultCommand ??= new AsyncCommand(OnClearSearchResultCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _refreshReservationsCommand;
+        private ICommand? _refreshReservationsCommand;
         public ICommand RefreshReservationsCommand => _refreshReservationsCommand ??= new AsyncCommand(OnRefreshReservationsCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _changeSortReservationCommand;
+        private ICommand? _changeSortReservationCommand;
         public ICommand ChangeSortReservationCommand => _changeSortReservationCommand ??= new AsyncCommand<EReservationsSortingType>(OnChangeSortReservationCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _selectReservationCommand;
+        private ICommand? _selectReservationCommand;
         public ICommand SelectReservationCommand => _selectReservationCommand ??= new AsyncCommand<ReservationModel>(OnSelectReservationCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _addNewReservationCommand;
+        private ICommand? _addNewReservationCommand;
         public ICommand AddNewReservationCommand => _addNewReservationCommand ??= new AsyncCommand(OnAddNewReservationCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _assignReservationCommand;
+        private ICommand? _assignReservationCommand;
         public ICommand AssignReservationCommand => _assignReservationCommand ??= new AsyncCommand(OnAssignReservationCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand? _removeReservationCommand;
+        public ICommand RemoveReservationCommand => _removeReservationCommand ??= new AsyncCommand(OnRemoveReservationCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand? _infoAboutReservationCommand;
+        public ICommand InfoAboutReservationCommand => _infoAboutReservationCommand ??= new AsyncCommand(OnInfoAboutReservationCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -153,7 +159,7 @@ namespace Next2.ViewModels.Tablet
             }
             else
             {
-                await _notificationsService.ResponseToBadRequestAsync(resultOfGettingReservations.Exception.Message);
+                await ResponseToUnsuccessfulRequestAsync(resultOfGettingReservations.Exception?.Message);
             }
         }
 
@@ -175,7 +181,7 @@ namespace Next2.ViewModels.Tablet
             return Task.CompletedTask;
         }
 
-        private Task OnSelectReservationCommandAsync(ReservationModel reservation)
+        private Task OnSelectReservationCommandAsync(ReservationModel? reservation)
         {
             SelectedReservation = reservation == SelectedReservation
                 ? null
@@ -201,20 +207,87 @@ namespace Next2.ViewModels.Tablet
 
                 if (resultOfAddingReservation.IsSuccess)
                 {
-                    await _notificationsService.CloseAllPopupAsync();
+                    await _notificationsService.ClosePopupAsync();
 
                     IsReservationsRefreshing = true;
                 }
                 else
                 {
-                    var message = resultOfAddingReservation.Exception?.Message;
-
-                    await _notificationsService.ResponseToBadRequestAsync(message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfAddingReservation.Exception?.Message);
                 }
             }
             else
             {
-                await _notificationsService.CloseAllPopupAsync();
+                await _notificationsService.ClosePopupAsync();
+            }
+        }
+
+        private Task OnRemoveReservationCommandAsync()
+        {
+            var confirmDialogParameters = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["ThisReservationWillBeRemoved"] },
+                { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+            };
+
+            PopupPage confirmDialog = new Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseRemoveReservationDialogCallBack);
+
+            return PopupNavigation.PushAsync(confirmDialog);
+        }
+
+        private async void CloseRemoveReservationDialogCallBack(IDialogParameters param)
+        {
+            if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool accept) && accept && SelectedReservation is not null)
+            {
+                var reservationRemovingResult = await _reservationService.RemoveReservationAsync(SelectedReservation);
+
+                if (reservationRemovingResult.IsSuccess)
+                {
+                    IsReservationsRefreshing = true;
+
+                    await _notificationsService.CloseAllPopupAsync();
+                }
+                else
+                {
+                    await ResponseToUnsuccessfulRequestAsync(reservationRemovingResult.Exception?.Message);
+                }
+            }
+            else
+            {
+                await _notificationsService.ClosePopupAsync();
+            }
+        }
+
+        private Task OnInfoAboutReservationCommandAsync()
+        {
+            var confirmDialogParameters = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.MODEL, SelectedReservation },
+            };
+
+            PopupPage confirmDialog = new Views.Tablet.Dialogs.InfoAboutReservationDialog(confirmDialogParameters, CloseInfoAboutReservationDialogCallBack);
+
+            return PopupNavigation.PushAsync(confirmDialog);
+        }
+
+        private async void CloseInfoAboutReservationDialogCallBack(IDialogParameters param)
+        {
+            if (param.TryGetValue(Constants.DialogParameterKeys.ACTION, out string action))
+            {
+                switch (action)
+                {
+                    case Constants.DialogParameterKeys.REMOVE:
+                        await OnRemoveReservationCommandAsync();
+
+                        break;
+                }
+            }
+            else
+            {
+                await _notificationsService.ClosePopupAsync();
             }
         }
 

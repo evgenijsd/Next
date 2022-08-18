@@ -7,13 +7,14 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models.Bindables"
-    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:templates="clr-namespace:Next2.Controls.Templates"
     x:Class="Next2.Views.Tablet.HoldDishesView"
     x:DataType="viewModels:HoldDishesViewModel">
 
@@ -35,6 +36,17 @@
             <Setter Property="CornerRadius" Value="5" />
             <Setter Property="IsEnabled" Value="False" />
             <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+        </Style>
+
+        <Style TargetType="buttons:IconTextButton">
+            <Setter Property="FontFamily" Value="Barlow-Medium"/>
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i9}"/>
+            <Setter Property="IconSize" Value="20, 20"/>
+            <Setter Property="IconSource" Value="ic_sort_primary_24x24"/>
+            <Setter Property="HorizontalOptions" Value="Start"/>
+            <Setter Property="IsIconPlacedOnRight" Value="True"/>
+            <Setter Property="Padding" Value="15, 0"/>
+            <Setter Property="Spacing" Value="5"/>
         </Style>
 
     </ContentView.Resources>
@@ -176,42 +188,19 @@
                             
                         </StackLayout>
 
-                        <StackLayout
+                        <buttons:IconTextButton
                             Grid.Column="1"
-                            Orientation="Horizontal"
+                            Text="{xct:Translate TableName}"
+                            Border="{pancakeview:BorderMarkup Color=Transparent, Thickness=0}"
                             xct:TouchEffect.Command="{Binding ChangeSortHoldDishesCommand}"
-                            xct:TouchEffect.CommandParameter="{x:Static enums:EHoldDishesSortingType.ByTableNumber}">
+                            xct:TouchEffect.CommandParameter="{x:Static enums:EHoldDishesSortingType.ByTableNumber}"/>
 
-                            <Label
-                                Style="{DynamicResource TableCellLabelStyle}"
-                                Text="{xct:Translate TableName}" />
-
-                            <ffimageloading:CachedImage
-                                Source="ic_sort_primary_24x24"
-                                HeightRequest="20"
-                                Margin="5, 10, 5, 0"
-                                VerticalOptions="StartAndExpand" />
-
-                        </StackLayout>
-
-                        <StackLayout
+                        <buttons:IconTextButton
                             Grid.Column="2"
-                            Orientation="Horizontal"
+                            Text="{xct:Translate Item}"
+                            Border="{pancakeview:BorderMarkup Color=Transparent, Thickness=0}"
                             xct:TouchEffect.Command="{Binding ChangeSortHoldDishesCommand}"
-                            xct:TouchEffect.CommandParameter="{x:Static enums:EHoldDishesSortingType.ByDishName}">
-
-                            <Label
-                                Style="{DynamicResource TableCellLabelStyle}"
-                                HorizontalOptions="Start"
-                                Text="{xct:Translate Item}" />
-
-                            <ffimageloading:CachedImage
-                                Source="ic_sort_primary_24x24"
-                                HeightRequest="20"
-                                Margin="5, 10, 5, 0"
-                                VerticalOptions="StartAndExpand" />
-
-                        </StackLayout>
+                            xct:TouchEffect.CommandParameter="{x:Static enums:EHoldDishesSortingType.ByDishName}"/>
 
                         <Label
                             Grid.Column="3"
@@ -266,8 +255,6 @@
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                                 <CollectionView.Effects>
-
-                                    <effects:NoOverScrollEffect />
 
                                     <effects:ScrollBarColorEffect
                                         ScrollBarThumbWidth="6"
@@ -435,53 +422,38 @@
                 </controls:DropDownList.Triggers>
 
                 <controls:DropDownList.DataTemplate>
-                    <DataTemplate>
-                        
-                        <StackLayout
+
+                    <DataTemplate x:DataType="models:TableBindableModel">
+
+                        <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                             xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+                            <templates:TextItemTemplate.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate Table}"/>
+                                    <Span Text=" "/>
+                                    <Span Text="{Binding TableNumber}"/>
+                                </FormattedString>
+                            </templates:TextItemTemplate.FormattedText>
 
-                            <StackLayout
-                                Padding="14, 9"
-                                HeightRequest="21"
-                                Orientation="Horizontal"
-                                x:DataType="models:TableBindableModel">
+                            <templates:TextItemTemplate.Triggers>
 
-                                <Label
-                                    FontFamily="Barlow-Medium"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                    FontSize="{DynamicResource TSize_i8}"
-                                    HorizontalOptions="FillAndExpand">
-                                    
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="{xct:Translate Table}" />
-                                            <Span Text=" " />
-                                            <Span Text="{Binding TableNumber}" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
+                                <DataTrigger
+                                    TargetType="templates:TextItemTemplate"
+                                    Binding="{Binding TableNumber}"
+                                    Value="{x:Static local:Constants+Limits.ALL_TABLES}">
 
-                                    <Label.Triggers>
+                                    <Setter Property="FormattedText" Value="{xct:Translate AllTables}" />
 
-                                        <DataTrigger
-                                            TargetType="Label"
-                                            Binding="{Binding TableNumber}"
-                                            Value="{x:Static local:Constants+Limits.ALL_TABLES}">
+                                </DataTrigger>
 
-                                            <Setter Property="FormattedText" Value="{xct:Translate AllTables}" />
+                            </templates:TextItemTemplate.Triggers>
 
-                                        </DataTrigger>
+                        </templates:TextItemTemplate>
 
-                                    </Label.Triggers>
-
-                                </Label>
-
-                            </StackLayout>
-
-                        </StackLayout>
                     </DataTemplate>
+
                 </controls:DropDownList.DataTemplate>
 
             </controls:DropDownList>

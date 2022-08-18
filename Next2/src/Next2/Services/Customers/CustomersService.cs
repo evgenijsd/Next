@@ -287,7 +287,7 @@ namespace Next2.Services.Customers
                     {
                         result = await UpdateGiftCardAsync(giftCard);
 
-                        if (!result.IsSuccess)
+                        if (!result.IsSuccess && result.Exception is not null)
                         {
                             throw result.Exception;
                         }
@@ -340,22 +340,25 @@ namespace Next2.Services.Customers
             return listOfUpdatedGiftCards;
         }
 
-        public List<GiftCardModelDTO> GetSelectedGiftCardsFromBackup(IEnumerable<GiftCardModelDTO> source, IEnumerable<GiftCardModelDTO> selectedGiftCards)
+        public List<GiftCardModelDTO> GetSelectedGiftCardsFromBackup(IEnumerable<GiftCardModelDTO>? source, IEnumerable<GiftCardModelDTO> selectedGiftCards)
         {
             List<GiftCardModelDTO> listGiftCardsToBeUpdateToPreviousStage = new();
 
-            foreach (var backupGiftCard in source)
+            if (source is not null)
             {
-                if (listGiftCardsToBeUpdateToPreviousStage.Count() != selectedGiftCards.Count())
+                foreach (var backupGiftCard in source)
                 {
-                    if (selectedGiftCards.Any(row => row.Id == backupGiftCard.Id))
+                    if (listGiftCardsToBeUpdateToPreviousStage.Count() != selectedGiftCards.Count())
                     {
-                        listGiftCardsToBeUpdateToPreviousStage.Add(backupGiftCard);
+                        if (selectedGiftCards.Any(row => row.Id == backupGiftCard.Id))
+                        {
+                            listGiftCardsToBeUpdateToPreviousStage.Add(backupGiftCard);
+                        }
                     }
-                }
-                else
-                {
-                    break;
+                    else
+                    {
+                        break;
+                    }
                 }
             }
 
@@ -366,7 +369,7 @@ namespace Next2.Services.Customers
 
         #region -- Private helpers --
 
-        private IEnumerable<CustomerBindableModel>? MergeDTOModelsWithMocksModels(IEnumerable<CustomerBindableModel> modelsDTO, IEnumerable<CustomerBindableModel> mockModels)
+        private IEnumerable<CustomerBindableModel>? MergeDTOModelsWithMocksModels(IEnumerable<CustomerBindableModel>? modelsDTO, IEnumerable<CustomerBindableModel>? mockModels)
         {
             IEnumerable<CustomerBindableModel>? result = null;
 

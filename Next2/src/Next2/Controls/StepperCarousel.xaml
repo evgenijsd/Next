@@ -6,47 +6,98 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2.Controls"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    xmlns:effects="clr-namespace:Next2.Effects" 
-    xmlns:models="clr-namespace:Next2.Models" 
+    xmlns:models="clr-namespace:Next2.Models"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    Spacing="16"
+    MinimumHeightRequest="116"
+    VerticalOptions="Start"
+    Spacing="15"
     Orientation="Horizontal"
     x:Class="Next2.Controls.StepperCarousel"
     x:Name="stepperCarousel">
 
     <StackLayout.Resources>
-        <Style TargetType="pancakeview:PancakeView">
-            <Setter Property="Padding" Value="7, 0"/>
-            <Setter Property="CornerRadius" Value="7"/>
+        
+        <Style x:Key="PancakeViewStyle_i1" TargetType="pancakeview:PancakeView">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="HeightRequest" Value="100"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="Border" Value="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"/>
             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
-            <Setter Property="Border">
+            
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                
                 <Setter.Value>
-                    <pancakeview:BorderMarkup Color="{StaticResource TextAndBackgroundColor_i4}" Thickness="2"/>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </StackLayout.Resources>
+                    <VisualStateGroup Name="AdaptiveStepperCarousel">
 
+                        <VisualState Name="minHeight">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowHeight="601" />
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="HeightRequest" Value="116" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </Setter.Value>
+                
+            </Setter>
+            
+        </Style>
+        
+    </StackLayout.Resources>
+    
     <pancakeview:PancakeView
-        xct:TouchEffect.PressedScale="0.98"
+        Style="{DynamicResource PancakeViewStyle_i1}"
         xct:TouchEffect.Command="{Binding ScrollToLeftCommand, Source={RelativeSource AncestorType={x:Type local:StepperCarousel}}}">
 
-        <ffimageloading:CachedImage 
-            HeightRequest="24"
-            WidthRequest="24"
-            Source="ic_arrow_left_24x24.png"/>
+        <ffimageloading:CachedImage Source="ic_arrow_left_24x24.png"/>
 
     </pancakeview:PancakeView>
 
-    <CollectionView
+    <local:CustomCollectionView
         HorizontalOptions="StartAndExpand"
         VerticalScrollBarVisibility="Never"
         HorizontalScrollBarVisibility="Never"
+        HeightRequest="100"
         SelectionMode="Single"
+        BounceMode="DisabledForAndroidAndiOS"
         ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type local:StepperCarousel}}}"
         SelectedItem="{Binding SelectedItem, Source={RelativeSource AncestorType={x:Type local:StepperCarousel}}}"
         Scrolled="OnCollectionViewScrolled"
         x:Name="collectionView">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup Name="AdaptiveStepperCarousel">
+
+                <VisualState Name="minHeight">
+
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="601" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Property="HeightRequest" Value="116" />
+                        <Setter Property="ItemsLayout">
+
+                            <GridItemsLayout
+                                Orientation="Horizontal"
+                                Span="2"
+                                SnapPointsType="Mandatory" 
+                                SnapPointsAlignment="Start"
+                                VerticalItemSpacing="8"
+                                HorizontalItemSpacing="8"/>
+
+                        </Setter>
+                    </VisualState.Setters>
+
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
         <CollectionView.ItemsLayout>
 
@@ -55,36 +106,29 @@
                 Span="2"
                 SnapPointsType="Mandatory" 
                 SnapPointsAlignment="Start"
-                VerticalItemSpacing="8"
-                HorizontalItemSpacing="8"/>
+                VerticalItemSpacing="4"
+                HorizontalItemSpacing="4"/>
 
         </CollectionView.ItemsLayout>
-
-        <CollectionView.Effects>
-            <effects:NoOverScrollEffect/>
-        </CollectionView.Effects>
 
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:CategoryModel">
 
                 <templates:CategoryItemTemplate
-                    Padding="0"
-                    WidthRequest="{Binding ItemWidth, Source={RelativeSource AncestorType={x:Type local:StepperCarousel}}}"
-                    MinimumHeightRequest="54"
-                    HeightRequest="54"
-                    CornerRadius="8"
                     Text="{Binding Name}"
                     FontSize="{DynamicResource TSize_i8}"
                     FontFamily="Barlow-Medium"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"/>
+                    HeightRequest="54"
+                    ItemColor="{DynamicResource TextAndBackgroundColor_i4}"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
 
             </DataTemplate>
         </CollectionView.ItemTemplate>
 
-    </CollectionView>
+    </local:CustomCollectionView>
 
     <pancakeview:PancakeView
-        xct:TouchEffect.PressedScale="0.98"
+        Style="{DynamicResource PancakeViewStyle_i1}"
         xct:TouchEffect.Command="{Binding ScrollToRightCommand, Source={RelativeSource AncestorType={x:Type local:StepperCarousel}}}">
 
         <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png"/>

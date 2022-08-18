@@ -51,6 +51,7 @@ namespace Next2.Controls
         public static readonly BindableProperty TitleColorProperty = BindableProperty.Create(
             propertyName: nameof(TitleColor),
             returnType: typeof(Color),
+            defaultValue: (Color)App.Current.Resources["TextAndBackgroundColor_i1"],
             declaringType: typeof(CustomNavigationBar),
             defaultBindingMode: BindingMode.OneWay);
 
@@ -63,6 +64,7 @@ namespace Next2.Controls
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
             propertyName: nameof(FontSize),
             returnType: typeof(double),
+            defaultValue: (double)App.Current.Resources["TSize_i5"],
             declaringType: typeof(CustomNavigationBar),
             defaultBindingMode: BindingMode.OneWay);
 

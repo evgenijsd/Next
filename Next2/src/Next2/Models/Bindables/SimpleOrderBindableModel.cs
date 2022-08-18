@@ -23,6 +23,8 @@ namespace Next2.Models.Bindables
 
         public int TableNumber { get; set; }
 
+        public DateTime Close { get; set; }
+
         public decimal TotalPrice { get; set; }
 
         public List<SeatModelDTO>? Seats { get; set; }

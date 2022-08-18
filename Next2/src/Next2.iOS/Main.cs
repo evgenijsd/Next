@@ -6,7 +6,7 @@ namespace Next2.iOS
     {
         // This is the main entry point of the application.
         [System.Obsolete]
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             // if you want to use a different Application Delegate class from "AppDelegate"
             // you can specify it here.

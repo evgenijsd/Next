@@ -1,18 +1,20 @@
 using Acr.UserDialogs;
 using AutoMapper;
 using Next2.Enums;
+using Next2.Helpers.Events;
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Menu;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Services.WorkLog;
 using Next2.Views.Tablet;
+using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -26,32 +28,34 @@ namespace Next2.ViewModels.Tablet
 {
     public class NewOrderViewModel : BaseViewModel, IPageActionsHandler
     {
+        private readonly IMapper _mapper;
+        private readonly IEventAggregator _eventAggregator;
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
         private readonly IWorkLogService _workLogService;
-        private readonly IMapper _mapper;
-        private readonly INotificationsService _notificationsService;
 
-        private FullOrderBindableModel _tempCurrentOrder;
-        private SeatBindableModel _tempCurrentSeat;
+        private FullOrderBindableModel _tempCurrentOrder = new();
+        private SeatBindableModel _tempCurrentSeat = new();
 
         private bool _shouldOrderDishesByDESC;
 
         public NewOrderViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService,
+            IEventAggregator eventAggregator,
             IMenuService menuService,
             OrderRegistrationViewModel orderRegistrationViewModel,
             IWorkLogService workLogService,
             IOrderService orderService,
-            INotificationsService notificationsService,
             IMapper mapper)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _menuService = menuService;
+            _eventAggregator = eventAggregator;
             _orderService = orderService;
             _workLogService = workLogService;
             _mapper = mapper;
-            _notificationsService = notificationsService;
 
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
@@ -66,34 +70,34 @@ namespace Next2.ViewModels.Tablet
 
         public DateTime CurrentDateTime { get; set; } = DateTime.Now;
 
-        public ObservableCollection<CategoryModel> Categories { get; set; }
+        public ObservableCollection<CategoryModel> Categories { get; set; } = new();
 
         public CategoryModel? SelectedCategoriesItem { get; set; }
 
-        public ObservableCollection<DishModelDTO> Dishes { get; set; }
+        public ObservableCollection<DishModelDTO> Dishes { get; set; } = new();
 
-        public ObservableCollection<SubcategoryModel> Subcategories { get; set; }
+        public ObservableCollection<SubcategoryModel> Subcategories { get; set; } = new();
 
         public OrderRegistrationViewModel OrderRegistrationViewModel { get; set; }
 
         public SubcategoryModel? SelectedSubcategoriesItem { get; set; }
 
-        private ICommand _tapDishCommand;
+        private ICommand? _tapDishCommand;
         public ICommand TapDishCommand => _tapDishCommand ??= new AsyncCommand<DishModelDTO>(OnTapDishCommand, allowsMultipleExecutions: false);
 
-        private ICommand _tapSortCommand;
+        private ICommand? _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _tapExpandCommand;
+        private ICommand? _tapExpandCommand;
         public ICommand TapExpandCommand => _tapExpandCommand ??= new AsyncCommand(OnTapExpandCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _openEmployeeWorkingHoursCommand;
+        private ICommand? _openEmployeeWorkingHoursCommand;
         public ICommand OpenEmployeeWorkingHoursCommand => _openEmployeeWorkingHoursCommand ??= new AsyncCommand(OnOpenEmployeeWorkingHoursCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _refreshDishesCommand;
+        private ICommand? _refreshDishesCommand;
         public ICommand RefreshDishesCommand => _refreshDishesCommand ??= new AsyncCommand(OnRefreshDishesCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _refreshCategoriesCommand;
+        private ICommand? _refreshCategoriesCommand;
         public ICommand RefreshCategoriesCommand => _refreshCategoriesCommand ??= new AsyncCommand(OnRefreshCategoriesCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -106,7 +110,7 @@ namespace Next2.ViewModels.Tablet
 
             _shouldOrderDishesByDESC = false;
 
-            await OrderRegistrationViewModel.InitializeAsync(null);
+            await OrderRegistrationViewModel.InitializeAsync(new NavigationParameters());
 
             await OnRefreshCategoriesCommandAsync();
         }
@@ -144,13 +148,15 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Private methods --
 
-        private async Task OnTapSortCommandAsync()
+        private Task OnTapSortCommandAsync()
         {
             _shouldOrderDishesByDESC = !_shouldOrderDishesByDESC;
             Dishes = new(Dishes.Reverse());
+
+            return Task.CompletedTask;
         }
 
-        private Task OnTapDishCommand(DishModelDTO dish)
+        private Task OnTapDishCommand(DishModelDTO? dish)
         {
             var param = new DialogParameters
             {
@@ -165,7 +171,7 @@ namespace Next2.ViewModels.Tablet
         {
             if (IsInternetConnected)
             {
-                if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.DISH))
+                if (dialogResult.ContainsKey(Constants.DialogParameterKeys.DISH))
                 {
                     if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                     {
@@ -200,17 +206,15 @@ namespace Next2.ViewModels.Tablet
                                 _orderService.CurrentSeat = _tempCurrentSeat;
 
                                 await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
-                                await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
+
+                                await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                             }
                         }
                         else
                         {
                             await _notificationsService.CloseAllPopupAsync();
 
-                            await _notificationsService.ShowInfoDialogAsync(
-                                LocalizationResourceManager.Current["Error"],
-                                LocalizationResourceManager.Current["SomethingWentWrong"],
-                                LocalizationResourceManager.Current["Ok"]);
+                            await _notificationsService.ShowSomethingWentWrongDialogAsync();
                         }
                     }
                 }
@@ -223,10 +227,7 @@ namespace Next2.ViewModels.Tablet
             {
                 await _notificationsService.CloseAllPopupAsync();
 
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -242,11 +243,17 @@ namespace Next2.ViewModels.Tablet
 
                 if (resultGettingCategories.IsSuccess)
                 {
-                    Categories = new(resultGettingCategories.Result);
-                    SelectedCategoriesItem = Categories.FirstOrDefault();
-
                     CategoriesLoadingState = ELoadingState.Completed;
                     OrderRegistrationViewModel.CurrentState = ENewOrderViewState.Default;
+
+                    _eventAggregator.GetEvent<LoadingStateEvent>().Publish(ELoadingState.Completed);
+
+                    Categories = new(resultGettingCategories.Result);
+                    SelectedCategoriesItem = Categories.FirstOrDefault();
+                }
+                else if (resultGettingCategories.Exception?.Message == Constants.StatusCode.UNAUTHORIZED)
+                {
+                    await PerformLogoutAsync();
                 }
                 else
                 {
@@ -292,6 +299,12 @@ namespace Next2.ViewModels.Tablet
                         : new(resultGettingDishes.Result.OrderBy(row => row.Name));
 
                     DishesLoadingState = ELoadingState.Completed;
+
+                    _eventAggregator.GetEvent<LoadingStateEvent>().Publish(ELoadingState.Completed);
+                }
+                else if (resultGettingDishes.Exception?.Message == Constants.StatusCode.UNAUTHORIZED)
+                {
+                    await PerformLogoutAsync();
                 }
                 else
                 {
@@ -308,10 +321,7 @@ namespace Next2.ViewModels.Tablet
         {
             return IsInternetConnected
                 ? _navigationService.NavigateAsync(nameof(ExpandPage))
-                : _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                : _notificationsService.ShowNoInternetConnectionDialogAsync();
         }
 
         private Task OnOpenEmployeeWorkingHoursCommandAsync()

@@ -4,10 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:bindableModels="clr-namespace:Next2.Models.Bindables"
     xmlns:local="clr-namespace:Next2"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:bindableModels="clr-namespace:Next2.Models.Bindables"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
@@ -86,15 +86,13 @@
             </StackLayout>
 
             <!-- DISH LIST -->
-            <CollectionView 
+            <controls:CustomCollectionView
+                VerticalScrollBarVisibility="Never"
+                BounceMode="DisabledForAndroidAndiOS"
                 IsVisible="{Binding IsOrderDetailsDisplayed}"
                 ItemsSource="{Binding Seats}">
 
-                <CollectionView.Effects>
-                    <effects:NoOverScrollEffect/>
-                </CollectionView.Effects>
-
-                <CollectionView.ItemTemplate>
+                <controls:CustomCollectionView.ItemTemplate>
                     <DataTemplate x:DataType="bindableModels:SeatBindableModel">
 
                         <StackLayout 
@@ -116,15 +114,13 @@
 
                             </Label>
 
-                            <CollectionView
+                            <controls:CustomCollectionView
+                                VerticalScrollBarVisibility="Never"
+                                BounceMode="DisabledForAndroidAndiOS"
                                 HeightRequest="{Binding SelectedDishes, Converter={StaticResource listHeightConverter}, ConverterParameter=70}"
                                 ItemsSource="{Binding SelectedDishes}">
 
-                                <CollectionView.Effects>
-                                    <effects:NoOverScrollEffect/>
-                                </CollectionView.Effects>
-
-                                <CollectionView.ItemTemplate>
+                                <controls:CustomCollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="bindableModels:DishBindableModel">
 
                                         <StackLayout>
@@ -186,8 +182,8 @@
                                         </StackLayout>
 
                                     </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
+                                </controls:CustomCollectionView.ItemTemplate>
+                            </controls:CustomCollectionView>
 
                             <BoxView 
                                 HeightRequest="1"
@@ -196,9 +192,9 @@
                         </StackLayout>
 
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
+                </controls:CustomCollectionView.ItemTemplate>
 
-            </CollectionView>
+            </controls:CustomCollectionView>
 
             <!-- BUTTONS: CANCEL, REMOVE -->
             <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">

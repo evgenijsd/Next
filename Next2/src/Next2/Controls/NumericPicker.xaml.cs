@@ -54,7 +54,7 @@ namespace Next2.Controls
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 
@@ -72,7 +72,7 @@ namespace Next2.Controls
         {
             try
             {
-                ItemsSource = Enumerable.Range(min, max - min).Select(x => x.ToString(StringFormat));
+                ItemsSource = Enumerable.Range(min, 1 + max - min).Select(x => x.ToString(StringFormat));
             }
             catch (Exception)
             {

@@ -1,6 +1,4 @@
-﻿using Next2.Models;
-using Next2.Services.Customers;
-using Next2.Services.Order;
+﻿using Next2.Services.Customers;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -36,10 +34,10 @@ namespace Next2.ViewModels.Dialogs
 
         public Action<IDialogParameters> RequestClose;
 
-        private ICommand _closeCommand;
+        private ICommand? _closeCommand;
         public ICommand CloseCommand => _closeCommand ??= new AsyncCommand(OnCloseCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _addGiftСardCommand;
+        private ICommand? _addGiftСardCommand;
         public ICommand AddGiftСardCommand => _addGiftСardCommand ??= new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

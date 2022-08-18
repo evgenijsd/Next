@@ -10,7 +10,6 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:modelsApi="clr-namespace:Next2.Models.API"
     xmlns:modelsDTO="clr-namespace:Next2.Models.API.DTO"
@@ -72,13 +71,14 @@
                         VerticalTextAlignment="Center"
                         Margin="18, 24, 18, 0"/>
 
-                    <CollectionView
+                    <controls:CustomCollectionView
                         Margin="18, 16, 18, 0"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
+                        BounceMode="DisabledForAndroidAndiOS"
                         ItemsSource="{Binding PortionsDish}">
 
-                        <CollectionView.ItemsLayout>
+                        <controls:CustomCollectionView.ItemsLayout>
 
                             <GridItemsLayout
                                 Orientation="Vertical"
@@ -86,13 +86,9 @@
                                 VerticalItemSpacing="8"
                                 HorizontalItemSpacing="15"/>
 
-                        </CollectionView.ItemsLayout>
+                        </controls:CustomCollectionView.ItemsLayout>
 
-                        <CollectionView.Effects>
-                            <effects:NoOverScrollEffect/>
-                        </CollectionView.Effects>
-
-                        <CollectionView.ItemTemplate>
+                        <controls:CustomCollectionView.ItemTemplate>
 
                             <DataTemplate x:DataType="modelsApi:ProportionModel">
 
@@ -116,9 +112,9 @@
 
                             </DataTemplate>
 
-                        </CollectionView.ItemTemplate>
+                        </controls:CustomCollectionView.ItemTemplate>
 
-                    </CollectionView>
+                    </controls:CustomCollectionView>
 
                 </StackLayout>
             </sc:StateCondition>
@@ -135,13 +131,14 @@
                         ChangingOrderSortCommand="{Binding ChangingOrderSortReplacementProductsCommand}"
                         IsVisible="{Binding ReplacementProducts.Count, Converter={xct:IntToBoolConverter}}"/>
 
-                    <CollectionView
+                    <controls:CustomCollectionView
                         Margin="18, 16, 18, 0"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
+                        BounceMode="DisabledForAndroidAndiOS"
                         ItemsSource="{Binding ReplacementProducts}">
 
-                        <CollectionView.ItemsLayout>
+                        <controls:CustomCollectionView.ItemsLayout>
 
                             <GridItemsLayout
                                 Orientation="Vertical"
@@ -149,13 +146,9 @@
                                 VerticalItemSpacing="8"
                                 HorizontalItemSpacing="15"/>
 
-                        </CollectionView.ItemsLayout>
+                        </controls:CustomCollectionView.ItemsLayout>
 
-                        <CollectionView.Effects>
-                            <effects:NoOverScrollEffect/>
-                        </CollectionView.Effects>
-
-                        <CollectionView.EmptyView>
+                        <controls:CustomCollectionView.EmptyView>
 
                             <StackLayout>
 
@@ -175,9 +168,9 @@
 
                             </StackLayout>
 
-                        </CollectionView.EmptyView>
-                        
-                        <CollectionView.ItemTemplate>
+                        </controls:CustomCollectionView.EmptyView>
+
+                        <controls:CustomCollectionView.ItemTemplate>
 
                             <DataTemplate x:DataType="modelsDTO:SimpleProductModelDTO">
 
@@ -200,9 +193,9 @@
 
                             </DataTemplate>
 
-                        </CollectionView.ItemTemplate>
+                        </controls:CustomCollectionView.ItemTemplate>
 
-                    </CollectionView>
+                    </controls:CustomCollectionView>
 
                 </StackLayout>
 
@@ -253,6 +246,7 @@
                         Margin="18, 10"
                         VerticalOptions="Start"
                         SelectionMode="Single"
+                        BounceMode="DisabledForAndroidAndiOS"
                         ItemsSource="{Binding IngredientCategories}"
                         SelectedItem="{Binding SelectedIngredientCategory}"
                         IsExpanded="{Binding IsExpandedIngredientCategories}">
@@ -267,16 +261,13 @@
 
                         </CollectionView.ItemsLayout>
 
-                        <CollectionView.Effects>
-                            <effects:NoOverScrollEffect/>
-                        </CollectionView.Effects>
-
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="modelsDTO:IngredientsCategoryModelDTO">
 
                                 <templates:CategoryItemTemplate
                                     HeightRequest="40"
-                                    CornerRadius="5"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                                    ItemColor="{DynamicResource TextAndBackgroundColor_i3}"
                                     Text="{Binding Name}"
                                     FontSize="{DynamicResource TSize_i8}"
                                     FontFamily="Barlow-SemiBold"/>
@@ -297,25 +288,22 @@
                         FontFamily="Barlow-SemiBold"
                         ChangingOrderSortCommand="{Binding ChangingOrderSortInventoryCommand}"/>
 
-                    <CollectionView
+                    <controls:CustomCollectionView
                         Margin="16, 12, 16, 0"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
+                        BounceMode="DisabledForAndroidAndiOS"
                         ItemsSource="{Binding Ingredients}">
 
-                        <CollectionView.ItemsLayout>
+                        <controls:CustomCollectionView.ItemsLayout>
 
                             <GridItemsLayout
                                 Orientation="Vertical"
                                 Span="1"/>
 
-                        </CollectionView.ItemsLayout>
+                        </controls:CustomCollectionView.ItemsLayout>
 
-                        <CollectionView.Effects>
-                            <effects:NoOverScrollEffect/>
-                        </CollectionView.Effects>
-
-                        <CollectionView.ItemTemplate>
+                        <controls:CustomCollectionView.ItemTemplate>
 
                             <DataTemplate x:DataType="modelsBindable:IngredientBindableModel">
 
@@ -345,9 +333,9 @@
 
                             </DataTemplate>
 
-                        </CollectionView.ItemTemplate>
+                        </controls:CustomCollectionView.ItemTemplate>
 
-                    </CollectionView>
+                    </controls:CustomCollectionView>
 
                 </StackLayout>
 
@@ -364,13 +352,14 @@
                         VerticalTextAlignment="Center"
                         Margin="18, 24, 18, 0"/>
 
-                    <CollectionView
+                    <controls:CustomCollectionView
                         Margin="18, 16, 18, 0"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
+                        BounceMode="DisabledForAndroidAndiOS"
                         ItemsSource="{Binding OptionsProduct}">
 
-                        <CollectionView.ItemsLayout>
+                        <controls:CustomCollectionView.ItemsLayout>
 
                             <GridItemsLayout
                                 Orientation="Vertical"
@@ -378,13 +367,9 @@
                                 VerticalItemSpacing="8"
                                 HorizontalItemSpacing="15"/>
 
-                        </CollectionView.ItemsLayout>
+                        </controls:CustomCollectionView.ItemsLayout>
 
-                        <CollectionView.Effects>
-                            <effects:NoOverScrollEffect/>
-                        </CollectionView.Effects>
-
-                        <CollectionView.ItemTemplate>
+                        <controls:CustomCollectionView.ItemTemplate>
 
                             <DataTemplate x:DataType="modelsDTO:OptionModelDTO">
 
@@ -405,9 +390,9 @@
 
                             </DataTemplate>
 
-                        </CollectionView.ItemTemplate>
+                        </controls:CustomCollectionView.ItemTemplate>
 
-                    </CollectionView>
+                    </controls:CustomCollectionView>
 
                 </StackLayout>
             </sc:StateCondition>
@@ -525,12 +510,13 @@
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                     HeightRequest="1"/>
 
-                <CollectionView
+                <controls:CustomCollectionView
                     ItemsSource="{Binding ProductsDish}"
                     VerticalScrollBarVisibility="Never"
-                    HorizontalScrollBarVisibility="Never">
+                    HorizontalScrollBarVisibility="Never"
+                    BounceMode="DisabledForAndroidAndiOS">
 
-                    <CollectionView.ItemTemplate>
+                    <controls:CustomCollectionView.ItemTemplate>
                         <DataTemplate x:DataType="modelsBindable:SpoilerBindableModel">
 
                             <StackLayout>
@@ -574,13 +560,9 @@
                             </StackLayout>
 
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
+                    </controls:CustomCollectionView.ItemTemplate>
 
-                    <CollectionView.Effects>
-                        <effects:NoOverScrollEffect/>
-                    </CollectionView.Effects>
-
-                </CollectionView>
+                </controls:CustomCollectionView>
 
             </StackLayout>
 

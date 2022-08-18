@@ -1,4 +1,6 @@
-﻿using Prism.Navigation;
+﻿using Next2.Services.Authentication;
+using Next2.Services.Notifications;
+using Prism.Navigation;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -8,23 +10,26 @@ namespace Next2.ViewModels
 {
     public class InputTextPageViewModel : BaseViewModel
     {
-        private string _oldText;
+        private string? _oldText;
 
-        public InputTextPageViewModel(INavigationService navigationService)
-          : base(navigationService)
+        public InputTextPageViewModel(
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService)
+          : base(navigationService, authenticationService, notificationsService)
         {
         }
 
         #region -- Public properties --
 
-        public string Text { get; set; }
+        public string Text { get; set; } = string.Empty;
 
-        public string Placeholder { get; set; }
+        public string Placeholder { get; set; } = string.Empty;
 
-        private ICommand _goBackCommand;
+        private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
 
-        private ICommand _returnCommand;
+        private ICommand? _returnCommand;
         public ICommand ReturnCommand => _returnCommand ??= new AsyncCommand(OnReturnCommandAsync);
 
         #endregion

@@ -4,12 +4,12 @@ using Next2.Enums;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Menu;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -26,25 +26,24 @@ namespace Next2.ViewModels.Mobile
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
-        private readonly INotificationsService _notificationsService;
 
-        private FullOrderBindableModel _tempCurrentOrder;
-        private SeatBindableModel _tempCurrentSeat;
+        private FullOrderBindableModel _tempCurrentOrder = new();
+        private SeatBindableModel _tempCurrentSeat = new();
 
         private bool _shouldOrderDishesByDESC;
 
         public ChooseDishPageViewModel(
-            IMenuService menuService,
             INavigationService navigationService,
-            IOrderService orderService,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
+            IMenuService menuService,
+            IOrderService orderService,
             IMapper mapper)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _menuService = menuService;
             _orderService = orderService;
             _mapper = mapper;
-            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -53,31 +52,33 @@ namespace Next2.ViewModels.Mobile
 
         public CategoryModel SelectedCategoriesItem { get; set; }
 
-        public ObservableCollection<DishModelDTO> Dishes { get; set; }
+        public ObservableCollection<DishModelDTO> Dishes { get; set; } = new();
 
-        public ObservableCollection<SubcategoryModel> Subcategories { get; set; }
+        public ObservableCollection<SubcategoryModel> Subcategories { get; set; } = new();
 
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
-        private ICommand _tapDishCommand;
+        private ICommand? _tapDishCommand;
         public ICommand TapDishCommand => _tapDishCommand ??= new AsyncCommand<DishModelDTO>(OnTapDishCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _tapSortCommand;
+        private ICommand? _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _refreshDishesCommand;
+        private ICommand? _refreshDishesCommand;
         public ICommand RefreshDishesCommand => _refreshDishesCommand ??= new AsyncCommand(OnRefreshDishesCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
         #region -- Overrides --
 
-        public override async Task InitializeAsync(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.TryGetValue(Constants.Navigations.CATEGORY, out CategoryModel category))
             {
                 SelectedCategoriesItem = category;
             }
+
+            return Task.CompletedTask;
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -107,7 +108,7 @@ namespace Next2.ViewModels.Mobile
             return Task.CompletedTask;
         }
 
-        private Task OnTapDishCommandAsync(DishModelDTO dish)
+        private Task OnTapDishCommandAsync(DishModelDTO? dish)
         {
             var param = new DialogParameters
             {
@@ -122,7 +123,7 @@ namespace Next2.ViewModels.Mobile
         {
             if (IsInternetConnected)
             {
-                if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                 {
                     _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
                     _tempCurrentSeat = _mapper.Map<SeatBindableModel>(_orderService.CurrentSeat);
@@ -151,17 +152,14 @@ namespace Next2.ViewModels.Mobile
                             _orderService.CurrentSeat = _tempCurrentSeat;
                             _orderService.UpdateTotalSum(_orderService.CurrentOrder);
 
-                            await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception.Message);
+                            await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                         }
                     }
                     else
                     {
                         await _notificationsService.CloseAllPopupAsync();
 
-                        await _notificationsService.ShowInfoDialogAsync(
-                            LocalizationResourceManager.Current["Error"],
-                            LocalizationResourceManager.Current["SomethingWentWrong"],
-                            LocalizationResourceManager.Current["Ok"]);
+                        await _notificationsService.ShowSomethingWentWrongDialogAsync();
                     }
                 }
                 else
@@ -173,10 +171,7 @@ namespace Next2.ViewModels.Mobile
             {
                 await _notificationsService.CloseAllPopupAsync();
 
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -195,6 +190,10 @@ namespace Next2.ViewModels.Mobile
                         : new(resultGettingDishes.Result.OrderBy(row => row.Name));
 
                     DishesLoadingState = ELoadingState.Completed;
+                }
+                else if (resultGettingDishes.Exception?.Message == Constants.StatusCode.UNAUTHORIZED)
+                {
+                    await PerformLogoutAsync();
                 }
                 else
                 {

@@ -14,15 +14,16 @@ namespace Next2.ViewModels.Dialogs
 {
     public class DeleteSeatViewModel : BindableBase
     {
-        private SeatBindableModel _removalSeat;
+        private SeatBindableModel? _removalSeat;
 
         public DeleteSeatViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             LoadPageData(param);
+
             RequestClose = requestClose;
 
             AcceptCommand = new Command(OnAcceptCommand);
-            DeclineCommand = new Command(() => RequestClose(null));
+            DeclineCommand = new Command(() => RequestClose(new DialogParameters()));
         }
 
         #region -- Public properties --
@@ -39,7 +40,7 @@ namespace Next2.ViewModels.Dialogs
 
         public ICommand AcceptCommand { get; }
 
-        private ICommand _selectDeletingDishesCommand;
+        private ICommand? _selectDeletingDishesCommand;
         public ICommand SelectDeletingDishesCommand => _selectDeletingDishesCommand ??= new Command(OnSelectDeletingDishesCommand);
 
         #endregion
@@ -48,8 +49,7 @@ namespace Next2.ViewModels.Dialogs
 
         private void LoadPageData(IDialogParameters param)
         {
-            if (param is not null
-                && param.TryGetValue(Constants.DialogParameterKeys.REMOVAL_SEAT, out SeatBindableModel removalSeat)
+            if (param.TryGetValue(Constants.DialogParameterKeys.REMOVAL_SEAT, out SeatBindableModel removalSeat)
                 && param.TryGetValue(Constants.DialogParameterKeys.SEAT_NUMBERS_OF_CURRENT_ORDER, out IEnumerable<int> seatNumbersOfCurrentOrder))
             {
                 _removalSeat = removalSeat;

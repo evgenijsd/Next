@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using Next2.Enums;
+using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -27,11 +28,23 @@ namespace Next2.Controls
             set => SetValue(IndexLastVisibleProperty, value);
         }
 
+        public static readonly BindableProperty BounceModeProperty = BindableProperty.Create(
+            propertyName: nameof(BounceMode),
+            declaringType: typeof(CustomCollectionView),
+            returnType: typeof(EBounceMode),
+            defaultBindingMode: BindingMode.OneWay);
+
+        public EBounceMode BounceMode
+        {
+            get => (EBounceMode)GetValue(BounceModeProperty);
+            set => SetValue(BounceModeProperty, value);
+        }
+
         #endregion
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 

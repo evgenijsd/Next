@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Next2.Controls
 {
-    public class ExpandedGridCollectionView : CollectionView
+    public class ExpandedGridCollectionView : CustomCollectionView
     {
         #region -- Public properties --
 
@@ -49,7 +49,7 @@ namespace Next2.Controls
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 

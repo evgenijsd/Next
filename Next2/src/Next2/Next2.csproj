@@ -21,9 +21,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<DebugType></DebugType>
-	</PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	<DebugType></DebugType>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Dev|AnyCPU' ">
     <DebugType></DebugType>
   </PropertyGroup>
@@ -71,18 +71,10 @@
     <DefineConstants>TRACE;STAGE;NETSTANDARD;NETSTANDARD2_0;</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Controls\CalendarGridCollectionView2.cs" />
-    <Compile Remove="Controls\CalendarTab2.xaml.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Remove="Controls\CalendarTab2.xaml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="Resources\Fonts\Barlow-Bold.ttf" />
     <None Remove="Resources\Fonts\Barlow-Medium.ttf" />
     <None Remove="Resources\Fonts\Barlow-Regular.ttf" />
     <None Remove="Resources\Fonts\Barlow-SemiBold.ttf" />
-    <None Remove="ViewModels\Mobile\Dialogs\TipValueDialogViewModel.cs~RF220074b2.TMP" />
   </ItemGroup>
 
   <ItemGroup>
@@ -132,7 +124,7 @@
       <DependentUpon>IconButton.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\CalendarTab.xaml.cs">
-      <DependentUpon>CalendarTab2.xaml</DependentUpon>
+      <DependentUpon>CalendarTab.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\CustomNavigationBar.xaml.cs">
       <DependentUpon>CustomNavigationBar.xaml</DependentUpon>
@@ -148,6 +140,9 @@
     </Compile>
     <Compile Update="Controls\Templates\SeatHeaderItemTemplate.xaml.cs">
       <DependentUpon>SeatHeaderItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\TextItemTemplate.xaml.cs">
+      <DependentUpon>TextItemTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\TimeAndDateBar.xaml.cs">
       <DependentUpon>TimeAndDateBar.xaml</DependentUpon>
@@ -178,12 +173,6 @@
     </Compile>
     <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
       <DependentUpon>SubcategoryItemTemplate.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
-      <DependentUpon>SubCategoryItemTemplate.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Controls\Templates\Tablet\FreeDishItemTemplate.xaml.cs">
-      <DependentUpon>FreeDishItemTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\ChooseDishPage.xaml.cs">
       <DependentUpon>ChooseDishPage.xaml</DependentUpon>
@@ -218,7 +207,7 @@
       <DependentUpon>InputTextPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\CustomersPage.xaml.cs">
-      <DependentUpon>CustomersView.xaml</DependentUpon>
+      <DependentUpon>CustomersPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\Dialogs\CustomerInfoDialog.xaml.cs">
       <DependentUpon>CustomerInfoDialog.xaml</DependentUpon>
@@ -239,10 +228,10 @@
       <DependentUpon>MenuPageMenuPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\OrderRegistrationPage.xaml.cs">
-      <DependentUpon>NewOrderPage.xaml</DependentUpon>
+      <DependentUpon>OrderRegistrationPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\OrderTabsPage.xaml.cs">
-      <DependentUpon>OrderTabsView.xaml</DependentUpon>
+      <DependentUpon>OrderTabsPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\Dialogs\AddDishToOrderDialog.xaml.cs">
       <DependentUpon>AddDishToOrderDialog.xaml</DependentUpon>
@@ -272,7 +261,7 @@
       <DependentUpon>ConfirmDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\Dialogs\CustomerInfoDialog.xaml.cs">
-      <DependentUpon>CustomerInfoDialogxaml</DependentUpon>
+      <DependentUpon>CustomerInfoDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\HoldDishesView.xaml.cs">
       <DependentUpon>HoldDishesView.xaml</DependentUpon>
@@ -280,13 +269,7 @@
     <Compile Update="Views\Tablet\MembershipView.xaml.cs">
       <DependentUpon>MembershipView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Tablet\MenuPageMenuPage.xaml.cs">
-      <DependentUpon>MenuPageMenuPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Tablet\MenuPageMenuPage.xaml.cs">
-      <DependentUpon>MenuPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Mobile\MenuPageMenuPage.xaml.cs">
+    <Compile Update="Views\Mobile\MenuPage.xaml.cs">
       <DependentUpon>MenuPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\OrderTabsView.xaml.cs">
@@ -310,9 +293,6 @@
     <EmbeddedResource Update="Controls\Calendar.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\CalendarTab.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Controls\CustomKeyboard.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -323,6 +303,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\ExpanderHeaderTemplate.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Templates\Mobile\TipItemTemplate.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Templates\TextItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\TimeAndDateBar.xaml">
@@ -416,8 +402,14 @@
     <EmbeddedResource Update="Views\Mobile\Dialogs\PaymentCompleteDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\Dialogs\SelectDateDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\Dialogs\SplitOrderDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\Dialogs\TableReassignmentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\InputCashPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -444,6 +436,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\OrderWithRewardsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\PrintReceiptPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\RewardsView.xaml">
@@ -494,6 +489,9 @@
     <EmbeddedResource Update="Views\Tablet\Dialogs\FinishPaymentDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\InfoAboutReservationDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\InputDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -505,6 +503,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\SplitOrderDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\TableReassignmentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\PaymentCompleteView.xaml">
           <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
@@ -573,6 +574,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\ModificationsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\PrintReceiptView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\SplitOrderPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

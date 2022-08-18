@@ -1,4 +1,6 @@
-﻿using Prism.Navigation;
+﻿using Next2.Services.Authentication;
+using Next2.Services.Notifications;
+using Prism.Navigation;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -8,8 +10,11 @@ namespace Next2.ViewModels.Mobile
 {
     public class WaitingSignaturePageViewModel : BaseViewModel
     {
-        public WaitingSignaturePageViewModel(INavigationService navigationService)
-            : base(navigationService)
+        public WaitingSignaturePageViewModel(
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService)
+            : base(navigationService, authenticationService, notificationsService)
         {
         }
 
@@ -19,10 +24,10 @@ namespace Next2.ViewModels.Mobile
 
         public bool IsCleared { get; set; } = true;
 
-        private ICommand _clearDrawPanelCommand;
+        private ICommand? _clearDrawPanelCommand;
         public ICommand ClearDrawPanelCommand => _clearDrawPanelCommand ??= new Command(() => IsCleared = true);
 
-        private ICommand _tapPaymentCompleteCommand;
+        private ICommand? _tapPaymentCompleteCommand;
         public ICommand TapPaymentCompleteCommand => _tapPaymentCompleteCommand ??= new AsyncCommand(OnTapPaymentCompleteCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

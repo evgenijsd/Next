@@ -90,13 +90,13 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public DelegateCommand DeclineCommand { get; }
 
-        private ICommand _changeTimeFormatCommand;
+        private ICommand? _changeTimeFormatCommand;
         public ICommand ChangeTimeFormatCommand => _changeTimeFormatCommand ??= new AsyncCommand<string>(OnChangeTimeFormatCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _goInputNotesCommand;
+        private ICommand? _goInputNotesCommand;
         public ICommand GoInputNotesCommand => _goInputNotesCommand ??= new AsyncCommand(OnGoInputNotesCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _acceptCommand;
+        private ICommand? _acceptCommand;
         public ICommand AcceptCommand => _acceptCommand ??= new AsyncCommand(OnAcceptCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
@@ -175,7 +175,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
             var popupPage = new Views.Tablet.Dialogs.InputDialog(param, InputDialogCallBack);
 
-            return PopupNavigation.PushAsync(popupPage);
+            return PopupNavigation.Instance.PushAsync(popupPage);
         }
 
         private void InputDialogCallBack(IDialogParameters param)
@@ -185,13 +185,13 @@ namespace Next2.ViewModels.Tablet.Dialogs
                 Notes = text;
             }
 
-            if (PopupNavigation.PopupStack.Count > 0)
+            if (PopupNavigation.Instance.PopupStack.Count > 0)
             {
-                PopupNavigation.PopAsync();
+                PopupNavigation.Instance.PopAsync();
             }
         }
 
-        private Task OnChangeTimeFormatCommandAsync(string state)
+        private Task OnChangeTimeFormatCommandAsync(string? state)
         {
             TimeFormat = state;
 

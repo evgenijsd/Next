@@ -14,9 +14,12 @@ namespace Next2.ViewModels.Dialogs
         public ConfirmViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             LoadPageData(param);
+
             RequestClose = requestClose;
-            CloseCommand = new Command(() => RequestClose(null));
+
+            CloseCommand = new Command(() => RequestClose(new DialogParameters()));
             DeclineCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
+
             AcceptCommand = new Command(
                 execute: () => RequestClose(new DialogParameters()
                 {
@@ -29,13 +32,13 @@ namespace Next2.ViewModels.Dialogs
 
         public EConfirmMode ConfirmMode { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
-        public string CancellationText { get; set; }
+        public string CancellationText { get; set; } = string.Empty;
 
-        public string ConfirmationText { get; set; }
+        public string ConfirmationText { get; set; } = string.Empty;
 
         public ICommand CloseCommand { get; }
 

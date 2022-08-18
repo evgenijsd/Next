@@ -115,7 +115,9 @@
 
                         <!--  State1 calendar  -->
                         <sc:StateCondition State="{Static enums:EClientAdditionStep.Birthday}">
-                            <controls:Calendar SelectedDate="{Binding SelectedDate, Mode=TwoWay}" />
+                            <controls:Calendar 
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}" 
+                                SelectedDate="{Binding SelectedDate, Mode=TwoWay}" />
                         </sc:StateCondition>
 
                         <!--  State2  entries  -->
@@ -187,7 +189,7 @@
                                             Text="{Binding Phone}">
 
                                             <controls:GuardEntry.EntryBehaviors>
-                                                <behaviors:MaskedEntryBehavior Mask="{x:Static local:Constants+Validators.PHONE_MASK2}"/>
+                                                <behaviors:MaskedBehavior Mask="{x:Static local:Constants+Validators.PHONE_MASK2}"/>
                                                 <behaviors:ValidatorBehavior MatchPattern="{x:Static local:Constants+Validators.PHONE_MASK}"/>
                                             </controls:GuardEntry.EntryBehaviors>
 

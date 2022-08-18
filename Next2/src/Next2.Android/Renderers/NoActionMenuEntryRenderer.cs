@@ -15,7 +15,9 @@ namespace Next2.Droid.Renderers
     public class NoActionMenuEntryRenderer : EntryRenderer
     {
         public NoActionMenuEntryRenderer(Context context)
-            : base(context) { }
+            : base(context)
+        {
+        }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
         {

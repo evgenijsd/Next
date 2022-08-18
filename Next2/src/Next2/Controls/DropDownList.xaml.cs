@@ -9,6 +9,8 @@ namespace Next2.Controls
 {
     public partial class DropDownList : PancakeView
     {
+        private double _itemHeight;
+
         public DropDownList()
         {
             InitializeComponent();
@@ -161,18 +163,6 @@ namespace Next2.Controls
             set => SetValue(DataTemplateProperty, value);
         }
 
-        public static readonly BindableProperty ItemHeightProperty = BindableProperty.Create(
-            propertyName: nameof(ItemHeight),
-            returnType: typeof(double),
-            declaringType: typeof(DropDownList),
-            defaultBindingMode: BindingMode.OneWay);
-
-        public double ItemHeight
-        {
-            get => (double)GetValue(ItemHeightProperty);
-            set => SetValue(ItemHeightProperty, value);
-        }
-
         public static readonly BindableProperty MaxNumberOfVisibleItemsProperty = BindableProperty.Create(
             propertyName: nameof(MaxNumberOfVisibleItems),
             returnType: typeof(int),
@@ -247,17 +237,17 @@ namespace Next2.Controls
 
         public double ListHeight { get; private set; }
 
-        private ICommand _selectItemCommand;
+        private ICommand? _selectItemCommand;
         public ICommand SelectItemCommand => _selectItemCommand ??= new Command(OnSelectItemCommand);
 
-        private ICommand _expandListCommand;
+        private ICommand? _expandListCommand;
         public ICommand ExpandListCommand => _expandListCommand ??= new Command(OnExpandListCommand);
 
         #endregion
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 
@@ -288,13 +278,12 @@ namespace Next2.Controls
             }
 
             if (propertyName
-                is nameof(ItemHeight)
-                or nameof(ItemsSource)
+                is nameof(ItemsSource)
                 or nameof(MaxNumberOfVisibleItems))
             {
-                if (ItemsSource is not null)
+                if (ItemsSource is not null && _itemHeight > 0)
                 {
-                    ListHeight = ItemHeight * (ItemsSource.Count < MaxNumberOfVisibleItems
+                    ListHeight = _itemHeight * (ItemsSource.Count < MaxNumberOfVisibleItems
                         ? ItemsSource.Count
                         : MaxNumberOfVisibleItems);
                 }
@@ -307,6 +296,11 @@ namespace Next2.Controls
             if (propertyName is nameof(IsExpanded) && IsExpanded)
             {
                 itemsCollection.ScrollTo(itemsCollection.SelectedItem, position: ScrollToPosition.Center, animate: false);
+            }
+            else if (propertyName is nameof(DataTemplate))
+            {
+                var itemView = (View)itemsCollection.ItemTemplate.CreateContent();
+                _itemHeight = itemView.HeightRequest;
             }
 
             base.OnPropertyChanging(propertyName);

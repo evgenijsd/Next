@@ -2,7 +2,7 @@
 
 namespace Next2.Views.Tablet
 {
-    public partial class ReservationsView : ContentView
+    public partial class ReservationsView : Grid
     {
         public ReservationsView()
         {

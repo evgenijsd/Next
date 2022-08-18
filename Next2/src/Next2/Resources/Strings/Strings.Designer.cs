@@ -168,6 +168,23 @@ namespace Next2.Resources.Strings {
             }
         }
         
+        ///   Looks up a localized string similar to Assign From.
+        /// </summary>
+        internal static string AssignFrom {
+            get {
+                return ResourceManager.GetString("AssignFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assign To.
+        /// </summary>
+        internal static string AssignTo {
+            get {
+                return ResourceManager.GetString("AssignTo", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Available Groups.
         /// </summary>
@@ -192,6 +209,15 @@ namespace Next2.Resources.Strings {
         internal static string Back {
             get {
                 return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back Office.
+        /// </summary>
+        internal static string BackOffice {
+            get {
+                return ResourceManager.GetString("BackOffice", resourceCulture);
             }
         }
         
@@ -273,6 +299,15 @@ namespace Next2.Resources.Strings {
         internal static string Change {
             get {
                 return ResourceManager.GetString("Change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose Waiter.
+        /// </summary>
+        internal static string ChooseWaiter {
+            get {
+                return ResourceManager.GetString("ChooseWaiter", resourceCulture);
             }
         }
         
@@ -935,6 +970,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No notes.
+        /// </summary>
+        internal static string NoNotes {
+            get {
+                return ResourceManager.GetString("NoNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Receipt.
         /// </summary>
         internal static string NoReceipt {
@@ -1250,11 +1294,29 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Program Device.
+        /// </summary>
+        internal static string ProgramDevice {
+            get {
+                return ResourceManager.GetString("ProgramDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Proportions.
         /// </summary>
         internal static string Proportions {
             get {
                 return ResourceManager.GetString("Proportions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to pt.
+        /// </summary>
+        internal static string Pt {
+            get {
+                return ResourceManager.GetString("Pt", resourceCulture);
             }
         }
         
@@ -1345,6 +1407,15 @@ namespace Next2.Resources.Strings {
         internal static string RequiredInfo {
             get {
                 return ResourceManager.GetString("RequiredInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reservation Info.
+        /// </summary>
+        internal static string ReservationInfo {
+            get {
+                return ResourceManager.GetString("ReservationInfo", resourceCulture);
             }
         }
         
@@ -1462,6 +1533,24 @@ namespace Next2.Resources.Strings {
         internal static string SelectCoupon {
             get {
                 return ResourceManager.GetString("SelectCoupon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Date.
+        /// </summary>
+        internal static string SelectDate {
+            get {
+                return ResourceManager.GetString("SelectDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected Table.
+        /// </summary>
+        internal static string SelectedTable {
+            get {
+                return ResourceManager.GetString("SelectedTable", resourceCulture);
             }
         }
         
@@ -1792,6 +1881,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The order #{0} has been removed.
+        /// </summary>
+        internal static string TheOrderHasBeenRemoved {
+            get {
+                return ResourceManager.GetString("TheOrderHasBeenRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The order #{0} was placed to.
         /// </summary>
         internal static string TheOrderWasPlacedTo {
@@ -1815,6 +1913,24 @@ namespace Next2.Resources.Strings {
         internal static string ThisDishWillBeRemoved {
             get {
                 return ResourceManager.GetString("ThisDishWillBeRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This reservation will be removed..
+        /// </summary>
+        internal static string ThisReservationWillBeRemoved {
+            get {
+                return ResourceManager.GetString("ThisReservationWillBeRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        internal static string Time {
+            get {
+                return ResourceManager.GetString("Time", resourceCulture);
             }
         }
         
@@ -1923,6 +2039,15 @@ namespace Next2.Resources.Strings {
         internal static string TypeUserName {
             get {
                 return ResourceManager.GetString("TypeUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value.
+        /// </summary>
+        internal static string Value {
+            get {
+                return ResourceManager.GetString("Value", resourceCulture);
             }
         }
         

@@ -1,11 +1,15 @@
 using Next2.Enums;
 using Next2.Services.Authentication;
+using Next2.Services.Employees;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -16,30 +20,95 @@ namespace Next2.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        private readonly IAuthenticationService _authenticationService;
         private readonly IOrderService _orderService;
-        private readonly INotificationsService _notificationsService;
+        private readonly IEmployeesService _employeesService;
+
+        private CancellationTokenSource _cancelTokenSource = new();
+        private CancellationToken _token = new();
 
         public SettingsViewModel(
             INavigationService navigationService,
             IAuthenticationService authenticationService,
             INotificationsService notificationsService,
-            IOrderService orderService)
-            : base(navigationService)
+            PrintReceiptViewModel printReceiptViewModel,
+            IOrderService orderService,
+            IEmployeesService employeesService)
+            : base(navigationService, authenticationService, notificationsService)
         {
-            _authenticationService = authenticationService;
             _orderService = orderService;
-            _notificationsService = notificationsService;
+            _employeesService = employeesService;
+
+            PrintReceiptViewModel = printReceiptViewModel;
         }
 
         #region -- Public properties --
 
-        private ICommand _logOutCommand;
+        public bool IsLoading { get; set; }
+
+        public string Title { get; set; } = LocalizationResourceManager.Current["Settings"];
+
+        public ESettingsPageState PageState { get; set; } = ESettingsPageState.Default;
+
+        public PrintReceiptViewModel PrintReceiptViewModel { get; set; }
+
+        private ICommand? _logOutCommand;
         public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand? _changeStateCommand;
+        public ICommand ChangeStateCommand => _changeStateCommand ??= new AsyncCommand<ESettingsPageState>(OnChangeStateCommand, allowsMultipleExecutions: false);
+
+        private ICommand? _reassignTableCommand;
+        public ICommand ReassignTableCommand => _reassignTableCommand ??= new AsyncCommand(OnReassignTableCommandAsync, allowsMultipleExecutions: false);
+
+        #endregion
+
+        #region -- Overrides --
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            _cancelTokenSource = new CancellationTokenSource();
+            _token = _cancelTokenSource.Token;
+        }
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            _cancelTokenSource.Cancel();
+            _cancelTokenSource.Dispose();
+        }
 
         #endregion
 
         #region -- Private helpers --
+
+        private Task OnChangeStateCommand(ESettingsPageState state)
+        {
+            if (!IsLoading)
+            {
+                PageState = state;
+
+                switch (state)
+                {
+                    case ESettingsPageState.Default:
+                        Title = LocalizationResourceManager.Current["Settings"];
+                        break;
+                    case ESettingsPageState.BackOffice:
+                        Title = LocalizationResourceManager.Current["BackOffice"];
+                        break;
+                    case ESettingsPageState.PrintReceipt:
+                        Title = LocalizationResourceManager.Current["PrintReceipt"];
+                        break;
+                    case ESettingsPageState.ProgramDevice:
+                        Title = LocalizationResourceManager.Current["ProgramDevice"];
+                        break;
+                }
+            }
+
+            return Task.CompletedTask;
+        }
 
         private Task OnLogOutCommandAsync()
         {
@@ -61,30 +130,92 @@ namespace Next2.ViewModels
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null)
+            if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool result) && result)
             {
-                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool result) && result)
+                await _notificationsService.CloseAllPopupAsync();
+
+                var logoutResult = await _authenticationService.LogoutAsync();
+
+                if (logoutResult.IsSuccess)
                 {
-                    await _notificationsService.CloseAllPopupAsync();
+                    _orderService.CurrentOrder = new();
 
-                    var logoutResult = await _authenticationService.LogoutAsync();
-
-                    if (logoutResult.IsSuccess)
-                    {
-                        _orderService.CurrentOrder = new();
-
-                        var navigationParameters = new NavigationParameters
+                    var navigationParameters = new NavigationParameters
                         {
                             { Constants.Navigations.LOGOUT, true },
                         };
 
-                        await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
+                    await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
+                }
+            }
+            else
+            {
+                await _notificationsService.CloseAllPopupAsync();
+            }
+        }
+
+        private async Task OnReassignTableCommandAsync()
+        {
+            if (!IsLoading)
+            {
+                if (IsInternetConnected)
+                {
+                    IsLoading = true;
+
+                    var resultOfGettingEmployees = await _employeesService.GetEmployeesAsync();
+
+                    if (resultOfGettingEmployees.IsSuccess)
+                    {
+                        var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.EMPLOYEES, resultOfGettingEmployees.Result } };
+
+                        PopupPage confirmDialog = App.IsTablet
+                            ? new Next2.Views.Tablet.Dialogs.TableReassignmentDialog(dialogParameters, CloseReassignTableDialogCallback)
+                            : new Next2.Views.Mobile.Dialogs.TableReassignmentDialog(dialogParameters, CloseReassignTableDialogCallback);
+
+                        await PopupNavigation.PushAsync(confirmDialog);
+
+                        IsLoading = false;
+                    }
+                    else
+                    {
+                        await ResponseToUnsuccessfulRequestAsync(resultOfGettingEmployees.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await _notificationsService.CloseAllPopupAsync();
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
+            }
+        }
+
+        private async void CloseReassignTableDialogCallback(IDialogParameters dialogResult)
+        {
+            await _notificationsService.CloseAllPopupAsync();
+
+            if (IsInternetConnected)
+            {
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isTableReassignAccepted)
+                    && isTableReassignAccepted
+                    && dialogResult.TryGetValue(Constants.DialogParameterKeys.ORDERS_ID, out IEnumerable<Guid> ordersId)
+                    && ordersId is not null
+                    && dialogResult.TryGetValue(Constants.DialogParameterKeys.EMPLOYEE_ID, out string employeeIdToAssignTo)
+                    && employeeIdToAssignTo is not null)
+                {
+                    IsLoading = true;
+
+                    var resultOfUpdatingOrders = await _orderService.UpdateOrdersAsync(ordersId, employeeIdToAssignTo);
+
+                    if (!resultOfUpdatingOrders.IsSuccess && _token.IsCancellationRequested)
+                    {
+                        await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrders.Exception?.Message);
+                    }
+
+                    IsLoading = false;
+                }
+            }
+            else
+            {
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 

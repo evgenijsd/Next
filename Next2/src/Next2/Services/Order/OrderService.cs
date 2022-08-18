@@ -47,6 +47,8 @@ namespace Next2.Services.Order
 
         #region -- Public properties --
 
+        public DateTime DateTime = new();
+
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
         public SeatBindableModel? CurrentSeat { get; set; }
@@ -68,18 +70,21 @@ namespace Next2.Services.Order
                 {
                     decimal totalProductsPrice = 0;
 
-                    foreach (var product in dish.SelectedProducts)
+                    if (dish.SelectedProducts is not null)
                     {
-                        var ingredientsPrice = product.AddedIngredients is not null
-                            ? product.AddedIngredients.Sum(row => row.Price)
-                            : 0;
+                        foreach (var product in dish.SelectedProducts)
+                        {
+                            var ingredientsPrice = product.AddedIngredients is not null
+                                ? product.AddedIngredients.Sum(row => row.Price)
+                                : 0;
 
-                        ingredientsPrice += product.ExcludedIngredients is not null
-                            ? product.ExcludedIngredients.Sum(row => row.Price)
-                            : 0;
+                            ingredientsPrice += product.ExcludedIngredients is not null
+                                ? product.ExcludedIngredients.Sum(row => row.Price)
+                                : 0;
 
-                        var productPrice = product.Price;
-                        totalProductsPrice += ingredientsPrice + productPrice;
+                            var productPrice = product.Price;
+                            totalProductsPrice += ingredientsPrice + productPrice;
+                        }
                     }
 
                     var discountProductsPrice = totalProductsPrice;
@@ -138,7 +143,7 @@ namespace Next2.Services.Order
 
                 if (order is not null)
                 {
-                    var newOrder = new OrderModelDTO()
+                    OrderModelDTO newOrder = new()
                     {
                         Id = order.Id,
                         Number = order.OrderNumber,
@@ -189,7 +194,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync()
+        public async Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync(EOrderStatus? orderStatus = null, Func<SimpleOrderModelDTO, bool>? condition = null)
         {
             var result = new AOResult<IEnumerable<SimpleOrderModelDTO>>();
 
@@ -201,7 +206,17 @@ namespace Next2.Services.Order
 
                 if (responce.Success && responce.Value?.Orders is not null)
                 {
-                    result.SetSuccess(responce.Value.Orders);
+                    var allOrders = responce.Value.Orders;
+
+                    var filteredByStatusOrders = orderStatus is null
+                        ? allOrders
+                        : allOrders.Where(x => x.OrderStatus == orderStatus);
+
+                    var filteredByConditionOrders = condition is null
+                        ? filteredByStatusOrders
+                        : filteredByStatusOrders.Where(condition);
+
+                    result.SetSuccess(filteredByConditionOrders);
                 }
             }
             catch (Exception ex)
@@ -261,6 +276,10 @@ namespace Next2.Services.Order
                             isCurrentOrderSet = resultOfSettingCurrentOrder.IsSuccess;
                         }
                     }
+                    else if (resultOfGettingOrder.Exception is not null)
+                    {
+                        throw resultOfGettingOrder.Exception;
+                    }
                 }
 
                 if (!isCurrentOrderSet)
@@ -274,6 +293,10 @@ namespace Next2.Services.Order
                         var resultOfSettingCurrentOrder = await SetCurrentOrderAsync(orderCreationResult.Result);
 
                         isCurrentOrderSet = resultOfSettingCurrentOrder.IsSuccess;
+                    }
+                    else if (orderCreationResult.Exception is not null)
+                    {
+                        throw orderCreationResult.Exception;
                     }
                 }
 
@@ -316,7 +339,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish)
+        public Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish)
         {
             var result = new AOResult();
 
@@ -353,10 +376,10 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(AddDishInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        public async Task<AOResult> AddSeatInCurrentOrderAsync()
+        public Task<AOResult> AddSeatInCurrentOrderAsync()
         {
             var result = new AOResult();
 
@@ -386,10 +409,10 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(AddSeatInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        public async Task<AOResult> DeleteSeatFromCurrentOrder(SeatBindableModel seat)
+        public Task<AOResult> DeleteSeatFromCurrentOrder(SeatBindableModel seat)
         {
             var result = new AOResult();
 
@@ -419,10 +442,10 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(DeleteSeatFromCurrentOrder)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        public async Task<AOResult> RedirectDishesFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber)
+        public Task<AOResult> RedirectDishesFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber)
         {
             var result = new AOResult();
 
@@ -451,10 +474,10 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(RedirectDishesFromSeatInCurrentOrder)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        public async Task<AOResult> DeleteDishFromCurrentSeatAsync()
+        public Task<AOResult> DeleteDishFromCurrentSeatAsync()
         {
             var result = new AOResult();
 
@@ -465,6 +488,7 @@ namespace Next2.Services.Order
                 if (dishTobeRemoved is not null)
                 {
                     CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).SelectedDishes.Remove(dishTobeRemoved);
+
                     UpdateTotalSum(CurrentOrder);
                 }
 
@@ -475,7 +499,7 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(DeleteDishFromCurrentSeatAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
         public async Task<AOResult<Guid>> UpdateOrderAsync(OrderModelDTO order)
@@ -503,30 +527,33 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<Guid>> UpdateTableAsync(SimpleTableModelDTO table, bool isAvailable = false)
+        public async Task<AOResult<Guid>> UpdateTableAsync(SimpleTableModelDTO? table, bool isAvailable = false)
         {
             var result = new AOResult<Guid>();
 
-            var updateCommand = new UpdateTableCommand()
+            if (table is not null)
             {
-                Id = table.Id,
-                Number = table.Number,
-                SeatNumbers = table.SeatNumbers,
-                IsAvailable = isAvailable,
-            };
-
-            try
-            {
-                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/tables", updateCommand);
-
-                if (response.Success)
+                var updateCommand = new UpdateTableCommand()
                 {
-                    result.SetSuccess(response.Value);
+                    Id = table.Id,
+                    Number = table.Number,
+                    SeatNumbers = table.SeatNumbers,
+                    IsAvailable = isAvailable,
+                };
+
+                try
+                {
+                    var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/tables", updateCommand);
+
+                    if (response.Success)
+                    {
+                        result.SetSuccess(response.Value);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(UpdateTableAsync)}: exception", Strings.SomeIssues, ex);
+                catch (Exception ex)
+                {
+                    result.SetError($"{nameof(UpdateTableAsync)}: exception", Strings.SomeIssues, ex);
+                }
             }
 
             return result;
@@ -573,7 +600,9 @@ namespace Next2.Services.Order
             try
             {
                 UpdateTotalSum(CurrentOrder);
+
                 var orderDTO = CurrentOrder.ToOrderModelDTO();
+
                 result = await UpdateOrderAsync(orderDTO);
             }
             catch (Exception ex)
@@ -584,7 +613,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients)
+        public Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients)
         {
             var result = new AOResult<DishBindableModel>();
 
@@ -619,7 +648,7 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(ChangeDishProportionAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
         public decimal CalculateDishPriceBaseOnProportion(DishBindableModel dish, decimal priceRatio, IEnumerable<IngredientModelDTO> ingredients)
@@ -656,21 +685,86 @@ namespace Next2.Services.Order
             return dishPrice;
         }
 
+        public IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders, EOrdersSortingType sortingType)
+        {
+            Func<SimpleOrderBindableModel, object> sortingSelector = sortingType switch
+            {
+                EOrdersSortingType.ByOrderNumber => x => x.Number,
+                EOrdersSortingType.ByTableNumber => x => x.TableNumber,
+                EOrdersSortingType.ByTotalPrice => x => x.TotalPrice,
+                _ => throw new NotImplementedException(),
+            };
+
+            return orders.OrderBy(sortingSelector);
+        }
+
+        public async Task<AOResult> UpdateOrdersAsync(IEnumerable<Guid> ordersId, string employeeId)
+        {
+            var resultOfUpdatingOrder = new AOResult();
+
+            bool isSuccess = true;
+
+            try
+            {
+                var resultOfGettingOrders = await GetOrdersModelDTOAsync(ordersId);
+
+                if (resultOfGettingOrders.IsSuccess)
+                {
+                    var orders = resultOfGettingOrders.Result;
+
+                    foreach (var order in orders)
+                    {
+                        order.EmployeeId = employeeId;
+
+                        resultOfUpdatingOrder = await UpdateOrderAsync(order);
+
+                        if (!resultOfUpdatingOrder.IsSuccess)
+                        {
+                            if (resultOfUpdatingOrder.Exception is not null)
+                            {
+                                throw resultOfUpdatingOrder.Exception;
+                            }
+                            else
+                            {
+                                isSuccess = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (isSuccess)
+                    {
+                        resultOfUpdatingOrder.SetSuccess();
+                    }
+                }
+                else if(resultOfGettingOrders.Exception is not null)
+                {
+                    throw resultOfGettingOrders.Exception;
+                }
+            }
+            catch (Exception ex)
+            {
+                resultOfUpdatingOrder.SetError($"{nameof(UpdateOrdersAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return resultOfUpdatingOrder;
+        }
+
         #endregion
 
         #region -- Private helpers --
 
-        private async Task<AOResult<Guid>> GetIdLastCreatedOrderFromSettingsAsync(string employeeId)
+        private Task<AOResult<Guid>> GetIdLastCreatedOrderFromSettingsAsync(string employeeId)
         {
             var result = new AOResult<Guid>();
 
             try
             {
-                if (_settingsManager?.LastCurrentOrderIds != string.Empty)
+                if (!string.IsNullOrEmpty(_settingsManager.LastCurrentOrderIds))
                 {
                     var lastCurrentOrderIds = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
 
-                    if (lastCurrentOrderIds.ContainsKey(employeeId))
+                    if (lastCurrentOrderIds is not null && lastCurrentOrderIds.ContainsKey(employeeId))
                     {
                         result.SetSuccess(lastCurrentOrderIds[employeeId]);
                     }
@@ -681,16 +775,21 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(GetIdLastCreatedOrderFromSettingsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        private async Task<AOResult> SaveLastOrderIdToSettingsAsync(string employeeId, Guid orderId)
+        private Task<AOResult> SaveLastOrderIdToSettingsAsync(string employeeId, Guid orderId)
         {
             var result = new AOResult();
 
             try
             {
-                var employeeIdAndOrderIdPairs = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
+                Dictionary<string, Guid>? employeeIdAndOrderIdPairs = new();
+
+                if (!string.IsNullOrEmpty(_settingsManager.LastCurrentOrderIds))
+                {
+                    employeeIdAndOrderIdPairs = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
+                }
 
                 employeeIdAndOrderIdPairs ??= new();
 
@@ -712,7 +811,7 @@ namespace Next2.Services.Order
                 result.SetError($"{nameof(SaveLastOrderIdToSettingsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
         private async Task<AOResult> AddAdditionalDishesInformationToOrderAsync(FullOrderBindableModel currentOrder)
@@ -745,12 +844,12 @@ namespace Next2.Services.Order
                         foreach (var dish in seat.SelectedDishes)
                         {
                             var dishId = dish.DishId;
-                            var sourceDish = dishes.FirstOrDefault(row => row.Id == dishId);
+                            var sourceDish = dishes.FirstOrDefault(row => row?.Id == dishId);
 
                             if (sourceDish is not null)
                             {
                                 dish.DishProportions = sourceDish.DishProportions;
-                                dish.Products = new(sourceDish.Products);
+                                dish.Products = new(sourceDish.ReplacementProducts.SelectMany(x => x.Products));
                             }
                         }
                     }
@@ -842,9 +941,9 @@ namespace Next2.Services.Order
             var addedIngredients = product?.AddedIngredients;
             var excludedIngredients = product?.ExcludedIngredients;
 
-            if (allIngredients.Any())
+            if (allIngredients is not null && allIngredients.Any())
             {
-                if (addedIngredients.Any())
+                if (addedIngredients is not null && addedIngredients.Any())
                 {
                     foreach (var ingredient in addedIngredients)
                     {
@@ -853,7 +952,7 @@ namespace Next2.Services.Order
                             : allIngredients.FirstOrDefault(row => row.Id == ingredient.Id).Price * (1 + priceRatio);
                     }
                 }
-                else if (excludedIngredients.Any())
+                else if (excludedIngredients is not null && excludedIngredients.Any())
                 {
                     foreach (var ingredient in excludedIngredients)
                     {
@@ -863,6 +962,52 @@ namespace Next2.Services.Order
                     }
                 }
             }
+        }
+
+        private async Task<AOResult<IEnumerable<OrderModelDTO>>> GetOrdersModelDTOAsync(IEnumerable<Guid> ordersId)
+        {
+            var result = new AOResult<IEnumerable<OrderModelDTO>>();
+
+            bool isSuccess = true;
+
+            try
+            {
+                var orderIdsNumber = ordersId.Count();
+
+                OrderModelDTO[] orderModelsDTO = new OrderModelDTO[orderIdsNumber];
+
+                List<Guid> orderIds = new(ordersId);
+
+                for (int i = 0; i < orderIdsNumber; i++)
+                {
+                    var resultOfGettingOrder = await GetOrderByIdAsync(orderIds[i]);
+
+                    if (resultOfGettingOrder.IsSuccess)
+                    {
+                        orderModelsDTO[i] = resultOfGettingOrder.Result;
+                    }
+                    else if(resultOfGettingOrder.Exception is not null)
+                    {
+                        throw resultOfGettingOrder.Exception;
+                    }
+                    else
+                    {
+                        isSuccess = false;
+                        break;
+                    }
+                }
+
+                if (isSuccess)
+                {
+                    result.SetSuccess(orderModelsDTO);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetOrdersModelDTOAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
         }
 
         #endregion

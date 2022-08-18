@@ -15,8 +15,9 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:dto="clr-namespace:Next2.Models.API.DTO"
     xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
+    xmlns:strings="clr-namespace:Next2.Resources.Strings"
     xmlns:tabletViewModels="clr-namespace:Next2.ViewModels.Tablet"
-    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"    
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Views.Tablet.NewOrderView"
     x:DataType="tabletViewModels:NewOrderViewModel">
 
@@ -253,44 +254,41 @@
                         </StackLayout>
 
                         <controls:StepperCarousel
-                            VerticalOptions="Start"
-                            HeightRequest="114"
-                            MinimumHeightRequest="114"
-                            Margin="24, 0, 24, 16"
+                            HeightRequest="100"
+                            Margin="24, 10, 24, 16"
                             ItemsSource="{Binding Categories}"
                             SelectedItem="{Binding SelectedCategoriesItem}">
 
                             <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroupList>
-                                    <VisualStateGroup Name="AdaptiveTime">
+                                <VisualStateGroup Name="AdaptiveStepperCarousel">
 
-                                        <VisualState Name="IPadPro11">
+                                    <VisualState Name="minHeight">
 
-                                            <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowWidth="1194"/>
-                                            </VisualState.StateTriggers>
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowHeight="601" />
+                                        </VisualState.StateTriggers>
 
-                                            <VisualState.Setters>
-                                                <Setter Property="Margin" Value="40, 0, 40, 40"/>
-                                            </VisualState.Setters>
+                                        <VisualState.Setters>
+                                            <Setter Property="Margin" Value="24, 26, 24, 32" />
+                                            <Setter Property="HeightRequest" Value="116" />
+                                        </VisualState.Setters>
 
-                                        </VisualState>
+                                    </VisualState>
 
-                                        <VisualState Name="IPadPro12_9">
+                                    <VisualState Name="moreiPadMini">
 
-                                            <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowWidth="1366"/>
-                                            </VisualState.StateTriggers>
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601" />
+                                        </VisualState.StateTriggers>
 
-                                            <VisualState.Setters>
-                                                <Setter Property="ItemWidth" Value="133"/>
-                                                <Setter Property="Margin" Value="40, 0, 40, 40"/>
-                                            </VisualState.Setters>
+                                        <VisualState.Setters>
+                                            <Setter Property="Margin" Value="40, 26, 40, 32" />
+                                            <Setter Property="HeightRequest" Value="116" />
+                                        </VisualState.Setters>
 
-                                        </VisualState>
+                                    </VisualState>
 
-                                    </VisualStateGroup>
-                                </VisualStateGroupList>
+                                </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
 
                         </controls:StepperCarousel>
@@ -381,10 +379,11 @@
 
                         <sc:StateCondition State="Completed">
 
-                            <CollectionView
+                            <controls:CustomCollectionView
                                 Margin="24, 14, 24, 0"
                                 ItemsSource="{Binding Dishes}"
                                 VerticalOptions="FillAndExpand"
+                                BounceMode="DisabledForAndroidAndiOS"
                                 VerticalScrollBarVisibility="Always">
 
                                 <CollectionView.ItemsLayout>
@@ -427,7 +426,6 @@
                                 </VisualStateManager.VisualStateGroups>
 
                                 <CollectionView.Effects>
-                                    <effects:NoOverScrollEffect/>
 
                                     <effects:ScrollBarColorEffect
                                         ScrollBarThumbWidth="6"
@@ -463,7 +461,7 @@
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
 
-                            </CollectionView>
+                            </controls:CustomCollectionView>
                             
                         </sc:StateCondition>
                         
@@ -476,10 +474,11 @@
                         Padding="3, 0, 0, 0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
                             
-                        <CollectionView
+                        <controls:CustomCollectionView
                             HeightRequest="50"
                             MinimumHeightRequest="50"
                             VerticalOptions="End"
+                            BounceMode="DisabledForAndroidAndiOS"
                             ItemsSource="{Binding Subcategories}"
                             SelectedItem="{Binding SelectedSubcategoriesItem}"
                             VerticalScrollBarVisibility="Never"
@@ -503,10 +502,6 @@
 
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-
-                            <CollectionView.Effects>
-                                <effects:NoOverScrollEffect/>
-                            </CollectionView.Effects>
 
                             <CollectionView.ItemsLayout>
 
@@ -553,7 +548,7 @@
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
 
-                        </CollectionView>
+                        </controls:CustomCollectionView>
 
                     </Frame>
                         
@@ -646,6 +641,7 @@
                             HeightRequest="700">
 
                             <ScrollView.Effects>
+                                
                                 <effects:NoOverScrollEffect/>
 
                                 <effects:ScrollBarColorEffect
@@ -976,16 +972,19 @@
                 ItemsSource="{Binding OrderRegistrationViewModel.OrderTypes}">
                 
                 <controls:DropDownList.Triggers>
-                        
-                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}" Value="True">
-                        
+
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
+                        Binding="{Binding OrderRegistrationViewModel.OrderNotificationStatus, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:ENotificationType.None}}"
+                        Value="False">
+
                         <Setter Property="IsEnabled" Value="False"/>
                         <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
-                        
+
                     </DataTrigger>
-                    
+
                 </controls:DropDownList.Triggers>
-                
+
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup Name="AdaptiveDropDownList">
 
@@ -1017,29 +1016,16 @@
                 </VisualStateManager.VisualStateGroups>
 
                 <controls:DropDownList.DataTemplate>
-                    <DataTemplate>
-                        <StackLayout 
+
+                    <DataTemplate x:DataType="models:OrderTypeBindableModel">
+
+                        <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
+                            FormattedText="{Binding Text}"
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"/>
 
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
-
-                            <StackLayout
-                                Padding="14, 9"
-                                HeightRequest="21"
-                                Orientation="Horizontal">
-
-                                <Label
-                                    x:DataType="models:OrderTypeBindableModel"
-                                    HorizontalOptions="FillAndExpand"
-                                    FontFamily="Barlow-Medium"
-                                    FontSize="{DynamicResource TSize_i8}"
-                                    Text="{Binding Text}" />
-
-                            </StackLayout>
-
-                        </StackLayout>
                     </DataTemplate>
+
                 </controls:DropDownList.DataTemplate>
 
             </controls:DropDownList>
@@ -1068,7 +1054,6 @@
                 </Label>
 
                 <controls:CustomStepper
-                    IsEnabled="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}"
                     Spacing="10"
                     Style="{DynamicResource CustomStepperStyle_i1}"
                     MaxValue="{Binding OrderRegistrationViewModel.SelectedTable.SeatNumbers}"
@@ -1079,13 +1064,26 @@
 
                     <controls:CustomStepper.Triggers>
                         
-                         <DataTrigger 
-                            TargetType="controls:CustomStepper"
-                            Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible, Converter={xct:InvertedBoolConverter}}"
-                            Value="False">
-                            
+                        <DataTrigger TargetType="controls:CustomStepper" Value="True">
+
+                            <DataTrigger.Binding>
+                                <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=Any}">
+
+                                    <Binding
+                                        Path="OrderRegistrationViewModel.OrderNotificationStatus"
+                                        Converter="{xct:NotEqualConverter}"
+                                        ConverterParameter="{x:Static enums:ENotificationType.None}"/>
+                                    
+                                    <Binding
+                                        Path="OrderRegistrationViewModel.CurrentOrder.Seats.Count"
+                                        Converter="{xct:EqualConverter}"
+                                        ConverterParameter="0"/>
+
+                                </MultiBinding>
+                            </DataTrigger.Binding>
+
                             <Setter Property="IsEnabled" Value="False"/>
-                            
+
                         </DataTrigger>
 
                     </controls:CustomStepper.Triggers>
@@ -1102,94 +1100,116 @@
                 Margin="18, 13"
                 WidthRequest="135"
                 ScrollBarVisibility="Never"
-                HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.TableNumber, StringFormat='Table {0}'}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedTable}"
                 ItemsSource="{Binding OrderRegistrationViewModel.Tables}">
-                                                
+
+                <controls:DropDownList.HeaderText>
+                    <FormattedString>
+                        <Span Text="{xct:Translate Table}"/>
+                        <Span Text=" "/>
+                        <Span Text="{Binding OrderRegistrationViewModel.SelectedTable.TableNumber}"/>
+                    </FormattedString>
+                </controls:DropDownList.HeaderText>
+
                 <controls:DropDownList.Triggers>
                         
-                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding OrderRegistrationViewModel.SelectedTable, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
+                        Binding="{Binding OrderRegistrationViewModel.SelectedTable, Converter={xct:IsNullOrEmptyConverter}}"
+                        Value="True">
 
                         <Setter Property="HeaderText" Value="{xct:Translate NoTablesAvailable}"/>
                         <Setter Property="IsEnabled" Value="False"/>
                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
                         
                     </DataTrigger>
-                        
-                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}" Value="True">
-                        
+
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
+                        Binding="{Binding OrderRegistrationViewModel.OrderNotificationStatus, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:ENotificationType.None}}"
+                        Value="False">
+
                         <Setter Property="IsEnabled" Value="False"/>
                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
-                        
+
                     </DataTrigger>
-                    
+
                 </controls:DropDownList.Triggers>
                 
                 <controls:DropDownList.DataTemplate>
-                    <DataTemplate>
-                        <StackLayout 
+
+                    <DataTemplate x:DataType="modelsBindable:TableBindableModel">
+
+                        <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                             xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+                            <templates:TextItemTemplate.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate Table}"/>
+                                    <Span Text=" "/>
+                                    <Span Text="{Binding TableNumber}"/>
+                                </FormattedString>
+                            </templates:TextItemTemplate.FormattedText>
 
-                            <StackLayout
-                                Padding="14, 9"
-                                HeightRequest="21"
-                                Orientation="Horizontal"
-                                x:DataType="modelsBindable:TableBindableModel">
+                        </templates:TextItemTemplate>
 
-                                <Label
-                                    FontFamily="Barlow-Medium"
-                                    FontSize="{DynamicResource TSize_i8}"
-                                    HorizontalOptions="FillAndExpand"
-                                    Text="{Binding TableNumber, StringFormat='Table {0}'}" />
-
-                            </StackLayout>
-
-                        </StackLayout>
                     </DataTemplate>
+                    
                 </controls:DropDownList.DataTemplate>
 
             </controls:DropDownList>
 
-            <!-- DISHES_GROUP LIST -->
-            <CollectionView
+             <!-- DISHES_GROUP LIST -->
+            <controls:CustomCollectionView
                 Grid.Row="2"
                 VerticalScrollBarVisibility="Always"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                 SelectionMode="Single"
                 IsGrouped="True"
+                BounceMode="DisabledForAndroidAndiOS"
                 ItemsSource="{Binding OrderRegistrationViewModel.DishesGroupedBySeats}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedDish}">
 
-                <CollectionView.Behaviors>
+                <controls:CustomCollectionView.Behaviors>
                     <behaviors:ScrollToDishGroupCenterBehavior />
-                </CollectionView.Behaviors>
+                </controls:CustomCollectionView.Behaviors>
 
-                <CollectionView.Effects>
-                    <effects:NoOverScrollEffect />
-
+                <controls:CustomCollectionView.Effects>
+                    
                     <effects:ScrollBarColorEffect
                         ScrollBarThumbWidth="6"
                         ScrollBarCornerRadius="9"
                         ScrollBarThumbColor="{StaticResource AppColor_i1}"
                         ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}" />
 
-                </CollectionView.Effects>
+                </controls:CustomCollectionView.Effects>
 
-                <CollectionView.EmptyView>
+                <controls:CustomCollectionView.EmptyView>
                     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                         <pancakeview:PancakeView
-                            IsVisible="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
+                            IsVisible="{Binding OrderRegistrationViewModel.OrderNotificationStatus, Converter={xct:NotEqualConverter}, ConverterParameter={x:Static enums:ENotificationType.None}}"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"
                             Shadow="{pancakeview:ShadowMarkup BlurRadius=15}"
-                            HeightRequest="66"
+                            HeightRequest="42"
                             WidthRequest="250"
                             Margin="15, 15, 15, 0"
                             CornerRadius="6">
+
+                            <pancakeview:PancakeView.Triggers>
+
+                                <DataTrigger
+                                    TargetType="pancakeview:PancakeView"
+                                    Binding="{Binding OrderRegistrationViewModel.OrderNotificationStatus}"
+                                    Value="{x:Static enums:ENotificationType.OrderSaved}">
+
+                                    <Setter Property="HeightRequest" Value="66"/>
+
+                                </DataTrigger>
+
+                            </pancakeview:PancakeView.Triggers>
 
                             <StackLayout
                                 Spacing="6"
@@ -1198,9 +1218,24 @@
                                 <StackLayout Orientation="Horizontal">
 
                                     <Label
-                                        Text="{Binding OrderRegistrationViewModel.PopUpInfo}"
+                                        Text="{Binding OrderRegistrationViewModel.CurrentOrder.Number, StringFormat={Static strings:Strings.TheOrderHasBeenRemoved}}"
                                         FontFamily="Barlow-Medium"
-                                        FontSize="{DynamicResource TSize_i9}" />
+                                        FontSize="{DynamicResource TSize_i9}">
+
+                                        <Label.Triggers>
+
+                                            <DataTrigger
+                                                TargetType="Label"
+                                                Binding="{Binding OrderRegistrationViewModel.OrderNotificationStatus}"
+                                                Value="{x:Static enums:ENotificationType.OrderSaved}">
+
+                                                <Setter Property="Text" Value="{Binding OrderRegistrationViewModel.CurrentOrder.Number, StringFormat={Static strings:Strings.TheOrderWasPlacedTo}}"/>
+
+                                            </DataTrigger>
+
+                                        </Label.Triggers>
+
+                                    </Label>
 
                                     <ffimageloading:CachedImage
                                         HorizontalOptions="EndAndExpand"
@@ -1214,6 +1249,7 @@
                                 <StackLayout
                                     Orientation="Horizontal"
                                     Spacing="6"
+                                    IsVisible="{Binding OrderRegistrationViewModel.OrderNotificationStatus, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:ENotificationType.OrderSaved}}"
                                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.GoToOrderTabsCommand}">
 
                                     <ffimageloading:CachedImage
@@ -1236,16 +1272,18 @@
                         <StackLayout
                             Margin="0, 30, 0, 0"
                             Spacing="6">
-                            
+
                             <StackLayout.Triggers>
+
                                 <DataTrigger
                                     TargetType="StackLayout"
-                                    Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
-                                    Value="True">
+                                    Binding="{Binding OrderRegistrationViewModel.OrderNotificationStatus, Converter={xct:EqualConverter}, ConverterParameter={x:Static enums:ENotificationType.None}}"
+                                    Value="False">
 
                                     <Setter Property="Margin" Value="0, 40, 0, 0" />
 
                                 </DataTrigger>
+                                
                             </StackLayout.Triggers>
 
                             <ffimageloading:CachedImage
@@ -1325,21 +1363,21 @@
                         </StackLayout>
 
                     </StackLayout>
-                </CollectionView.EmptyView>
+                </controls:CustomCollectionView.EmptyView>
 
-                <CollectionView.GroupHeaderTemplate>
+                <controls:CustomCollectionView.GroupHeaderTemplate>
                     <DataTemplate>
                         <templates:SeatHeaderItemTemplate />
                     </DataTemplate>
-                </CollectionView.GroupHeaderTemplate>
+                </controls:CustomCollectionView.GroupHeaderTemplate>
 
-                <CollectionView.ItemTemplate>
+                <controls:CustomCollectionView.ItemTemplate>
                     <DataTemplate>
                         <templates:DishesGroupedBySeatItemTemplate />
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
+                </controls:CustomCollectionView.ItemTemplate>
 
-            </CollectionView>
+            </controls:CustomCollectionView>
 
             <!-- SUMMARY -->
             <StackLayout 

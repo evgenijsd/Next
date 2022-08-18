@@ -1,13 +1,7 @@
-﻿using Next2.Services.Authentication;
-using Next2.Views.Tablet;
-using Prism.Navigation;
-using Prism.Services.Dialogs;
+﻿using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Helpers;
 
@@ -15,29 +9,18 @@ namespace Next2.Services.Notifications
 {
     public class NotificationsService : INotificationsService
     {
-        private readonly IAuthenticationService _authenticationService;
         private readonly IPopupNavigation _popupNavigation;
-        private readonly INavigationService _navigationService;
 
-        public NotificationsService(
-            IAuthenticationService authenticationService,
-            INavigationService navigationService,
-            IPopupNavigation popupNavigation)
+        public NotificationsService(IPopupNavigation popupNavigation)
         {
-            _authenticationService = authenticationService;
-            _navigationService = navigationService;
             _popupNavigation = popupNavigation;
         }
 
         #region -- INotificationsService implementation --
 
-        public async Task ResponseToBadRequestAsync(string statusCode)
+        public async Task ResponseToBadRequestAsync(string? statusCode)
         {
-            if (statusCode == Constants.StatusCode.UNAUTHORIZED)
-            {
-                await PerformLogoutAsync();
-            }
-            else if (statusCode == Constants.StatusCode.SOCKET_CLOSED)
+            if (statusCode == Constants.StatusCode.SOCKET_CLOSED)
             {
                 await ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
@@ -46,10 +29,7 @@ namespace Next2.Services.Notifications
             }
             else
             {
-                await ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["SomethingWentWrong"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await ShowSomethingWentWrongDialogAsync();
             }
         }
 
@@ -69,6 +49,22 @@ namespace Next2.Services.Notifications
             return _popupNavigation.PushAsync(infoDialog);
         }
 
+        public Task ShowNoInternetConnectionDialogAsync()
+        {
+            return ShowInfoDialogAsync(
+                LocalizationResourceManager.Current["Error"],
+                LocalizationResourceManager.Current["NoInternetConnection"],
+                LocalizationResourceManager.Current["Ok"]);
+        }
+
+        public Task ShowSomethingWentWrongDialogAsync()
+        {
+            return ShowInfoDialogAsync(
+                LocalizationResourceManager.Current["Error"],
+                LocalizationResourceManager.Current["SomethingWentWrong"],
+                LocalizationResourceManager.Current["Ok"]);
+        }
+
         public async Task CloseAllPopupAsync()
         {
             if (_popupNavigation.PopupStack.Any())
@@ -77,20 +73,12 @@ namespace Next2.Services.Notifications
             }
         }
 
-        #endregion
-
-        #region -- Private helpers --
-
-        private Task PerformLogoutAsync()
+        public async Task ClosePopupAsync()
         {
-            _authenticationService.ClearSession();
-
-            var navigationParameters = new NavigationParameters
+            if (_popupNavigation.PopupStack.Any())
             {
-                { Constants.Navigations.LOGOUT, true },
-            };
-
-            return _navigationService.NavigateAsync($"{nameof(LoginPage)}", navigationParameters);
+                await _popupNavigation.PopAsync();
+            }
         }
 
         #endregion

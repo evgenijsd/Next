@@ -84,12 +84,18 @@ namespace Next2.Services.Authentication
 
                     var response = await _restService.RequestAsync<GenericExecutionResult<LoginQueryResult>>(HttpMethod.Post, query, employee);
 
-                    if (response.Success)
+                    if (response.Success && response.Value is not null)
                     {
+                        var tokens = response.Value.Tokens;
+
                         _settingsManager.UserId = id;
                         _settingsManager.IsAuthorizationComplete = true;
-                        _settingsManager.Token = response.Value.Tokens.AccessToken;
-                        _settingsManager.RefreshToken = response.Value.Tokens.RefreshToken;
+                        _settingsManager.Token = tokens.AccessToken is null
+                            ? string.Empty
+                            : tokens.AccessToken;
+                        _settingsManager.RefreshToken = tokens.RefreshToken is null
+                            ? string.Empty
+                            : tokens.RefreshToken;
                         _settingsManager.TokenExpirationDate = DateTime.Now.AddHours(Constants.API.TOKEN_EXPIRATION_TIME);
 
                         var roles = response.Value.Roles;

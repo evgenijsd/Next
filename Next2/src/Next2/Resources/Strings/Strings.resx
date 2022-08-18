@@ -726,6 +726,21 @@ A receipt has been printed for you.</value>
   <data name="NoTable" xml:space="preserve">
     <value>No table</value>
   </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="BackOffice" xml:space="preserve">
+    <value>Back Office</value>
+  </data>
+  <data name="ProgramDevice" xml:space="preserve">
+    <value>Program Device</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="SelectDate" xml:space="preserve">
+    <value>Select Date</value>
+  </data>
   <data name="NoTablesAvailable" xml:space="preserve">
     <value>No tables available</value>
   </data>
@@ -758,5 +773,32 @@ A receipt has been printed for you.</value>
   </data>
   <data name="SelectServer" xml:space="preserve">
     <value>Select Server</value>
+  </data>
+  <data name="ThisReservationWillBeRemoved" xml:space="preserve">
+    <value>This reservation will be removed.</value>
+  </data>
+  <data name="ReservationInfo" xml:space="preserve">
+    <value>Reservation Info</value>
+  </data>
+  <data name="SelectedTable" xml:space="preserve">
+    <value>Selected Table</value>
+  </data>
+  <data name="NoNotes" xml:space="preserve">
+    <value>No notes</value>
+  </data>
+  <data name="Pt" xml:space="preserve">
+    <value>pt</value>
+  </data>
+  <data name="AssignFrom" xml:space="preserve">
+    <value>Assign From</value>
+  </data>
+  <data name="AssignTo" xml:space="preserve">
+    <value>Assign To</value>
+  </data>
+  <data name="ChooseWaiter" xml:space="preserve">
+    <value>Choose Waiter</value>
+  </data>
+  <data name="TheOrderHasBeenRemoved" xml:space="preserve">
+    <value>The order #{0} has been removed</value>
   </data>
 </root>

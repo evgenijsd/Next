@@ -20,6 +20,7 @@ namespace Next2.ViewModels.Dialogs
             IMapper mapper)
         {
             _mapper = mapper;
+
             SetupParameters(parameters);
 
             RequestClose = requestClose;
@@ -31,15 +32,15 @@ namespace Next2.ViewModels.Dialogs
 
         public DateTime? SelectedEndDate { get; set; } = null;
 
-        public MemberBindableModel Member { get; set; }
+        public MemberBindableModel Member { get; set; } = new();
 
         public Action<IDialogParameters> RequestClose;
 
-        private ICommand _closeCommand;
+        private ICommand? _closeCommand;
 
         public ICommand CloseCommand => _closeCommand ??= new AsyncCommand(OnCloseCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _membershipEditCommand;
+        private ICommand? _membershipEditCommand;
 
         public ICommand MembershipEditCommand => _membershipEditCommand ??= new AsyncCommand<EMembershipEditType>(OnMembershipEditCommandAsync, allowsMultipleExecutions: false);
 
@@ -68,8 +69,11 @@ namespace Next2.ViewModels.Dialogs
 
                 case EMembershipEditType.Save:
                     TimeSpan time = new(1, 0, 0);
+
                     Member.StartDate = (SelectedDate ?? Member.StartDate) + time;
+
                     time = new(23, 0, 0);
+
                     Member.EndDate = (SelectedEndDate ?? Member.EndDate) + time;
 
                     if (Member.StartDate > Member.EndDate)

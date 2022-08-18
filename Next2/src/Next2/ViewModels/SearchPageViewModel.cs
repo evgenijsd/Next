@@ -1,4 +1,6 @@
 ﻿using Next2.Enums;
+using Next2.Services.Authentication;
+using Next2.Services.Notifications;
 using Prism.Navigation;
 using System;
 using System.ComponentModel;
@@ -12,8 +14,11 @@ namespace Next2.ViewModels
     {
         private ESearchType _searchType;
 
-        public SearchPageViewModel(INavigationService navigationService)
-            : base(navigationService)
+        public SearchPageViewModel(
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService)
+            : base(navigationService, authenticationService, notificationsService)
         {
         }
 
@@ -23,13 +28,13 @@ namespace Next2.ViewModels
 
         public bool IsOrderTabsSelected { get; set; } = true;
 
-        public Func<string, string> ApplySearchFilter;
+        public Func<string, string>? ApplySearchFilter;
 
         public string SearchLine { get; set; } = string.Empty;
 
         public string Placeholder { get; set; } = string.Empty;
 
-        private ICommand _goBackCommand;
+        private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand<string>(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
         #endregion

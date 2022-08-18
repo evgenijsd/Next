@@ -23,6 +23,9 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>$(SolutionDir)\stylecop\StyleCopRuleSet.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>portable</DebugType>
@@ -152,6 +155,7 @@
     <Compile Include="Effects\TouchEffect.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Effects\ScrollBarColorEffect.cs" />
+    <Compile Include="Renderers\CustomCollectionViewRenderer.cs" />
     <Compile Include="Renderers\NoCrashFrameRenderer.cs" />
     <Compile Include="Renderers\NoActionMenuEntryRenderer.cs" />
     <Compile Include="Renderers\CustomScrollBarCollectionViewRenderer.cs" />
