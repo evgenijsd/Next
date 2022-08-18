@@ -45,9 +45,7 @@
                         <controls:CustomCollectionView
                             Grid.Column="0"
                             Margin="35, 95, 0, 0"
-                            SelectionMode="Single"
                             BounceMode="DisabledForAndroidAndiOS"
-                            SelectedItem="{Binding SelectedTipItem}"
                             ItemsSource="{Binding TipValueItems}">
 
                             <controls:CustomCollectionView.ItemsLayout>
@@ -71,29 +69,17 @@
                                         xct:TouchEffect.Command="{Binding TapCommand}"
                                         xct:TouchEffect.CommandParameter="{Binding .}">
 
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup Name="CommonStates">
-
-                                                <VisualState Name="Selected">
-
-                                                    <VisualState.Setters>
-                                                        <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-                                                        <Setter Property="BorderColor" Value="{DynamicResource AppColor_i1}" />
-                                                    </VisualState.Setters>
-
-                                                </VisualState>
-
-                                                <VisualState Name="Normal">
-
-                                                    <VisualState.Setters>
-                                                        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
-                                                        <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
-                                                    </VisualState.Setters>
-
-                                                </VisualState>
-
-                                            </VisualStateGroup>
-                                        </VisualStateManager.VisualStateGroups>
+                                        <Frame.Triggers>
+                                            <DataTrigger
+                                                TargetType="Frame"
+                                                Binding="{Binding IsSelected}"
+                                                Value="True">
+                                                
+                                                <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+                                                <Setter Property="BorderColor" Value="{DynamicResource AppColor_i1}" />
+                                                
+                                            </DataTrigger>
+                                        </Frame.Triggers>
 
                                         <StackLayout Orientation="Horizontal">
 
