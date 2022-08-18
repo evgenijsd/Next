@@ -11,7 +11,7 @@
     <Frame
         Padding="0, 12"
         HeightRequest="35"
-        Margin="10, 10, 0, 0"
+        Margin="7, 10, 3, 0"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
         BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
         CornerRadius="{OnPlatform Android='5', iOS='8'}"
@@ -30,35 +30,31 @@
             </DataTrigger>
         </Frame.Triggers>
 
-        <StackLayout Orientation="Horizontal">
+        <Label
+            Text="{Binding Text}"
+            Padding="20, 0"
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+            VerticalTextAlignment="Center"
+            HorizontalTextAlignment="Center"
+            FontSize="{DynamicResource TSize_i7}"
+            FontFamily="Barlow-Medium"
+            HorizontalOptions="FillAndExpand">
 
-            <Label
-                Text="{Binding Text}"
-                Padding="20, 0"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                VerticalTextAlignment="Center"
-                HorizontalTextAlignment="Center"
-                FontSize="{DynamicResource TSize_i7}"
-                FontFamily="Barlow-Medium"
-                HorizontalOptions="FillAndExpand">
+            <Label.Triggers>
 
-                <Label.Triggers>
+                <DataTrigger
+                    TargetType="Label"
+                    Binding="{Binding TipType}"
+                    Value="{Static enum:ETipType.Other}">
 
-                    <DataTrigger
-                        TargetType="Label"
-                        Binding="{Binding TipType}"
-                        Value="{Static enum:ETipType.Other}">
+                    <Setter Property="Text" Value="{xct:Translate Other}" />
 
-                        <Setter Property="Text" Value="{xct:Translate Other}" />
+                </DataTrigger>
 
-                    </DataTrigger>
+            </Label.Triggers>
 
-                </Label.Triggers>
-
-            </Label>
-
-        </StackLayout>
-
+        </Label>
+        
     </Frame>
     
 </Grid>
