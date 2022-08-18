@@ -161,6 +161,11 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
+            if (parameters.ContainsKey(Constants.Navigations.DELETE_DISH))
+            {
+                await UpdateDishGroupsAsync();
+            }
+
             if (parameters.ContainsKey(Constants.Navigations.DISH_MODIFIED))
             {
                 await RefreshCurrentOrderAsync();
