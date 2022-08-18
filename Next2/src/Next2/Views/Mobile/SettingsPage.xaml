@@ -1,7 +1,7 @@
 ﻿<views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prism="http://prismlibrary.com"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
@@ -14,101 +14,103 @@
 
     <StackLayout>
 
+        <StackLayout.Resources>
+
+            <Style x:Key="LabelStyle_i1" TargetType="Label">
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
+                <Setter Property="FontFamily" Value="Barlow-Medium"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="Margin" Value="15, 0, 0, 0"/>
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+            </Style>
+
+            <Style x:Key="CachedImageStyle_i1" TargetType="ffimageloading:CachedImage">
+                <Setter Property="Margin" Value="0, 0, 18, 0"/>
+                <Setter Property="HeightRequest" Value="24"/>
+                <Setter Property="HorizontalOptions" Value="End"/>
+            </Style>
+
+        </StackLayout.Resources>
+
         <controls:CustomNavigationBar
-            Title="{xct:Translate Settings}"
-            Padding="12, 18, 12, 16"
             Spacing="14"
+            Padding="12, 18, 12, 16"
+            Title="{xct:Translate Settings}"
             LeftButtonCommand="{prism:GoBack}"
             HeightImage="24"
             FontSize="{DynamicResource TSize_i5}" />
 
-        <BoxView
+        <BoxView 
             VerticalOptions="Start"
             HeightRequest="1"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
         <controls:CustomFrame
+            Style="{DynamicResource CustomFrameStyle_1}"
             Margin="20, 25, 20, 0"
-            VerticalOptions="Start"
-            HeightRequest="57"
-            BorderWidth="1"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-            BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-            CornerRadius="{OnPlatform Android='5', iOS='8'}">
+            xct:TouchEffect.Command="{Binding ReassignTableCommand}">
 
             <StackLayout Orientation="Horizontal">
 
                 <Label
-                    Margin="15, 0, 0, 0"
-                    VerticalTextAlignment="Center"
-                    HorizontalOptions="FillAndExpand"
-                    Text="{xct:Translate ReAssignTable}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontSize="{DynamicResource TSize_i8}"
-                    FontFamily="Barlow-Medium" />
+                    Style="{DynamicResource LabelStyle_i1}"
+                    Text="{xct:Translate ReAssignTable}"/>
 
-                <ffimageloading:CachedImage
-                    Margin="0, 0, 18, 0"
-                    HorizontalOptions="End"
-                    HeightRequest="24"
-                    Source="ic_arrow_right_40x40" />
+                <ffimageloading:CachedImage 
+                    Style="{DynamicResource CachedImageStyle_i1}"
+                    Source="ic_arrow_right_40x40"/>
 
             </StackLayout>
 
         </controls:CustomFrame>
 
-        <controls:CustomFrame
+        <controls:CustomFrame 
+            Style="{DynamicResource CustomFrameStyle_1}"
             Margin="20, 15, 20, 0"
-            VerticalOptions="Start"
-            HeightRequest="57"
-            BorderWidth="1"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-            BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-            CornerRadius="{OnPlatform Android='5', iOS='8'}"
+            IsEnabled="{Binding IsLoading, Converter={xct:InvertedBoolConverter}}"
             xct:TouchEffect.Command="{prism:NavigateTo Name='PrintReceiptPage'}">
 
             <StackLayout Orientation="Horizontal">
 
                 <Label
-                    Margin="15, 0, 0, 0"
-                    VerticalTextAlignment="Center"
-                    HorizontalOptions="FillAndExpand"
-                    Text="{xct:Translate PrintReceipt}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontSize="{DynamicResource TSize_i8}"
-                    FontFamily="Barlow-Medium" />
+                    Style="{DynamicResource LabelStyle_i1}"
+                    Text="{xct:Translate PrintReceipt}"/>
 
-                <ffimageloading:CachedImage
-                    Margin="0, 0, 18, 0"
-                    HorizontalOptions="End"
-                    HeightRequest="24"
-                    Source="ic_arrow_right_40x40" />
+                <ffimageloading:CachedImage 
+                    Style="{DynamicResource CachedImageStyle_i1}"
+                    Source="ic_arrow_right_40x40"/>
 
             </StackLayout>
 
         </controls:CustomFrame>
 
-        <StackLayout
+        <ActivityIndicator
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            IsRunning="{Binding IsLoading}"/>
+
+        <StackLayout 
             VerticalOptions="EndAndExpand"
             HeightRequest="70"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-            <BoxView
+            <BoxView 
                 VerticalOptions="Start"
                 HeightRequest="1"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
             <buttons:BorderButton
-                Margin="20, 12"
                 Padding="0"
-                HeightRequest="65"
                 BorderWidth="1"
                 BackgroundColor="{DynamicResource IndicationColor_i3}"
                 BorderColor="Transparent"
+                HeightRequest="65"
                 FontSize="{DynamicResource TSize_i6}"
+                Margin="20, 12"
                 FontFamily="Barlow-SemiBold"
                 Text="{xct:Translate LogOut_UpperCase}"
-                Command="{Binding LogOutCommand}" />
+                Command="{Binding LogOutCommand}"/>
 
         </StackLayout>
 

@@ -266,6 +266,8 @@
 
                                 <templates:CategoryItemTemplate
                                     HeightRequest="40"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                                    ItemColor="{DynamicResource TextAndBackgroundColor_i3}"
                                     Text="{Binding Name}"
                                     FontSize="{DynamicResource TSize_i8}"
                                     FontFamily="Barlow-SemiBold"/>
