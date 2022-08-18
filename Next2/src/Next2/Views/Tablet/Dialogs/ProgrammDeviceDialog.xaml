@@ -52,7 +52,9 @@
 
     </rg:PopupPage.Resources>
 
-    <sc:StateContainer State="{Binding ProgrammingStep}">
+    <sc:StateContainer
+        PropertyChanged="OnPropertyChanged"
+        State="{Binding ProgrammingStep}">
 
         <sc:StateCondition State="{Static enums:EStep.First}">
 
@@ -119,9 +121,8 @@
                         HorizontalOptions="Center"
                         HeightRequest="210"
                         WidthRequest="210"
-                        Rotation="{Binding ImageRotation}"
-                        Scale="{Binding ImageScale}"
-                        Source="pic_settings.png" />
+                        Source="pic_settings.png"
+                        x:Name="settingsImage" />
 
                     <Label
                         Style="{DynamicResource LableStyle}"
