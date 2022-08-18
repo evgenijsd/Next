@@ -30,34 +30,32 @@
             </DataTrigger>
         </Frame.Triggers>
 
-        <StackLayout Orientation="Horizontal">
+        <Label
+            Text="{Binding Text}"
+            Padding="20, 0"
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+            VerticalTextAlignment="Center"
+            HorizontalTextAlignment="Center"
+            FontSize="{DynamicResource TSize_i7}"
+            FontFamily="Barlow-Medium"
+            HorizontalOptions="FillAndExpand">
 
-            <Label
-                Text="{Binding Text}"
-                Padding="20, 0"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                VerticalTextAlignment="Center"
-                HorizontalTextAlignment="Center"
-                FontSize="{DynamicResource TSize_i7}"
-                FontFamily="Barlow-Medium"
-                HorizontalOptions="FillAndExpand">
+            <Label.Triggers>
 
-                <Label.Triggers>
+                <DataTrigger
+                    TargetType="Label"
+                    Binding="{Binding TipType}"
+                    Value="{Static enum:ETipType.Other}">
 
-                    <DataTrigger
-                        TargetType="Label"
-                        Binding="{Binding TipType}"
-                        Value="{Static enum:ETipType.Other}">
+                    <Setter
+                        Property="Text"
+                        Value="{xct:Translate Other}" />
 
-                        <Setter Property="Text" Value="{xct:Translate Other}" />
+                </DataTrigger>
 
-                    </DataTrigger>
+            </Label.Triggers>
 
-                </Label.Triggers>
-
-            </Label>
-
-        </StackLayout>
+        </Label>
 
     </Frame>
     
