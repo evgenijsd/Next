@@ -51,6 +51,8 @@ namespace Next2.ViewModels
         private SeatBindableModel? _seatWithSelectedDish;
         private DishBindableModel? _rememberPositionSelection;
 
+        private ELoadingState _externalPageLoadStatus;
+
         private bool _isAnyDishChosen;
 
         public OrderRegistrationViewModel(
@@ -73,6 +75,8 @@ namespace Next2.ViewModels
             _notificationsService = notificationsService;
 
             CurrentState = ENewOrderViewState.InProgress;
+
+            _eventAggregator.GetEvent<LoadingStateEvent>().Subscribe(GetLoadingStateOfExternalPage);
 
             _seatSelectionCommand = new AsyncCommand<DishesGroupedBySeat>(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
             _deleteSeatCommand = new AsyncCommand<DishesGroupedBySeat>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
@@ -443,7 +447,7 @@ namespace Next2.ViewModels
                     Tables = new(Tables.OrderBy(x => x?.TableNumber));
                 }
             }
-            else
+            else if (_externalPageLoadStatus == ELoadingState.Completed)
             {
                 await _notificationsService.ResponseToBadRequestAsync(freeTablesResult.Exception?.Message);
             }
@@ -1343,6 +1347,11 @@ namespace Next2.ViewModels
 
                 CurrentOrder.PriceTax = 0;
             }
+        }
+
+        private void GetLoadingStateOfExternalPage(ELoadingState currentState)
+        {
+            _externalPageLoadStatus = currentState;
         }
 
         #endregion
