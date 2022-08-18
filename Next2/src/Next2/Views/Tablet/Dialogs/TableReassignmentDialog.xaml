@@ -194,11 +194,9 @@
 
                 <controls:DropDownList.DataTemplate>
 
-                    <DataTemplate>
+                    <DataTemplate x:DataType="modelsApi:OccupiedTableModelDTO">
 
-                        <templates:TextItemTemplate 
-                            x:DataType="modelsApi:OccupiedTableModelDTO"
-                            Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+                        <templates:TextItemTemplate Style="{DynamicResource StackLayoutTemplateStyle_i1}">
 
                             <templates:TextItemTemplate.FormattedText>
                                 <FormattedString>

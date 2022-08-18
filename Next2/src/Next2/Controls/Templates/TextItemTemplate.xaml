@@ -10,8 +10,7 @@
     <StackLayout
         VerticalOptions="FillAndExpand"
         Spacing="0"
-        Margin="{Binding TextMargin, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}"
-        Orientation="Horizontal">
+        Margin="{Binding TextMargin, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}">
 
         <Label
             VerticalOptions="FillAndExpand"

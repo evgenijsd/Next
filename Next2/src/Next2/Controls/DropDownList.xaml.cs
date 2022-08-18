@@ -279,7 +279,6 @@ namespace Next2.Controls
 
             if (propertyName
                 is nameof(ItemsSource)
-                or nameof(_itemHeight)
                 or nameof(MaxNumberOfVisibleItems))
             {
                 if (ItemsSource is not null && _itemHeight > 0)
@@ -298,8 +297,7 @@ namespace Next2.Controls
             {
                 itemsCollection.ScrollTo(itemsCollection.SelectedItem, position: ScrollToPosition.Center, animate: false);
             }
-
-            if (propertyName is nameof(DataTemplate))
+            else if (propertyName is nameof(DataTemplate))
             {
                 var itemView = (View)itemsCollection.ItemTemplate.CreateContent();
                 _itemHeight = itemView.HeightRequest;
