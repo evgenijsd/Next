@@ -14,7 +14,7 @@
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models.Bindables"
-    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:templates="clr-namespace:Next2.Controls.Templates"
     x:Class="Next2.Views.Tablet.HoldDishesView"
     x:DataType="viewModels:HoldDishesViewModel">
 
@@ -422,53 +422,38 @@
                 </controls:DropDownList.Triggers>
 
                 <controls:DropDownList.DataTemplate>
-                    <DataTemplate>
-                        
-                        <StackLayout
+
+                    <DataTemplate x:DataType="models:TableBindableModel">
+
+                        <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                             xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+                            <templates:TextItemTemplate.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate Table}"/>
+                                    <Span Text=" "/>
+                                    <Span Text="{Binding TableNumber}"/>
+                                </FormattedString>
+                            </templates:TextItemTemplate.FormattedText>
 
-                            <StackLayout
-                                Padding="14, 9"
-                                HeightRequest="21"
-                                Orientation="Horizontal"
-                                x:DataType="models:TableBindableModel">
+                            <templates:TextItemTemplate.Triggers>
 
-                                <Label
-                                    FontFamily="Barlow-Medium"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                    FontSize="{DynamicResource TSize_i8}"
-                                    HorizontalOptions="FillAndExpand">
-                                    
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="{xct:Translate Table}" />
-                                            <Span Text=" " />
-                                            <Span Text="{Binding TableNumber}" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
+                                <DataTrigger
+                                    TargetType="templates:TextItemTemplate"
+                                    Binding="{Binding TableNumber}"
+                                    Value="{x:Static local:Constants+Limits.ALL_TABLES}">
 
-                                    <Label.Triggers>
+                                    <Setter Property="FormattedText" Value="{xct:Translate AllTables}" />
 
-                                        <DataTrigger
-                                            TargetType="Label"
-                                            Binding="{Binding TableNumber}"
-                                            Value="{x:Static local:Constants+Limits.ALL_TABLES}">
+                                </DataTrigger>
 
-                                            <Setter Property="FormattedText" Value="{xct:Translate AllTables}" />
+                            </templates:TextItemTemplate.Triggers>
 
-                                        </DataTrigger>
+                        </templates:TextItemTemplate>
 
-                                    </Label.Triggers>
-
-                                </Label>
-
-                            </StackLayout>
-
-                        </StackLayout>
                     </DataTemplate>
+
                 </controls:DropDownList.DataTemplate>
 
             </controls:DropDownList>

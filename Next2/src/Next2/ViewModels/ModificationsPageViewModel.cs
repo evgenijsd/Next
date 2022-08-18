@@ -332,8 +332,22 @@ namespace Next2.ViewModels
                         TapCommand = TapSubmenuCommand,
                     };
 
+                    result.PropertyChanged += SelectedOptionPropertyChanged;
+
                     return result;
                 }));
+            }
+        }
+
+        private void SelectedOptionPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is SpoilerBindableModel spoiler
+                && e.PropertyName is nameof(spoiler.SelectedItem)
+                && SelectedIngredientCategory is not null
+                && spoiler.SelectedItem is not null
+                && spoiler.SelectedItem.State != ESubmenuItemsModifactions.Inventory)
+            {
+                SelectedIngredientCategory = null;
             }
         }
 

@@ -47,6 +47,8 @@ namespace Next2.Services.Order
 
         Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients);
 
+        Task<AOResult> UpdateOrdersAsync(IEnumerable<Guid> ordersId, string employeeId);
+
         IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders, EOrdersSortingType sortingType);
 
         decimal CalculateDishPriceBaseOnProportion(DishBindableModel dish, decimal priceRatio, IEnumerable<IngredientModelDTO> ingredients);

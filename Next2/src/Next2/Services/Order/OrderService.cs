@@ -47,6 +47,8 @@ namespace Next2.Services.Order
 
         #region -- Public properties --
 
+        public DateTime DateTime = new();
+
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
         public SeatBindableModel? CurrentSeat { get; set; }
@@ -696,6 +698,58 @@ namespace Next2.Services.Order
             return orders.OrderBy(sortingSelector);
         }
 
+        public async Task<AOResult> UpdateOrdersAsync(IEnumerable<Guid> ordersId, string employeeId)
+        {
+            var resultOfUpdatingOrder = new AOResult();
+
+            bool isSuccess = true;
+
+            try
+            {
+                var resultOfGettingOrders = await GetOrdersModelDTOAsync(ordersId);
+
+                if (resultOfGettingOrders.IsSuccess)
+                {
+                    var orders = resultOfGettingOrders.Result;
+
+                    foreach (var order in orders)
+                    {
+                        order.EmployeeId = employeeId;
+
+                        resultOfUpdatingOrder = await UpdateOrderAsync(order);
+
+                        if (!resultOfUpdatingOrder.IsSuccess)
+                        {
+                            if (resultOfUpdatingOrder.Exception is not null)
+                            {
+                                throw resultOfUpdatingOrder.Exception;
+                            }
+                            else
+                            {
+                                isSuccess = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (isSuccess)
+                    {
+                        resultOfUpdatingOrder.SetSuccess();
+                    }
+                }
+                else if(resultOfGettingOrders.Exception is not null)
+                {
+                    throw resultOfGettingOrders.Exception;
+                }
+            }
+            catch (Exception ex)
+            {
+                resultOfUpdatingOrder.SetError($"{nameof(UpdateOrdersAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return resultOfUpdatingOrder;
+        }
+
         #endregion
 
         #region -- Private helpers --
@@ -908,6 +962,52 @@ namespace Next2.Services.Order
                     }
                 }
             }
+        }
+
+        private async Task<AOResult<IEnumerable<OrderModelDTO>>> GetOrdersModelDTOAsync(IEnumerable<Guid> ordersId)
+        {
+            var result = new AOResult<IEnumerable<OrderModelDTO>>();
+
+            bool isSuccess = true;
+
+            try
+            {
+                var orderIdsNumber = ordersId.Count();
+
+                OrderModelDTO[] orderModelsDTO = new OrderModelDTO[orderIdsNumber];
+
+                List<Guid> orderIds = new(ordersId);
+
+                for (int i = 0; i < orderIdsNumber; i++)
+                {
+                    var resultOfGettingOrder = await GetOrderByIdAsync(orderIds[i]);
+
+                    if (resultOfGettingOrder.IsSuccess)
+                    {
+                        orderModelsDTO[i] = resultOfGettingOrder.Result;
+                    }
+                    else if(resultOfGettingOrder.Exception is not null)
+                    {
+                        throw resultOfGettingOrder.Exception;
+                    }
+                    else
+                    {
+                        isSuccess = false;
+                        break;
+                    }
+                }
+
+                if (isSuccess)
+                {
+                    result.SetSuccess(orderModelsDTO);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetOrdersModelDTOAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
         }
 
         #endregion

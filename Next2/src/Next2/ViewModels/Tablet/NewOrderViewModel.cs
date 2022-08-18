@@ -1,6 +1,7 @@
 using Acr.UserDialogs;
 using AutoMapper;
 using Next2.Enums;
+using Next2.Helpers.Events;
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
@@ -11,6 +12,7 @@ using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Services.WorkLog;
 using Next2.Views.Tablet;
+using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System;
@@ -27,6 +29,7 @@ namespace Next2.ViewModels.Tablet
     public class NewOrderViewModel : BaseViewModel, IPageActionsHandler
     {
         private readonly IMapper _mapper;
+        private readonly IEventAggregator _eventAggregator;
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
         private readonly IWorkLogService _workLogService;
@@ -40,6 +43,7 @@ namespace Next2.ViewModels.Tablet
             INavigationService navigationService,
             IAuthenticationService authenticationService,
             INotificationsService notificationsService,
+            IEventAggregator eventAggregator,
             IMenuService menuService,
             OrderRegistrationViewModel orderRegistrationViewModel,
             IWorkLogService workLogService,
@@ -48,6 +52,7 @@ namespace Next2.ViewModels.Tablet
             : base(navigationService, authenticationService, notificationsService)
         {
             _menuService = menuService;
+            _eventAggregator = eventAggregator;
             _orderService = orderService;
             _workLogService = workLogService;
             _mapper = mapper;
@@ -241,6 +246,8 @@ namespace Next2.ViewModels.Tablet
                     CategoriesLoadingState = ELoadingState.Completed;
                     OrderRegistrationViewModel.CurrentState = ENewOrderViewState.Default;
 
+                    _eventAggregator.GetEvent<LoadingStateEvent>().Publish(ELoadingState.Completed);
+
                     Categories = new(resultGettingCategories.Result);
                     SelectedCategoriesItem = Categories.FirstOrDefault();
                 }
@@ -292,6 +299,8 @@ namespace Next2.ViewModels.Tablet
                         : new(resultGettingDishes.Result.OrderBy(row => row.Name));
 
                     DishesLoadingState = ELoadingState.Completed;
+
+                    _eventAggregator.GetEvent<LoadingStateEvent>().Publish(ELoadingState.Completed);
                 }
                 else if (resultGettingDishes.Exception?.Message == Constants.StatusCode.UNAUTHORIZED)
                 {
