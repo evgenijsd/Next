@@ -79,8 +79,7 @@
                         Padding="12"
                         Text="{xct:Translate ReAssignTable}"
                         Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
-                        xct:TouchEffect.Command="{Binding ChangeStateCommand}"
-                        xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.ReAssignTable}" />
+                        xct:TouchEffect.Command="{Binding ReassignTableCommand}"/>
 
                     <buttons:IconTextButton
                         Style="{DynamicResource IconTextButtonStyle}"
@@ -124,5 +123,11 @@
         </sc:StateCondition>
 
     </sc:StateContainer>
+
+    <ActivityIndicator
+        Grid.Row="1"
+        HorizontalOptions="Center"
+        VerticalOptions="Center"
+        IsRunning="{Binding IsLoading}"/>
 
 </Grid>

@@ -1,12 +1,12 @@
 ﻿using Next2.Enums;
 using Next2.Models;
+using Next2.Services.Authentication;
 using Next2.Services.Menu;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -23,24 +23,23 @@ namespace Next2.ViewModels.Mobile
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
 
-        private readonly INotificationsService _notificationsService;
-
         private MenuItemBindableModel _oldSelectedMenuItem = new();
 
         public MenuPageViewModel(
             INavigationService navigationService,
-            IMenuService menuService,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
+            IMenuService menuService,
             IOrderService orderService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _menuService = menuService;
             _orderService = orderService;
-            _notificationsService = notificationsService;
 
             CanShowOrder = _orderService.CurrentOrder.Seats.Count > 0;
 
             InitMenuItems();
+
             Task.Run(OnRefreshCategoriesCommandAsync);
         }
 
@@ -169,6 +168,10 @@ namespace Next2.ViewModels.Mobile
                     Categories = new(resultCategories.Result);
                     CategoriesLoadingState = ELoadingState.Completed;
                 }
+                else if (resultCategories.Exception?.Message == Constants.StatusCode.UNAUTHORIZED)
+                {
+                    await PerformLogoutAsync();
+                }
                 else
                 {
                     CategoriesLoadingState = ELoadingState.Error;
@@ -191,10 +194,7 @@ namespace Next2.ViewModels.Mobile
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -207,20 +207,14 @@ namespace Next2.ViewModels.Mobile
 
             return IsInternetConnected
                 ? _navigationService.NavigateAsync(nameof(ChooseDishPage), navigationParams)
-                : _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                : _notificationsService.ShowNoInternetConnectionDialogAsync();
         }
 
         private Task GoToSettingsCommandAsync()
         {
             return IsInternetConnected
                 ? _navigationService.NavigateAsync($"{nameof(SettingsPage)}")
-                : _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                : _notificationsService.ShowNoInternetConnectionDialogAsync();
         }
 
         #endregion

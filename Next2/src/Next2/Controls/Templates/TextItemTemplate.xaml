@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    x:Class="Next2.Controls.Templates.TextItemTemplate">
+
+    <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+
+    <StackLayout
+        VerticalOptions="FillAndExpand"
+        Spacing="0"
+        Margin="{Binding TextMargin, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}">
+
+        <Label
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            FontFamily="Barlow-Medium"
+            VerticalTextAlignment="Center"
+            FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}"
+            FormattedText="{Binding FormattedText, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}"/>
+
+    </StackLayout>
+
+</StackLayout>

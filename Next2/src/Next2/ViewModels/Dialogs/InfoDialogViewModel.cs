@@ -13,7 +13,9 @@ namespace Next2.ViewModels.Dialogs
             Action requestClose)
         {
             LoadPageData(parameters);
+
             RequestClose = requestClose;
+
             CloseCommand = new Command(() => RequestClose());
         }
 

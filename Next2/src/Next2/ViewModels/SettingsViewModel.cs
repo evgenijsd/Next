@@ -1,5 +1,6 @@
 using Next2.Enums;
 using Next2.Services.Authentication;
+using Next2.Services.Employees;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
@@ -8,6 +9,8 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
 using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -18,26 +21,30 @@ namespace Next2.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        private readonly IAuthenticationService _authenticationService;
         private readonly IOrderService _orderService;
-        private readonly INotificationsService _notificationsService;
+        private readonly IEmployeesService _employeesService;
+
+        private CancellationTokenSource _cancelTokenSource = new();
+        private CancellationToken _token = new();
 
         public SettingsViewModel(
             INavigationService navigationService,
             IAuthenticationService authenticationService,
             INotificationsService notificationsService,
             PrintReceiptViewModel printReceiptViewModel,
-            IOrderService orderService)
-            : base(navigationService)
+            IOrderService orderService,
+            IEmployeesService employeesService)
+            : base(navigationService, authenticationService, notificationsService)
         {
-            _authenticationService = authenticationService;
             _orderService = orderService;
-            _notificationsService = notificationsService;
+            _employeesService = employeesService;
 
             PrintReceiptViewModel = printReceiptViewModel;
         }
 
         #region -- Public properties --
+
+        public bool IsLoading { get; set; }
 
         public string Title { get; set; } = LocalizationResourceManager.Current["Settings"];
 
@@ -53,6 +60,29 @@ namespace Next2.ViewModels
 
         private ICommand? _changeStateCommand;
         public ICommand ChangeStateCommand => _changeStateCommand ??= new AsyncCommand<ESettingsPageState>(OnChangeStateCommand, allowsMultipleExecutions: false);
+
+        private ICommand? _reassignTableCommand;
+        public ICommand ReassignTableCommand => _reassignTableCommand ??= new AsyncCommand(OnReassignTableCommandAsync, allowsMultipleExecutions: false);
+
+        #endregion
+
+        #region -- Overrides --
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            _cancelTokenSource = new CancellationTokenSource();
+            _token = _cancelTokenSource.Token;
+        }
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            _cancelTokenSource.Cancel();
+            _cancelTokenSource.Dispose();
+        }
 
         #endregion
 
@@ -71,7 +101,9 @@ namespace Next2.ViewModels
 
         private Task OnChangeStateCommand(ESettingsPageState state)
         {
-            PageState = state;
+            if (!IsLoading)
+            {
+                PageState = state;
 
             switch (state)
             {
@@ -133,6 +165,71 @@ namespace Next2.ViewModels
             else
             {
                 await _notificationsService.CloseAllPopupAsync();
+            }
+        }
+
+        private async Task OnReassignTableCommandAsync()
+        {
+            if (!IsLoading)
+            {
+                if (IsInternetConnected)
+                {
+                    IsLoading = true;
+
+                    var resultOfGettingEmployees = await _employeesService.GetEmployeesAsync();
+
+                    if (resultOfGettingEmployees.IsSuccess)
+                    {
+                        var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.EMPLOYEES, resultOfGettingEmployees.Result } };
+
+                        PopupPage confirmDialog = App.IsTablet
+                            ? new Next2.Views.Tablet.Dialogs.TableReassignmentDialog(dialogParameters, CloseReassignTableDialogCallback)
+                            : new Next2.Views.Mobile.Dialogs.TableReassignmentDialog(dialogParameters, CloseReassignTableDialogCallback);
+
+                        await PopupNavigation.PushAsync(confirmDialog);
+
+                        IsLoading = false;
+                    }
+                    else
+                    {
+                        await ResponseToUnsuccessfulRequestAsync(resultOfGettingEmployees.Exception?.Message);
+                    }
+                }
+                else
+                {
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
+                }
+            }
+        }
+
+        private async void CloseReassignTableDialogCallback(IDialogParameters dialogResult)
+        {
+            await _notificationsService.CloseAllPopupAsync();
+
+            if (IsInternetConnected)
+            {
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isTableReassignAccepted)
+                    && isTableReassignAccepted
+                    && dialogResult.TryGetValue(Constants.DialogParameterKeys.ORDERS_ID, out IEnumerable<Guid> ordersId)
+                    && ordersId is not null
+                    && dialogResult.TryGetValue(Constants.DialogParameterKeys.EMPLOYEE_ID, out string employeeIdToAssignTo)
+                    && employeeIdToAssignTo is not null)
+                {
+                    IsLoading = true;
+
+                    var resultOfUpdatingOrders = await _orderService.UpdateOrdersAsync(ordersId, employeeIdToAssignTo);
+
+                    if (!resultOfUpdatingOrders.IsSuccess && _token.IsCancellationRequested)
+                    {
+                        await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrders.Exception?.Message);
+                    }
+
+                    IsLoading = false;
+                }
+            }
+            else
+            {
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 

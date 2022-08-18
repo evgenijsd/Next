@@ -1,7 +1,6 @@
 ﻿using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models.API;
-using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using System;
@@ -47,6 +46,8 @@ namespace Next2.Services.Order
         Task<AOResult<Guid>> UpdateCurrentOrderAsync();
 
         Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients);
+
+        Task<AOResult> UpdateOrdersAsync(IEnumerable<Guid> ordersId, string employeeId);
 
         IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders, EOrdersSortingType sortingType);
 

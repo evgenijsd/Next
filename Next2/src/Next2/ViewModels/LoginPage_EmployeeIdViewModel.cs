@@ -1,4 +1,6 @@
-﻿using Prism.Navigation;
+﻿using Next2.Services.Authentication;
+using Next2.Services.Notifications;
+using Prism.Navigation;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -8,8 +10,11 @@ namespace Next2.ViewModels
 {
     public class LoginPage_EmployeeIdViewModel : BaseViewModel
     {
-        public LoginPage_EmployeeIdViewModel(INavigationService navigationService)
-          : base(navigationService)
+        public LoginPage_EmployeeIdViewModel(
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService)
+          : base(navigationService, authenticationService, notificationsService)
         {
         }
 

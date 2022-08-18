@@ -1,4 +1,5 @@
 using Next2.Services.Authentication;
+using Next2.Services.Notifications;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using System.ComponentModel;
@@ -11,14 +12,12 @@ namespace Next2.ViewModels
 {
     public class LoginPageViewModel : BaseViewModel
     {
-        private readonly IAuthenticationService _authenticationService;
-
         public LoginPageViewModel(
             INavigationService navigationService,
-            IAuthenticationService authenticationService)
-            : base(navigationService)
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService)
+            : base(navigationService, authenticationService, notificationsService)
         {
-            _authenticationService = authenticationService;
         }
 
         #region -- Public properties --
@@ -62,7 +61,7 @@ namespace Next2.ViewModels
 
                 EmployeeId = inputtedEmployeeId;
             }
-            else if (parameters.TryGetValue(Constants.Navigations.LOGOUT, out bool isUserLoggedOut))
+            else if (parameters.ContainsKey(Constants.Navigations.LOGOUT))
             {
                 await OnClearCommandAsync();
             }

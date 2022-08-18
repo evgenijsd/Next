@@ -4,9 +4,13 @@ namespace Next2.Services.Notifications
 {
     public interface INotificationsService
     {
+        Task ResponseToBadRequestAsync(string? statusCode);
+
         Task ShowInfoDialogAsync(string titleText, string descriptionText, string okText);
 
-        Task ResponseToBadRequestAsync(string? statusCode);
+        Task ShowNoInternetConnectionDialogAsync();
+
+        Task ShowSomethingWentWrongDialogAsync();
 
         Task CloseAllPopupAsync();
 
