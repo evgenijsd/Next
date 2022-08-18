@@ -200,9 +200,11 @@ namespace Next2.ViewModels
             {
                 if (decimal.TryParse(InputTip, out decimal tip))
                 {
-                    if (SelectedTipItem?.TipType != ETipType.Other)
+                    if (SelectedTipItem is TipItem selectedTipItem && selectedTipItem.TipType != ETipType.Other)
                     {
+                        SelectedTipItem.IsSelected = false;
                         SelectedTipItem = TipValueItems.FirstOrDefault(x => x.TipType == ETipType.Other);
+                        SelectedTipItem.IsSelected = true;
                     }
 
                     Order.Tip = tip / 100;
@@ -305,8 +307,13 @@ namespace Next2.ViewModels
                 },
             };
 
-            SelectedTipItem = TipValueItems.FirstOrDefault();
             var sign = LocalizationResourceManager.Current["CurrencySign"];
+            SelectedTipItem = TipValueItems.FirstOrDefault();
+
+            if (SelectedTipItem is not null)
+            {
+                SelectedTipItem.IsSelected = true;
+            }
 
             foreach (var tip in TipValueItems)
             {
@@ -323,17 +330,29 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnTapTipsItemCommandAsync(TipItem? item)
+        private Task OnTapTipsItemCommandAsync(TipItem? selectedTipItem)
         {
-            if (item is not null && item.TipType != ETipType.Other)
+            if (selectedTipItem is not null)
             {
-                IsClearedTip = true;
-                Order.Tip = item.Value;
-                IsClearedTip = false;
-            }
-            else
-            {
-                Order.Tip = 0;
+                selectedTipItem.IsSelected = true;
+
+                if (SelectedTipItem is not null && selectedTipItem != SelectedTipItem)
+                {
+                    SelectedTipItem.IsSelected = false;
+                }
+
+                SelectedTipItem = selectedTipItem;
+
+                if (selectedTipItem.TipType != ETipType.Other)
+                {
+                    IsClearedTip = true;
+                    Order.Tip = selectedTipItem.Value;
+                    IsClearedTip = false;
+                }
+                else
+                {
+                    Order.Tip = 0;
+                }
             }
 
             RecalculateTotal();
@@ -378,7 +397,7 @@ namespace Next2.ViewModels
                         if (SelectedTipItem != null)
                         {
                             navigationParams.Add(Constants.Navigations.TIP_TYPE, SelectedTipItem.TipType);
-                            navigationParams.Add(Constants.Navigations.TIP_VALUE, SelectedTipItem.Value);
+                            navigationParams.Add(Constants.Navigations.TIP_PERCENT, SelectedTipItem.PercentTip);
                         }
                     }
 

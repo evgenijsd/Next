@@ -125,7 +125,7 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue(Constants.Navigations.TIP_VALUE, out TipItem tipItem))
+            if (parameters.TryGetValue(Constants.Navigations.TIP_PERCENT, out TipItem tipItem))
             {
                 Order.Tip = tipItem.Value;
                 PaymentCompleteViewModel.SelectedTipItem = tipItem;
