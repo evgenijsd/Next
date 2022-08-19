@@ -144,6 +144,7 @@
             public const string EMPLOYEES = "EMPLOYEES";
             public const string EMPLOYEE_ID = "EMPLOYEE_ID";
             public const string TABLE = "TABLE";
+            public const string TABLES = "TABLES";
         }
 
         public static class API

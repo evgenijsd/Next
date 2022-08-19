@@ -13,10 +13,10 @@ namespace Next2.ViewModels.Dialogs
     public class FinishPaymentDialogViewModel : BindableBase
     {
         public FinishPaymentDialogViewModel(
-            DialogParameters param,
+            DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
-            SetupParameters(param);
+            SetupParameters(parameters);
 
             RequestClose = requestClose;
         }
@@ -40,15 +40,15 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private helpers --
 
-        private void SetupParameters(IDialogParameters param)
+        private void SetupParameters(IDialogParameters parameters)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.PAID_ORDER_BINDABLE_MODEL, out PaidOrderBindableModel order))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.PAID_ORDER_BINDABLE_MODEL, out PaidOrderBindableModel order))
             {
                 Order = order;
                 BonusType = Order.BonusType;
             }
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, out string tipValue))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, out string tipValue))
             {
                 TipValue = tipValue;
             }

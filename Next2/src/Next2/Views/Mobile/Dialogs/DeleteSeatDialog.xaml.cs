@@ -7,11 +7,13 @@ namespace Next2.Views.Mobile.Dialogs
 {
     public partial class DeleteSeatDialog : PopupPage
     {
-        public DeleteSeatDialog(DialogParameters param, Action<IDialogParameters> requestClose)
+        public DeleteSeatDialog(
+            DialogParameters parameters,
+            Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new DeleteSeatViewModel(param, requestClose);
+            BindingContext = new DeleteSeatViewModel(parameters, requestClose);
         }
     }
 }

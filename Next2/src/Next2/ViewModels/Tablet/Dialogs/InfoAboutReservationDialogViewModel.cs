@@ -11,12 +11,12 @@ namespace Next2.ViewModels.Tablet.Dialogs
     public class InfoAboutReservationDialogViewModel : BindableBase
     {
         public InfoAboutReservationDialogViewModel(
-            DialogParameters param,
+            DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.MODEL, out ReservationBindableModel reservation))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.MODEL, out ReservationBindableModel reservation))
             {
                 Reservation = reservation;
             }

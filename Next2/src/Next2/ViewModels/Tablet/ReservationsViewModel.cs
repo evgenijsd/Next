@@ -4,7 +4,9 @@ using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.Bindables;
 using Next2.Services.Authentication;
+using Next2.Services.Employees;
 using Next2.Services.Notifications;
+using Next2.Services.Order;
 using Next2.Services.Reservation;
 using Next2.Views.Mobile;
 using Prism.Navigation;
@@ -25,6 +27,8 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMapper _mapper;
         private readonly IReservationService _reservationService;
+        private readonly IEmployeesService _employeesService;
+        private readonly IOrderService _orderService;
 
         private EReservationsSortingType _reservationsSortingType;
 
@@ -33,11 +37,15 @@ namespace Next2.ViewModels.Tablet
             IAuthenticationService authenticationService,
             INotificationsService notificationsService,
             IReservationService reservationService,
+            IEmployeesService employeesService,
+            IOrderService orderService,
             IMapper mapper)
             : base(navigationService, authenticationService, notificationsService)
         {
             _mapper = mapper;
             _reservationService = reservationService;
+            _employeesService = employeesService;
+            _orderService = orderService;
         }
 
         #region -- Public properties --
@@ -194,18 +202,54 @@ namespace Next2.ViewModels.Tablet
             return Task.CompletedTask;
         }
 
-        private Task OnAddNewReservationCommandAsync()
+        private async Task OnAddNewReservationCommandAsync()
         {
-            var param = new DialogParameters();
+            var resultOfGettingEmployees = await _employeesService.GetEmployeesAsync();
 
-            var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(param, AddNewReservationDialogCallBack);
+            var allEmployees = resultOfGettingEmployees.Result;
 
-            return PopupNavigation.PushAsync(popupPage);
+            if (resultOfGettingEmployees.IsSuccess && allEmployees is not null)
+            {
+                var resultOfGettingAvailableTable = await _orderService.GetFreeTablesAsync();
+
+                if (resultOfGettingAvailableTable.IsSuccess)
+                {
+                    var allAvailableTables = resultOfGettingAvailableTable.Result;
+
+                    if (allAvailableTables is not null)
+                    {
+                        var param = new DialogParameters()
+                        {
+                            { Constants.DialogParameterKeys.EMPLOYEES, allEmployees },
+                            { Constants.DialogParameterKeys.TABLES, allAvailableTables },
+                        };
+
+                        var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(param, AddNewReservationDialogCallBack);
+
+                        await PopupNavigation.PushAsync(popupPage);
+                    }
+                    else
+                    {
+                        await _notificationsService.ShowInfoDialogAsync(
+                            LocalizationResourceManager.Current["Error"],
+                            LocalizationResourceManager.Current["NoTablesAvailable"],
+                            LocalizationResourceManager.Current["Ok"]);
+                    }
+                }
+                else
+                {
+                    await ResponseToUnsuccessfulRequestAsync(resultOfGettingAvailableTable.Exception?.Message);
+                }
+            }
+            else
+            {
+                await ResponseToUnsuccessfulRequestAsync(resultOfGettingEmployees.Exception?.Message);
+            }
         }
 
-        private async void AddNewReservationDialogCallBack(IDialogParameters param)
+        private async void AddNewReservationDialogCallBack(IDialogParameters parameters)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out ReservationModel reservation))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out ReservationModel reservation))
             {
                 var resultOfAddingReservation = await _reservationService.AddReservationAsync(reservation);
 
@@ -242,9 +286,9 @@ namespace Next2.ViewModels.Tablet
             return PopupNavigation.PushAsync(confirmDialog);
         }
 
-        private async void CloseRemoveReservationDialogCallBack(IDialogParameters param)
+        private async void CloseRemoveReservationDialogCallBack(IDialogParameters parameters)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool accept) && accept && SelectedReservation is not null)
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool accept) && accept && SelectedReservation is not null)
             {
                 var reservationRemovingResult = await _reservationService.RemoveReservationByIdAsync(SelectedReservation.Id);
 
@@ -277,9 +321,9 @@ namespace Next2.ViewModels.Tablet
             return PopupNavigation.PushAsync(confirmDialog);
         }
 
-        private async void CloseInfoAboutReservationDialogCallBack(IDialogParameters param)
+        private async void CloseInfoAboutReservationDialogCallBack(IDialogParameters parameters)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.ACTION, out string action))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACTION, out string action))
             {
                 switch (action)
                 {
@@ -306,7 +350,7 @@ namespace Next2.ViewModels.Tablet
             return PopupNavigation.PushAsync(popupPage);
         }
 
-        private async void CloseAssignReservationDialogCallBack(IDialogParameters param)
+        private async void CloseAssignReservationDialogCallBack(IDialogParameters parameters)
         {
         }
 

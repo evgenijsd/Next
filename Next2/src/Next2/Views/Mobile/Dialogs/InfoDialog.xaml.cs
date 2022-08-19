@@ -10,6 +10,7 @@ namespace Next2.Views.Mobile.Dialogs
         public InfoDialog(DialogParameters parameters, Action requestClose)
         {
             InitializeComponent();
+
             BindingContext = new InfoDialogViewModel(parameters, requestClose);
         }
     }

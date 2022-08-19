@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using Prism.Xaml;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.ObjectModel;
@@ -18,23 +19,14 @@ namespace Next2.ViewModels.Tablet.Dialogs
     public class AddNewReservationDialogViewModel : BindableBase
     {
         public AddNewReservationDialogViewModel(
-            DialogParameters param,
+            DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
 
             DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters()));
 
-            GuestsAmount = new(Enumerable.Range(1, 25));
-            Tables = new(Enumerable.Range(1, 10));
-
-            var date = DateTime.Now;
-
-            _hour = date.ToString("hh");
-            _minute = date.ToString("mm");
-            _timeFormat = date.ToString("tt");
-
-            SelectedDate = date;
+            InitData(parameters);
         }
 
         #region -- Public properties --
@@ -129,6 +121,20 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         #region -- Private helpers --
 
+        private void InitData(IDialogParameters parameters)
+        {
+            GuestsAmount = new(Enumerable.Range(1, 25));
+            Tables = new(Enumerable.Range(1, 10));
+
+            var date = DateTime.Now;
+
+            _hour = date.ToString("hh");
+            _minute = date.ToString("mm");
+            _timeFormat = date.ToString("tt");
+
+            SelectedDate = date;
+        }
+
         private Task OnAcceptCommandAsync()
         {
             ChangeCanAddNewReservation();
@@ -179,9 +185,9 @@ namespace Next2.ViewModels.Tablet.Dialogs
             return PopupNavigation.Instance.PushAsync(popupPage);
         }
 
-        private void InputDialogCallBack(IDialogParameters param)
+        private void InputDialogCallBack(IDialogParameters parameters)
         {
-            if (param.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
+            if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
             {
                 Notes = text;
             }

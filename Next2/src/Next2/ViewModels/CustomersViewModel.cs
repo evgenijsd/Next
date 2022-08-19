@@ -281,11 +281,11 @@ namespace Next2.ViewModels
             return PopupNavigation.PushAsync(popupPage);
         }
 
-        private async void AddCustomerDialogCallBack(IDialogParameters param)
+        private async void AddCustomerDialogCallBack(IDialogParameters parameters)
         {
             await _notificationsService.CloseAllPopupAsync();
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER, out CustomerBindableModel customer))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.CUSTOMER, out CustomerBindableModel customer))
             {
                 if (IsInternetConnected)
                 {
