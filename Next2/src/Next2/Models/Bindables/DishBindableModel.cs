@@ -56,6 +56,11 @@ namespace Next2.Models.Bindables
                 TotalPrice = TotalPrice,
                 IsSplitted = IsSplitted,
                 DiscountPrice = DiscountPrice,
+                SplitPrice = SplitPrice,
+                HoldTime = HoldTime,
+                IsSeatSelected = IsSeatSelected,
+                SeatNumber = SeatNumber,
+                SelectDishCommand = SelectDishCommand,
                 DishProportions = DishProportions?.Select(x => new SimpleDishProportionModelDTO
                 {
                     Id = x.Id,

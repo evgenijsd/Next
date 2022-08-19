@@ -10,7 +10,7 @@ namespace Next2.Models.API.DTO
 
         public decimal? DiscountPrice { get; set; }
 
-        public decimal? SplitPrice { get; set; }
+        public decimal SplitPrice { get; set; }
 
         public DateTime? HoldTime { get; set; }
 
