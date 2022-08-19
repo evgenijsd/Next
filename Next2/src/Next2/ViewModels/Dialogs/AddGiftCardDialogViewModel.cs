@@ -1,6 +1,4 @@
-﻿using Next2.Models;
-using Next2.Services.Customers;
-using Next2.Services.Order;
+﻿using Next2.Services.Customers;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;

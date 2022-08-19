@@ -3,6 +3,7 @@ using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Menu;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -23,20 +24,19 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
-        private readonly INotificationsService _notificationsService;
 
         private bool _shouldOrderDishesByDESC;
 
         public ExpandPageViewModel(
             INavigationService navigationService,
-            IOrderService orderService,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
+            IOrderService orderService,
             IMenuService menuService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _menuService = menuService;
             _orderService = orderService;
-            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -68,6 +68,7 @@ namespace Next2.ViewModels.Tablet
             base.OnAppearing();
 
             _shouldOrderDishesByDESC = false;
+
             Task.Run(LoadCategoriesAsync);
         }
 
@@ -106,30 +107,41 @@ namespace Next2.ViewModels.Tablet
                 { Constants.DialogParameterKeys.DISCOUNT_PRICE, _orderService.CurrentOrder.DiscountPrice },
             };
 
-            return PopupNavigation.PushAsync(new Views.Tablet.Dialogs.AddDishToOrderDialog(param, CloseDialogCallback));
+            return PopupNavigation.PushAsync(new Views.Tablet.Dialogs.AddDishToOrderDialog(param, CloseAddDishToOrderDialogCallback));
         }
 
-        private async void CloseDialogCallback(IDialogParameters dialogResult)
+        private async void CloseAddDishToOrderDialogCallback(IDialogParameters dialogResult)
         {
             if (dialogResult.ContainsKey(Constants.DialogParameterKeys.DISH))
             {
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                 {
-                    var result = await _orderService.AddDishInCurrentOrderAsync(dish);
+                    var resultOfAddingDish = await _orderService.AddDishInCurrentOrderAsync(dish);
 
-                    if (result.IsSuccess)
+                    if (resultOfAddingDish.IsSuccess)
                     {
-                        await _orderService.UpdateCurrentOrderAsync();
+                        var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
 
-                        await _notificationsService.CloseAllPopupAsync();
-
-                        var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
+                        if (resultOfUpdatingOrder.IsSuccess)
                         {
-                            Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-                            Position = ToastPosition.Bottom,
-                        };
+                            await _notificationsService.CloseAllPopupAsync();
 
-                        UserDialogs.Instance.Toast(toastConfig);
+                            var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
+                            {
+                                Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                                Position = ToastPosition.Bottom,
+                            };
+
+                            UserDialogs.Instance.Toast(toastConfig);
+                        }
+                        else
+                        {
+                            await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+                        }
+                    }
+                    else
+                    {
+                        await _notificationsService.ShowSomethingWentWrongDialogAsync();
                     }
                 }
             }
@@ -152,21 +164,40 @@ namespace Next2.ViewModels.Tablet
 
                     HeightCollectionView = (int)((Math.Ceiling((double)Categories.Count / 7) * (40 + 10)) - 8);
                 }
+                else
+                {
+                    await ResponseToUnsuccessfulRequestAsync(resultGettingCategories.Exception?.Message);
+                }
+            }
+            else
+            {
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
         private async Task LoadDishesAsync()
         {
-            if (IsInternetConnected && SelectedCategoriesItem is not null && SelectedSubcategoriesItem is not null)
+            if (IsInternetConnected)
             {
-                var resultGettingDishes = await _menuService.GetDishesAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
-
-                if (resultGettingDishes.IsSuccess)
+                if (SelectedCategoriesItem is not null && SelectedSubcategoriesItem is not null)
                 {
-                    Dishes = _shouldOrderDishesByDESC
-                        ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
-                        : new(resultGettingDishes.Result.OrderBy(row => row.Name));
+                    var resultGettingDishes = await _menuService.GetDishesAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
+
+                    if (resultGettingDishes.IsSuccess)
+                    {
+                        Dishes = _shouldOrderDishesByDESC
+                            ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
+                            : new(resultGettingDishes.Result.OrderBy(row => row.Name));
+                    }
+                    else
+                    {
+                        await ResponseToUnsuccessfulRequestAsync(resultGettingDishes.Exception?.Message);
+                    }
                 }
+            }
+            else
+            {
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 

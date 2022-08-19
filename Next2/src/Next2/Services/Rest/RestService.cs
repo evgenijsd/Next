@@ -66,7 +66,7 @@ namespace Next2.Services.Rest
 
         #region -- Private helpers --
 
-        private static void ThrowIfNotSuccess(HttpResponseMessage response, object? dataObj = null)
+        private static void ThrowIfNotSuccess(HttpResponseMessage response)
         {
             if (!response.IsSuccessStatusCode)
             {
@@ -76,9 +76,10 @@ namespace Next2.Services.Rest
 
         private async Task<HttpResponseMessage> MakeRequestAsync(HttpMethod method, string requestUrl, object? requestBody = null, Dictionary<string, string>? additioalHeaders = null)
         {
-            var client = new HttpClient();
-
-            client.Timeout = TimeSpan.FromSeconds(Constants.API.REQUEST_TIMEOUT);
+            var client = new HttpClient
+            {
+                Timeout = TimeSpan.FromSeconds(Constants.API.REQUEST_TIMEOUT),
+            };
 
             var request = new HttpRequestMessage(method, requestUrl);
 

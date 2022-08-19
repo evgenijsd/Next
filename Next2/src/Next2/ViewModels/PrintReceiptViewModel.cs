@@ -1,20 +1,18 @@
 ﻿using AutoMapper;
 using Next2.Enums;
-using Next2.Interfaces;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -26,20 +24,19 @@ namespace Next2.ViewModels
     public class PrintReceiptViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
-        private readonly INotificationsService _notificationsService;
         private readonly IMapper _mapper;
 
         private IEnumerable<SimpleOrderBindableModel> _allClosedOrders = Enumerable.Empty<SimpleOrderBindableModel>();
 
         public PrintReceiptViewModel(
             INavigationService navigationService,
-            IMapper mapper,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
+            IMapper mapper,
             IOrderService orderService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _orderService = orderService;
-            _notificationsService = notificationsService;
             _mapper = mapper;
         }
 
@@ -154,15 +151,12 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(gettingOrdersResult.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(gettingOrdersResult.Exception?.Message);
                 }
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
 
             if (!isOrdersLoaded)

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Next2.Models;
-using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
+using Next2.Services.Authentication;
 using Next2.Services.Customers;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -9,7 +9,6 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,20 +24,19 @@ namespace Next2.ViewModels.Mobile
         private readonly IOrderService _orderService;
         private readonly ICustomersService _customersService;
         private readonly IMapper _mapper;
-        private readonly INotificationsService _notificationsService;
 
         public InputGiftCardPageViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService,
             IOrderService orderService,
             IMapper mapper,
-            INotificationsService notificationsService,
             ICustomersService customersService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _orderService = orderService;
             _customersService = customersService;
             _mapper = mapper;
-            _notificationsService = notificationsService;
 
             Customer = _orderService.CurrentOrder.Customer;
 
@@ -143,10 +141,7 @@ namespace Next2.ViewModels.Mobile
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -175,17 +170,13 @@ namespace Next2.ViewModels.Mobile
                         {
                             sum /= 100;
 
-                            RemainingGiftCardTotal = Customer.GiftCardsTotalFund - sum;
-                        }
-                        else
-                        {
-                            RemainingGiftCardTotal = Customer.GiftCardsTotalFund;
+                            RemainingGiftCardTotal -= sum;
                         }
                     }
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfAddingGiftCard.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfAddingGiftCard.Exception?.Message);
                 }
             }
         }

@@ -22,13 +22,12 @@ namespace Next2.ViewModels.Tablet
 {
     public class MenuPageViewModel : BaseViewModel
     {
-        private readonly IAuthenticationService _authenticationService;
         private readonly IOrderService _orderService;
-        private readonly INotificationsService _notificationsService;
 
         public MenuPageViewModel(
             INavigationService navigationService,
             IAuthenticationService authenticationService,
+            INotificationsService notificationsService,
             NewOrderViewModel newOrderViewModel,
             HoldDishesViewModel holdDishesViewModel,
             OrderTabsViewModel orderTabsViewModel,
@@ -36,9 +35,8 @@ namespace Next2.ViewModels.Tablet
             MembershipViewModel membershipViewModel,
             CustomersViewModel customersViewModel,
             SettingsViewModel settingsViewModel,
-            INotificationsService notificationsService,
             IOrderService orderService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             NewOrderViewModel = newOrderViewModel;
             HoldDishesViewModel = holdDishesViewModel;
@@ -47,9 +45,7 @@ namespace Next2.ViewModels.Tablet
             MembershipViewModel = membershipViewModel;
             CustomersViewModel = customersViewModel;
             SettingsViewModel = settingsViewModel;
-            _authenticationService = authenticationService;
             _orderService = orderService;
-            _notificationsService = notificationsService;
 
             InitMenuItems();
 
@@ -68,6 +64,7 @@ namespace Next2.ViewModels.Tablet
             set
             {
                 _selectedMenuItem?.ViewModel?.OnDisappearing();
+
                 SetProperty(ref _selectedMenuItem, value);
 
                 _selectedMenuItem?.ViewModel?.OnAppearing();
@@ -156,7 +153,7 @@ namespace Next2.ViewModels.Tablet
 
             if (args.PropertyName == nameof(SelectedMenuItem))
             {
-                NewOrderViewModel.OrderRegistrationViewModel.IsClockRunning = SelectedMenuItem.State == EMenuItems.NewOrder;
+                NewOrderViewModel.OrderRegistrationViewModel.IsClockRunning = SelectedMenuItem?.State == EMenuItems.NewOrder;
             }
         }
 
@@ -257,9 +254,9 @@ namespace Next2.ViewModels.Tablet
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
         {
-            if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool result))
+            if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool accept))
             {
-                if (result)
+                if (accept)
                 {
                     await _notificationsService.CloseAllPopupAsync();
 
