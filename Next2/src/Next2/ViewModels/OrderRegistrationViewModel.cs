@@ -360,52 +360,63 @@ namespace Next2.ViewModels
 
             foreach (var seat in _orderService.CurrentOrder.Seats)
             {
-                bool isSelectedDishes = seat.SelectedDishes.Any();
-                var selectedDishes = isSelectedDishes
+                var dishes = seat.SelectedDishes.Any()
                     ? seat.SelectedDishes.ToList()
                     : new() { new(), };
 
-                var dishFirst = selectedDishes.FirstOrDefault();
-
-                foreach (var dish in selectedDishes)
+                if (App.IsTablet)
                 {
-                    dish.SeatNumber = seat.SeatNumber;
-                    dish.IsSeatSelected = seat.Checked;
-                    dish.SelectDishCommand = _selectDishCommand;
+                    var firstDish = dishes.FirstOrDefault();
 
-                    if (dish == seat.SelectedItem || (seat.Checked && dish == dishFirst))
+                    foreach (var dish in dishes)
                     {
-                        selectedDish = dish;
+                        dish.SeatNumber = seat.SeatNumber;
+                        dish.IsSeatSelected = seat.Checked;
+                        dish.SelectDishCommand = _selectDishCommand;
+
+                        if (dish == seat.SelectedItem || (seat.Checked && dish == firstDish))
+                        {
+                            selectedDish = dish;
+                        }
+                    }
+
+                    if (_rememberPositionSelection is not null && selectedDish is null)
+                    {
+                        SelectedDish = _rememberPositionSelection;
+                    }
+
+                    if (seat.Checked && seat.SelectedItem is null)
+                    {
+                        selectedDish = null;
+                    }
+
+                    SelectedDish = selectedDish;
+                }
+                else
+                {
+                    foreach (var dish in dishes)
+                    {
+                        dish.SeatNumber = seat.SeatNumber;
+                        dish.IsSeatSelected = seat.Checked;
+                        dish.SelectDishCommand = _selectDishCommand;
                     }
                 }
 
-                updatedDishesGroupedBySeats.Add(new(seat.SeatNumber, selectedDishes));
-
-                var seatGroup = updatedDishesGroupedBySeats.Last();
-
-                seatGroup.Checked = seat.Checked;
-                seatGroup.IsFirstSeat = seat.IsFirstSeat;
-                SelectedDish = selectedDish;
-
-                if (App.IsTablet && _rememberPositionSelection is not null && SelectedDish is null)
+                var seatGroup = new DishesGroupedBySeat(seat.SeatNumber, dishes)
                 {
-                    SelectedDish = _rememberPositionSelection;
-                }
+                    Checked = seat.Checked,
+                    IsFirstSeat = seat.IsFirstSeat,
+                    SelectSeatCommand = _seatSelectionCommand,
+                    DeleteSeatCommand = _deleteSeatCommand,
+                    RemoveOrderCommand = _removeOrderCommand,
+                };
 
-                if (seat.Checked && seat.SelectedItem is null)
-                {
-                    selectedDish = null;
-                }
-
-                SelectedDish = selectedDish;
-
-                seatGroup.SelectSeatCommand = _seatSelectionCommand;
-                seatGroup.DeleteSeatCommand = _deleteSeatCommand;
-                seatGroup.RemoveOrderCommand = _removeOrderCommand;
+                updatedDishesGroupedBySeats.Add(seatGroup);
             }
 
             DishesGroupedBySeats = updatedDishesGroupedBySeats;
 
+            // ?...
             if (SelectedDish is null)
             {
                 CurrentState = ENewOrderViewState.Default;
@@ -521,7 +532,7 @@ namespace Next2.ViewModels
                 var seatNumber = dish?.SeatNumber ?? 0;
                 var seat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == seatNumber);
 
-                if (seat is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && SelectedDish is not null)
+                if (seat is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && dish is not null)
                 {
                     seat.SelectedItem = seat.SelectedDishes.FirstOrDefault(x => x == dish);
                     _seatWithSelectedDish = seat;
