@@ -107,7 +107,7 @@
                                         VerticalOptions="Start"
                                         HorizontalOptions="Start"
                                         CornerRadius="{OnPlatform Android=45, iOS=12}"
-                                        IsVisible="{Binding HasSplittedPrice}"
+                                        IsVisible="{Binding IsSplitted}"
                                         BackgroundColor="{DynamicResource IndicationColor_i7}">
 
                                         <Label
