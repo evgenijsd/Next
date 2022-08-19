@@ -189,10 +189,11 @@
 
                         </CollectionView>
 
-                        <StackLayout
+                        <StackLayout      
                             HeightRequest="210"
+                            MinimumHeightRequest="210"
                             Orientation="Horizontal"
-                            Margin="0, 40, 0, 0"
+                            Margin="0, 30, 0, 20"
                             HorizontalOptions="CenterAndExpand">
 
                             <StackLayout.Triggers>
@@ -231,7 +232,7 @@
                                 Number="{Binding Minute}" />
 
                         </StackLayout>
-                        
+
                     </StackLayout>
                     
                 </ScrollView>
