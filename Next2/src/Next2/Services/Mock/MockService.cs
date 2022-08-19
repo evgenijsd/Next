@@ -257,27 +257,16 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = reservationId++,
-                    Server = new()
-                    {
-                        EmployeeId = "111111",
-                        UserName = "111111",
-                    },
                     CustomerName = "Assunta Dickinson",
                     Phone = "7452735838",
                     GuestsAmount = 1,
-                    Table = new()
-                    {
-                        Id = Guid.Parse("356c8276-0540-484a-9b5a-cd2ae9127dda"),
-                        Number = 23,
-                        SeatNumbers = 10,
-                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
-                    Server = new()
+                    Employee = new()
                     {
                         EmployeeId = "111111",
                         UserName = "111111",
@@ -297,7 +286,7 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = reservationId++,
-                    Server = new()
+                    Employee = new()
                     {
                         EmployeeId = "111111",
                         UserName = "111111",
@@ -305,19 +294,13 @@ namespace Next2.Services.Mock
                     CustomerName = "Amiya Emard",
                     Phone = "7923342784",
                     GuestsAmount = 4,
-                    Table = new()
-                    {
-                        Id = Guid.Parse("7b7024cd-b002-4db5-b904-290c59def000"),
-                        Number = 25,
-                        SeatNumbers = 10,
-                    },
                     Comment = null,
                     DateTime = DateTime.Now.AddSeconds(random.Next(3600, 1209600)),
                 },
                 new()
                 {
                     Id = reservationId++,
-                    Server = new()
+                    Employee = new()
                     {
                         EmployeeId = "111111",
                         UserName = "111111",
@@ -337,11 +320,6 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = reservationId++,
-                    Server = new()
-                    {
-                        EmployeeId = "555555",
-                        UserName = "555555",
-                    },
                     CustomerName = "Ara Predovic",
                     Phone = "1691358155",
                     GuestsAmount = 5,
@@ -357,7 +335,7 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = reservationId++,
-                    Server = new()
+                    Employee = new()
                     {
                         EmployeeId = "555555",
                         UserName = "555555",
@@ -377,7 +355,7 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = reservationId++,
-                    Server = new()
+                    Employee = new()
                     {
                         EmployeeId = "555555",
                         UserName = "555555",
@@ -397,7 +375,7 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = reservationId++,
-                    Server = new()
+                    Employee = new()
                     {
                         EmployeeId = "555555",
                         UserName = "555555",
@@ -417,7 +395,7 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = reservationId++,
-                    Server = new()
+                    Employee = new()
                     {
                         EmployeeId = "555555",
                         UserName = "555555",
@@ -437,7 +415,7 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = reservationId++,
-                    Server = new()
+                    Employee = new()
                     {
                         EmployeeId = "555555",
                         UserName = "555555",
@@ -457,7 +435,7 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = reservationId++,
-                    Server = new()
+                    Employee = new()
                     {
                         EmployeeId = "555555",
                         UserName = "555555",
@@ -477,7 +455,7 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = reservationId++,
-                    Server = new()
+                    Employee = new()
                     {
                         EmployeeId = "111111",
                         UserName = "111111",
@@ -497,7 +475,7 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = reservationId++,
-                    Server = new()
+                    Employee = new()
                     {
                         EmployeeId = "111111",
                         UserName = "111111",
@@ -517,7 +495,7 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = reservationId++,
-                    Server = new()
+                    Employee = new()
                     {
                         EmployeeId = "111111",
                         UserName = "111111",
@@ -537,7 +515,7 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = reservationId++,
-                    Server = new()
+                    Employee = new()
                     {
                         EmployeeId = "111111",
                         UserName = "111111",

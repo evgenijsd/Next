@@ -8,7 +8,7 @@ namespace Next2.Models
     {
         public int Id { get; set; }
 
-        public EmployeeModelDTO Server { get; set; } = new();
+        public EmployeeModelDTO? Employee { get; set; }
 
         public string CustomerName { get; set; } = string.Empty;
 
@@ -16,7 +16,7 @@ namespace Next2.Models
 
         public int GuestsAmount { get; set; }
 
-        public TableModelDTO Table { get; set; } = new();
+        public TableModelDTO? Table { get; set; }
 
         public string? Comment { get; set; }
 

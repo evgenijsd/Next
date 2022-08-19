@@ -3,7 +3,6 @@ using Next2.Models.API.DTO;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
-using Prism.Xaml;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
@@ -157,7 +156,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
                     var newReservation = new ReservationModel()
                     {
-                        Server = new(),
+                        Employee = new(),
                         CustomerName = Name,
                         Phone = phone,
                         GuestsAmount = SelectedAmountGuests,

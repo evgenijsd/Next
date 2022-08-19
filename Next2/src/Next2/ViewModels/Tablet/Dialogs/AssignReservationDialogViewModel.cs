@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -15,25 +14,26 @@ namespace Next2.ViewModels.Tablet.Dialogs
 {
     public class AssignReservationDialogViewModel : BindableBase
     {
-        public AssignReservationDialogViewModel(Action<IDialogParameters> requestClose)
+        public AssignReservationDialogViewModel(
+            DialogParameters parameters,
+            Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
 
             DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters()));
 
-            Tables = new(Enumerable.Range(1, 10));
-            Servers = new(Enumerable.Range(1, 25));
+            InitData(parameters);
         }
 
         #region -- Public properties --
 
-        public int SelectedTable { get; set; }
+        public TableModelDTO SelectedTable { get; set; }
 
-        public ObservableCollection<int> Tables { get; set; } = new();
+        public ObservableCollection<TableModelDTO> Tables { get; set; } = new();
 
-        public int SelectedServer { get; set; }
+        public EmployeeModelDTO SelectedEmployee { get; set; }
 
-        public ObservableCollection<int> Servers { get; set; } = new();
+        public ObservableCollection<EmployeeModelDTO> Employees { get; set; } = new();
 
         public bool CanAssingReservation { get; set; }
 
@@ -54,9 +54,9 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
             if (args.PropertyName
                 is nameof(SelectedTable)
-                or nameof(SelectedServer))
+                or nameof(SelectedEmployee))
             {
-                CanAssingReservation = SelectedTable > 0 && SelectedServer > 0;
+                CanAssingReservation = SelectedTable is not null && SelectedEmployee is not null;
             }
         }
 
@@ -67,8 +67,15 @@ namespace Next2.ViewModels.Tablet.Dialogs
         private void InitData(IDialogParameters parameters)
         {
             if (parameters.TryGetValue(Constants.DialogParameterKeys.TABLES, out IEnumerable<TableModelDTO> tables)
-                && parameters.TryGetValue(Constants.DialogParameterKeys.EMPLOYEES, out IEnumerable<EmployeeModelDTO> employees))
+                && parameters.TryGetValue(Constants.DialogParameterKeys.EMPLOYEES, out IEnumerable<EmployeeModelDTO> employees)
+                && parameters.TryGetValue(Constants.DialogParameterKeys.TABLE, out TableModelDTO table)
+                && parameters.TryGetValue(Constants.DialogParameterKeys.EMPLOYEE, out EmployeeModelDTO employee))
             {
+                SelectedTable = table;
+                SelectedEmployee = employee;
+
+                Tables = new(tables);
+                Employees = new(employees);
             }
         }
 
@@ -78,6 +85,8 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
             if (CanAssingReservation)
             {
+                parameters.Add(Constants.DialogParameterKeys.EMPLOYEE, SelectedEmployee);
+                parameters.Add(Constants.DialogParameterKeys.TABLE, SelectedTable);
             }
 
             RequestClose(parameters);

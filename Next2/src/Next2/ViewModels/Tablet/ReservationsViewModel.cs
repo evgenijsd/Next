@@ -320,19 +320,58 @@ namespace Next2.ViewModels.Tablet
         {
             var allEmployees = await GetEmployeesWithPopupAsync();
 
-            if (allEmployees is not null)
+            if (allEmployees is not null && SelectedReservation is not null)
             {
                 var allAvailableTables = await GetAvailableTablesWithPopupAsync();
 
                 if (allAvailableTables is not null)
                 {
+                    if (SelectedReservation.Employee is not null)
+                    {
+                        var employeeId = SelectedReservation.Employee.EmployeeId;
+
+                        var employee = allEmployees.FirstOrDefault(row => row.EmployeeId == employeeId);
+
+                        if (employee is not null)
+                        {
+                            SelectedReservation.Employee = employee;
+                        }
+                        else
+                        {
+                            var listEmployees = allEmployees.ToList();
+                            listEmployees.Add(SelectedReservation.Employee);
+
+                            allEmployees = listEmployees;
+                        }
+                    }
+
+                    if (SelectedReservation.Table is not null)
+                    {
+                        var tableId = SelectedReservation.Table.Id;
+                        var table = allAvailableTables.FirstOrDefault(row => row.Id == tableId);
+
+                        if (table is not null)
+                        {
+                            SelectedReservation.Table = table;
+                        }
+                        else
+                        {
+                            var listTables = allAvailableTables.ToList();
+                            listTables.Add(SelectedReservation.Table);
+
+                            allAvailableTables = listTables;
+                        }
+                    }
+
                     var parameters = new DialogParameters()
                     {
+                        { Constants.DialogParameterKeys.EMPLOYEE, SelectedReservation.Employee },
+                        { Constants.DialogParameterKeys.TABLE, SelectedReservation.Table },
                         { Constants.DialogParameterKeys.EMPLOYEES, allEmployees },
                         { Constants.DialogParameterKeys.TABLES, allAvailableTables },
                     };
 
-                    var popupPage = new Views.Tablet.Dialogs.AssignReservationDialog(CloseAssignReservationDialogCallBack);
+                    var popupPage = new Views.Tablet.Dialogs.AssignReservationDialog(parameters, CloseAssignReservationDialogCallBack);
 
                     await PopupNavigation.PushAsync(popupPage);
                 }
