@@ -32,7 +32,9 @@ namespace Next2.Models.API.Commands
 
         public decimal? SubTotalPrice { get; set; }
 
-        public bool IsCashPayment { get; set; }
+        public bool? IsCashPayment { get; set; }
+
+        public bool? IsSplitBySeats { get; set; }
 
         public Guid? CouponId { get; set; }
 

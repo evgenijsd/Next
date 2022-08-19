@@ -33,6 +33,8 @@ namespace Next2.Models.API.DTO
 
         public bool IsCashPayment { get; set; }
 
+        public bool IsSplitBySeats { get; set; }
+
         public DiscountModelDTO? Discount { get; set; }
 
         public CouponModelDTO? Coupon { get; set; }
