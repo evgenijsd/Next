@@ -9,6 +9,7 @@
     xmlns:dto="clr-namespace:Next2.Models.API.DTO"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Tablet.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Views.Tablet.Dialogs.AssignReservationDialog"
     x:DataType="dialogs:AssignReservationDialogViewModel">
@@ -80,6 +81,24 @@
 
                     <DataTrigger
                         TargetType="controls:DropDownList"
+                        Binding="{Binding IsValidSelectedTable}"                                        
+                        Value="True">
+
+                        <Setter Property="Border" Value="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"/>
+
+                    </DataTrigger>
+                    
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
+                        Binding="{Binding IsValidSelectedTable}"                                        
+                        Value="False">
+
+                        <Setter Property="Border" Value="{pancakeview:BorderMarkup Color={StaticResource IndicationColor_i3}, Thickness=1}"/>
+
+                    </DataTrigger>
+                    
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
                         Binding="{Binding SelectedTable, Converter={xct:IsNotNullOrEmptyConverter}}"
                         Value="True">
 
@@ -126,6 +145,24 @@
                 
                 <controls:DropDownList.Triggers>
 
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
+                        Binding="{Binding IsValidSelectedEmployee}"                                        
+                        Value="True">
+
+                        <Setter Property="Border" Value="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=1}"/>
+
+                    </DataTrigger>
+
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
+                        Binding="{Binding IsValidSelectedEmployee}"                                        
+                        Value="False">
+
+                        <Setter Property="Border" Value="{pancakeview:BorderMarkup Color={StaticResource IndicationColor_i3}, Thickness=1}"/>
+
+                    </DataTrigger>
+                    
                     <DataTrigger
                         TargetType="controls:DropDownList"
                         Binding="{Binding SelectedEmployee, Converter={xct:IsNotNullOrEmptyConverter}}"

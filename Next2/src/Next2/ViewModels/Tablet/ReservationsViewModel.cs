@@ -380,6 +380,13 @@ namespace Next2.ViewModels.Tablet
 
         private async void CloseAssignReservationDialogCallBack(IDialogParameters parameters)
         {
+            if (parameters.Count > 0)
+            {
+            }
+            else
+            {
+                await _notificationsService.ClosePopupAsync();
+            }
         }
 
         private async Task<IEnumerable<TableModelDTO>?> GetAvailableTablesWithPopupAsync()

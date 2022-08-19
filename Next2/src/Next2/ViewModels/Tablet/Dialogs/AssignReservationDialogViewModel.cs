@@ -27,13 +27,27 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         #region -- Public properties --
 
-        public TableModelDTO SelectedTable { get; set; }
+        private TableModelDTO _selectedTable;
+        public TableModelDTO SelectedTable
+        {
+            get => _selectedTable;
+            set => SetProperty(ref _selectedTable, value);
+        }
 
         public ObservableCollection<TableModelDTO> Tables { get; set; } = new();
 
-        public EmployeeModelDTO SelectedEmployee { get; set; }
+        private EmployeeModelDTO _selectedEmployee;
+        public EmployeeModelDTO SelectedEmployee
+        {
+            get => _selectedEmployee;
+            set => SetProperty(ref _selectedEmployee, value);
+        }
 
         public ObservableCollection<EmployeeModelDTO> Employees { get; set; } = new();
+
+        public bool IsValidSelectedEmployee { get; set; } = true;
+
+        public bool IsValidSelectedTable { get; set; } = true;
 
         public bool CanAssingReservation { get; set; }
 
@@ -52,11 +66,15 @@ namespace Next2.ViewModels.Tablet.Dialogs
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName
-                is nameof(SelectedTable)
-                or nameof(SelectedEmployee))
+            switch (args.PropertyName)
             {
-                CanAssingReservation = SelectedTable is not null && SelectedEmployee is not null;
+                case nameof(SelectedEmployee):
+                    IsValidSelectedEmployee = SelectedEmployee is not null;
+                    break;
+
+                case nameof(SelectedTable):
+                    IsValidSelectedTable = SelectedTable is not null;
+                    break;
             }
         }
 
@@ -71,8 +89,8 @@ namespace Next2.ViewModels.Tablet.Dialogs
                 && parameters.TryGetValue(Constants.DialogParameterKeys.TABLE, out TableModelDTO table)
                 && parameters.TryGetValue(Constants.DialogParameterKeys.EMPLOYEE, out EmployeeModelDTO employee))
             {
-                SelectedTable = table;
-                SelectedEmployee = employee;
+                _selectedTable = table;
+                _selectedEmployee = employee;
 
                 Tables = new(tables);
                 Employees = new(employees);
@@ -81,15 +99,21 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         private Task OnAssignReservationCommandAsync()
         {
-            var parameters = new DialogParameters();
+            IsValidSelectedEmployee = SelectedEmployee is not null;
+            IsValidSelectedTable = SelectedTable is not null;
+
+            CanAssingReservation = IsValidSelectedTable && IsValidSelectedEmployee;
 
             if (CanAssingReservation)
             {
-                parameters.Add(Constants.DialogParameterKeys.EMPLOYEE, SelectedEmployee);
-                parameters.Add(Constants.DialogParameterKeys.TABLE, SelectedTable);
-            }
+                var parameters = new DialogParameters()
+                {
+                    { Constants.DialogParameterKeys.EMPLOYEE, SelectedEmployee },
+                    { Constants.DialogParameterKeys.TABLE, SelectedTable },
+                };
 
-            RequestClose(parameters);
+                RequestClose(parameters);
+            }
 
             return Task.CompletedTask;
         }
