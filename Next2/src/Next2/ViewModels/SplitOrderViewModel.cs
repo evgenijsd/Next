@@ -205,7 +205,7 @@ namespace Next2.ViewModels
         {
             if (Seats.Count > 1)
             {
-                if (SelectedDish.HasSplittedPrice && condition is not ESplitOrderConditions.BySeats)
+                if (SelectedDish.IsSplitted && condition is not ESplitOrderConditions.BySeats)
                 {
                     await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Warning"],
@@ -369,13 +369,13 @@ namespace Next2.ViewModels
                         dish.TotalPrice = incomingSeat.SelectedItem is null
                             ? 0
                             : incomingSeat.SelectedItem.TotalPrice;
-                        dish.HasSplittedPrice = true;
+                        dish.IsSplitted = true;
                         seat.SelectedDishes.Add(dish);
                     }
                 }
             }
 
-            SelectedDish.HasSplittedPrice = true;
+            SelectedDish.IsSplitted = true;
 
             return Task.CompletedTask;
         }
