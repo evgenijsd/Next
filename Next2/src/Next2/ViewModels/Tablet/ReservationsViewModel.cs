@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Next2.Services.Authentication;
 using Next2.Services.Employees;
@@ -204,46 +205,18 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnAddNewReservationCommandAsync()
         {
-            var resultOfGettingEmployees = await _employeesService.GetEmployeesAsync();
+            var allAvailableTables = await GetAvailableTablesWithPopupAsync();
 
-            var allEmployees = resultOfGettingEmployees.Result;
-
-            if (resultOfGettingEmployees.IsSuccess && allEmployees is not null)
+            if (allAvailableTables is not null)
             {
-                var resultOfGettingAvailableTable = await _orderService.GetFreeTablesAsync();
-
-                if (resultOfGettingAvailableTable.IsSuccess)
+                var parameters = new DialogParameters()
                 {
-                    var allAvailableTables = resultOfGettingAvailableTable.Result;
+                    { Constants.DialogParameterKeys.TABLES, allAvailableTables },
+                };
 
-                    if (allAvailableTables is not null)
-                    {
-                        var parameters = new DialogParameters()
-                        {
-                            { Constants.DialogParameterKeys.EMPLOYEES, allEmployees },
-                            { Constants.DialogParameterKeys.TABLES, allAvailableTables },
-                        };
+                var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(parameters, AddNewReservationDialogCallBack);
 
-                        var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(parameters, AddNewReservationDialogCallBack);
-
-                        await PopupNavigation.PushAsync(popupPage);
-                    }
-                    else
-                    {
-                        await _notificationsService.ShowInfoDialogAsync(
-                            LocalizationResourceManager.Current["Error"],
-                            LocalizationResourceManager.Current["NoTablesAvailable"],
-                            LocalizationResourceManager.Current["Ok"]);
-                    }
-                }
-                else
-                {
-                    await ResponseToUnsuccessfulRequestAsync(resultOfGettingAvailableTable.Exception?.Message);
-                }
-            }
-            else
-            {
-                await ResponseToUnsuccessfulRequestAsync(resultOfGettingEmployees.Exception?.Message);
+                await PopupNavigation.PushAsync(popupPage);
             }
         }
 
@@ -343,15 +316,75 @@ namespace Next2.ViewModels.Tablet
             }
         }
 
-        private Task OnAssignReservationCommandAsync()
+        private async Task OnAssignReservationCommandAsync()
         {
-            var popupPage = new Views.Tablet.Dialogs.AssignReservationDialog(CloseAssignReservationDialogCallBack);
+            var allEmployees = await GetEmployeesWithPopupAsync();
 
-            return PopupNavigation.PushAsync(popupPage);
+            if (allEmployees is not null)
+            {
+                var allAvailableTables = await GetAvailableTablesWithPopupAsync();
+
+                if (allAvailableTables is not null)
+                {
+                    var parameters = new DialogParameters()
+                    {
+                        { Constants.DialogParameterKeys.EMPLOYEES, allEmployees },
+                        { Constants.DialogParameterKeys.TABLES, allAvailableTables },
+                    };
+
+                    var popupPage = new Views.Tablet.Dialogs.AssignReservationDialog(CloseAssignReservationDialogCallBack);
+
+                    await PopupNavigation.PushAsync(popupPage);
+                }
+            }
         }
 
         private async void CloseAssignReservationDialogCallBack(IDialogParameters parameters)
         {
+        }
+
+        private async Task<IEnumerable<TableModelDTO>?> GetAvailableTablesWithPopupAsync()
+        {
+            var allAvailableTables = Enumerable.Empty<TableModelDTO>();
+
+            var resultOfGettingAvailableTable = await _orderService.GetFreeTablesAsync();
+
+            if (resultOfGettingAvailableTable.IsSuccess)
+            {
+                allAvailableTables = resultOfGettingAvailableTable.Result;
+
+                if (allAvailableTables is null)
+                {
+                    await _notificationsService.ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["NoTablesAvailable"],
+                        LocalizationResourceManager.Current["Ok"]);
+                }
+            }
+            else
+            {
+                await ResponseToUnsuccessfulRequestAsync(resultOfGettingAvailableTable.Exception?.Message);
+            }
+
+            return allAvailableTables;
+        }
+
+        private async Task<IEnumerable<EmployeeModelDTO>?> GetEmployeesWithPopupAsync()
+        {
+            var allEmployees = Enumerable.Empty<EmployeeModelDTO>();
+
+            var resultOfGettingEmployees = await _employeesService.GetEmployeesAsync();
+
+            if (resultOfGettingEmployees.IsSuccess)
+            {
+                allEmployees = resultOfGettingEmployees.Result;
+            }
+            else
+            {
+                await ResponseToUnsuccessfulRequestAsync(resultOfGettingEmployees.Exception?.Message);
+            }
+
+            return allEmployees;
         }
 
         #endregion

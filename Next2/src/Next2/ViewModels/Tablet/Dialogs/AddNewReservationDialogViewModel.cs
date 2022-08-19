@@ -1,10 +1,12 @@
 ﻿using Next2.Models;
+using Next2.Models.API.DTO;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using Prism.Xaml;
 using Rg.Plugins.Popup.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -39,9 +41,9 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public ObservableCollection<int> GuestsAmount { get; set; } = new();
 
-        public int SelectedTable { get; set; }
+        public TableModelDTO SelectedTable { get; set; }
 
-        public ObservableCollection<int> Tables { get; set; } = new();
+        public ObservableCollection<TableModelDTO> Tables { get; set; } = new();
 
         public string Notes { get; set; } = string.Empty;
 
@@ -123,8 +125,12 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         private void InitData(IDialogParameters parameters)
         {
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.TABLES, out IEnumerable<TableModelDTO> tables))
+            {
+                Tables = new(tables);
+            }
+
             GuestsAmount = new(Enumerable.Range(1, 25));
-            Tables = new(Enumerable.Range(1, 10));
 
             var date = DateTime.Now;
 
@@ -155,7 +161,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
                         CustomerName = Name,
                         Phone = phone,
                         GuestsAmount = SelectedAmountGuests,
-                        Table = new(),
+                        Table = SelectedTable,
                         Comment = Notes,
                         DateTime = SelectedTime,
                     };

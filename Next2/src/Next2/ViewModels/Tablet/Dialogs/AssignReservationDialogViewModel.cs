@@ -1,7 +1,9 @@
-﻿using Prism.Commands;
+﻿using Next2.Models.API.DTO;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -61,6 +63,14 @@ namespace Next2.ViewModels.Tablet.Dialogs
         #endregion
 
         #region -- Private helpers --
+
+        private void InitData(IDialogParameters parameters)
+        {
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.TABLES, out IEnumerable<TableModelDTO> tables)
+                && parameters.TryGetValue(Constants.DialogParameterKeys.EMPLOYEES, out IEnumerable<EmployeeModelDTO> employees))
+            {
+            }
+        }
 
         private Task OnAssignReservationCommandAsync()
         {
