@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,26 +16,24 @@ namespace Next2.ViewModels.Dialogs
 {
     public class HoldDishDialogViewModel : BindableBase
     {
+        private DateTime _holdTime;
+
         public HoldDishDialogViewModel(
             DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
             InitTimeItems();
 
+            SetHoldTime(DateTime.Now);
+
             Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.HELD_DISH_RELEASE_FREQUENCY), OnTimerTick);
 
             RequestClose = requestClose;
             CloseCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.CANCEL, true } }));
-            DismissCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.DISMISS, true } }));
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel selectedDish))
             {
                 SelectedDish = selectedDish;
-
-                if (selectedDish.HoldTime is DateTime holdTime)
-                {
-                    HoldTime = holdTime;
-                }
 
                 ProductNames = string.Join(", ", selectedDish.Products.Where(x => !string.IsNullOrEmpty(x.Name)).Select(x => x.Name).ToArray());
             }
@@ -50,7 +49,9 @@ namespace Next2.ViewModels.Dialogs
 
         public DateTime CurrentTime { get; set; }
 
-        public DateTime HoldTime { get; set; }
+        public int Hour { get; set; }
+
+        public int Minute { get; set; }
 
         public string ProductNames { get; set; } = string.Empty;
 
@@ -59,6 +60,9 @@ namespace Next2.ViewModels.Dialogs
         public ICommand DismissCommand { get; }
 
         public Action<IDialogParameters> RequestClose;
+
+        private Action? _changePropertyAfterChecking;
+        public Action? ChangePropertyAfterChecking => _changePropertyAfterChecking ??= new Action(OnChangePropertyAfterChecking);
 
         private ICommand? _selectTimeItemCommand;
         public ICommand SelectTimeItemCommand => _selectTimeItemCommand ??= new AsyncCommand<HoldTimeItem?>(OnSelectTimeItemCommandAsync, allowsMultipleExecutions: false);
@@ -70,13 +74,27 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private helpers --
 
+        private void OnChangePropertyAfterChecking()
+        {
+            var holdTime = new DateTime(CurrentTime.Year, CurrentTime.Month, CurrentTime.Day, Hour, Minute, second: 0);
+
+            if (CurrentTime > holdTime)
+            {
+                SetHoldTime(DateTime.Now);
+            }
+            else
+            {
+                _holdTime = holdTime;
+            }
+        }
+
         private Task OnHoldCommandAsync()
         {
             var parameters = new DialogParameters();
 
-            if (HoldTime > CurrentTime)
+            if (_holdTime > CurrentTime)
             {
-                parameters.Add(Constants.DialogParameterKeys.HOLD, HoldTime);
+                parameters.Add(Constants.DialogParameterKeys.HOLD, _holdTime);
             }
 
             RequestClose(parameters);
@@ -102,8 +120,10 @@ namespace Next2.ViewModels.Dialogs
                     SelectedHoldingTimeInMinutes = selectedHoldTime;
                 }
 
-                HoldTime = DateTime.Now;
-                HoldTime = HoldTime.AddMinutes(SelectedHoldingTimeInMinutes?.Minute ?? 0);
+                if (SelectedHoldingTimeInMinutes is not null)
+                {
+                    SetHoldTime(DateTime.Now.AddMinutes(selectedHoldTime.Minute));
+                }
             }
 
             return Task.CompletedTask;
@@ -135,7 +155,19 @@ namespace Next2.ViewModels.Dialogs
         {
             CurrentTime = DateTime.Now;
 
+            if (CurrentTime > _holdTime)
+            {
+                SetHoldTime(DateTime.Now);
+            }
+
             return true;
+        }
+
+        private void SetHoldTime(DateTime holdTime)
+        {
+            _holdTime = holdTime;
+            Hour = _holdTime.Hour;
+            Minute = _holdTime.Minute;
         }
 
         #endregion

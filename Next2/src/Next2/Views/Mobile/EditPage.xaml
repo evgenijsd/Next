@@ -252,7 +252,23 @@
                 Background="{DynamicResource IndicationColor_i5}"
                 Text="{xct:Translate HoldItem}"
                 Command="{Binding OpenHoldSelectionCommand}"
-                CommandParameter="{Binding SelectedDish}" />
+                CommandParameter="{Binding SelectedDish}">
+                
+                <buttons:BorderButton.Triggers>
+
+                    <DataTrigger
+                        TargetType="buttons:BorderButton"
+                        Binding="{Binding SelectedDish.HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}"
+                        Value="True">
+
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+
+                    </DataTrigger>
+
+                </buttons:BorderButton.Triggers>
+                
+            </buttons:BorderButton>
             
             <buttons:BorderButton
                 Grid.Row="2"

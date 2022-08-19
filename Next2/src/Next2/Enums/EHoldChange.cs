@@ -1,11 +1,9 @@
 ﻿namespace Next2.Enums
 {
-    public enum EHoldChange
+    public enum ENumberChange
     {
         None,
-        HourIncrement,
-        HourDecrement,
-        MinuteIncrement,
-        MinuteDecrement,
+        Increment,
+        Decrement,
     }
 }

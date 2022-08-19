@@ -12,8 +12,8 @@
         
         <Frame
             Margin="8, 0, 2, 0"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-            BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+            BackgroundColor="{Binding ItemBackgroundColor, Source={RelativeSource AncestorType={x:Type templates:HoldTimeItemTemplate}}}"
+            BorderColor="{Binding ItemBorderColor, Source={RelativeSource AncestorType={x:Type templates:HoldTimeItemTemplate}}}"
             CornerRadius="{OnPlatform Android='3', iOS='5'}"
             HeightRequest="{Binding ItemHeight, Source={RelativeSource AncestorType={x:Type templates:HoldTimeItemTemplate}}}"
             HorizontalOptions="FillAndExpand"

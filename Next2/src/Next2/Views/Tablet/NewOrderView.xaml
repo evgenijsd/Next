@@ -860,8 +860,25 @@
                                 Style="{DynamicResource BorderButtonStyle_i2_1}"
                                 Background="{DynamicResource IndicationColor_i5}"
                                 Text="{xct:Translate HoldItem}"
-                                Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}" 
-                                CommandParameter="{Binding OrderRegistrationViewModel.SelectedDish}"/>
+                                Opacity="1"
+                                Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}"
+                                CommandParameter="{Binding OrderRegistrationViewModel.SelectedDish}">
+                                
+                                <buttons:BorderButton.Triggers>
+                                    
+                                    <DataTrigger
+                                        TargetType="buttons:BorderButton"
+                                        Binding="{Binding OrderRegistrationViewModel.SelectedDish.HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                        Value="True">
+                                        
+                                        <Setter Property="IsEnabled" Value="False" />
+                                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+
+                                    </DataTrigger>
+                                    
+                                </buttons:BorderButton.Triggers>
+                                
+                            </buttons:BorderButton>
 
                             <buttons:BorderButton
                                 Style="{DynamicResource BorderButtonStyle_i2_1}"
@@ -1062,29 +1079,16 @@
                 </VisualStateManager.VisualStateGroups>
 
                 <controls:DropDownList.DataTemplate>
-                    <DataTemplate>
-                        <StackLayout
+
+                    <DataTemplate x:DataType="models:OrderTypeBindableModel">
+
+                        <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}" >
+                            FormattedText="{Binding Text}"
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"/>
 
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
-
-                            <StackLayout
-                                Padding="14, 9"
-                                HeightRequest="21"
-                                Orientation="Horizontal">
-
-                                <Label
-                                    x:DataType="models:OrderTypeBindableModel"
-                                    HorizontalOptions="FillAndExpand"
-                                    FontFamily="Barlow-Medium"
-                                    FontSize="{DynamicResource TSize_i8}"
-                                    Text="{Binding Text}" />
-
-                            </StackLayout>
-
-                        </StackLayout>
                     </DataTemplate>
+
                 </controls:DropDownList.DataTemplate>
 
             </controls:DropDownList>
@@ -1196,43 +1200,30 @@
                 </controls:DropDownList.Triggers>
                 
                 <controls:DropDownList.DataTemplate>
-                    <DataTemplate>
-                        <StackLayout 
+
+                    <DataTemplate x:DataType="modelsBindable:TableBindableModel">
+
+                        <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                             xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+                            <templates:TextItemTemplate.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate Table}"/>
+                                    <Span Text=" "/>
+                                    <Span Text="{Binding TableNumber}"/>
+                                </FormattedString>
+                            </templates:TextItemTemplate.FormattedText>
 
-                            <StackLayout
-                                Padding="14, 9"
-                                HeightRequest="21"
-                                Orientation="Horizontal"
-                                x:DataType="modelsBindable:TableBindableModel">
+                        </templates:TextItemTemplate>
 
-                                <Label
-                                    FontFamily="Barlow-Medium"
-                                    FontSize="{DynamicResource TSize_i8}"
-                                    HorizontalOptions="FillAndExpand">
-
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="{xct:Translate Table}"/>
-                                            <Span Text=" "/>
-                                            <Span Text="{Binding TableNumber}"/>
-                                        </FormattedString>
-                                    </Label.FormattedText>
-                                    
-                                </Label>
-
-                            </StackLayout>
-
-                        </StackLayout>
                     </DataTemplate>
+                    
                 </controls:DropDownList.DataTemplate>
 
             </controls:DropDownList>
 
-            <!-- DISHES_GROUP LIST -->
+             <!-- DISHES_GROUP LIST -->
             <controls:CustomCollectionView
                 Grid.Row="2"
                 VerticalScrollBarVisibility="Always"

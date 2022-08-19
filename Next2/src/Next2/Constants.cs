@@ -21,6 +21,7 @@
             public const string TIME_FORMAT = "{0:hh:mm tt}";
             public const string SHORT_DATE_FORMAT = "{0:dd.MM.yyyy}";
             public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
+            public const string NUMBER_FORMAT = "{0:D2}";
         }
 
         public static class Analytics
@@ -76,7 +77,7 @@
             public const string PAYMENT_COMPLETE = "PAYMENT_COMPLETE";
             public const string SIGNATURE = "SIGNATURE";
             public const string DISH_MODIFIED = "DISH_MODIFIED";
-            public const string TIP_VALUE = "TIP_VALUE";
+            public const string TIP_PERCENT = "TIP_PERCENT";
             public const string TIP_ITEMS = "TIP_ITEMS";
             public const string TIP_TYPE = "TIP_TYPE";
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
@@ -142,6 +143,11 @@
             public const string ACTION = "ACTION";
             public const string REMOVE = "REMOVE";
             public const string ASSIGN = "ASSIGN";
+            public const string ORDER = "ORDER";
+            public const string ORDERS_ID = "ORDERS_ID";
+            public const string EMPLOYEES = "EMPLOYEES";
+            public const string EMPLOYEE_ID = "EMPLOYEE_ID";
+            public const string TABLE = "TABLE";
         }
 
         public static class API

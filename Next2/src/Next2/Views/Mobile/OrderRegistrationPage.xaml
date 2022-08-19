@@ -113,7 +113,6 @@
             VerticalOptions="Start"
             Margin="17"
             WidthRequest="96"
-            ItemHeight="46.5"
             HeaderText="{Binding SelectedOrderType.Text}"
             SelectedItem="{Binding SelectedOrderType}"
             ItemsSource="{Binding OrderTypes}">
@@ -133,28 +132,15 @@
             </controls:DropDownList.Triggers>
             
             <controls:DropDownList.DataTemplate>
-                <DataTemplate>
-                    <StackLayout 
+                <DataTemplate x:DataType="models:OrderTypeBindableModel">
+
+                    <templates:TextItemTemplate
                         Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                        xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
+                        HeightRequest="35"
+                        FontSize="{DynamicResource TSize_i7}"
+                        FormattedText="{Binding Text}"
+                        xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"/>
 
-                        <StackLayout
-                            HeightRequest="30"
-                            Padding="14, 8"
-                            Orientation="Horizontal">
-
-                            <Label
-                                HorizontalOptions="FillAndExpand"
-                                FontFamily="Barlow-Medium"
-                                FontSize="{DynamicResource TSize_i7}"
-                                Text="{Binding Text}"
-                                x:DataType="models:OrderTypeBindableModel"/>
-
-                        </StackLayout>
-
-                        <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
-
-                    </StackLayout>
                 </DataTemplate>
             </controls:DropDownList.DataTemplate>
 
@@ -200,7 +186,6 @@
             VerticalOptions="Start"
             Margin="18, 9"
             WidthRequest="145"
-            ItemHeight="46.5"
             SelectedItem="{Binding SelectedTable}"
             ItemsSource="{Binding Tables}">
 
@@ -235,38 +220,26 @@
             </controls:DropDownList.Triggers>
             
             <controls:DropDownList.DataTemplate>
-                <DataTemplate>
-                    <StackLayout 
+
+                <DataTemplate x:DataType="modelsBindable:TableBindableModel">
+
+                    <templates:TextItemTemplate
                         Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                        HeightRequest="35"
                         xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
-                        <StackLayout
-                            HeightRequest="30"
-                            Padding="14, 8"
-                            Orientation="Horizontal"
-                            x:DataType="modelsBindable:TableBindableModel">
+                        <templates:TextItemTemplate.FormattedText>
+                            <FormattedString>
+                                <Span Text="{xct:Translate Table}"/>
+                                <Span Text=" "/>
+                                <Span Text="{Binding TableNumber}"/>
+                            </FormattedString>
+                        </templates:TextItemTemplate.FormattedText>
+                        
+                    </templates:TextItemTemplate>
 
-                            <Label
-                                HorizontalOptions="FillAndExpand"
-                                FontFamily="Barlow-Medium"
-                                FontSize="{DynamicResource TSize_i7}">
-
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{xct:Translate Table}"/>
-                                        <Span Text=" "/>
-                                        <Span Text="{Binding TableNumber}"/>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                                
-                            </Label>
-
-                        </StackLayout>
-
-                        <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
-
-                    </StackLayout>
                 </DataTemplate>
+
             </controls:DropDownList.DataTemplate>
 
         </controls:DropDownList>

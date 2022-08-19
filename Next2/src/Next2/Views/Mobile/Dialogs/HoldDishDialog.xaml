@@ -5,7 +5,6 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:local="clr-namespace:Next2"
     xmlns:effects="clr-namespace:Next2.Effects"
@@ -32,14 +31,20 @@
                 <Setter Property="Padding" Value="0, 0, 0, 2" />
                 <Setter Property="HeightRequest" Value="40" />
                 <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
             </Style>
 
             <Style x:Key="LabelStyle_i1" TargetType="Label">
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
                 <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i13}" />
                 <Setter Property="FontFamily" Value="Barlow-Bold" />
-                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="Margin" Value="0, 0, 0, 15" />
+                <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i3}" />
+                <Setter Property="Text" Value=":" />
             </Style>
 
             <Style x:Key="IconButtonStyle_i3" TargetType="buttons:IconButton">
@@ -56,7 +61,10 @@
             </Style>
 
             <DataTemplate x:Key="timeItemTemplate">
-                <templates:HoldTimeItemTemplate ItemHeight="40" />
+                <templates:HoldTimeItemTemplate 
+                    ItemHeight="40"
+                    ItemBackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    ItemBorderColor="{DynamicResource TextAndBackgroundColor_i2}" />
             </DataTemplate>
 
         </pancakeview:PancakeView.Resources>
@@ -181,16 +189,16 @@
 
                         </CollectionView>
 
-                        <controls:StepperTimePicker
-                            Margin="0, 30, 0, 0"
-                            ImageSize="45"
-                            FontSize="{DynamicResource TSize_i13}"
-                            Time="{Binding HoldTime}"
-                            StartTime="{Binding CurrentTime}">
+                        <StackLayout
+                            HeightRequest="210"
+                            Orientation="Horizontal"
+                            Margin="0, 40, 0, 0"
+                            HorizontalOptions="CenterAndExpand">
 
-                            <controls:StepperTimePicker.Triggers>
+                            <StackLayout.Triggers>
+
                                 <DataTrigger
-                                    TargetType="controls:StepperTimePicker"
+                                    TargetType="StackLayout"
                                     Binding="{Binding SelectedHoldingTimeInMinutes, Converter={xct:IsNotNullOrEmptyConverter}}"
                                     Value="True">
 
@@ -198,9 +206,31 @@
                                     <Setter Property="IsEnabled" Value="False" />
 
                                 </DataTrigger>
-                            </controls:StepperTimePicker.Triggers>
-                            
-                        </controls:StepperTimePicker>
+
+                            </StackLayout.Triggers>
+
+                            <controls:StepperNumber
+                                ImageSize="50"
+                                WidthRequest="80"
+                                FontSize="{DynamicResource TSize_i13}"
+                                MinNumber="0"
+                                MaxNumber="23"
+                                ConfirmChange="{Binding ChangePropertyAfterChecking}"
+                                Number="{Binding Hour}" />
+
+                            <Label
+                                Style="{DynamicResource LabelStyle_i1}" />
+
+                            <controls:StepperNumber
+                                ImageSize="50"
+                                WidthRequest="85"
+                                FontSize="{DynamicResource TSize_i13}"
+                                MinNumber="0"
+                                MaxNumber="59"
+                                ConfirmChange="{Binding ChangePropertyAfterChecking}"
+                                Number="{Binding Minute}" />
+
+                        </StackLayout>
                         
                     </StackLayout>
                     
@@ -209,34 +239,12 @@
             </StackLayout>
 
             <StackLayout
-                HeightRequest="90"
-                MinimumHeightRequest="90"
+                HeightRequest="40"
+                MinimumHeightRequest="40"
+                HorizontalOptions="FillAndExpand"
+                Orientation="Horizontal"
                 Padding="20"
-                Spacing="10">
-
-                <StackLayout
-                    HorizontalOptions="FillAndExpand"
-                    Orientation="Horizontal"
-                    Spacing="15">
-
-                    <buttons:BorderButton
-                        Style="{DynamicResource BorderButtonStyle_i2_1}"
-                        HorizontalOptions="FillAndExpand"
-                        BackgroundColor="{DynamicResource IndicationColor_i3}"
-                        BorderColor="{DynamicResource IndicationColor_i3}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        Text="{xct:Translate Dismiss}"
-                        Command="{Binding DismissCommand}" />
-
-                    <buttons:BorderButton
-                        Style="{DynamicResource BorderButtonStyle_i2_1}"
-                        HorizontalOptions="FillAndExpand"
-                        BackgroundColor="{DynamicResource IndicationColor_i1}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        Text="{xct:Translate Hold}"
-                        Command="{Binding HoldCommand}" />
-
-                </StackLayout>
+                Spacing="15">
 
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i2_1}"
@@ -246,6 +254,14 @@
                     Text="{xct:Translate Cancel}"
                     Command="{Binding CloseCommand}" />
 
+                <buttons:BorderButton
+                    Style="{DynamicResource BorderButtonStyle_i2_1}"
+                    HorizontalOptions="FillAndExpand"
+                    BackgroundColor="{DynamicResource IndicationColor_i1}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    Text="{xct:Translate Hold}"
+                    Command="{Binding HoldCommand}" />
+                
             </StackLayout>
 
         </StackLayout>
