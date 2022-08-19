@@ -257,11 +257,11 @@ namespace Next2.ViewModels
 
         private Task OnAddNewCustomerCommandAsync()
         {
-            var param = new DialogParameters();
+            var parameters = new DialogParameters();
 
             PopupPage popupPage = App.IsTablet
-                ? new Views.Tablet.Dialogs.CustomerAddDialog(param, AddNewCustomerDialogCallBackAsync)
-                : new Views.Mobile.Dialogs.CustomerAddDialog(param, AddNewCustomerDialogCallBackAsync);
+                ? new Views.Tablet.Dialogs.CustomerAddDialog(parameters, AddNewCustomerDialogCallBackAsync)
+                : new Views.Mobile.Dialogs.CustomerAddDialog(parameters, AddNewCustomerDialogCallBackAsync);
 
             return PopupNavigation.PushAsync(popupPage);
         }

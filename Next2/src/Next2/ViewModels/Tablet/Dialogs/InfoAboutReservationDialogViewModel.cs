@@ -43,24 +43,24 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         private Task OnRemoveCommandAsync()
         {
-            var param = new DialogParameters()
+            var parameters = new DialogParameters()
             {
                 { Constants.DialogParameterKeys.ACTION, Constants.DialogParameterKeys.REMOVE },
             };
 
-            RequestClose(param);
+            RequestClose(parameters);
 
             return Task.CompletedTask;
         }
 
         private Task OnAssignCommandAsync()
         {
-            var param = new DialogParameters()
+            var parameters = new DialogParameters()
             {
                 { Constants.DialogParameterKeys.ACTION, Constants.DialogParameterKeys.ASSIGN },
             };
 
-            RequestClose(param);
+            RequestClose(parameters);
 
             return Task.CompletedTask;
         }

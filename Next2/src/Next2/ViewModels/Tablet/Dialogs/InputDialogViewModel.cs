@@ -53,14 +53,14 @@ namespace Next2.ViewModels.Tablet.Dialogs
         {
             Animation = new MoveAnimation(MoveAnimationOptions.Top, MoveAnimationOptions.Bottom);
 
-            var param = new DialogParameters();
+            var parameters = new DialogParameters();
 
             if (!string.IsNullOrEmpty(text))
             {
-                param.Add(Constants.Navigations.INPUT_VALUE, Text);
+                parameters.Add(Constants.Navigations.INPUT_VALUE, Text);
             }
 
-            RequestClose(param);
+            RequestClose(parameters);
 
             return Task.CompletedTask;
         }

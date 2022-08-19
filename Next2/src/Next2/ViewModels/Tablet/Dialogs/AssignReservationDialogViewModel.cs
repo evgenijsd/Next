@@ -64,13 +64,13 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         private Task OnAssignReservationCommandAsync()
         {
-            var param = new DialogParameters();
+            var parameters = new DialogParameters();
 
             if (CanAssingReservation)
             {
             }
 
-            RequestClose(param);
+            RequestClose(parameters);
 
             return Task.CompletedTask;
         }

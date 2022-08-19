@@ -218,13 +218,13 @@ namespace Next2.ViewModels.Tablet
 
                     if (allAvailableTables is not null)
                     {
-                        var param = new DialogParameters()
+                        var parameters = new DialogParameters()
                         {
                             { Constants.DialogParameterKeys.EMPLOYEES, allEmployees },
                             { Constants.DialogParameterKeys.TABLES, allAvailableTables },
                         };
 
-                        var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(param, AddNewReservationDialogCallBack);
+                        var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(parameters, AddNewReservationDialogCallBack);
 
                         await PopupNavigation.PushAsync(popupPage);
                     }

@@ -139,7 +139,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
         {
             ChangeCanAddNewReservation();
 
-            var param = new DialogParameters();
+            var parameters = new DialogParameters();
 
             if (CanAddNewReservation)
             {
@@ -160,27 +160,27 @@ namespace Next2.ViewModels.Tablet.Dialogs
                         DateTime = SelectedTime,
                     };
 
-                    param.Add(Constants.DialogParameterKeys.ACCEPT, newReservation);
+                    parameters.Add(Constants.DialogParameterKeys.ACCEPT, newReservation);
                 }
                 catch (Exception)
                 {
                 }
             }
 
-            RequestClose(param);
+            RequestClose(parameters);
 
             return Task.CompletedTask;
         }
 
         private Task OnGoInputNotesCommandAsync()
         {
-            var param = new DialogParameters()
+            var parameters = new DialogParameters()
             {
                 { Constants.Navigations.INPUT_VALUE, Notes },
                 { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["CommentForReservation"] },
             };
 
-            var popupPage = new Views.Tablet.Dialogs.InputDialog(param, InputDialogCallBack);
+            var popupPage = new Views.Tablet.Dialogs.InputDialog(parameters, InputDialogCallBack);
 
             return PopupNavigation.Instance.PushAsync(popupPage);
         }

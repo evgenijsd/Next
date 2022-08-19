@@ -56,12 +56,12 @@ namespace Next2.ViewModels.Dialogs
 
         private Task OnFinishPaymentCommandAsync(EPaymentReceiptOptions receiptOptions)
         {
-            var param = new DialogParameters
+            var parameters = new DialogParameters
             {
                 { Constants.DialogParameterKeys.PAYMENT_COMPLETE, receiptOptions },
             };
 
-            CloseCommand = new DelegateCommand(() => RequestClose(param));
+            CloseCommand = new DelegateCommand(() => RequestClose(parameters));
             CloseCommand.Execute();
 
             return Task.CompletedTask;

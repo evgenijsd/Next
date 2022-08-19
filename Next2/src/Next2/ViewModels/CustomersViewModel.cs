@@ -208,11 +208,11 @@ namespace Next2.ViewModels
             {
                 SelectedCustomer = customer;
 
-                var param = new DialogParameters { { Constants.DialogParameterKeys.MODEL, selectedCustomer } };
+                var parameters = new DialogParameters { { Constants.DialogParameterKeys.MODEL, selectedCustomer } };
 
                 PopupPage customerInfoDialog = App.IsTablet
-                    ? new Views.Tablet.Dialogs.CustomerInfoDialog(param, CloseCustomerInfoDialogCallback)
-                    : new Views.Mobile.Dialogs.CustomerInfoDialog(param, CloseCustomerInfoDialogCallback);
+                    ? new Views.Tablet.Dialogs.CustomerInfoDialog(parameters, CloseCustomerInfoDialogCallback)
+                    : new Views.Mobile.Dialogs.CustomerInfoDialog(parameters, CloseCustomerInfoDialogCallback);
 
                 await PopupNavigation.PushAsync(customerInfoDialog);
             }
@@ -272,11 +272,11 @@ namespace Next2.ViewModels
 
         private Task OnAddNewCustomerCommandAsync()
         {
-            var param = new DialogParameters();
+            var parameters = new DialogParameters();
 
             PopupPage popupPage = App.IsTablet
-                ? new Views.Tablet.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack)
-                : new Views.Mobile.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack);
+                ? new Views.Tablet.Dialogs.CustomerAddDialog(parameters, AddCustomerDialogCallBack)
+                : new Views.Mobile.Dialogs.CustomerAddDialog(parameters, AddCustomerDialogCallBack);
 
             return PopupNavigation.PushAsync(popupPage);
         }
