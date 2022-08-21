@@ -57,9 +57,28 @@ namespace Next2.ViewModels.Tablet
             _workLogService = workLogService;
             _mapper = mapper;
 
+            _eventAggregator.GetEvent<NewOrderStateChanging>().Subscribe(OnNewOrderStateChanging);
+
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
             orderRegistrationViewModel?.RefreshCurrentOrderAsync();
+        }
+
+        private async void OnNewOrderStateChanging(ENewOrderViewState newState)
+        {
+            if (OrderRegistrationViewModel.CurrentState == ENewOrderViewState.Default
+                && newState == ENewOrderViewState.Edit)
+            {
+                SelectedCategoriesItem = null;
+                SelectedSubcategoriesItem = null;
+            }
+            else if (OrderRegistrationViewModel.CurrentState == ENewOrderViewState.Edit
+                && newState == ENewOrderViewState.Default)
+            {
+                OrderRegistrationViewModel.IsSideMenuVisible = true;
+
+                await OnRefreshCategoriesCommandAsync();
+            }
         }
 
         #region -- Public properties --

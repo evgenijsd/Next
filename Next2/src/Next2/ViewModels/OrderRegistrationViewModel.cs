@@ -84,7 +84,17 @@ namespace Next2.ViewModels
 
         public bool IsClockRunning { get; set; }
 
-        public ENewOrderViewState CurrentState { get; set; }
+        private ENewOrderViewState _currentState;
+        public ENewOrderViewState CurrentState
+        {
+            get => _currentState;
+            set
+            {
+                _eventAggregator.GetEvent<NewOrderStateChanging>().Publish(value);
+
+                SetProperty(ref _currentState, value);
+            }
+        }
 
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
