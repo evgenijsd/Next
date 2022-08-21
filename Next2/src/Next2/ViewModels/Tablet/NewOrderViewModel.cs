@@ -64,24 +64,9 @@ namespace Next2.ViewModels.Tablet
             orderRegistrationViewModel?.RefreshCurrentOrderAsync();
         }
 
-        private async void OnNewOrderStateChanging(ENewOrderViewState newState)
-        {
-            if (OrderRegistrationViewModel.CurrentState == ENewOrderViewState.Default
-                && newState == ENewOrderViewState.Edit)
-            {
-                SelectedCategoriesItem = null;
-                SelectedSubcategoriesItem = null;
-            }
-            else if (OrderRegistrationViewModel.CurrentState == ENewOrderViewState.Edit
-                && newState == ENewOrderViewState.Default)
-            {
-                OrderRegistrationViewModel.IsSideMenuVisible = true;
-
-                await OnRefreshCategoriesCommandAsync();
-            }
-        }
-
         #region -- Public properties --
+
+        public bool IsSideMenuVisible { get; set; } = true;
 
         public ELoadingState DishesLoadingState { get; set; } = ELoadingState.InProgress;
 
@@ -166,6 +151,25 @@ namespace Next2.ViewModels.Tablet
         #endregion
 
         #region -- Private methods --
+
+        private async void OnNewOrderStateChanging(ENewOrderViewState newState)
+        {
+            if (OrderRegistrationViewModel.CurrentState == ENewOrderViewState.Default
+                && newState == ENewOrderViewState.Edit)
+            {
+                SelectedCategoriesItem = null;
+                SelectedSubcategoriesItem = null;
+
+                IsSideMenuVisible = false;
+            }
+            else if (OrderRegistrationViewModel.CurrentState == ENewOrderViewState.Edit
+                && newState == ENewOrderViewState.Default)
+            {
+                IsSideMenuVisible = true;
+
+                await OnRefreshCategoriesCommandAsync();
+            }
+        }
 
         private Task OnTapSortCommandAsync()
         {

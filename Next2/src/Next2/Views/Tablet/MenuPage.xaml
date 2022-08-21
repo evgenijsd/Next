@@ -146,7 +146,7 @@
     <Grid ColumnDefinitions="86, *">
 
         <Grid.Triggers>
-            <DataTrigger TargetType="Grid" Binding="{Binding NewOrderViewModel.OrderRegistrationViewModel.IsSideMenuVisible}" Value="False">
+            <DataTrigger TargetType="Grid" Binding="{Binding NewOrderViewModel.IsSideMenuVisible}" Value="False">
                 <Setter Property="ColumnDefinitions" Value="0, *"/>
             </DataTrigger>
         </Grid.Triggers>
