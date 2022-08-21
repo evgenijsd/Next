@@ -166,6 +166,7 @@ namespace Next2.ViewModels
 
                 order.Seats = seats;
                 order.Open = DateTime.Now;
+                order.IsSplitBySeats = true;
 
                 _orderService.CalculateOrderPrices(order);
 
@@ -190,6 +191,8 @@ namespace Next2.ViewModels
             Order.Seats = seats;
 
             _orderService.CalculateOrderPrices(Order);
+
+            Order.IsSplitBySeats = true;
 
             var updateResult = await _orderService.UpdateOrderAsync(Order);
 
@@ -388,7 +391,7 @@ namespace Next2.ViewModels
         {
             foreach (var seat in Seats)
             {
-                seat.SelectedDishes = new(seat.SelectedDishes.Where(x => x.TotalPrice > 0));
+                seat.SelectedDishes = new(seat.SelectedDishes.Where(x => x.TotalPrice > 0.01m));
             }
 
             return Task.CompletedTask;

@@ -988,9 +988,19 @@ namespace Next2.ViewModels
 
         private Task OnOpenModifyCommandAsync()
         {
-            return IsInternetConnected
-                ? _navigationService.NavigateAsync(nameof(ModificationsPage))
-                : _notificationsService.ShowNoInternetConnectionDialogAsync();
+            if (SelectedDish is not null && SelectedDish.IsSplitted)
+            {
+                return _notificationsService.ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Warning"],
+                    LocalizationResourceManager.Current["YouCan'tModifyASplitDish"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
+            else
+            {
+                return IsInternetConnected
+                    ? _navigationService.NavigateAsync(nameof(ModificationsPage))
+                    : _notificationsService.ShowNoInternetConnectionDialogAsync();
+            }
         }
 
         private Task OnOpenRemoveCommandAsync()

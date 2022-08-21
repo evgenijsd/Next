@@ -51,6 +51,7 @@
                     BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}}">
 
                     <Frame
+                        Margin="0, 0, 6, 0"
                         HeightRequest="88"
                         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                         BackgroundColor="{Binding SubItemColor, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}}"
@@ -106,7 +107,7 @@
                                     <Frame
                                         VerticalOptions="Start"
                                         HorizontalOptions="Start"
-                                        CornerRadius="{OnPlatform Android=45, iOS=12}"
+                                        CornerRadius="{OnPlatform Android=45, iOS=8}"
                                         IsVisible="{Binding IsSplitted}"
                                         BackgroundColor="{DynamicResource IndicationColor_i7}">
 
