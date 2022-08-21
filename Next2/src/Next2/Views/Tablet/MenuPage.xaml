@@ -147,12 +147,7 @@
     <Grid ColumnDefinitions="86, *">
 
         <Grid.Triggers>
-            <DataTrigger 
-                TargetType="Grid"
-                Binding="{Binding NewOrderViewModel.OrderRegistrationViewModel.CurrentState, 
-                    Converter={xct:EqualConverter},
-                    ConverterParameter={Static enums:ENewOrderViewState.Edit}}"
-                Value="True">
+            <DataTrigger TargetType="Grid" Binding="{Binding NewOrderViewModel.OrderRegistrationViewModel.IsSideMenuVisible}" Value="False">
                 
                 <Setter Property="ColumnDefinitions" Value="0, *"/>
                 
