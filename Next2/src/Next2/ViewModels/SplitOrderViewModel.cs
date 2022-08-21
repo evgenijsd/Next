@@ -369,6 +369,8 @@ namespace Next2.ViewModels
                         dish.TotalPrice = incomingSeat.SelectedItem is null
                             ? 0
                             : incomingSeat.SelectedItem.TotalPrice;
+                        dish.DiscountPrice = dish.TotalPrice;
+                        dish.SplitPrice = dish.TotalPrice;
                         dish.IsSplitted = true;
                         seat.SelectedDishes.Add(dish);
                     }
@@ -376,6 +378,8 @@ namespace Next2.ViewModels
             }
 
             SelectedDish.IsSplitted = true;
+            SelectedDish.DiscountPrice = SelectedDish.TotalPrice;
+            SelectedDish.SplitPrice = SelectedDish.TotalPrice;
 
             return Task.CompletedTask;
         }
