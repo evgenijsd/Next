@@ -7,7 +7,6 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:views="clr-namespace:Next2.Views"
@@ -148,9 +147,7 @@
 
         <Grid.Triggers>
             <DataTrigger TargetType="Grid" Binding="{Binding NewOrderViewModel.OrderRegistrationViewModel.IsSideMenuVisible}" Value="False">
-                
                 <Setter Property="ColumnDefinitions" Value="0, *"/>
-                
             </DataTrigger>
         </Grid.Triggers>
 
