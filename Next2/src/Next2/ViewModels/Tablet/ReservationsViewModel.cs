@@ -332,7 +332,6 @@ namespace Next2.ViewModels.Tablet
 
                         var employee = allEmployees.FirstOrDefault(row => row.EmployeeId == employeeId);
 
-
                         if (employee is not null)
                         {
                             SelectedReservation.Employee = employee;
@@ -383,6 +382,28 @@ namespace Next2.ViewModels.Tablet
         {
             if (parameters.Count > 0)
             {
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.TABLE, out TableModelDTO table)
+                    && parameters.TryGetValue(Constants.DialogParameterKeys.EMPLOYEE, out EmployeeModelDTO employee)
+                    && SelectedReservation is not null)
+                {
+                    SelectedReservation.Table = table;
+                    SelectedReservation.Employee = employee;
+
+                    var reservationForUpdate = _mapper.Map<ReservationBindableModel, ReservationModel>(SelectedReservation);
+
+                    var updateResult = await _reservationService.UpdateReservationAsync(reservationForUpdate);
+
+                    if (updateResult.IsSuccess)
+                    {
+                        await _notificationsService.ClosePopupAsync();
+
+                        IsReservationsRefreshing = true;
+                    }
+                    else
+                    {
+                        await ResponseToUnsuccessfulRequestAsync(updateResult.Exception?.Message);
+                    }
+                }
             }
             else
             {

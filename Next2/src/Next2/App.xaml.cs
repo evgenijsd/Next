@@ -243,6 +243,7 @@ namespace Next2
                 cfg.CreateMap<SimpleTableModelDTO, SimpleTableModelDTO>();
                 cfg.CreateMap<ReservationModel, ReservationBindableModel>()
                     .ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Table.Number));
+                cfg.CreateMap<ReservationBindableModel, ReservationModel>();
             }).CreateMapper();
         }
 

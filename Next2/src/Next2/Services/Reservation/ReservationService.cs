@@ -109,6 +109,30 @@ namespace Next2.Services.Reservation
             return result;
         }
 
+        public async Task<AOResult> UpdateReservationAsync(ReservationModel? reservation)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                if (reservation is not null)
+                {
+                    var updateResult = await _mockService.UpdateAsync(reservation);
+
+                    if (updateResult is not null)
+                    {
+                        result.SetSuccess();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(UpdateReservationAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region -- Private helpers --
