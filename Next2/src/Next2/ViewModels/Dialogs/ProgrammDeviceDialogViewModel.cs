@@ -19,9 +19,9 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Public Properties --
 
-        public Action<IDialogParameters>? RequestClose;
-
         public EStep ProgrammingStep { get; set; } = EStep.First;
+
+        public Action<IDialogParameters>? RequestClose;
 
         private ICommand? _startProgrammingCommand;
         public ICommand StartProgrammingCommand => _startProgrammingCommand ??= new AsyncCommand(OnStartProgrammingCommand, allowsMultipleExecutions: false);
