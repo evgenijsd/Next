@@ -66,8 +66,6 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Public properties --
 
-        public bool IsSideMenuVisible { get; set; } = true;
-
         public ELoadingState DishesLoadingState { get; set; } = ELoadingState.InProgress;
 
         public ELoadingState CategoriesLoadingState { get; set; } = ELoadingState.InProgress;
@@ -160,13 +158,12 @@ namespace Next2.ViewModels.Tablet
                 SelectedCategoriesItem = null;
                 SelectedSubcategoriesItem = null;
 
-                IsSideMenuVisible = false;
+                OrderRegistrationViewModel.IsSideMenuVisible = false;
             }
             else if (OrderRegistrationViewModel.CurrentState == ENewOrderViewState.Edit
                 && newState == ENewOrderViewState.Default)
             {
-                IsSideMenuVisible = true;
-
+                OrderRegistrationViewModel.IsSideMenuVisible = true;
                 await OnRefreshCategoriesCommandAsync();
             }
         }

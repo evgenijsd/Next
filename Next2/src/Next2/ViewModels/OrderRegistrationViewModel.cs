@@ -116,6 +116,8 @@ namespace Next2.ViewModels
 
         public bool IsOrderWithTax { get; set; } = true;
 
+        public bool IsSideMenuVisible { get; set; } = true;
+
         public ENotificationType OrderNotificationStatus { get; set; } = ENotificationType.None;
 
         public bool IsOrderSavingAndPaymentEnabled { get; set; }
@@ -408,6 +410,7 @@ namespace Next2.ViewModels
             if (SelectedDish is null)
             {
                 CurrentState = ENewOrderViewState.Default;
+                IsSideMenuVisible = true;
             }
             else if (!App.IsTablet)
             {
@@ -465,6 +468,8 @@ namespace Next2.ViewModels
             {
                 CurrentState = ENewOrderViewState.Default;
             }
+
+            IsSideMenuVisible = true;
 
             return UpdateDishGroupsAsync();
         }
@@ -538,6 +543,7 @@ namespace Next2.ViewModels
                         if (App.IsTablet)
                         {
                             CurrentState = ENewOrderViewState.Edit;
+                            IsSideMenuVisible = false;
                         }
                         else
                         {
@@ -1110,6 +1116,7 @@ namespace Next2.ViewModels
         {
             if (App.IsTablet)
             {
+                IsSideMenuVisible = true;
                 CurrentState = ENewOrderViewState.Default;
 
                 MessagingCenter.Send<MenuPageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
