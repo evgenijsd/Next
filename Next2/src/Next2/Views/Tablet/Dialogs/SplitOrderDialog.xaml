@@ -380,7 +380,13 @@
                     </controls:CustomCollectionView.Effects>
 
                     <controls:CustomCollectionView.Header>
-                        <Label Text="{xct:Translate Seats}" />
+                        
+                        <StackLayout HeightRequest="{OnPlatform iOS='32'}">
+                            
+                            <Label VerticalOptions="Start" Text="{xct:Translate Seats}" />
+
+                        </StackLayout>
+                        
                     </controls:CustomCollectionView.Header>
 
                     <controls:CustomCollectionView.ItemsLayout>
@@ -426,7 +432,7 @@
                                 </VisualStateManager.VisualStateGroups>
 
                                 <Frame
-                                    Margin="0, 0, 6, 0"
+                                    Margin="{OnPlatform Android='0', iOS='0, 0, 4, 0'}"
                                     Padding="18"
                                     HeightRequest="50"
                                     WidthRequest="250"

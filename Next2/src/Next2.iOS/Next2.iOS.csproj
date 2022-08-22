@@ -1731,4 +1731,9 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_paper_primary_24x24%403x.png" />
   </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties XamarinHotReloadWrongLinkerErrorInfoBarNext2iOSHideInfoBar="True" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

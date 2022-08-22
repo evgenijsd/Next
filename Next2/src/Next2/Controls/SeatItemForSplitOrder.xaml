@@ -51,8 +51,8 @@
                     BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}}">
 
                     <Frame
-                        Margin="0, 0, 6, 0"
-                        HeightRequest="88"
+                        Margin="{OnPlatform Android='0', iOS='0, 0, 4, 0'}"
+                        HeightRequest="80"
                         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                         BackgroundColor="{Binding SubItemColor, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}}"
                         CornerRadius="8"
@@ -64,9 +64,8 @@
                                 Margin="16"
                                 VerticalOptions="Center"
                                 HorizontalOptions="Start"
-                                HeightRequest="56"
-                                WidthRequest="56"
-                                MinimumWidthRequest="56"
+                                HeightRequest="48"
+                                WidthRequest="48"
                                 CornerRadius="8">
 
                                 <ffimageloading:CachedImage
