@@ -83,16 +83,16 @@ namespace Next2.Controls
             set => SetValue(ImageSizeProperty, value);
         }
 
-        public static readonly BindableProperty ConfirmChangeProperty = BindableProperty.Create(
-            propertyName: nameof(ConfirmChange),
+        public static readonly BindableProperty NumberChangeActionProperty = BindableProperty.Create(
+            propertyName: nameof(NumberChangeAction),
             returnType: typeof(Action),
             declaringType: typeof(StepperNumber),
             defaultBindingMode: BindingMode.OneWay);
 
-        public Action ConfirmChange
+        public Action NumberChangeAction
         {
-            get => (Action)GetValue(ConfirmChangeProperty);
-            set => SetValue(ConfirmChangeProperty, value);
+            get => (Action)GetValue(NumberChangeActionProperty);
+            set => SetValue(NumberChangeActionProperty, value);
         }
 
         private ICommand? _changeNumberCommand;
@@ -126,7 +126,7 @@ namespace Next2.Controls
 
             Number = number;
 
-            ConfirmChange();
+            NumberChangeAction();
 
             return Task.CompletedTask;
         }

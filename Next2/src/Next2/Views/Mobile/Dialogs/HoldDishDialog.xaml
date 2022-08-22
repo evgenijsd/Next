@@ -7,7 +7,6 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:local="clr-namespace:Next2"
-    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
@@ -79,15 +78,15 @@
                 Padding="20, 17">
 
                 <Label
-                    VerticalTextAlignment="Center"
                     Style="{DynamicResource LabelStyle_i4}"
+                    VerticalTextAlignment="Center"
                     FontSize="{DynamicResource TSize_i6}"
                     FontFamily="Barlow-SemiBold"
                     Text="{xct:Translate HoldItem}" />
 
                 <Label
-                    VerticalTextAlignment="Center"
                     Style="{DynamicResource LabelStyle_i4}"
+                    VerticalTextAlignment="Center"
                     HorizontalOptions="EndAndExpand"
                     FontSize="{DynamicResource TSize_i6}"
                     FontFamily="Barlow-Regular"
@@ -127,8 +126,8 @@
                             Margin="0, 14">
 
                             <Label
-                                VerticalOptions="Center"
                                 Style="{DynamicResource LabelStyle_i4}"
+                                VerticalOptions="Center"
                                 Padding="0, 0, 10, 0"
                                 Text="{Binding SelectedDish.Name}"
                                 FontSize="{DynamicResource TSize_i8}"
@@ -136,8 +135,8 @@
                                 LineBreakMode="TailTruncation" />
 
                             <Label
-                                VerticalOptions="Center"
                                 Style="{DynamicResource LabelStyle_i4}"
+                                VerticalOptions="Center"
                                 Padding="0, 0, 10, 0"
                                 Text="{Binding ProductNames}"
                                 FontSize="{DynamicResource TSize_i9}"
@@ -155,88 +154,87 @@
                     Margin="20, 0"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
-                <ScrollView>
-                    
-                    <ScrollView.Effects>
-                        <effects:NoOverScrollEffect />
-                    </ScrollView.Effects>
+                <controls:CustomCollectionView
+                    Margin="10, 0, 16, 0"
+                    ItemsSource="{Binding AvailableHoldingTimeInMinutes}"
+                    HorizontalOptions="CenterAndExpand"
+                    ItemSizingStrategy="MeasureFirstItem"
+                    ItemTemplate="{DynamicResource timeItemTemplate}"
+                    BounceMode="DisabledForAndroidAndiOS">
 
-                    <StackLayout HeightRequest="360">
+                    <CollectionView.ItemsLayout>
 
-                        <Label
-                            VerticalTextAlignment="Start"
-                            Margin="20, 23"
-                            FontFamily="Barlow-Regular"
-                            FontSize="{DynamicResource TSize_i6}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            Text="{xct:Translate SelectTime}" />
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="3" />
 
-                        <CollectionView
-                            Margin="10, 0, 16, 0"
-                            ItemsSource="{Binding AvailableHoldingTimeInMinutes}"
-                            HeightRequest="42"
-                            HorizontalOptions="CenterAndExpand"
-                            ItemSizingStrategy="MeasureFirstItem"
-                            ItemTemplate="{DynamicResource timeItemTemplate}">
+                    </CollectionView.ItemsLayout>
 
-                            <CollectionView.ItemsLayout>
-
-                                <GridItemsLayout
-                                    Orientation="Vertical"
-                                    Span="3" />
-
-                            </CollectionView.ItemsLayout>
-
-                        </CollectionView>
-
-                        <StackLayout      
-                            HeightRequest="210"
-                            MinimumHeightRequest="210"
-                            Orientation="Horizontal"
-                            Margin="0, 30, 0, 20"
-                            HorizontalOptions="CenterAndExpand">
-
-                            <StackLayout.Triggers>
-
-                                <DataTrigger
-                                    TargetType="StackLayout"
-                                    Binding="{Binding SelectedHoldingTimeInMinutes, Converter={xct:IsNotNullOrEmptyConverter}}"
-                                    Value="True">
-
-                                    <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
-                                    <Setter Property="IsEnabled" Value="False" />
-
-                                </DataTrigger>
-
-                            </StackLayout.Triggers>
-
-                            <controls:StepperNumber
-                                ImageSize="50"
-                                WidthRequest="80"
-                                FontSize="{DynamicResource TSize_i13}"
-                                MinNumber="0"
-                                MaxNumber="23"
-                                ConfirmChange="{Binding ChangePropertyAfterChecking}"
-                                Number="{Binding Hour}" />
+                    <CollectionView.Header>
+                        <StackLayout>
 
                             <Label
-                                Style="{DynamicResource LabelStyle_i1}" />
-
-                            <controls:StepperNumber
-                                ImageSize="50"
-                                WidthRequest="85"
-                                FontSize="{DynamicResource TSize_i13}"
-                                MinNumber="0"
-                                MaxNumber="59"
-                                ConfirmChange="{Binding ChangePropertyAfterChecking}"
-                                Number="{Binding Minute}" />
+                                VerticalTextAlignment="Start"
+                                Margin="20, 23"
+                                FontFamily="Barlow-Regular"
+                                FontSize="{DynamicResource TSize_i6}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                Text="{xct:Translate SelectTime}" />
 
                         </StackLayout>
+                    </CollectionView.Header>
 
-                    </StackLayout>
-                    
-                </ScrollView>
-                
+                    <CollectionView.Footer>
+                        <StackLayout>
+
+                            <StackLayout
+                                HeightRequest="230"
+                                MinimumHeightRequest="230"
+                                Orientation="Horizontal"
+                                Margin="0, 30, 0, 20"
+                                HorizontalOptions="CenterAndExpand">
+
+                                <StackLayout.Triggers>
+
+                                    <DataTrigger
+                                        TargetType="StackLayout"
+                                        Binding="{Binding SelectedHoldingTimeInMinutes, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                        Value="True">
+
+                                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                                        <Setter Property="IsEnabled" Value="False" />
+
+                                    </DataTrigger>
+
+                                </StackLayout.Triggers>
+
+                                <controls:StepperNumber
+                                    ImageSize="50"
+                                    WidthRequest="80"
+                                    FontSize="{DynamicResource TSize_i13}"
+                                    MinNumber="0"
+                                    MaxNumber="23"
+                                    NumberChangeAction="{Binding UpdateHoldTime}"
+                                    Number="{Binding Hour}" />
+
+                                <Label Style="{DynamicResource LabelStyle_i1}" />
+
+                                <controls:StepperNumber
+                                    ImageSize="50"
+                                    WidthRequest="85"
+                                    FontSize="{DynamicResource TSize_i13}"
+                                    MinNumber="0"
+                                    MaxNumber="59"
+                                    NumberChangeAction="{Binding UpdateHoldTime}"
+                                    Number="{Binding Minute}" />
+
+                            </StackLayout>
+
+                        </StackLayout>
+                    </CollectionView.Footer>
+
+                </controls:CustomCollectionView>
+
             </StackLayout>
 
             <StackLayout

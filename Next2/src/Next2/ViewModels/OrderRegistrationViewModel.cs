@@ -79,7 +79,7 @@ namespace Next2.ViewModels
             _removeOrderCommand = new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
             _selectDishCommand = new AsyncCommand<DishBindableModel>(OnSelectDishCommandAsync, allowsMultipleExecutions: false);
 
-            Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.HELD_DISH_RELEASE_FREQUENCY), OnTimerTick);
+            Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.HELD_DISH_RELEASE_FREQUENCY), OnDishReleaseTimerTick);
         }
 
         #region -- Public properties --
@@ -347,13 +347,13 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private bool OnTimerTick()
+        private bool OnDishReleaseTimerTick()
         {
             foreach (var seat in CurrentOrder.Seats)
             {
                 foreach (var dish in seat.SelectedDishes)
                 {
-                    if (dish.HoldTime is DateTime holdTime && holdTime <= DateTime.Now)
+                    if (dish.HoldTime is not null && dish.HoldTime <= DateTime.Now)
                     {
                         dish.HoldTime = null;
                     }

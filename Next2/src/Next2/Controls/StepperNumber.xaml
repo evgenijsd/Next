@@ -13,8 +13,7 @@
 
     <StackLayout.Resources>
 
-        <Style
-            x:Key="LabelStyle_i1"
+        <Style x:Key="LabelStyle_i1"
             TargetType="Label">
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             <Setter Property="FontSize" Value="{Binding FontSize, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />
@@ -24,8 +23,7 @@
             <Setter Property="Text" Value="{Binding Number, StringFormat={x:Static local:Constants+Formats.NUMBER_FORMAT}, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />
         </Style>
 
-        <Style
-            x:Key="IconButtonStyle_i2"
+        <Style x:Key="IconButtonStyle_i2"
             TargetType="buttons:IconButton">
             <Setter Property="xct:TouchEffect.Command" Value="{Binding ChangeNumberCommand, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />
             <Setter Property="HeightRequest" Value="{Binding ImageSize, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />
@@ -41,10 +39,10 @@
         Border="{pancakeview:BorderMarkup Thickness=0}"
         IconSource="ic_arrow_up_circle_primary_40x40"
         xct:TouchEffect.CommandParameter="{x:Static enums:ENumberChange.Increment}" />
-
-        <Label Style="{DynamicResource LabelStyle_i1}" />
-
-        <buttons:IconButton
+    
+    <Label Style="{DynamicResource LabelStyle_i1}" />
+    
+    <buttons:IconButton
         Style="{DynamicResource IconButtonStyle_i2}"
         VerticalOptions="EndAndExpand"
         Border="{pancakeview:BorderMarkup Thickness=0}"

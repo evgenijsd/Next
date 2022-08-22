@@ -26,7 +26,7 @@ namespace Next2.ViewModels.Dialogs
 
             SetHoldTime(DateTime.Now);
 
-            Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.HELD_DISH_RELEASE_FREQUENCY), OnTimerTick);
+            Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.HELD_DISH_RELEASE_FREQUENCY), OnCurrentTimeCheckHoldTimerTick);
 
             RequestClose = requestClose;
             CloseCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.CANCEL, true } }));
@@ -61,8 +61,8 @@ namespace Next2.ViewModels.Dialogs
 
         public Action<IDialogParameters> RequestClose;
 
-        private Action? _changePropertyAfterChecking;
-        public Action? ChangePropertyAfterChecking => _changePropertyAfterChecking ??= new Action(OnChangePropertyAfterChecking);
+        private Action? _updateHoldTime;
+        public Action? UpdateHoldTime => _updateHoldTime ??= new Action(OnUpdateHoldTime);
 
         private ICommand? _selectTimeItemCommand;
         public ICommand SelectTimeItemCommand => _selectTimeItemCommand ??= new AsyncCommand<HoldTimeItem?>(OnSelectTimeItemCommandAsync, allowsMultipleExecutions: false);
@@ -74,7 +74,7 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private helpers --
 
-        private void OnChangePropertyAfterChecking()
+        private void OnUpdateHoldTime()
         {
             var holdTime = new DateTime(CurrentTime.Year, CurrentTime.Month, CurrentTime.Day, Hour, Minute, second: 0);
 
@@ -151,7 +151,7 @@ namespace Next2.ViewModels.Dialogs
             };
         }
 
-        private bool OnTimerTick()
+        private bool OnCurrentTimeCheckHoldTimerTick()
         {
             CurrentTime = DateTime.Now;
 
