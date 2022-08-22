@@ -17,21 +17,43 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Style x:Key="ViewCellLabelStyle" TargetType="Label">
-                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                <Setter Property="Margin" Value="12, 0, 0, 0" />
-                <Setter Property="FontFamily" Value="Barlow-Regular" />
-                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
-                <Setter Property="VerticalOptions" Value="Center" />
-            </Style>
 
             <Style x:Key="HeaderLabelStyle" TargetType="Label">
+                
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="AdaptiveStyles">
+                            
+                            <VisualState Name="IPhone8">
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowHeight="667" />
+                                </VisualState.StateTriggers>
+                                <VisualState.Setters>
+                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            
+                            <VisualState Name="IPhone11">
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowHeight="896" />
+                                </VisualState.StateTriggers>
+                                <VisualState.Setters>
+                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+                
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
                 <Setter Property="Margin" Value="12, 0, 0, 0" />
                 <Setter Property="FontFamily" Value="Barlow-SemiBold" />
-                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i10}" />
                 <Setter Property="VerticalOptions" Value="Center" />
+                
             </Style>
+
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -161,7 +183,7 @@
                                 <DataTemplate x:DataType="models:CustomerBindableModel">
 
                                     <Grid
-                                        RowDefinitions="0.98*, 0.02*"
+                                        RowDefinitions="*, 2"
                                         xct:TouchEffect.Command="{Binding ShowInfoCommand}"
                                         xct:TouchEffect.CommandParameter="{Binding .}"
                                         HeightRequest="45">
@@ -169,21 +191,24 @@
                                         <Label
                                             Grid.Row="0"
                                             Grid.Column="0"
-                                            Style="{DynamicResource ViewCellLabelStyle}"
+                                            Style="{DynamicResource HeaderLabelStyle}"
+                                            FontFamily="Barlow-Regular"
                                             LineBreakMode="TailTruncation"
                                             Text="{Binding FullName}" />
 
                                         <Label
                                             Grid.Row="0"
                                             Grid.Column="1"
-                                            Style="{DynamicResource ViewCellLabelStyle}"
+                                            Style="{DynamicResource HeaderLabelStyle}"
+                                            FontFamily="Barlow-Regular"
                                             LineBreakMode="TailTruncation"
                                             Text="{Binding Phone, Converter={StaticResource formattedPhoneConverter}}" />
 
                                         <Label
                                             Grid.Row="0"
                                             Grid.Column="2"
-                                            Style="{DynamicResource ViewCellLabelStyle}"
+                                            Style="{DynamicResource HeaderLabelStyle}"
+                                            FontFamily="Barlow-Regular"
                                             Margin="0, 0, 15, 0"
                                             LineBreakMode="TailTruncation"
                                             Text="{Binding Email}" />
