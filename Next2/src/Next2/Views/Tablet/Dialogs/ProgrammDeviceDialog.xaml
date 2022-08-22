@@ -116,17 +116,48 @@
                         Style="{DynamicResource SeparatorStyle_i6}"
                         Margin="0, 18, 0, 0" />
 
-                    <ffimageloading:CachedImage
+                    <Grid
                         Margin="0, 42, 0, 0"
+                        ColumnSpacing="0"
+                        RowSpacing="0"
+                        VerticalOptions="Center"
                         HorizontalOptions="Center"
                         HeightRequest="210"
                         WidthRequest="210"
-                        Source="pic_settings.png"
-                        x:Name="settingsImage" />
+                        x:Name="mechanism">
+                        <ffimageloading:CachedImage
+                            Grid.RowSpan="2"
+                            Grid.ColumnSpan="2"
+                            Margin="0,0,35,0"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            HeightRequest="80"
+                            Source="pic_settings_r.png"
+                            x:Name="gearL" />
+                        <ffimageloading:CachedImage
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="0, 0,0,0"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            HeightRequest="130"
+                            Source="pic_settings_r.png"
+                            x:Name="gearB" />
+                        <ffimageloading:CachedImage
+                            Grid.RowSpan="2"
+                            Grid.Column="1"
+                            Margin="0,0,20,55"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            HeightRequest="65"
+                            Source="pic_settings_r.png"
+                            x:Name="gearU" />
+
+                    </Grid>
 
                     <Label
                         Style="{DynamicResource LableStyle}"
-                        Margin="0, 6, 0, 0"
+                        Margin="0, 18, 0, 0"
                         HorizontalOptions="Center"
                         Text="{xct:Translate ProgrammingYourDevice}"
                         FontFamily="Barlow-Medium" />

@@ -28,16 +28,22 @@ namespace Next2.Views.Tablet.Dialogs
             {
                 if ((EStep)stateContainer.State == EStep.Second)
                 {
-                    var animation = new Animation(v => settingsImage.Scale = v, 1, 0.96);
-                    var animation2 = new Animation(v => settingsImage.Rotation = v, 0, 3600);
+                    var animation1 = new Animation(v => gearU.Rotation = v, 0, 4600);
+                    var animation2 = new Animation(v => gearL.Rotation = v, 0, -4000);
+                    var animation3 = new Animation(v => gearB.Rotation = v, 0, -3600);
+                    var animation4 = new Animation(v => mechanism.Rotation = v, 0, 3600);
 
-                    animation.Commit(this, "PulseAnimation", 16, 80, Easing.Linear, (v, c) => settingsImage.Scale = 1, () => true);
-                    animation2.Commit(this, "RotateAnimation", 8, 20000, Easing.Linear, (v, c) => settingsImage.Rotation = 0, () => true);
+                    animation1.Commit(this, "RotateAnimation1", 8, 20000, Easing.Linear, (v, c) => gearU.Rotation = 0, () => true);
+                    animation2.Commit(this, "RotateAnimation2", 8, 20000, Easing.Linear, (v, c) => gearL.Rotation = 0, () => true);
+                    animation3.Commit(this, "RotateAnimation3", 8, 20000, Easing.Linear, (v, c) => gearB.Rotation = 0, () => true);
+                    animation4.Commit(this, "RotateAnimation4", 8, 200000, Easing.Linear, (v, c) => mechanism.Rotation = 0, () => true);
                 }
                 else if ((EStep)stateContainer.State == EStep.Third)
                 {
-                    this.AbortAnimation("PulseAnimation");
-                    this.AbortAnimation("RotateAnimation");
+                    this.AbortAnimation("RotateAnimation1");
+                    this.AbortAnimation("RotateAnimation2");
+                    this.AbortAnimation("RotateAnimation3");
+                    this.AbortAnimation("RotateAnimation4");
                 }
             }
         }
