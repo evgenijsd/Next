@@ -332,6 +332,7 @@ namespace Next2.ViewModels.Tablet
 
                         var employee = allEmployees.FirstOrDefault(row => row.EmployeeId == employeeId);
 
+
                         if (employee is not null)
                         {
                             SelectedReservation.Employee = employee;
