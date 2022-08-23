@@ -111,9 +111,7 @@ namespace Next2.Extensions
                 CustomerId = order.Customer == null || order.Customer?.Id == Guid.Empty
                     ? null
                     : order.Customer?.Id,
-                EmployeeId = order.EmployeeId == null
-                    ? string.Empty
-                    : order.EmployeeId,
+                EmployeeId = order.EmployeeId ?? string.Empty,
                 Seats = seats,
             };
 
@@ -384,14 +382,14 @@ namespace Next2.Extensions
                 }
             }
 
-            decimal СalculatePriceOfProportion(decimal price, decimal priceRatio)
-            {
-                return priceRatio == 1
-                    ? price
-                    : price * (1 + priceRatio);
-            }
-
             return fullOrderBindableModel;
+        }
+
+        private static decimal СalculatePriceOfProportion(decimal price, decimal priceRatio)
+        {
+            return priceRatio == 1
+                ? price
+                : price * (1 + priceRatio);
         }
     }
 }

@@ -849,7 +849,6 @@ namespace Next2.Services.Order
                             if (sourceDish is not null)
                             {
                                 dish.DishProportions = sourceDish.DishProportions;
-                                dish.Products = new(sourceDish.ReplacementProducts.SelectMany(x => x.Products));
                             }
                         }
                     }

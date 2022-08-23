@@ -9,7 +9,7 @@ namespace Next2.Extensions
     public static class SeatExtension
     {
         public static SeatBindableModel ToSeatBindableModel(this SeatModelDTO seat) =>
-            new SeatBindableModel
+            new()
             {
                 SeatNumber = seat.Number,
                 SelectedDishes = new ObservableCollection<DishBindableModel>(
@@ -59,7 +59,7 @@ namespace Next2.Extensions
 
         public static SeatModelDTO ToSeatModelDTO(this SeatBindableModel seat)
         {
-            return new SeatModelDTO()
+            return new()
             {
                 Number = seat.SeatNumber,
                 SelectedDishes = seat.SelectedDishes?.Select(y => new SelectedDishModelDTO
@@ -75,7 +75,7 @@ namespace Next2.Extensions
                     {
                         Id = x.Id,
                         Comment = x.Comment,
-                        Product = new SimpleProductModelDTO
+                        Product = new()
                         {
                             Id = x.Product.Id,
                             DefaultPrice = x.Product.DefaultPrice,

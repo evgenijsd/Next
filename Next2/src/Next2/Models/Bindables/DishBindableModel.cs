@@ -33,9 +33,9 @@ namespace Next2.Models.Bindables
 
         public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
 
-        public ObservableCollection<SimpleProductModelDTO>? Products { get; set; } = new();
-
         public ObservableCollection<ProductBindableModel>? SelectedProducts { get; set; }
+
+        public IEnumerable<DishReplacementProductModelDTO>? ReplacementProducts { get; set; }
 
         public ICommand? SelectDishCommand { get; set; }
 
@@ -69,30 +69,6 @@ namespace Next2.Models.Bindables
                         Name = SelectedDishProportion.Proportion?.Name,
                     },
                 },
-                Products = new(Products.Select(x => new SimpleProductModelDTO
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    DefaultPrice = x.DefaultPrice,
-                    ImageSource = x.ImageSource,
-                    Ingredients = x.Ingredients.Select(x => new SimpleIngredientModelDTO
-                    {
-                        Id = x.Id,
-                        ImageSource = x.ImageSource,
-                        Name = x.Name,
-                        IngredientsCategory = new SimpleIngredientsCategoryModelDTO
-                        {
-                            Name = x.IngredientsCategory.Name,
-                            Id = x.IngredientsCategory.Id,
-                        },
-                        Price = x.Price,
-                    }),
-                    Options = x.Options.Select(x => new OptionModelDTO
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                    }),
-                })),
                 SelectedProducts = SelectedProducts,
             };
         }

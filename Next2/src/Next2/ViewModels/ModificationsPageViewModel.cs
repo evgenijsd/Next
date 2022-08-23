@@ -182,6 +182,7 @@ namespace Next2.ViewModels
                     if (SelectedOption is not null)
                     {
                         var products = _currentDish.SelectedProducts;
+
                         var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
 
                         product.SelectedOptions = SelectedOption;
@@ -353,10 +354,12 @@ namespace Next2.ViewModels
 
         private void InitReplacementProductsDish()
         {
-            var products = _currentDish.Products;
+            var replacementProduct = _currentDish.ReplacementProducts.FirstOrDefault(x => x.ProductId == SelectedProduct.Id);
 
-            if (products is not null)
+            if (replacementProduct is not null && replacementProduct.Products is not null)
             {
+                var products = replacementProduct.Products;
+
                 if (_isOrderedByAscendingReplacementProducts)
                 {
                     ReplacementProducts = _mapper.Map<ObservableCollection<SimpleProductModelDTO>>(products.OrderBy(row => row.Name));
@@ -369,6 +372,7 @@ namespace Next2.ViewModels
                 foreach (var product in ReplacementProducts)
                 {
                     var defaultProductPrice = products.FirstOrDefault(x => x.Id == product.Id).DefaultPrice;
+
                     product.DefaultPrice = СalculatePriceOfProportion(defaultProductPrice);
                 }
 
@@ -410,7 +414,7 @@ namespace Next2.ViewModels
         {
             if (_allIngredients is not null)
             {
-                var product = _currentDish.SelectedProducts?.FirstOrDefault();
+                var product = _currentDish.SelectedProducts?.FirstOrDefault(row => row.Id == SelectedProduct.Id);
 
                 Ingredients = new(_allIngredients.Where(row => row.IngredientsCategoryId == categoryId).Select(row => new IngredientBindableModel()
                 {
@@ -665,7 +669,7 @@ namespace Next2.ViewModels
 
                 if (selectedProductCurrent.Id != SelectedReplacementProduct.Id)
                 {
-                    var selectedProductDefault = _currentDish.Products.FirstOrDefault(x => x.Id == SelectedReplacementProduct.Id);
+                    var selectedProductDefault = _currentDish.SelectedProducts.FirstOrDefault(x => x.Id == SelectedReplacementProduct.Id);
 
                     selectedProductCurrent = new()
                     {
@@ -675,12 +679,12 @@ namespace Next2.ViewModels
                         Price = SelectedReplacementProduct.DefaultPrice,
                         Product = new()
                         {
-                            Id = selectedProductDefault.Id,
-                            DefaultPrice = selectedProductDefault.DefaultPrice,
-                            ImageSource = selectedProductDefault.ImageSource,
-                            Ingredients = selectedProductDefault.Ingredients,
-                            Name = selectedProductDefault.Name,
-                            Options = selectedProductDefault.Options,
+                            Id = selectedProductDefault.Product.Id,
+                            DefaultPrice = selectedProductDefault.Product.DefaultPrice,
+                            ImageSource = selectedProductDefault.Product.ImageSource,
+                            Ingredients = selectedProductDefault.Product.Ingredients,
+                            Name = selectedProductDefault.Product.Name,
+                            Options = selectedProductDefault.Product.Options,
                         },
                     };
 

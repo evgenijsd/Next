@@ -17,7 +17,7 @@ namespace Next2.ViewModels.Dialogs
 {
     public class SplitOrderDialogViewModel : BindableBase
     {
-        private List<int[]> _splitGroupList = new();
+        private readonly List<int[]> _splitGroupList = new();
         private bool _canExecute;
 
         public SplitOrderDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace Next2.ViewModels
+namespace Next2.ViewModels.Dialogs
 {
     public class AddDishToOrderDialogViewModel : BindableBase
     {
@@ -82,7 +82,7 @@ namespace Next2.ViewModels
             if (param.TryGetValue(Constants.DialogParameterKeys.DISH, out DishModelDTO dish)
                 && param.TryGetValue(Constants.DialogParameterKeys.DISCOUNT_PRICE, out decimal discountPrice))
             {
-                Dish = new DishBindableModel()
+                Dish = new()
                 {
                     Id = dish.Id,
                     DishId = dish.Id,
@@ -91,7 +91,7 @@ namespace Next2.ViewModels
                     TotalPrice = dish.OriginalPrice,
                     DiscountPrice = discountPrice,
                     DishProportions = dish.DishProportions,
-                    Products = new(dish.ReplacementProducts.SelectMany(x => x.Products)),
+                    ReplacementProducts = dish.ReplacementProducts,
                     SelectedProducts = new(dish.ReplacementProducts.SelectMany(x => x.Products).Where(row => row.Name == dish.Name).Select(row => new ProductBindableModel()
                     {
                         Id = row.Id,
