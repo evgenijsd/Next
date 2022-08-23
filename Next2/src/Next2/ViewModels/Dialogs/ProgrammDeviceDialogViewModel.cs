@@ -21,6 +21,8 @@ namespace Next2.ViewModels.Dialogs
 
         public EStep ProgrammingStep { get; set; } = EStep.First;
 
+        public bool IsDeviceProgramming { get; set; } = false;
+
         public Action<IDialogParameters>? RequestClose;
 
         private ICommand? _startProgrammingCommand;
@@ -35,12 +37,12 @@ namespace Next2.ViewModels.Dialogs
 
         private async Task OnStartProgrammingCommand()
         {
-            Task delay = Task.Delay(10000);
-
+            IsDeviceProgramming = true;
             ProgrammingStep = EStep.Second;
 
-            await delay;
+            await Task.Delay(10000);
 
+            IsDeviceProgramming = false;
             ProgrammingStep = EStep.Third;
         }
 
