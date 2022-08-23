@@ -74,9 +74,9 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="  " />
-                                <Span Text="{Binding TimerHoldSelectedDish.Hours, StringFormat='{0:D2}'}" />
+                                <Span Text="{Binding TimerHoldSelectedDish.Hours, StringFormat={x:Static local:Constants+Formats.NUMBER_FORMAT}}" />
                                 <Span Text=":" />
-                                <Span Text="{Binding TimerHoldSelectedDish.Minutes, StringFormat='{0:D2}'}" />
+                                <Span Text="{Binding TimerHoldSelectedDish.Minutes, StringFormat={x:Static local:Constants+Formats.NUMBER_FORMAT}}" />
                             </FormattedString>
                         </Label.FormattedText>
 

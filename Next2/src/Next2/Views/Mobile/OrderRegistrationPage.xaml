@@ -260,8 +260,7 @@
             </controls:CustomCollectionView.Behaviors>
 
             <controls:CustomCollectionView.EmptyView>
-                <StackLayout
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+                <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                     <Frame
                         IsVisible="{Binding OrderNotificationStatus, Converter={xct:NotEqualConverter}, ConverterParameter={x:Static enums:ENotificationType.None}}"

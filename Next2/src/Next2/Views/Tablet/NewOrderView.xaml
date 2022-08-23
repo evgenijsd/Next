@@ -736,9 +736,9 @@
                                                 
                                                 <Label.FormattedText>
                                                     <FormattedString>
-                                                        <Span Text="{Binding OrderRegistrationViewModel.TimerHoldSelectedDish.Hours, StringFormat='{0:D2}'}" />
+                                                        <Span Text="{Binding OrderRegistrationViewModel.TimerHoldSelectedDish.Hours, StringFormat={x:Static local:Constants+Formats.NUMBER_FORMAT}}" />
                                                         <Span Text=":" />
-                                                        <Span Text="{Binding OrderRegistrationViewModel.TimerHoldSelectedDish.Minutes, StringFormat='{0:D2}'}" />
+                                                        <Span Text="{Binding OrderRegistrationViewModel.TimerHoldSelectedDish.Minutes, StringFormat={x:Static local:Constants+Formats.NUMBER_FORMAT}}" />
                                                     </FormattedString>
                                                 </Label.FormattedText>
                                                 

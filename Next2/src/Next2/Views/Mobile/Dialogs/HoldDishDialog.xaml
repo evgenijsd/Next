@@ -61,7 +61,7 @@
 
             <DataTemplate x:Key="timeItemTemplate">
                 <templates:HoldTimeItemTemplate 
-                    ItemHeight="40"
+                    HeightRequest="40"
                     ItemBackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     ItemBorderColor="{DynamicResource TextAndBackgroundColor_i2}" />
             </DataTemplate>
@@ -214,7 +214,7 @@
                                     FontSize="{DynamicResource TSize_i13}"
                                     MinNumber="0"
                                     MaxNumber="23"
-                                    NumberChangeAction="{Binding UpdateHoldTime}"
+                                    NumberChangedAction="{Binding UpdateHoldTime}"
                                     Number="{Binding Hour}" />
 
                                 <Label Style="{DynamicResource LabelStyle_i1}" />
@@ -225,7 +225,7 @@
                                     FontSize="{DynamicResource TSize_i13}"
                                     MinNumber="0"
                                     MaxNumber="59"
-                                    NumberChangeAction="{Binding UpdateHoldTime}"
+                                    NumberChangedAction="{Binding UpdateHoldTime}"
                                     Number="{Binding Minute}" />
 
                             </StackLayout>
