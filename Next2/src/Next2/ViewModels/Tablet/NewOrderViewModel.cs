@@ -157,13 +157,10 @@ namespace Next2.ViewModels.Tablet
             {
                 SelectedCategoriesItem = null;
                 SelectedSubcategoriesItem = null;
-
-                OrderRegistrationViewModel.IsSideMenuVisible = false;
             }
             else if (OrderRegistrationViewModel.CurrentState == ENewOrderViewState.Edit
                 && newState == ENewOrderViewState.Default)
             {
-                OrderRegistrationViewModel.IsSideMenuVisible = true;
                 await OnRefreshCategoriesCommandAsync();
             }
         }

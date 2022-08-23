@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Helpers.Events;
@@ -464,12 +464,12 @@ namespace Next2.ViewModels
                 }
             }
 
+            IsSideMenuVisible = true;
+
             if (CurrentState == ENewOrderViewState.Edit)
             {
                 CurrentState = ENewOrderViewState.Default;
             }
-
-            IsSideMenuVisible = true;
 
             return UpdateDishGroupsAsync();
         }
