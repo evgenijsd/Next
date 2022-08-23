@@ -23,12 +23,8 @@
                 Binding="{Binding IsSelected}"
                 Value="True">
 
-                <Setter
-                    Property="BackgroundColor"
-                    Value="{DynamicResource AppColor_i4}" />
-                <Setter
-                    Property="BorderColor"
-                    Value="{DynamicResource AppColor_i1}" />
+                <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+                <Setter Property="BorderColor" Value="{DynamicResource AppColor_i1}" />
 
             </DataTrigger>
         </Frame.Triggers>
@@ -43,12 +39,9 @@
 
             <Label.FormattedText>
                 <FormattedString>
-                    <Span
-                        Text="{Binding Minute}" />
-                    <Span
-                        Text=" " />
-                    <Span
-                        Text="{xct:Translate Min}" />
+                    <Span Text="{Binding Minute}" />
+                    <Span Text=" " />
+                    <Span Text="{xct:Translate Min}" />
                 </FormattedString>
             </Label.FormattedText>
 

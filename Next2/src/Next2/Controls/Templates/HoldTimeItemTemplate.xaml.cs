@@ -13,19 +13,6 @@ namespace Next2.Controls.Templates
 
         #region -- Public properties --
 
-        public static readonly BindableProperty HeightItemsProperty = BindableProperty.Create(
-            propertyName: nameof(ItemHeight),
-            returnType: typeof(double),
-            defaultValue: 40d,
-            declaringType: typeof(HoldTimeItemTemplate),
-            defaultBindingMode: BindingMode.OneWay);
-
-        public double ItemHeight
-        {
-            get => (double)GetValue(HeightItemsProperty);
-            set => SetValue(HeightItemsProperty, value);
-        }
-
         public static readonly BindableProperty ItemBackgroundColorProperty = BindableProperty.Create(
             propertyName: nameof(ItemBackgroundColor),
             returnType: typeof(Color),
