@@ -92,7 +92,7 @@ namespace Next2.ViewModels
                     DiscountPrice = discountPrice,
                     DishProportions = dish.DishProportions,
                     Products = new(dish.ReplacementProducts.SelectMany(x => x.Products)),
-                    SelectedProducts = new(dish.ReplacementProducts.SelectMany(x => x.Products).Where(row => dish.Name.Contains(row.Name) || dish.Name == row.Name).Select(row => new ProductBindableModel()
+                    SelectedProducts = new(dish.ReplacementProducts.SelectMany(x => x.Products).Where(product => dish.ReplacementProducts.Select(x => x.ProductId).Any(x => x == product.Id)).Select(row => new ProductBindableModel()
                     {
                         Id = row.Id,
                         SelectedOptions = row.Options.FirstOrDefault(),
