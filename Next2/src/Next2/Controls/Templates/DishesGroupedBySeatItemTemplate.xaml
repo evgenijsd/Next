@@ -77,9 +77,33 @@
                 MinimumWidthRequest="44"
                 CornerRadius="8">
 
-                <ffimageloading:CachedImage
-                    Aspect="AspectFill"
-                    Source="{Binding ImageSource}" />
+                <Grid>
+
+                    <ffimageloading:CachedImage
+                        Aspect="AspectFill"
+                        Source="{Binding ImageSource}">
+                        
+                        <ffimageloading:CachedImage.Triggers>
+                            
+                            <DataTrigger
+                                TargetType="ffimageloading:CachedImage"
+                                Binding="{Binding HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                Value="True">
+
+                                <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i4}" />
+
+                            </DataTrigger>
+                            
+                        </ffimageloading:CachedImage.Triggers>
+                        
+                    </ffimageloading:CachedImage>
+                    
+                    <ffimageloading:CachedImage
+                        Source="ic_time_circle_orange_32px" 
+                        Margin="9"
+                        IsVisible="{Binding HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}" />
+                    
+                </Grid>
 
             </pancakeview:PancakeView>
 

@@ -484,6 +484,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dismiss.
+        /// </summary>
+        internal static string Dismiss {
+            get {
+                return ResourceManager.GetString("Dismiss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dollar.
         /// </summary>
         internal static string Dollar {
@@ -664,6 +673,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hold.
+        /// </summary>
+        internal static string Hold {
+            get {
+                return ResourceManager.GetString("Hold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hold Item.
         /// </summary>
         internal static string HoldItem {
@@ -741,6 +759,15 @@ namespace Next2.Resources.Strings {
         internal static string Item {
             get {
                 return ResourceManager.GetString("Item", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item on hold.
+        /// </summary>
+        internal static string ItemOnHold {
+            get {
+                return ResourceManager.GetString("ItemOnHold", resourceCulture);
             }
         }
         
@@ -850,6 +877,15 @@ namespace Next2.Resources.Strings {
         internal static string MessageAboutRedirectingItems {
             get {
                 return ResourceManager.GetString("MessageAboutRedirectingItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to min.
+        /// </summary>
+        internal static string Min {
+            get {
+                return ResourceManager.GetString("Min", resourceCulture);
             }
         }
         
@@ -1570,6 +1606,15 @@ namespace Next2.Resources.Strings {
         internal static string SelectTable {
             get {
                 return ResourceManager.GetString("SelectTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Time.
+        /// </summary>
+        internal static string SelectTime {
+            get {
+                return ResourceManager.GetString("SelectTime", resourceCulture);
             }
         }
         
