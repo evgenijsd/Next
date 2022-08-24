@@ -37,11 +37,20 @@ namespace Next2.ViewModels.Dialogs
 
                 ProductNames = string.Join(", ", selectedDish.Products.Where(x => !string.IsNullOrEmpty(x.Name)).Select(x => x.Name).ToArray());
             }
+
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ORDER, out FullOrderBindableModel order))
+            {
+                CurrentOrder = order;
+
+                ProductNames = string.Join(", ", selectedDish.Products.Where(x => !string.IsNullOrEmpty(x.Name)).Select(x => x.Name).ToArray());
+            }
         }
 
         #region -- Public properties --
 
         public DishBindableModel SelectedDish { get; set; }
+
+        public FullOrderBindableModel CurrentOrder { get; set; }
 
         public ObservableCollection<HoldTimeItem> AvailableHoldingTimeInMinutes { get; set; }
 
