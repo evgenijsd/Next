@@ -219,7 +219,7 @@
                                     VerticalOptions="Start"
                                     HeaderTextSize="{DynamicResource TSize_i9}"
                                     HeaderTextOpacity="{DynamicResource OpacityWhenDisabled_i3}"
-                                    HeaderText="{xct:Translate TableNumber}"
+                                    HeaderFormattedText="{xct:Translate TableNumber}"
                                     SelectedItem="{Binding SelectedTable}"
                                     ItemsSource="{Binding Tables}">
 
@@ -230,7 +230,14 @@
                                             Binding="{Binding SelectedTable.Number, Converter={xct:IntToBoolConverter}}"
                                             Value="True">
 
-                                            <Setter Property="HeaderText" Value="{Binding SelectedTable.Number, StringFormat='Table {0}'}"/>
+                                            <Setter Property="HeaderFormattedText">
+                                                <FormattedString>
+                                                    <Span Text="{xct:Translate Table}"/>
+                                                    <Span Text=" "/>
+                                                    <Span Text="{Binding SelectedTableNumber}"/>
+                                                </FormattedString>
+                                            </Setter>
+                                            
                                             <Setter Property="HeaderTextOpacity" Value="1"/>
 
                                         </DataTrigger>

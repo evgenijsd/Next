@@ -164,7 +164,7 @@ namespace Next2.ViewModels.Tablet
             {
                 SelectedReservation = null;
 
-                var allReservations = _mapper.Map<IEnumerable<ReservationModel>, IEnumerable<ReservationBindableModel>>(resultOfGettingReservations.Result);
+                var allReservations = _mapper.Map<IEnumerable<ReservationBindableModel>>(resultOfGettingReservations.Result);
 
                 var sortedReservations = _reservationService.GetSortedReservations(_reservationsSortingType, allReservations);
 
@@ -338,10 +338,10 @@ namespace Next2.ViewModels.Tablet
                         }
                         else
                         {
-                            var listEmployees = allEmployees.ToList();
-                            listEmployees.Add(SelectedReservation.Employee);
+                            var employees = allEmployees.ToList();
+                            employees.Add(SelectedReservation.Employee);
 
-                            allEmployees = listEmployees;
+                            allEmployees = employees;
                         }
                     }
 
@@ -389,7 +389,7 @@ namespace Next2.ViewModels.Tablet
                     SelectedReservation.Table = table;
                     SelectedReservation.Employee = employee;
 
-                    var reservationForUpdate = _mapper.Map<ReservationBindableModel, ReservationModel>(SelectedReservation);
+                    var reservationForUpdate = _mapper.Map<ReservationModel>(SelectedReservation);
 
                     var updateResult = await _reservationService.UpdateReservationAsync(reservationForUpdate);
 

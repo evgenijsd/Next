@@ -42,6 +42,8 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public TableModelDTO SelectedTable { get; set; }
 
+        public int SelectedTableNumber { get; set; }
+
         public ObservableCollection<TableModelDTO> Tables { get; set; } = new();
 
         public string Notes { get; set; } = string.Empty;
@@ -100,21 +102,28 @@ namespace Next2.ViewModels.Tablet.Dialogs
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName
-                is nameof(IsValidName)
-                or nameof(IsValidPhone)
-                or nameof(SelectedAmountGuests))
+            switch (args.PropertyName)
             {
-                ChangeCanAddNewReservation();
-            }
-            else if (args.PropertyName
-                is nameof(SelectedDate)
-                or nameof(Hour)
-                or nameof(Minute)
-                or nameof(TimeFormat))
-            {
-                ChangeSelectedTime();
-                ChangeCanAddNewReservation();
+                case nameof(SelectedTable):
+                    SelectedTableNumber = SelectedTable.Number;
+
+                    break;
+                case nameof(IsValidName)
+                    or nameof(IsValidPhone)
+                    or nameof(SelectedAmountGuests):
+
+                    ChangeCanAddNewReservation();
+
+                    break;
+                case nameof(SelectedDate)
+                    or nameof(Hour)
+                    or nameof(Minute)
+                    or nameof(TimeFormat):
+
+                    ChangeSelectedTime();
+                    ChangeCanAddNewReservation();
+
+                    break;
             }
         }
 

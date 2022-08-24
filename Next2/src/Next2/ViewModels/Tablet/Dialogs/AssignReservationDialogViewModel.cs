@@ -34,6 +34,8 @@ namespace Next2.ViewModels.Tablet.Dialogs
             set => SetProperty(ref _selectedTable, value);
         }
 
+        public int SelectedTableNumber { get; set; }
+
         public ObservableCollection<TableModelDTO> Tables { get; set; } = new();
 
         private EmployeeModelDTO _selectedEmployee;
@@ -43,13 +45,13 @@ namespace Next2.ViewModels.Tablet.Dialogs
             set => SetProperty(ref _selectedEmployee, value);
         }
 
+        public string SelectedEmployeeUserName { get; set; } = string.Empty;
+
         public ObservableCollection<EmployeeModelDTO> Employees { get; set; } = new();
 
         public bool IsValidSelectedEmployee { get; set; } = true;
 
         public bool IsValidSelectedTable { get; set; } = true;
-
-        public bool CanAssingReservation { get; set; }
 
         public Action<IDialogParameters> RequestClose;
 
@@ -70,10 +72,13 @@ namespace Next2.ViewModels.Tablet.Dialogs
             {
                 case nameof(SelectedEmployee):
                     IsValidSelectedEmployee = SelectedEmployee is not null;
-                    break;
+                    SelectedEmployeeUserName = SelectedEmployee.UserName;
 
+                    break;
                 case nameof(SelectedTable):
                     IsValidSelectedTable = SelectedTable is not null;
+                    SelectedTableNumber = SelectedTable.Number;
+
                     break;
             }
         }
@@ -92,6 +97,16 @@ namespace Next2.ViewModels.Tablet.Dialogs
                 _selectedTable = table;
                 _selectedEmployee = employee;
 
+                if (table is not null)
+                {
+                    SelectedTableNumber = table.Number;
+                }
+
+                if (employee is not null)
+                {
+                    SelectedEmployeeUserName = employee.UserName;
+                }
+
                 Tables = new(tables);
                 Employees = new(employees);
             }
@@ -102,9 +117,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
             IsValidSelectedEmployee = SelectedEmployee is not null;
             IsValidSelectedTable = SelectedTable is not null;
 
-            CanAssingReservation = IsValidSelectedTable && IsValidSelectedEmployee;
-
-            if (CanAssingReservation)
+            if (IsValidSelectedTable && IsValidSelectedEmployee)
             {
                 var parameters = new DialogParameters()
                 {

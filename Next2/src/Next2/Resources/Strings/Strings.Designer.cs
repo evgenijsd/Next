@@ -1646,6 +1646,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Server Name.
+        /// </summary>
+        internal static string ServerName {
+            get {
+                return ResourceManager.GetString("ServerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string Settings {

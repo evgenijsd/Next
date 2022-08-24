@@ -73,7 +73,7 @@
                 VerticalOptions="Start"
                 HeaderTextSize="{DynamicResource TSize_i9}"
                 HeaderTextOpacity="{DynamicResource OpacityWhenDisabled_i3}"
-                HeaderText="{xct:Translate TableNumber}"
+                HeaderFormattedText="{xct:Translate TableNumber}"
                 SelectedItem="{Binding SelectedTable}"
                 ItemsSource="{Binding Tables}">
 
@@ -102,7 +102,14 @@
                         Binding="{Binding SelectedTable, Converter={xct:IsNotNullOrEmptyConverter}}"
                         Value="True">
 
-                        <Setter Property="HeaderText" Value="{Binding SelectedTable.Number, StringFormat='Table {0}'}"/>
+                        <Setter Property="HeaderFormattedText">
+                            <FormattedString>
+                                <Span Text="{xct:Translate Table}"/>
+                                <Span Text=" "/>
+                                <Span Text="{Binding SelectedTableNumber}"/>
+                            </FormattedString>
+                        </Setter>
+
                         <Setter Property="HeaderTextOpacity" Value="1"/>
 
                     </DataTrigger>
@@ -136,13 +143,14 @@
                 Grid.Row="5"
                 Grid.ColumnSpan="2"
                 Style="{DynamicResource DropDownListStyle_i1}"
-                Margin="20, 0, 20, 0"
+                Margin="20, 0"
                 VerticalOptions="Start"
-                HeaderText="{Binding SelectedEmployee.UserName}"
+                HeaderText="{xct:Translate ServerName}"
                 HeaderTextSize="{DynamicResource TSize_i9}"
+                HeaderTextOpacity="{DynamicResource OpacityWhenDisabled_i3}"
                 SelectedItem="{Binding SelectedEmployee}"
                 ItemsSource="{Binding Employees}">
-                
+
                 <controls:DropDownList.Triggers>
 
                     <DataTrigger
@@ -162,12 +170,13 @@
                         <Setter Property="Border" Value="{pancakeview:BorderMarkup Color={StaticResource IndicationColor_i3}, Thickness=1}"/>
 
                     </DataTrigger>
-                    
+
                     <DataTrigger
                         TargetType="controls:DropDownList"
-                        Binding="{Binding SelectedEmployee, Converter={xct:IsNotNullOrEmptyConverter}}"
-                        Value="True">
+                        Binding="{Binding SelectedEmployee, Converter={xct:IsNullOrEmptyConverter}}"
+                        Value="False">
 
+                        <Setter Property="HeaderText" Value="{Binding SelectedEmployeeUserName}"/>
                         <Setter Property="HeaderTextOpacity" Value="1"/>
 
                     </DataTrigger>
