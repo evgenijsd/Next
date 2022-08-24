@@ -71,18 +71,16 @@ namespace Next2.Behaviors
 
         private void Rotate()
         {
-            if (_visualElement == null)
+            if (_visualElement is not null)
             {
-                return;
-            }
+                _visualElement.AbortAnimation("RotateAnimation");
 
-            _visualElement.AbortAnimation("RotateAnimation");
+                if (IsAnimate)
+                {
+                    _animation = new Animation(v => _visualElement.Rotation = v, 0, 360 * SpeedRpm);
 
-            if (IsAnimate)
-            {
-                _animation = new Animation(v => _visualElement.Rotation = v, 0, 360 * SpeedRpm);
-
-                _animation.Commit(_visualElement, "RotateAnimation", 16, 60000, Easing.Linear, (v, c) => _visualElement.Rotation = 0, () => true);
+                    _animation.Commit(_visualElement, "RotateAnimation", 16, 60000, Easing.Linear, (v, c) => _visualElement.Rotation = 0, () => true);
+                }
             }
         }
 

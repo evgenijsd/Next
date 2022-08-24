@@ -26,8 +26,7 @@
         VerticalOptions="Center"
         HorizontalOptions="Center"
         HeightRequest="80"
-        Source="pic_settings_r.png"
-        x:Name="gearL">
+        Source="pic_settings_r.png">
 
         <ffimageloading:CachedImage.Behaviors>
             <behaviors:RotationBehavior
@@ -40,12 +39,10 @@
     <ffimageloading:CachedImage
         Grid.Row="1"
         Grid.Column="1"
-        Margin="0, 0, 0, 0"
         VerticalOptions="Center"
         HorizontalOptions="Center"
         HeightRequest="130"
-        Source="pic_settings_r.png"
-        x:Name="gearB">
+        Source="pic_settings_r.png">
 
         <ffimageloading:CachedImage.Behaviors>
             <behaviors:RotationBehavior
@@ -62,8 +59,7 @@
         VerticalOptions="Center"
         HorizontalOptions="Center"
         HeightRequest="65"
-        Source="pic_settings_r.png"
-        x:Name="gearU">
+        Source="pic_settings_r.png">
 
         <ffimageloading:CachedImage.Behaviors>
             <behaviors:RotationBehavior

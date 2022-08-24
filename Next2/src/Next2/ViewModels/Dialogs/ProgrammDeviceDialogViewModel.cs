@@ -21,7 +21,7 @@ namespace Next2.ViewModels.Dialogs
 
         public EStep ProgrammingStep { get; set; } = EStep.First;
 
-        public bool IsDeviceProgramming { get; set; } = false;
+        public bool IsDeviceProgramming { get; set; }
 
         public Action<IDialogParameters>? RequestClose;
 
