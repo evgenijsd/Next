@@ -68,7 +68,7 @@
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}">
 
         <Frame.Triggers>
-            <DataTrigger TargetType="Frame" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
+            <DataTrigger Binding="{Binding SplitCondition}" TargetType="Frame" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
                 <Setter Property="WidthRequest" Value="363" />
                 <Setter Property="HeightRequest" Value="500" />
@@ -79,7 +79,7 @@
         <Grid RowDefinitions="0.13*, 0.13*, 0.59*, 0.15*">
 
             <Grid.Triggers>
-                <DataTrigger TargetType="Grid" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
+                <DataTrigger Binding="{Binding SplitCondition}" TargetType="Grid" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
                     <Setter Property="RowDefinitions" Value="0.13*, 0, 0.68*, 0.15*" />
 
@@ -147,7 +147,7 @@
                 Padding="18">
 
                 <Grid.Triggers>
-                    <DataTrigger TargetType="Grid" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
+                    <DataTrigger Binding="{Binding SplitCondition}" TargetType="Grid" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
                         <Setter Property="ColumnDefinitions" Value="*, 0" />
 
@@ -199,7 +199,9 @@
 
                                                 <DataTrigger.Binding>
 
-                                                    <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 25)">
+                                                    <MultiBinding
+                                                        Converter="{xct:MultiMathExpressionConverter}"
+                                                        ConverterParameter="min(x, 25)">
                                                         <Binding Path="AvailableValue" />
                                                     </MultiBinding>
 
@@ -226,7 +228,9 @@
                                             <DataTrigger TargetType="buttons:BorderButton" Value="50">
 
                                                 <DataTrigger.Binding>
-                                                    <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 50)">
+                                                    <MultiBinding
+                                                        Converter="{xct:MultiMathExpressionConverter}"
+                                                        ConverterParameter="min(x, 50)">
 
                                                         <Binding Path="AvailableValue" />
 
@@ -254,7 +258,9 @@
                                             <DataTrigger TargetType="buttons:BorderButton" Value="75">
 
                                                 <DataTrigger.Binding>
-                                                    <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 75)">
+                                                    <MultiBinding
+                                                        Converter="{xct:MultiMathExpressionConverter}"
+                                                        ConverterParameter="min(x, 75)">
 
                                                         <Binding Path="AvailableValue" />
 
@@ -367,7 +373,7 @@
 
                     <controls:CustomCollectionView.Triggers>
 
-                        <DataTrigger TargetType="CollectionView" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
+                        <DataTrigger Binding="{Binding SplitCondition}" TargetType="CollectionView" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
                             <Setter Property="Margin" Value="0" />
 
@@ -380,13 +386,15 @@
                     </controls:CustomCollectionView.Effects>
 
                     <controls:CustomCollectionView.Header>
-                        
+
                         <StackLayout HeightRequest="{OnPlatform iOS='32'}">
-                            
-                            <Label VerticalOptions="Start" Text="{xct:Translate Seats}" />
+
+                            <Label
+                                VerticalOptions="Start"
+                                Text="{xct:Translate Seats}" />
 
                         </StackLayout>
-                        
+
                     </controls:CustomCollectionView.Header>
 
                     <controls:CustomCollectionView.ItemsLayout>
@@ -526,7 +534,7 @@
                     xct:TouchEffect.Command="{Binding SplitCommand}">
 
                     <buttons:BorderButton.Triggers>
-                        <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsSplitAvailable}" Value="true">
+                        <DataTrigger Binding="{Binding IsSplitAvailable}" TargetType="buttons:BorderButton" Value="true">
 
                             <Setter Property="Opacity" Value="1" />
                             <Setter Property="IsEnabled" Value="True" />

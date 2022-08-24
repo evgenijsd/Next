@@ -93,10 +93,12 @@
                             SelectionChangedCommand="{Binding SelectCommand}">
 
                             <CollectionView.Header>
-                                
+
                                 <StackLayout HeightRequest="{OnPlatform iOS='32'}">
 
-                                    <Label VerticalOptions="Start" Text="{xct:Translate Seats}" />
+                                    <Label
+                                        VerticalOptions="Start"
+                                        Text="{xct:Translate Seats}" />
 
                                 </StackLayout>
 
@@ -144,8 +146,8 @@
                                         </VisualStateManager.VisualStateGroups>
 
                                         <Frame
-                                            Padding="18"
                                             Margin="{OnPlatform Android='0', iOS='0, 0, 4, 0'}"
+                                            Padding="18"
                                             HeightRequest="50"
                                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                                             BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
@@ -248,7 +250,9 @@
                                                 <DataTrigger TargetType="buttons:BorderButton" Value="25">
 
                                                     <DataTrigger.Binding>
-                                                        <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 25)">
+                                                        <MultiBinding
+                                                            Converter="{xct:MultiMathExpressionConverter}"
+                                                            ConverterParameter="min(x, 25)">
 
                                                             <Binding Path="AvailableValue" />
 
@@ -275,7 +279,9 @@
                                                 <DataTrigger TargetType="buttons:BorderButton" Value="50">
 
                                                     <DataTrigger.Binding>
-                                                        <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 50)">
+                                                        <MultiBinding
+                                                            Converter="{xct:MultiMathExpressionConverter}"
+                                                            ConverterParameter="min(x, 50)">
 
                                                             <Binding Path="AvailableValue" />
 
@@ -302,7 +308,9 @@
                                                 <DataTrigger TargetType="buttons:BorderButton" Value="75">
 
                                                     <DataTrigger.Binding>
-                                                        <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 75)">
+                                                        <MultiBinding
+                                                            Converter="{xct:MultiMathExpressionConverter}"
+                                                            ConverterParameter="min(x, 75)">
 
                                                             <Binding Path="AvailableValue" />
 
@@ -554,7 +562,7 @@
 
                     <buttons:BorderButton.Triggers>
 
-                        <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding PopupNavigationStep}" Value="{Static enums:EStep.Second}">
+                        <DataTrigger Binding="{Binding PopupNavigationStep}" TargetType="buttons:BorderButton" Value="{Static enums:EStep.Second}">
 
                             <Setter Property="xct:TouchEffect.Command" Value="{Binding GoBackCommand}" />
 
@@ -591,7 +599,7 @@
 
                             <buttons:IconTextButton.Triggers>
 
-                                <DataTrigger TargetType="buttons:IconTextButton" Binding="{Binding IsNextStepAvailable}" Value="true">
+                                <DataTrigger Binding="{Binding IsNextStepAvailable}" TargetType="buttons:IconTextButton" Value="true">
 
                                     <Setter Property="Opacity" Value="1" />
                                     <Setter Property="IsEnabled" Value="True" />
@@ -601,18 +609,31 @@
                             </buttons:IconTextButton.Triggers>
 
                             <VisualStateManager.VisualStateGroups>
+
                                 <VisualStateGroupList>
+
                                     <VisualStateGroup x:Name="AdaptiveTriggers">
+
                                         <VisualState Name="moreThenIphone8">
+
                                             <VisualState.StateTriggers>
+
                                                 <AdaptiveTrigger MinWindowWidth="376" />
+
                                             </VisualState.StateTriggers>
+
                                             <VisualState.Setters>
+
                                                 <Setter Property="Padding" Value="55, 0" />
+
                                             </VisualState.Setters>
+
                                         </VisualState>
+
                                     </VisualStateGroup>
+
                                 </VisualStateGroupList>
+
                             </VisualStateManager.VisualStateGroups>
 
 
@@ -638,7 +659,7 @@
 
                             <buttons:BorderButton.Triggers>
 
-                                <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsSplitAvailable}" Value="true">
+                                <DataTrigger Binding="{Binding IsSplitAvailable}" TargetType="buttons:BorderButton" Value="true">
 
                                     <Setter Property="Opacity" Value="1" />
                                     <Setter Property="IsEnabled" Value="True" />

@@ -89,20 +89,25 @@ namespace Next2.ViewModels.Mobile
             return Task.CompletedTask;
         }
 
-        private Task OnOpenModifyCommandAsync()
+        private async Task OnOpenModifyCommandAsync()
         {
             if (SelectedDish is not null && SelectedDish.IsSplitted)
             {
-                return _notificationsService.ShowInfoDialogAsync(
+                await _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Warning"],
                     LocalizationResourceManager.Current["YouCantModifyASplitDish"],
                     LocalizationResourceManager.Current["Ok"]);
             }
             else
             {
-                return IsInternetConnected
-                    ? _navigationService.NavigateAsync(nameof(ModificationsPage))
-                    : _notificationsService.ShowNoInternetConnectionDialogAsync();
+                if (IsInternetConnected)
+                {
+                    await _navigationService.NavigateAsync(nameof(ModificationsPage));
+                }
+                else
+                {
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
+                }
             }
         }
 

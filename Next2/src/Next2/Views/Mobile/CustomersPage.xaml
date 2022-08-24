@@ -16,34 +16,53 @@
     x:DataType="viewModels:CustomersViewModel">
 
     <ContentPage.Resources>
+        
         <ResourceDictionary>
 
             <Style x:Key="HeaderLabelStyle" TargetType="Label">
                 
                 <Setter Property="VisualStateManager.VisualStateGroups">
+                    
                     <VisualStateGroupList>
+                        
                         <VisualStateGroup x:Name="AdaptiveStyles">
                             
                             <VisualState Name="IPhone8">
+                                
                                 <VisualState.StateTriggers>
+                                    
                                     <AdaptiveTrigger MinWindowHeight="667" />
+                                    
                                 </VisualState.StateTriggers>
+                                
                                 <VisualState.Setters>
+                                    
                                     <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
+                                    
                                 </VisualState.Setters>
+                                
                             </VisualState>
                             
                             <VisualState Name="IPhone11">
+                                
                                 <VisualState.StateTriggers>
+                                    
                                     <AdaptiveTrigger MinWindowHeight="896" />
+                                    
                                 </VisualState.StateTriggers>
+                                
                                 <VisualState.Setters>
+                                    
                                     <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                                    
                                 </VisualState.Setters>
+                                
                             </VisualState>
                             
                         </VisualStateGroup>
+                        
                     </VisualStateGroupList>
+                    
                 </Setter>
                 
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
@@ -55,6 +74,7 @@
             </Style>
 
         </ResourceDictionary>
+        
     </ContentPage.Resources>
 
     <Grid RowDefinitions="65, *, 75">
@@ -93,9 +113,11 @@
                 <StackLayout.Triggers>
 
                     <MultiTrigger TargetType="StackLayout">
+                        
                         <MultiTrigger.Conditions>
                             
                             <BindingCondition Binding="{Binding AnyCustomersLoaded}" Value="true" />
+                            
                             <BindingCondition Binding="{Binding DisplayedCustomers.Count}" Value="0" />
                             
                         </MultiTrigger.Conditions>
@@ -153,12 +175,15 @@
                         <DataTrigger TargetType="yummy:PancakeView" Value="0">
 
                             <DataTrigger.Binding>
+                                
                                 <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
 
                                     <Binding Path="DisplayedCustomers.Count" />
+                                    
                                     <Binding Path="IndexLastVisibleElement" />
 
                                 </MultiBinding>
+                                
                             </DataTrigger.Binding>
 
                             <Setter Property="CornerRadius" Value="0, 0, 12, 12" />
@@ -219,12 +244,15 @@
                                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
                                         <VisualStateManager.VisualStateGroups>
+                                            
                                             <VisualStateGroup Name="CommonStates">
 
                                                 <VisualState Name="Selected">
 
                                                     <VisualState.Setters>
+                                                        
                                                         <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+                                                        
                                                     </VisualState.Setters>
 
                                                 </VisualState>
@@ -232,12 +260,15 @@
                                                 <VisualState Name="Normal">
 
                                                     <VisualState.Setters>
+                                                        
                                                         <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i8}" />
+                                                        
                                                     </VisualState.Setters>
 
                                                 </VisualState>
 
                                             </VisualStateGroup>
+                                            
                                         </VisualStateManager.VisualStateGroups>
 
                                     </Grid>
@@ -266,6 +297,7 @@
                         <MultiTrigger.Conditions>
                             
                             <BindingCondition Binding="{Binding AnyCustomersLoaded}" Value="true" />
+                            
                             <BindingCondition Binding="{Binding DisplayedCustomers.Count}" Value="0" />
                             
                         </MultiTrigger.Conditions>
