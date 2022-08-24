@@ -321,8 +321,6 @@ namespace Next2.Controls
 
                     break;
             }
-
-            base.OnPropertyChanging(propertyName);
         }
 
         #endregion
