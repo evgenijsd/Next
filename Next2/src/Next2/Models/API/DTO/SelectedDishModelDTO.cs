@@ -18,6 +18,12 @@ namespace Next2.Models.API.DTO
 
         public decimal DiscountPrice { get; set; }
 
+        public decimal SplitPrice { get; set; }
+
+        public bool IsSplitted { get; set; }
+
+        public DateTime? HoldTime { get; set; }
+
         public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
 
         public IEnumerable<SelectedProductModelDTO>? SelectedProducts { get; set; }

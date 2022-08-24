@@ -5,15 +5,15 @@ using System;
 
 namespace Next2.Views.Mobile.Dialogs
 {
-    public partial class CustomerInfoDialog : PopupPage
+    public partial class HoldDishDialog : PopupPage
     {
-        public CustomerInfoDialog(
+        public HoldDishDialog(
             DialogParameters param,
             Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new CustomerInfoViewModel(param, requestClose);
+            BindingContext = new HoldDishDialogViewModel(param, requestClose);
         }
     }
 }

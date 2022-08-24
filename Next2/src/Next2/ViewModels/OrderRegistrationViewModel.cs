@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Helpers.Events;
@@ -78,13 +78,25 @@ namespace Next2.ViewModels
             _deleteSeatCommand = new AsyncCommand<DishesGroupedBySeat>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
             _removeOrderCommand = new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
             _selectDishCommand = new AsyncCommand<DishBindableModel>(OnSelectDishCommandAsync, allowsMultipleExecutions: false);
+
+            Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.HELD_DISH_RELEASE_FREQUENCY), OnDishReleaseTimerTick);
         }
 
         #region -- Public properties --
 
         public bool IsClockRunning { get; set; }
 
-        public ENewOrderViewState CurrentState { get; set; }
+        private ENewOrderViewState _currentState;
+        public ENewOrderViewState CurrentState
+        {
+            get => _currentState;
+            set
+            {
+                _eventAggregator.GetEvent<NewOrderStateChanging>().Publish(value);
+
+                SetProperty(ref _currentState, value);
+            }
+        }
 
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
@@ -104,6 +116,8 @@ namespace Next2.ViewModels
 
         public int NumberOfSeats { get; set; }
 
+        public TimeSpan TimerHoldSelectedDish { get; set; }
+
         public bool IsOrderWithTax { get; set; } = true;
 
         public bool IsSideMenuVisible { get; set; } = true;
@@ -122,7 +136,7 @@ namespace Next2.ViewModels
         public ICommand OpenRemoveCommand => _openRemoveCommand ??= new AsyncCommand(OnOpenRemoveCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand? _openHoldSelectionCommand;
-        public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync, allowsMultipleExecutions: false);
+        public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand<DishBindableModel?>(OnOpenHoldSelectionCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand? _openDiscountSelectionCommand;
         public ICommand OpenDiscountSelectionCommand => _openDiscountSelectionCommand ??= new AsyncCommand(OnOpenDiscountSelectionCommandAsync, allowsMultipleExecutions: false);
@@ -343,6 +357,27 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
+        private bool OnDishReleaseTimerTick()
+        {
+            foreach (var seat in CurrentOrder.Seats)
+            {
+                foreach (var dish in seat.SelectedDishes)
+                {
+                    if (dish.HoldTime is not null && dish.HoldTime <= DateTime.Now)
+                    {
+                        dish.HoldTime = null;
+                    }
+                }
+            }
+
+            if (SelectedDish is not null && SelectedDish.HoldTime is DateTime selectedHoldTime)
+            {
+                TimerHoldSelectedDish = selectedHoldTime.AddMinutes(1) - DateTime.Now;
+            }
+
+            return true;
+        }
+
         private Task UpdateDishGroupsAsync()
         {
             var updatedDishesGroupedBySeats = new ObservableCollection<DishesGroupedBySeat>();
@@ -399,8 +434,8 @@ namespace Next2.ViewModels
 
             if (SelectedDish is null)
             {
-                CurrentState = ENewOrderViewState.Default;
                 IsSideMenuVisible = true;
+                CurrentState = ENewOrderViewState.Default;
             }
             else if (!App.IsTablet)
             {
@@ -454,12 +489,12 @@ namespace Next2.ViewModels
                 }
             }
 
+            IsSideMenuVisible = true;
+
             if (CurrentState == ENewOrderViewState.Edit)
             {
                 CurrentState = ENewOrderViewState.Default;
             }
-
-            IsSideMenuVisible = true;
 
             return UpdateDishGroupsAsync();
         }
@@ -514,6 +549,11 @@ namespace Next2.ViewModels
                     seat.SelectedItem = seat.SelectedDishes.FirstOrDefault(x => x == dish);
                     _seatWithSelectedDish = seat;
                     seat.Checked = true;
+
+                    if (SelectedDish.HoldTime is DateTime holdTime)
+                    {
+                        TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
+                    }
 
                     foreach (var item in CurrentOrder.Seats)
                     {
@@ -857,9 +897,35 @@ namespace Next2.ViewModels
             }
         }
 
-        private Task OnOpenHoldSelectionCommandAsync()
+        private async Task OnOpenHoldSelectionCommandAsync(DishBindableModel? selectedDish)
         {
-            return Task.CompletedTask;
+            if (selectedDish is not null)
+            {
+                var param = new DialogParameters { { Constants.DialogParameterKeys.DISH, selectedDish } };
+
+                PopupPage holdDishDialog = new Views.Tablet.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallback);
+
+                await PopupNavigation.PushAsync(holdDishDialog);
+            }
+        }
+
+        private async void CloseHoldDishDialogCallback(IDialogParameters parameters)
+        {
+            await _notificationsService.CloseAllPopupAsync();
+
+            if (SelectedDish is not null)
+            {
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.DISMISS, out bool isDismiss))
+                {
+                    SelectedDish.HoldTime = null;
+                }
+
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
+                {
+                    SelectedDish.HoldTime = holdTime;
+                    TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
+                }
+            }
         }
 
         private Task OnOpenDiscountSelectionCommandAsync()
@@ -986,11 +1052,26 @@ namespace Next2.ViewModels
             }
         }
 
-        private Task OnOpenModifyCommandAsync()
+        private async Task OnOpenModifyCommandAsync()
         {
-            return IsInternetConnected
-                ? _navigationService.NavigateAsync(nameof(ModificationsPage))
-                : _notificationsService.ShowNoInternetConnectionDialogAsync();
+            if (SelectedDish is not null && SelectedDish.IsSplitted)
+            {
+                await _notificationsService.ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Warning"],
+                    LocalizationResourceManager.Current["YouCantModifyASplitDish"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
+            else
+            {
+                if (IsInternetConnected)
+                {
+                    await _navigationService.NavigateAsync(nameof(ModificationsPage));
+                }
+                else
+                {
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
+                }
+            }
         }
 
         private Task OnOpenRemoveCommandAsync()
