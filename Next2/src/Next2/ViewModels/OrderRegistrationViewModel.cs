@@ -1209,7 +1209,7 @@ namespace Next2.ViewModels
             {
                 await _notificationsService.ShowInfoDialogAsync(
                             LocalizationResourceManager.Current["Warning"],
-                            LocalizationResourceManager.Current["You—annotAddSeatToSplitOrder"],
+                            LocalizationResourceManager.Current["YouCannotAddSeatToSplitOrder"],
                             LocalizationResourceManager.Current["Ok"]);
             }
             else if (IsInternetConnected)

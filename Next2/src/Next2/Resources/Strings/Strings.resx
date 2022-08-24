@@ -831,7 +831,7 @@ A receipt has been printed for you.</value>
   <data name="YouCantModifyASplitDish" xml:space="preserve">
     <value>You can't modify a split dish</value>
   </data>
-  <data name="YouСannotAddSeatToSplitOrder" xml:space="preserve">
+  <data name="YouCannotAddSeatToSplitOrder" xml:space="preserve">
     <value>You cannot add a seat to a split order</value>
   </data>
 </root>

@@ -2170,6 +2170,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You cannot add a seat to a split order.
+        /// </summary>
+        internal static string YouCannotAddSeatToSplitOrder {
+            get {
+                return ResourceManager.GetString("YouCannotAddSeatToSplitOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You can&apos;t modify a split dish.
         /// </summary>
         internal static string YouCantModifyASplitDish {
@@ -2193,15 +2202,6 @@ namespace Next2.Resources.Strings {
         internal static string YourDeviceIsReprogrammed {
             get {
                 return ResourceManager.GetString("YourDeviceIsReprogrammed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You cannot add a seat to a split order.
-        /// </summary>
-        internal static string YouСannotAddSeatToSplitOrder {
-            get {
-                return ResourceManager.GetString("YouСannotAddSeatToSplitOrder", resourceCulture);
             }
         }
     }
