@@ -11,10 +11,6 @@ namespace Next2.Models.Bindables
 {
     public class DishBindableModel : BindableBase, IBaseApiModel, ICloneable
     {
-        public int SeatNumber { get; set; }
-
-        public bool IsSeatSelected { get; set; }
-
         public Guid Id { get; set; }
 
         public Guid DishId { get; set; }
@@ -27,15 +23,25 @@ namespace Next2.Models.Bindables
 
         public decimal DiscountPrice { get; set; }
 
-        public bool HasSplittedPrice { get; set; }
+        public decimal SplitPrice { get; set; }
 
-        public IEnumerable<SimpleDishProportionModelDTO>? DishProportions { get; set; }
+        public bool IsSplitted { get; set; }
+
+        public DateTime? HoldTime { get; set; }
 
         public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
 
         public ObservableCollection<ProductBindableModel>? SelectedProducts { get; set; }
 
         public IEnumerable<DishReplacementProductModelDTO>? ReplacementProducts { get; set; }
+
+        public int SeatNumber { get; set; }
+
+        public bool IsSeatSelected { get; set; }
+
+        public IEnumerable<SimpleDishProportionModelDTO>? DishProportions { get; set; }
+
+        public ObservableCollection<SimpleProductModelDTO>? Products { get; set; } = new();
 
         public ICommand? SelectDishCommand { get; set; }
 
@@ -50,8 +56,13 @@ namespace Next2.Models.Bindables
                 DishId = DishId,
                 ImageSource = ImageSource,
                 TotalPrice = TotalPrice,
-                HasSplittedPrice = HasSplittedPrice,
+                IsSplitted = IsSplitted,
                 DiscountPrice = DiscountPrice,
+                SplitPrice = SplitPrice,
+                HoldTime = HoldTime,
+                IsSeatSelected = IsSeatSelected,
+                SeatNumber = SeatNumber,
+                SelectDishCommand = SelectDishCommand,
                 DishProportions = DishProportions?.Select(x => new SimpleDishProportionModelDTO
                 {
                     Id = x.Id,
@@ -70,6 +81,7 @@ namespace Next2.Models.Bindables
                     },
                 },
                 SelectedProducts = SelectedProducts,
+                ReplacementProducts = ReplacementProducts,
             };
         }
     }

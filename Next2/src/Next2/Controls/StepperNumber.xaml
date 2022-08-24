@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:local="clr-namespace:Next2"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:enums="clr-namespace:Next2.Enums"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    VerticalOptions="FillAndExpand"
+    x:Class="Next2.Controls.StepperNumber">
+
+    <StackLayout.Resources>
+
+        <Style x:Key="LabelStyle_i1" TargetType="Label">
+            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+            <Setter Property="FontSize" Value="{Binding FontSize, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />
+            <Setter Property="FontFamily" Value="Barlow-Bold"/>
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="Margin" Value="0, 0, 0, 10" />
+            <Setter Property="Text" Value="{Binding Number, StringFormat={x:Static local:Constants+Formats.NUMBER_FORMAT}, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />
+        </Style>
+
+        <Style x:Key="IconButtonStyle_i2" TargetType="buttons:IconButton">
+            <Setter Property="xct:TouchEffect.Command" Value="{Binding ChangeNumberCommand, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />
+            <Setter Property="HeightRequest" Value="{Binding ImageSize, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />
+            <Setter Property="WidthRequest" Value="{Binding ImageSize, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+        </Style>
+
+    </StackLayout.Resources>
+
+    <buttons:IconButton
+        Style="{DynamicResource IconButtonStyle_i2}"
+        VerticalOptions="StartAndExpand"
+        Border="{pancakeview:BorderMarkup Thickness=0}"
+        IconSource="ic_arrow_up_circle_primary_40x40"
+        xct:TouchEffect.CommandParameter="{x:Static enums:ENumberChange.Increment}" />
+    
+    <Label Style="{DynamicResource LabelStyle_i1}" />
+    
+    <buttons:IconButton
+        Style="{DynamicResource IconButtonStyle_i2}"
+        VerticalOptions="EndAndExpand"
+        Border="{pancakeview:BorderMarkup Thickness=0}"
+        IconSource="ic_arrow_down_circle_primary_40x40"
+        xct:TouchEffect.CommandParameter="{x:Static enums:ENumberChange.Decrement}" />
+    
+</StackLayout>
