@@ -3,7 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:local="clr-namespace:Next2.Controls"
+    xmlns:behaviors="clr-namespace:Next2.Behaviors"
     ColumnSpacing="0"
     RowSpacing="0"
     VerticalOptions="Center"
@@ -11,37 +11,66 @@
     HeightRequest="210"
     WidthRequest="210"
     x:Class="Next2.Controls.RotatingGears"
-    x:DataType="local:RotatingGears"
     x:Name="grid">
+
+    <Grid.Behaviors>
+        <behaviors:RotationBehavior
+            IsAnimate="{Binding IsAnimate, Source={x:Reference grid}}"
+            SpeedRpm="4" />
+    </Grid.Behaviors>
 
     <ffimageloading:CachedImage
         Grid.RowSpan="2"
         Grid.ColumnSpan="2"
-        Margin="0,0,35,0"
+        Margin="0, 0, 35, 0"
         VerticalOptions="Center"
         HorizontalOptions="Center"
         HeightRequest="80"
         Source="pic_settings_r.png"
-        x:Name="gearL" />
+        x:Name="gearL">
+
+        <ffimageloading:CachedImage.Behaviors>
+            <behaviors:RotationBehavior
+                IsAnimate="{Binding IsAnimate, Source={x:Reference grid}}"
+                SpeedRpm="-49" />
+        </ffimageloading:CachedImage.Behaviors>
+
+    </ffimageloading:CachedImage>
 
     <ffimageloading:CachedImage
         Grid.Row="1"
         Grid.Column="1"
-        Margin="0, 0,0,0"
+        Margin="0, 0, 0, 0"
         VerticalOptions="Center"
         HorizontalOptions="Center"
         HeightRequest="130"
         Source="pic_settings_r.png"
-        x:Name="gearB" />
+        x:Name="gearB">
+
+        <ffimageloading:CachedImage.Behaviors>
+            <behaviors:RotationBehavior
+                IsAnimate="{Binding IsAnimate, Source={x:Reference grid}}"
+                SpeedRpm="-30" />
+        </ffimageloading:CachedImage.Behaviors>
+
+    </ffimageloading:CachedImage>
 
     <ffimageloading:CachedImage
         Grid.RowSpan="2"
         Grid.Column="1"
-        Margin="0,0,20,55"
+        Margin="0, 0, 20, 55"
         VerticalOptions="Center"
         HorizontalOptions="Center"
         HeightRequest="65"
         Source="pic_settings_r.png"
-        x:Name="gearU" />
+        x:Name="gearU">
+
+        <ffimageloading:CachedImage.Behaviors>
+            <behaviors:RotationBehavior
+                IsAnimate="{Binding IsAnimate, Source={x:Reference grid}}"
+                SpeedRpm="60" />
+        </ffimageloading:CachedImage.Behaviors>
+
+    </ffimageloading:CachedImage>
 
 </Grid>

@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using Xamarin.CommunityToolkit.Behaviors.Internals;
+using Xamarin.Forms;
 
 namespace Next2.Behaviors
 {
@@ -14,7 +15,6 @@ namespace Next2.Behaviors
             returnType: typeof(bool),
             declaringType: typeof(RotationBehavior),
             propertyChanged: OnIsAnimatePropertyChanged,
-            defaultValue: true,
             defaultBindingMode: BindingMode.OneWay);
 
         public bool IsAnimate
@@ -83,10 +83,6 @@ namespace Next2.Behaviors
                 _animation = new Animation(v => _visualElement.Rotation = v, 0, 360 * SpeedRpm);
 
                 _animation.Commit(_visualElement, "RotateAnimation", 16, 60000, Easing.Linear, (v, c) => _visualElement.Rotation = 0, () => true);
-            }
-            else
-            {
-                _visualElement.AbortAnimation("RotateAnimation");
             }
         }
 
