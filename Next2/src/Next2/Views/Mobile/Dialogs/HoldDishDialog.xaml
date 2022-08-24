@@ -82,7 +82,22 @@
                     VerticalTextAlignment="Center"
                     FontSize="{DynamicResource TSize_i6}"
                     FontFamily="Barlow-SemiBold"
-                    Text="{xct:Translate HoldItem}" />
+                    Text="{xct:Translate HoldItem}">
+                    
+                    <Label.Triggers>
+                        
+                        <DataTrigger
+                            TargetType="Label"
+                            Binding="{Binding SelectedDish, Converter={xct:IsNullOrEmptyConverter}}"
+                            Value="True">
+
+                            <Setter Property="Text" Value="{xct:Translate WhatHold}" />
+
+                        </DataTrigger>
+                        
+                    </Label.Triggers>
+                    
+                </Label>
 
                 <Label
                     Style="{DynamicResource LabelStyle_i4}"

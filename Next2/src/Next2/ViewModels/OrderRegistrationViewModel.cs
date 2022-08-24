@@ -889,14 +889,20 @@ namespace Next2.ViewModels
 
         private async Task OnOpenHoldSelectionCommandAsync(DishBindableModel? selectedDish)
         {
+            var param = new DialogParameters();
+
             if (selectedDish is not null)
             {
-                var param = new DialogParameters { { Constants.DialogParameterKeys.DISH, selectedDish } };
-
-                PopupPage holdDishDialog = new Views.Tablet.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallback);
-
-                await PopupNavigation.PushAsync(holdDishDialog);
+                param.Add(Constants.DialogParameterKeys.DISH, selectedDish);
             }
+            else
+            {
+                param.Add(Constants.DialogParameterKeys.ORDER, CurrentOrder);
+            }
+
+            PopupPage holdDishDialog = new Views.Tablet.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallback);
+
+            await PopupNavigation.PushAsync(holdDishDialog);
         }
 
         private async void CloseHoldDishDialogCallback(IDialogParameters parameters)
@@ -905,11 +911,6 @@ namespace Next2.ViewModels
 
             if (SelectedDish is not null)
             {
-                if (parameters.TryGetValue(Constants.DialogParameterKeys.DISMISS, out bool isDismiss))
-                {
-                    SelectedDish.HoldTime = null;
-                }
-
                 if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
                 {
                     SelectedDish.HoldTime = holdTime;

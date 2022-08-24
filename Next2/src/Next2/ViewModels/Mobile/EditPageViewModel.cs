@@ -123,11 +123,6 @@ namespace Next2.ViewModels.Mobile
 
             if (SelectedDish is not null)
             {
-                if (parameters.TryGetValue(Constants.DialogParameterKeys.DISMISS, out bool isDismiss))
-                {
-                    SelectedDish.HoldTime = null;
-                }
-
                 if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
                 {
                     SelectedDish.HoldTime = holdTime;

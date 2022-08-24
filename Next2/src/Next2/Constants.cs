@@ -137,7 +137,6 @@
             public const string SELECTED_DATE = "SELECTED_DATE";
             public const string DISH = "DISH";
             public const string DISCOUNT_PRICE = "DISCOUNT_PRICE";
-            public const string DISMISS = "DISMISS";
             public const string HOLD = "HOLD";
             public const string GIFT_GARD = "GIFT_GARD";
             public const string ACTION = "ACTION";
