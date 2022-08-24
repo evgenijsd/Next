@@ -2080,6 +2080,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can&apos;t modify a split dish.
+        /// </summary>
+        internal static string YouCantModifyASplitDish {
+            get {
+                return ResourceManager.GetString("YouCantModifyASplitDish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You don&apos;t have enough funds on your cards.
         /// </summary>
         internal static string YouDontHaveFundsOnGiftCards {
