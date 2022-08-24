@@ -409,8 +409,8 @@ namespace Next2.ViewModels
 
             if (SelectedDish is null)
             {
-                CurrentState = ENewOrderViewState.Default;
                 IsSideMenuVisible = true;
+                CurrentState = ENewOrderViewState.Default;
             }
             else if (!App.IsTablet)
             {
