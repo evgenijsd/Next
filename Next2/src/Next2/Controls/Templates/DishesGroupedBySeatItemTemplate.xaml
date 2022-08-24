@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <StackLayout
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -21,7 +21,9 @@
                     <Setter TargetName="dishPancakeView" Property="pancakeview:PancakeView.BackgroundColor" Value="Transparent" />
                     <Setter TargetName="dishPancakeView" Property="pancakeview:PancakeView.Border">
                         <Setter.Value>
-                            <pancakeview:Border Color="{StaticResource TextAndBackgroundColor_i2}" Thickness="1" />
+                            <pancakeview:Border
+                                Thickness="1"
+                                Color="{StaticResource TextAndBackgroundColor_i2}" />
                         </Setter.Value>
                     </Setter>
                 </VisualState.Setters>
@@ -33,7 +35,9 @@
                 <VisualState.Setters>
                     <Setter TargetName="dishPancakeView" Property="pancakeview:PancakeView.Border">
                         <Setter.Value>
-                            <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="1" />
+                            <pancakeview:Border
+                                Thickness="1"
+                                Color="{StaticResource AppColor_i1}" />
                         </Setter.Value>
                     </Setter>
                 </VisualState.Setters>
@@ -51,10 +55,7 @@
 
         <pancakeview:PancakeView.Triggers>
 
-            <DataTrigger
-                TargetType="pancakeview:PancakeView"
-                Binding="{Binding IsSeatSelected}"
-                Value="True">
+            <DataTrigger Binding="{Binding IsSeatSelected}" TargetType="pancakeview:PancakeView" Value="True">
 
                 <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
 
@@ -68,13 +69,13 @@
             IsVisible="{Binding Id, Converter={StaticResource guidToBoolConverter}}">
 
             <pancakeview:PancakeView
-                HeightRequest="44"
-                MinimumWidthRequest="44"
-                WidthRequest="44"
-                CornerRadius="8"
-                HorizontalOptions="Start"
+                Margin="10"
                 VerticalOptions="Center"
-                Margin="10">
+                HorizontalOptions="Start"
+                HeightRequest="44"
+                WidthRequest="44"
+                MinimumWidthRequest="44"
+                CornerRadius="8">
 
                 <Grid>
 
@@ -107,9 +108,9 @@
             </pancakeview:PancakeView>
 
             <StackLayout
+                Margin="0, 14"
                 VerticalOptions="CenterAndExpand"
-                Spacing="6"
-                Margin="0, 14">
+                Spacing="6">
 
                 <Label
                     Text="{Binding Name}"
@@ -118,19 +119,50 @@
                     LineBreakMode="TailTruncation"
                     MaxLines="1" />
 
-                <Label
-                    FontSize="{DynamicResource TSize_i8}"
-                    FontFamily="Barlow-SemiBold">
+                <StackLayout Orientation="Horizontal">
 
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="{xct:Translate CurrencySign}" />
-                            <Span Text=" " />
-                            <Span Text="{Binding DiscountPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
-                        </FormattedString>
-                    </Label.FormattedText>
+                    <Label
+                        FontSize="{DynamicResource TSize_i8}"
+                        FontFamily="Barlow-SemiBold">
 
-                </Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{xct:Translate CurrencySign}" />
+                                <Span Text=" " />
+                                <Span Text="{Binding DiscountPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+
+                    </Label>
+
+                    <Frame
+                        Margin="4, 0, 0, 0"
+                        VerticalOptions="Start"
+                        HorizontalOptions="Start"
+                        CornerRadius="{OnPlatform Android=45, iOS=6}"
+                        IsVisible="{Binding IsSplitted}"
+                        BackgroundColor="{DynamicResource IndicationColor_i7}">
+
+                        <Label
+                            FontSize="{DynamicResource TSize_i10}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i6}"
+                            FontFamily="Barlow-SemiBold">
+
+                            <Label.FormattedText>
+                                <FormattedString>
+
+                                    <Span Text="   " />
+                                    <Span Text="{xct:Translate Splitted}" />
+                                    <Span Text="   " />
+
+                                </FormattedString>
+                            </Label.FormattedText>
+
+                        </Label>
+
+                    </Frame>
+
+                </StackLayout>
 
             </StackLayout>
 

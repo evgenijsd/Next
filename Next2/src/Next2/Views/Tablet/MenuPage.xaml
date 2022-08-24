@@ -345,54 +345,55 @@
         </Grid>
 
         <!--  TABS PAGES  -->
-        <sc:StateContainer
+        <sc:StackContainer
             Grid.Row="0"
             Grid.Column="1"
-            State="{Binding SelectedMenuItem.State}">
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+            CurrentState="{Binding SelectedMenuItem.State}">
 
-            <sc:StateCondition State="NewOrder">
+            <sc:StackContainerCondition State="NewOrder">
 
                 <viewsTablet:NewOrderView BindingContext="{Binding NewOrderViewModel}" />
 
-            </sc:StateCondition>
+            </sc:StackContainerCondition>
 
-            <sc:StateCondition State="HoldItems">
+            <sc:StackContainerCondition State="HoldItems">
 
                 <viewsTablet:HoldDishesView BindingContext="{Binding HoldDishesViewModel}" />
 
-            </sc:StateCondition>
+            </sc:StackContainerCondition>
 
-            <sc:StateCondition State="OrderTabs">
+            <sc:StackContainerCondition State="OrderTabs">
 
                 <viewsTablet:OrderTabsView BindingContext="{Binding OrderTabsViewModel}" />
 
-            </sc:StateCondition>
+            </sc:StackContainerCondition>
 
-            <sc:StateCondition State="Reservations">
+            <sc:StackContainerCondition State="Reservations">
 
                 <viewsTablet:ReservationsView BindingContext="{Binding ReservationsViewModel}" />
 
-            </sc:StateCondition>
+            </sc:StackContainerCondition>
 
-            <sc:StateCondition State="Membership">
+            <sc:StackContainerCondition State="Membership">
 
                 <viewsTablet:MembershipView BindingContext="{Binding MembershipViewModel}"/>
 
-            </sc:StateCondition>
+            </sc:StackContainerCondition>
 
-            <sc:StateCondition State="Customers">
+            <sc:StackContainerCondition State="Customers">
 
                 <viewsTablet:CustomersView BindingContext="{Binding CustomersViewModel}" />
 
-            </sc:StateCondition>
+            </sc:StackContainerCondition>
 
-            <sc:StateCondition State="Settings">
+            <sc:StackContainerCondition State="Settings">
 
                 <views:SettingsView BindingContext="{Binding SettingsViewModel}" />
 
-            </sc:StateCondition>
+            </sc:StackContainerCondition>
 
-        </sc:StateContainer>
+        </sc:StackContainer>
 
     </Grid>
 

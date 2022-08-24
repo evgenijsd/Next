@@ -54,6 +54,8 @@ namespace Next2.ViewModels.Dialogs
 
         public int? Seat { get; set; }
 
+        public FullOrderBindableModel CurrentOrder { get; set; }
+
         public ObservableCollection<HoldTimeItem> AvailableHoldingTimeInMinutes { get; set; }
 
         public HoldTimeItem? SelectedHoldingTimeInMinutes { get; set; }

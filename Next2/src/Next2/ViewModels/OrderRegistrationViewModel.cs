@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Helpers.Events;
@@ -86,7 +86,17 @@ namespace Next2.ViewModels
 
         public bool IsClockRunning { get; set; }
 
-        public ENewOrderViewState CurrentState { get; set; }
+        private ENewOrderViewState _currentState;
+        public ENewOrderViewState CurrentState
+        {
+            get => _currentState;
+            set
+            {
+                _eventAggregator.GetEvent<NewOrderStateChanging>().Publish(value);
+
+                SetProperty(ref _currentState, value);
+            }
+        }
 
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
@@ -424,8 +434,8 @@ namespace Next2.ViewModels
 
             if (SelectedDish is null)
             {
-                CurrentState = ENewOrderViewState.Default;
                 IsSideMenuVisible = true;
+                CurrentState = ENewOrderViewState.Default;
             }
             else if (!App.IsTablet)
             {
@@ -479,12 +489,12 @@ namespace Next2.ViewModels
                 }
             }
 
+            IsSideMenuVisible = true;
+
             if (CurrentState == ENewOrderViewState.Edit)
             {
                 CurrentState = ENewOrderViewState.Default;
             }
-
-            IsSideMenuVisible = true;
 
             return UpdateDishGroupsAsync();
         }
@@ -1043,11 +1053,26 @@ namespace Next2.ViewModels
             }
         }
 
-        private Task OnOpenModifyCommandAsync()
+        private async Task OnOpenModifyCommandAsync()
         {
-            return IsInternetConnected
-                ? _navigationService.NavigateAsync(nameof(ModificationsPage))
-                : _notificationsService.ShowNoInternetConnectionDialogAsync();
+            if (SelectedDish is not null && SelectedDish.IsSplitted)
+            {
+                await _notificationsService.ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Warning"],
+                    LocalizationResourceManager.Current["YouCantModifyASplitDish"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
+            else
+            {
+                if (IsInternetConnected)
+                {
+                    await _navigationService.NavigateAsync(nameof(ModificationsPage));
+                }
+                else
+                {
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
+                }
+            }
         }
 
         private Task OnOpenRemoveCommandAsync()

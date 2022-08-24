@@ -43,7 +43,7 @@ namespace Next2.ViewModels.Mobile
             _menuService = menuService;
             _mapper = mapper;
 
-            Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.HELD_DISH_RELEASE_FREQUENCY), OnTimerTick);
+            Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.HELD_DISH_RELEASE_FREQUENCY), OnDisplayUpdateHoldTimerTick);
         }
 
         #region -- Public properties --
@@ -95,7 +95,7 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Private helpers --
 
-        private bool OnTimerTick()
+        private bool OnDisplayUpdateHoldTimerTick()
         {
             if (SelectedDish is not null && SelectedDish.HoldTime is DateTime holdTime)
             {
@@ -131,11 +131,26 @@ namespace Next2.ViewModels.Mobile
             }
         }
 
-        private Task OnOpenModifyCommandAsync()
+        private async Task OnOpenModifyCommandAsync()
         {
-            return IsInternetConnected
-                ? _navigationService.NavigateAsync(nameof(ModificationsPage))
-                : _notificationsService.ShowNoInternetConnectionDialogAsync();
+            if (SelectedDish is not null && SelectedDish.IsSplitted)
+            {
+                await _notificationsService.ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Warning"],
+                    LocalizationResourceManager.Current["YouCantModifyASplitDish"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
+            else
+            {
+                if (IsInternetConnected)
+                {
+                    await _navigationService.NavigateAsync(nameof(ModificationsPage));
+                }
+                else
+                {
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
+                }
+            }
         }
 
         private Task OnOpenRemoveCommandAsync()

@@ -13,8 +13,7 @@
 
     <StackLayout.Resources>
 
-        <Style x:Key="LabelStyle_i1"
-            TargetType="Label">
+        <Style x:Key="LabelStyle_i1" TargetType="Label">
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             <Setter Property="FontSize" Value="{Binding FontSize, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />
             <Setter Property="FontFamily" Value="Barlow-Bold"/>
@@ -23,8 +22,7 @@
             <Setter Property="Text" Value="{Binding Number, StringFormat={x:Static local:Constants+Formats.NUMBER_FORMAT}, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />
         </Style>
 
-        <Style x:Key="IconButtonStyle_i2"
-            TargetType="buttons:IconButton">
+        <Style x:Key="IconButtonStyle_i2" TargetType="buttons:IconButton">
             <Setter Property="xct:TouchEffect.Command" Value="{Binding ChangeNumberCommand, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />
             <Setter Property="HeightRequest" Value="{Binding ImageSize, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />
             <Setter Property="WidthRequest" Value="{Binding ImageSize, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />

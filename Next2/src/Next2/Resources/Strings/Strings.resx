@@ -819,4 +819,7 @@ A receipt has been printed for you.</value>
   <data name="WholeOrder" xml:space="preserve">
     <value>Whole order</value>
   </data>
+  <data name="YouCantModifyASplitDish" xml:space="preserve">
+    <value>You can't modify a split dish</value>
+  </data>
 </root>
