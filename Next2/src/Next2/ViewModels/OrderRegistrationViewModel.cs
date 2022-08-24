@@ -1205,7 +1205,14 @@ namespace Next2.ViewModels
 
         private async Task OnAddNewSeatCommandAsync()
         {
-            if (IsInternetConnected)
+            if (CurrentOrder.IsSplitBySeats)
+            {
+                await _notificationsService.ShowInfoDialogAsync(
+                            LocalizationResourceManager.Current["Warning"],
+                            LocalizationResourceManager.Current["You—annotAddSeatToSplitOrder"],
+                            LocalizationResourceManager.Current["Ok"]);
+            }
+            else if (IsInternetConnected)
             {
                 NumberOfSeats++;
 

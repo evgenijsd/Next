@@ -1,9 +1,8 @@
-﻿using Xamarin.CommunityToolkit.Behaviors.Internals;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace Next2.Behaviors
 {
-    internal class RotationBehavior : Behavior<VisualElement>
+    public class RotationBehavior : Behavior<VisualElement>
     {
         private VisualElement? _visualElement;
         private Animation? _animation;

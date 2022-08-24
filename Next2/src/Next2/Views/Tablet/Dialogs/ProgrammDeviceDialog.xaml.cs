@@ -5,13 +5,13 @@ using System;
 
 namespace Next2.Views.Tablet.Dialogs
 {
-    public partial class ProgrammDeviceDialog : PopupPage
+    public partial class ProgramDeviceDialog : PopupPage
     {
-        public ProgrammDeviceDialog(Action<IDialogParameters> requestClose)
+        public ProgramDeviceDialog(Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new ProgrammDeviceDialogViewModel(requestClose);
+            BindingContext = new ProgramDeviceDialogViewModel(requestClose);
         }
     }
 }

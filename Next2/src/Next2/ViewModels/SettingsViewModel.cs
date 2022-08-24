@@ -90,7 +90,7 @@ namespace Next2.ViewModels
 
         private Task OnProgramDeviceCommandAsync()
         {
-            PopupPage page = new ProgrammDeviceDialog(CloseProgramDeviceDialogCallback);
+            PopupPage page = new ProgramDeviceDialog(CloseProgramDeviceDialogCallback);
             return PopupNavigation.PushAsync(page);
         }
 

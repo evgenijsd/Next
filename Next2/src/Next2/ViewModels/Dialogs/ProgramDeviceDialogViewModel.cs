@@ -9,9 +9,9 @@ using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
 {
-    public class ProgrammDeviceDialogViewModel : BindableBase
+    public class ProgramDeviceDialogViewModel : BindableBase
     {
-        public ProgrammDeviceDialogViewModel(
+        public ProgramDeviceDialogViewModel(
             Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;

@@ -19,7 +19,7 @@ namespace Next2.Resources.Strings {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Strings {
@@ -2193,6 +2193,15 @@ namespace Next2.Resources.Strings {
         internal static string YourDeviceIsReprogrammed {
             get {
                 return ResourceManager.GetString("YourDeviceIsReprogrammed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You cannot add a seat to a split order.
+        /// </summary>
+        internal static string YouСannotAddSeatToSplitOrder {
+            get {
+                return ResourceManager.GetString("YouСannotAddSeatToSplitOrder", resourceCulture);
             }
         }
     }
