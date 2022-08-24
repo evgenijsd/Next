@@ -115,7 +115,7 @@
                         Margin="4, 0, 0, 0"
                         VerticalOptions="Start"
                         HorizontalOptions="Start"
-                        CornerRadius="{OnPlatform Android=45, iOS=8}"
+                        CornerRadius="{OnPlatform Android=45, iOS=6}"
                         IsVisible="{Binding IsSplitted}"
                         BackgroundColor="{DynamicResource IndicationColor_i7}">
 

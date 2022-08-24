@@ -2082,9 +2082,9 @@ namespace Next2.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to You can&apos;t modify a split dish.
         /// </summary>
-        internal static string YouCan_tModifyASplitDish {
+        internal static string YouCantModifyASplitDish {
             get {
-                return ResourceManager.GetString("YouCan\'tModifyASplitDish", resourceCulture);
+                return ResourceManager.GetString("YouCantModifyASplitDish", resourceCulture);
             }
         }
         

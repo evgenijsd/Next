@@ -795,7 +795,7 @@ A receipt has been printed for you.</value>
   <data name="TheOrderHasBeenRemoved" xml:space="preserve">
     <value>The order #{0} has been removed</value>
   </data>
-  <data name="YouCan'tModifyASplitDish" xml:space="preserve">
+  <data name="YouCantModifyASplitDish" xml:space="preserve">
     <value>You can't modify a split dish</value>
   </data>
 </root>

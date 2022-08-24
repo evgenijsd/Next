@@ -95,7 +95,7 @@ namespace Next2.ViewModels.Mobile
             {
                 return _notificationsService.ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Warning"],
-                    LocalizationResourceManager.Current["YouCan'tModifyASplitDish"],
+                    LocalizationResourceManager.Current["YouCantModifyASplitDish"],
                     LocalizationResourceManager.Current["Ok"]);
             }
             else
