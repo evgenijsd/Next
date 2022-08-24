@@ -1,4 +1,6 @@
-﻿using Prism.Navigation;
+﻿using Next2.Services.Authentication;
+using Next2.Services.Notifications;
+using Prism.Navigation;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -8,8 +10,11 @@ namespace Next2.ViewModels.Mobile
 {
     public class WaitingSignaturePageViewModel : BaseViewModel
     {
-        public WaitingSignaturePageViewModel(INavigationService navigationService)
-            : base(navigationService)
+        public WaitingSignaturePageViewModel(
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService)
+            : base(navigationService, authenticationService, notificationsService)
         {
         }
 

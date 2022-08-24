@@ -132,11 +132,17 @@
     <Compile Update="Controls\DataLoadingState.xaml.cs">
       <DependentUpon>DataLoadingState.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\StepperNumber.xaml.cs">
+      <DependentUpon>StepperNumber.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\Templates\DishesGroupedBySeatItemTemplate.xaml.cs">
       <DependentUpon>DishesGroupedBySeatItemTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\Templates\DishItemTemplate.xaml.cs">
       <DependentUpon>DishItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\HoldTimeItemTemplate.xaml.cs">
+      <DependentUpon>HoldTimeItemTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\Templates\SeatHeaderItemTemplate.xaml.cs">
       <DependentUpon>SeatHeaderItemTemplate.xaml</DependentUpon>
@@ -179,6 +185,9 @@
     </Compile>
     <Compile Update="Views\Mobile\Dialogs\AddDishToOrderDialog.xaml.cs">
       <DependentUpon>AddDishToOrderDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\Dialogs\HoldDishDialog.xaml.cs">
+      <DependentUpon>HoldDishDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\Dialogs\InfoDialog.xaml.cs">
       <DependentUpon>InfoDialog.xaml</DependentUpon>
@@ -238,6 +247,9 @@
 	</Compile>
     <Compile Update="Views\Tablet\Dialogs\AddNewReservationDialog.xaml.cs">
       <DependentUpon>AddNewReservationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\Dialogs\HoldDishDialog.xaml.cs">
+      <DependentUpon>HoldDishDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\Dialogs\InfoDialog.xaml.cs">
       <DependentUpon>InfoDialog.xaml</DependentUpon>
@@ -303,6 +315,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\ExpanderHeaderTemplate.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Templates\Mobile\TipItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\TextItemTemplate.xaml">

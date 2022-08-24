@@ -1,4 +1,6 @@
-﻿using Prism.Navigation;
+﻿using Next2.Services.Authentication;
+using Next2.Services.Notifications;
+using Prism.Navigation;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -8,8 +10,11 @@ namespace Next2.ViewModels.Mobile
 {
     public class InputCashPageViewModel : BaseViewModel
     {
-        public InputCashPageViewModel(INavigationService navigationService)
-            : base(navigationService)
+        public InputCashPageViewModel(
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService)
+            : base(navigationService, authenticationService, notificationsService)
         {
         }
 

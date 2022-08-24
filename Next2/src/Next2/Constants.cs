@@ -21,6 +21,7 @@
             public const string TIME_FORMAT = "{0:hh:mm tt}";
             public const string SHORT_DATE_FORMAT = "{0:dd.MM.yyyy}";
             public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
+            public const string NUMBER_FORMAT = "{0:D2}";
         }
 
         public static class Analytics
@@ -47,6 +48,7 @@
             public const int MAX_HOUR = 12;
             public const int MIN_MINUTE = 0;
             public const int MAX_MINUTE = 59;
+            public const int HELD_DISH_RELEASE_FREQUENCY = 1;
         }
 
         public static class Navigations
@@ -75,7 +77,7 @@
             public const string PAYMENT_COMPLETE = "PAYMENT_COMPLETE";
             public const string SIGNATURE = "SIGNATURE";
             public const string DISH_MODIFIED = "DISH_MODIFIED";
-            public const string TIP_VALUE = "TIP_VALUE";
+            public const string TIP_PERCENT = "TIP_PERCENT";
             public const string TIP_ITEMS = "TIP_ITEMS";
             public const string TIP_TYPE = "TIP_TYPE";
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
@@ -135,6 +137,8 @@
             public const string SELECTED_DATE = "SELECTED_DATE";
             public const string DISH = "DISH";
             public const string DISCOUNT_PRICE = "DISCOUNT_PRICE";
+            public const string DISMISS = "DISMISS";
+            public const string HOLD = "HOLD";
             public const string GIFT_GARD = "GIFT_GARD";
             public const string ACTION = "ACTION";
             public const string REMOVE = "REMOVE";

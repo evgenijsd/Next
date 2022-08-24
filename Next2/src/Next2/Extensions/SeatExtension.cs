@@ -32,6 +32,9 @@ namespace Next2.Extensions
                 {
                     DiscountPrice = y.DiscountPrice,
                     DishId = y.DishId,
+                    IsSplitted = y.IsSplitted,
+                    SplitPrice = y.SplitPrice,
+                    HoldTime = y.HoldTime,
                     Id = y.Id,
                     ImageSource = y.ImageSource,
                     Name = y.Name,
@@ -69,6 +72,9 @@ namespace Next2.Extensions
                     DishId = y.DishId,
                     ImageSource = y.ImageSource,
                     Name = y.Name,
+                    IsSplitted = y.IsSplitted,
+                    SplitPrice = y.SplitPrice,
+                    HoldTime = y.HoldTime,
                     TotalPrice = y.TotalPrice,
                     SelectedDishProportion = y.SelectedDishProportion,
                     SelectedProducts = y.SelectedProducts?.Select(x => new SelectedProductModelDTO

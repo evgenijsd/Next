@@ -4,6 +4,7 @@ using Next2.Helpers;
 using Next2.Models.API;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
 using Next2.Services.Menu;
 using Next2.Services.Notifications;
@@ -29,10 +30,9 @@ namespace Next2.ViewModels
         private readonly IBonusesService _bonusesService;
         private readonly IMenuService _menuService;
         private readonly IMapper _mapper;
-        private readonly INotificationsService _notificationsService;
 
-        private int _indexOfSeat;
-        private int _indexOfSelectedDish;
+        private readonly int _indexOfSeat;
+        private readonly int _indexOfSelectedDish;
 
         private bool _isOrderedByAscendingReplacementProducts = true;
         private bool _isOrderedByDescendingInventory = true;
@@ -46,19 +46,18 @@ namespace Next2.ViewModels
 
         public ModificationsPageViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService,
             IOrderService orderService,
             IMenuService menuService,
             IMapper mapper,
-            INotificationsService notificationsService,
             IBonusesService bonusService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _orderService = orderService;
             _menuService = menuService;
             _bonusesService = bonusService;
-            _notificationsService = notificationsService;
             _mapper = mapper;
-            _notificationsService = notificationsService;
 
             CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 
@@ -391,15 +390,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(ingredientCategories.Exception?.Message);
+                        await ResponseToUnsuccessfulRequestAsync(ingredientCategories.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
 
@@ -447,15 +443,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(ingredientsResult.Exception?.Message);
+                        await ResponseToUnsuccessfulRequestAsync(ingredientsResult.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
         }
@@ -556,10 +549,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -642,7 +632,7 @@ namespace Next2.ViewModels
 
                     _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == selectedSeat.SeatNumber).SelectedItem = selectedDishInSelectedSeat;
 
-                    await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                 }
                 else
                 {
@@ -651,10 +641,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -729,10 +716,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["SomethingWentWrong"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowSomethingWentWrongDialogAsync();
                 }
             }
         }

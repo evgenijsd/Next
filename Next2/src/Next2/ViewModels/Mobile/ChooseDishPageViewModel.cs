@@ -4,12 +4,12 @@ using Next2.Enums;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Menu;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -26,7 +26,6 @@ namespace Next2.ViewModels.Mobile
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
-        private readonly INotificationsService _notificationsService;
 
         private FullOrderBindableModel _tempCurrentOrder = new();
         private SeatBindableModel _tempCurrentSeat = new();
@@ -34,17 +33,17 @@ namespace Next2.ViewModels.Mobile
         private bool _shouldOrderDishesByDESC;
 
         public ChooseDishPageViewModel(
-            IMenuService menuService,
             INavigationService navigationService,
-            IOrderService orderService,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
+            IMenuService menuService,
+            IOrderService orderService,
             IMapper mapper)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _menuService = menuService;
             _orderService = orderService;
             _mapper = mapper;
-            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -153,17 +152,14 @@ namespace Next2.ViewModels.Mobile
                             _orderService.CurrentSeat = _tempCurrentSeat;
                             _orderService.UpdateTotalSum(_orderService.CurrentOrder);
 
-                            await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+                            await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                         }
                     }
                     else
                     {
                         await _notificationsService.CloseAllPopupAsync();
 
-                        await _notificationsService.ShowInfoDialogAsync(
-                            LocalizationResourceManager.Current["Error"],
-                            LocalizationResourceManager.Current["SomethingWentWrong"],
-                            LocalizationResourceManager.Current["Ok"]);
+                        await _notificationsService.ShowSomethingWentWrongDialogAsync();
                     }
                 }
                 else
@@ -175,10 +171,7 @@ namespace Next2.ViewModels.Mobile
             {
                 await _notificationsService.CloseAllPopupAsync();
 
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -197,6 +190,10 @@ namespace Next2.ViewModels.Mobile
                         : new(resultGettingDishes.Result.OrderBy(row => row.Name));
 
                     DishesLoadingState = ELoadingState.Completed;
+                }
+                else if (resultGettingDishes.Exception?.Message == Constants.StatusCode.UNAUTHORIZED)
+                {
+                    await PerformLogoutAsync();
                 }
                 else
                 {

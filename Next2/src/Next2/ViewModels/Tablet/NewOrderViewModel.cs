@@ -6,6 +6,7 @@ using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Menu;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -32,7 +33,6 @@ namespace Next2.ViewModels.Tablet
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
         private readonly IWorkLogService _workLogService;
-        private readonly INotificationsService _notificationsService;
 
         private FullOrderBindableModel _tempCurrentOrder = new();
         private SeatBindableModel _tempCurrentSeat = new();
@@ -41,21 +41,23 @@ namespace Next2.ViewModels.Tablet
 
         public NewOrderViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService,
             IEventAggregator eventAggregator,
             IMenuService menuService,
             OrderRegistrationViewModel orderRegistrationViewModel,
             IWorkLogService workLogService,
             IOrderService orderService,
-            INotificationsService notificationsService,
             IMapper mapper)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _menuService = menuService;
             _eventAggregator = eventAggregator;
             _orderService = orderService;
             _workLogService = workLogService;
             _mapper = mapper;
-            _notificationsService = notificationsService;
+
+            _eventAggregator.GetEvent<NewOrderStateChanging>().Subscribe(OnNewOrderStateChanging);
 
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
@@ -148,6 +150,21 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Private methods --
 
+        private async void OnNewOrderStateChanging(ENewOrderViewState newState)
+        {
+            if (OrderRegistrationViewModel.CurrentState == ENewOrderViewState.Default
+                && newState == ENewOrderViewState.Edit)
+            {
+                SelectedCategoriesItem = null;
+                SelectedSubcategoriesItem = null;
+            }
+            else if (OrderRegistrationViewModel.CurrentState == ENewOrderViewState.Edit
+                && newState == ENewOrderViewState.Default)
+            {
+                await OnRefreshCategoriesCommandAsync();
+            }
+        }
+
         private Task OnTapSortCommandAsync()
         {
             _shouldOrderDishesByDESC = !_shouldOrderDishesByDESC;
@@ -206,17 +223,15 @@ namespace Next2.ViewModels.Tablet
                                 _orderService.CurrentSeat = _tempCurrentSeat;
 
                                 await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
-                                await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+
+                                await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                             }
                         }
                         else
                         {
                             await _notificationsService.CloseAllPopupAsync();
 
-                            await _notificationsService.ShowInfoDialogAsync(
-                                LocalizationResourceManager.Current["Error"],
-                                LocalizationResourceManager.Current["SomethingWentWrong"],
-                                LocalizationResourceManager.Current["Ok"]);
+                            await _notificationsService.ShowSomethingWentWrongDialogAsync();
                         }
                     }
                 }
@@ -229,10 +244,7 @@ namespace Next2.ViewModels.Tablet
             {
                 await _notificationsService.CloseAllPopupAsync();
 
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 
@@ -255,6 +267,10 @@ namespace Next2.ViewModels.Tablet
 
                     Categories = new(resultGettingCategories.Result);
                     SelectedCategoriesItem = Categories.FirstOrDefault();
+                }
+                else if (resultGettingCategories.Exception?.Message == Constants.StatusCode.UNAUTHORIZED)
+                {
+                    await PerformLogoutAsync();
                 }
                 else
                 {
@@ -303,6 +319,10 @@ namespace Next2.ViewModels.Tablet
 
                     _eventAggregator.GetEvent<LoadingStateEvent>().Publish(ELoadingState.Completed);
                 }
+                else if (resultGettingDishes.Exception?.Message == Constants.StatusCode.UNAUTHORIZED)
+                {
+                    await PerformLogoutAsync();
+                }
                 else
                 {
                     DishesLoadingState = ELoadingState.Error;
@@ -318,10 +338,7 @@ namespace Next2.ViewModels.Tablet
         {
             return IsInternetConnected
                 ? _navigationService.NavigateAsync(nameof(ExpandPage))
-                : _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                : _notificationsService.ShowNoInternetConnectionDialogAsync();
         }
 
         private Task OnOpenEmployeeWorkingHoursCommandAsync()

@@ -7,7 +7,9 @@ namespace Next2.Views.Mobile.Dialogs
 {
     public partial class CustomerInfoDialog : PopupPage
     {
-        public CustomerInfoDialog(DialogParameters param, Action<IDialogParameters> requestClose)
+        public CustomerInfoDialog(
+            DialogParameters param,
+            Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 

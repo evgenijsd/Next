@@ -1,5 +1,4 @@
 ﻿using Xamarin.Forms;
-using Xamarin.Forms.PancakeView;
 
 namespace Next2.Controls.Templates
 {

@@ -62,7 +62,7 @@
                     BorderColor="{DynamicResource AppColor_i1}"
                     BackgroundColor="Transparent"
                     Style="{DynamicResource BorderButtonStyle_i1}"
-                    Command="{Binding GetTipValueCommand}" />
+                    Command="{Binding CloseCommand}" />
 
                 <buttons:BorderButton
                     Grid.Column="1"

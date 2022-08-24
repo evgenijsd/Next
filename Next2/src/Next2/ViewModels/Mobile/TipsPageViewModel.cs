@@ -1,10 +1,13 @@
 ﻿using Next2.Enums;
 using Next2.Helpers;
+using Next2.Services.Authentication;
 using Next2.Services.Notifications;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -14,26 +17,27 @@ namespace Next2.ViewModels.Mobile
 {
     public class TipsPageViewModel : BaseViewModel
     {
-        private readonly INotificationsService _notificationsService;
-
-        private TipItem _tipItem = new();
+        private TipItem? _noTipItem;
 
         public TipsPageViewModel(
-            INotificationsService notificationsService,
-            INavigationService navigationService)
-            : base(navigationService)
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            INotificationsService notificationsService)
+            : base(navigationService, authenticationService, notificationsService)
         {
-            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
 
         public ObservableCollection<TipItem> TipDisplayItems { get; set; } = new();
 
-        public TipItem SelectedTipItem { get; set; }
+        public TipItem? SelectedTipItem { get; set; }
 
         private ICommand? _tapTipItemCommand;
-        public ICommand TapTipItemCommand => _tapTipItemCommand ??= new AsyncCommand<object>(OnTapTipItemCommandAsync, allowsMultipleExecutions: false);
+        public ICommand TapTipItemCommand => _tapTipItemCommand ??= new AsyncCommand<TipItem?>(OnTapTipItemCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand? _selectNoTipItemCommand;
+        public ICommand SelectNoTipItemCommand => _selectNoTipItemCommand ??= new AsyncCommand(OnSelectNoTipItemCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
@@ -45,16 +49,16 @@ namespace Next2.ViewModels.Mobile
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             var tipType = ETipType.NoTip;
-            var tipValue = 0m;
+            var tipPercent = 0m;
 
             if (parameters.TryGetValue(Constants.Navigations.TIP_TYPE, out ETipType paramTipType))
             {
                 tipType = paramTipType;
             }
 
-            if (parameters.TryGetValue(Constants.Navigations.TIP_VALUE, out decimal paramTipValue))
+            if (parameters.TryGetValue(Constants.Navigations.TIP_PERCENT, out decimal paramTipPercent))
             {
-                tipValue = paramTipValue;
+                tipPercent = paramTipPercent;
             }
 
             if (parameters.TryGetValue(Constants.Navigations.TIP_ITEMS, out ObservableCollection<TipItem> tipItems))
@@ -62,19 +66,23 @@ namespace Next2.ViewModels.Mobile
                 foreach (var tip in tipItems)
                 {
                     tip.TapCommand = TapTipItemCommand;
+                    tip.IsSelected = false;
 
                     if (tip.TipType != ETipType.NoTip)
                     {
                         TipDisplayItems.Add(tip);
-                    }
 
-                    if (tip.TipType == tipType && tip.Value == tipValue)
+                        if (tip.TipType == tipType && tip.PercentTip == tipPercent)
+                        {
+                            SelectedTipItem = tip;
+                            SelectedTipItem.IsSelected = true;
+                        }
+                    }
+                    else
                     {
-                        _tipItem = tip;
+                        _noTipItem = tip;
                     }
                 }
-
-                SelectedTipItem = _tipItem;
             }
         }
 
@@ -82,17 +90,25 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Private helpers --
 
-        private async Task OnTapTipItemCommandAsync(object? sender)
+        private async Task OnTapTipItemCommandAsync(TipItem? selectedTipItem)
         {
-            if (sender is TipItem item && item.TipType == ETipType.Other)
+            if (selectedTipItem is not null)
             {
-                PopupPage popupPage = new Views.Mobile.Dialogs.TipValueDialog(TipViewDialogCallBack);
+                selectedTipItem.IsSelected = true;
 
-                await PopupNavigation.PushAsync(popupPage);
-            }
-            else if (sender is ETipType eTip && eTip == ETipType.NoTip)
-            {
-                SelectedTipItem = _tipItem;
+                if (SelectedTipItem is not null && selectedTipItem != SelectedTipItem)
+                {
+                    SelectedTipItem.IsSelected = false;
+                }
+
+                SelectedTipItem = selectedTipItem;
+
+                if (SelectedTipItem?.TipType == ETipType.Other)
+                {
+                    PopupPage popupPage = new Views.Mobile.Dialogs.TipValueDialog(TipViewDialogCallBack);
+
+                    await PopupNavigation.PushAsync(popupPage);
+                }
             }
         }
 
@@ -100,18 +116,33 @@ namespace Next2.ViewModels.Mobile
         {
             await _notificationsService.CloseAllPopupAsync();
 
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, out decimal value))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, out decimal value) && SelectedTipItem is not null)
             {
                 SelectedTipItem.Value = value;
                 SelectedTipItem.Text = LocalizationResourceManager.Current["CurrencySign"] + $" {value:F2}";
             }
         }
 
+        private Task OnSelectNoTipItemCommandAsync()
+        {
+            if (SelectedTipItem is not null)
+            {
+                SelectedTipItem.IsSelected = false;
+                SelectedTipItem = null;
+            }
+
+            return Task.CompletedTask;
+        }
+
         private Task OnGoBackCommandAsync()
         {
+            var tipItem = SelectedTipItem is null
+                ? _noTipItem
+                : SelectedTipItem;
+
             var parameters = new NavigationParameters()
             {
-                { Constants.Navigations.TIP_VALUE, SelectedTipItem },
+                { Constants.Navigations.TIP_PERCENT, tipItem },
             };
 
             return _navigationService.GoBackAsync(parameters);

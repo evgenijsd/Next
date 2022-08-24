@@ -744,6 +744,12 @@ A receipt has been printed for you.</value>
   <data name="NoTablesAvailable" xml:space="preserve">
     <value>No tables available</value>
   </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
+  <data name="Hold" xml:space="preserve">
+    <value>Hold</value>
+  </data>
   <data name="AnErrorWithWithdrawalFundsFromGiftCard" xml:space="preserve">
     <value>Something went wrong with Your gift card. Please contact support service!</value>
   </data>
@@ -768,6 +774,12 @@ A receipt has been printed for you.</value>
   <data name="Warning" xml:space="preserve">
     <value>Warning</value>
   </data>
+  <data name="Min" xml:space="preserve">
+    <value>min</value>
+  </data>
+  <data name="SelectTime" xml:space="preserve">
+    <value>Select Time</value>
+  </data>
   <data name="ThisReservationWillBeRemoved" xml:space="preserve">
     <value>This reservation will be removed.</value>
   </data>
@@ -779,6 +791,9 @@ A receipt has been printed for you.</value>
   </data>
   <data name="NoNotes" xml:space="preserve">
     <value>No notes</value>
+  </data>
+  <data name="ItemOnHold" xml:space="preserve">
+    <value>Item on hold</value>
   </data>
   <data name="Pt" xml:space="preserve">
     <value>pt</value>
@@ -794,5 +809,8 @@ A receipt has been printed for you.</value>
   </data>
   <data name="TheOrderHasBeenRemoved" xml:space="preserve">
     <value>The order #{0} has been removed</value>
+  </data>
+  <data name="YouCantModifyASplitDish" xml:space="preserve">
+    <value>You can't modify a split dish</value>
   </data>
 </root>

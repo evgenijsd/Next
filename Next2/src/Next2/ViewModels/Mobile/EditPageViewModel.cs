@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Menu;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
@@ -8,11 +9,13 @@ using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels.Mobile
 {
@@ -21,7 +24,6 @@ namespace Next2.ViewModels.Mobile
         private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
         private readonly IMenuService _menuService;
-        private readonly INotificationsService _notificationsService;
 
         private int _indexOfSeat;
         private bool _isModifiedDish;
@@ -30,21 +32,25 @@ namespace Next2.ViewModels.Mobile
 
         public EditPageViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
             IOrderService orderService,
             IMenuService menuService,
             IMapper mapper)
-          : base(navigationService)
+          : base(navigationService, authenticationService, notificationsService)
         {
             _orderService = orderService;
-            _notificationsService = notificationsService;
             _menuService = menuService;
             _mapper = mapper;
+
+            Device.StartTimer(TimeSpan.FromSeconds(Constants.Limits.HELD_DISH_RELEASE_FREQUENCY), OnDisplayUpdateHoldTimerTick);
         }
 
         #region -- Public properties --
 
         public DishBindableModel? SelectedDish { get; set; }
+
+        public TimeSpan TimerHoldSelectedDish { get; set; }
 
         private ICommand? _openModifyCommand;
         public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync, allowsMultipleExecutions: false);
@@ -53,7 +59,7 @@ namespace Next2.ViewModels.Mobile
         public ICommand OpenRemoveCommand => _openRemoveCommand ??= new AsyncCommand(OnOpenRemoveCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand? _openHoldSelectionCommand;
-        public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync, allowsMultipleExecutions: false);
+        public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand<DishBindableModel?>(OnOpenHoldSelectionCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand? _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
@@ -78,25 +84,78 @@ namespace Next2.ViewModels.Mobile
             SelectedDish = new();
 
             SelectedDish = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
+
+            if (SelectedDish?.HoldTime is DateTime holdTime)
+            {
+                TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
+            }
         }
 
         #endregion
 
         #region -- Private helpers --
 
-        private Task OnOpenHoldSelectionCommandAsync()
+        private bool OnDisplayUpdateHoldTimerTick()
         {
-            return Task.CompletedTask;
+            if (SelectedDish is not null && SelectedDish.HoldTime is DateTime holdTime)
+            {
+                TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
+            }
+
+            return true;
         }
 
-        private Task OnOpenModifyCommandAsync()
+        private async Task OnOpenHoldSelectionCommandAsync(DishBindableModel? selectedDish)
         {
-            return IsInternetConnected
-                ? _navigationService.NavigateAsync(nameof(ModificationsPage))
-                : _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
+            if (selectedDish is not null)
+            {
+                var param = new DialogParameters { { Constants.DialogParameterKeys.DISH, selectedDish } };
+
+                PopupPage holdDishDialog = new Views.Mobile.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallback);
+
+                await PopupNavigation.PushAsync(holdDishDialog);
+            }
+        }
+
+        private async void CloseHoldDishDialogCallback(IDialogParameters parameters)
+        {
+            await _notificationsService.CloseAllPopupAsync();
+
+            if (SelectedDish is not null)
+            {
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.DISMISS, out bool isDismiss))
+                {
+                    SelectedDish.HoldTime = null;
+                }
+
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
+                {
+                    SelectedDish.HoldTime = holdTime;
+                    TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
+                }
+            }
+        }
+
+        private async Task OnOpenModifyCommandAsync()
+        {
+            if (SelectedDish is not null && SelectedDish.IsSplitted)
+            {
+                await _notificationsService.ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Warning"],
+                    LocalizationResourceManager.Current["YouCantModifyASplitDish"],
                     LocalizationResourceManager.Current["Ok"]);
+            }
+            else
+            {
+                if (IsInternetConnected)
+                {
+                    await _navigationService.NavigateAsync(nameof(ModificationsPage));
+                }
+                else
+                {
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
+                }
+            }
         }
 
         private Task OnOpenRemoveCommandAsync()
@@ -146,15 +205,12 @@ namespace Next2.ViewModels.Mobile
                             {
                                 _orderService.CurrentOrder = _tempCurrentOrder;
 
-                                await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+                                await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
                             }
                         }
                         else
                         {
-                            await _notificationsService.ShowInfoDialogAsync(
-                                LocalizationResourceManager.Current["Error"],
-                                LocalizationResourceManager.Current["SomethingWentWrong"],
-                                LocalizationResourceManager.Current["Ok"]);
+                            await _notificationsService.ShowSomethingWentWrongDialogAsync();
                         }
                     }
                 }
@@ -163,10 +219,7 @@ namespace Next2.ViewModels.Mobile
             {
                 await _notificationsService.CloseAllPopupAsync();
 
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 

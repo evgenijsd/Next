@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
 {
@@ -12,6 +13,7 @@ namespace Next2.ViewModels.Dialogs
         public TipValueDialogViewModel(Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
+            CloseCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.CANCEL, true } }));
         }
 
         #region -- Public properties --
@@ -19,6 +21,8 @@ namespace Next2.ViewModels.Dialogs
         public string InputTip { get; set; } = string.Empty;
 
         public Action<IDialogParameters> RequestClose;
+
+        public ICommand CloseCommand { get; }
 
         private ICommand? _getTipValueCommand;
         public ICommand GetTipValueCommand => _getTipValueCommand ??= new AsyncCommand(OnGetTipValueCommandAsync, allowsMultipleExecutions: false);
@@ -37,6 +41,7 @@ namespace Next2.ViewModels.Dialogs
             }
 
             var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.TIP_VALUE_DIALOG, tipValue } };
+
             RequestClose(dialogParameters);
 
             return Task.CompletedTask;

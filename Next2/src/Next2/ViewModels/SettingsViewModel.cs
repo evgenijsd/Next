@@ -1,7 +1,4 @@
 using Next2.Enums;
-using Next2.Helpers.ProcessHelpers;
-using Next2.Models.API.DTO;
-using Next2.Resources.Strings;
 using Next2.Services.Authentication;
 using Next2.Services.Employees;
 using Next2.Services.Notifications;
@@ -12,7 +9,6 @@ using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -24,9 +20,7 @@ namespace Next2.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        private readonly IAuthenticationService _authenticationService;
         private readonly IOrderService _orderService;
-        private readonly INotificationsService _notificationsService;
         private readonly IEmployeesService _employeesService;
 
         private CancellationTokenSource _cancelTokenSource = new();
@@ -39,11 +33,9 @@ namespace Next2.ViewModels
             PrintReceiptViewModel printReceiptViewModel,
             IOrderService orderService,
             IEmployeesService employeesService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
-            _authenticationService = authenticationService;
             _orderService = orderService;
-            _notificationsService = notificationsService;
             _employeesService = employeesService;
 
             PrintReceiptViewModel = printReceiptViewModel;
@@ -186,15 +178,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(resultOfGettingEmployees.Exception?.Message);
+                        await ResponseToUnsuccessfulRequestAsync(resultOfGettingEmployees.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await _notificationsService.ShowInfoDialogAsync(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["NoInternetConnection"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
             }
         }
@@ -218,7 +207,7 @@ namespace Next2.ViewModels
 
                     if (!resultOfUpdatingOrders.IsSuccess && _token.IsCancellationRequested)
                     {
-                        await _notificationsService.ResponseToBadRequestAsync(resultOfUpdatingOrders.Exception?.Message);
+                        await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrders.Exception?.Message);
                     }
 
                     IsLoading = false;
@@ -226,10 +215,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _notificationsService.ShowInfoDialogAsync(
-                    LocalizationResourceManager.Current["Error"],
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 

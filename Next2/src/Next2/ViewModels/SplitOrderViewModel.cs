@@ -1,14 +1,13 @@
 ﻿using Acr.UserDialogs;
 using Next2.Enums;
 using Next2.Extensions;
-using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
@@ -24,19 +23,18 @@ namespace Next2.ViewModels
     public class SplitOrderViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
-        private readonly INotificationsService _notificationsService;
 
         private bool _isOneTime = true;
         private int _selectedSeatNumber = 0;
 
         public SplitOrderViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
             IOrderService orderService)
-            : base(navigationService)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _orderService = orderService;
-            _notificationsService = notificationsService;
         }
 
         #region -- Public properties --
@@ -168,6 +166,7 @@ namespace Next2.ViewModels
 
                 order.Seats = seats;
                 order.Open = DateTime.Now;
+                order.IsSplitBySeats = true;
 
                 _orderService.CalculateOrderPrices(order);
 
@@ -193,6 +192,8 @@ namespace Next2.ViewModels
 
             _orderService.CalculateOrderPrices(Order);
 
+            Order.IsSplitBySeats = true;
+
             var updateResult = await _orderService.UpdateOrderAsync(Order);
 
             if (!updateResult.IsSuccess)
@@ -207,7 +208,7 @@ namespace Next2.ViewModels
         {
             if (Seats.Count > 1)
             {
-                if (SelectedDish.HasSplittedPrice && condition is not ESplitOrderConditions.BySeats)
+                if (SelectedDish.IsSplitted && condition is not ESplitOrderConditions.BySeats)
                 {
                     await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Warning"],
@@ -267,7 +268,7 @@ namespace Next2.ViewModels
         {
             await _notificationsService.CloseAllPopupAsync();
 
-            await _notificationsService.ResponseToBadRequestAsync(exeptionMessage);
+            await ResponseToUnsuccessfulRequestAsync(exeptionMessage);
 
             RestoreSeats();
         }
@@ -349,12 +350,12 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _notificationsService.ResponseToBadRequestAsync(updateTableResult.Exception?.Message);
+                    await ResponseToUnsuccessfulRequestAsync(updateTableResult.Exception?.Message);
                 }
             }
             else
             {
-                await _notificationsService.ResponseToBadRequestAsync(string.Empty);
+                await ResponseToUnsuccessfulRequestAsync(string.Empty);
             }
         }
 
@@ -371,13 +372,17 @@ namespace Next2.ViewModels
                         dish.TotalPrice = incomingSeat.SelectedItem is null
                             ? 0
                             : incomingSeat.SelectedItem.TotalPrice;
-                        dish.HasSplittedPrice = true;
+                        dish.DiscountPrice = dish.TotalPrice;
+                        dish.SplitPrice = dish.TotalPrice;
+                        dish.IsSplitted = true;
                         seat.SelectedDishes.Add(dish);
                     }
                 }
             }
 
-            SelectedDish.HasSplittedPrice = true;
+            SelectedDish.IsSplitted = true;
+            SelectedDish.DiscountPrice = SelectedDish.TotalPrice;
+            SelectedDish.SplitPrice = SelectedDish.TotalPrice;
 
             return Task.CompletedTask;
         }
@@ -386,7 +391,7 @@ namespace Next2.ViewModels
         {
             foreach (var seat in Seats)
             {
-                seat.SelectedDishes = new(seat.SelectedDishes.Where(x => x.TotalPrice > 0));
+                seat.SelectedDishes = new(seat.SelectedDishes.Where(x => x.TotalPrice > 0.01m));
             }
 
             return Task.CompletedTask;

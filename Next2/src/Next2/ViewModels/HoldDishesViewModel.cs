@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.DishesHolding;
 using Next2.Services.Notifications;
 using Prism.Navigation;
@@ -17,20 +18,19 @@ namespace Next2.ViewModels
     public class HoldDishesViewModel : BaseViewModel
     {
         private readonly IDishesHoldingService _dishesHolding;
-        private readonly INotificationsService _notificationsService;
         private readonly IMapper _mapper;
 
         private EHoldDishesSortingType _holdDishesSortingType;
 
         public HoldDishesViewModel(
-            IDishesHoldingService dishesHolding,
+            INavigationService navigationService,
+            IAuthenticationService authenticationService,
             INotificationsService notificationsService,
-            IMapper mapper,
-            INavigationService navigationService)
-            : base(navigationService)
+            IDishesHoldingService dishesHolding,
+            IMapper mapper)
+            : base(navigationService, authenticationService, notificationsService)
         {
             _dishesHolding = dishesHolding;
-            _notificationsService = notificationsService;
             _mapper = mapper;
         }
 
@@ -59,7 +59,7 @@ namespace Next2.ViewModels
         public ICommand ChangeSortHoldDishesCommand => _changeSortHoldDishesCommand ??= new AsyncCommand<EHoldDishesSortingType>(OnChangeSortHoldDishesCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand? _setSelectedHoldDishesCommand;
-        public ICommand SetSelectedHoldDishesCommand => _setSelectedHoldDishesCommand ??= new AsyncCommand<List<object>?>(OnSetSelectedHoldDishesCommandAsync, allowsMultipleExecutions: false);
+        public ICommand SetSelectedHoldDishesCommand => _setSelectedHoldDishesCommand ??= new AsyncCommand<List<object>>(OnSetSelectedHoldDishesCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand? _setHoldDishesByTableNumberCommand;
         public ICommand SetHoldDishesByTableNumberCommand => _setHoldDishesByTableNumberCommand ??= new AsyncCommand(OnSetHoldDishesByTableNumberCommandAsync, allowsMultipleExecutions: false);
@@ -186,16 +186,17 @@ namespace Next2.ViewModels
 
         private async Task<ObservableCollection<HoldDishBindableModel>> GetAllHoldDishesAsync()
         {
-            var result = await _dishesHolding.GetAllHoldDishesAsync();
             var holdDishes = new ObservableCollection<HoldDishBindableModel>();
 
-            if (result.IsSuccess)
+            var resultOfGettingHoldDishes = await _dishesHolding.GetAllHoldDishesAsync();
+
+            if (resultOfGettingHoldDishes.IsSuccess)
             {
-                holdDishes = _mapper.Map<ObservableCollection<HoldDishBindableModel>>(result.Result);
+                holdDishes = _mapper.Map<ObservableCollection<HoldDishBindableModel>>(resultOfGettingHoldDishes.Result);
             }
             else
             {
-                await _notificationsService.ResponseToBadRequestAsync(result.Exception?.Message);
+                await ResponseToUnsuccessfulRequestAsync(resultOfGettingHoldDishes.Exception?.Message);
             }
 
             IsNothingFound = !holdDishes.Any();
