@@ -37,11 +37,22 @@ namespace Next2.ViewModels.Dialogs
 
                 ProductNames = string.Join(", ", selectedDish.Products.Where(x => !string.IsNullOrEmpty(x.Name)).Select(x => x.Name).ToArray());
             }
+
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ORDER, out FullOrderBindableModel order))
+            {
+                var seats = order.Seats.Select(x => x.SeatNumber).ToList();
+                seats.Insert(0, 0);
+                Seats = new(seats);
+            }
         }
 
         #region -- Public properties --
 
-        public DishBindableModel SelectedDish { get; set; }
+        public DishBindableModel? SelectedDish { get; set; }
+
+        public ObservableCollection<int>? Seats { get; set; }
+
+        public int? Seat { get; set; }
 
         public ObservableCollection<HoldTimeItem> AvailableHoldingTimeInMinutes { get; set; }
 
