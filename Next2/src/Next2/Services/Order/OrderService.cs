@@ -104,8 +104,11 @@ namespace Next2.Services.Order
                         discountProductsPrice = totalProductsPrice - (discountPercentage * totalProductsPrice / 100);
                     }
 
-                    dish.DiscountPrice = discountProductsPrice;
-                    dish.TotalPrice = totalProductsPrice;
+                    if (!dish.IsSplitted)
+                    {
+                        dish.DiscountPrice = discountProductsPrice;
+                        dish.TotalPrice = totalProductsPrice;
+                    }
 
                     currentOrder.SubTotalPrice += dish.TotalPrice;
                     currentOrder.DiscountPrice += dish.DiscountPrice;

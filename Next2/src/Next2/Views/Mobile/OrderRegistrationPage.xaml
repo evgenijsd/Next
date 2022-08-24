@@ -66,6 +66,14 @@
                 <Setter Property="CornerRadius" Value="4"/>
             </Style>
 
+            <DataTemplate x:Key="seatHeaderDataTemplate">
+                <templates:SeatHeaderItemTemplate />
+            </DataTemplate>
+
+            <DataTemplate x:Key="dishesGroupedBySeatItemTemplate">
+                <templates:DishesGroupedBySeatItemTemplate />
+            </DataTemplate>
+
         </Grid.Resources>
                         
         <!-- HEADER, 1 ROW -->
@@ -243,6 +251,8 @@
             IsGrouped="True"
             BounceMode="DisabledForAndroidAndiOS"
             ItemsSource="{Binding DishesGroupedBySeats}"
+            GroupHeaderTemplate="{DynamicResource seatHeaderDataTemplate}"
+            ItemTemplate="{DynamicResource dishesGroupedBySeatItemTemplate}"
             SelectedItem="{Binding SelectedDish}">
 
             <controls:CustomCollectionView.Behaviors>
@@ -322,8 +332,8 @@
                                     FontSize="{DynamicResource TSize_i8}"
                                     VerticalOptions="Start"
                                     VerticalTextAlignment="Center"
-                                    Margin="{OnPlatform Android='5, 5, 0, 0', iOS='5, 9, 0, 0'}"/>
-                                
+                                    Margin="{OnPlatform Android='5, 5, 0, 0', iOS='5, 9, 0, 0'}" />
+
                             </StackLayout>
 
                         </StackLayout>
@@ -354,18 +364,6 @@
 
                 </StackLayout>
             </controls:CustomCollectionView.EmptyView>
-
-            <controls:CustomCollectionView.GroupHeaderTemplate>
-                <DataTemplate>
-                    <templates:SeatHeaderItemTemplate />
-                </DataTemplate>
-            </controls:CustomCollectionView.GroupHeaderTemplate>
-
-            <controls:CustomCollectionView.ItemTemplate>
-                <DataTemplate>
-                    <templates:DishesGroupedBySeatItemTemplate />
-                </DataTemplate>
-            </controls:CustomCollectionView.ItemTemplate>
 
         </controls:CustomCollectionView>
 

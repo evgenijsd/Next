@@ -661,6 +661,7 @@
 
                                 <StackLayout 
                                     Orientation="Horizontal"
+                                    HorizontalOptions="FillAndExpand"
                                     Spacing="16">
 
                                     <StackLayout 
@@ -700,6 +701,50 @@
                                             FontSize="{DynamicResource TSize_i8}"
                                             FontFamily="Barlow-SemiBold"
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                                    </StackLayout>
+
+                                    <StackLayout
+                                        HorizontalOptions="EndAndExpand"
+                                        Orientation="Horizontal"
+                                        IsVisible="{Binding OrderRegistrationViewModel.SelectedDish.HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}" >
+
+                                        <ffimageloading:CachedImage
+                                            VerticalOptions="StartAndExpand"
+                                            Margin="0, 30, 5, 0"
+                                            HeightRequest="18"
+                                            Source="ic_time_circle_orange_24px" />
+
+                                        <StackLayout
+                                            Margin="0, 30, 0, 0"
+                                            VerticalOptions="StartAndExpand"
+                                            Orientation="Vertical">
+
+                                            <Label
+                                                Text="{xct:Translate ItemOnHold}"
+                                                HorizontalOptions="EndAndExpand"
+                                                FontSize="{DynamicResource TSize_i8}"
+                                                FontFamily="Barlow-SemiBold"
+                                                TextColor="{DynamicResource IndicationColor_i5}" />
+
+                                            <Label
+                                                Margin="0, 7, 0, 0"
+                                                HorizontalOptions="EndAndExpand"
+                                                FontSize="{DynamicResource TSize_i8}"
+                                                FontFamily="Barlow-SemiBold"
+                                                TextColor="{DynamicResource IndicationColor_i5}">
+                                                
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding OrderRegistrationViewModel.TimerHoldSelectedDish.Hours, StringFormat={x:Static local:Constants+Formats.NUMBER_FORMAT}}" />
+                                                        <Span Text=":" />
+                                                        <Span Text="{Binding OrderRegistrationViewModel.TimerHoldSelectedDish.Minutes, StringFormat={x:Static local:Constants+Formats.NUMBER_FORMAT}}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                                
+                                            </Label>
+
+                                        </StackLayout>
 
                                     </StackLayout>
 
@@ -815,7 +860,25 @@
                                 Style="{DynamicResource BorderButtonStyle_i2_1}"
                                 Background="{DynamicResource IndicationColor_i5}"
                                 Text="{xct:Translate HoldItem}"
-                                Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}"/>
+                                Opacity="1"
+                                Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}"
+                                CommandParameter="{Binding OrderRegistrationViewModel.SelectedDish}">
+                                
+                                <buttons:BorderButton.Triggers>
+                                    
+                                    <DataTrigger
+                                        TargetType="buttons:BorderButton"
+                                        Binding="{Binding OrderRegistrationViewModel.SelectedDish.HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                        Value="True">
+                                        
+                                        <Setter Property="IsEnabled" Value="False" />
+                                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+
+                                    </DataTrigger>
+                                    
+                                </buttons:BorderButton.Triggers>
+                                
+                            </buttons:BorderButton>
 
                             <buttons:BorderButton
                                 Style="{DynamicResource BorderButtonStyle_i2_1}"

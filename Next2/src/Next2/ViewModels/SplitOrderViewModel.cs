@@ -166,6 +166,7 @@ namespace Next2.ViewModels
 
                 order.Seats = seats;
                 order.Open = DateTime.Now;
+                order.IsSplitBySeats = true;
 
                 _orderService.CalculateOrderPrices(order);
 
@@ -191,6 +192,8 @@ namespace Next2.ViewModels
 
             _orderService.CalculateOrderPrices(Order);
 
+            Order.IsSplitBySeats = true;
+
             var updateResult = await _orderService.UpdateOrderAsync(Order);
 
             if (!updateResult.IsSuccess)
@@ -205,7 +208,7 @@ namespace Next2.ViewModels
         {
             if (Seats.Count > 1)
             {
-                if (SelectedDish.HasSplittedPrice && condition is not ESplitOrderConditions.BySeats)
+                if (SelectedDish.IsSplitted && condition is not ESplitOrderConditions.BySeats)
                 {
                     await _notificationsService.ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Warning"],
@@ -369,13 +372,17 @@ namespace Next2.ViewModels
                         dish.TotalPrice = incomingSeat.SelectedItem is null
                             ? 0
                             : incomingSeat.SelectedItem.TotalPrice;
-                        dish.HasSplittedPrice = true;
+                        dish.DiscountPrice = dish.TotalPrice;
+                        dish.SplitPrice = dish.TotalPrice;
+                        dish.IsSplitted = true;
                         seat.SelectedDishes.Add(dish);
                     }
                 }
             }
 
-            SelectedDish.HasSplittedPrice = true;
+            SelectedDish.IsSplitted = true;
+            SelectedDish.DiscountPrice = SelectedDish.TotalPrice;
+            SelectedDish.SplitPrice = SelectedDish.TotalPrice;
 
             return Task.CompletedTask;
         }
@@ -384,7 +391,7 @@ namespace Next2.ViewModels
         {
             foreach (var seat in Seats)
             {
-                seat.SelectedDishes = new(seat.SelectedDishes.Where(x => x.TotalPrice > 0));
+                seat.SelectedDishes = new(seat.SelectedDishes.Where(x => x.TotalPrice > 0.01m));
             }
 
             return Task.CompletedTask;

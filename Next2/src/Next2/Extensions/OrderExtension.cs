@@ -20,6 +20,8 @@ namespace Next2.Extensions
                     TotalPrice = x.TotalPrice,
                     DiscountPrice = x.DiscountPrice,
                     DishId = x.DishId,
+                    SplitPrice = x.SplitPrice,
+                    HoldTime = x.HoldTime,
                     SelectedDishProportionId = x.SelectedDishProportion.Id,
                     SelectedProducts = x.SelectedProducts.Select(x => new IncomingSelectedProductModel()
                     {
@@ -72,6 +74,8 @@ namespace Next2.Extensions
                     TotalPrice = x.TotalPrice,
                     DiscountPrice = x.DiscountPrice,
                     DishId = x.DishId,
+                    SplitPrice = x.SplitPrice,
+                    HoldTime = x.HoldTime,
                     SelectedDishProportionId = x.SelectedDishProportion.Id,
                     SelectedProducts = x.SelectedProducts.Select(x => new IncomingSelectedProductModel()
                     {
@@ -130,6 +134,7 @@ namespace Next2.Extensions
                 Open = order.Open,
                 Close = order.Close,
                 IsCashPayment = order.IsCashPayment,
+                IsSplitBySeats = order.IsSplitBySeats,
                 Table = order.Table is not null
                     ? new()
                     {
@@ -169,6 +174,9 @@ namespace Next2.Extensions
                         Name = row.Name,
                         ImageSource = row.ImageSource,
                         TotalPrice = row.TotalPrice,
+                        IsSplitted = row.IsSplitted,
+                        SplitPrice = row.SplitPrice,
+                        HoldTime = row.HoldTime,
                         DiscountPrice = row.DiscountPrice,
                         SelectedDishProportion = new()
                         {
@@ -248,6 +256,7 @@ namespace Next2.Extensions
                 Open = order.Open,
                 Close = order.Close,
                 IsCashPayment = order.IsCashPayment,
+                IsSplitBySeats = order.IsSplitBySeats,
                 Table = order.Table is not null
                     ? new()
                     {
@@ -291,6 +300,8 @@ namespace Next2.Extensions
                         DishId = row.DishId,
                         Name = row.Name,
                         ImageSource = row.ImageSource,
+                        IsSplitted = row.IsSplitted,
+                        SplitPrice = row.SplitPrice,
                         TotalPrice = row.TotalPrice,
                         DiscountPrice = row.DiscountPrice,
                         SelectedDishProportion = new()
