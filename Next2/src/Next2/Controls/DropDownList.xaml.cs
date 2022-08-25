@@ -296,7 +296,11 @@ namespace Next2.Controls
 
             if (propertyName is nameof(IsExpanded) && IsExpanded)
             {
-                //HighlitedItemHepherForIOs();
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    HighlitedItemHelperForIOs();
+                }
+
                 itemsCollection.ScrollTo(itemsCollection.SelectedItem, position: ScrollToPosition.Center, animate: false);
             }
             else if (propertyName is nameof(DataTemplate))
@@ -326,7 +330,7 @@ namespace Next2.Controls
             (Parent as Layout)?.RaiseChild(this);
         }
 
-        private void HighlitedItemHepherForIOs()
+        private void HighlitedItemHelperForIOs()
         {
             if (SelectedItem is not null && !_isItemSelected)
             {
