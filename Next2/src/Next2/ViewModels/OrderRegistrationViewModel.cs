@@ -513,10 +513,11 @@ namespace Next2.ViewModels
             if (IsInternetConnected)
             {
                 _rememberPositionSelection = null;
+
                 var seatNumber = seatGroup?.SeatNumber ?? 0;
                 var seat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == seatNumber);
 
-                if (seat is not null)
+                if (seat is not null && seatNumber != _orderService.CurrentSeat?.SeatNumber)
                 {
                     seat.Checked = true;
 
