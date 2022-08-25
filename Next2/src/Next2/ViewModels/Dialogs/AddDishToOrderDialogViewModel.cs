@@ -15,7 +15,9 @@ namespace Next2.ViewModels.Dialogs
     {
         private bool _canExecute = true;
 
-        public AddDishToOrderDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
+        public AddDishToOrderDialogViewModel(
+            DialogParameters parameters,
+            Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
 
@@ -79,8 +81,8 @@ namespace Next2.ViewModels.Dialogs
                     return result;
                 });
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.DISH, out DishModelDTO dish)
-                && param.TryGetValue(Constants.DialogParameterKeys.DISCOUNT_PRICE, out decimal discountPrice))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.DISH, out DishModelDTO dish)
+                && parameters.TryGetValue(Constants.DialogParameterKeys.DISCOUNT_PRICE, out decimal discountPrice))
             {
                 Dish = new()
                 {

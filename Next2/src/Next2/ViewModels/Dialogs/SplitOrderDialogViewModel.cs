@@ -20,11 +20,13 @@ namespace Next2.ViewModels.Dialogs
         private readonly List<int[]> _splitGroupList = new();
         private bool _canExecute;
 
-        public SplitOrderDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
+        public SplitOrderDialogViewModel(
+            DialogParameters parameters,
+            Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
 
-            LoadData(param);
+            LoadData(parameters);
         }
 
         #region -- Public properties --
@@ -108,11 +110,11 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private Helpers --
 
-        private void LoadData(IDialogParameters param)
+        private void LoadData(IDialogParameters parameters)
         {
-            var isAllParamExist = param.TryGetValue(Constants.DialogParameterKeys.SEATS, out ObservableCollection<SeatBindableModel> seats)
-                & param.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel selectedDish)
-                & param.TryGetValue(Constants.DialogParameterKeys.CONDITION, out ESplitOrderConditions condition);
+            var isAllParamExist = parameters.TryGetValue(Constants.DialogParameterKeys.SEATS, out ObservableCollection<SeatBindableModel> seats)
+                & parameters.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel selectedDish)
+                & parameters.TryGetValue(Constants.DialogParameterKeys.CONDITION, out ESplitOrderConditions condition);
 
             if (isAllParamExist)
             {
@@ -185,12 +187,12 @@ namespace Next2.ViewModels.Dialogs
 
                     if (Seats.Count == 0)
                     {
-                        DialogParameters param = new()
+                        DialogParameters parameters = new()
                         {
                             { Constants.DialogParameterKeys.SPLIT_GROUPS, _splitGroupList },
                         };
 
-                        RequestClose.Invoke(param);
+                        RequestClose.Invoke(parameters);
                     }
                 }
                 else
@@ -201,12 +203,12 @@ namespace Next2.ViewModels.Dialogs
 
                     var seats = Seats.Where(x => x.SelectedItem.TotalPrice > 0).ToList();
 
-                    DialogParameters param = new()
+                    DialogParameters parameters = new()
                     {
                         { Constants.DialogParameterKeys.SEATS, seats },
                     };
 
-                    RequestClose.Invoke(param);
+                    RequestClose.Invoke(parameters);
 
                     _canExecute = false;
                 }

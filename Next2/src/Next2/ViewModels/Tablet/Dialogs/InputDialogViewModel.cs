@@ -13,18 +13,18 @@ namespace Next2.ViewModels.Tablet.Dialogs
     public class InputDialogViewModel : BindableBase
     {
         public InputDialogViewModel(
-            DialogParameters param,
+            DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
 
-            if (param.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
+            if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
             {
                 Text = text;
                 CursorPosition = Text.Length;
             }
 
-            if (param.TryGetValue(Constants.Navigations.PLACEHOLDER, out string placeholder))
+            if (parameters.TryGetValue(Constants.Navigations.PLACEHOLDER, out string placeholder))
             {
                 Placeholder = placeholder;
             }
@@ -53,14 +53,14 @@ namespace Next2.ViewModels.Tablet.Dialogs
         {
             Animation = new MoveAnimation(MoveAnimationOptions.Top, MoveAnimationOptions.Bottom);
 
-            var param = new DialogParameters();
+            var parameters = new DialogParameters();
 
             if (!string.IsNullOrEmpty(text))
             {
-                param.Add(Constants.Navigations.INPUT_VALUE, Text);
+                parameters.Add(Constants.Navigations.INPUT_VALUE, Text);
             }
 
-            RequestClose(param);
+            RequestClose(parameters);
 
             return Task.CompletedTask;
         }

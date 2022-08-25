@@ -8,9 +8,11 @@ namespace Next2.ViewModels.Dialogs
 {
     public class CustomerInfoViewModel : BindableBase
     {
-        public CustomerInfoViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
+        public CustomerInfoViewModel(
+            DialogParameters parameters,
+            Action<IDialogParameters> requestClose)
         {
-            SetupParameters(param);
+            SetupParameters(parameters);
 
             RequestClose = requestClose;
 
@@ -39,19 +41,19 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private helpers --
 
-        private void SetupParameters(IDialogParameters param)
+        private void SetupParameters(IDialogParameters parameters)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.MODEL, out CustomerBindableModel customer))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.MODEL, out CustomerBindableModel customer))
             {
                 Customer = customer;
             }
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_TEXT, out string buttonText))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_TEXT, out string buttonText))
             {
                 SelectButtonText = buttonText;
             }
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, out string cancelText))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, out string cancelText))
             {
                 CancelButtonText = cancelText;
             }

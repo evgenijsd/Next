@@ -44,6 +44,7 @@ namespace Next2.Extensions
                 OrderType = (EOrderType)order.OrderType,
                 IsTab = order.IsTab,
                 TableId = order.Table?.Id,
+                IsSplitBySeats = order.IsSplitBySeats,
                 Open = order.Open,
                 Close = order.Close,
                 OrderStatus = (EOrderStatus)order.OrderStatus,
@@ -97,6 +98,7 @@ namespace Next2.Extensions
                 Number = order.Number,
                 OrderType = type,
                 IsTab = order.IsTab,
+                IsSplitBySeats = order.IsSplitBySeats,
                 TableId = order.Table == null || order.Table?.Id == Guid.Empty
                     ? null
                     : order.Table?.Id,

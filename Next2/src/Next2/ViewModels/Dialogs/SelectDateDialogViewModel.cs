@@ -9,12 +9,12 @@ namespace Next2.ViewModels.Dialogs
     public class SelectDateDialogViewModel : BindableBase
     {
         public SelectDateDialogViewModel(
-            DialogParameters param,
+            DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
 
-            InitParameters(param);
+            InitParameters(parameters);
         }
 
         #region -- Public Properties --
@@ -35,9 +35,9 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private Helpers --
 
-        private void InitParameters(IDialogParameters param)
+        private void InitParameters(IDialogParameters parameters)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.SELECTED_DATE, out DateTime selectedDate))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.SELECTED_DATE, out DateTime selectedDate))
             {
                 SelectedDate = selectedDate;
             }
