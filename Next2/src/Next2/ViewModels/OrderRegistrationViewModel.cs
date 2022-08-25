@@ -386,31 +386,35 @@ namespace Next2.ViewModels
 
             foreach (var seat in _orderService.CurrentOrder.Seats)
             {
-                bool isSelectedDishes = seat.SelectedDishes.Any();
-                var selectedDishes = isSelectedDishes
+                var dishes = seat.SelectedDishes.Any()
                     ? seat.SelectedDishes.ToList()
                     : new() { new(), };
 
-                var dishFirst = selectedDishes.FirstOrDefault();
+                var firstDish = dishes.FirstOrDefault();
 
-                foreach (var dish in selectedDishes)
+                foreach (var dish in dishes)
                 {
                     dish.SeatNumber = seat.SeatNumber;
                     dish.IsSeatSelected = seat.Checked;
                     dish.SelectDishCommand = _selectDishCommand;
 
-                    if (dish == seat.SelectedItem || (seat.Checked && dish == dishFirst))
+                    if (dish == seat.SelectedItem || (seat.Checked && dish == firstDish))
                     {
                         selectedDish = dish;
                     }
                 }
 
-                updatedDishesGroupedBySeats.Add(new(seat.SeatNumber, selectedDishes));
+                var seatGroup = new DishesGroupedBySeat(seat.SeatNumber, dishes)
+                {
+                    Checked = seat.Checked,
+                    IsFirstSeat = seat.IsFirstSeat,
+                    SelectSeatCommand = _seatSelectionCommand,
+                    DeleteSeatCommand = _deleteSeatCommand,
+                    RemoveOrderCommand = _removeOrderCommand,
+                };
 
-                var seatGroup = updatedDishesGroupedBySeats.Last();
+                updatedDishesGroupedBySeats.Add(seatGroup);
 
-                seatGroup.Checked = seat.Checked;
-                seatGroup.IsFirstSeat = seat.IsFirstSeat;
                 SelectedDish = selectedDish;
 
                 if (App.IsTablet && _rememberPositionSelection is not null && SelectedDish is null)
@@ -424,10 +428,6 @@ namespace Next2.ViewModels
                 }
 
                 SelectedDish = selectedDish;
-
-                seatGroup.SelectSeatCommand = _seatSelectionCommand;
-                seatGroup.DeleteSeatCommand = _deleteSeatCommand;
-                seatGroup.RemoveOrderCommand = _removeOrderCommand;
             }
 
             DishesGroupedBySeats = updatedDishesGroupedBySeats;
