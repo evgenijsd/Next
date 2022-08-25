@@ -205,7 +205,7 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnAddNewReservationCommandAsync()
         {
-            var allAvailableTables = await GetAvailableTablesWithPopupAsync();
+            var allAvailableTables = await GetAvailableTablesAndShowPopupIfNeededAsync();
 
             if (allAvailableTables is not null)
             {
@@ -322,7 +322,7 @@ namespace Next2.ViewModels.Tablet
 
             if (allEmployees is not null && SelectedReservation is not null)
             {
-                var allAvailableTables = await GetAvailableTablesWithPopupAsync();
+                var allAvailableTables = await GetAvailableTablesAndShowPopupIfNeededAsync();
 
                 if (allAvailableTables is not null)
                 {
@@ -411,7 +411,7 @@ namespace Next2.ViewModels.Tablet
             }
         }
 
-        private async Task<IEnumerable<TableModelDTO>?> GetAvailableTablesWithPopupAsync()
+        private async Task<IEnumerable<TableModelDTO>?> GetAvailableTablesAndShowPopupIfNeededAsync()
         {
             var allAvailableTables = Enumerable.Empty<TableModelDTO>();
 
