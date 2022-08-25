@@ -13,5 +13,7 @@ namespace Next2.Models.Bindables
         public int SeatNumbers { get; set; }
 
         public bool IsAvailable { get; set; }
+
+        public bool IsSelected { get; set; }
     }
 }
