@@ -382,26 +382,53 @@ namespace Next2.ViewModels
         {
             var updatedDishesGroupedBySeats = new ObservableCollection<DishesGroupedBySeat>();
 
-            var selectedDish = SelectedDish = null;
-
             foreach (var seat in _orderService.CurrentOrder.Seats)
             {
                 var dishes = seat.SelectedDishes.Any()
                     ? seat.SelectedDishes.ToList()
                     : new() { new(), };
 
-                var firstDish = dishes.FirstOrDefault();
-
-                foreach (var dish in dishes)
+                if (!App.IsTablet)
                 {
-                    dish.SeatNumber = seat.SeatNumber;
-                    dish.IsSeatSelected = seat.Checked;
-                    dish.SelectDishCommand = _selectDishCommand;
-
-                    if (dish == seat.SelectedItem || (seat.Checked && dish == firstDish))
+                    foreach (var dish in dishes)
                     {
-                        selectedDish = dish;
+                        dish.SeatNumber = seat.SeatNumber;
+                        dish.IsSeatSelected = seat.Checked;
+                        dish.SelectDishCommand = _selectDishCommand;
                     }
+
+                    SelectedDish = null;
+                }
+                else
+                {
+                    var firstDish = dishes.FirstOrDefault();
+                    var selectedDish = SelectedDish = null;
+
+                    foreach (var dish in dishes)
+                    {
+                        dish.SeatNumber = seat.SeatNumber;
+                        dish.IsSeatSelected = seat.Checked;
+                        dish.SelectDishCommand = _selectDishCommand;
+
+                        if (dish == seat.SelectedItem || (seat.Checked && dish == firstDish))
+                        {
+                            selectedDish = dish;
+                        }
+                    }
+
+                    SelectedDish = selectedDish;
+
+                    if (_rememberPositionSelection is not null && SelectedDish is null)
+                    {
+                        SelectedDish = _rememberPositionSelection;
+                    }
+
+                    if (seat.Checked && seat.SelectedItem is null)
+                    {
+                        selectedDish = null;
+                    }
+
+                    SelectedDish = selectedDish;
                 }
 
                 var seatGroup = new DishesGroupedBySeat(seat.SeatNumber, dishes)
@@ -414,32 +441,14 @@ namespace Next2.ViewModels
                 };
 
                 updatedDishesGroupedBySeats.Add(seatGroup);
-
-                SelectedDish = selectedDish;
-
-                if (App.IsTablet && _rememberPositionSelection is not null && SelectedDish is null)
-                {
-                    SelectedDish = _rememberPositionSelection;
-                }
-
-                if (seat.Checked && seat.SelectedItem is null)
-                {
-                    selectedDish = null;
-                }
-
-                SelectedDish = selectedDish;
             }
 
             DishesGroupedBySeats = updatedDishesGroupedBySeats;
 
-            if (SelectedDish is null)
+            if (App.IsTablet && SelectedDish is null)
             {
                 IsSideMenuVisible = true;
                 CurrentState = ENewOrderViewState.Default;
-            }
-            else if (!App.IsTablet)
-            {
-                SelectedDish = null;
             }
 
             return Task.CompletedTask;
@@ -541,16 +550,18 @@ namespace Next2.ViewModels
             if (CurrentOrder is not null && CurrentOrder.Seats is not null)
             {
                 _rememberPositionSelection = null;
+
                 var seatNumber = dish?.SeatNumber ?? 0;
                 var seat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == seatNumber);
 
-                if (seat is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && SelectedDish is not null)
+                if (seat is not null && CurrentOrder.Seats.IndexOf(seat) != -1)
                 {
                     seat.SelectedItem = seat.SelectedDishes.FirstOrDefault(x => x == dish);
-                    _seatWithSelectedDish = seat;
                     seat.Checked = true;
 
-                    if (SelectedDish.HoldTime is DateTime holdTime)
+                    _seatWithSelectedDish = seat;
+
+                    if (SelectedDish?.HoldTime is DateTime holdTime)
                     {
                         TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
                     }
