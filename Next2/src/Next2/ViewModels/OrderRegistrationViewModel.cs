@@ -171,8 +171,11 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey(Constants.Navigations.DELETE_DISH))
+            if (!App.IsTablet)
             {
+                CurrentOrder = _orderService.CurrentOrder;
+                IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
+
                 await UpdateDishGroupsAsync();
             }
 
@@ -383,63 +386,52 @@ namespace Next2.ViewModels
 
             foreach (var seat in _orderService.CurrentOrder.Seats)
             {
-                var dishes = seat.SelectedDishes.Any()
+                bool isSelectedDishes = seat.SelectedDishes.Any();
+                var selectedDishes = isSelectedDishes
                     ? seat.SelectedDishes.ToList()
                     : new() { new(), };
 
-                if (App.IsTablet)
+                var dishFirst = selectedDishes.FirstOrDefault();
+
+                foreach (var dish in selectedDishes)
                 {
-                    var firstDish = dishes.FirstOrDefault();
+                    dish.SeatNumber = seat.SeatNumber;
+                    dish.IsSeatSelected = seat.Checked;
+                    dish.SelectDishCommand = _selectDishCommand;
 
-                    foreach (var dish in dishes)
+                    if (dish == seat.SelectedItem || (seat.Checked && dish == dishFirst))
                     {
-                        dish.SeatNumber = seat.SeatNumber;
-                        dish.IsSeatSelected = seat.Checked;
-                        dish.SelectDishCommand = _selectDishCommand;
-
-                        if (dish == seat.SelectedItem || (seat.Checked && dish == firstDish))
-                        {
-                            selectedDish = dish;
-                        }
-                    }
-
-                    if (_rememberPositionSelection is not null && selectedDish is null)
-                    {
-                        SelectedDish = _rememberPositionSelection;
-                    }
-
-                    if (seat.Checked && seat.SelectedItem is null)
-                    {
-                        selectedDish = null;
-                    }
-
-                    SelectedDish = selectedDish;
-                }
-                else
-                {
-                    foreach (var dish in dishes)
-                    {
-                        dish.SeatNumber = seat.SeatNumber;
-                        dish.IsSeatSelected = seat.Checked;
-                        dish.SelectDishCommand = _selectDishCommand;
+                        selectedDish = dish;
                     }
                 }
 
-                var seatGroup = new DishesGroupedBySeat(seat.SeatNumber, dishes)
-                {
-                    Checked = seat.Checked,
-                    IsFirstSeat = seat.IsFirstSeat,
-                    SelectSeatCommand = _seatSelectionCommand,
-                    DeleteSeatCommand = _deleteSeatCommand,
-                    RemoveOrderCommand = _removeOrderCommand,
-                };
+                updatedDishesGroupedBySeats.Add(new(seat.SeatNumber, selectedDishes));
 
-                updatedDishesGroupedBySeats.Add(seatGroup);
+                var seatGroup = updatedDishesGroupedBySeats.Last();
+
+                seatGroup.Checked = seat.Checked;
+                seatGroup.IsFirstSeat = seat.IsFirstSeat;
+                SelectedDish = selectedDish;
+
+                if (App.IsTablet && _rememberPositionSelection is not null && SelectedDish is null)
+                {
+                    SelectedDish = _rememberPositionSelection;
+                }
+
+                if (seat.Checked && seat.SelectedItem is null)
+                {
+                    selectedDish = null;
+                }
+
+                SelectedDish = selectedDish;
+
+                seatGroup.SelectSeatCommand = _seatSelectionCommand;
+                seatGroup.DeleteSeatCommand = _deleteSeatCommand;
+                seatGroup.RemoveOrderCommand = _removeOrderCommand;
             }
 
             DishesGroupedBySeats = updatedDishesGroupedBySeats;
 
-            // ?...
             if (SelectedDish is null)
             {
                 IsSideMenuVisible = true;
@@ -515,7 +507,7 @@ namespace Next2.ViewModels
                 var seatNumber = seatGroup?.SeatNumber ?? 0;
                 var seat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == seatNumber);
 
-                if (seat is not null && seatGroup is not null && !seatGroup.Checked)
+                if (seat is not null)
                 {
                     seat.Checked = true;
 
@@ -552,7 +544,7 @@ namespace Next2.ViewModels
                 var seatNumber = dish?.SeatNumber ?? 0;
                 var seat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == seatNumber);
 
-                if (seat is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && dish is not null)
+                if (seat is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && SelectedDish is not null)
                 {
                     seat.SelectedItem = seat.SelectedDishes.FirstOrDefault(x => x == dish);
                     _seatWithSelectedDish = seat;
