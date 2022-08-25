@@ -264,6 +264,7 @@ namespace Next2.ViewModels.Tablet
 
                     if (logoutResult.IsSuccess)
                     {
+                        NewOrderViewModel.OnDisappearing();
                         NewOrderViewModel.OrderRegistrationViewModel.CurrentState = ENewOrderViewState.InProgress;
 
                         _orderService.CurrentOrder = new();
