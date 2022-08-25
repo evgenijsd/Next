@@ -1,11 +1,11 @@
 ﻿<views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="http://prismlibrary.com"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
@@ -16,101 +16,71 @@
 
         <StackLayout.Resources>
 
-            <Style x:Key="LabelStyle_i1" TargetType="Label">
-                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
-                <Setter Property="FontFamily" Value="Barlow-Medium"/>
-                <Setter Property="VerticalTextAlignment" Value="Center"/>
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="Margin" Value="15, 0, 0, 0"/>
-                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
-            </Style>
+            <Style TargetType="buttons:IconTextButton">
 
-            <Style x:Key="CachedImageStyle_i1" TargetType="ffimageloading:CachedImage">
-                <Setter Property="Margin" Value="0, 0, 18, 0"/>
-                <Setter Property="HeightRequest" Value="24"/>
-                <Setter Property="HorizontalOptions" Value="End"/>
+                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                <Setter Property="CornerRadius" Value="{OnPlatform Android='5', iOS='8'}" />
+                <Setter Property="Border" Value="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness={OnPlatform Android=2, iOS=1}}" />
+                <Setter Property="HeightRequest" Value="38" />
+                <Setter Property="IconSource" Value="ic_arrow_right_40x40" />
+                <Setter Property="IconSize" Value="24, 24" />
+                <Setter Property="IsIconPlacedOnRight" Value="True" />
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                <Setter Property="FontFamily" Value="Barlow-Medium" />
+
             </Style>
 
         </StackLayout.Resources>
 
         <controls:CustomNavigationBar
-            Spacing="14"
-            Padding="12, 18, 12, 16"
             Title="{xct:Translate Settings}"
+            Padding="12, 18, 12, 16"
+            Spacing="14"
             LeftButtonCommand="{prism:GoBack}"
             HeightImage="24"
             FontSize="{DynamicResource TSize_i5}" />
 
-        <BoxView 
+        <BoxView
             VerticalOptions="Start"
             HeightRequest="1"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
-        <controls:CustomFrame
-            Style="{DynamicResource CustomFrameStyle_1}"
+        <buttons:IconTextButton
             Margin="20, 25, 20, 0"
-            xct:TouchEffect.Command="{Binding ReassignTableCommand}">
+            Text="{xct:Translate ReAssignTable}"
+            xct:TouchEffect.Command="{Binding ReassignTableCommand}" />
 
-            <StackLayout Orientation="Horizontal">
-
-                <Label
-                    Style="{DynamicResource LabelStyle_i1}"
-                    Text="{xct:Translate ReAssignTable}"/>
-
-                <ffimageloading:CachedImage 
-                    Style="{DynamicResource CachedImageStyle_i1}"
-                    Source="ic_arrow_right_40x40"/>
-
-            </StackLayout>
-
-        </controls:CustomFrame>
-
-        <controls:CustomFrame 
-            Style="{DynamicResource CustomFrameStyle_1}"
+        <buttons:IconTextButton
             Margin="20, 15, 20, 0"
-            IsEnabled="{Binding IsLoading, Converter={xct:InvertedBoolConverter}}"
-            xct:TouchEffect.Command="{prism:NavigateTo Name='PrintReceiptPage'}">
-
-            <StackLayout Orientation="Horizontal">
-
-                <Label
-                    Style="{DynamicResource LabelStyle_i1}"
-                    Text="{xct:Translate PrintReceipt}"/>
-
-                <ffimageloading:CachedImage 
-                    Style="{DynamicResource CachedImageStyle_i1}"
-                    Source="ic_arrow_right_40x40"/>
-
-            </StackLayout>
-
-        </controls:CustomFrame>
+            Text="{xct:Translate PrintReceipt}"
+            xct:TouchEffect.Command="{prism:NavigateTo Name='PrintReceiptPage'}" />
 
         <ActivityIndicator
-            HorizontalOptions="Center"
             VerticalOptions="Center"
-            IsRunning="{Binding IsLoading}"/>
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsLoading}" />
 
-        <StackLayout 
+        <StackLayout
             VerticalOptions="EndAndExpand"
             HeightRequest="70"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-            <BoxView 
+            <BoxView
                 VerticalOptions="Start"
                 HeightRequest="1"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
             <buttons:BorderButton
+                Margin="20, 12"
                 Padding="0"
+                HeightRequest="65"
                 BorderWidth="1"
                 BackgroundColor="{DynamicResource IndicationColor_i3}"
                 BorderColor="Transparent"
-                HeightRequest="65"
                 FontSize="{DynamicResource TSize_i6}"
-                Margin="20, 12"
                 FontFamily="Barlow-SemiBold"
                 Text="{xct:Translate LogOut_UpperCase}"
-                Command="{Binding LogOutCommand}"/>
+                Command="{Binding LogOutCommand}" />
 
         </StackLayout>
 
