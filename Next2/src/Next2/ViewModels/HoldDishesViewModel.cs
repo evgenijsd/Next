@@ -50,25 +50,7 @@ namespace Next2.ViewModels
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new();
 
-        private TableBindableModel? _selectedTable;
-        public TableBindableModel? SelectedTable
-        {
-            get => _selectedTable;
-            set
-            {
-                if (_selectedTable is not null && value is not null)
-                {
-                    _selectedTable.IsSelected = false;
-                    _selectedTable = value;
-                    _selectedTable.IsSelected = true;
-                }
-                else if (value is not null)
-                {
-                    _selectedTable = value;
-                    _selectedTable.IsSelected = true;
-                }
-            }
-        }
+        public TableBindableModel? SelectedTable { get; set; }
 
         private ICommand? _refreshHoldDishesCommand;
         public ICommand RefreshHoldDishesCommand => _refreshHoldDishesCommand ??= new AsyncCommand(OnRefreshHoldDishesCommandAsync, allowsMultipleExecutions: false);

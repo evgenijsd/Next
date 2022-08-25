@@ -426,7 +426,8 @@
                     <DataTemplate x:DataType="models:TableBindableModel">
 
                         <templates:TextItemTemplate
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" >
+                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
 
                             <templates:TextItemTemplate.FormattedText>
                                 <FormattedString>
@@ -444,15 +445,6 @@
                                     Value="{x:Static local:Constants+Limits.ALL_TABLES}">
 
                                     <Setter Property="FormattedText" Value="{xct:Translate AllTables}" />
-
-                                </DataTrigger>
-
-                                <DataTrigger
-                                    TargetType="templates:TextItemTemplate"
-                                    Binding="{Binding IsSelected}"
-                                    Value="true">
-
-                                    <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
 
                                 </DataTrigger>
 
