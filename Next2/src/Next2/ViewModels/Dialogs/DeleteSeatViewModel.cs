@@ -16,9 +16,11 @@ namespace Next2.ViewModels.Dialogs
     {
         private SeatBindableModel? _removalSeat;
 
-        public DeleteSeatViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
+        public DeleteSeatViewModel(
+            DialogParameters parameters,
+            Action<IDialogParameters> requestClose)
         {
-            LoadPageData(param);
+            LoadPageData(parameters);
 
             RequestClose = requestClose;
 
@@ -47,10 +49,10 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private helpers --
 
-        private void LoadPageData(IDialogParameters param)
+        private void LoadPageData(IDialogParameters parameters)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.REMOVAL_SEAT, out SeatBindableModel removalSeat)
-                && param.TryGetValue(Constants.DialogParameterKeys.SEAT_NUMBERS_OF_CURRENT_ORDER, out IEnumerable<int> seatNumbersOfCurrentOrder))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.REMOVAL_SEAT, out SeatBindableModel removalSeat)
+                && parameters.TryGetValue(Constants.DialogParameterKeys.SEAT_NUMBERS_OF_CURRENT_ORDER, out IEnumerable<int> seatNumbersOfCurrentOrder))
             {
                 _removalSeat = removalSeat;
 

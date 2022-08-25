@@ -1,9 +1,11 @@
 ﻿using Next2.Models;
+using Next2.Models.API.DTO;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -18,23 +20,14 @@ namespace Next2.ViewModels.Tablet.Dialogs
     public class AddNewReservationDialogViewModel : BindableBase
     {
         public AddNewReservationDialogViewModel(
-            DialogParameters param,
+            DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
 
             DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters()));
 
-            GuestsAmount = new(Enumerable.Range(1, 25));
-            Tables = new(Enumerable.Range(1, 10));
-
-            var date = DateTime.Now;
-
-            _hour = date.ToString("hh");
-            _minute = date.ToString("mm");
-            _timeFormat = date.ToString("tt");
-
-            SelectedDate = date;
+            InitData(parameters);
         }
 
         #region -- Public properties --
@@ -47,9 +40,11 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         public ObservableCollection<int> GuestsAmount { get; set; } = new();
 
-        public int SelectedTable { get; set; }
+        public TableModelDTO SelectedTable { get; set; }
 
-        public ObservableCollection<int> Tables { get; set; } = new();
+        public int SelectedTableNumber { get; set; }
+
+        public ObservableCollection<TableModelDTO> Tables { get; set; } = new();
 
         public string Notes { get; set; } = string.Empty;
 
@@ -107,21 +102,28 @@ namespace Next2.ViewModels.Tablet.Dialogs
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName
-                is nameof(IsValidName)
-                or nameof(IsValidPhone)
-                or nameof(SelectedAmountGuests))
+            switch (args.PropertyName)
             {
-                ChangeCanAddNewReservation();
-            }
-            else if (args.PropertyName
-                is nameof(SelectedDate)
-                or nameof(Hour)
-                or nameof(Minute)
-                or nameof(TimeFormat))
-            {
-                ChangeSelectedTime();
-                ChangeCanAddNewReservation();
+                case nameof(SelectedTable):
+                    SelectedTableNumber = SelectedTable.Number;
+
+                    break;
+                case nameof(IsValidName)
+                    or nameof(IsValidPhone)
+                    or nameof(SelectedAmountGuests):
+
+                    ChangeCanAddNewReservation();
+
+                    break;
+                case nameof(SelectedDate)
+                    or nameof(Hour)
+                    or nameof(Minute)
+                    or nameof(TimeFormat):
+
+                    ChangeSelectedTime();
+                    ChangeCanAddNewReservation();
+
+                    break;
             }
         }
 
@@ -129,11 +131,29 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         #region -- Private helpers --
 
+        private void InitData(IDialogParameters parameters)
+        {
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.TABLES, out IEnumerable<TableModelDTO> tables))
+            {
+                Tables = new(tables);
+            }
+
+            GuestsAmount = new(Enumerable.Range(1, 25));
+
+            var date = DateTime.Now;
+
+            _hour = date.ToString("hh");
+            _minute = date.ToString("mm");
+            _timeFormat = date.ToString("tt");
+
+            SelectedDate = date;
+        }
+
         private Task OnAcceptCommandAsync()
         {
             ChangeCanAddNewReservation();
 
-            var param = new DialogParameters();
+            var parameters = new DialogParameters();
 
             if (CanAddNewReservation)
             {
@@ -145,42 +165,43 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
                     var newReservation = new ReservationModel()
                     {
+                        Employee = new(),
                         CustomerName = Name,
                         Phone = phone,
                         GuestsAmount = SelectedAmountGuests,
-                        TableNumber = SelectedTable,
+                        Table = SelectedTable,
                         Comment = Notes,
                         DateTime = SelectedTime,
                     };
 
-                    param.Add(Constants.DialogParameterKeys.ACCEPT, newReservation);
+                    parameters.Add(Constants.DialogParameterKeys.ACCEPT, newReservation);
                 }
                 catch (Exception)
                 {
                 }
             }
 
-            RequestClose(param);
+            RequestClose(parameters);
 
             return Task.CompletedTask;
         }
 
         private Task OnGoInputNotesCommandAsync()
         {
-            var param = new DialogParameters()
+            var parameters = new DialogParameters()
             {
                 { Constants.Navigations.INPUT_VALUE, Notes },
                 { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["CommentForReservation"] },
             };
 
-            var popupPage = new Views.Tablet.Dialogs.InputDialog(param, InputDialogCallBack);
+            var popupPage = new Views.Tablet.Dialogs.InputDialog(parameters, InputDialogCallBack);
 
             return PopupNavigation.Instance.PushAsync(popupPage);
         }
 
-        private void InputDialogCallBack(IDialogParameters param)
+        private void InputDialogCallBack(IDialogParameters parameters)
         {
-            if (param.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
+            if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
             {
                 Notes = text;
             }

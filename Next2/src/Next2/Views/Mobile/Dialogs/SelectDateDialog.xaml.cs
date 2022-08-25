@@ -8,12 +8,12 @@ namespace Next2.Views.Mobile.Dialogs
     public partial class SelectDateDialog : PopupPage
     {
         public SelectDateDialog(
-            DialogParameters param,
+            DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new SelectDateDialogViewModel(param, requestClose);
+            BindingContext = new SelectDateDialogViewModel(parameters, requestClose);
         }
     }
 }

@@ -146,8 +146,10 @@
             public const string ORDER = "ORDER";
             public const string ORDERS_ID = "ORDERS_ID";
             public const string EMPLOYEES = "EMPLOYEES";
+            public const string EMPLOYEE = "EMPLOYEE";
             public const string EMPLOYEE_ID = "EMPLOYEE_ID";
             public const string TABLE = "TABLE";
+            public const string TABLES = "TABLES";
         }
 
         public static class API

@@ -2,9 +2,9 @@
 using Next2.Models.API.DTO;
 using System;
 
-namespace Next2.Models
+namespace Next2.Models.Bindables
 {
-    public class ReservationModel : IBaseModel
+    public class ReservationBindableModel : IBaseModel
     {
         public int Id { get; set; }
 
@@ -15,6 +15,8 @@ namespace Next2.Models
         public string Phone { get; set; } = string.Empty;
 
         public int GuestsAmount { get; set; }
+
+        public int TableNumber { get; set; }
 
         public TableModelDTO? Table { get; set; }
 

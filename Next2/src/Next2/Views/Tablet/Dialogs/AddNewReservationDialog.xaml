@@ -8,6 +8,7 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:modelsDTO="clr-namespace:Next2.Models.API.DTO"
     xmlns:viewModelsDialogs="clr-namespace:Next2.ViewModels.Tablet.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
@@ -177,26 +178,11 @@
 
                                         <controls:DropDownList.DataTemplate>
                                             <DataTemplate x:DataType="{x:Type x:Int32}">
-                                                <StackLayout 
+                                                
+                                                <templates:TextItemTemplate
                                                     Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                                                    xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
-
-                                                    <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
-
-                                                    <StackLayout
-                                                        Padding="14, 9"
-                                                        HeightRequest="21">
-
-                                                        <Label
-                                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                            FontFamily="Barlow-Medium"
-                                                            FontSize="{DynamicResource TSize_i8}"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Text="{Binding .}" />
-
-                                                    </StackLayout>
-
-                                                </StackLayout>
+                                                    Text="{Binding .}"/>
+                                                
                                             </DataTemplate>
                                         </controls:DropDownList.DataTemplate>
 
@@ -233,7 +219,7 @@
                                     VerticalOptions="Start"
                                     HeaderTextSize="{DynamicResource TSize_i9}"
                                     HeaderTextOpacity="{DynamicResource OpacityWhenDisabled_i3}"
-                                    HeaderText="{xct:Translate TableNumber}"
+                                    HeaderFormattedText="{xct:Translate TableNumber}"
                                     SelectedItem="{Binding SelectedTable}"
                                     ItemsSource="{Binding Tables}">
 
@@ -241,10 +227,17 @@
 
                                         <DataTrigger
                                             TargetType="controls:DropDownList"
-                                            Binding="{Binding SelectedTable, Converter={xct:IntToBoolConverter}}"
+                                            Binding="{Binding SelectedTable.Number, Converter={xct:IntToBoolConverter}}"
                                             Value="True">
 
-                                            <Setter Property="HeaderText" Value="{Binding SelectedTable, StringFormat='Table {0}'}"/>
+                                            <Setter Property="HeaderFormattedText">
+                                                <FormattedString>
+                                                    <Span Text="{xct:Translate Table}"/>
+                                                    <Span Text=" "/>
+                                                    <Span Text="{Binding SelectedTableNumber}"/>
+                                                </FormattedString>
+                                            </Setter>
+                                            
                                             <Setter Property="HeaderTextOpacity" Value="1"/>
 
                                         </DataTrigger>
@@ -252,27 +245,12 @@
                                     </controls:DropDownList.Triggers>
 
                                     <controls:DropDownList.DataTemplate>
-                                        <DataTemplate x:DataType="{x:Type x:Int32}">
-                                            <StackLayout 
+                                        <DataTemplate x:DataType="modelsDTO:TableModelDTO">
+                                            
+                                            <templates:TextItemTemplate
                                                 Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                                                xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
-
-                                                <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
-
-                                                <StackLayout
-                                                    Padding="14, 9"
-                                                    HeightRequest="21">
-
-                                                    <Label
-                                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                        FontFamily="Barlow-Medium"
-                                                        FontSize="{DynamicResource TSize_i8}"
-                                                        HorizontalOptions="FillAndExpand"
-                                                        Text="{Binding .}" />
-
-                                                </StackLayout>
-
-                                            </StackLayout>
+                                                Text="{Binding Number}"/>
+                                            
                                         </DataTemplate>
                                     </controls:DropDownList.DataTemplate>
 

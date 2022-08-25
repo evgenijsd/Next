@@ -606,15 +606,15 @@ namespace Next2.ViewModels
                 {
                     IEnumerable<int> seatNumbersOfCurrentOrder = CurrentOrder.Seats.Select(x => x.SeatNumber);
 
-                    var param = new DialogParameters
+                    var parameters = new DialogParameters
                     {
                         { Constants.DialogParameterKeys.REMOVAL_SEAT, seat },
                         { Constants.DialogParameterKeys.SEAT_NUMBERS_OF_CURRENT_ORDER, seatNumbersOfCurrentOrder },
                     };
 
                     PopupPage deleteSeatDialog = App.IsTablet
-                        ? new Views.Tablet.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback)
-                        : new Views.Mobile.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback);
+                        ? new Views.Tablet.Dialogs.DeleteSeatDialog(parameters, CloseDeleteSeatDialogCallback)
+                        : new Views.Mobile.Dialogs.DeleteSeatDialog(parameters, CloseDeleteSeatDialogCallback);
 
                     await PopupNavigation.PushAsync(deleteSeatDialog);
                 }
@@ -771,7 +771,7 @@ namespace Next2.ViewModels
                 {
                     List<SeatBindableModel> seats = CurrentOrder.Seats.Where(x => x.SelectedDishes.Any()).ToList();
 
-                    var param = new DialogParameters
+                    var parameters = new DialogParameters
                     {
                         { Constants.DialogParameterKeys.ORDER_NUMBER, CurrentOrder.Number },
                         { Constants.DialogParameterKeys.SEATS, seats },
@@ -783,8 +783,8 @@ namespace Next2.ViewModels
                     };
 
                     PopupPage removeOrderDialog = App.IsTablet
-                        ? new Views.Tablet.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync)
-                        : new Views.Mobile.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync);
+                        ? new Views.Tablet.Dialogs.OrderDetailDialog(parameters, CloseDeleteOrderDialogCallbackAsync)
+                        : new Views.Mobile.Dialogs.OrderDetailDialog(parameters, CloseDeleteOrderDialogCallbackAsync);
 
                     await PopupNavigation.PushAsync(removeOrderDialog);
                 }

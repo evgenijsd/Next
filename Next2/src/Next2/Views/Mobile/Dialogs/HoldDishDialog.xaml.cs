@@ -8,12 +8,12 @@ namespace Next2.Views.Mobile.Dialogs
     public partial class HoldDishDialog : PopupPage
     {
         public HoldDishDialog(
-            DialogParameters param,
+            DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new HoldDishDialogViewModel(param, requestClose);
+            BindingContext = new HoldDishDialogViewModel(parameters, requestClose);
         }
     }
 }

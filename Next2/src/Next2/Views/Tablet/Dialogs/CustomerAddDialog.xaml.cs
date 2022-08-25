@@ -7,11 +7,13 @@ namespace Next2.Views.Tablet.Dialogs
 {
     public partial class CustomerAddDialog : PopupPage
     {
-        public CustomerAddDialog(DialogParameters param, Action<IDialogParameters> requestClose)
+        public CustomerAddDialog(
+            DialogParameters parameters,
+            Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new CustomerAddViewModel(param, requestClose);
+            BindingContext = new CustomerAddViewModel(parameters, requestClose);
         }
     }
 }

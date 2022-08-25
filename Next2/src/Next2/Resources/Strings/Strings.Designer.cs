@@ -19,7 +19,7 @@ namespace Next2.Resources.Strings {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Strings {
@@ -165,6 +165,15 @@ namespace Next2.Resources.Strings {
         internal static string AssignFrom {
             get {
                 return ResourceManager.GetString("AssignFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assign Reservation.
+        /// </summary>
+        internal static string AssignReservation {
+            get {
+                return ResourceManager.GetString("AssignReservation", resourceCulture);
             }
         }
         
@@ -1628,6 +1637,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Server.
+        /// </summary>
+        internal static string SelectServer {
+            get {
+                return ResourceManager.GetString("SelectServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Table.
         /// </summary>
         internal static string SelectTable {
@@ -1651,6 +1669,15 @@ namespace Next2.Resources.Strings {
         internal static string SelectValue {
             get {
                 return ResourceManager.GetString("SelectValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server Name.
+        /// </summary>
+        internal static string ServerName {
+            get {
+                return ResourceManager.GetString("ServerName", resourceCulture);
             }
         }
         

@@ -1,19 +1,19 @@
-﻿using Next2.ViewModels.Dialogs;
+﻿using Next2.ViewModels.Tablet.Dialogs;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
 using System;
 
 namespace Next2.Views.Tablet.Dialogs
 {
-    public partial class OrderDetailDialog : PopupPage
+    public partial class AssignReservationDialog : PopupPage
     {
-        public OrderDetailDialog(
+        public AssignReservationDialog(
             DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new OrderDetailDialogViewModel(parameters, requestClose);
+            BindingContext = new AssignReservationDialogViewModel(parameters, requestClose);
         }
     }
 }

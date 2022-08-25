@@ -101,13 +101,13 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnTapDishCommand(DishModelDTO? dish)
         {
-            var param = new DialogParameters
+            var parameters = new DialogParameters
             {
                 { Constants.DialogParameterKeys.DISH, dish },
                 { Constants.DialogParameterKeys.DISCOUNT_PRICE, _orderService.CurrentOrder.DiscountPrice },
             };
 
-            return PopupNavigation.PushAsync(new Views.Tablet.Dialogs.AddDishToOrderDialog(param, CloseAddDishToOrderDialogCallback));
+            return PopupNavigation.PushAsync(new Views.Tablet.Dialogs.AddDishToOrderDialog(parameters, CloseAddDishToOrderDialogCallback));
         }
 
         private async void CloseAddDishToOrderDialogCallback(IDialogParameters dialogResult)
