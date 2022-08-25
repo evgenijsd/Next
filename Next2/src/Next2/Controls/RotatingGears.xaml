@@ -29,9 +29,11 @@
         Source="pic_settings_r.png">
 
         <ffimageloading:CachedImage.Behaviors>
+            
             <behaviors:RotationBehavior
                 IsAnimate="{Binding IsAnimate, Source={x:Reference grid}}"
                 SpeedRpm="-49" />
+            
         </ffimageloading:CachedImage.Behaviors>
 
     </ffimageloading:CachedImage>
@@ -45,9 +47,11 @@
         Source="pic_settings_r.png">
 
         <ffimageloading:CachedImage.Behaviors>
+            
             <behaviors:RotationBehavior
                 IsAnimate="{Binding IsAnimate, Source={x:Reference grid}}"
                 SpeedRpm="-30" />
+            
         </ffimageloading:CachedImage.Behaviors>
 
     </ffimageloading:CachedImage>
@@ -62,9 +66,11 @@
         Source="pic_settings_r.png">
 
         <ffimageloading:CachedImage.Behaviors>
+            
             <behaviors:RotationBehavior
                 IsAnimate="{Binding IsAnimate, Source={x:Reference grid}}"
                 SpeedRpm="60" />
+            
         </ffimageloading:CachedImage.Behaviors>
 
     </ffimageloading:CachedImage>

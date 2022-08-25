@@ -11,8 +11,7 @@ namespace Next2.ViewModels.Dialogs
 {
     public class ProgramDeviceDialogViewModel : BindableBase
     {
-        public ProgramDeviceDialogViewModel(
-            Action<IDialogParameters> requestClose)
+        public ProgramDeviceDialogViewModel(Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
         }

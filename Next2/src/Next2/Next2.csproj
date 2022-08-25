@@ -258,6 +258,9 @@
     <Compile Update="Views\Tablet\Dialogs\MembershipEditDialog.xaml.cs">
       <DependentUpon>MembershipEditDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Tablet\Dialogs\ProgramDeviceDialog.xaml.cs">
+      <DependentUpon>ProgramDeviceDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Tablet\TaxRemoveConfirmPage.xaml.cs">
       <DependentUpon>TaxRemoveConfirmPage.xaml</DependentUpon>
     </Compile>
@@ -514,7 +517,7 @@
     <EmbeddedResource Update="Views\Tablet\Dialogs\EmployeeTimeClockDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Tablet\Dialogs\ProgrammDeviceDialog.xaml">
+    <EmbeddedResource Update="Views\Tablet\Dialogs\ProgramDeviceDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\SplitOrderDialog.xaml">
