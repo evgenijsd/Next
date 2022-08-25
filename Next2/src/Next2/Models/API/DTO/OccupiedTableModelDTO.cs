@@ -1,5 +1,6 @@
 ﻿using Next2.Interfaces;
 using System;
+using System.Collections.Generic;
 
 namespace Next2.Models.API.DTO
 {
@@ -7,8 +8,8 @@ namespace Next2.Models.API.DTO
     {
         public Guid Id { get; set; }
 
-        public Guid OrderId { get; set; }
-
         public int Number { get; set; }
+
+        public IEnumerable<Guid>? OrdersId { get; set; }
     }
 }

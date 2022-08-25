@@ -128,7 +128,9 @@
 
                         <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            FormattedText="{Binding UserName}"/>
+                            FormattedText="{Binding UserName}"
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
+                            xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                     </DataTemplate>
 
@@ -196,7 +198,10 @@
 
                     <DataTemplate x:DataType="modelsApi:OccupiedTableModelDTO">
 
-                        <templates:TextItemTemplate Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+                        <templates:TextItemTemplate
+                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
+                            xct:TouchEffect.CommandParameter="{Binding .}">
 
                             <templates:TextItemTemplate.FormattedText>
                                 <FormattedString>

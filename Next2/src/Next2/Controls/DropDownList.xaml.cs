@@ -10,6 +10,7 @@ namespace Next2.Controls
     public partial class DropDownList : PancakeView
     {
         private double _itemHeight;
+        private bool _isItemSelected = false;
 
         public DropDownList()
         {
@@ -238,7 +239,7 @@ namespace Next2.Controls
         public double ListHeight { get; private set; }
 
         private ICommand? _selectItemCommand;
-        public ICommand SelectItemCommand => _selectItemCommand ??= new Command(OnSelectItemCommand);
+        public ICommand SelectItemCommand => _selectItemCommand ??= new Command<object>(OnSelectItemCommand);
 
         private ICommand? _expandListCommand;
         public ICommand ExpandListCommand => _expandListCommand ??= new Command(OnExpandListCommand);
@@ -251,7 +252,7 @@ namespace Next2.Controls
         {
             base.OnPropertyChanged(propertyName);
 
-            if (propertyName is nameof(SelectedItem))
+            if (propertyName is nameof(SelectedItem) && !_isItemSelected)
             {
                 IsExpanded = false;
             }
@@ -295,6 +296,7 @@ namespace Next2.Controls
 
             if (propertyName is nameof(IsExpanded) && IsExpanded)
             {
+                //HighlitedItemHepherForIOs();
                 itemsCollection.ScrollTo(itemsCollection.SelectedItem, position: ScrollToPosition.Center, animate: false);
             }
             else if (propertyName is nameof(DataTemplate))
@@ -310,13 +312,33 @@ namespace Next2.Controls
 
         #region -- Private helpers --
 
-        private void OnSelectItemCommand() => IsExpanded = false;
+        private void OnSelectItemCommand(object obj)
+        {
+            SelectedItem = obj;
+
+            IsExpanded = false;
+        }
 
         private void OnExpandListCommand()
         {
             IsExpanded = !IsExpanded;
 
             (Parent as Layout)?.RaiseChild(this);
+        }
+
+        private void HighlitedItemHepherForIOs()
+        {
+            if (SelectedItem is not null && !_isItemSelected)
+            {
+                _isItemSelected = true;
+                var tmpCommand = itemsCollection.SelectionChangedCommand;
+                itemsCollection.SelectionChangedCommand = null;
+                var tmp = SelectedItem;
+                SelectedItem = new ();
+                SelectedItem = tmp;
+                _isItemSelected = false;
+                itemsCollection.SelectionChangedCommand = tmpCommand;
+            }
         }
 
         #endregion

@@ -205,7 +205,7 @@ namespace Next2.ViewModels
 
                     var resultOfUpdatingOrders = await _orderService.UpdateOrdersAsync(ordersId, employeeIdToAssignTo);
 
-                    if (!resultOfUpdatingOrders.IsSuccess && _token.IsCancellationRequested)
+                    if (!resultOfUpdatingOrders.IsSuccess && !_token.IsCancellationRequested)
                     {
                         await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrders.Exception?.Message);
                     }

@@ -77,7 +77,9 @@
                         <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                             HeightRequest="35"
-                            FormattedText="{Binding UserName}"/>
+                            FormattedText="{Binding UserName}"
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
+                            xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                     </DataTemplate>
 
@@ -113,7 +115,9 @@
                         <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                             HeightRequest="35"
-                            FormattedText="{Binding UserName}"/>
+                            FormattedText="{Binding UserName}"
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
+                            xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                     </DataTemplate>
 
@@ -177,7 +181,9 @@
 
                         <templates:TextItemTemplate 
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            HeightRequest="35">
+                            HeightRequest="35"
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
+                            xct:TouchEffect.CommandParameter="{Binding .}">
 
                             <templates:TextItemTemplate.FormattedText>
                                 <FormattedString>
