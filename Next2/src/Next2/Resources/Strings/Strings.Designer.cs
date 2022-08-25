@@ -628,6 +628,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Finished.
+        /// </summary>
+        internal static string Finished {
+            get {
+                return ResourceManager.GetString("Finished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Free.
         /// </summary>
         internal static string Free {
@@ -1295,6 +1304,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please wait.
+        /// </summary>
+        internal static string PleaseWait {
+            get {
+                return ResourceManager.GetString("PleaseWait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PM.
         /// </summary>
         internal static string PM {
@@ -1336,6 +1354,15 @@ namespace Next2.Resources.Strings {
         internal static string ProgramDevice {
             get {
                 return ResourceManager.GetString("ProgramDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Programming your device....
+        /// </summary>
+        internal static string ProgrammingYourDevice {
+            get {
+                return ResourceManager.GetString("ProgrammingYourDevice", resourceCulture);
             }
         }
         
@@ -1763,11 +1790,29 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        internal static string Start {
+            get {
+                return ResourceManager.GetString("Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start Date.
         /// </summary>
         internal static string StartDate {
             get {
                 return ResourceManager.GetString("StartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start reprogramming the device..
+        /// </summary>
+        internal static string StartReprogrammingTheDevice {
+            get {
+                return ResourceManager.GetString("StartReprogrammingTheDevice", resourceCulture);
             }
         }
         
@@ -2152,6 +2197,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You cannot add a seat to a split order.
+        /// </summary>
+        internal static string YouCannotAddSeatToSplitOrder {
+            get {
+                return ResourceManager.GetString("YouCannotAddSeatToSplitOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You can&apos;t modify a split dish.
         /// </summary>
         internal static string YouCantModifyASplitDish {
@@ -2166,6 +2220,15 @@ namespace Next2.Resources.Strings {
         internal static string YouDontHaveFundsOnGiftCards {
             get {
                 return ResourceManager.GetString("YouDontHaveFundsOnGiftCards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your device is reprogrammed..
+        /// </summary>
+        internal static string YourDeviceIsReprogrammed {
+            get {
+                return ResourceManager.GetString("YourDeviceIsReprogrammed", resourceCulture);
             }
         }
     }

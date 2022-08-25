@@ -70,6 +70,7 @@
     <OutputPath>bin\STAGE\netstandard2.0</OutputPath>
     <DefineConstants>TRACE;STAGE;NETSTANDARD;NETSTANDARD2_0;</DefineConstants>
   </PropertyGroup>
+	
   <ItemGroup>
     <None Remove="Resources\Fonts\Barlow-Bold.ttf" />
     <None Remove="Resources\Fonts\Barlow-Medium.ttf" />
@@ -257,6 +258,9 @@
     <Compile Update="Views\Tablet\Dialogs\MembershipEditDialog.xaml.cs">
       <DependentUpon>MembershipEditDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Tablet\Dialogs\ProgramDeviceDialog.xaml.cs">
+      <DependentUpon>ProgramDeviceDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Tablet\TaxRemoveConfirmPage.xaml.cs">
       <DependentUpon>TaxRemoveConfirmPage.xaml</DependentUpon>
     </Compile>
@@ -312,6 +316,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\NumericPicker.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\RotatingGears.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\ExpanderHeaderTemplate.xaml">
@@ -511,6 +518,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\EmployeeTimeClockDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\ProgramDeviceDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\SplitOrderDialog.xaml">

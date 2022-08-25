@@ -816,10 +816,31 @@ A receipt has been printed for you.</value>
   <data name="TheOrderHasBeenRemoved" xml:space="preserve">
     <value>The order #{0} has been removed</value>
   </data>
+  <data name="Finished" xml:space="preserve">
+    <value>Finished</value>
+  </data>
+  <data name="PleaseWait" xml:space="preserve">
+    <value>Please wait</value>
+  </data>
+  <data name="ProgrammingYourDevice" xml:space="preserve">
+    <value>Programming your device...</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="StartReprogrammingTheDevice" xml:space="preserve">
+    <value>Start reprogramming the device.</value>
+  </data>
+  <data name="YourDeviceIsReprogrammed" xml:space="preserve">
+    <value>Your device is reprogrammed.</value>
+  </data>
   <data name="YouCantModifyASplitDish" xml:space="preserve">
     <value>You can't modify a split dish</value>
   </data>
   <data name="ServerName" xml:space="preserve">
     <value>Server Name</value>
+  </data>
+  <data name="YouCannotAddSeatToSplitOrder" xml:space="preserve">
+    <value>You cannot add a seat to a split order</value>
   </data>
 </root>
