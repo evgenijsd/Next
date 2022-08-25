@@ -6,6 +6,5 @@
         ReAssignTable,
         BackOffice,
         PrintReceipt,
-        ProgramDevice,
     }
 }
