@@ -77,9 +77,7 @@
                         <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                             HeightRequest="35"
-                            FormattedText="{Binding UserName}"
-                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
-                            xct:TouchEffect.CommandParameter="{Binding .}"/>
+                            FormattedText="{Binding UserName}"/>
 
                     </DataTemplate>
 
