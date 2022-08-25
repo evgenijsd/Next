@@ -616,7 +616,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients)
+        public Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionBindableModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients)
         {
             var result = new AOResult<DishBindableModel>();
 

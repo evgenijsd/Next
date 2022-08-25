@@ -15,25 +15,25 @@ namespace Next2.Controls.Templates
 
         public static readonly BindableProperty BindableLayoutProperty = BindableProperty.Create(
             propertyName: nameof(BindableLayout),
-            returnType: typeof(IBaseApiModel),
+            returnType: typeof(object),
             declaringType: typeof(ToggleItemTemplate),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public IBaseApiModel? BindableLayout
+        public object? BindableLayout
         {
-            get => (IBaseApiModel)GetValue(BindableLayoutProperty);
+            get => GetValue(BindableLayoutProperty);
             set => SetValue(BindableLayoutProperty, value);
         }
 
         public static readonly BindableProperty StateProperty = BindableProperty.Create(
             propertyName: nameof(State),
-            returnType: typeof(IBaseApiModel),
+            returnType: typeof(object),
             declaringType: typeof(ToggleItemTemplate),
             defaultBindingMode: BindingMode.OneWay);
 
-        public IBaseApiModel? State
+        public object? State
         {
-            get => (IBaseApiModel)GetValue(StateProperty);
+            get => GetValue(StateProperty);
             set => SetValue(StateProperty, value);
         }
 
@@ -197,11 +197,8 @@ namespace Next2.Controls.Templates
             switch (propertyName)
             {
                 case nameof(State):
-                    IsToggle = State?.Id == BindableLayout?.Id;
-
-                    break;
                 case nameof(BindableLayout):
-                    IsToggle = State?.Id == BindableLayout?.Id;
+                    IsToggle = State == BindableLayout;
 
                     break;
                 case nameof(IsToggle):

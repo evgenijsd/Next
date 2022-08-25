@@ -118,7 +118,7 @@ namespace Next2.ViewModels.Dialogs
                     })),
                 };
 
-                Proportions = dish.DishProportions.Select(row => new ProportionModel()
+                Proportions = dish.DishProportions.Select(row => new ProportionBindableModel()
                 {
                     Id = row.Id,
                     ProportionId = row.ProportionId,
@@ -134,7 +134,7 @@ namespace Next2.ViewModels.Dialogs
             }
             else
             {
-                Proportions = Enumerable.Empty<ProportionModel>();
+                Proportions = Enumerable.Empty<ProportionBindableModel>();
             }
         }
 
@@ -142,9 +142,9 @@ namespace Next2.ViewModels.Dialogs
 
         public DishBindableModel Dish { get; } = new();
 
-        public IEnumerable<ProportionModel> Proportions { get; }
+        public IEnumerable<ProportionBindableModel> Proportions { get; }
 
-        public ProportionModel SelectedProportion { get; set; } = new();
+        public ProportionBindableModel SelectedProportion { get; set; } = new();
 
         public Action<IDialogParameters> RequestClose;
 

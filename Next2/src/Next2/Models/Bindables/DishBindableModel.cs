@@ -41,8 +41,6 @@ namespace Next2.Models.Bindables
 
         public IEnumerable<SimpleDishProportionModelDTO>? DishProportions { get; set; }
 
-        public ObservableCollection<SimpleProductModelDTO>? Products { get; set; } = new();
-
         public ICommand? SelectDishCommand { get; set; }
 
         public string? SelectedProductsNames => SelectedProducts.Select(x => x.Product.Name).Aggregate((i, j) => i + ", " + j);

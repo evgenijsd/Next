@@ -12,11 +12,10 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:helpers="clr-namespace:Next2.Helpers"
-    xmlns:modelsApi="clr-namespace:Next2.Models.API"
     xmlns:modelsDTO="clr-namespace:Next2.Models.API.DTO"
-    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
+    xmlns:bindables="clr-namespace:Next2.Models.Bindables"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
-    xmlns:views="clr-namespace:Next2.Views" 
+    xmlns:views="clr-namespace:Next2.Views"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Views.Tablet.ModificationsPage"
     x:DataType="viewmodels:ModificationsPageViewModel">
@@ -108,7 +107,7 @@
                 BounceMode="DisabledForAndroidAndiOS">
 
                 <controls:CustomCollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="modelsBindable:SpoilerBindableModel">
+                    <DataTemplate x:DataType="bindables:SpoilerBindableModel">
 
                         <StackLayout>
 
@@ -192,7 +191,7 @@
 
                         <controls:CustomCollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="modelsApi:ProportionModel">
+                            <DataTemplate x:DataType="bindables:ProportionBindableModel">
 
                                 <pancakeview:PancakeView
                                     Padding="12, 4"
@@ -388,7 +387,7 @@
 
                         <controls:CustomCollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="modelsBindable:IngredientBindableModel">
+                            <DataTemplate x:DataType="bindables:IngredientBindableModel">
 
                                 <pancakeview:PancakeView
                                     Padding="12, 4"

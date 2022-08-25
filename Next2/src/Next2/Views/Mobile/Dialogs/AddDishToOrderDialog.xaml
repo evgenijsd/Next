@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:Next2"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    xmlns:api="clr-namespace:Next2.Models.API"
+    xmlns:bindables="clr-namespace:Next2.Models.Bindables"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pkView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
@@ -96,14 +96,14 @@
 
                 <BindableLayout.ItemTemplate>
 
-                    <DataTemplate x:DataType="api:ProportionModel">
+                    <DataTemplate x:DataType="bindables:ProportionBindableModel">
 
                         <templates:ToggleItemTemplate
-                            State="{Binding .}"
+                            State="{Binding ProportionName}"
                             IsVisibleSubtitle="True"
-                            Title="{Binding ProportionName }"
+                            Title="{Binding ProportionName}"
                             Subtitle="{Binding Price, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
-                            BindableLayout="{Binding SelectedProportion, Source={RelativeSource AncestorType={x:Type viewmodels:AddDishToOrderDialogViewModel}}}"/>
+                            BindableLayout="{Binding SelectedProportion.ProportionName, Source={RelativeSource AncestorType={x:Type viewmodels:AddDishToOrderDialogViewModel}}}"/>
 
                     </DataTemplate>
 

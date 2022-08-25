@@ -83,9 +83,9 @@ namespace Next2.ViewModels
 
         public ObservableCollection<SpoilerBindableModel> ProductsDish { get; set; } = new();
 
-        public ProportionModel? SelectedProportion { get; set; }
+        public ProportionBindableModel? SelectedProportion { get; set; }
 
-        public ObservableCollection<ProportionModel> PortionsDish { get; set; } = new();
+        public ObservableCollection<ProportionBindableModel> PortionsDish { get; set; } = new();
 
         public OptionModelDTO? SelectedOption { get; set; }
 
@@ -464,7 +464,7 @@ namespace Next2.ViewModels
 
             if (portions is not null && _allIngredients is not null)
             {
-                PortionsDish = new(_currentDish.DishProportions.Select(row => new ProportionModel()
+                PortionsDish = new(_currentDish.DishProportions.Select(row => new ProportionBindableModel()
                 {
                     Id = row.Id,
                     ProportionId = row.ProportionId,
