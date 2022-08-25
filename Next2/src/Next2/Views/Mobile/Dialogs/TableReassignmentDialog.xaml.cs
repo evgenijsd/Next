@@ -7,11 +7,13 @@ namespace Next2.Views.Mobile.Dialogs
 {
     public partial class TableReassignmentDialog : PopupPage
     {
-        public TableReassignmentDialog(DialogParameters param, Action<IDialogParameters> requestClose)
+        public TableReassignmentDialog(
+            DialogParameters parameters,
+            Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new TableReassignmentDialogViewModel(param, requestClose);
+            BindingContext = new TableReassignmentDialogViewModel(parameters, requestClose);
         }
     }
 }

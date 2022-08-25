@@ -18,6 +18,7 @@
             FontFamily="Barlow-Medium"
             VerticalTextAlignment="Center"
             FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}"
+            Text="{Binding Text, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}"
             FormattedText="{Binding FormattedText, Source={RelativeSource AncestorType={x:Type templates:TextItemTemplate}}}"/>
 
     </StackLayout>

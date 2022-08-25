@@ -7,11 +7,13 @@ namespace Next2.Views.Tablet.Dialogs
 {
     public partial class InputDialog : PopupPage
     {
-        public InputDialog(DialogParameters param, Action<IDialogParameters> requestClose)
+        public InputDialog(
+            DialogParameters parameters,
+            Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new InputDialogViewModel(param, requestClose);
+            BindingContext = new InputDialogViewModel(parameters, requestClose);
         }
 
         protected override void OnAppearing()

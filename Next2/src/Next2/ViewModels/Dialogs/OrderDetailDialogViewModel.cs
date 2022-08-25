@@ -11,9 +11,11 @@ namespace Next2.ViewModels.Dialogs
 {
     public class OrderDetailDialogViewModel : BindableBase
     {
-        public OrderDetailDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
+        public OrderDetailDialogViewModel(
+            DialogParameters parameters,
+            Action<IDialogParameters> requestClose)
         {
-            LoadPageData(param);
+            LoadPageData(parameters);
 
             RequestClose = requestClose;
 

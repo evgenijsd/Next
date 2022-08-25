@@ -217,7 +217,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    var param = new DialogParameters
+                    var parameters = new DialogParameters
                     {
                         { Constants.DialogParameterKeys.CONDITION, condition },
                         { Constants.DialogParameterKeys.SEATS, Seats },
@@ -225,8 +225,8 @@ namespace Next2.ViewModels
                     };
 
                     PopupPage popupPage = App.IsTablet
-                        ? new Views.Tablet.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack)
-                        : new Views.Mobile.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack);
+                        ? new Views.Tablet.Dialogs.SplitOrderDialog(parameters, SplitOrderDialogCallBack)
+                        : new Views.Mobile.Dialogs.SplitOrderDialog(parameters, SplitOrderDialogCallBack);
 
                     await PopupNavigation.PushAsync(popupPage);
                 }

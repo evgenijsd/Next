@@ -2,14 +2,19 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Models.API.DTO;
+using Next2.Models.Bindables;
 using Next2.Services.Authentication;
+using Next2.Services.Employees;
 using Next2.Services.Notifications;
+using Next2.Services.Order;
 using Next2.Services.Reservation;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,6 +28,8 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMapper _mapper;
         private readonly IReservationService _reservationService;
+        private readonly IEmployeesService _employeesService;
+        private readonly IOrderService _orderService;
 
         private EReservationsSortingType _reservationsSortingType;
 
@@ -31,11 +38,15 @@ namespace Next2.ViewModels.Tablet
             IAuthenticationService authenticationService,
             INotificationsService notificationsService,
             IReservationService reservationService,
+            IEmployeesService employeesService,
+            IOrderService orderService,
             IMapper mapper)
             : base(navigationService, authenticationService, notificationsService)
         {
             _mapper = mapper;
             _reservationService = reservationService;
+            _employeesService = employeesService;
+            _orderService = orderService;
         }
 
         #region -- Public properties --
@@ -48,9 +59,9 @@ namespace Next2.ViewModels.Tablet
 
         public bool IsPreloadStateActive => !string.IsNullOrEmpty(SearchQuery) && (!IsInternetConnected || (IsReservationsRefreshing && !Reservations.Any()));
 
-        public ReservationModel? SelectedReservation { get; set; }
+        public ReservationBindableModel? SelectedReservation { get; set; }
 
-        public ObservableCollection<ReservationModel> Reservations { get; set; } = new();
+        public ObservableCollection<ReservationBindableModel> Reservations { get; set; } = new();
 
         private ICommand? _goToSearchQueryInputCommand;
         public ICommand GoToSearchQueryInputCommand => _goToSearchQueryInputCommand ??= new AsyncCommand(OnGoToSearchQueryInputCommandAsync, allowsMultipleExecutions: false);
@@ -65,10 +76,13 @@ namespace Next2.ViewModels.Tablet
         public ICommand ChangeSortReservationCommand => _changeSortReservationCommand ??= new AsyncCommand<EReservationsSortingType>(OnChangeSortReservationCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand? _selectReservationCommand;
-        public ICommand SelectReservationCommand => _selectReservationCommand ??= new AsyncCommand<ReservationModel>(OnSelectReservationCommandAsync, allowsMultipleExecutions: false);
+        public ICommand SelectReservationCommand => _selectReservationCommand ??= new AsyncCommand<ReservationBindableModel>(OnSelectReservationCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand? _addNewReservationCommand;
         public ICommand AddNewReservationCommand => _addNewReservationCommand ??= new AsyncCommand(OnAddNewReservationCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand? _assignReservationCommand;
+        public ICommand AssignReservationCommand => _assignReservationCommand ??= new AsyncCommand(OnAssignReservationCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand? _removeReservationCommand;
         public ICommand RemoveReservationCommand => _removeReservationCommand ??= new AsyncCommand(OnRemoveReservationCommandAsync, allowsMultipleExecutions: false);
@@ -150,7 +164,9 @@ namespace Next2.ViewModels.Tablet
             {
                 SelectedReservation = null;
 
-                var sortedReservations = _reservationService.GetSortedReservations(_reservationsSortingType, resultOfGettingReservations.Result);
+                var allReservations = _mapper.Map<IEnumerable<ReservationBindableModel>>(resultOfGettingReservations.Result);
+
+                var sortedReservations = _reservationService.GetSortedReservations(_reservationsSortingType, allReservations);
 
                 Reservations = new(sortedReservations);
             }
@@ -178,7 +194,7 @@ namespace Next2.ViewModels.Tablet
             return Task.CompletedTask;
         }
 
-        private Task OnSelectReservationCommandAsync(ReservationModel? reservation)
+        private Task OnSelectReservationCommandAsync(ReservationBindableModel? reservation)
         {
             SelectedReservation = reservation == SelectedReservation
                 ? null
@@ -187,18 +203,26 @@ namespace Next2.ViewModels.Tablet
             return Task.CompletedTask;
         }
 
-        private Task OnAddNewReservationCommandAsync()
+        private async Task OnAddNewReservationCommandAsync()
         {
-            var param = new DialogParameters();
+            var allAvailableTables = await GetAvailableTablesAndShowPopupIfNeededAsync();
 
-            var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(param, AddNewReservationDialogCallBack);
+            if (allAvailableTables is not null)
+            {
+                var parameters = new DialogParameters()
+                {
+                    { Constants.DialogParameterKeys.TABLES, allAvailableTables },
+                };
 
-            return PopupNavigation.PushAsync(popupPage);
+                var popupPage = new Views.Tablet.Dialogs.AddNewReservationDialog(parameters, AddNewReservationDialogCallBack);
+
+                await PopupNavigation.PushAsync(popupPage);
+            }
         }
 
-        private async void AddNewReservationDialogCallBack(IDialogParameters param)
+        private async void AddNewReservationDialogCallBack(IDialogParameters parameters)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out ReservationModel reservation))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out ReservationModel reservation))
             {
                 var resultOfAddingReservation = await _reservationService.AddReservationAsync(reservation);
 
@@ -235,11 +259,11 @@ namespace Next2.ViewModels.Tablet
             return PopupNavigation.PushAsync(confirmDialog);
         }
 
-        private async void CloseRemoveReservationDialogCallBack(IDialogParameters param)
+        private async void CloseRemoveReservationDialogCallBack(IDialogParameters parameters)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool accept) && accept && SelectedReservation is not null)
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool accept) && accept && SelectedReservation is not null)
             {
-                var reservationRemovingResult = await _reservationService.RemoveReservationAsync(SelectedReservation);
+                var reservationRemovingResult = await _reservationService.RemoveReservationByIdAsync(SelectedReservation.Id);
 
                 if (reservationRemovingResult.IsSuccess)
                 {
@@ -270,14 +294,18 @@ namespace Next2.ViewModels.Tablet
             return PopupNavigation.PushAsync(confirmDialog);
         }
 
-        private async void CloseInfoAboutReservationDialogCallBack(IDialogParameters param)
+        private async void CloseInfoAboutReservationDialogCallBack(IDialogParameters parameters)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.ACTION, out string action))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACTION, out string action))
             {
                 switch (action)
                 {
                     case Constants.DialogParameterKeys.REMOVE:
                         await OnRemoveReservationCommandAsync();
+
+                        break;
+                    case Constants.DialogParameterKeys.ASSIGN:
+                        await OnAssignReservationCommandAsync();
 
                         break;
                 }
@@ -286,6 +314,145 @@ namespace Next2.ViewModels.Tablet
             {
                 await _notificationsService.ClosePopupAsync();
             }
+        }
+
+        private async Task OnAssignReservationCommandAsync()
+        {
+            var allEmployees = await GetEmployeesAndShowPopupIfNeededAsync();
+
+            if (allEmployees is not null && SelectedReservation is not null)
+            {
+                var allAvailableTables = await GetAvailableTablesAndShowPopupIfNeededAsync();
+
+                if (allAvailableTables is not null)
+                {
+                    if (SelectedReservation.Employee is not null)
+                    {
+                        var employeeId = SelectedReservation.Employee.EmployeeId;
+
+                        var employee = allEmployees.FirstOrDefault(row => row.EmployeeId == employeeId);
+
+                        if (employee is not null)
+                        {
+                            SelectedReservation.Employee = employee;
+                        }
+                        else
+                        {
+                            var employees = allEmployees.ToList();
+                            employees.Add(SelectedReservation.Employee);
+
+                            allEmployees = employees;
+                        }
+                    }
+
+                    if (SelectedReservation.Table is not null)
+                    {
+                        var tableId = SelectedReservation.Table.Id;
+                        var table = allAvailableTables.FirstOrDefault(row => row.Id == tableId);
+
+                        if (table is not null)
+                        {
+                            SelectedReservation.Table = table;
+                        }
+                        else
+                        {
+                            var listTables = allAvailableTables.ToList();
+                            listTables.Add(SelectedReservation.Table);
+
+                            allAvailableTables = listTables;
+                        }
+                    }
+
+                    var parameters = new DialogParameters()
+                    {
+                        { Constants.DialogParameterKeys.EMPLOYEE, SelectedReservation.Employee },
+                        { Constants.DialogParameterKeys.TABLE, SelectedReservation.Table },
+                        { Constants.DialogParameterKeys.EMPLOYEES, allEmployees },
+                        { Constants.DialogParameterKeys.TABLES, allAvailableTables },
+                    };
+
+                    var popupPage = new Views.Tablet.Dialogs.AssignReservationDialog(parameters, CloseAssignReservationDialogCallBack);
+
+                    await PopupNavigation.PushAsync(popupPage);
+                }
+            }
+        }
+
+        private async void CloseAssignReservationDialogCallBack(IDialogParameters parameters)
+        {
+            if (parameters.Count > 0)
+            {
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.TABLE, out TableModelDTO table)
+                    && parameters.TryGetValue(Constants.DialogParameterKeys.EMPLOYEE, out EmployeeModelDTO employee)
+                    && SelectedReservation is not null)
+                {
+                    SelectedReservation.Table = table;
+                    SelectedReservation.Employee = employee;
+
+                    var reservationForUpdate = _mapper.Map<ReservationModel>(SelectedReservation);
+
+                    var updateResult = await _reservationService.UpdateReservationAsync(reservationForUpdate);
+
+                    if (updateResult.IsSuccess)
+                    {
+                        await _notificationsService.ClosePopupAsync();
+
+                        IsReservationsRefreshing = true;
+                    }
+                    else
+                    {
+                        await ResponseToUnsuccessfulRequestAsync(updateResult.Exception?.Message);
+                    }
+                }
+            }
+            else
+            {
+                await _notificationsService.ClosePopupAsync();
+            }
+        }
+
+        private async Task<IEnumerable<TableModelDTO>?> GetAvailableTablesAndShowPopupIfNeededAsync()
+        {
+            var allAvailableTables = Enumerable.Empty<TableModelDTO>();
+
+            var resultOfGettingAvailableTable = await _orderService.GetFreeTablesAsync();
+
+            if (resultOfGettingAvailableTable.IsSuccess)
+            {
+                allAvailableTables = resultOfGettingAvailableTable.Result;
+
+                if (allAvailableTables is null)
+                {
+                    await _notificationsService.ShowInfoDialogAsync(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["NoTablesAvailable"],
+                        LocalizationResourceManager.Current["Ok"]);
+                }
+            }
+            else
+            {
+                await ResponseToUnsuccessfulRequestAsync(resultOfGettingAvailableTable.Exception?.Message);
+            }
+
+            return allAvailableTables;
+        }
+
+        private async Task<IEnumerable<EmployeeModelDTO>?> GetEmployeesAndShowPopupIfNeededAsync()
+        {
+            var allEmployees = Enumerable.Empty<EmployeeModelDTO>();
+
+            var resultOfGettingEmployees = await _employeesService.GetEmployeesAsync();
+
+            if (resultOfGettingEmployees.IsSuccess)
+            {
+                allEmployees = resultOfGettingEmployees.Result;
+            }
+            else
+            {
+                await ResponseToUnsuccessfulRequestAsync(resultOfGettingEmployees.Exception?.Message);
+            }
+
+            return allEmployees;
         }
 
         #endregion

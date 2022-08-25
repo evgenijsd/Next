@@ -11,9 +11,11 @@ namespace Next2.ViewModels.Dialogs
     {
         private bool _canExecute = true;
 
-        public ConfirmViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
+        public ConfirmViewModel(
+            DialogParameters parameters,
+            Action<IDialogParameters> requestClose)
         {
-            LoadPageData(param);
+            LoadPageData(parameters);
 
             RequestClose = requestClose;
 
@@ -52,31 +54,31 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private helpers --
 
-        private void LoadPageData(DialogParameters param)
+        private void LoadPageData(DialogParameters parameters)
         {
-            if (param is not null)
+            if (parameters is not null)
             {
-                if (param.TryGetValue(Constants.DialogParameterKeys.CONFIRM_MODE, out EConfirmMode confirmMode))
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.CONFIRM_MODE, out EConfirmMode confirmMode))
                 {
                     ConfirmMode = confirmMode;
                 }
 
-                if (param.TryGetValue(Constants.DialogParameterKeys.TITLE, out string title))
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.TITLE, out string title))
                 {
                     Title = title;
                 }
 
-                if (param.TryGetValue(Constants.DialogParameterKeys.DESCRIPTION, out string description))
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.DESCRIPTION, out string description))
                 {
                     Description = description;
                 }
 
-                if (param.TryGetValue(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, out string cancellationText))
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, out string cancellationText))
                 {
                     CancellationText = cancellationText;
                 }
 
-                if (param.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_TEXT, out string confirmationText))
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_TEXT, out string confirmationText))
                 {
                     ConfirmationText = confirmationText;
                 }
