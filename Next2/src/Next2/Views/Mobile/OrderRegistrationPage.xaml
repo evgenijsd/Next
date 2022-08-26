@@ -67,7 +67,7 @@
             </Style>
 
             <DataTemplate x:Key="seatHeaderDataTemplate">
-                <templates:SeatHeaderItemTemplate />
+                <templates:SeatHeaderItemTemplate BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="dishesGroupedBySeatItemTemplate">

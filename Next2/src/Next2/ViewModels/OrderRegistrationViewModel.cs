@@ -500,6 +500,8 @@ namespace Next2.ViewModels
                 CurrentState = ENewOrderViewState.Default;
             }
 
+            DishesGroupedBySeats = new(DishesGroupedBySeats);
+
             return Task.CompletedTask;
         }
 

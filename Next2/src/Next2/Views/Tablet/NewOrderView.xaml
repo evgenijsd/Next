@@ -1430,7 +1430,7 @@
 
                 <controls:CustomCollectionView.GroupHeaderTemplate>
                     <DataTemplate>
-                        <templates:SeatHeaderItemTemplate />
+                        <templates:SeatHeaderItemTemplate BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"/>
                     </DataTemplate>
                 </controls:CustomCollectionView.GroupHeaderTemplate>
 
