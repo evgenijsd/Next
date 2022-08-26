@@ -143,25 +143,7 @@ namespace Next2.Extensions
                     {
                         foreach (var product in dish.SelectedProducts)
                         {
-                            var priceRatio = dish.SelectedDishProportion.PriceRatio;
-
-                            product.Price = СalculatePriceOfProportion(product.Product.DefaultPrice, priceRatio);
-
-                            if (product.AddedIngredients is not null)
-                            {
-                                foreach (var addedIngredient in product.AddedIngredients)
-                                {
-                                    addedIngredient.Price = СalculatePriceOfProportion(addedIngredient.Price, priceRatio);
-                                }
-                            }
-
-                            if (product.ExcludedIngredients is not null)
-                            {
-                                foreach (var excludedIngredient in product.ExcludedIngredients)
-                                {
-                                    excludedIngredient.Price = СalculatePriceOfProportion(excludedIngredient.Price, priceRatio);
-                                }
-                            }
+                            product.Price = СalculatePriceOfProportion(product.Product.DefaultPrice, dish.SelectedDishProportion.PriceRatio);
                         }
                     }
                 }

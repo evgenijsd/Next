@@ -665,14 +665,9 @@ namespace Next2.ViewModels
                 {
                     var selectedProductDefault = _currentDish.SelectedProducts.FirstOrDefault(x => x.Id == SelectedReplacementProduct.Id);
 
-                    selectedProductCurrent = new ProductBindableModel()
-                    {
-                        Id = SelectedReplacementProduct.Id,
-                        SelectedOptions = SelectedReplacementProduct.Options.FirstOrDefault(),
-                        AddedIngredients = new(SelectedReplacementProduct.Ingredients),
-                        Price = SelectedReplacementProduct.DefaultPrice,
-                        Product = selectedProductDefault.Product.Clone(),
-                    };
+                    selectedProductCurrent = SelectedReplacementProduct.ToProductBindableModel();
+
+                    selectedProductCurrent.Product = selectedProductDefault.Product.Clone();
 
                     ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct.Name ?? string.Empty;
                     SelectedProduct.Id = SelectedReplacementProduct.Id;
