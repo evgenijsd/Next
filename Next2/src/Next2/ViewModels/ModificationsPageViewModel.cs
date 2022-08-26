@@ -405,18 +405,24 @@ namespace Next2.ViewModels
             {
                 var product = _currentDish.SelectedProducts?.FirstOrDefault(row => row.Id == SelectedProduct.Id);
 
-                Ingredients = new(_allIngredients.Where(row => row.IngredientsCategoryId == categoryId).Select(row => new IngredientBindableModel()
+                Ingredients = new(_allIngredients.Where(row => row.IngredientsCategoryId == categoryId).Select(row => row.ToIngredientBindableModel()));
+
+                var selectedDishProportion = _currentDish.SelectedDishProportion;
+                var isSelectedDishProportion = selectedDishProportion is not null;
+
+                foreach (var ingredient in Ingredients)
                 {
-                    Id = row.Id,
-                    CategoryId = row.IngredientsCategoryId,
-                    IsToggled = product is not null && product.AddedIngredients.Any(item => item.Id == row.Id),
-                    Name = row.Name,
-                    Price = _currentDish.SelectedDishProportion.PriceRatio == 1
-                        ? row.Price
-                        : row.Price * (1 + _currentDish.SelectedDishProportion.PriceRatio),
-                    ImageSource = row.ImageSource,
-                    ChangingToggle = ChangingToggleCommand,
-                }));
+                    ingredient.IsToggled = product is not null && product.AddedIngredients.Any(item => item.Id == ingredient.Id);
+
+                    if (isSelectedDishProportion)
+                    {
+                        ingredient.Price = selectedDishProportion.PriceRatio == 1
+                            ? ingredient.Price
+                            : ingredient.Price * (1 + selectedDishProportion.PriceRatio);
+                    }
+
+                    ingredient.ChangingToggle = ChangingToggleCommand;
+                }
             }
 
             return Task.CompletedTask;
@@ -470,8 +476,7 @@ namespace Next2.ViewModels
         {
             if (SelectedProduct != null)
             {
-                var products = _currentDish.SelectedProducts;
-                var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+                var product = _currentDish.SelectedProducts.FirstOrDefault(row => row.Id == SelectedProduct.Id);
 
                 var options = product.Product.Options;
 
@@ -618,8 +623,8 @@ namespace Next2.ViewModels
                     var selectedDishTotalPrice = selectedSeat.SelectedItem?.TotalPrice;
                     var selectedDishProportionId = selectedSeat.SelectedItem?.SelectedDishProportion?.Id;
 
-                    var selectedDishInSelectedSeat = dishesInSelectedSeat.FirstOrDefault(
-                        row => row.DishId == selectedDishId
+                    var selectedDishInSelectedSeat = dishesInSelectedSeat.FirstOrDefault(row =>
+                        row.DishId == selectedDishId
                         && row.TotalPrice == selectedDishTotalPrice
                         && row.SelectedDishProportion?.Id == selectedDishProportionId);
 
@@ -660,9 +665,9 @@ namespace Next2.ViewModels
                 {
                     var selectedProductDefault = _currentDish.SelectedProducts.FirstOrDefault(x => x.Id == SelectedReplacementProduct.Id);
 
-                    selectedProductCurrent = new()
+                    selectedProductCurrent = new ProductBindableModel()
                     {
-                        Id = selectedProductDefault.Id,
+                        Id = SelectedReplacementProduct.Id,
                         SelectedOptions = SelectedReplacementProduct.Options.FirstOrDefault(),
                         AddedIngredients = new(SelectedReplacementProduct.Ingredients),
                         Price = SelectedReplacementProduct.DefaultPrice,

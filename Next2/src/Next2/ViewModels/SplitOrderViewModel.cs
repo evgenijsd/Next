@@ -82,7 +82,7 @@ namespace Next2.ViewModels
         {
             if (OriginalSeats is not null)
             {
-                var seats = OriginalSeats.ToSeatsBindableModels();
+                var seats = OriginalSeats.ToSeatsBindableModels().OrderBy(x => x.SeatNumber);
 
                 InitSeats(seats);
             }
@@ -92,7 +92,7 @@ namespace Next2.ViewModels
         {
             if (seats is null)
             {
-                seats = Order.Seats.ToSeatsBindableModels();
+                seats = Order.Seats?.ToSeatsBindableModels().OrderBy(x => x.SeatNumber);
             }
 
             Seats = new(seats);
@@ -341,12 +341,7 @@ namespace Next2.ViewModels
                     order.Coupon = Order.Coupon;
                     order.Discount = Order.Discount;
                     order.TotalPrice = Order.TotalPrice;
-                    order.Table = new SimpleTableModelDTO
-                    {
-                        Id = Order.Table.Id,
-                        Number = Order.Table.Number,
-                        SeatNumbers = Order.Table.SeatNumbers,
-                    };
+                    order.Table = Order.Table.Clone();
                 }
                 else
                 {

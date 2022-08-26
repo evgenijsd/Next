@@ -12,32 +12,9 @@ namespace Next2.Extensions
     {
         public static UpdateOrderCommand ToUpdateOrderCommand(this FullOrderBindableModel order)
         {
-            var seats = order.Seats.Select(x => new IncomingSeatModel()
-            {
-                Number = x.SeatNumber,
-                SelectedDishes = x.SelectedDishes.Select(x => new IncomingSelectedDishModel()
-                {
-                    TotalPrice = x.TotalPrice,
-                    DiscountPrice = x.DiscountPrice,
-                    DishId = x.DishId,
-                    SplitPrice = x.SplitPrice,
-                    HoldTime = x.HoldTime,
-                    SelectedDishProportionId = x.SelectedDishProportion.Id,
-                    SelectedProducts = x.SelectedProducts.Select(x => new IncomingSelectedProductModel()
-                    {
-                        ProductId = x.Product.Id,
-                        AddedIngredientsId = x.AddedIngredients?.Select(x => x.Id),
-                        SelectedIngredientsId = x.SelectedIngredients?.Select(x => x.Id),
-                        ExcludedIngredientsId = x.ExcludedIngredients?.Select(x => x.Id),
-                        Comment = x.Comment,
-                        SelectedOptionsId = x.SelectedOptions is not null
-                            ? new Guid[1] { x.SelectedOptions.Id }
-                            : null,
-                    }),
-                }),
-            });
+            var seats = order.Seats.Select(row => row.ToIncomingSeatModel());
 
-            UpdateOrderCommand updateOrderCommand = new()
+            var updateOrderCommand = new UpdateOrderCommand()
             {
                 Id = order.Id,
                 Number = order.Number,
@@ -56,9 +33,7 @@ namespace Next2.Extensions
                 SubTotalPrice = order.SubTotalPrice,
                 IsCashPayment = order.IsCashPayment,
                 CustomerId = order.Customer?.Id,
-                EmployeeId = order.EmployeeId is null
-                    ? string.Empty
-                    : order.EmployeeId,
+                EmployeeId = order.EmployeeId ?? string.Empty,
                 Seats = seats,
             };
 
@@ -67,28 +42,7 @@ namespace Next2.Extensions
 
         public static UpdateOrderCommand ToUpdateOrderCommand(this OrderModelDTO order)
         {
-            var seats = order.Seats.Select(x => new IncomingSeatModel()
-            {
-                Number = x.Number,
-                SelectedDishes = x.SelectedDishes.Select(x => new IncomingSelectedDishModel()
-                {
-                    TotalPrice = x.TotalPrice,
-                    DiscountPrice = x.DiscountPrice,
-                    DishId = x.DishId,
-                    SplitPrice = x.SplitPrice,
-                    HoldTime = x.HoldTime,
-                    SelectedDishProportionId = x.SelectedDishProportion.Id,
-                    SelectedProducts = x.SelectedProducts.Select(x => new IncomingSelectedProductModel()
-                    {
-                        Comment = x.Comment,
-                        ProductId = x.Product.Id,
-                        SelectedOptionsId = x.SelectedOptions?.Select(x => x.Id).ToArray(),
-                        SelectedIngredientsId = x.SelectedIngredients?.Select(x => x.Id),
-                        AddedIngredientsId = x.AddedIngredients?.Select(x => x.Id),
-                        ExcludedIngredientsId = x.ExcludedIngredients?.Select(x => x.Id),
-                    }),
-                }),
-            });
+            var seats = order.Seats.Select(row => row.ToIncomingSeatModel());
 
             Enum.TryParse(order.OrderType, out EOrderType type);
 
@@ -136,20 +90,10 @@ namespace Next2.Extensions
                 IsCashPayment = order.IsCashPayment,
                 IsSplitBySeats = order.IsSplitBySeats,
                 Table = order.Table is not null
-                    ? new()
-                    {
-                        Id = order.Table.Id,
-                        Number = order.Table.Number,
-                        SeatNumbers = order.Table.SeatNumbers,
-                    }
+                    ? order.Table.Clone()
                     : new(),
                 Customer = order.Customer is not null
-                    ? new()
-                    {
-                        Id = order.Customer.Id,
-                        FullName = order.Customer?.FullName,
-                        Phone = order.Customer?.Phone,
-                    }
+                    ? order.Customer.ToSimpleCustomerModelDTO()
                     : new(),
                 OrderStatus = (EOrderStatus)order.OrderStatus,
                 OrderType = order.OrderType.ToString(),
@@ -178,38 +122,8 @@ namespace Next2.Extensions
                         SplitPrice = row.SplitPrice,
                         HoldTime = row.HoldTime,
                         DiscountPrice = row.DiscountPrice,
-                        SelectedDishProportion = new()
-                        {
-                            Id = row.SelectedDishProportion.Id,
-                            PriceRatio = row.SelectedDishProportion.PriceRatio,
-                            Proportion = new()
-                            {
-                                Id = row.SelectedDishProportion.Proportion.Id,
-                                Name = row.SelectedDishProportion.Proportion.Name,
-                            },
-                        },
-                        SelectedProducts = row?.SelectedProducts.Select(row => new SelectedProductModelDTO()
-                        {
-                            Id = row.Product.Id,
-                            Comment = row.Comment,
-                            Product = new SimpleProductModelDTO()
-                            {
-                                Id = row.Product.Id,
-                                DefaultPrice = row.Product.DefaultPrice,
-                                Name = row.Product.Name,
-                                ImageSource = row.Product.ImageSource,
-                                Ingredients = row.Product?.Ingredients.Select(row => row.Clone()),
-                                Options = row?.Product?.Options?.Select(row => row.Clone()),
-                            },
-                            SelectedOptions = row?.SelectedOptions == null
-                                ? null
-                                : new OptionModelDTO[] { row.SelectedOptions },
-                            SelectedIngredients = row?.SelectedOptions == null
-                                ? null
-                                : row?.SelectedIngredients?.Select(row => row.Clone()),
-                            AddedIngredients = row?.AddedIngredients?.Select(row => row.Clone()),
-                            ExcludedIngredients = row?.ExcludedIngredients?.Select(row => row.Clone()),
-                        }),
+                        SelectedDishProportion = row.SelectedDishProportion?.Clone(),
+                        SelectedProducts = row?.SelectedProducts.Select(row => row.ToSelectedProductModelDTO()),
                     }),
                 }));
 
@@ -229,22 +143,12 @@ namespace Next2.Extensions
                 Close = order.Close,
                 IsCashPayment = order.IsCashPayment,
                 IsSplitBySeats = order.IsSplitBySeats,
-                Table = order.Table is not null
-                    ? new()
-                    {
-                        Id = order.Table.Id,
-                        Number = order.Table.Number,
-                        SeatNumbers = order.Table.SeatNumbers,
-                    }
-                    : null,
-                Customer = order.Customer is not null
-                    ? new()
-                    {
-                        Id = order.Customer.Id,
-                        FullName = order.Customer?.FullName,
-                        Phone = order.Customer?.Phone,
-                    }
-                    : null,
+                Table = order.Table is null
+                    ? null
+                    : order.Table.Clone(),
+                Customer = order.Customer is null
+                    ? null
+                    : order.Customer.ToCustomerBindableModel(),
                 OrderStatus = order.OrderStatus,
                 OrderType = (EOrderType?)Enum.Parse(typeof(EOrderType), order.OrderType),
                 Discount = order.Discount,
@@ -266,45 +170,7 @@ namespace Next2.Extensions
                     SeatNumber = row.Number,
                     IsFirstSeat = row.Number == 1,
                     Checked = row.Number == 1,
-                    SelectedDishes = new(row?.SelectedDishes.Select(row => new DishBindableModel()
-                    {
-                        Id = row.Id,
-                        DishId = row.DishId,
-                        Name = row.Name,
-                        ImageSource = row.ImageSource,
-                        IsSplitted = row.IsSplitted,
-                        SplitPrice = row.SplitPrice,
-                        TotalPrice = row.TotalPrice,
-                        DiscountPrice = row.DiscountPrice,
-                        SelectedDishProportion = new()
-                        {
-                            Id = row.SelectedDishProportion.Id,
-                            PriceRatio = row.SelectedDishProportion.PriceRatio,
-                            Proportion = new()
-                            {
-                                Id = row.SelectedDishProportion.Proportion.Id,
-                                Name = row.SelectedDishProportion.Proportion.Name,
-                            },
-                        },
-                        SelectedProducts = new(row.SelectedProducts.Select(row => new ProductBindableModel()
-                        {
-                            Id = row.Product.Id,
-                            Comment = new(row.Comment),
-                            Product = new SimpleProductModelDTO()
-                            {
-                                Id = row.Product.Id,
-                                DefaultPrice = row.Product.DefaultPrice,
-                                Name = row.Product.Name,
-                                ImageSource = row.Product.ImageSource,
-                                Ingredients = row.Product.Ingredients.Select(row => row.Clone()),
-                                Options = row.Product.Options.Select(row => row.Clone()),
-                            },
-                            SelectedOptions = row.SelectedOptions.FirstOrDefault(),
-                            SelectedIngredients = new(row.SelectedIngredients.Select(row => row.Clone())),
-                            AddedIngredients = new(row.AddedIngredients.Select(row => row.Clone())),
-                            ExcludedIngredients = new(row.ExcludedIngredients.Select(row => row.Clone())),
-                        })),
-                    })),
+                    SelectedDishes = new(row?.SelectedDishes.Select(row => row.ToDishBindableModel())),
                 }));
 
             foreach (var seat in fullOrderBindableModel.Seats)

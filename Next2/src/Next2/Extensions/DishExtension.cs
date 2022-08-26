@@ -17,15 +17,55 @@ namespace Next2.Extensions
                 TotalPrice = dish.OriginalPrice,
                 DiscountPrice = 0,
                 SelectedDishProportion = dish.DishProportions?.Where(x => x.PriceRatio == 1)?.Select(x => x.ToDishProportionModelDTO()).FirstOrDefault(),
-                DishProportions = dish.DishProportions,
-                ReplacementProducts = dish.ReplacementProducts,
-                SelectedProducts = new(dish.ReplacementProducts?.SelectMany(x => x.Products?.Where(product => product.Id == x.ProductId)).Select(row => new ProductBindableModel()
-                {
-                    Id = row.Id,
-                    SelectedOptions = row.Options?.FirstOrDefault(),
-                    AddedIngredients = new(row.Ingredients?.Select(row => row.Clone())),
-                    Product = row.Clone(),
-                })),
+                DishProportions = dish.DishProportions.Select(row => row.Clone()),
+                ReplacementProducts = dish.ReplacementProducts.Select(row => row.Clone()),
+                SelectedProducts = new(dish.ReplacementProducts?.SelectMany(x => x.Products?.Where(product => product.Id == x.ProductId)).Select(row => row.ToProductBindableModel())),
+            };
+        }
+
+        public static IncomingSelectedDishModel ToIncomingSelectedDishModel(this SelectedDishModelDTO dish)
+        {
+            return new()
+            {
+                DishId = dish.DishId,
+                SelectedDishProportionId = dish.SelectedDishProportion.Id,
+                TotalPrice = dish.TotalPrice,
+                DiscountPrice = dish.DiscountPrice,
+                SplitPrice = dish.SplitPrice,
+                HoldTime = dish.HoldTime,
+                SelectedProducts = dish.SelectedProducts.Select(x => x.ToIncomingSelectedProductModel()),
+            };
+        }
+
+        public static DishBindableModel ToDishBindableModel(this SelectedDishModelDTO dish)
+        {
+            return new DishBindableModel()
+            {
+                Id = dish.Id,
+                DishId = dish.DishId,
+                Name = dish.Name,
+                ImageSource = dish.ImageSource,
+                TotalPrice = dish.TotalPrice,
+                DiscountPrice = dish.DiscountPrice,
+                SplitPrice = dish.SplitPrice,
+                IsSplitted = dish.IsSplitted,
+                HoldTime = dish.HoldTime,
+                SelectedDishProportion = dish.SelectedDishProportion.Clone(),
+                SelectedProducts = new(dish.SelectedProducts?.Select(x => x.ToProductBindableModel())),
+            };
+        }
+
+        public static IncomingSelectedDishModel ToIncomingSelectedDishModel(this DishBindableModel dish)
+        {
+            return new IncomingSelectedDishModel()
+            {
+                DishId = dish.DishId,
+                SelectedDishProportionId = dish.SelectedDishProportion.Id,
+                TotalPrice = dish.TotalPrice,
+                DiscountPrice = dish.DiscountPrice,
+                SplitPrice = dish.SplitPrice,
+                HoldTime = dish.HoldTime,
+                SelectedProducts = dish.SelectedProducts.Select(x => x.ToIncomingSelectedProductModel()),
             };
         }
     }

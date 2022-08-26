@@ -10,5 +10,15 @@ namespace Next2.Models.API.DTO
         public int Number { get; set; }
 
         public int SeatNumbers { get; set; }
+
+        public SimpleTableModelDTO Clone()
+        {
+            return new()
+            {
+                Id = Id,
+                Number = Number,
+                SeatNumbers = SeatNumbers,
+            };
+        }
     }
 }

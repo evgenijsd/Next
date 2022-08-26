@@ -8,53 +8,41 @@ namespace Next2.Extensions
 {
     public static class SeatExtension
     {
+        public static IncomingSeatModel ToIncomingSeatModel(this SeatBindableModel seat)
+        {
+            return new()
+            {
+                Number = seat.SeatNumber,
+                SelectedDishes = seat.SelectedDishes.Select(x => x.ToIncomingSelectedDishModel()),
+            };
+        }
+
+        public static IncomingSeatModel ToIncomingSeatModel(this SeatModelDTO seat)
+        {
+            return new()
+            {
+                Number = seat.Number,
+                SelectedDishes = seat.SelectedDishes.Select(x => x.ToIncomingSelectedDishModel()),
+            };
+        }
+
         public static SeatBindableModel ToSeatBindableModel(this SeatModelDTO seat)
         {
             return new()
             {
                 SeatNumber = seat.Number,
-                SelectedDishes = new ObservableCollection<DishBindableModel>(
-                    seat.SelectedDishes.Select(y => new DishBindableModel()
-                    {
-                        TotalPrice = y.TotalPrice,
-                        ImageSource = y.ImageSource,
-                        Name = y.Name,
-                    })),
+                SelectedDishes = new(seat.SelectedDishes.Select(row => row.ToDishBindableModel())),
             };
         }
 
-        public static IEnumerable<SeatBindableModel> ToSeatsBindableModels(this IEnumerable<SeatModelDTO>? seats)
+        public static IEnumerable<SeatBindableModel> ToSeatsBindableModels(this IEnumerable<SeatModelDTO> seats)
         {
             return seats.Select(x => new SeatBindableModel()
             {
                 IsFirstSeat = x.Id == seats.First().Id,
-                Checked = false,
                 SeatNumber = x.Number,
-                SelectedDishes = new(x.SelectedDishes.Select(y => new DishBindableModel()
-                {
-                    DiscountPrice = y.DiscountPrice,
-                    DishId = y.DishId,
-                    IsSplitted = y.IsSplitted,
-                    SplitPrice = y.SplitPrice,
-                    HoldTime = y.HoldTime,
-                    Id = y.Id,
-                    ImageSource = y.ImageSource,
-                    Name = y.Name,
-                    TotalPrice = y.TotalPrice,
-                    SelectedDishProportion = y.SelectedDishProportion,
-                    SelectedProducts = new(y.SelectedProducts.Select(x => new ProductBindableModel()
-                    {
-                        Id = x.Id,
-                        Price = x.Product.DefaultPrice,
-                        Comment = x.Comment,
-                        Product = x.Product,
-                        AddedIngredients = new(x.AddedIngredients),
-                        ExcludedIngredients = new(x.ExcludedIngredients),
-                        SelectedIngredients = new(x.SelectedIngredients),
-                        SelectedOptions = x.SelectedOptions.FirstOrDefault(),
-                    })),
-                })),
-            }).OrderBy(x => x.SeatNumber);
+                SelectedDishes = new(x.SelectedDishes.Select(y => y.ToDishBindableModel())),
+            });
         }
 
         public static IEnumerable<SeatModelDTO>? ToSeatsModelsDTO(this IEnumerable<SeatBindableModel> seats)
@@ -78,19 +66,8 @@ namespace Next2.Extensions
                     SplitPrice = y.SplitPrice,
                     HoldTime = y.HoldTime,
                     TotalPrice = y.TotalPrice,
-                    SelectedDishProportion = y.SelectedDishProportion,
-                    SelectedProducts = y.SelectedProducts?.Select(x => new SelectedProductModelDTO
-                    {
-                        Id = x.Id,
-                        Comment = x.Comment,
-                        Product = x.Product?.Clone(),
-                        AddedIngredients = x.AddedIngredients,
-                        ExcludedIngredients = x.ExcludedIngredients,
-                        SelectedIngredients = x.SelectedIngredients,
-                        SelectedOptions = x.SelectedOptions is null
-                            ? null
-                            : new OptionModelDTO[] { x.SelectedOptions },
-                    }),
+                    SelectedDishProportion = y.SelectedDishProportion.Clone(),
+                    SelectedProducts = y.SelectedProducts?.Select(x => x.ToSelectedProductModelDTO()),
                 }),
             };
         }

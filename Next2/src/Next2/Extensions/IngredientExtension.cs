@@ -25,5 +25,17 @@ namespace Next2.Extensions
                 IngredientsCategory = ingredient.ToSimpleIngredientsCategoryModelDTO(),
             };
         }
+
+        public static IngredientBindableModel ToIngredientBindableModel(this IngredientModelDTO ingredient)
+        {
+            return new()
+            {
+                Id = ingredient.Id,
+                CategoryId = ingredient.IngredientsCategoryId,
+                Name = ingredient.Name,
+                Price = ingredient.Price,
+                ImageSource = ingredient.ImageSource,
+            };
+        }
     }
 }

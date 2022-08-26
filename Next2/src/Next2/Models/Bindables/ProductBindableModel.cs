@@ -7,9 +7,9 @@ namespace Next2.Models.Bindables
 {
     public class ProductBindableModel : IBaseApiModel
     {
-        public bool IsProductReplaced { get; set; }
-
         public Guid Id { get; set; }
+
+        public bool IsProductReplaced { get; set; }
 
         public string? Comment { get; set; }
 

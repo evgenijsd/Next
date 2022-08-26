@@ -8,5 +8,14 @@ namespace Next2.Models.API.DTO
         public Guid Id { get; set; }
 
         public string? Name { get; set; }
+
+        public SimpleIngredientsCategoryModelDTO Clone()
+        {
+            return new()
+            {
+                Id = Id,
+                Name = Name,
+            };
+        }
     }
 }
