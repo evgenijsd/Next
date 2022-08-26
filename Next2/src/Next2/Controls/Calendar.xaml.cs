@@ -34,6 +34,8 @@ namespace Next2.Controls
             }
 
             SelectedYear = Years.FirstOrDefault(x => x.YearValue == DateTime.Now.Year - 1);
+
+            SetMarginToDropdownFrame();
         }
 
         #region -- Public properties --
@@ -221,7 +223,7 @@ namespace Next2.Controls
         public static readonly BindableProperty DropdownHeaderHeightRequestProperty = BindableProperty.Create(
            propertyName: nameof(DropdownHeaderHeightRequest),
            returnType: typeof(double),
-           defaultValue: 45d,
+           defaultValue: 36d,
            declaringType: typeof(Calendar),
            defaultBindingMode: BindingMode.OneWay);
 
@@ -247,7 +249,7 @@ namespace Next2.Controls
         public static readonly BindableProperty DropdownHeaderWidthRequestProperty = BindableProperty.Create(
            propertyName: nameof(DropdownHeaderWidthRequest),
            returnType: typeof(double),
-           defaultValue: 122d,
+           defaultValue: 120d,
            declaringType: typeof(Calendar),
            defaultBindingMode: BindingMode.OneWay);
 
@@ -354,12 +356,30 @@ namespace Next2.Controls
                     CreateSelectedDay();
 
                     break;
+
+                case nameof(DropdownHeaderHeightRequest):
+
+                    SetMarginToDropdownFrame();
+
+                    break;
             }
         }
 
         #endregion
 
         #region -- Private helpers --
+
+        private void SetMarginToDropdownFrame()
+        {
+            if (App.IsTablet)
+            {
+                dropdownFrame.Margin = new Thickness() { Right = 0, Top = DropdownHeaderHeightRequest + 2, Left = 0, Bottom = 0 };
+            }
+            else
+            {
+                dropdownFrame.Margin = new Thickness() { Right = 0, Top = DropdownHeaderHeightRequest + 2, Left = 0, Bottom = 0 };
+            }
+        }
 
         private void CreateSelectedDay()
         {
