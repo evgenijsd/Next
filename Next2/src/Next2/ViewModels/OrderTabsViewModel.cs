@@ -461,7 +461,7 @@ namespace Next2.ViewModels
                         var seats = orderResult.Result.Seats;
                         var bindableSeats = GetSeatsForDisplaying(seats);
 
-                        var param = new DialogParameters
+                        var parameters = new DialogParameters
                         {
                             { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.Number },
                             { Constants.DialogParameterKeys.SEATS,  bindableSeats },
@@ -473,8 +473,8 @@ namespace Next2.ViewModels
                         };
 
                         PopupPage deleteSeatDialog = App.IsTablet
-                            ? new Views.Tablet.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync)
-                            : new Views.Mobile.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync);
+                            ? new Views.Tablet.Dialogs.OrderDetailDialog(parameters, ClosePrintOrderDialogCallbackAsync)
+                            : new Views.Mobile.Dialogs.OrderDetailDialog(parameters, ClosePrintOrderDialogCallbackAsync);
 
                         await PopupNavigation.PushAsync(deleteSeatDialog);
                     }

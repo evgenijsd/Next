@@ -70,6 +70,7 @@
         </pancakeview:PancakeView.Resources>
 
         <Grid>
+            
             <StackLayout
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand">
@@ -231,12 +232,8 @@
                                             Binding="{Binding SelectedHoldingTimeInMinutes, Converter={xct:IsNotNullOrEmptyConverter}}"
                                             Value="True">
 
-                                            <Setter
-                                                Property="Opacity"
-                                                Value="{DynamicResource OpacityWhenDisabled_i1}" />
-                                            <Setter
-                                                Property="IsEnabled"
-                                                Value="False" />
+                                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                                            <Setter Property="IsEnabled" Value="False" />
 
                                         </DataTrigger>
 
@@ -310,9 +307,7 @@
                         Binding="{Binding SelectedDish, Converter={xct:IsNotNullOrEmptyConverter}}"
                         Value="True">
 
-                        <Setter
-                            Property="IsVisible"
-                            Value="False" />
+                        <Setter Property="IsVisible" Value="False" />
 
                     </DataTrigger>
                 </StackLayout.Triggers>
@@ -332,16 +327,13 @@
                     ItemsSource="{Binding Seats}"
                     SelectedItem="{Binding Seat}">
 
-                    <controls:DropDownList.HeaderText>
+                    <controls:DropDownList.HeaderFormattedText>
                         <FormattedString>
-                            <Span
-                                Text="{xct:Translate Seat}" />
-                            <Span
-                                Text=" " />
-                            <Span
-                                Text="{Binding Seat}" />
+                            <Span Text="{xct:Translate Seat}" />
+                            <Span Text=" " />
+                            <Span Text="{Binding Seat}" />
                         </FormattedString>
-                    </controls:DropDownList.HeaderText>
+                    </controls:DropDownList.HeaderFormattedText>
 
                     <controls:DropDownList.Triggers>
 
@@ -350,17 +342,14 @@
                             Binding="{Binding Seat}"
                             Value="{x:Static local:Constants+Limits.ALL_SEATS}">
 
-                            <Setter
-                                Property="HeaderText"
-                                Value="{xct:Translate WholeOrder}" />
+                            <Setter Property="HeaderFormattedText" Value="{xct:Translate WholeOrder}" />
 
                         </DataTrigger>
 
                     </controls:DropDownList.Triggers>
 
                     <controls:DropDownList.DataTemplate>
-                        <DataTemplate
-                            x:DataType="{x:Type x:Int32}">
+                        <DataTemplate x:DataType="{x:Type x:Int32}">
 
                             <templates:TextItemTemplate
                                 Style="{DynamicResource StackLayoutTemplateStyle_i1}"
@@ -369,12 +358,9 @@
 
                                 <templates:TextItemTemplate.FormattedText>
                                     <FormattedString>
-                                        <Span
-                                            Text="{xct:Translate Seat}" />
-                                        <Span
-                                            Text=" " />
-                                        <Span
-                                            Text="{Binding .}" />
+                                        <Span Text="{xct:Translate Seat}" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding .}" />
                                     </FormattedString>
                                 </templates:TextItemTemplate.FormattedText>
 
@@ -385,9 +371,7 @@
                                         Binding="{Binding .}"
                                         Value="{x:Static local:Constants+Limits.ALL_SEATS}">
 
-                                        <Setter
-                                            Property="FormattedText"
-                                            Value="{xct:Translate WholeOrder}" />
+                                        <Setter Property="FormattedText" Value="{xct:Translate WholeOrder}" />
 
                                     </DataTrigger>
 
@@ -401,6 +385,7 @@
 
                 </controls:DropDownList>
             </StackLayout>
+            
         </Grid>
 
     </pancakeview:PancakeView>

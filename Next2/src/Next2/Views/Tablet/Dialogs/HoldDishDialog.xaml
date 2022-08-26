@@ -308,13 +308,13 @@
                     ItemsSource="{Binding Seats}"
                     SelectedItem="{Binding Seat}">
 
-                    <controls:DropDownList.HeaderText>
+                    <controls:DropDownList.HeaderFormattedText>
                         <FormattedString>
                             <Span Text="{xct:Translate Seat}" />
                             <Span Text=" " />
                             <Span Text="{Binding Seat}" />
                         </FormattedString>
-                    </controls:DropDownList.HeaderText>
+                    </controls:DropDownList.HeaderFormattedText>
 
                     <controls:DropDownList.Triggers>
 
@@ -323,7 +323,7 @@
                             Binding="{Binding Seat}"
                             Value="{x:Static local:Constants+Limits.ALL_SEATS}">
 
-                            <Setter Property="HeaderText" Value="{xct:Translate WholeOrder}" />
+                            <Setter Property="HeaderFormattedText" Value="{xct:Translate WholeOrder}" />
 
                         </DataTrigger>
 

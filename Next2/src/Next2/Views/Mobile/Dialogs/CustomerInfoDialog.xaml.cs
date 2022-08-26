@@ -8,12 +8,12 @@ namespace Next2.Views.Mobile.Dialogs
     public partial class CustomerInfoDialog : PopupPage
     {
         public CustomerInfoDialog(
-            DialogParameters param,
+            DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new CustomerInfoViewModel(param, requestClose);
+            BindingContext = new CustomerInfoViewModel(parameters, requestClose);
         }
     }
 }
