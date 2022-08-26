@@ -1471,11 +1471,13 @@
 
                     </StackLayout>
 
+                    <BoxView HorizontalOptions="FillAndExpand" />
+
                     <buttons:IconButton
                         Style="{DynamicResource IconButtonStyle_i2}"
-                        HorizontalOptions="EndAndExpand"
                         IconSource="ic_time_circle_40x40"
-                        xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}"/>
+                        IsVisible="{Binding OrderRegistrationViewModel.IsNoAnyHoldTime}"
+                        xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}" />
 
                     <buttons:IconButton
                         Style="{DynamicResource IconButtonStyle_i2}"

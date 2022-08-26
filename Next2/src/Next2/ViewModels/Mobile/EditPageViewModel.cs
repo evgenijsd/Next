@@ -121,13 +121,27 @@ namespace Next2.ViewModels.Mobile
         {
             await _notificationsService.CloseAllPopupAsync();
 
-            if (SelectedDish is not null)
+            if (IsInternetConnected)
             {
-                if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
+                if (SelectedDish is not null)
                 {
-                    SelectedDish.HoldTime = holdTime;
-                    TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
+                    if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
+                    {
+                        SelectedDish.HoldTime = holdTime;
+                        TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
+
+                        var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
+
+                        if (!resultOfUpdatingOrder.IsSuccess)
+                        {
+                            await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+                        }
+                    }
                 }
+            }
+            else
+            {
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 

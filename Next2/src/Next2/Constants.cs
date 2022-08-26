@@ -42,6 +42,7 @@
             public const int MAXIMUM_DISCHARGE_NUMBER = 9;
             public const int MAX_QUERY_LENGTH = 100;
             public const int ALL_TABLES = 0;
+            public const int ALL_SEATS = 0;
             public const int PHONE_LENGTH = 14;
             public const int MAX_NAME_LENGTH = 80;
             public const int MIN_HOUR = 1;

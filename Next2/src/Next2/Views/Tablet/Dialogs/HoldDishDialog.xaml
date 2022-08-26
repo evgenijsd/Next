@@ -64,9 +64,8 @@
         <Grid>
             
             <StackLayout VerticalOptions="FillAndExpand">
-            
+
                 <StackLayout
-                    Grid.Row="0"
                     HorizontalOptions="FillAndExpand"
                     Orientation="Horizontal"
                     Padding="20, 23">
@@ -85,9 +84,7 @@
                                 Binding="{Binding SelectedDish, Converter={xct:IsNullOrEmptyConverter}}"
                                 Value="True">
 
-                                <Setter
-                                    Property="Text"
-                                    Value="{xct:Translate WhatHold}" />
+                                <Setter Property="Text" Value="{xct:Translate WhatHold}" />
 
                             </DataTrigger>
 
@@ -104,176 +101,208 @@
                         Text="{Binding CurrentTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
 
                 </StackLayout>
-                      
-            <BoxView
-                HeightRequest="2"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
-            <pancakeview:PancakeView
-                CornerRadius="8"
-                Margin="20, 15, 20, 20"
-                Border="{pancakeview:BorderMarkup Thickness=2, Color={StaticResource TextAndBackgroundColor_i2}}">
+                <BoxView
+                    HeightRequest="2"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
-                <StackLayout
-                    Orientation="Horizontal"
-                    Spacing="5">
+                <pancakeview:PancakeView
+                    CornerRadius="8"
+                    Margin="20, 15, 20, 20"
+                    Border="{pancakeview:BorderMarkup Thickness=2, Color={StaticResource TextAndBackgroundColor_i2}}">
 
-                    <pancakeview:PancakeView
-                        HeightRequest="44"
-                        MinimumWidthRequest="44"
-                        WidthRequest="44"
-                        CornerRadius="8"
-                        HorizontalOptions="Start"
-                        VerticalOptions="Center"
-                        Margin="15, 10, 10, 10" >
+                    <pancakeview:PancakeView.Triggers>
 
-                        <ffimageloading:CachedImage
-                            Aspect="AspectFill"
-                            Source="{Binding SelectedDish.ImageSource}" />
+                        <DataTrigger
+                            TargetType="pancakeview:PancakeView"
+                            Binding="{Binding SelectedDish, Converter={xct:IsNullOrEmptyConverter}}"
+                            Value="True">
 
-                    </pancakeview:PancakeView>
+                            <Setter Property="Border" Value="{pancakeview:BorderMarkup Thickness=0}" />
+
+                        </DataTrigger>
+
+                    </pancakeview:PancakeView.Triggers>
 
                     <StackLayout
-                        VerticalOptions="CenterAndExpand"
-                        Spacing="6"
-                        Margin="0, 14">
+                        Orientation="Horizontal"
+                        Spacing="5">
 
-                        <Label
-                            Style="{DynamicResource LabelStyle_i3}"
+                        <pancakeview:PancakeView
+                            HeightRequest="44"
+                            MinimumWidthRequest="44"
+                            WidthRequest="44"
+                            CornerRadius="8"
+                            HorizontalOptions="Start"
                             VerticalOptions="Center"
-                            Padding="0, 0, 10, 0"
-                            Text="{Binding SelectedDish.Name}"
-                            FontSize="{DynamicResource TSize_i8}"
-                            FontFamily="Barlow-Medium"
-                            LineBreakMode="TailTruncation"  />
+                            Margin="15, 10, 10, 10">
 
-                        <Label
-                            Style="{DynamicResource LabelStyle_i3}"
-                            VerticalOptions="Center"
-                            Padding="0, 0, 10, 0"
-                            Text="{Binding ProductNames}"
-                            FontSize="{DynamicResource TSize_i9}"
-                            FontFamily="Barlow-Regular"
-                            LineBreakMode="TailTruncation" />
+                            <ffimageloading:CachedImage
+                                Aspect="AspectFill"
+                                Source="{Binding SelectedDish.ImageSource}" />
+
+                        </pancakeview:PancakeView>
+
+                        <StackLayout
+                            VerticalOptions="CenterAndExpand"
+                            Spacing="6"
+                            Margin="0, 14">
+
+                            <Label
+                                Style="{DynamicResource LabelStyle_i3}"
+                                VerticalOptions="Center"
+                                Padding="0, 0, 10, 0"
+                                Text="{Binding SelectedDish.Name}"
+                                FontSize="{DynamicResource TSize_i8}"
+                                FontFamily="Barlow-Medium"
+                                LineBreakMode="TailTruncation" />
+
+                            <Label
+                                Style="{DynamicResource LabelStyle_i3}"
+                                VerticalOptions="Center"
+                                Padding="0, 0, 10, 0"
+                                Text="{Binding ProductNames}"
+                                FontSize="{DynamicResource TSize_i9}"
+                                FontFamily="Barlow-Regular"
+                                LineBreakMode="TailTruncation" />
+
+                        </StackLayout>
 
                     </StackLayout>
 
+                </pancakeview:PancakeView>
+
+                <BoxView
+                    HeightRequest="2"
+                    Margin=" 20, 0"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+                <Label
+                    VerticalTextAlignment="Start"
+                    Padding="20, 20, 20, 15"
+                    FontFamily="Barlow-Medium"
+                    FontSize="{DynamicResource TSize_i8}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    Text="{xct:Translate SelectTime}" />
+
+                <CollectionView
+                    Margin="10, 0, 16, 0"
+                    ItemsSource="{Binding AvailableHoldingTimeInMinutes}"
+                    HeightRequest="34"
+                    HorizontalOptions="CenterAndExpand"
+                    ItemSizingStrategy="MeasureFirstItem"
+                    ItemTemplate="{DynamicResource timeItemTemplate}">
+
+                    <CollectionView.ItemsLayout>
+
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="3" />
+
+                    </CollectionView.ItemsLayout>
+
+                </CollectionView>
+
+                <StackLayout
+                    HeightRequest="190"
+                    Orientation="Horizontal"
+                    Margin="0, 30, 0, 0"
+                    HorizontalOptions="CenterAndExpand">
+
+                    <StackLayout.Triggers>
+
+                        <DataTrigger
+                            TargetType="StackLayout"
+                            Binding="{Binding SelectedHoldingTimeInMinutes, Converter={xct:IsNotNullOrEmptyConverter}}"
+                            Value="True">
+
+                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                            <Setter Property="IsEnabled" Value="False" />
+
+                        </DataTrigger>
+
+                    </StackLayout.Triggers>
+
+                    <controls:StepperNumber
+                        ImageSize="35"
+                        WidthRequest="90"
+                        FontSize="{DynamicResource TSize_i0_10}"
+                        MinNumber="0"
+                        MaxNumber="23"
+                        NumberChangedAction="{Binding UpdateHoldTime}"
+                        Number="{Binding Hour}" />
+
+                    <Label Style="{DynamicResource LabelStyle_i1}" />
+
+                    <controls:StepperNumber
+                        ImageSize="35"
+                        WidthRequest="100"
+                        FontSize="{DynamicResource TSize_i0_10}"
+                        MinNumber="0"
+                        MaxNumber="59"
+                        NumberChangedAction="{Binding UpdateHoldTime}"
+                        Number="{Binding Minute}" />
+
                 </StackLayout>
 
-            </pancakeview:PancakeView>
+                <BoxView
+                    HeightRequest="2"
+                    VerticalOptions="EndAndExpand"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
-            <BoxView
-                HeightRequest="2"
-                Margin=" 20, 0"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+                <StackLayout
+                    HeightRequest="40"
+                    MinimumHeightRequest="40"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal"
+                    Padding="20"
+                    Spacing="15">
 
-            <Label
-                VerticalTextAlignment="Start"
-                Padding="20, 20, 20, 15"
-                FontFamily="Barlow-Medium"
-                FontSize="{DynamicResource TSize_i8}"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                Text="{xct:Translate SelectTime}" />
+                    <buttons:BorderButton
+                        Style="{DynamicResource BorderButtonStyle_i2_1}"
+                        BackgroundColor="Transparent"
+                        BorderColor="{DynamicResource IndicationColor_i3}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        Text="{xct:Translate Cancel}"
+                        Command="{Binding CloseCommand}" />
 
-            <CollectionView
-                Margin="10, 0, 16, 0"
-                ItemsSource="{Binding AvailableHoldingTimeInMinutes}"
-                HeightRequest="34"
-                HorizontalOptions="CenterAndExpand"
-                ItemSizingStrategy="MeasureFirstItem"
-                ItemTemplate="{DynamicResource timeItemTemplate}" >
+                    <buttons:BorderButton
+                        Style="{DynamicResource BorderButtonStyle_i2_1}"
+                        BackgroundColor="{DynamicResource IndicationColor_i1}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        Text="{xct:Translate Hold}"
+                        Command="{Binding HoldCommand}" />
 
-                <CollectionView.ItemsLayout>
-
-                    <GridItemsLayout
-                        Orientation="Vertical"
-                        Span="3" />
-
-                </CollectionView.ItemsLayout>
-
-            </CollectionView>
-
-            <StackLayout 
-                HeightRequest="190" 
-                Orientation="Horizontal"
-                Margin="0, 30, 0, 0"
-                HorizontalOptions="CenterAndExpand">
-
-                <StackLayout.Triggers>
-                    
-                    <DataTrigger
-                        TargetType="StackLayout"
-                        Binding="{Binding SelectedHoldingTimeInMinutes, Converter={xct:IsNotNullOrEmptyConverter}}"
-                        Value="True">
-
-                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
-                        <Setter Property="IsEnabled" Value="False" />
-
-                    </DataTrigger>
-                    
-                </StackLayout.Triggers>
-
-                <controls:StepperNumber
-                    ImageSize="35"
-                    WidthRequest="90"
-                    FontSize="{DynamicResource TSize_i0_10}"
-                    MinNumber="0"
-                    MaxNumber="23"
-                    NumberChangedAction="{Binding UpdateHoldTime}"
-                    Number="{Binding Hour}" />
-
-                <Label Style="{DynamicResource LabelStyle_i1}" />
-                
-                <controls:StepperNumber
-                    ImageSize="35"
-                    WidthRequest="100"
-                    FontSize="{DynamicResource TSize_i0_10}"
-                    MinNumber="0"
-                    MaxNumber="59"
-                    NumberChangedAction="{Binding UpdateHoldTime}"
-                    Number="{Binding Minute}" />
+                </StackLayout>
 
             </StackLayout>
-            
-            <BoxView 
-                HeightRequest="2"
-                VerticalOptions="EndAndExpand"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
-
-            <StackLayout
-                HeightRequest="40"
-                MinimumHeightRequest="40"
-                HorizontalOptions="FillAndExpand"
-                Orientation="Horizontal"
-                Padding="20"
-                Spacing="15">
-
-                <buttons:BorderButton
-                    Style="{DynamicResource BorderButtonStyle_i2_1}"
-                    BackgroundColor="Transparent"
-                    BorderColor="{DynamicResource IndicationColor_i3}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    Text="{xct:Translate Cancel}"
-                    Command="{Binding CloseCommand}" />
-
-                <buttons:BorderButton
-                    Style="{DynamicResource BorderButtonStyle_i2_1}"
-                    BackgroundColor="{DynamicResource IndicationColor_i1}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    Text="{xct:Translate Hold}"
-                    Command="{Binding HoldCommand}" />
-
-            </StackLayout>
-            
-        </StackLayout>
 
             <StackLayout
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="Start"
-                Margin="20, 103, 20, 0">
+                Margin="20, 93, 20, 0">
+
+                <StackLayout.Triggers>
+                    <DataTrigger
+                        TargetType="StackLayout"
+                        Binding="{Binding SelectedDish, Converter={xct:IsNotNullOrEmptyConverter}}"
+                        Value="True">
+
+                        <Setter Property="IsVisible" Value="False" />
+
+                    </DataTrigger>
+                </StackLayout.Triggers>
+
+                <Label
+                    FontFamily="Barlow-Medium"
+                    Margin="0, 0, 0, 10"
+                    FontSize="{DynamicResource TSize_i8}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    Text="{xct:Translate HoldItemsFrom}" />
+
                 <controls:DropDownList
                     Style="{DynamicResource DropDownListStyle_i1}"
-                    HeaderTextSize="{DynamicResource TSize_i9}"                    
+                    HeaderTextSize="{DynamicResource TSize_i9}"
                     ScrollBarVisibility="Never"
                     HorizontalOptions="FillAndExpand"
                     ItemsSource="{Binding Seats}"
@@ -281,34 +310,27 @@
 
                     <controls:DropDownList.HeaderText>
                         <FormattedString>
-                            <Span
-                                Text="{xct:Translate Seat}" />
-                            <Span
-                                Text=" " />
-                            <Span
-                                Text="{Binding Seat}" />
+                            <Span Text="{xct:Translate Seat}" />
+                            <Span Text=" " />
+                            <Span Text="{Binding Seat}" />
                         </FormattedString>
                     </controls:DropDownList.HeaderText>
 
-                    <!--<controls:DropDownList.Triggers>
+                    <controls:DropDownList.Triggers>
 
-                    <DataTrigger
-                        TargetType="controls:DropDownList"
-                        Binding="{Binding SelectedTable.TableNumber}"
-                        Value="{x:Static local:Constants+Limits.ALL_TABLES}">
+                        <DataTrigger
+                            TargetType="controls:DropDownList"
+                            Binding="{Binding Seat}"
+                            Value="{x:Static local:Constants+Limits.ALL_SEATS}">
 
-                        <Setter
-                            Property="HeaderText"
-                            Value="{xct:Translate AllTables}" />
+                            <Setter Property="HeaderText" Value="{xct:Translate WholeOrder}" />
 
-                    </DataTrigger>
+                        </DataTrigger>
 
-                </controls:DropDownList.Triggers>-->
+                    </controls:DropDownList.Triggers>
 
                     <controls:DropDownList.DataTemplate>
-
-                        <DataTemplate
-                            x:DataType="{x:Type x:Int32}">
+                        <DataTemplate x:DataType="{x:Type x:Int32}">
 
                             <templates:TextItemTemplate
                                 Style="{DynamicResource StackLayoutTemplateStyle_i1}"
@@ -317,29 +339,24 @@
 
                                 <templates:TextItemTemplate.FormattedText>
                                     <FormattedString>
-                                        <Span
-                                            Text="{xct:Translate Seat}" />
-                                        <Span
-                                            Text=" " />
-                                        <Span
-                                            Text="{Binding .}" />
+                                        <Span Text="{xct:Translate Seat}" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding .}" />
                                     </FormattedString>
                                 </templates:TextItemTemplate.FormattedText>
 
-                                <!--<templates:TextItemTemplate.Triggers>
+                                <templates:TextItemTemplate.Triggers>
 
-                                <DataTrigger
-                                    TargetType="templates:TextItemTemplate"
-                                    Binding="{Binding TableNumber}"
-                                    Value="{x:Static local:Constants+Limits.ALL_TABLES}">
+                                    <DataTrigger
+                                        TargetType="templates:TextItemTemplate"
+                                        Binding="{Binding .}"
+                                        Value="{x:Static local:Constants+Limits.ALL_SEATS}">
 
-                                    <Setter
-                                        Property="FormattedText"
-                                        Value="{xct:Translate AllTables}" />
+                                        <Setter Property="FormattedText" Value="{xct:Translate WholeOrder}" />
 
-                                </DataTrigger>
+                                    </DataTrigger>
 
-                            </templates:TextItemTemplate.Triggers>-->
+                                </templates:TextItemTemplate.Triggers>
 
                             </templates:TextItemTemplate>
 
@@ -349,6 +366,7 @@
 
                 </controls:DropDownList>
             </StackLayout>
+            
         </Grid>
 
     </pancakeview:PancakeView>

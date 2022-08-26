@@ -118,6 +118,8 @@ namespace Next2.ViewModels
 
         public TimeSpan TimerHoldSelectedDish { get; set; }
 
+        public bool IsNoAnyHoldTime { get; set; } = true;
+
         public bool IsOrderWithTax { get; set; } = true;
 
         public bool IsSideMenuVisible { get; set; } = true;
@@ -359,13 +361,22 @@ namespace Next2.ViewModels
 
         private bool OnDishReleaseTimerTick()
         {
+            IsNoAnyHoldTime = true;
+
             foreach (var seat in CurrentOrder.Seats)
             {
                 foreach (var dish in seat.SelectedDishes)
                 {
-                    if (dish.HoldTime is not null && dish.HoldTime <= DateTime.Now)
+                    if (dish.HoldTime is not null)
                     {
-                        dish.HoldTime = null;
+                        if (dish.HoldTime <= DateTime.Now)
+                        {
+                            dish.HoldTime = null;
+                        }
+                        else
+                        {
+                            IsNoAnyHoldTime = false;
+                        }
                     }
                 }
             }
@@ -910,7 +921,9 @@ namespace Next2.ViewModels
                 param.Add(Constants.DialogParameterKeys.ORDER, CurrentOrder);
             }
 
-            PopupPage holdDishDialog = new Views.Tablet.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallback);
+            PopupPage holdDishDialog = App.IsTablet
+                ? new Views.Tablet.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallback)
+                : new Views.Mobile.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallback);
 
             await PopupNavigation.PushAsync(holdDishDialog);
         }
@@ -918,14 +931,51 @@ namespace Next2.ViewModels
         private async void CloseHoldDishDialogCallback(IDialogParameters parameters)
         {
             await _notificationsService.CloseAllPopupAsync();
+            bool isUpdateOrder = false;
 
-            if (SelectedDish is not null)
+            if (IsInternetConnected)
             {
                 if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
                 {
-                    SelectedDish.HoldTime = holdTime;
-                    TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
+                    if (parameters.TryGetValue(Constants.DialogParameterKeys.SEATS, out int seatNumber))
+                    {
+                        var seats = seatNumber == Constants.Limits.ALL_SEATS
+                            ? CurrentOrder?.Seats
+                            : CurrentOrder?.Seats.Where(x => x.SeatNumber == seatNumber);
+
+                        if (seats is not null)
+                        {
+                            foreach (var seat in seats)
+                            {
+                                foreach (var dish in seat.SelectedDishes)
+                                {
+                                    dish.HoldTime = holdTime;
+                                    isUpdateOrder = true;
+                                }
+                            }
+                        }
+                    }
+                    else if (SelectedDish is not null)
+                    {
+                        SelectedDish.HoldTime = holdTime;
+                        TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
+                        isUpdateOrder = true;
+                    }
                 }
+
+                if (isUpdateOrder)
+                {
+                    var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
+
+                    if (!resultOfUpdatingOrder.IsSuccess)
+                    {
+                        await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+                    }
+                }
+            }
+            else
+            {
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 

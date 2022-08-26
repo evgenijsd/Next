@@ -41,8 +41,9 @@ namespace Next2.ViewModels.Dialogs
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ORDER, out FullOrderBindableModel order))
             {
                 var seats = order.Seats.Select(x => x.SeatNumber).ToList();
-                seats.Insert(0, 0);
+                seats.Insert(0, Constants.Limits.ALL_SEATS);
                 Seats = new(seats);
+                Seat = Seats.First();
             }
         }
 
@@ -108,6 +109,11 @@ namespace Next2.ViewModels.Dialogs
             if (_holdTime > CurrentTime)
             {
                 parameters.Add(Constants.DialogParameterKeys.HOLD, _holdTime);
+
+                if (SelectedDish is null && Seat is not null)
+                {
+                    parameters.Add(Constants.DialogParameterKeys.SEATS, Seat);
+                }
             }
 
             RequestClose(parameters);

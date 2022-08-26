@@ -393,10 +393,12 @@
 
                 </StackLayout>
 
+                <BoxView HorizontalOptions="FillAndExpand" />
+
                 <buttons:IconButton
                     Style="{DynamicResource IconButtonStyle_i2}"
-                    HorizontalOptions="EndAndExpand"
                     IconSource="ic_time_circle_40x40"
+                    IsVisible="{Binding IsNoAnyHoldTime}"
                     xct:TouchEffect.Command="{Binding OpenHoldSelectionCommand}" />
 
                 <buttons:IconButton
