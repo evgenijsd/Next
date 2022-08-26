@@ -1,4 +1,4 @@
-﻿using Next2.Models;
+﻿using Next2.Models.Bindables;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -11,12 +11,12 @@ namespace Next2.ViewModels.Tablet.Dialogs
     public class InfoAboutReservationDialogViewModel : BindableBase
     {
         public InfoAboutReservationDialogViewModel(
-            DialogParameters param,
+            DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.MODEL, out ReservationModel reservation))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.MODEL, out ReservationBindableModel reservation))
             {
                 Reservation = reservation;
             }
@@ -24,7 +24,7 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         #region -- Public properties --
 
-        public ReservationModel Reservation { get; set; } = new();
+        public ReservationBindableModel Reservation { get; set; } = new();
 
         public Action<IDialogParameters> RequestClose;
 
@@ -43,24 +43,24 @@ namespace Next2.ViewModels.Tablet.Dialogs
 
         private Task OnRemoveCommandAsync()
         {
-            var param = new DialogParameters()
+            var parameters = new DialogParameters()
             {
                 { Constants.DialogParameterKeys.ACTION, Constants.DialogParameterKeys.REMOVE },
             };
 
-            RequestClose(param);
+            RequestClose(parameters);
 
             return Task.CompletedTask;
         }
 
         private Task OnAssignCommandAsync()
         {
-            var param = new DialogParameters()
+            var parameters = new DialogParameters()
             {
                 { Constants.DialogParameterKeys.ACTION, Constants.DialogParameterKeys.ASSIGN },
             };
 
-            RequestClose(param);
+            RequestClose(parameters);
 
             return Task.CompletedTask;
         }

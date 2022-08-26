@@ -11,6 +11,18 @@ namespace Next2.Controls.Templates
 
         #region -- Public properties --
 
+        public static readonly BindableProperty TextProperty = BindableProperty.Create(
+            propertyName: nameof(Text),
+            returnType: typeof(string),
+            declaringType: typeof(TextItemTemplate),
+            defaultBindingMode: BindingMode.OneWay);
+
+        public string Text
+        {
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
+        }
+
         public static readonly BindableProperty FormattedTextProperty = BindableProperty.Create(
             propertyName: nameof(FormattedText),
             returnType: typeof(FormattedString),

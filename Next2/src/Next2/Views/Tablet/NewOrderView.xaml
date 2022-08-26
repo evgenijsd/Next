@@ -452,9 +452,9 @@
                                 </CollectionView.EmptyView>
 
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate>
+                                    <DataTemplate x:DataType="dto:DishModelDTO">
+                                        
                                         <templates:DishItemTemplate
-                                            x:DataType="dto:DishModelDTO"
                                             xct:TouchEffect.Command="{Binding TapDishCommand, Source={RelativeSource AncestorType={x:Type tabletViewModels:NewOrderViewModel}}}"
                                             xct:TouchEffect.CommandParameter="{Binding .}"/>
 
@@ -1167,13 +1167,13 @@
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedTable}"
                 ItemsSource="{Binding OrderRegistrationViewModel.Tables}">
 
-                <controls:DropDownList.HeaderText>
+                <controls:DropDownList.HeaderFormattedText>
                     <FormattedString>
                         <Span Text="{xct:Translate Table}"/>
                         <Span Text=" "/>
                         <Span Text="{Binding OrderRegistrationViewModel.SelectedTable.TableNumber}"/>
                     </FormattedString>
-                </controls:DropDownList.HeaderText>
+                </controls:DropDownList.HeaderFormattedText>
 
                 <controls:DropDownList.Triggers>
                         
@@ -1182,7 +1182,7 @@
                         Binding="{Binding OrderRegistrationViewModel.SelectedTable, Converter={xct:IsNullOrEmptyConverter}}"
                         Value="True">
 
-                        <Setter Property="HeaderText" Value="{xct:Translate NoTablesAvailable}"/>
+                        <Setter Property="HeaderFormattedText" Value="{xct:Translate NoTablesAvailable}"/>
                         <Setter Property="IsEnabled" Value="False"/>
                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
                         

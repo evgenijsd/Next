@@ -19,10 +19,10 @@ namespace Next2.ViewModels.Dialogs
         private EmployeeModelDTO? _tempEmployeeToAssignFrom;
 
         public TableReassignmentDialogViewModel(
-            DialogParameters param,
+            DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
-            LoadPageData(param);
+            LoadPageData(parameters);
 
             RequestClose = requestClose;
 
@@ -77,9 +77,9 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private helpers --
 
-        private void LoadPageData(IDialogParameters param)
+        private void LoadPageData(IDialogParameters parameters)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.EMPLOYEES, out IEnumerable<EmployeeModelDTO> employees))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.EMPLOYEES, out IEnumerable<EmployeeModelDTO> employees))
             {
                 Employees = new(employees);
             }

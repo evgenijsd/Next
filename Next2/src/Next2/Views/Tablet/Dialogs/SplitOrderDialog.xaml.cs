@@ -8,12 +8,12 @@ namespace Next2.Views.Tablet.Dialogs
     public partial class SplitOrderDialog : PopupPage
     {
         public SplitOrderDialog(
-            DialogParameters param,
+            DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new SplitOrderDialogViewModel(param, requestClose);
+            BindingContext = new SplitOrderDialogViewModel(parameters, requestClose);
         }
     }
 }

@@ -4,6 +4,7 @@ using Next2.Services.Employees;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
+using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
@@ -54,6 +55,9 @@ namespace Next2.ViewModels
         private ICommand? _logOutCommand;
         public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand? _programDeviceCommand;
+        public ICommand ProgramDeviceCommand => _programDeviceCommand ??= new AsyncCommand(OnProgramDeviceCommandAsync, allowsMultipleExecutions: false);
+
         private ICommand? _changeStateCommand;
         public ICommand ChangeStateCommand => _changeStateCommand ??= new AsyncCommand<ESettingsPageState>(OnChangeStateCommand, allowsMultipleExecutions: false);
 
@@ -84,27 +88,38 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
+        private Task OnProgramDeviceCommandAsync()
+        {
+            PopupPage page = new ProgramDeviceDialog(CloseProgramDeviceDialogCallback);
+            return PopupNavigation.PushAsync(page);
+        }
+
+        private async void CloseProgramDeviceDialogCallback(IDialogParameters dialogResult)
+        {
+            await PopupNavigation.PopAsync();
+        }
+
         private Task OnChangeStateCommand(ESettingsPageState state)
         {
             if (!IsLoading)
             {
                 PageState = state;
+            }
 
-                switch (state)
-                {
-                    case ESettingsPageState.Default:
-                        Title = LocalizationResourceManager.Current["Settings"];
-                        break;
-                    case ESettingsPageState.BackOffice:
-                        Title = LocalizationResourceManager.Current["BackOffice"];
-                        break;
-                    case ESettingsPageState.PrintReceipt:
-                        Title = LocalizationResourceManager.Current["PrintReceipt"];
-                        break;
-                    case ESettingsPageState.ProgramDevice:
-                        Title = LocalizationResourceManager.Current["ProgramDevice"];
-                        break;
-                }
+            switch (state)
+            {
+                case ESettingsPageState.Default:
+                    Title = LocalizationResourceManager.Current["Settings"];
+                    break;
+                case ESettingsPageState.ReAssignTable:
+                    Title = LocalizationResourceManager.Current["ReAssignTable"];
+                    break;
+                case ESettingsPageState.BackOffice:
+                    Title = LocalizationResourceManager.Current["BackOffice"];
+                    break;
+                case ESettingsPageState.PrintReceipt:
+                    Title = LocalizationResourceManager.Current["PrintReceipt"];
+                    break;
             }
 
             return Task.CompletedTask;

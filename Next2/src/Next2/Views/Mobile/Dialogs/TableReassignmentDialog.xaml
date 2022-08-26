@@ -130,7 +130,7 @@
                 VerticalOptions="Start"
                 Margin="24, 0"
                 ScrollBarVisibility="Never"
-                HeaderText="{xct:Translate SelectTable}"                        
+                HeaderFormattedText="{xct:Translate SelectTable}"                        
                 SelectedItem="{Binding SelectedTable}"
                 ItemsSource="{Binding Tables}">
 
@@ -154,7 +154,7 @@
 
                     <DataTrigger TargetType="controls:DropDownList" Binding="{Binding SelectedTable, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
 
-                        <Setter Property="HeaderText">
+                        <Setter Property="HeaderFormattedText">
                             <FormattedString>
                                 <Span Text="{xct:Translate Table}"/>
                                 <Span Text=" "/>

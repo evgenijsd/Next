@@ -7,11 +7,13 @@ namespace Next2.Views.Mobile.Dialogs
 {
     public partial class MovedOrderToOrderTabsDialog : PopupPage
     {
-        public MovedOrderToOrderTabsDialog(DialogParameters param, Action<IDialogParameters> requestClose)
+        public MovedOrderToOrderTabsDialog(
+            DialogParameters parameters,
+            Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new ConfirmViewModel(param, requestClose);
+            BindingContext = new ConfirmViewModel(parameters, requestClose);
         }
     }
 }

@@ -7,11 +7,13 @@ namespace Next2.Views.Tablet.Dialogs
 {
     public partial class InfoAboutReservationDialog : PopupPage
     {
-        public InfoAboutReservationDialog(DialogParameters param, Action<IDialogParameters> requestClose)
+        public InfoAboutReservationDialog(
+            DialogParameters parameters,
+            Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new InfoAboutReservationDialogViewModel(param, requestClose);
+            BindingContext = new InfoAboutReservationDialogViewModel(parameters, requestClose);
         }
     }
 }

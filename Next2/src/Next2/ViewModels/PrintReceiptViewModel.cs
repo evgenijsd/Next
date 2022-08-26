@@ -107,12 +107,12 @@ namespace Next2.ViewModels
 
         private Task OnSelectingDateCommandAsync()
         {
-            var param = new DialogParameters()
+            var parameters = new DialogParameters()
             {
                 { Constants.DialogParameterKeys.SELECTED_DATE, SelectedDate },
             };
 
-            var popupPage = new SelectDateDialog(param, CloseDialogCallBack);
+            var popupPage = new SelectDateDialog(parameters, CloseDialogCallBack);
 
             return PopupNavigation.PushAsync(popupPage);
         }

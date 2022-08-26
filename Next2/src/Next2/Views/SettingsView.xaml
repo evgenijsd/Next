@@ -16,7 +16,7 @@
     x:DataType="viewModels:SettingsViewModel">
 
     <Grid.Resources>
-        <Style x:Key="IconTextButtonStyle" TargetType="buttons:IconTextButton">
+        <Style TargetType="buttons:IconTextButton" x:Key="IconTextButtonStyle">
             <Setter Property="HeightRequest" Value="36" />
             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
             <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
@@ -39,8 +39,8 @@
             <ffimageloading:CachedImage
                 IsVisible="{Binding PageState, Converter={xct:NotEqualConverter}, ConverterParameter={Static enums:ESettingsPageState.Default}}"
                 Source="ic_arrow_left_tail_24x24.png"
-                xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.Default}"
-                xct:TouchEffect.Command="{Binding ChangeStateCommand}" />
+                xct:TouchEffect.Command="{Binding ChangeStateCommand}"
+                xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.Default}" />
 
             <Label
                 VerticalTextAlignment="Center"
@@ -108,8 +108,7 @@
                         Padding="12"
                         Text="{xct:Translate ProgramDevice}"
                         Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
-                        xct:TouchEffect.Command="{Binding ChangeStateCommand}"
-                        xct:TouchEffect.CommandParameter="{Static enums:ESettingsPageState.ProgramDevice}" />
+                        xct:TouchEffect.Command="{Binding ProgramDeviceCommand}" />
 
                 </StackLayout>
 

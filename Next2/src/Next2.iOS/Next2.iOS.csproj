@@ -28,7 +28,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>x86_64</MtouchArch>
-    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <OptimizePNGs>true</OptimizePNGs>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -1712,7 +1712,9 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_primary_arrow_right_circle_56x56%403x.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BundleResource Include="Resources\pic_settings_r.png" />
+  </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ic_paper_24x24.png" />
   </ItemGroup>
@@ -1730,5 +1732,11 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ic_paper_primary_24x24%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pic_settings_r%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pic_settings_r%403x.png" />
   </ItemGroup>
 </Project>

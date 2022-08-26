@@ -343,11 +343,11 @@
             </controls:CustomCollectionView.Effects>
 
             <controls:CustomCollectionView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="dto:DishModelDTO">
+                    
                     <templates:DishItemTemplate
                         xct:TouchEffect.Command="{Binding TapDishCommand, Source={RelativeSource AncestorType={x:Type viewModels:ExpandPageViewModel}}}"
-                        xct:TouchEffect.CommandParameter="{Binding .}"
-                        x:DataType="dto:DishModelDTO"/>
+                        xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                 </DataTemplate>
             </controls:CustomCollectionView.ItemTemplate>
