@@ -377,9 +377,8 @@ namespace Next2.ViewModels
 
         private Task UpdateDishGroupsAsync()
         {
-            var updatedDishesGroupedBySeats = new ObservableCollection<DishesGroupedBySeat>();
-
             var selectedDish = SelectedDish = null;
+            var updatedDishesGroupedBySeats = new ObservableCollection<DishesGroupedBySeat>();
 
             foreach (var seat in _orderService.CurrentOrder.Seats)
             {
@@ -389,14 +388,14 @@ namespace Next2.ViewModels
 
                 if (!App.IsTablet)
                 {
+                    SelectedDish = null;
+
                     foreach (var dish in dishes)
                     {
                         dish.SeatNumber = seat.SeatNumber;
                         dish.IsSeatSelected = seat.Checked;
                         dish.SelectDishCommand = _selectDishCommand;
                     }
-
-                    SelectedDish = null;
                 }
                 else
                 {
@@ -414,7 +413,7 @@ namespace Next2.ViewModels
                         }
                     }
 
-                    if (_lastSelectedSeat is not null && selectedDish is null)
+                    if (selectedDish is null && _lastSelectedSeat is not null)
                     {
                         SelectedDish = _lastSelectedSeat;
                     }
@@ -427,7 +426,7 @@ namespace Next2.ViewModels
                     SelectedDish = selectedDish;
                 }
 
-                var seatGroup = new DishesGroupedBySeat(seat.SeatNumber, dishes)
+                var dishesGroup = new DishesGroupedBySeat(seat.SeatNumber, dishes)
                 {
                     Checked = seat.Checked,
                     IsFirstSeat = seat.IsFirstSeat,
@@ -436,7 +435,7 @@ namespace Next2.ViewModels
                     RemoveOrderCommand = _removeOrderCommand,
                 };
 
-                updatedDishesGroupedBySeats.Add(seatGroup);
+                updatedDishesGroupedBySeats.Add(dishesGroup);
             }
 
             DishesGroupedBySeats = updatedDishesGroupedBySeats;
