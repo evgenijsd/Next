@@ -514,7 +514,7 @@ namespace Next2.ViewModels
                 var seatNumber = seatGroup?.SeatNumber ?? 0;
                 var seat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == seatNumber);
 
-                if (seat is not null && seatNumber != _orderService.CurrentSeat?.SeatNumber)
+                if (seat is not null)
                 {
                     seat.Checked = true;
 
@@ -643,6 +643,8 @@ namespace Next2.ViewModels
                         await RefreshCurrentOrderAsync();
                     }
                 }
+
+                await UpdateDishGroupsAsync();
 
                 if (!App.IsTablet && !CurrentOrder.Seats.Any())
                 {
