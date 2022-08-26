@@ -3,7 +3,6 @@ using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Next2.Extensions
@@ -12,9 +11,7 @@ namespace Next2.Extensions
     {
         public static UpdateOrderCommand ToUpdateOrderCommand(this FullOrderBindableModel order)
         {
-            var seats = order.Seats.Select(row => row.ToIncomingSeatModel());
-
-            var updateOrderCommand = new UpdateOrderCommand()
+            return new UpdateOrderCommand()
             {
                 Id = order.Id,
                 Number = order.Number,
@@ -34,19 +31,15 @@ namespace Next2.Extensions
                 IsCashPayment = order.IsCashPayment,
                 CustomerId = order.Customer?.Id,
                 EmployeeId = order.EmployeeId ?? string.Empty,
-                Seats = seats,
+                Seats = order.Seats.Select(row => row.ToIncomingSeatModel()),
             };
-
-            return updateOrderCommand;
         }
 
         public static UpdateOrderCommand ToUpdateOrderCommand(this OrderModelDTO order)
         {
-            var seats = order.Seats.Select(row => row.ToIncomingSeatModel());
-
             Enum.TryParse(order.OrderType, out EOrderType type);
 
-            UpdateOrderCommand command = new()
+            return new()
             {
                 Id = order.Id,
                 Number = order.Number,
@@ -72,15 +65,13 @@ namespace Next2.Extensions
                     ? null
                     : order.Customer?.Id,
                 EmployeeId = order.EmployeeId ?? string.Empty,
-                Seats = seats,
+                Seats = order.Seats.Select(row => row.ToIncomingSeatModel()),
             };
-
-            return command;
         }
 
         public static OrderModelDTO ToOrderModelDTO(this FullOrderBindableModel order)
         {
-            OrderModelDTO orderModelDTO = new()
+            return new()
             {
                 Id = order.Id,
                 Number = order.Number,
@@ -104,37 +95,15 @@ namespace Next2.Extensions
                 SubTotalPrice = order.SubTotalPrice,
                 TotalPrice = order.TotalPrice,
                 EmployeeId = order.EmployeeId,
+                Seats = order.Seats is null
+                ? Enumerable.Empty<SeatModelDTO>()
+                : order.Seats.OrderBy(x => x.SeatNumber).Select(row => row.ToSeatModelDTO()),
             };
-
-            List<SeatModelDTO> seatsModels = order.Seats is null
-                ? new()
-                : new(order.Seats.OrderBy(x => x.SeatNumber).Select(row => new SeatModelDTO()
-                {
-                    Number = row.SeatNumber,
-                    SelectedDishes = row?.SelectedDishes.Select(row => new SelectedDishModelDTO()
-                    {
-                        Id = row.Id,
-                        DishId = row.DishId,
-                        Name = row.Name,
-                        ImageSource = row.ImageSource,
-                        TotalPrice = row.TotalPrice,
-                        IsSplitted = row.IsSplitted,
-                        SplitPrice = row.SplitPrice,
-                        HoldTime = row.HoldTime,
-                        DiscountPrice = row.DiscountPrice,
-                        SelectedDishProportion = row.SelectedDishProportion?.Clone(),
-                        SelectedProducts = row?.SelectedProducts.Select(row => row.ToSelectedProductModelDTO()),
-                    }),
-                }));
-
-            orderModelDTO.Seats = seatsModels;
-
-            return orderModelDTO;
         }
 
         public static FullOrderBindableModel ToFullOrderBindableModel(this OrderModelDTO order)
         {
-            FullOrderBindableModel fullOrderBindableModel = new()
+            var fullOrderBindableModel = new FullOrderBindableModel()
             {
                 Id = order.Id,
                 Number = order.Number,
@@ -161,17 +130,10 @@ namespace Next2.Extensions
                     ? (decimal)order.SubTotalPrice * order.TaxCoefficient
                     : new(),
                 EmployeeId = order.EmployeeId,
+                Seats = order.Seats is null
+                    ? new()
+                    : new(order.Seats.OrderBy(x => x.Number).Select(row => row.ToSeatBindableModel())),
             };
-
-            fullOrderBindableModel.Seats = order.Seats is null
-                ? new()
-                : new(order.Seats.OrderBy(x => x.Number).Select(row => new SeatBindableModel()
-                {
-                    SeatNumber = row.Number,
-                    IsFirstSeat = row.Number == 1,
-                    Checked = row.Number == 1,
-                    SelectedDishes = new(row?.SelectedDishes.Select(row => row.ToDishBindableModel())),
-                }));
 
             foreach (var seat in fullOrderBindableModel.Seats)
             {

@@ -16,7 +16,7 @@ namespace Next2.Extensions
                 Id = product.Id,
                 Product = product.Clone(),
                 Price = product.DefaultPrice,
-                SelectedOptions = product.Options?.FirstOrDefault(),
+                SelectedOptions = product.Options?.FirstOrDefault().Clone(),
                 SelectedIngredients = new(ingredients),
                 AddedIngredients = new(ingredients),
             };
@@ -26,7 +26,7 @@ namespace Next2.Extensions
         {
             return new()
             {
-                ProductId = product.Product.Id,
+                ProductId = product.Id,
                 Comment = new(product.Comment),
                 SelectedOptionsId = product.SelectedOptions?.Select(x => x.Id),
                 SelectedIngredientsId = product.SelectedIngredients?.Select(x => x.Id),
@@ -54,7 +54,7 @@ namespace Next2.Extensions
         {
             return new()
             {
-                Id = product.Product.Id,
+                Id = product.Id,
                 Comment = new(product.Comment),
                 Product = product.Product.Clone(),
                 SelectedOptions = product.SelectedOptions == null
@@ -72,7 +72,7 @@ namespace Next2.Extensions
         {
             return new()
             {
-                ProductId = product.Product.Id,
+                ProductId = product.Id,
                 Comment = new(product.Comment),
                 SelectedOptionsId = product.SelectedOptions is not null
                             ? new Guid[1] { product.SelectedOptions.Id }

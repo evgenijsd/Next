@@ -1,7 +1,6 @@
 ﻿using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Next2.Extensions
@@ -31,23 +30,10 @@ namespace Next2.Extensions
             return new()
             {
                 SeatNumber = seat.Number,
+                Checked = seat.Number == 1,
+                IsFirstSeat = seat.Number == 1,
                 SelectedDishes = new(seat.SelectedDishes.Select(row => row.ToDishBindableModel())),
             };
-        }
-
-        public static IEnumerable<SeatBindableModel> ToSeatsBindableModels(this IEnumerable<SeatModelDTO> seats)
-        {
-            return seats.Select(x => new SeatBindableModel()
-            {
-                IsFirstSeat = x.Id == seats.First().Id,
-                SeatNumber = x.Number,
-                SelectedDishes = new(x.SelectedDishes.Select(y => y.ToDishBindableModel())),
-            });
-        }
-
-        public static IEnumerable<SeatModelDTO>? ToSeatsModelsDTO(this IEnumerable<SeatBindableModel> seats)
-        {
-            return seats.Select(x => x.ToSeatModelDTO());
         }
 
         public static SeatModelDTO ToSeatModelDTO(this SeatBindableModel seat)
@@ -55,20 +41,7 @@ namespace Next2.Extensions
             return new()
             {
                 Number = seat.SeatNumber,
-                SelectedDishes = seat.SelectedDishes?.Select(y => new SelectedDishModelDTO
-                {
-                    Id = y.Id,
-                    DiscountPrice = y.DiscountPrice,
-                    DishId = y.DishId,
-                    ImageSource = y.ImageSource,
-                    Name = y.Name,
-                    IsSplitted = y.IsSplitted,
-                    SplitPrice = y.SplitPrice,
-                    HoldTime = y.HoldTime,
-                    TotalPrice = y.TotalPrice,
-                    SelectedDishProportion = y.SelectedDishProportion.Clone(),
-                    SelectedProducts = y.SelectedProducts?.Select(x => x.ToSelectedProductModelDTO()),
-                }),
+                SelectedDishes = seat.SelectedDishes?.Select(row => row.ToSelectedDishModelDTO()),
             };
         }
     }

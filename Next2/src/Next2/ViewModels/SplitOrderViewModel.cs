@@ -82,7 +82,7 @@ namespace Next2.ViewModels
         {
             if (OriginalSeats is not null)
             {
-                var seats = OriginalSeats.ToSeatsBindableModels().OrderBy(x => x.SeatNumber);
+                var seats = OriginalSeats.Select(x => x.ToSeatBindableModel()).OrderBy(x => x.SeatNumber);
 
                 InitSeats(seats);
             }
@@ -92,7 +92,7 @@ namespace Next2.ViewModels
         {
             if (seats is null)
             {
-                seats = Order.Seats?.ToSeatsBindableModels().OrderBy(x => x.SeatNumber);
+                seats = Order.Seats?.Select(x => x.ToSeatBindableModel()).OrderBy(x => x.SeatNumber);
             }
 
             Seats = new(seats);
@@ -117,6 +117,7 @@ namespace Next2.ViewModels
             if (App.IsTablet)
             {
                 var firstSeat = Seats.FirstOrDefault(x => x.SelectedDishes.Count > 0);
+
                 _selectedSeatNumber = firstSeat.SeatNumber;
                 firstSeat.SelectedItem = firstSeat.SelectedDishes.FirstOrDefault();
                 SelectedDish = firstSeat.SelectedItem;
@@ -242,7 +243,7 @@ namespace Next2.ViewModels
 
         private async Task UpdateOrderAsync()
         {
-            Order.Seats = Seats.ToSeatsModelsDTO();
+            Order.Seats = Seats.Select(x => x.ToSeatModelDTO());
 
             var orderUpdateResult = await _orderService.UpdateOrderAsync(Order);
 
@@ -282,7 +283,7 @@ namespace Next2.ViewModels
             foreach (var group in splittedBySeatsGroups)
             {
                 var seats = Seats.Where(s => group.Any(x => x == s.SeatNumber));
-                var outSeats = seats.ToSeatsModelsDTO();
+                var outSeats = seats.Select(x => x.ToSeatModelDTO());
 
                 bool isSuccessfull = false;
 

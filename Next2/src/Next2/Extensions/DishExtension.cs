@@ -39,7 +39,7 @@ namespace Next2.Extensions
 
         public static DishBindableModel ToDishBindableModel(this SelectedDishModelDTO dish)
         {
-            return new DishBindableModel()
+            return new()
             {
                 Id = dish.Id,
                 DishId = dish.DishId,
@@ -57,7 +57,7 @@ namespace Next2.Extensions
 
         public static IncomingSelectedDishModel ToIncomingSelectedDishModel(this DishBindableModel dish)
         {
-            return new IncomingSelectedDishModel()
+            return new()
             {
                 DishId = dish.DishId,
                 SelectedDishProportionId = dish.SelectedDishProportion.Id,
@@ -66,6 +66,24 @@ namespace Next2.Extensions
                 SplitPrice = dish.SplitPrice,
                 HoldTime = dish.HoldTime,
                 SelectedProducts = dish.SelectedProducts.Select(x => x.ToIncomingSelectedProductModel()),
+            };
+        }
+
+        public static SelectedDishModelDTO ToSelectedDishModelDTO(this DishBindableModel dish)
+        {
+            return new()
+            {
+                Id = dish.Id,
+                DishId = dish.DishId,
+                Name = dish.Name,
+                ImageSource = dish.ImageSource,
+                TotalPrice = dish.TotalPrice,
+                DiscountPrice = dish.DiscountPrice,
+                SplitPrice = dish.SplitPrice,
+                IsSplitted = dish.IsSplitted,
+                HoldTime = dish.HoldTime,
+                SelectedDishProportion = dish.SelectedDishProportion.Clone(),
+                SelectedProducts = dish.SelectedProducts?.Select(x => x.ToSelectedProductModelDTO()),
             };
         }
     }
