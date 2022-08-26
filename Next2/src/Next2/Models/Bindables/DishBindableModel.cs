@@ -29,7 +29,7 @@ namespace Next2.Models.Bindables
 
         public DateTime? HoldTime { get; set; }
 
-        public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
+        public DishProportionModelDTO? SelectedDishProportion { get; set; } = new();
 
         public ObservableCollection<ProductBindableModel>? SelectedProducts { get; set; }
 
@@ -61,23 +61,8 @@ namespace Next2.Models.Bindables
                 IsSeatSelected = IsSeatSelected,
                 SeatNumber = SeatNumber,
                 SelectDishCommand = SelectDishCommand,
-                DishProportions = DishProportions?.Select(x => new SimpleDishProportionModelDTO
-                {
-                    Id = x.Id,
-                    PriceRatio = x.PriceRatio,
-                    ProportionId = x.ProportionId,
-                    ProportionName = x?.ProportionName,
-                }),
-                SelectedDishProportion = new DishProportionModelDTO
-                {
-                    Id = SelectedDishProportion.Id,
-                    PriceRatio = SelectedDishProportion.PriceRatio,
-                    Proportion = new ProportionModelDTO
-                    {
-                        Id = SelectedDishProportion.Proportion.Id,
-                        Name = SelectedDishProportion.Proportion?.Name,
-                    },
-                },
+                DishProportions = DishProportions?.Select(x => x.Clone()),
+                SelectedDishProportion = SelectedDishProportion?.Clone(),
                 SelectedProducts = SelectedProducts,
                 ReplacementProducts = ReplacementProducts,
             };

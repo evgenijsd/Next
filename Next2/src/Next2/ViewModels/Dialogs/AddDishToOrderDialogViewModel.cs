@@ -1,4 +1,4 @@
-﻿using Next2.Models.API;
+﻿using Next2.Extensions;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Prism.Mvvm;
@@ -30,16 +30,7 @@ namespace Next2.ViewModels.Dialogs
 
                     if (selectedDishProportion is not null)
                     {
-                        Dish.SelectedDishProportion = new()
-                        {
-                            Id = selectedDishProportion.Id,
-                            PriceRatio = selectedDishProportion.PriceRatio,
-                            Proportion = new ProportionModelDTO()
-                            {
-                                Id = selectedDishProportion.Id,
-                                Name = selectedDishProportion.ProportionName,
-                            },
-                        };
+                        Dish.SelectedDishProportion = selectedDishProportion.ToDishProportionModelDTO();
                     }
 
                     if (Dish.SelectedProducts is not null)
@@ -84,39 +75,7 @@ namespace Next2.ViewModels.Dialogs
             if (parameters.TryGetValue(Constants.DialogParameterKeys.DISH, out DishModelDTO dish)
                 && parameters.TryGetValue(Constants.DialogParameterKeys.DISCOUNT_PRICE, out decimal discountPrice))
             {
-                Dish = new()
-                {
-                    Id = dish.Id,
-                    DishId = dish.Id,
-                    Name = dish.Name,
-                    ImageSource = dish.ImageSource,
-                    TotalPrice = dish.OriginalPrice,
-                    DiscountPrice = discountPrice,
-                    DishProportions = dish.DishProportions,
-                    ReplacementProducts = dish.ReplacementProducts,
-                    SelectedProducts = new(dish.ReplacementProducts.SelectMany(x => x.Products.Where(product => product.Id == x.ProductId)).Select(row => new ProductBindableModel()
-                    {
-                        Id = row.Id,
-                        SelectedOptions = row.Options.FirstOrDefault(),
-                        AddedIngredients = new(row.Ingredients.Select(row => new SimpleIngredientModelDTO()
-                        {
-                            Id = row.Id,
-                            ImageSource = row.ImageSource,
-                            IngredientsCategory = row.IngredientsCategory,
-                            Name = row.Name,
-                            Price = row.Price,
-                        })),
-                        Product = new()
-                        {
-                            Id = row.Id,
-                            DefaultPrice = row.DefaultPrice,
-                            ImageSource = row.ImageSource,
-                            Ingredients = row.Ingredients,
-                            Name = row.Name,
-                            Options = row.Options,
-                        },
-                    })),
-                };
+                Dish = dish.ToDishBindableModel();
 
                 Proportions = dish.DishProportions.Select(row => new ProportionBindableModel()
                 {

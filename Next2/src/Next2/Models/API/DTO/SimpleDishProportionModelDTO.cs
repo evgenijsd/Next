@@ -12,5 +12,16 @@ namespace Next2.Models.API.DTO
         public Guid ProportionId { get; set; }
 
         public string? ProportionName { get; set; }
+
+        public SimpleDishProportionModelDTO Clone()
+        {
+            return new()
+            {
+                Id = Id,
+                PriceRatio = PriceRatio,
+                ProportionId = ProportionId,
+                ProportionName = ProportionName,
+            };
+        }
     }
 }

@@ -622,18 +622,9 @@ namespace Next2.Services.Order
 
             try
             {
-                var selectedProportionPriceRatio = selectedProportion.PriceRatio;
+                dish.SelectedDishProportion = selectedProportion.ToDishProportionModelDTO();
 
-                dish.SelectedDishProportion = new DishProportionModelDTO()
-                {
-                    Id = selectedProportion.Id,
-                    PriceRatio = selectedProportionPriceRatio,
-                    Proportion = new ProportionModelDTO()
-                    {
-                        Id = selectedProportion.ProportionId,
-                        Name = selectedProportion.ProportionName,
-                    },
-                };
+                var selectedProportionPriceRatio = selectedProportion.PriceRatio;
 
                 foreach (var product in dish.SelectedProducts ?? new())
                 {

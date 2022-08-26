@@ -8,8 +8,9 @@ namespace Next2.Extensions
 {
     public static class SeatExtension
     {
-        public static SeatBindableModel ToSeatBindableModel(this SeatModelDTO seat) =>
-            new()
+        public static SeatBindableModel ToSeatBindableModel(this SeatModelDTO seat)
+        {
+            return new()
             {
                 SeatNumber = seat.Number,
                 SelectedDishes = new ObservableCollection<DishBindableModel>(
@@ -20,6 +21,7 @@ namespace Next2.Extensions
                         Name = y.Name,
                     })),
             };
+        }
 
         public static IEnumerable<SeatBindableModel> ToSeatsBindableModels(this IEnumerable<SeatModelDTO>? seats)
         {
@@ -81,28 +83,7 @@ namespace Next2.Extensions
                     {
                         Id = x.Id,
                         Comment = x.Comment,
-                        Product = new()
-                        {
-                            Id = x.Product.Id,
-                            DefaultPrice = x.Product.DefaultPrice,
-                            ImageSource = x.Product?.ImageSource,
-                            Name = x.Product?.Name,
-                            Options = x.Product?.Options?.Select(x => new OptionModelDTO
-                            {
-                                Id = x.Id,
-                                Name = x.Name,
-                            }),
-                            Ingredients = x.Product?.Ingredients.Select(x => new SimpleIngredientModelDTO
-                            {
-                                Id = x.Id,
-                                Name = x.Name,
-                                ImageSource = x.ImageSource,
-                                IngredientsCategory = x.IngredientsCategory is null
-                                    ? new()
-                                    : x.IngredientsCategory,
-                                Price = x.Price,
-                            }),
-                        },
+                        Product = x.Product?.Clone(),
                         AddedIngredients = x.AddedIngredients,
                         ExcludedIngredients = x.ExcludedIngredients,
                         SelectedIngredients = x.SelectedIngredients,

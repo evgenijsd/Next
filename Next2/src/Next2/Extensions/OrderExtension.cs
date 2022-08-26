@@ -198,45 +198,17 @@ namespace Next2.Extensions
                                 DefaultPrice = row.Product.DefaultPrice,
                                 Name = row.Product.Name,
                                 ImageSource = row.Product.ImageSource,
-                                Ingredients = row.Product?.Ingredients.Select(row => new SimpleIngredientModelDTO()
-                                {
-                                    Id = row.Id,
-                                    Name = row.Name,
-                                    Price = row.Price,
-                                    ImageSource = row.ImageSource,
-                                    IngredientsCategory = row.IngredientsCategory,
-                                }),
-                                Options = row?.Product?.Options,
+                                Ingredients = row.Product?.Ingredients.Select(row => row.Clone()),
+                                Options = row?.Product?.Options?.Select(row => row.Clone()),
                             },
                             SelectedOptions = row?.SelectedOptions == null
                                 ? null
                                 : new OptionModelDTO[] { row.SelectedOptions },
                             SelectedIngredients = row?.SelectedOptions == null
                                 ? null
-                                : row?.SelectedIngredients?.Select(row => new SimpleIngredientModelDTO()
-                                {
-                                    Id = row.Id,
-                                    Name = row.Name,
-                                    Price = row.Price,
-                                    ImageSource = row.ImageSource,
-                                    IngredientsCategory = row.IngredientsCategory,
-                                }),
-                            AddedIngredients = row?.AddedIngredients?.Select(row => new SimpleIngredientModelDTO()
-                            {
-                                Id = row.Id,
-                                Name = row.Name,
-                                Price = row.Price,
-                                ImageSource = row.ImageSource,
-                                IngredientsCategory = row.IngredientsCategory,
-                            }),
-                            ExcludedIngredients = row?.ExcludedIngredients?.Select(row => new SimpleIngredientModelDTO()
-                            {
-                                Id = row.Id,
-                                Name = row.Name,
-                                Price = row.Price,
-                                ImageSource = row.ImageSource,
-                                IngredientsCategory = row.IngredientsCategory,
-                            }),
+                                : row?.SelectedIngredients?.Select(row => row.Clone()),
+                            AddedIngredients = row?.AddedIngredients?.Select(row => row.Clone()),
+                            ExcludedIngredients = row?.ExcludedIngredients?.Select(row => row.Clone()),
                         }),
                     }),
                 }));
@@ -324,41 +296,13 @@ namespace Next2.Extensions
                                 DefaultPrice = row.Product.DefaultPrice,
                                 Name = row.Product.Name,
                                 ImageSource = row.Product.ImageSource,
-                                Ingredients = row.Product.Ingredients.Select(row => new SimpleIngredientModelDTO()
-                                {
-                                    Id = row.Id,
-                                    Name = row.Name,
-                                    Price = row.Price,
-                                    ImageSource = row.ImageSource,
-                                    IngredientsCategory = row.IngredientsCategory,
-                                }),
-                                Options = row.Product.Options,
+                                Ingredients = row.Product.Ingredients.Select(row => row.Clone()),
+                                Options = row.Product.Options.Select(row => row.Clone()),
                             },
                             SelectedOptions = row.SelectedOptions.FirstOrDefault(),
-                            SelectedIngredients = new(row.SelectedIngredients.Select(row => new SimpleIngredientModelDTO()
-                            {
-                                Id = row.Id,
-                                Name = row.Name,
-                                Price = row.Price,
-                                ImageSource = row.ImageSource,
-                                IngredientsCategory = row.IngredientsCategory,
-                            })),
-                            AddedIngredients = new(row.AddedIngredients.Select(row => new SimpleIngredientModelDTO()
-                            {
-                                Id = row.Id,
-                                Name = row.Name,
-                                Price = row.Price,
-                                ImageSource = row.ImageSource,
-                                IngredientsCategory = row.IngredientsCategory,
-                            })),
-                            ExcludedIngredients = new(row.ExcludedIngredients.Select(row => new SimpleIngredientModelDTO()
-                            {
-                                Id = row.Id,
-                                Name = row.Name,
-                                Price = row.Price,
-                                ImageSource = row.ImageSource,
-                                IngredientsCategory = row.IngredientsCategory,
-                            })),
+                            SelectedIngredients = new(row.SelectedIngredients.Select(row => row.Clone())),
+                            AddedIngredients = new(row.AddedIngredients.Select(row => row.Clone())),
+                            ExcludedIngredients = new(row.ExcludedIngredients.Select(row => row.Clone())),
                         })),
                     })),
                 }));
