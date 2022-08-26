@@ -2,6 +2,7 @@
 using Next2.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +14,9 @@ namespace Next2.Controls
 {
     public partial class Calendar : StackLayout
     {
-        private bool _isFutureYearSelected = false;
+        private bool _isFutureYearSelected;
+        private bool _isDaySelecting;
+        private bool _isFirstOpemDropdown = true;
 
         public Calendar()
         {
@@ -26,7 +29,7 @@ namespace Next2.Controls
 
             SelectedMonth = DateTime.Now.Month;
 
-            Years = new List<Year>();
+            Years = new ();
 
             for (int i = Constants.Limits.MIN_YEAR; i <= Constants.Limits.MAX_YEAR; i++)
             {
@@ -261,7 +264,7 @@ namespace Next2.Controls
 
         public List<Month> Months { get; set; }
 
-        public List<Year> Years { get; set; }
+        public ObservableCollection<Year> Years { get; set; }
 
         public Month? Month => Months is not null && Months.Any()
             ? Months[SelectedMonth - 1]
@@ -270,7 +273,7 @@ namespace Next2.Controls
         public Day SelectedDay { get; set; }
 
         private ICommand? _selectYearCommand;
-        public ICommand SelectYearCommand => _selectYearCommand ??= new Command(() => dropdownFrame.IsVisible = false);
+        public ICommand SelectYearCommand => _selectYearCommand ??= new Command<object>(OnSelectYearCommand);
 
         private ICommand? _rightMonthTapCommand;
         public ICommand RightMonthTapCommand => _rightMonthTapCommand ??= new AsyncCommand(OnRightMonthTapCommandAsync);
@@ -285,7 +288,7 @@ namespace Next2.Controls
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanged(string? propertyName = null)
+        protected override async void OnPropertyChanged(string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 
@@ -293,15 +296,12 @@ namespace Next2.Controls
             {
                 case nameof(SelectedDate):
 
-                    if (SelectedDate is not null)
+                    if (SelectedDate is not null && !_isDaySelecting)
                     {
                         SelectedYear = Years.FirstOrDefault(x => x.YearValue == SelectedDate.Value.Year);
                         SelectedMonth = SelectedDate.Value.Month;
-                        SelectedDay = new Day
-                        {
-                            DayOfMonth = SelectedDate.Value.Day.ToString(),
-                            State = EDayState.DayMonth,
-                        };
+
+                        await CreateSelectedDay(true);
                     }
 
                     break;
@@ -347,13 +347,13 @@ namespace Next2.Controls
 
                     _isFutureYearSelected = false;
 
-                    CreateSelectedDay();
+                    await CreateSelectedDay();
 
                     break;
 
                 case nameof(SelectedMonth):
 
-                    CreateSelectedDay();
+                    await CreateSelectedDay();
 
                     break;
 
@@ -369,6 +369,16 @@ namespace Next2.Controls
 
         #region -- Private helpers --
 
+        private void OnSelectYearCommand(object sender)
+        {
+            if (sender is Year year && year.YearValue <= DateTime.Now.Year)
+            {
+                SelectedYear = year;
+            }
+
+            dropdownFrame.IsVisible = false;
+        }
+
         private void SetMarginToDropdownFrame()
         {
             if (App.IsTablet)
@@ -381,32 +391,58 @@ namespace Next2.Controls
             }
         }
 
-        private void CreateSelectedDay()
+        private void RaiseSelectedDay()
         {
-            if (SelectedDate is not null && SelectedYear?.YearValue == SelectedDate.Value.Year && SelectedMonth == SelectedDate.Value.Month)
+            var tmp = SelectedDay;
+            SelectedDay = new();
+            SelectedDay = tmp;
+        }
+
+        private async Task CreateSelectedDay(bool isAwait = false)
+        {
+            if (SelectedDate is not null && !_isDaySelecting)
             {
+                _isDaySelecting = true;
+
                 SelectedDay = new Day
                 {
                     DayOfMonth = SelectedDate.Value.Day.ToString(),
                     State = EDayState.DayMonth,
                 };
-            }
-            else
-            {
-                SelectedDay = new();
+
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    if (isAwait)
+                    {
+                        await Task.Delay(333);
+                    }
+
+                    RaiseSelectedDay();
+                }
+
+                _isDaySelecting = false;
             }
         }
 
-        private Task OnYearDropdownTapCommandAsync()
+        private async Task OnYearDropdownTapCommandAsync()
         {
             dropdownFrame.IsVisible = !dropdownFrame.IsVisible;
 
             if (dropdownFrame.IsVisible)
             {
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    if (_isFirstOpemDropdown)
+                    {
+                        await Task.Delay(200);
+                        _isFirstOpemDropdown = false;
+                    }
+                }
+
                 yearsCollectionView.ScrollTo(SelectedYear, -1, ScrollToPosition.Center, false);
             }
 
-            return Task.CompletedTask;
+            //return Task.CompletedTask;
         }
 
         private Task OnRightMonthTapCommandAsync()
