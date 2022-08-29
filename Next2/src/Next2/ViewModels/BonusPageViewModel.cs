@@ -27,6 +27,7 @@ namespace Next2.ViewModels
 
         private int _indexOfSeat;
         private int _indexOfSelectedDish = -1;
+        private bool _isPropertyChangedEventsBlocked;
 
         public BonusPageViewModel(
             INavigationService navigationService,
@@ -146,9 +147,12 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName is nameof(SelectedBonus))
+            if (!_isPropertyChangedEventsBlocked)
             {
-                Title = SelectedBonus?.Name ?? string.Empty;
+                if (args.PropertyName is nameof(SelectedBonus))
+                {
+                    Title = SelectedBonus?.Name ?? string.Empty;
+                }
             }
         }
 
@@ -219,9 +223,18 @@ namespace Next2.ViewModels
 
         private Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
         {
-            SelectedBonus = bonus == SelectedBonus
-                ? null
-                : bonus;
+
+            if (SelectedBonus == bonus)
+            {
+                SelectedBonus = null;
+            }
+            else
+            {
+                _isPropertyChangedEventsBlocked = true;
+                SelectedBonus = null;
+                _isPropertyChangedEventsBlocked = false;
+                SelectedBonus = bonus;
+            }
 
             if (bonus?.Type is EBonusType.Coupon)
             {
