@@ -280,7 +280,8 @@
 
                                     <BoxView
                                         Grid.Row="0"
-                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                                        Margin="{OnPlatform iOS='0, -1, 0, 0'}"/>
 
                                     <Grid
                                         Grid.Row="1"
