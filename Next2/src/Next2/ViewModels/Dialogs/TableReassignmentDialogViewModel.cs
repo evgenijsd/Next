@@ -126,13 +126,16 @@ namespace Next2.ViewModels.Dialogs
         {
             if (IsAllTablesChecked)
             {
-                var tables = Tables.Select(row => row.OrdersId);
+                var collectionOfOrdersIdsOfEachTable = Tables.Select(row => row.OrdersId);
 
-                foreach (var table in tables)
+                foreach (var collectionOfOrdersIdsOfSingleTable in collectionOfOrdersIdsOfEachTable)
                 {
-                    foreach (var orderId in table)
+                    if (collectionOfOrdersIdsOfSingleTable is not null)
                     {
-                        _collectionOfOrderIdsBeUpdated = _collectionOfOrderIdsBeUpdated.Concat(new[] { orderId });
+                        foreach (var orderId in collectionOfOrdersIdsOfSingleTable)
+                        {
+                            _collectionOfOrderIdsBeUpdated = _collectionOfOrderIdsBeUpdated.Concat(new[] { orderId });
+                        }
                     }
                 }
             }

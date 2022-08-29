@@ -291,7 +291,7 @@ namespace Next2.Controls
                     {
                         if (Device.RuntimePlatform == Device.iOS)
                         {
-                            HighlitedItemHelperForIOs();
+                            FixHighlightSelectedItemForIOS();
                         }
 
                         itemsCollection.ScrollTo(itemsCollection.SelectedItem, position: ScrollToPosition.Center, animate: false);
@@ -335,9 +335,9 @@ namespace Next2.Controls
 
         #region -- Private helpers --
 
-        private void OnSelectItemCommand(object obj)
+        private void OnSelectItemCommand(object selectedItem)
         {
-            SelectedItem = obj;
+            SelectedItem = selectedItem;
 
             IsExpanded = false;
         }
@@ -349,18 +349,18 @@ namespace Next2.Controls
             (Parent as Layout)?.RaiseChild(this);
         }
 
-        private void HighlitedItemHelperForIOs()
+        private void FixHighlightSelectedItemForIOS()
         {
             if (SelectedItem is not null && !_isItemSelected)
             {
                 _isItemSelected = true;
-                var tmpCommand = itemsCollection.SelectionChangedCommand;
+                var tempSelectionChangedCommand = itemsCollection.SelectionChangedCommand;
                 itemsCollection.SelectionChangedCommand = null;
-                var tmp = SelectedItem;
+                var tempSelectedItem = SelectedItem;
                 SelectedItem = new ();
-                SelectedItem = tmp;
+                SelectedItem = tempSelectedItem;
                 _isItemSelected = false;
-                itemsCollection.SelectionChangedCommand = tmpCommand;
+                itemsCollection.SelectionChangedCommand = tempSelectionChangedCommand;
             }
         }
 
