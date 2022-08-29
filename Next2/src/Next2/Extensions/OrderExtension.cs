@@ -31,7 +31,7 @@ namespace Next2.Extensions
                 IsCashPayment = order.IsCashPayment,
                 CustomerId = order.Customer?.Id,
                 EmployeeId = order.EmployeeId ?? string.Empty,
-                Seats = order.Seats.Select(row => row.ToIncomingSeatModel()),
+                Seats = order.Seats?.Select(row => row.ToIncomingSeatModel()),
             };
         }
 
@@ -65,7 +65,7 @@ namespace Next2.Extensions
                     ? null
                     : order.Customer?.Id,
                 EmployeeId = order.EmployeeId ?? string.Empty,
-                Seats = order.Seats.Select(row => row.ToIncomingSeatModel()),
+                Seats = order.Seats?.Select(row => row.ToIncomingSeatModel()),
             };
         }
 
@@ -87,7 +87,7 @@ namespace Next2.Extensions
                     ? order.Customer.ToSimpleCustomerModelDTO()
                     : new(),
                 OrderStatus = (EOrderStatus)order.OrderStatus,
-                OrderType = order.OrderType.ToString(),
+                OrderType = order.OrderType?.ToString(),
                 Discount = order.Discount,
                 Coupon = order.Coupon,
                 TaxCoefficient = order.TaxCoefficient,
@@ -95,9 +95,7 @@ namespace Next2.Extensions
                 SubTotalPrice = order.SubTotalPrice,
                 TotalPrice = order.TotalPrice,
                 EmployeeId = order.EmployeeId,
-                Seats = order.Seats is null
-                ? Enumerable.Empty<SeatModelDTO>()
-                : order.Seats.OrderBy(x => x.SeatNumber).Select(row => row.ToSeatModelDTO()),
+                Seats = order.Seats?.OrderBy(x => x.SeatNumber).Select(row => row.ToSeatModelDTO()),
             };
         }
 
@@ -139,7 +137,7 @@ namespace Next2.Extensions
             {
                 foreach (var dish in seat.SelectedDishes)
                 {
-                    if (dish.SelectedProducts is not null)
+                    if (dish.SelectedProducts is not null && dish.SelectedDishProportion is not null)
                     {
                         foreach (var product in dish.SelectedProducts)
                         {

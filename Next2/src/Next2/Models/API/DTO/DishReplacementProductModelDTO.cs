@@ -19,7 +19,7 @@ namespace Next2.Models.API.DTO
             {
                 Id = Id,
                 ProductId = ProductId,
-                Products = Products.Select(row => row.Clone()),
+                Products = Products?.Select(row => row.Clone()),
             };
         }
     }

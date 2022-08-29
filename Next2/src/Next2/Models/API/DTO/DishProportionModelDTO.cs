@@ -17,7 +17,7 @@ namespace Next2.Models.API.DTO
             {
                 Id = Id,
                 PriceRatio = PriceRatio,
-                Proportion = Proportion.Clone(),
+                Proportion = Proportion?.Clone(),
             };
         }
     }

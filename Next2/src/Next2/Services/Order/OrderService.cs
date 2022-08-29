@@ -831,7 +831,7 @@ namespace Next2.Services.Order
 
                 if (isSuccessUpdateDishes)
                 {
-                    var dishes = dishesResult.Where(row => row.IsSuccess).Select(row => row?.Result);
+                    var dishes = dishesResult.Select(row => row?.Result);
 
                     foreach (var seat in currentOrder.Seats)
                     {

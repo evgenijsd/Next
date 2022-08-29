@@ -11,7 +11,7 @@ namespace Next2.Extensions
             return new()
             {
                 Number = seat.SeatNumber,
-                SelectedDishes = seat.SelectedDishes.Select(x => x.ToIncomingSelectedDishModel()),
+                SelectedDishes = seat.SelectedDishes?.Select(x => x.ToIncomingSelectedDishModel()),
             };
         }
 
@@ -20,7 +20,7 @@ namespace Next2.Extensions
             return new()
             {
                 Number = seat.Number,
-                SelectedDishes = seat.SelectedDishes.Select(x => x.ToIncomingSelectedDishModel()),
+                SelectedDishes = seat.SelectedDishes?.Select(x => x.ToIncomingSelectedDishModel()),
             };
         }
 
@@ -31,7 +31,7 @@ namespace Next2.Extensions
                 SeatNumber = seat.Number,
                 Checked = seat.Number == 1,
                 IsFirstSeat = seat.Number == 1,
-                SelectedDishes = new(seat.SelectedDishes.Select(row => row.ToDishBindableModel())),
+                SelectedDishes = new(seat.SelectedDishes?.Select(row => row.ToDishBindableModel())),
             };
         }
 

@@ -23,7 +23,7 @@ namespace Next2.Models.API.DTO
                 Name = Name,
                 Price = Price,
                 ImageSource = ImageSource,
-                IngredientsCategory = IngredientsCategory.Clone(),
+                IngredientsCategory = IngredientsCategory?.Clone(),
             };
         }
     }

@@ -16,7 +16,7 @@ namespace Next2.Extensions
                 Id = product.Id,
                 Product = product.Clone(),
                 Price = product.DefaultPrice,
-                SelectedOptions = product.Options?.FirstOrDefault().Clone(),
+                SelectedOptions = product.Options?.FirstOrDefault()?.Clone(),
                 SelectedIngredients = new(ingredients),
                 AddedIngredients = new(ingredients),
             };
@@ -41,9 +41,11 @@ namespace Next2.Extensions
             {
                 Id = product.Id,
                 Comment = new(product.Comment),
-                Product = product.Product.Clone(),
-                Price = product.Product.DefaultPrice,
-                SelectedOptions = product.SelectedOptions?.FirstOrDefault().Clone(),
+                Product = product.Product?.Clone(),
+                Price = product.Product is not null
+                    ? product.Product.DefaultPrice
+                    : 0,
+                SelectedOptions = product.SelectedOptions?.FirstOrDefault()?.Clone(),
                 SelectedIngredients = new(product.SelectedIngredients?.Select(row => row.Clone())),
                 AddedIngredients = new(product.AddedIngredients?.Select(row => row.Clone())),
                 ExcludedIngredients = new(product.ExcludedIngredients?.Select(row => row.Clone())),
@@ -56,13 +58,13 @@ namespace Next2.Extensions
             {
                 Id = product.Id,
                 Comment = new(product.Comment),
-                Product = product.Product.Clone(),
+                Product = product.Product?.Clone(),
                 SelectedOptions = product.SelectedOptions == null
-                                ? null
-                                : new OptionModelDTO[] { product.SelectedOptions },
+                    ? null
+                    : new OptionModelDTO[] { product.SelectedOptions },
                 SelectedIngredients = product.SelectedOptions == null
-                                ? null
-                                : product.SelectedIngredients?.Select(row => row.Clone()),
+                    ? null
+                    : product.SelectedIngredients?.Select(row => row.Clone()),
                 AddedIngredients = product.AddedIngredients?.Select(row => row.Clone()),
                 ExcludedIngredients = product.ExcludedIngredients?.Select(row => row.Clone()),
             };
