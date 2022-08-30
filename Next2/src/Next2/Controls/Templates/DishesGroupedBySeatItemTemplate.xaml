@@ -18,7 +18,6 @@
             <VisualState Name="Normal">
 
                 <VisualState.Setters>
-                    <Setter TargetName="dishPancakeView" Property="pancakeview:PancakeView.BackgroundColor" Value="Transparent" />
                     <Setter TargetName="dishPancakeView" Property="pancakeview:PancakeView.Border">
                         <Setter.Value>
                             <pancakeview:Border
