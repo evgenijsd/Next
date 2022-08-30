@@ -1,11 +1,9 @@
-﻿using Next2.Enums;
-using Next2.Helpers;
+﻿using Next2.Helpers;
 using Next2.Models.Bindables;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
