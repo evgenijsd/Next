@@ -212,6 +212,12 @@
         <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>
     </Style>
 
+    <Style TargetType="templates:MenuItemTemplate">
+        <Setter Property="HasShadow" Value="False"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="IsClippedToBounds" Value="True"/>
+    </Style>
+
     <Style x:Key="SummaryItem" TargetType="Label">
         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
         <Setter Property="VerticalTextAlignment" Value="Center" />
