@@ -110,7 +110,7 @@ namespace Next2.ViewModels.Mobile
 
         private Task OnTapDishCommandAsync(DishModelDTO? dish)
         {
-            var param = new DialogParameters
+            var parameters = new DialogParameters
             {
                 { Constants.DialogParameterKeys.DISH, dish },
                 { Constants.DialogParameterKeys.DISCOUNT_PRICE, _orderService.CurrentOrder.DiscountPrice },

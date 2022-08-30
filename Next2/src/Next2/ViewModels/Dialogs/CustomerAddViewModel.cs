@@ -15,7 +15,7 @@ namespace Next2.ViewModels.Dialogs
     public class CustomerAddViewModel : BindableBase
     {
         public CustomerAddViewModel(
-            DialogParameters param,
+            DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;

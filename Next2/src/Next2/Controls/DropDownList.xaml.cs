@@ -81,14 +81,26 @@ namespace Next2.Controls
 
         public static readonly BindableProperty HeaderTextProperty = BindableProperty.Create(
             propertyName: nameof(HeaderText),
+            returnType: typeof(string),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.OneWay);
+
+        public string HeaderText
+        {
+            get => (string)GetValue(HeaderTextProperty);
+            set => SetValue(HeaderTextProperty, value);
+        }
+
+        public static readonly BindableProperty HeaderFormattedTextProperty = BindableProperty.Create(
+            propertyName: nameof(HeaderFormattedText),
             returnType: typeof(FormattedString),
             declaringType: typeof(DropDownList),
             defaultBindingMode: BindingMode.OneWay);
 
-        public FormattedString HeaderText
+        public FormattedString HeaderFormattedText
         {
-            get => (FormattedString)GetValue(HeaderTextProperty);
-            set => SetValue(HeaderTextProperty, value);
+            get => (FormattedString)GetValue(HeaderFormattedTextProperty);
+            set => SetValue(HeaderFormattedTextProperty, value);
         }
 
         public static readonly BindableProperty WrappedListIconSourceProperty = BindableProperty.Create(
@@ -251,59 +263,64 @@ namespace Next2.Controls
         {
             base.OnPropertyChanged(propertyName);
 
-            if (propertyName is nameof(SelectedItem))
+            switch (propertyName)
             {
-                IsExpanded = false;
-            }
-            else if (propertyName is nameof(Direction) && Direction is EDropDownListDirection.Up)
-            {
-                container.RaiseChild(listHeader);
-            }
-            else if (propertyName is nameof(IsExpanded) && ShouldTranslationY && Direction is EDropDownListDirection.Up)
-            {
-                dropDownList.TranslationY = IsExpanded
-                    ? -ListHeight
-                    : 0;
-            }
-            else if (propertyName
-                is nameof(ItemsSource)
-                or nameof(MaxNumberOfVisibleItems) && ItemsSource?.Count > 0)
-            {
-                if (ScrollBarVisibility is not ScrollBarVisibility.Never)
-                {
-                    itemsCollection.VerticalScrollBarVisibility = ItemsSource.Count == MaxNumberOfVisibleItems
-                        ? ScrollBarVisibility.Never
-                        : ScrollBarVisibility;
-                }
-            }
+                case nameof(SelectedItem):
 
-            if (propertyName
-                is nameof(ItemsSource)
-                or nameof(MaxNumberOfVisibleItems))
-            {
-                if (ItemsSource is not null && _itemHeight > 0)
-                {
-                    ListHeight = _itemHeight * (ItemsSource.Count < MaxNumberOfVisibleItems
-                        ? ItemsSource.Count
-                        : MaxNumberOfVisibleItems);
-                }
-                else
-                {
-                    ListHeight = 0;
-                }
-            }
+                    IsExpanded = false;
 
-            if (propertyName is nameof(IsExpanded) && IsExpanded)
-            {
-                itemsCollection.ScrollTo(itemsCollection.SelectedItem, position: ScrollToPosition.Center, animate: false);
-            }
-            else if (propertyName is nameof(DataTemplate))
-            {
-                var itemView = (View)itemsCollection.ItemTemplate.CreateContent();
-                _itemHeight = itemView.HeightRequest;
-            }
+                    break;
+                case nameof(Direction) when Direction is EDropDownListDirection.Up:
 
-            base.OnPropertyChanging(propertyName);
+                    container.RaiseChild(listHeader);
+
+                    break;
+                case nameof(IsExpanded):
+
+                    if (ShouldTranslationY && Direction is EDropDownListDirection.Up)
+                    {
+                        dropDownList.TranslationY = IsExpanded
+                            ? -ListHeight
+                            : 0;
+                    }
+
+                    if (IsExpanded)
+                    {
+                        itemsCollection.ScrollTo(itemsCollection.SelectedItem, position: ScrollToPosition.Center, animate: false);
+                    }
+
+                    break;
+                case nameof(ItemsSource) or nameof(MaxNumberOfVisibleItems):
+
+                    if (ItemsSource is not null)
+                    {
+                        if (ItemsSource.Count > 0 && ScrollBarVisibility is not ScrollBarVisibility.Never)
+                        {
+                            itemsCollection.VerticalScrollBarVisibility = ItemsSource.Count == MaxNumberOfVisibleItems
+                                ? ScrollBarVisibility.Never
+                                : ScrollBarVisibility;
+                        }
+
+                        if (_itemHeight > 0)
+                        {
+                            ListHeight = _itemHeight * (ItemsSource.Count < MaxNumberOfVisibleItems
+                                ? ItemsSource.Count
+                                : MaxNumberOfVisibleItems);
+                        }
+                    }
+                    else
+                    {
+                        ListHeight = 0;
+                    }
+
+                    break;
+                case nameof(DataTemplate):
+
+                    var itemView = (View)itemsCollection.ItemTemplate.CreateContent();
+                    _itemHeight = itemView.HeightRequest;
+
+                    break;
+            }
         }
 
         #endregion

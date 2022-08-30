@@ -445,19 +445,19 @@ namespace Next2.ViewModels
         {
             if (IsInternetConnected)
             {
-                var param = new DialogParameters
+                var parameters = new DialogParameters
                 {
                     { Constants.DialogParameterKeys.PAID_ORDER_BINDABLE_MODEL, Order },
                 };
 
                 if (SelectedTipItem != null)
                 {
-                    param.Add(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, $"+ {SelectedTipItem.Text}");
+                    parameters.Add(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, $"+ {SelectedTipItem.Text}");
                 }
 
                 PopupPage finishPaymentDialog = App.IsTablet
-                    ? new Views.Tablet.Dialogs.FinishPaymentDialog(param, CloseFinishPaymentDialogCallbackAsync)
-                    : new Views.Mobile.Dialogs.FinishPaymentDialog(param, CloseFinishPaymentDialogCallbackAsync);
+                    ? new Views.Tablet.Dialogs.FinishPaymentDialog(parameters, CloseFinishPaymentDialogCallbackAsync)
+                    : new Views.Mobile.Dialogs.FinishPaymentDialog(parameters, CloseFinishPaymentDialogCallbackAsync);
 
                 await PopupNavigation.PushAsync(finishPaymentDialog);
             }

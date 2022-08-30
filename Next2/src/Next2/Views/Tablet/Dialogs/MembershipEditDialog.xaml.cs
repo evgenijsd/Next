@@ -8,11 +8,14 @@ namespace Next2.Views.Tablet.Dialogs
 {
     public partial class MembershipEditDialog : PopupPage
     {
-        public MembershipEditDialog(DialogParameters param, Action<IDialogParameters> requestClose, IMapper mapper)
+        public MembershipEditDialog(
+            DialogParameters parameters,
+            Action<IDialogParameters> requestClose,
+            IMapper mapper)
         {
             InitializeComponent();
 
-            BindingContext = new MembershipEditDialogViewModel(param, requestClose, mapper);
+            BindingContext = new MembershipEditDialogViewModel(parameters, requestClose, mapper);
         }
     }
 }

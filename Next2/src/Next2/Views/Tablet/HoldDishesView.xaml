@@ -400,13 +400,13 @@
                 ItemsSource="{Binding Tables}"
                 SelectionChangedCommand="{Binding SetHoldDishesByTableNumberCommand}">
 
-                <controls:DropDownList.HeaderText>
+                <controls:DropDownList.HeaderFormattedText>
                     <FormattedString>
                         <Span Text="{xct:Translate Table}" />
                         <Span Text=" " />
                         <Span Text="{Binding TableNumber}" />
                     </FormattedString>
-                </controls:DropDownList.HeaderText>
+                </controls:DropDownList.HeaderFormattedText>
 
                 <controls:DropDownList.Triggers>
 
@@ -415,7 +415,7 @@
                         Binding="{Binding SelectedTable.TableNumber}"
                         Value="{x:Static local:Constants+Limits.ALL_TABLES}">
 
-                        <Setter Property="HeaderText" Value="{xct:Translate AllTables}" />
+                        <Setter Property="HeaderFormattedText" Value="{xct:Translate AllTables}" />
 
                     </DataTrigger>
 
