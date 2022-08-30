@@ -246,7 +246,6 @@
 
     <Style TargetType="templates:TextItemTemplate">
         <Setter Property="HeightRequest" Value="35"/>
-        <Setter Property="Spacing" Value="0"/>
     </Style>
     
 
