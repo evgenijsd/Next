@@ -344,13 +344,13 @@
                                                 <Label
                                                     Grid.Column="2"
                                                     Style="{DynamicResource TableCellLabelStyle}"
-                                                    Text="{Binding DishName}"
+                                                    Text="{Binding Name}"
                                                     LineBreakMode="TailTruncation" />
 
                                                 <Label
                                                     Grid.Column="3"
                                                     Style="{DynamicResource TableCellLabelStyle}"
-                                                    Text="{Binding ReleaseTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
+                                                    Text="{Binding ReleseTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
 
                                             </Grid>
 
@@ -416,6 +416,15 @@
                         Value="{x:Static local:Constants+Limits.ALL_TABLES}">
 
                         <Setter Property="HeaderFormattedText" Value="{xct:Translate AllTables}" />
+
+                    </DataTrigger>
+
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
+                        Binding="{Binding Tables.Count}"
+                        Value="1">
+
+                        <Setter Property="IsVisible" Value="False" />
 
                     </DataTrigger>
 

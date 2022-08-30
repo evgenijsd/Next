@@ -205,14 +205,14 @@
                                                 Grid.Column="1"
                                                 LineBreakMode="TailTruncation"
                                                 Style="{DynamicResource ViewCellLabelStyle}"
-                                                Text="{Binding DishName}" />
+                                                Text="{Binding Name}" />
 
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="2"
                                                 LineBreakMode="TailTruncation"
                                                 Style="{DynamicResource ViewCellLabelStyle}"
-                                                Text="{Binding ReleaseTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
+                                                Text="{Binding ReleseTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
 
                                             <BoxView
                                                 Grid.Row="1"
@@ -289,6 +289,15 @@
                             Value="{x:Static local:Constants+Limits.ALL_TABLES}">
 
                             <Setter Property="HeaderFormattedText" Value="{xct:Translate AllTables}" />
+
+                        </DataTrigger>
+
+                        <DataTrigger
+                            TargetType="controls:DropDownList"
+                            Binding="{Binding Tables.Count}"
+                            Value="1">
+
+                            <Setter Property="IsVisible" Value="False" />
 
                         </DataTrigger>
 
