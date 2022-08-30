@@ -10,7 +10,7 @@ namespace Next2.Controls
     public partial class DropDownList : PancakeView
     {
         private double _itemHeight;
-        private bool _isItemSelected = false;
+        private bool _isControlBlocked = false;
 
         public DropDownList()
         {
@@ -268,7 +268,7 @@ namespace Next2.Controls
             {
                 case nameof(SelectedItem):
 
-                    if (!_isItemSelected)
+                    if (!_isControlBlocked)
                     {
                         IsExpanded = false;
                     }
@@ -351,15 +351,15 @@ namespace Next2.Controls
 
         private void FixHighlightSelectedItemForIOS()
         {
-            if (SelectedItem is not null && !_isItemSelected)
+            if (SelectedItem is not null && !_isControlBlocked)
             {
-                _isItemSelected = true;
+                _isControlBlocked = true;
                 var tempSelectionChangedCommand = itemsCollection.SelectionChangedCommand;
                 itemsCollection.SelectionChangedCommand = null;
                 var tempSelectedItem = SelectedItem;
                 SelectedItem = new ();
                 SelectedItem = tempSelectedItem;
-                _isItemSelected = false;
+                _isControlBlocked = false;
                 itemsCollection.SelectionChangedCommand = tempSelectionChangedCommand;
             }
         }
