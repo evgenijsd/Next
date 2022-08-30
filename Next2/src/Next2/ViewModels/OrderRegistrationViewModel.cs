@@ -47,7 +47,7 @@ namespace Next2.ViewModels
         private SeatBindableModel? _firstSeat;
         private SeatBindableModel _firstNotEmptySeat = new();
         private SeatBindableModel? _seatWithSelectedDish;
-        private DishBindableModel? _lastSelectedSeat;
+        private DishBindableModel? _lastSelectedDish;
 
         private ELoadingState _externalPageLoadStatus;
 
@@ -74,7 +74,7 @@ namespace Next2.ViewModels
 
             _eventAggregator.GetEvent<LoadingStateEvent>().Subscribe(GetLoadingStateOfExternalPage);
 
-            _selectSeatCommand = new AsyncCommand<DishesGroupedBySeat>(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
+            _selectSeatCommand = new AsyncCommand<DishesGroupedBySeat>(OnSelectSeatCommandAsync, allowsMultipleExecutions: false);
             _deleteSeatCommand = new AsyncCommand<DishesGroupedBySeat>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
             _removeOrderCommand = new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
             _selectDishCommand = new AsyncCommand<DishBindableModel>(OnSelectDishCommandAsync, allowsMultipleExecutions: false);
@@ -413,9 +413,9 @@ namespace Next2.ViewModels
                         }
                     }
 
-                    if (selectedDish is null && _lastSelectedSeat is not null)
+                    if (selectedDish is null && _lastSelectedDish is not null)
                     {
-                        SelectedDish = _lastSelectedSeat;
+                        SelectedDish = _lastSelectedDish;
                     }
 
                     if (seat.Checked && seat.SelectedItem is null)
@@ -484,7 +484,7 @@ namespace Next2.ViewModels
         {
             if (SelectedDish is not null)
             {
-                _lastSelectedSeat = SelectedDish;
+                _lastSelectedDish = SelectedDish;
                 SelectedDish = null;
 
                 foreach (var item in CurrentOrder.Seats)
@@ -505,11 +505,11 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private async Task OnSeatSelectionCommandAsync(DishesGroupedBySeat? seatGroup)
+        private async Task OnSelectSeatCommandAsync(DishesGroupedBySeat? seatGroup)
         {
             if (IsInternetConnected)
             {
-                _lastSelectedSeat = null;
+                _lastSelectedDish = null;
 
                 var seatNumber = seatGroup?.SeatNumber ?? 0;
                 var seat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == seatNumber);
@@ -547,7 +547,7 @@ namespace Next2.ViewModels
         {
             if (CurrentOrder is not null && CurrentOrder.Seats is not null)
             {
-                _lastSelectedSeat = null;
+                _lastSelectedDish = null;
 
                 var seatNumber = dish?.SeatNumber ?? 0;
                 var seat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == seatNumber);
@@ -633,7 +633,7 @@ namespace Next2.ViewModels
 
                     if (deleteSeatResult.IsSuccess)
                     {
-                        SelectSeatAsync(_firstSeat);
+                        SelectSeat(_firstSeat);
 
                         if (!_isAnyDishChosen)
                         {
@@ -676,7 +676,7 @@ namespace Next2.ViewModels
 
                         IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 
-                        SelectSeatAsync(_firstSeat);
+                        SelectSeat(_firstSeat);
 
                         await OnCloseEditStateCommandAsync();
                         await RefreshCurrentOrderAsync();
@@ -707,7 +707,7 @@ namespace Next2.ViewModels
 
                             var destinationSeat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == updatedDestinationSeatNumber);
 
-                            SelectSeatAsync(destinationSeat);
+                            SelectSeat(destinationSeat);
 
                             await RefreshCurrentOrderAsync();
 
@@ -747,7 +747,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private void SelectSeatAsync(SeatBindableModel? seatToBeSelected)
+        private void SelectSeat(SeatBindableModel? seatToBeSelected)
         {
             foreach (var seat in CurrentOrder.Seats)
             {
@@ -761,7 +761,7 @@ namespace Next2.ViewModels
             }
 
             SelectedDish = null;
-            _lastSelectedSeat = null;
+            _lastSelectedDish = null;
         }
 
         private async Task OnRemoveOrderCommandAsync()
@@ -875,7 +875,7 @@ namespace Next2.ViewModels
                 if (resultOfUpdatingCurrentOrder.IsSuccess)
                 {
                     var resultOfSettingEmptyCurrentOrder = await _orderService.SetEmptyCurrentOrderAsync();
-                    _lastSelectedSeat = null;
+                    _lastSelectedDish = null;
 
                     if (resultOfSettingEmptyCurrentOrder.IsSuccess)
                     {
@@ -1120,7 +1120,7 @@ namespace Next2.ViewModels
                     {
                         _orderService.UpdateTotalSum(CurrentOrder);
 
-                        _lastSelectedSeat = null;
+                        _lastSelectedDish = null;
                         await RefreshCurrentOrderAsync();
 
                         if (CurrentState == ENewOrderViewState.Edit)
@@ -1138,7 +1138,7 @@ namespace Next2.ViewModels
 
                                 _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.SelectedDishes.FirstOrDefault();
 
-                                _lastSelectedSeat = null;
+                                _lastSelectedDish = null;
                                 await UpdateDishGroupsAsync();
                             }
                             else if (App.IsTablet)
