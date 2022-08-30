@@ -85,7 +85,7 @@ namespace Next2.Services.Rest
 
             if (requestBody is not null)
             {
-                var json = JsonConvert.SerializeObject(requestBody);
+                var json = JsonConvert.SerializeObject(requestBody, GetJsonFormatSettings());
 
                 if (requestBody is IEnumerable<KeyValuePair<string, string>> body)
                 {
@@ -195,6 +195,16 @@ namespace Next2.Services.Rest
             additionalHeaders.Add("Authorization", $"Bearer {_settingsManager.Token}");
 
             return additionalHeaders;
+        }
+
+        private JsonSerializerSettings GetJsonFormatSettings()
+        {
+            var settings = new JsonSerializerSettings
+            {
+                DateFormatString = Constants.Formats.DATETIME_JSON_FORMAT,
+            };
+
+            return settings;
         }
 
         #endregion

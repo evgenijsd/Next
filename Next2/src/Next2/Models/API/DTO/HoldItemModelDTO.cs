@@ -1,16 +1,15 @@
 ﻿using Next2.Interfaces;
-using Prism.Mvvm;
 using System;
 
-namespace Next2.Models.Bindables
+namespace Next2.Models.API.DTO
 {
-    public class HoldDishBindableModel : BindableBase, IBaseApiModel
+    public class HoldItemModelDTO : IBaseApiModel
     {
         public Guid Id { get; set; }
 
         public int TableNumber { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        public string? Name { get; set; }
 
         public DateTime ReleaseTime { get; set; }
 
