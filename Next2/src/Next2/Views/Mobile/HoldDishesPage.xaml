@@ -212,7 +212,7 @@
                                                 Grid.Column="2"
                                                 LineBreakMode="TailTruncation"
                                                 Style="{DynamicResource ViewCellLabelStyle}"
-                                                Text="{Binding ReleseTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
+                                                Text="{Binding ReleaseTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
 
                                             <BoxView
                                                 Grid.Row="1"

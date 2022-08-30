@@ -350,7 +350,7 @@
                                                 <Label
                                                     Grid.Column="3"
                                                     Style="{DynamicResource TableCellLabelStyle}"
-                                                    Text="{Binding ReleseTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
+                                                    Text="{Binding ReleaseTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
 
                                             </Grid>
 
