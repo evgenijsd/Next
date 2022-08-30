@@ -247,6 +247,8 @@
                 
             </yummy:PancakeView>
             
+                <BoxView Style="{DynamicResource SeparatorStyle_i7}"/>
+            
             <!-- TABLE CONTENT -->
             <yummy:PancakeView 
                 VerticalOptions="FillAndExpand"
@@ -286,7 +288,7 @@
                                     <Grid
                                         HorizontalOptions="Fill"
                                         VerticalOptions="Fill"
-                                        RowDefinitions="2, 38">
+                                        RowDefinitions="38, 2">
 
                                         <VisualStateManager.VisualStateGroups>
 
@@ -313,14 +315,9 @@
                                             </VisualStateGroup>
 
                                         </VisualStateManager.VisualStateGroups>
-
-                                        <BoxView
-                                            Grid.Row="0"
-                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                                            Margin="{OnPlatform iOS='0, -1, 0, 0'}"/>
                                         
                                         <Grid
-                                            Grid.Row="1"
+                                            Grid.Row="0"
                                             ColumnDefinitions="50, *, *, *, *">
 
                                             <ffimageloading:CachedImage
@@ -388,6 +385,10 @@
                                             </Grid.GestureRecognizers>
 
                                         </Grid>
+                                        
+                                        <BoxView
+                                            Grid.Row="1"
+                                            Style="{DynamicResource SeparatorStyle_i7}"/>
 
                                     </Grid>
 

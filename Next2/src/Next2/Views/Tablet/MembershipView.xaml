@@ -181,10 +181,7 @@
 
                 </Grid>
 
-                <BoxView
-                    HeightRequest="{OnPlatform Android=1.5, iOS=1}"
-                    Style="{DynamicResource SeparatorStyle_i1}"
-                    Color="{DynamicResource TextAndBackgroundColor_i5}" />
+                <BoxView Style="{DynamicResource SeparatorStyle_i7}"/>
 
                 <!--  TABLE CONTENT  -->                
                 <RefreshView
