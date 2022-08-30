@@ -48,6 +48,7 @@
 
     <pancakeview:PancakeView
         CornerRadius="8"
+        BackgroundColor="Transparent"
         xct:TouchEffect.Command="{Binding SelectDishCommand}"
         xct:TouchEffect.CommandParameter="{Binding .}"
         x:Name="dishPancakeView">
