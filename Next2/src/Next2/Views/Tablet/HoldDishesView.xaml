@@ -398,7 +398,8 @@
                 ScrollBarVisibility="Never"
                 SelectedItem="{Binding SelectedTable}"
                 ItemsSource="{Binding Tables}"
-                SelectionChangedCommand="{Binding SetHoldDishesByTableNumberCommand}">
+                SelectionChangedCommand="{Binding SetHoldDishesByTableNumberCommand}"
+                IsVisible="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}">
 
                 <controls:DropDownList.HeaderFormattedText>
                     <FormattedString>
@@ -416,15 +417,6 @@
                         Value="{x:Static local:Constants+Limits.ALL_TABLES}">
 
                         <Setter Property="HeaderFormattedText" Value="{xct:Translate AllTables}" />
-
-                    </DataTrigger>
-
-                    <DataTrigger
-                        TargetType="controls:DropDownList"
-                        Binding="{Binding Tables.Count}"
-                        Value="1">
-
-                        <Setter Property="IsVisible" Value="False" />
 
                     </DataTrigger>
 

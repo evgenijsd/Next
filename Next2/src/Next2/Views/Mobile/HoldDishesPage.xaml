@@ -292,15 +292,6 @@
 
                         </DataTrigger>
 
-                        <DataTrigger
-                            TargetType="controls:DropDownList"
-                            Binding="{Binding Tables.Count}"
-                            Value="1">
-
-                            <Setter Property="IsVisible" Value="False" />
-
-                        </DataTrigger>
-
                     </controls:DropDownList.Triggers>
 
                     <controls:DropDownList.DataTemplate>
