@@ -633,6 +633,8 @@ namespace Next2.ViewModels
 
                     if (deleteSeatResult.IsSuccess)
                     {
+                        _firstSeat ??= CurrentOrder.Seats.FirstOrDefault();
+
                         SelectSeat(_firstSeat);
 
                         if (!_isAnyDishChosen)
@@ -675,6 +677,8 @@ namespace Next2.ViewModels
                         isDeletedSets = true;
 
                         IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
+
+                        _firstSeat ??= CurrentOrder.Seats.FirstOrDefault();
 
                         SelectSeat(_firstSeat);
 
