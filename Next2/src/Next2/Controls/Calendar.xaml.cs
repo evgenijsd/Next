@@ -389,7 +389,7 @@ namespace Next2.Controls
             };
         }
 
-        private void RaiseSelectedDay()
+        private void ResetSelectedDay()
         {
             var tempSelectedDay = SelectedDay;
             SelectedDay = new();
@@ -415,7 +415,7 @@ namespace Next2.Controls
                         await Task.Delay(333);
                     }
 
-                    RaiseSelectedDay();
+                    ResetSelectedDay();
                 }
 
                 _isDaySelecting = false;

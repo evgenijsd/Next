@@ -160,8 +160,8 @@
             VerticalScrollBarVisibility="Never"
             SelectionMode="Single"
             BounceMode="DisabledForAndroidAndiOS"
-            ItemsSource="{Binding Years,  Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
-            SelectedItem="{Binding SelectedYear,  Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+            ItemsSource="{Binding Years, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+            SelectedItem="{Binding SelectedYear, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
             x:Name="yearsCollectionView">
             
             <controls:CustomCollectionView.ItemTemplate>
