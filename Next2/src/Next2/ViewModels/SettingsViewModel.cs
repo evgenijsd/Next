@@ -137,13 +137,13 @@ namespace Next2.ViewModels
             };
 
             PopupPage confirmDialog = App.IsTablet
-                ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback)
-                : new Next2.Views.Mobile.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback);
+                ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(dialogParameters, CloseLogOutConfirmationDialogCallback)
+                : new Next2.Views.Mobile.Dialogs.ConfirmDialog(dialogParameters, CloseLogOutConfirmationDialogCallback);
 
             return PopupNavigation.PushAsync(confirmDialog);
         }
 
-        private async void CloseDialogCallback(IDialogParameters dialogResult)
+        private async void CloseLogOutConfirmationDialogCallback(IDialogParameters dialogResult)
         {
             if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool result) && result)
             {
@@ -220,7 +220,7 @@ namespace Next2.ViewModels
 
                     var resultOfUpdatingOrders = await _orderService.UpdateOrdersAsync(ordersId, employeeIdToAssignTo);
 
-                    if (!resultOfUpdatingOrders.IsSuccess && _token.IsCancellationRequested)
+                    if (!resultOfUpdatingOrders.IsSuccess && !_token.IsCancellationRequested)
                     {
                         await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrders.Exception?.Message);
                     }

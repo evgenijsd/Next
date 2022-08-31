@@ -111,12 +111,12 @@ namespace Next2.ViewModels
                 { Constants.DialogParameterKeys.SELECTED_DATE, SelectedDate },
             };
 
-            var popupPage = new SelectDateDialog(parameters, CloseDialogCallBack);
+            var popupPage = new SelectDateDialog(parameters, CloseDateSelectionDialogCallBack);
 
             return PopupNavigation.PushAsync(popupPage);
         }
 
-        private async void CloseDialogCallBack(IDialogParameters parameters)
+        private async void CloseDateSelectionDialogCallBack(IDialogParameters parameters)
         {
             if (parameters.TryGetValue(Constants.DialogParameterKeys.SELECTED_DATE, out DateTime selectedDate))
             {

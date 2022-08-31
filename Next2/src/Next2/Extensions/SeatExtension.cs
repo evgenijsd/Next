@@ -43,6 +43,7 @@ namespace Next2.Extensions
                     SelectedProducts = new(y.SelectedProducts.Select(x => new ProductBindableModel()
                     {
                         Id = x.Id,
+                        DishReplacementProductId = x.DishReplacementProductId,
                         Price = x.Product.DefaultPrice,
                         Comment = x.Comment,
                         Product = x.Product,
@@ -81,6 +82,7 @@ namespace Next2.Extensions
                     {
                         Id = x.Id,
                         Comment = x.Comment,
+                        DishReplacementProductId = x.DishReplacementProductId,
                         Product = new SimpleProductModelDTO
                         {
                             Id = x.Product.Id,

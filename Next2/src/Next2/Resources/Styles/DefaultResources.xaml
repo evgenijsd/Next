@@ -105,6 +105,11 @@
         <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i2}" />
     </Style>
 
+    <Style x:Key="SeparatorStyle_i7" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="{OnPlatform Android=1.5, iOS=1}" />
+        <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i5}" />
+    </Style>
+
     <!-- CONTROLS -->
     <Style TargetType="controls:LineSpacingLabel">
         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
@@ -213,6 +218,18 @@
 
         </Setter>
     </Style>
+    
+    <Style x:Key="SeatHeaderItemTemplateStyle_i1" TargetType="templates:SeatHeaderItemTemplate">
+        <Setter Property="Padding" Value="16, 13, 16, 0"/>
+        <Setter Property="Spacing" Value="0"/>
+        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>
+    </Style>
+
+    <Style TargetType="templates:MenuItemTemplate">
+        <Setter Property="HasShadow" Value="False"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="IsClippedToBounds" Value="True"/>
+    </Style>
 
     <Style x:Key="SummaryItem" TargetType="Label">
         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
@@ -253,8 +270,7 @@
     </Style>
 
     <Style TargetType="templates:TextItemTemplate">
-        <Setter Property="HeightRequest" Value="40"/>
-        <Setter Property="Spacing" Value="0"/>
+        <Setter Property="HeightRequest" Value="35"/>
     </Style>
     
 

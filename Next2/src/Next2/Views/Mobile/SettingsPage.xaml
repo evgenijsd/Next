@@ -56,9 +56,11 @@
             xct:TouchEffect.Command="{prism:NavigateTo Name='PrintReceiptPage'}" />
 
         <ActivityIndicator
-            VerticalOptions="Center"
             HorizontalOptions="Center"
-            IsRunning="{Binding IsLoading}" />
+            VerticalOptions="Center"
+            InputTransparent="True"
+            Color="{DynamicResource AppColor_i1}"
+            IsRunning="{Binding IsLoading}"/>
 
         <StackLayout
             VerticalOptions="EndAndExpand"

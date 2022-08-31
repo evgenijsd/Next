@@ -26,6 +26,7 @@ namespace Next2.Extensions
                     SelectedProducts = x.SelectedProducts.Select(x => new IncomingSelectedProductModel()
                     {
                         ProductId = x.Product.Id,
+                        DishReplacementProductId = x.DishReplacementProductId,
                         AddedIngredientsId = x.AddedIngredients?.Select(x => x.Id),
                         SelectedIngredientsId = x.SelectedIngredients?.Select(x => x.Id),
                         ExcludedIngredientsId = x.ExcludedIngredients?.Select(x => x.Id),
@@ -82,6 +83,7 @@ namespace Next2.Extensions
                     {
                         Comment = x.Comment,
                         ProductId = x.Product.Id,
+                        DishReplacementProductId = x.DishReplacementProductId,
                         SelectedOptionsId = x.SelectedOptions?.Select(x => x.Id).ToArray(),
                         SelectedIngredientsId = x.SelectedIngredients?.Select(x => x.Id),
                         AddedIngredientsId = x.AddedIngredients?.Select(x => x.Id),
@@ -194,6 +196,7 @@ namespace Next2.Extensions
                         {
                             Id = row.Product.Id,
                             Comment = row.Comment,
+                            DishReplacementProductId = row.DishReplacementProductId,
                             Product = new SimpleProductModelDTO()
                             {
                                 Id = row.Product.Id,
@@ -320,6 +323,7 @@ namespace Next2.Extensions
                         {
                             Id = row.Product.Id,
                             Comment = new(row.Comment),
+                            DishReplacementProductId = row.DishReplacementProductId,
                             Product = new SimpleProductModelDTO()
                             {
                                 Id = row.Product.Id,
