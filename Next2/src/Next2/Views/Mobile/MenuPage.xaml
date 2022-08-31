@@ -18,9 +18,13 @@
 
     <views:BaseContentPage.Resources>
         <ResourceDictionary>
+
             <Style TargetType="templates:MenuItemTemplate">
-                <Setter Property="HeightRequest" Value="57"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
                 <Setter Property="Padding" Value="0"/>
+                <Setter Property="HeightRequest" Value="57"/>
+                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i10}"/>
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <Setter.Value>
@@ -31,7 +35,7 @@
                                 <VisualState Name="Normal">
 
                                     <VisualState.Setters>
-                                        <Setter TargetName="pancakeView" Property="pancakeview:PancakeView.BackgroundColor" Value="Transparent" />
+                                        <Setter TargetName="pancakeView" Property="pancakeview:PancakeView.BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
                                     </VisualState.Setters>
 
                                 </VisualState>

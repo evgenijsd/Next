@@ -116,10 +116,10 @@ namespace Next2.ViewModels.Mobile
                 { Constants.DialogParameterKeys.DISCOUNT_PRICE, _orderService.CurrentOrder.DiscountPrice },
             };
 
-            return PopupNavigation.PushAsync(new Views.Mobile.Dialogs.AddDishToOrderDialog(parameters, CloseDialogCallback));
+            return PopupNavigation.PushAsync(new Views.Mobile.Dialogs.AddDishToOrderDialog(parameters, CloseAddDishToOrderDialogCallback));
         }
 
-        private async void CloseDialogCallback(IDialogParameters dialogResult)
+        private async void CloseAddDishToOrderDialogCallback(IDialogParameters dialogResult)
         {
             if (IsInternetConnected)
             {

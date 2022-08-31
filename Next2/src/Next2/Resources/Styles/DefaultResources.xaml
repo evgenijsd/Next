@@ -205,6 +205,18 @@
 
         </Setter>
     </Style>
+    
+    <Style x:Key="SeatHeaderItemTemplateStyle_i1" TargetType="templates:SeatHeaderItemTemplate">
+        <Setter Property="Padding" Value="16, 13, 16, 0"/>
+        <Setter Property="Spacing" Value="0"/>
+        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>
+    </Style>
+
+    <Style TargetType="templates:MenuItemTemplate">
+        <Setter Property="HasShadow" Value="False"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="IsClippedToBounds" Value="True"/>
+    </Style>
 
     <Style x:Key="SummaryItem" TargetType="Label">
         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
