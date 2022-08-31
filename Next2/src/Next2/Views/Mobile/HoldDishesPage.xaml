@@ -188,12 +188,17 @@
                                     <DataTemplate x:DataType="models:HoldDishBindableModel">
 
                                         <Grid
-                                            RowDefinitions="0.98*, 0.02*"
+                                            RowDefinitions="0.02*, 0.98*"
                                             ColumnDefinitions="45, 0.55*, 0.45*"
                                             HeightRequest="45">
 
-                                            <ffimageloading:CachedImage
+                                            <BoxView
                                                 Grid.Row="0"
+                                                Grid.ColumnSpan="3"
+                                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
+                                            <ffimageloading:CachedImage
+                                                Grid.Row="1"
                                                 Grid.Column="0"
                                                 Source="ic_check_box_unchecked_white"
                                                 HeightRequest="20"
@@ -202,23 +207,18 @@
                                                 x:Name="checkBoxImage" />
 
                                             <Label
-                                                Grid.Row="0"
+                                                Grid.Row="1"
                                                 Grid.Column="1"
                                                 LineBreakMode="TailTruncation"
                                                 Style="{DynamicResource ViewCellLabelStyle}"
                                                 Text="{Binding DishName}" />
 
                                             <Label
-                                                Grid.Row="0"
+                                                Grid.Row="1"
                                                 Grid.Column="2"
                                                 LineBreakMode="TailTruncation"
                                                 Style="{DynamicResource ViewCellLabelStyle}"
                                                 Text="{Binding ReleaseTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
-
-                                            <BoxView
-                                                Grid.Row="1"
-                                                Grid.ColumnSpan="3"
-                                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
                                             <VisualStateManager.VisualStateGroups>
                                                 <VisualStateGroup Name="CommonStates">
