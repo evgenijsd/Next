@@ -62,7 +62,7 @@
                             <VisualState Name="Normal">
 
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="Transparent"/>
+                                    <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>
                                     <Setter TargetName="pancakeView" Property="pancakeview:PancakeView.BackgroundColor" Value="Transparent" />
                                 </VisualState.Setters>
 

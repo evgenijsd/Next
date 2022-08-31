@@ -2,7 +2,7 @@
 
 namespace Next2.Controls.Templates
 {
-    public partial class TextItemTemplate : StackLayout
+    public partial class TextItemTemplate : Grid
     {
         public TextItemTemplate()
         {

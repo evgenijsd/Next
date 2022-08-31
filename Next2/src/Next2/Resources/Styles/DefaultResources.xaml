@@ -217,6 +217,12 @@
         <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>
     </Style>
 
+    <Style TargetType="templates:MenuItemTemplate">
+        <Setter Property="HasShadow" Value="False"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="IsClippedToBounds" Value="True"/>
+    </Style>
+
     <Style x:Key="SummaryItem" TargetType="Label">
         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
         <Setter Property="VerticalTextAlignment" Value="Center" />
@@ -257,7 +263,6 @@
 
     <Style TargetType="templates:TextItemTemplate">
         <Setter Property="HeightRequest" Value="35"/>
-        <Setter Property="Spacing" Value="0"/>
     </Style>
     
 
