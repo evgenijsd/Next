@@ -5,7 +5,7 @@ using Next2.Models.Bindables;
 using Next2.Services.Authentication;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
-using Next2.Views.Mobile.Dialogs;
+using Next2.Views.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System;
@@ -15,7 +15,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 

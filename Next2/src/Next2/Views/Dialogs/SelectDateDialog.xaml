@@ -7,7 +7,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    x:Class="Next2.Views.Mobile.Dialogs.SelectDateDialog"
+    x:Class="Next2.Views.Dialogs.SelectDateDialog"
     x:DataType="dialogs:SelectDateDialogViewModel">
 
     <rg:PopupPage.Resources>
