@@ -13,6 +13,8 @@ namespace Next2.Models.Bindables
 
         public string? Comment { get; set; }
 
+        public Guid DishReplacementProductId { get; set; }
+
         public SimpleProductModelDTO Product { get; set; } = new();
 
         public decimal Price { get; set; }

@@ -88,6 +88,8 @@
         <ActivityIndicator
             HorizontalOptions="Center"
             VerticalOptions="Center"
+            InputTransparent="True"
+            Color="{DynamicResource AppColor_i1}"
             IsRunning="{Binding IsLoading}"/>
 
         <StackLayout 

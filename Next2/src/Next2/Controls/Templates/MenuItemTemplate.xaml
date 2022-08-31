@@ -5,12 +5,6 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    VerticalOptions="CenterAndExpand"
-    HorizontalOptions="CenterAndExpand"
-    HasShadow="False"
-    CornerRadius="0"
-    BackgroundColor="{OnIdiom Phone=Transparent}"
-    IsClippedToBounds="true"
     x:Class="Next2.Controls.Templates.MenuItemTemplate">
 
     <pancakeview:PancakeView

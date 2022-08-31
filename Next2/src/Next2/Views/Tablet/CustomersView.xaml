@@ -239,9 +239,7 @@
 
                             </yummy:PancakeView>
 
-                            <BoxView
-                                HeightRequest="2"
-                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+                            <BoxView Style="{DynamicResource SeparatorStyle_i7}"/>
 
                             <!--  Table content  -->
                             <yummy:PancakeView
@@ -380,7 +378,7 @@
                                                     <BoxView
                                                         Grid.Row="1"
                                                         Grid.ColumnSpan="6"
-                                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+                                                        Style="{DynamicResource SeparatorStyle_i7}"/>
 
                                                     <VisualStateManager.VisualStateGroups>
                                                         <VisualStateGroup Name="CommonStates">

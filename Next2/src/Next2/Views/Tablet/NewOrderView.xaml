@@ -1085,7 +1085,8 @@
                         <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                             FormattedText="{Binding Text}"
-                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"/>
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
+                            xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                     </DataTemplate>
 
@@ -1205,7 +1206,8 @@
 
                         <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
+                            xct:TouchEffect.CommandParameter="{Binding .}">
 
                             <templates:TextItemTemplate.FormattedText>
                                 <FormattedString>
@@ -1430,7 +1432,7 @@
 
                 <controls:CustomCollectionView.GroupHeaderTemplate>
                     <DataTemplate>
-                        <templates:SeatHeaderItemTemplate />
+                        <templates:SeatHeaderItemTemplate Style="{DynamicResource SeatHeaderItemTemplateStyle_i1}"/>
                     </DataTemplate>
                 </controls:CustomCollectionView.GroupHeaderTemplate>
 
