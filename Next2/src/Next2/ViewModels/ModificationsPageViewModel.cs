@@ -646,11 +646,11 @@ namespace Next2.ViewModels
 
                 if (selectedProductCurrent.Id != SelectedReplacementProduct.Id)
                 {
-                    var selectedProductDefault = _currentDish.ReplacementProducts?.SelectMany(row => row.Products?.Where(product => product.Id == SelectedReplacementProduct?.Id))?.FirstOrDefault()?.Clone();
+                    var newSelectedProduct = _currentDish.ReplacementProducts?.SelectMany(row => row.Products?.Where(product => product.Id == SelectedReplacementProduct?.Id))?.FirstOrDefault()?.Clone();
 
                     selectedProductCurrent = SelectedReplacementProduct.ToProductBindableModel();
 
-                    selectedProductCurrent.Product = selectedProductDefault;
+                    selectedProductCurrent.Product = newSelectedProduct;
 
                     SidebarProducts[SidebarProducts.IndexOf(SelectedSidebarProduct)].Title = SelectedReplacementProduct.Name ?? string.Empty;
                     SelectedSidebarProduct.Id = SelectedReplacementProduct.Id;
