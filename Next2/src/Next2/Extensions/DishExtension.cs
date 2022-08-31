@@ -1,6 +1,7 @@
 ﻿using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Next2.Extensions
@@ -9,6 +10,22 @@ namespace Next2.Extensions
     {
         public static DishBindableModel ToDishBindableModel(this DishModelDTO dish)
         {
+            var selectedProducts = new ObservableCollection<ProductBindableModel>();
+
+            foreach (var replacementProduct in dish.ReplacementProducts)
+            {
+                var selectedProduct = replacementProduct.Products.FirstOrDefault(row => row.Id == replacementProduct.ProductId);
+
+                if (selectedProduct is not null)
+                {
+                    var bindableSelectedProduct = selectedProduct.ToProductBindableModel();
+
+                    bindableSelectedProduct.DishReplacementProductId = replacementProduct.Id;
+
+                    selectedProducts.Add(bindableSelectedProduct);
+                }
+            }
+
             return new()
             {
                 Id = dish.Id,
@@ -20,7 +37,7 @@ namespace Next2.Extensions
                 SelectedDishProportion = dish.DishProportions?.Where(x => x.PriceRatio == 1)?.Select(x => x.ToDishProportionModelDTO())?.FirstOrDefault(),
                 DishProportions = dish.DishProportions?.Select(row => row.Clone()),
                 ReplacementProducts = dish.ReplacementProducts?.Select(row => row.Clone()),
-                SelectedProducts = new(dish.ReplacementProducts?.SelectMany(x => x.Products?.Where(product => product.Id == x.ProductId))?.Select(row => row.ToProductBindableModel())),
+                SelectedProducts = selectedProducts,
             };
         }
 

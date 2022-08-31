@@ -67,8 +67,9 @@ namespace Next2.Extensions
         {
             return new()
             {
-                ProductId = product.Product.Id,
                 Comment = new(product.Comment),
+                ProductId = product.Product.Id,
+                DishReplacementProductId = product.DishReplacementProductId,
                 SelectedOptionsId = product.SelectedOptions?.Select(x => x.Id),
                 SelectedIngredientsId = product.SelectedIngredients?.Select(x => x.Id),
                 AddedIngredientsId = product.AddedIngredients?.Select(x => x.Id),
@@ -82,6 +83,7 @@ namespace Next2.Extensions
             {
                 Id = product.Id,
                 Comment = new(product.Comment),
+                DishReplacementProductId = product.DishReplacementProductId,
                 Product = product.Product?.Clone(),
                 Price = product.Product is not null
                     ? product.Product.DefaultPrice
@@ -99,6 +101,7 @@ namespace Next2.Extensions
             {
                 Id = product.Id,
                 Comment = new(product.Comment),
+                DishReplacementProductId = product.DishReplacementProductId,
                 Product = product.Product?.Clone(),
                 SelectedOptions = product.SelectedOptions == null
                     ? null
@@ -117,6 +120,7 @@ namespace Next2.Extensions
             {
                 ProductId = product.Id,
                 Comment = new(product.Comment),
+                DishReplacementProductId = product.DishReplacementProductId,
                 SelectedOptionsId = product.SelectedOptions is not null
                             ? new Guid[1] { product.SelectedOptions.Id }
                             : null,

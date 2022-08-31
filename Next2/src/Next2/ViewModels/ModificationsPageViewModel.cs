@@ -66,7 +66,10 @@ namespace Next2.ViewModels
             CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 
             _currentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
-            _currentDish = _currentSeat.SelectedItem ?? new();
+
+            var dishId = _currentSeat.SelectedItem.Id;
+
+            _currentDish = _currentSeat.SelectedDishes.FirstOrDefault(row => row.Id == dishId);
 
             InitializeSidebarProducts();
 
@@ -150,9 +153,9 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
             {
-                var products = _currentDish.SelectedProducts ?? new();
+                var products = _currentDish.SelectedProducts;
 
-                _currentProduct = products.FirstOrDefault(row => row.Product.Id == SelectedSidebarProduct.Id);
+                _currentProduct = products.FirstOrDefault(row => row.DishReplacementProductId == SelectedSidebarProduct.DishReplacementProductId);
 
                 _currentProduct.Comment = text;
 
@@ -279,6 +282,7 @@ namespace Next2.ViewModels
                     var result = new SpoilerBindableModel
                     {
                         Id = row.Product.Id,
+                        DishReplacementProductId = row.DishReplacementProductId,
                         Title = row.Product.Name ?? string.Empty,
                         Items = new()
                         {
@@ -336,7 +340,7 @@ namespace Next2.ViewModels
 
         private void InitReplacementProductsDish()
         {
-            var replacementProduct = _currentDish.ReplacementProducts?.FirstOrDefault(row => row.Products.Any(x => x.Id == SelectedSidebarProduct.Id));
+            var replacementProduct = _currentDish.ReplacementProducts?.FirstOrDefault(row => row.Id == SelectedSidebarProduct.DishReplacementProductId);
 
             if (replacementProduct is not null && replacementProduct.Products is not null)
             {
@@ -467,6 +471,7 @@ namespace Next2.ViewModels
                 if (options is not null)
                 {
                     OptionsProduct = new(options);
+
                     SelectedOption = _currentProduct.SelectedOptions is null
                         ? options.FirstOrDefault()
                         : _currentProduct.SelectedOptions.ToOptionBindableModel();
@@ -482,7 +487,7 @@ namespace Next2.ViewModels
                 {
                     SelectedSidebarProduct = item;
 
-                    _currentProduct = _currentDish.SelectedProducts.FirstOrDefault(row => row.Product.Id == SelectedSidebarProduct.Id);
+                    _currentProduct = _currentDish.SelectedProducts.FirstOrDefault(row => row.DishReplacementProductId == SelectedSidebarProduct.DishReplacementProductId);
 
                     _isOrderedByAscendingReplacementProducts = true;
                     _isOrderedByDescendingInventory = true;
@@ -573,6 +578,7 @@ namespace Next2.ViewModels
                 _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
                 _tempCurrentSeat = _mapper.Map<SeatBindableModel>(_orderService.CurrentSeat);
 
+                _currentSeat.SelectedItem = _currentDish;
                 _orderService.CurrentOrder = CurrentOrder;
 
                 var seatNumber = _orderService.CurrentSeat?.SeatNumber;
@@ -628,13 +634,13 @@ namespace Next2.ViewModels
 
         private void SelectReplacementProduct()
         {
-            if (SelectedReplacementProduct is not null && _currentDish.SelectedProducts is not null)
+            if (SelectedReplacementProduct is not null)
             {
                 int selectedProductIndex = 0;
 
                 foreach (var product in _currentDish.SelectedProducts)
                 {
-                    if (product.Product.Id == SelectedSidebarProduct.Id)
+                    if (product.DishReplacementProductId == SelectedSidebarProduct.DishReplacementProductId)
                     {
                         break;
                     }
@@ -646,10 +652,13 @@ namespace Next2.ViewModels
 
                 if (selectedProductCurrent.Id != SelectedReplacementProduct.Id)
                 {
-                    var newSelectedProduct = _currentDish.ReplacementProducts?.SelectMany(row => row.Products?.Where(product => product.Id == SelectedReplacementProduct?.Id))?.FirstOrDefault()?.Clone();
+                    var newSelectedProduct = _currentDish.ReplacementProducts
+                        ?.FirstOrDefault(row => row.Id == SelectedSidebarProduct.DishReplacementProductId)
+                        ?.Products.FirstOrDefault(product => product.Id == SelectedReplacementProduct?.Id)?.Clone();
 
                     selectedProductCurrent = SelectedReplacementProduct.ToProductBindableModel();
 
+                    selectedProductCurrent.DishReplacementProductId = SelectedSidebarProduct.DishReplacementProductId;
                     selectedProductCurrent.Product = newSelectedProduct;
 
                     SidebarProducts[SidebarProducts.IndexOf(SelectedSidebarProduct)].Title = SelectedReplacementProduct.Name ?? string.Empty;
