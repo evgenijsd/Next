@@ -398,7 +398,7 @@
                 <buttons:IconButton
                     Style="{DynamicResource IconButtonStyle_i2}"
                     IconSource="ic_time_circle_40x40"
-                    IsVisible="{Binding IsNoAnyHoldTime}"
+                    IsVisible="{Binding IsNotAnyHoldTime}"
                     xct:TouchEffect.Command="{Binding OpenHoldSelectionCommand}" />
 
                 <buttons:IconButton

@@ -174,7 +174,7 @@
 
                 <BoxView
                     HeightRequest="2"
-                    Margin=" 20, 0"
+                    Margin="20, 0"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
                 <Label
@@ -280,18 +280,8 @@
             <StackLayout
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="Start"
-                Margin="20, 93, 20, 0">
-
-                <StackLayout.Triggers>
-                    <DataTrigger
-                        TargetType="StackLayout"
-                        Binding="{Binding SelectedDish, Converter={xct:IsNotNullOrEmptyConverter}}"
-                        Value="True">
-
-                        <Setter Property="IsVisible" Value="False" />
-
-                    </DataTrigger>
-                </StackLayout.Triggers>
+                Margin="20, 93, 20, 0"
+                IsVisible="{Binding SelectedDish, Converter={xct:IsNullOrEmptyConverter}}">
 
                 <Label
                     FontFamily="Barlow-Medium"

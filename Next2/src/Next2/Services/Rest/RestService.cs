@@ -17,9 +17,12 @@ namespace Next2.Services.Rest
 
         private TaskCompletionSource<bool>? _tokenRefreshingSource;
 
+        private JsonSerializerSettings _jsonFormatSettings;
+
         public RestService(ISettingsManager settingsManager)
         {
             _settingsManager = settingsManager;
+            SetJsonFormatSettings();
         }
 
         #region -- IRestService implementation --
@@ -85,7 +88,7 @@ namespace Next2.Services.Rest
 
             if (requestBody is not null)
             {
-                var json = JsonConvert.SerializeObject(requestBody, GetJsonFormatSettings());
+                var json = JsonConvert.SerializeObject(requestBody, _jsonFormatSettings);
 
                 if (requestBody is IEnumerable<KeyValuePair<string, string>> body)
                 {
@@ -197,14 +200,12 @@ namespace Next2.Services.Rest
             return additionalHeaders;
         }
 
-        private JsonSerializerSettings GetJsonFormatSettings()
+        private void SetJsonFormatSettings()
         {
-            var settings = new JsonSerializerSettings
+            _jsonFormatSettings = new JsonSerializerSettings
             {
                 DateFormatString = Constants.Formats.DATETIME_JSON_FORMAT,
             };
-
-            return settings;
         }
 
         #endregion

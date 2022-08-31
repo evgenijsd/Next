@@ -52,7 +52,7 @@ namespace Next2.Services.DishesHolding
             return holdDishes.OrderBy(sortingSelector);
         }
 
-        public async Task<AOResult<IEnumerable<HoldItemModelDTO>>> GetAllHoldDishesAsync(Func<HoldItemModelDTO, bool>? condition = null)
+        public async Task<AOResult<IEnumerable<HoldItemModelDTO>>> GetHoldDishesAsync(Func<HoldItemModelDTO, bool>? condition = null)
         {
             var result = new AOResult<IEnumerable<HoldItemModelDTO>>();
 
@@ -78,7 +78,7 @@ namespace Next2.Services.DishesHolding
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetAllHoldDishesAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetHoldDishesAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

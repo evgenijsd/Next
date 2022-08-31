@@ -1476,7 +1476,7 @@
                     <buttons:IconButton
                         Style="{DynamicResource IconButtonStyle_i2}"
                         IconSource="ic_time_circle_40x40"
-                        IsVisible="{Binding OrderRegistrationViewModel.IsNoAnyHoldTime}"
+                        IsVisible="{Binding OrderRegistrationViewModel.IsNotAnyHoldTime}"
                         xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}" />
 
                     <buttons:IconButton

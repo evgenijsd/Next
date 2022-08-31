@@ -11,7 +11,7 @@ namespace Next2.Services.DishesHolding
 {
     public interface IDishesHoldingService
     {
-        Task<AOResult<IEnumerable<HoldItemModelDTO>>> GetAllHoldDishesAsync(Func<HoldItemModelDTO, bool>? condition = null);
+        Task<AOResult<IEnumerable<HoldItemModelDTO>>> GetHoldDishesAsync(Func<HoldItemModelDTO, bool>? condition = null);
 
         IEnumerable<HoldDishBindableModel> GetSortedHoldDishes(EHoldDishesSortingType typeSort, IEnumerable<HoldDishBindableModel> holdDihes);
 

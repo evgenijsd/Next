@@ -118,7 +118,7 @@ namespace Next2.ViewModels
 
         public TimeSpan TimerHoldSelectedDish { get; set; }
 
-        public bool IsNoAnyHoldTime { get; set; } = true;
+        public bool IsNotAnyHoldTime { get; set; } = true;
 
         public bool IsOrderWithTax { get; set; } = true;
 
@@ -358,7 +358,7 @@ namespace Next2.ViewModels
 
         private bool OnDishReleaseTimerTick()
         {
-            IsNoAnyHoldTime = true;
+            IsNotAnyHoldTime = true;
 
             foreach (var seat in CurrentOrder.Seats)
             {
@@ -372,7 +372,7 @@ namespace Next2.ViewModels
                         }
                         else
                         {
-                            IsNoAnyHoldTime = false;
+                            IsNotAnyHoldTime = false;
                         }
                     }
                 }
@@ -936,15 +936,16 @@ namespace Next2.ViewModels
             }
 
             PopupPage holdDishDialog = App.IsTablet
-                ? new Views.Tablet.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallback)
-                : new Views.Mobile.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallback);
+                ? new Views.Tablet.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallbackAsync)
+                : new Views.Mobile.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallbackAsync);
 
             await PopupNavigation.PushAsync(holdDishDialog);
         }
 
-        private async void CloseHoldDishDialogCallback(IDialogParameters parameters)
+        private async void CloseHoldDishDialogCallbackAsync(IDialogParameters parameters)
         {
             await _notificationsService.CloseAllPopupAsync();
+
             bool isUpdateOrder = false;
 
             if (IsInternetConnected)
@@ -954,8 +955,8 @@ namespace Next2.ViewModels
                     if (parameters.TryGetValue(Constants.DialogParameterKeys.SEATS, out int seatNumber))
                     {
                         var seats = seatNumber == Constants.Limits.ALL_SEATS
-                            ? CurrentOrder?.Seats
-                            : CurrentOrder?.Seats.Where(x => x.SeatNumber == seatNumber);
+                            ? CurrentOrder.Seats
+                            : CurrentOrder.Seats?.Where(x => x.SeatNumber == seatNumber);
 
                         if (seats is not null)
                         {

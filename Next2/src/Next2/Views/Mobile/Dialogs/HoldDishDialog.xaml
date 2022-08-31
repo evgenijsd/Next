@@ -248,8 +248,7 @@
                                         NumberChangedAction="{Binding UpdateHoldTime}"
                                         Number="{Binding Hour}" />
 
-                                    <Label
-                                        Style="{DynamicResource LabelStyle_i1}" />
+                                    <Label Style="{DynamicResource LabelStyle_i1}" />
 
                                     <controls:StepperNumber
                                         ImageSize="50"
@@ -300,17 +299,8 @@
             <StackLayout
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="Start"
-                Margin="20, 73, 20, 0">
-                <StackLayout.Triggers>
-                    <DataTrigger
-                        TargetType="StackLayout"
-                        Binding="{Binding SelectedDish, Converter={xct:IsNotNullOrEmptyConverter}}"
-                        Value="True">
-
-                        <Setter Property="IsVisible" Value="False" />
-
-                    </DataTrigger>
-                </StackLayout.Triggers>
+                Margin="20, 73, 20, 0"
+                IsVisible="{Binding SelectedDish, Converter={xct:IsNullOrEmptyConverter}}">
 
                 <Label
                     FontFamily="Barlow-Medium"
