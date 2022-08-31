@@ -16,7 +16,7 @@ namespace Next2.Controls
     {
         private bool _isFutureYearSelected;
         private bool _isDaySelecting;
-        private bool _isFirstOpemDropdown = true;
+        private bool _isFirstOpenDropdown = true;
 
         public Calendar()
         {
@@ -28,8 +28,7 @@ namespace Next2.Controls
                 .Select(y => new Month { Name = y, Number = monthNumber++ }));
 
             SelectedMonth = DateTime.Now.Month;
-
-            Years = new ();
+            Years = new();
 
             for (int i = Constants.Limits.MIN_YEAR; i <= Constants.Limits.MAX_YEAR; i++)
             {
@@ -273,7 +272,7 @@ namespace Next2.Controls
         public Day SelectedDay { get; set; }
 
         private ICommand? _selectYearCommand;
-        public ICommand SelectYearCommand => _selectYearCommand ??= new Command<object>(OnSelectYearCommand);
+        public ICommand SelectYearCommand => _selectYearCommand ??= new Command(OnSelectYearCommand);
 
         private ICommand? _rightMonthTapCommand;
         public ICommand RightMonthTapCommand => _rightMonthTapCommand ??= new AsyncCommand(OnRightMonthTapCommandAsync);
@@ -301,7 +300,7 @@ namespace Next2.Controls
                         SelectedYear = Years.FirstOrDefault(x => x.YearValue == SelectedDate.Value.Year);
                         SelectedMonth = SelectedDate.Value.Month;
 
-                        await CreateSelectedDay(true);
+                        await CreateSelectedDayAsync(true);
                     }
 
                     break;
@@ -347,13 +346,13 @@ namespace Next2.Controls
 
                     _isFutureYearSelected = false;
 
-                    await CreateSelectedDay();
+                    await CreateSelectedDayAsync();
 
                     break;
 
                 case nameof(SelectedMonth):
 
-                    await CreateSelectedDay();
+                    await CreateSelectedDayAsync();
 
                     break;
 
@@ -381,24 +380,23 @@ namespace Next2.Controls
 
         private void SetMarginToDropdownFrame()
         {
-            if (App.IsTablet)
+            dropdownFrame.Margin = new Thickness()
             {
-                dropdownFrame.Margin = new Thickness() { Right = 0, Top = DropdownHeaderHeightRequest + 2, Left = 0, Bottom = 0 };
-            }
-            else
-            {
-                dropdownFrame.Margin = new Thickness() { Right = 0, Top = DropdownHeaderHeightRequest + 2, Left = 0, Bottom = 0 };
-            }
+                Right = 0,
+                Top = DropdownHeaderHeightRequest + 2,
+                Left = 0,
+                Bottom = 0,
+            };
         }
 
         private void RaiseSelectedDay()
         {
-            var tmp = SelectedDay;
+            var tempSelectedDay = SelectedDay;
             SelectedDay = new();
-            SelectedDay = tmp;
+            SelectedDay = tempSelectedDay;
         }
 
-        private async Task CreateSelectedDay(bool isAwait = false)
+        private async Task CreateSelectedDayAsync(bool isAwait = false)
         {
             if (SelectedDate is not null && !_isDaySelecting)
             {
@@ -430,19 +428,14 @@ namespace Next2.Controls
 
             if (dropdownFrame.IsVisible)
             {
-                if (Device.RuntimePlatform == Device.iOS)
+                if (Device.RuntimePlatform == Device.iOS && _isFirstOpenDropdown)
                 {
-                    if (_isFirstOpemDropdown)
-                    {
-                        await Task.Delay(200);
-                        _isFirstOpemDropdown = false;
-                    }
+                    await Task.Delay(200);
+                    _isFirstOpenDropdown = false;
                 }
 
                 yearsCollectionView.ScrollTo(SelectedYear, -1, ScrollToPosition.Center, false);
             }
-
-            //return Task.CompletedTask;
         }
 
         private Task OnRightMonthTapCommandAsync()
