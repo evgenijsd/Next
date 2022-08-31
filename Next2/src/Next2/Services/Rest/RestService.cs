@@ -205,11 +205,13 @@ namespace Next2.Services.Rest
         {
             _jsonFormatSerializeSettings = new JsonSerializerSettings
             {
+                DateFormatString = Constants.Formats.DATETIME_JSON_FORMAT,
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc,
             };
 
             _jsonFormatDeserializeSettings = new JsonSerializerSettings
             {
+                DateFormatString = Constants.Formats.DATETIME_JSON_FORMAT,
                 DateTimeZoneHandling = DateTimeZoneHandling.Local,
             };
         }

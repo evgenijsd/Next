@@ -90,7 +90,7 @@ namespace Next2.ViewModels.Dialogs
 
         private void OnUpdateHoldTime()
         {
-            var holdTime = new DateTime(CurrentTime.Year, CurrentTime.Month, CurrentTime.Day, Hour, Minute, second: 0);
+            var holdTime = new DateTime(CurrentTime.Year, CurrentTime.Month, CurrentTime.Day, Hour, Minute, second: 0, DateTimeKind.Local);
 
             if (CurrentTime > holdTime)
             {
