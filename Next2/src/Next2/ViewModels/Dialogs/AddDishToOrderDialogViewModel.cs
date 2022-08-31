@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -84,6 +85,37 @@ namespace Next2.ViewModels
             if (parameters.TryGetValue(Constants.DialogParameterKeys.DISH, out DishModelDTO dish)
                 && parameters.TryGetValue(Constants.DialogParameterKeys.DISCOUNT_PRICE, out decimal discountPrice))
             {
+                var products = new ObservableCollection<ProductBindableModel>();
+
+                foreach (var replacementProduct in dish.ReplacementProducts)
+                {
+                    var product = replacementProduct.Products.FirstOrDefault(row => row.Id == replacementProduct.ProductId);
+
+                    products.Add(new ProductBindableModel()
+                    {
+                        Id = product.Id,
+                        DishReplacementProductId = replacementProduct.Id,
+                        SelectedOptions = product.Options.FirstOrDefault(),
+                        AddedIngredients = new(product.Ingredients.Select(row => new SimpleIngredientModelDTO()
+                        {
+                            Id = row.Id,
+                            ImageSource = row.ImageSource,
+                            IngredientsCategory = row.IngredientsCategory,
+                            Name = row.Name,
+                            Price = row.Price,
+                        })),
+                        Product = new()
+                        {
+                            Id = product.Id,
+                            DefaultPrice = product.DefaultPrice,
+                            ImageSource = product.ImageSource,
+                            Ingredients = product.Ingredients,
+                            Name = product.Name,
+                            Options = product.Options,
+                        },
+                    });
+                }
+
                 Dish = new DishBindableModel()
                 {
                     Id = dish.Id,
@@ -94,28 +126,7 @@ namespace Next2.ViewModels
                     DiscountPrice = discountPrice,
                     DishProportions = dish.DishProportions,
                     Products = new(dish.ReplacementProducts.SelectMany(x => x.Products)),
-                    SelectedProducts = new(dish.ReplacementProducts.SelectMany(x => x.Products.Where(product => product.Id == x.ProductId)).Select(row => new ProductBindableModel()
-                    {
-                        Id = row.Id,
-                        SelectedOptions = row.Options.FirstOrDefault(),
-                        AddedIngredients = new(row.Ingredients.Select(row => new SimpleIngredientModelDTO()
-                        {
-                            Id = row.Id,
-                            ImageSource = row.ImageSource,
-                            IngredientsCategory = row.IngredientsCategory,
-                            Name = row.Name,
-                            Price = row.Price,
-                        })),
-                        Product = new()
-                        {
-                            Id = row.Id,
-                            DefaultPrice = row.DefaultPrice,
-                            ImageSource = row.ImageSource,
-                            Ingredients = row.Ingredients,
-                            Name = row.Name,
-                            Options = row.Options,
-                        },
-                    })),
+                    SelectedProducts = products,
                 };
 
                 Proportions = dish.DishProportions.Select(row => new ProportionModel()
