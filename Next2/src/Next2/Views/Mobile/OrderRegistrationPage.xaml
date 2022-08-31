@@ -139,7 +139,8 @@
                         HeightRequest="35"
                         FontSize="{DynamicResource TSize_i7}"
                         FormattedText="{Binding Text}"
-                        xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"/>
+                        xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
+                        xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                 </DataTemplate>
             </controls:DropDownList.DataTemplate>
@@ -226,7 +227,8 @@
                     <templates:TextItemTemplate
                         Style="{DynamicResource StackLayoutTemplateStyle_i1}"
                         HeightRequest="35"
-                        xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}">
+                        xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
+                        xct:TouchEffect.CommandParameter="{Binding .}">
 
                         <templates:TextItemTemplate.FormattedText>
                             <FormattedString>
