@@ -31,13 +31,15 @@ namespace Next2.ViewModels
         private readonly IMenuService _menuService;
         private readonly IMapper _mapper;
 
-        private readonly int _indexOfSeat;
-        private readonly int _indexOfSelectedDish;
+        private readonly ICommand _tapSubmenuCommand;
 
         private bool _isOrderedByAscendingReplacementProducts = true;
         private bool _isOrderedByDescendingInventory = true;
 
         private DishBindableModel _currentDish;
+        private SeatBindableModel _currentSeat;
+        private ProductBindableModel _currentProduct;
+
         private FullOrderBindableModel _tempCurrentOrder = new();
         private SeatBindableModel _tempCurrentSeat = new();
 
@@ -59,41 +61,39 @@ namespace Next2.ViewModels
             _bonusesService = bonusService;
             _mapper = mapper;
 
+            _tapSubmenuCommand ??= new AsyncCommand<SpoilerBindableModel>(OnTapSubmenuCommandAsync);
+
             CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 
-            var seat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
+            _currentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
+            _currentDish = _currentSeat.SelectedItem ?? new();
 
-            _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
-            _indexOfSelectedDish = seat.SelectedDishes.IndexOf(seat.SelectedItem);
+            InitializeSidebarProducts();
 
-            _currentDish = CurrentOrder.Seats[_indexOfSeat].SelectedItem ?? new();
-
-            InitProductsDish();
-
-            SelectedProduct = new() { SelectedItem = new() { State = ESubmenuItemsModifactions.Proportions } };
+            SelectedSidebarProduct = new() { SelectedItem = new() { State = ESubmenuItemsModifactions.Proportions } };
         }
 
         #region -- Public properties --
 
         public FullOrderBindableModel CurrentOrder { get; set; }
 
-        public SpoilerBindableModel SelectedProduct { get; set; }
+        public SpoilerBindableModel SelectedSidebarProduct { get; set; }
 
         public SpoilerBindableModel SelectedProductDish { get; set; } = new();
 
-        public ObservableCollection<SpoilerBindableModel> ProductsDish { get; set; } = new();
+        public ObservableCollection<SpoilerBindableModel> SidebarProducts { get; set; } = new();
 
         public ProportionBindableModel? SelectedProportion { get; set; }
 
         public ObservableCollection<ProportionBindableModel> PortionsDish { get; set; } = new();
 
-        public OptionModelDTO? SelectedOption { get; set; }
+        public OptionBindableModel? SelectedOption { get; set; }
 
-        public ObservableCollection<OptionModelDTO> OptionsProduct { get; set; } = new();
+        public ObservableCollection<OptionBindableModel> OptionsProduct { get; set; } = new();
 
-        public SimpleProductModelDTO? SelectedReplacementProduct { get; set; }
+        public SimpleProductBindableModel? SelectedReplacementProduct { get; set; }
 
-        public ObservableCollection<SimpleProductModelDTO> ReplacementProducts { get; set; } = new();
+        public ObservableCollection<SimpleProductBindableModel> ReplacementProducts { get; set; } = new();
 
         public IngredientsCategoryModelDTO? SelectedIngredientCategory { get; set; }
 
@@ -106,9 +106,6 @@ namespace Next2.ViewModels
         public bool IsExpandedIngredientCategories { get; set; }
 
         public int HeightIngredientCategories { get; set; }
-
-        private ICommand? _tapSubmenuCommand;
-        public ICommand TapSubmenuCommand => _tapSubmenuCommand ??= new AsyncCommand<SpoilerBindableModel>(OnTapSubmenuCommandAsync);
 
         private ICommand? _tapOpenProportionsCommand;
         public ICommand TapOpenProportionsCommand => _tapOpenProportionsCommand ??= new AsyncCommand(OnTapOpenProportionsCommandAsync);
@@ -154,13 +151,15 @@ namespace Next2.ViewModels
             if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
             {
                 var products = _currentDish.SelectedProducts ?? new();
-                var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
-                var indexProduct = products.IndexOf(product);
 
-                ProductsDish[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
+                _currentProduct = products.FirstOrDefault(row => row.Product.Id == SelectedSidebarProduct.Id);
 
-                products[indexProduct].Comment = text;
-                ProductsDish[indexProduct].SelectedItem = ProductsDish[indexProduct].Items.FirstOrDefault();
+                _currentProduct.Comment = text;
+
+                var indexProduct = products.IndexOf(_currentProduct);
+
+                SidebarProducts[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
+                SidebarProducts[indexProduct].SelectedItem = SidebarProducts[indexProduct].Items.FirstOrDefault();
             }
         }
 
@@ -181,11 +180,7 @@ namespace Next2.ViewModels
                 case nameof(SelectedOption):
                     if (SelectedOption is not null)
                     {
-                        var products = _currentDish.SelectedProducts;
-
-                        var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
-
-                        product.SelectedOptions = SelectedOption;
+                        _currentProduct.SelectedOptions = SelectedOption.ToOptionModelDTO();
                     }
 
                     break;
@@ -246,46 +241,44 @@ namespace Next2.ViewModels
 
         private void OnChangingToggleCommand(IngredientBindableModel toggleIngredient)
         {
-            var product = _currentDish.SelectedProducts?.FirstOrDefault();
+            var ingredient = _currentProduct.AddedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id);
 
-            var ingredient = product?.AddedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id);
-
-            if (product is not null && SelectedIngredientCategory is not null)
+            if (_currentProduct is not null && SelectedIngredientCategory is not null)
             {
                 if (ingredient is null)
                 {
-                    product.AddedIngredients?.Add(toggleIngredient.ToSimpleIngredientModelDTO());
+                    _currentProduct.AddedIngredients?.Add(toggleIngredient.ToSimpleIngredientModelDTO());
 
-                    if (product.Product.Ingredients.Any(row => row.Id == toggleIngredient.Id))
+                    if (_currentProduct.Product.Ingredients.Any(row => row.Id == toggleIngredient.Id))
                     {
-                        product.ExcludedIngredients?.Remove(product.ExcludedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id));
+                        _currentProduct.ExcludedIngredients?.Remove(_currentProduct.ExcludedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id));
                     }
                 }
                 else
                 {
-                    if (product.Product.Ingredients.Any(row => row.Id == ingredient.Id))
+                    if (_currentProduct.Product.Ingredients.Any(row => row.Id == ingredient.Id))
                     {
-                        product.ExcludedIngredients?.Add(ingredient);
+                        _currentProduct.ExcludedIngredients?.Add(ingredient);
                     }
 
-                    product?.AddedIngredients?.Remove(ingredient);
+                    _currentProduct.AddedIngredients?.Remove(ingredient);
                 }
 
                 InitProportionDish();
             }
         }
 
-        private void InitProductsDish()
+        private void InitializeSidebarProducts()
         {
             var products = _currentDish.SelectedProducts;
 
             if (products is not null)
             {
-                ProductsDish = new(products.Select(row =>
+                SidebarProducts = new(products.Select(row =>
                 {
                     var result = new SpoilerBindableModel
                     {
-                        Id = row.Id,
+                        Id = row.Product.Id,
                         Title = row.Product.Name ?? string.Empty,
                         Items = new()
                         {
@@ -319,7 +312,7 @@ namespace Next2.ViewModels
                                 CanShowDot = !string.IsNullOrWhiteSpace(row.Comment),
                             },
                         },
-                        TapCommand = TapSubmenuCommand,
+                        TapCommand = _tapSubmenuCommand,
                     };
 
                     result.PropertyChanged += SelectedOptionPropertyChanged;
@@ -343,20 +336,15 @@ namespace Next2.ViewModels
 
         private void InitReplacementProductsDish()
         {
-            var replacementProduct = _currentDish.ReplacementProducts.FirstOrDefault(x => x.ProductId == SelectedProduct.Id);
+            var replacementProduct = _currentDish.ReplacementProducts?.FirstOrDefault(row => row.Products.Any(x => x.Id == SelectedSidebarProduct.Id));
 
             if (replacementProduct is not null && replacementProduct.Products is not null)
             {
-                var products = replacementProduct.Products;
+                var products = _isOrderedByAscendingReplacementProducts
+                    ? replacementProduct.Products.OrderBy(row => row.Name)
+                    : replacementProduct.Products.OrderByDescending(row => row.Name);
 
-                if (_isOrderedByAscendingReplacementProducts)
-                {
-                    ReplacementProducts = _mapper.Map<ObservableCollection<SimpleProductModelDTO>>(products.OrderBy(row => row.Name));
-                }
-                else
-                {
-                    ReplacementProducts = _mapper.Map<ObservableCollection<SimpleProductModelDTO>>(products.OrderByDescending(row => row.Name));
-                }
+                ReplacementProducts = new(products.Select(row => row.ToSimpleProductBindableModel()));
 
                 foreach (var product in ReplacementProducts)
                 {
@@ -365,7 +353,7 @@ namespace Next2.ViewModels
                     product.DefaultPrice = СalculatePriceOfProportion(defaultProductPrice);
                 }
 
-                SelectedReplacementProduct = ReplacementProducts.FirstOrDefault(x => x.Id == SelectedProduct.Id);
+                SelectedReplacementProduct = ReplacementProducts.FirstOrDefault(x => x.Id == SelectedSidebarProduct.Id);
             }
         }
 
@@ -403,8 +391,6 @@ namespace Next2.ViewModels
         {
             if (_allIngredients is not null)
             {
-                var product = _currentDish.SelectedProducts?.FirstOrDefault(row => row.Id == SelectedProduct.Id);
-
                 Ingredients = new(_allIngredients.Where(row => row.IngredientsCategoryId == categoryId).Select(row => row.ToIngredientBindableModel()));
 
                 var selectedDishProportion = _currentDish.SelectedDishProportion;
@@ -412,7 +398,7 @@ namespace Next2.ViewModels
 
                 foreach (var ingredient in Ingredients)
                 {
-                    ingredient.IsToggled = product is not null && product.AddedIngredients.Any(item => item.Id == ingredient.Id);
+                    ingredient.IsToggled = _currentProduct is not null && _currentProduct.AddedIngredients.Any(item => item.Id == ingredient.Id);
 
                     if (isSelectedDishProportion)
                     {
@@ -459,14 +445,14 @@ namespace Next2.ViewModels
 
             if (portions is not null && _allIngredients is not null)
             {
-                PortionsDish = new(_currentDish.DishProportions.Select(row => new ProportionBindableModel()
+                var bindableProportions = new List<ProportionBindableModel>(portions.Select(row => row.ToProportionBindableModel()));
+
+                foreach(var proportion in bindableProportions)
                 {
-                    Id = row.Id,
-                    ProportionId = row.ProportionId,
-                    PriceRatio = row.PriceRatio,
-                    Price = _orderService.CalculateDishPriceBaseOnProportion(_currentDish, row.PriceRatio, _allIngredients),
-                    ProportionName = row.ProportionName,
-                }).OrderBy(row => row.Price));
+                    proportion.Price = _orderService.CalculateDishPriceBaseOnProportion(_currentDish, proportion.PriceRatio, _allIngredients);
+                }
+
+                PortionsDish = new(bindableProportions.OrderBy(row => row.Price));
 
                 SelectedProportion = PortionsDish.FirstOrDefault(row => row.Id == selectedDishProportionId);
             }
@@ -474,18 +460,16 @@ namespace Next2.ViewModels
 
         private void LoadOptionsProduct()
         {
-            if (SelectedProduct != null)
+            if (SelectedSidebarProduct != null)
             {
-                var product = _currentDish.SelectedProducts.FirstOrDefault(row => row.Id == SelectedProduct.Id);
-
-                var options = product.Product.Options;
+                var options = _currentProduct.Product.Options.Select(row => row.ToOptionBindableModel());
 
                 if (options is not null)
                 {
                     OptionsProduct = new(options);
-                    SelectedOption = product.SelectedOptions is null
+                    SelectedOption = _currentProduct.SelectedOptions is null
                         ? options.FirstOrDefault()
-                        : product.SelectedOptions;
+                        : _currentProduct.SelectedOptions.ToOptionBindableModel();
                 }
             }
         }
@@ -496,17 +480,20 @@ namespace Next2.ViewModels
             {
                 if (item?.SelectedItem is not null)
                 {
-                    SelectedProduct = item;
+                    SelectedSidebarProduct = item;
+
+                    _currentProduct = _currentDish.SelectedProducts.FirstOrDefault(row => row.Product.Id == SelectedSidebarProduct.Id);
+
                     _isOrderedByAscendingReplacementProducts = true;
                     _isOrderedByDescendingInventory = true;
 
-                    var index = ProductsDish.IndexOf(item);
+                    var index = SidebarProducts.IndexOf(item);
 
-                    for (int i = 0; i < ProductsDish.Count; i++)
+                    for (int i = 0; i < SidebarProducts.Count; i++)
                     {
                         if (i != index)
                         {
-                            ProductsDish[i].SelectedItem = null;
+                            SidebarProducts[i].SelectedItem = null;
                         }
                     }
 
@@ -525,13 +512,10 @@ namespace Next2.ViewModels
                             InitIngredientCategoriesAsync().Await();
                             break;
                         case ESubmenuItemsModifactions.Comment:
-                            var products = _currentDish.SelectedProducts.ToList();
-                            var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
-                            var indexProduct = products.IndexOf(product);
 
                             var navigationParameters = new NavigationParameters()
                             {
-                                { Constants.Navigations.INPUT_VALUE, _currentDish.SelectedProducts?[indexProduct].Comment },
+                                { Constants.Navigations.INPUT_VALUE, _currentProduct.Comment },
                                 { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["CommentForOrder"] },
                             };
 
@@ -553,11 +537,11 @@ namespace Next2.ViewModels
 
         private async Task OnTapOpenProportionsCommandAsync()
         {
-            SelectedProduct = new() { SelectedItem = new() { State = ESubmenuItemsModifactions.Proportions } };
+            SelectedSidebarProduct = new() { SelectedItem = new() { State = ESubmenuItemsModifactions.Proportions } };
 
-            for (int i = 0; i < ProductsDish.Count; i++)
+            for (int i = 0; i < SidebarProducts.Count; i++)
             {
-                ProductsDish[i].SelectedItem = null;
+                SidebarProducts[i].SelectedItem = null;
             }
 
             SelectedProportion = PortionsDish.FirstOrDefault(row => row.Id == _currentDish.SelectedDishProportion?.Id);
@@ -589,7 +573,6 @@ namespace Next2.ViewModels
                 _tempCurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
                 _tempCurrentSeat = _mapper.Map<SeatBindableModel>(_orderService.CurrentSeat);
 
-                CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedDish] = _currentDish;
                 _orderService.CurrentOrder = CurrentOrder;
 
                 var seatNumber = _orderService.CurrentSeat?.SeatNumber;
@@ -651,7 +634,7 @@ namespace Next2.ViewModels
 
                 foreach (var product in _currentDish.SelectedProducts)
                 {
-                    if (product.Id == SelectedProduct.Id)
+                    if (product.Product.Id == SelectedSidebarProduct.Id)
                     {
                         break;
                     }
@@ -663,14 +646,14 @@ namespace Next2.ViewModels
 
                 if (selectedProductCurrent.Id != SelectedReplacementProduct.Id)
                 {
-                    var selectedProductDefault = _currentDish.SelectedProducts.FirstOrDefault(x => x.Id == SelectedReplacementProduct.Id);
+                    var selectedProductDefault = _currentDish.ReplacementProducts?.SelectMany(row => row.Products?.Where(product => product.Id == SelectedReplacementProduct?.Id))?.FirstOrDefault()?.Clone();
 
                     selectedProductCurrent = SelectedReplacementProduct.ToProductBindableModel();
 
-                    selectedProductCurrent.Product = selectedProductDefault.Product.Clone();
+                    selectedProductCurrent.Product = selectedProductDefault;
 
-                    ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct.Name ?? string.Empty;
-                    SelectedProduct.Id = SelectedReplacementProduct.Id;
+                    SidebarProducts[SidebarProducts.IndexOf(SelectedSidebarProduct)].Title = SelectedReplacementProduct.Name ?? string.Empty;
+                    SelectedSidebarProduct.Id = SelectedReplacementProduct.Id;
 
                     foreach (var addedIngredient in selectedProductCurrent.AddedIngredients ?? new())
                     {

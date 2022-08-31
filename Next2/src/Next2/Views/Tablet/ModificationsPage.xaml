@@ -86,7 +86,7 @@
 
                     <BoxView.Triggers>
 
-                        <DataTrigger TargetType="BoxView" Binding="{Binding SelectedProduct.SelectedItem.State}" Value="Proportions">
+                        <DataTrigger TargetType="BoxView" Binding="{Binding SelectedSidebarProduct.SelectedItem.State}" Value="Proportions">
                             <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i1}"/>
                         </DataTrigger>
 
@@ -101,7 +101,7 @@
                 HeightRequest="1"/>
 
             <controls:CustomCollectionView
-                ItemsSource="{Binding ProductsDish}"
+                ItemsSource="{Binding SidebarProducts}"
                 VerticalScrollBarVisibility="Never"
                 HorizontalScrollBarVisibility="Never"
                 BounceMode="DisabledForAndroidAndiOS">
@@ -159,7 +159,7 @@
         <sc:StateContainer
             Grid.Column="1"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-            State="{Binding SelectedProduct.SelectedItem.State}">
+            State="{Binding SelectedSidebarProduct.SelectedItem.State}">
 
             <sc:StateCondition State="Proportions">
                 <StackLayout>
@@ -271,7 +271,7 @@
 
                         <controls:CustomCollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="modelsDTO:SimpleProductModelDTO">
+                            <DataTemplate x:DataType="bindables:SimpleProductBindableModel">
 
                                 <pancakeview:PancakeView
                                     Padding="12, 4"
@@ -448,7 +448,7 @@
 
                         <controls:CustomCollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="modelsDTO:OptionModelDTO">
+                            <DataTemplate x:DataType="bindables:OptionBindableModel">
 
                                 <pancakeview:PancakeView
                                     Padding="16, 4"

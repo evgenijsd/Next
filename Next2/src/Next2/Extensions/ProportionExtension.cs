@@ -33,6 +33,17 @@ namespace Next2.Extensions
             };
         }
 
+        public static ProportionBindableModel ToProportionBindableModel(this SimpleDishProportionModelDTO proportion)
+        {
+            return new()
+            {
+                Id = proportion.Id,
+                ProportionId = proportion.ProportionId,
+                PriceRatio = proportion.PriceRatio,
+                ProportionName = proportion.ProportionName,
+            };
+        }
+
         public static DishProportionModelDTO ToDishProportionModelDTO(this ProportionBindableModel proportion)
         {
             return new()

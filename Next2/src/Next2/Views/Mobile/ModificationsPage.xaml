@@ -57,7 +57,7 @@
             Grid.Column="0"
             Grid.Row="2"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-            State="{Binding SelectedProduct.SelectedItem.State}">
+            State="{Binding SelectedSidebarProduct.SelectedItem.State}">
 
             <sc:StateCondition State="Proportions">
                 <StackLayout>
@@ -171,7 +171,7 @@
 
                         <controls:CustomCollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="modelsDTO:SimpleProductModelDTO">
+                            <DataTemplate x:DataType="bindables:SimpleProductBindableModel">
 
                                 <Frame
                                     Padding="16, 4"
@@ -370,7 +370,7 @@
 
                         <controls:CustomCollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="modelsDTO:OptionModelDTO">
+                            <DataTemplate x:DataType="bindables:OptionBindableModel">
 
                                 <Frame
                                     Padding="16, 2"
@@ -510,7 +510,7 @@
                     HeightRequest="1"/>
 
                 <controls:CustomCollectionView
-                    ItemsSource="{Binding ProductsDish}"
+                    ItemsSource="{Binding SidebarProducts}"
                     VerticalScrollBarVisibility="Never"
                     HorizontalScrollBarVisibility="Never"
                     BounceMode="DisabledForAndroidAndiOS">

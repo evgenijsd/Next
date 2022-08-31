@@ -15,5 +15,10 @@ namespace Next2.Models.Bindables
         public string? ProportionName { get; set; }
 
         public decimal Price { get; set; }
+
+        public override string ToString()
+        {
+            return Id.ToString();
+        }
     }
 }

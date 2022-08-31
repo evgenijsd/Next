@@ -99,11 +99,11 @@
                     <DataTemplate x:DataType="bindables:ProportionBindableModel">
 
                         <templates:ToggleItemTemplate
-                            State="{Binding ProportionName}"
+                            State="{Binding .}"
                             IsVisibleSubtitle="True"
                             Title="{Binding ProportionName}"
                             Subtitle="{Binding Price, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
-                            BindableLayout="{Binding SelectedProportion.ProportionName, Source={RelativeSource AncestorType={x:Type viewmodels:AddDishToOrderDialogViewModel}}}"/>
+                            BindableLayout="{Binding SelectedProportion, Source={RelativeSource AncestorType={x:Type viewmodels:AddDishToOrderDialogViewModel}}}"/>
 
                     </DataTemplate>
 

@@ -1,5 +1,4 @@
-﻿using Next2.Interfaces;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
 namespace Next2.Controls.Templates
@@ -198,7 +197,7 @@ namespace Next2.Controls.Templates
             {
                 case nameof(State):
                 case nameof(BindableLayout):
-                    IsToggle = State == BindableLayout;
+                    IsToggle = State?.ToString() == BindableLayout?.ToString();
 
                     break;
                 case nameof(IsToggle):

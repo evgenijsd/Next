@@ -7,6 +7,47 @@ namespace Next2.Extensions
 {
     public static class ProductExtension
     {
+        public static SimpleProductBindableModel ToSimpleProductBindableModel(this SimpleProductModelDTO product)
+        {
+            return new()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                DefaultPrice = product.DefaultPrice,
+                ImageSource = product.ImageSource,
+                Options = product.Options?.Select(row => row.Clone()),
+                Ingredients = product.Ingredients?.Select(row => row.Clone()),
+            };
+        }
+
+        public static SimpleProductModelDTO ToSimpleProductModelDTO(this SimpleProductBindableModel product)
+        {
+            return new()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                DefaultPrice = product.DefaultPrice,
+                ImageSource = product.ImageSource,
+                Options = product.Options?.Select(row => row.Clone()),
+                Ingredients = product.Ingredients?.Select(row => row.Clone()),
+            };
+        }
+
+        public static ProductBindableModel ToProductBindableModel(this SimpleProductBindableModel product)
+        {
+            var ingredients = product.Ingredients?.Select(row => row.Clone());
+
+            return new()
+            {
+                Id = product.Id,
+                Product = product.ToSimpleProductModelDTO(),
+                Price = product.DefaultPrice,
+                SelectedOptions = product.Options?.FirstOrDefault()?.Clone(),
+                SelectedIngredients = new(ingredients),
+                AddedIngredients = new(ingredients),
+            };
+        }
+
         public static ProductBindableModel ToProductBindableModel(this SimpleProductModelDTO product)
         {
             var ingredients = product.Ingredients?.Select(row => row.Clone());
@@ -26,7 +67,7 @@ namespace Next2.Extensions
         {
             return new()
             {
-                ProductId = product.Id,
+                ProductId = product.Product.Id,
                 Comment = new(product.Comment),
                 SelectedOptionsId = product.SelectedOptions?.Select(x => x.Id),
                 SelectedIngredientsId = product.SelectedIngredients?.Select(x => x.Id),
