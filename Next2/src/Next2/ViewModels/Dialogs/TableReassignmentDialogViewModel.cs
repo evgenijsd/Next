@@ -124,11 +124,25 @@ namespace Next2.ViewModels.Dialogs
 
         private void OnAcceptCommand()
         {
-            _collectionOfOrderIdsBeUpdated = IsAllTablesChecked
-                ? Tables.Select(row => row.OrderId)
-                : SelectedTable is not null
-                    ? _collectionOfOrderIdsBeUpdated.Concat(new[] { SelectedTable.OrderId })
-                    : _collectionOfOrderIdsBeUpdated;
+            if (IsAllTablesChecked)
+            {
+                var collectionOfOrdersIdsOfEachTable = Tables.Select(row => row.OrdersId);
+
+                foreach (var collectionOfOrdersIdsOfSingleTable in collectionOfOrdersIdsOfEachTable)
+                {
+                    if (collectionOfOrdersIdsOfSingleTable is not null)
+                    {
+                        foreach (var orderId in collectionOfOrdersIdsOfSingleTable)
+                        {
+                            _collectionOfOrderIdsBeUpdated = _collectionOfOrderIdsBeUpdated.Concat(new[] { orderId });
+                        }
+                    }
+                }
+            }
+            else if (SelectedTable is not null && SelectedTable.OrdersId is not null)
+            {
+                _collectionOfOrderIdsBeUpdated = SelectedTable.OrdersId;
+            }
 
             RequestClose(new DialogParameters()
             {

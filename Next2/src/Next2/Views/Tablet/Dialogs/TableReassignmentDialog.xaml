@@ -128,7 +128,9 @@
 
                         <templates:TextItemTemplate
                             Style="{DynamicResource StackLayoutTemplateStyle_i1}"
-                            FormattedText="{Binding UserName}"/>
+                            FormattedText="{Binding UserName}"
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
+                            xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                     </DataTemplate>
 
@@ -149,7 +151,7 @@
                 VerticalOptions="Start"
                 Margin="24, 0"
                 ScrollBarVisibility="Never"
-                HeaderText="{xct:Translate SelectTable}"                        
+                HeaderFormattedText="{xct:Translate SelectTable}"                        
                 SelectedItem="{Binding SelectedTable}"
                 ItemsSource="{Binding Tables}">
 
@@ -173,11 +175,11 @@
 
                     <DataTrigger TargetType="controls:DropDownList" Binding="{Binding SelectedTable, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
 
-                        <Setter Property="HeaderText">
+                        <Setter Property="HeaderFormattedText">
                             <FormattedString>
                                 <Span Text="{xct:Translate Table}" />
                                 <Span Text=" " />
-                                <Span Text="{Binding SelectedTableNumberClue}" />
+                                <Span Text="{Binding SelectedTableNumberClue}"/>
                             </FormattedString>
                         </Setter>
 
@@ -196,7 +198,10 @@
 
                     <DataTemplate x:DataType="modelsApi:OccupiedTableModelDTO">
 
-                        <templates:TextItemTemplate Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+                        <templates:TextItemTemplate
+                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            xct:TouchEffect.Command="{Binding SelectItemCommand, Source={RelativeSource AncestorType={x:Type controls:DropDownList}}}"
+                            xct:TouchEffect.CommandParameter="{Binding .}">
 
                             <templates:TextItemTemplate.FormattedText>
                                 <FormattedString>

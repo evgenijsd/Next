@@ -10,6 +10,7 @@ namespace Next2.Controls
     public partial class DropDownList : PancakeView
     {
         private double _itemHeight;
+        private bool _isExpandBlocked = false;
 
         public DropDownList()
         {
@@ -267,11 +268,13 @@ namespace Next2.Controls
             {
                 case nameof(SelectedItem):
 
-                    IsExpanded = false;
+                    if (!_isExpandBlocked)
+                    {
+                        IsExpanded = false;
+                    }
 
                     break;
                 case nameof(Direction) when Direction is EDropDownListDirection.Up:
-
                     container.RaiseChild(listHeader);
 
                     break;
@@ -286,6 +289,11 @@ namespace Next2.Controls
 
                     if (IsExpanded)
                     {
+                        if (Device.RuntimePlatform == Device.iOS)
+                        {
+                            FixHighlightSelectedItemForIOS();
+                        }
+
                         itemsCollection.ScrollTo(itemsCollection.SelectedItem, position: ScrollToPosition.Center, animate: false);
                     }
 
@@ -327,13 +335,33 @@ namespace Next2.Controls
 
         #region -- Private helpers --
 
-        private void OnSelectItemCommand() => IsExpanded = false;
+        private void OnSelectItemCommand(object selectedItem)
+        {
+            SelectedItem = selectedItem;
+
+            IsExpanded = false;
+        }
 
         private void OnExpandListCommand()
         {
             IsExpanded = !IsExpanded;
 
             (Parent as Layout)?.RaiseChild(this);
+        }
+
+        private void FixHighlightSelectedItemForIOS()
+        {
+            if (SelectedItem is not null && !_isExpandBlocked)
+            {
+                _isExpandBlocked = true;
+                var tempSelectionChangedCommand = itemsCollection.SelectionChangedCommand;
+                itemsCollection.SelectionChangedCommand = null;
+                var tempSelectedItem = SelectedItem;
+                SelectedItem = new ();
+                SelectedItem = tempSelectedItem;
+                _isExpandBlocked = false;
+                itemsCollection.SelectionChangedCommand = tempSelectionChangedCommand;
+            }
         }
 
         #endregion
