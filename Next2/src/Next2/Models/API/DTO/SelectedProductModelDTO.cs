@@ -10,6 +10,8 @@ namespace Next2.Models.API.DTO
 
         public string? Comment { get; set; }
 
+        public Guid DishReplacementProductId { get; set; }
+
         public SimpleProductModelDTO Product { get; set; } = new();
 
         public IEnumerable<OptionModelDTO>? SelectedOptions { get; set; }

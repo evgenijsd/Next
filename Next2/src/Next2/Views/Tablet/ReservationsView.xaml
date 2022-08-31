@@ -204,6 +204,8 @@
 
         </yummy:PancakeView>
 
+        <BoxView Style="{DynamicResource SeparatorStyle_i7}"/>
+
         <yummy:PancakeView 
             VerticalOptions="FillAndExpand"
             CornerRadius="0, 0, 7, 7">
@@ -244,7 +246,7 @@
                                 <Grid
                                     HorizontalOptions="Fill"
                                     VerticalOptions="Fill"
-                                    RowDefinitions="2, 38">
+                                    RowDefinitions="38, 2">
 
                                     <Grid.GestureRecognizers>
                                         <TapGestureRecognizer
@@ -278,12 +280,8 @@
 
                                     </VisualStateManager.VisualStateGroups>
 
-                                    <BoxView
-                                        Grid.Row="0"
-                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
-
                                     <Grid
-                                        Grid.Row="1"
+                                        Grid.Row="0"
                                         ColumnDefinitions="50, *, *, *, *">
 
                                         <ffimageloading:CachedImage
@@ -333,6 +331,10 @@
                                             Text="{Binding DateTime, Converter={x:StaticResource timeToFormattedStringConverter}}"/>
 
                                     </Grid>
+
+                                    <BoxView
+                                        Grid.Row="1"
+                                        Style="{DynamicResource SeparatorStyle_i7}"/>
 
                                 </Grid>
 

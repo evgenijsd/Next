@@ -24,8 +24,6 @@ namespace Next2.ViewModels
 
         public bool IsActivityIndicatorRunning { get; set; }
 
-        public bool IsUserLogIn { get; set; }
-
         public bool IsInvalidEmployeeId { get; set; }
 
         public string EmployeeId { get; set; } = string.Empty;
@@ -110,8 +108,6 @@ namespace Next2.ViewModels
 
                 if (result.IsSuccess)
                 {
-                    IsActivityIndicatorRunning = false;
-
                     var navigationPath = $"/{nameof(NavigationPage)}/{nameof(MenuPage)}";
                     var navigationParameters = new NavigationParameters
                     {
@@ -120,7 +116,7 @@ namespace Next2.ViewModels
 
                     await _navigationService.NavigateAsync(navigationPath, navigationParameters);
 
-                    IsUserLogIn = true;
+                    IsActivityIndicatorRunning = false;
                 }
                 else
                 {
