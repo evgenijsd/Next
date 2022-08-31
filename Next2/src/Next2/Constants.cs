@@ -22,7 +22,6 @@
             public const string SHORT_DATE_FORMAT = "{0:dd.MM.yyyy}";
             public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
             public const string NUMBER_FORMAT = "{0:D2}";
-            public const string DATETIME_JSON_FORMAT = "yyyy-MM-ddTHH:mm:ss.fffZ";
         }
 
         public static class Analytics

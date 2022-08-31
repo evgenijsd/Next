@@ -17,7 +17,8 @@ namespace Next2.Services.Rest
 
         private TaskCompletionSource<bool>? _tokenRefreshingSource;
 
-        private JsonSerializerSettings _jsonFormatSettings;
+        private JsonSerializerSettings _jsonFormatSerializeSettings;
+        private JsonSerializerSettings _jsonFormatDeserializeSettings;
 
         public RestService(ISettingsManager settingsManager)
         {
@@ -42,7 +43,7 @@ namespace Next2.Services.Rest
 
                 var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                return JsonConvert.DeserializeObject<T>(data);
+                return JsonConvert.DeserializeObject<T>(data, _jsonFormatDeserializeSettings);
             }
         }
 
@@ -61,7 +62,7 @@ namespace Next2.Services.Rest
 
                 var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                return JsonConvert.DeserializeObject<T>(data);
+                return JsonConvert.DeserializeObject<T>(data, _jsonFormatDeserializeSettings);
             }
         }
 
@@ -88,7 +89,7 @@ namespace Next2.Services.Rest
 
             if (requestBody is not null)
             {
-                var json = JsonConvert.SerializeObject(requestBody, _jsonFormatSettings);
+                var json = JsonConvert.SerializeObject(requestBody, _jsonFormatSerializeSettings);
 
                 if (requestBody is IEnumerable<KeyValuePair<string, string>> body)
                 {
@@ -202,9 +203,14 @@ namespace Next2.Services.Rest
 
         private void SetJsonFormatSettings()
         {
-            _jsonFormatSettings = new JsonSerializerSettings
+            _jsonFormatSerializeSettings = new JsonSerializerSettings
             {
-                DateFormatString = Constants.Formats.DATETIME_JSON_FORMAT,
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+            };
+
+            _jsonFormatDeserializeSettings = new JsonSerializerSettings
+            {
+                DateTimeZoneHandling = DateTimeZoneHandling.Local,
             };
         }
 

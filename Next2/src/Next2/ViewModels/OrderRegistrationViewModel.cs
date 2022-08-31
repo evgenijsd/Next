@@ -358,7 +358,7 @@ namespace Next2.ViewModels
 
         private bool OnDishReleaseTimerTick()
         {
-            IsNotAnyHoldTime = true;
+            IsNotAnyHoldTime = CurrentOrder.Table?.Number is not null;
 
             foreach (var seat in CurrentOrder.Seats)
             {

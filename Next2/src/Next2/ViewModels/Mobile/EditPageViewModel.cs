@@ -50,6 +50,8 @@ namespace Next2.ViewModels.Mobile
 
         public DishBindableModel? SelectedDish { get; set; }
 
+        public FullOrderBindableModel CurrentOrder { get; set; }
+
         public TimeSpan TimerHoldSelectedDish { get; set; }
 
         private ICommand? _openModifyCommand;
@@ -84,6 +86,7 @@ namespace Next2.ViewModels.Mobile
             SelectedDish = new();
 
             SelectedDish = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
+            CurrentOrder = _orderService.CurrentOrder;
 
             if (SelectedDish?.HoldTime is DateTime holdTime)
             {

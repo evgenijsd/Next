@@ -860,22 +860,25 @@
                                 Style="{DynamicResource BorderButtonStyle_i2_1}"
                                 Background="{DynamicResource IndicationColor_i5}"
                                 Text="{xct:Translate HoldItem}"
-                                Opacity="1"
+                                IsEnabled="False"
+                                Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                                 Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}"
                                 CommandParameter="{Binding OrderRegistrationViewModel.SelectedDish}">
                                 
                                 <buttons:BorderButton.Triggers>
                                     
-                                    <DataTrigger
-                                        TargetType="buttons:BorderButton"
-                                        Binding="{Binding OrderRegistrationViewModel.SelectedDish.HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}"
-                                        Value="True">
-                                        
-                                        <Setter Property="IsEnabled" Value="False" />
-                                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                                    <MultiTrigger TargetType="buttons:BorderButton">
 
-                                    </DataTrigger>
-                                    
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding OrderRegistrationViewModel.SelectedDish.HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}" Value="False" />
+                                            <BindingCondition Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Table, Converter={xct:IsNullOrEmptyConverter}}" Value="False" />
+                                        </MultiTrigger.Conditions>
+
+                                        <Setter Property="IsEnabled" Value="True" />
+                                        <Setter Property="Opacity" Value="1" />
+
+                                    </MultiTrigger>
+
                                 </buttons:BorderButton.Triggers>
                                 
                             </buttons:BorderButton>
