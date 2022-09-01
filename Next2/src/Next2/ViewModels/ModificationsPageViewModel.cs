@@ -21,6 +21,7 @@ using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Next2.ViewModels
 {
@@ -658,6 +659,7 @@ namespace Next2.ViewModels
 
                     selectedProductCurrent = SelectedReplacementProduct.ToProductBindableModel();
 
+                    selectedProductCurrent.Comment = _currentProduct.Comment;
                     selectedProductCurrent.DishReplacementProductId = SelectedSidebarProduct.DishReplacementProductId;
                     selectedProductCurrent.Product = newSelectedProduct;
 
