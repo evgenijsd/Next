@@ -35,8 +35,8 @@ namespace Next2.Extensions
                 TotalPrice = dish.OriginalPrice,
                 DiscountPrice = 0,
                 SelectedDishProportion = dish.DishProportions?.Where(x => x.PriceRatio == 1)?.Select(x => x.ToDishProportionModelDTO())?.FirstOrDefault(),
-                DishProportions = dish.DishProportions?.Select(row => row.Clone()),
-                ReplacementProducts = dish.ReplacementProducts?.Select(row => row.Clone()),
+                DishProportions = dish.DishProportions?.Select(row => (SimpleDishProportionModelDTO)row.Clone()),
+                ReplacementProducts = dish.ReplacementProducts?.Select(row => (DishReplacementProductModelDTO)row.Clone()),
                 SelectedProducts = selectedProducts,
             };
         }
@@ -70,7 +70,7 @@ namespace Next2.Extensions
                 SplitPrice = dish.SplitPrice,
                 IsSplitted = dish.IsSplitted,
                 HoldTime = dish.HoldTime,
-                SelectedDishProportion = dish.SelectedDishProportion?.Clone(),
+                SelectedDishProportion = (DishProportionModelDTO)dish.SelectedDishProportion?.Clone(),
                 SelectedProducts = new(dish.SelectedProducts?.Select(x => x.ToProductBindableModel())),
             };
         }
@@ -104,7 +104,7 @@ namespace Next2.Extensions
                 SplitPrice = dish.SplitPrice,
                 IsSplitted = dish.IsSplitted,
                 HoldTime = dish.HoldTime,
-                SelectedDishProportion = dish.SelectedDishProportion?.Clone(),
+                SelectedDishProportion = (DishProportionModelDTO)dish.SelectedDishProportion?.Clone(),
                 SelectedProducts = dish.SelectedProducts?.Select(x => x.ToSelectedProductModelDTO()),
             };
         }

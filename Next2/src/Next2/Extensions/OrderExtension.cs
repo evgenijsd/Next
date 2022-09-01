@@ -81,7 +81,7 @@ namespace Next2.Extensions
                 IsCashPayment = order.IsCashPayment,
                 IsSplitBySeats = order.IsSplitBySeats,
                 Table = order.Table is not null
-                    ? order.Table.Clone()
+                    ? (SimpleTableModelDTO)order.Table.Clone()
                     : new(),
                 Customer = order.Customer is not null
                     ? order.Customer.ToSimpleCustomerModelDTO()
@@ -112,7 +112,7 @@ namespace Next2.Extensions
                 IsSplitBySeats = order.IsSplitBySeats,
                 Table = order.Table is null
                     ? null
-                    : order.Table.Clone(),
+                    : (SimpleTableModelDTO)order.Table.Clone(),
                 Customer = order.Customer is null
                     ? null
                     : order.Customer.ToCustomerBindableModel(),

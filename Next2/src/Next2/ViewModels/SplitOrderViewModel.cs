@@ -342,7 +342,7 @@ namespace Next2.ViewModels
                     order.Coupon = Order.Coupon;
                     order.Discount = Order.Discount;
                     order.TotalPrice = Order.TotalPrice;
-                    order.Table = Order.Table.Clone();
+                    order.Table = (SimpleTableModelDTO)Order.Table.Clone();
                 }
                 else
                 {
