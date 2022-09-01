@@ -10,7 +10,7 @@ namespace Next2.Extensions
             return new()
             {
                 Id = ingredient.Id,
-                Name = ingredient.Name,
+                Name = new(ingredient.Name),
             };
         }
 
@@ -19,9 +19,9 @@ namespace Next2.Extensions
             return new()
             {
                 Id = ingredient.Id,
-                Name = ingredient.Name,
+                Name = new(ingredient.Name),
                 Price = ingredient.Price,
-                ImageSource = ingredient.ImageSource,
+                ImageSource = new(ingredient.ImageSource),
                 IngredientsCategory = ingredient.ToSimpleIngredientsCategoryModelDTO(),
             };
         }
@@ -32,9 +32,9 @@ namespace Next2.Extensions
             {
                 Id = ingredient.Id,
                 CategoryId = ingredient.IngredientsCategoryId,
-                Name = ingredient.Name,
+                Name = new(ingredient.Name),
                 Price = ingredient.Price,
-                ImageSource = ingredient.ImageSource,
+                ImageSource = new(ingredient.ImageSource),
             };
         }
     }

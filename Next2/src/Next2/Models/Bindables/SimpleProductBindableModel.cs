@@ -20,9 +20,6 @@ namespace Next2.Models.Bindables
 
         public IEnumerable<SimpleIngredientModelDTO>? Ingredients { get; set; }
 
-        public override string ToString()
-        {
-            return Id.ToString();
-        }
+        public override string ToString() => Id.ToString();
     }
 }

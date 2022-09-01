@@ -21,7 +21,6 @@ using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Next2.ViewModels
 {
@@ -32,7 +31,7 @@ namespace Next2.ViewModels
         private readonly IMenuService _menuService;
         private readonly IMapper _mapper;
 
-        private readonly ICommand _tapSubmenuCommand;
+        private readonly ICommand _switchProductModificationModeCommand;
 
         private bool _isOrderedByAscendingReplacementProducts = true;
         private bool _isOrderedByDescendingInventory = true;
@@ -62,13 +61,13 @@ namespace Next2.ViewModels
             _bonusesService = bonusService;
             _mapper = mapper;
 
-            _tapSubmenuCommand ??= new AsyncCommand<SpoilerBindableModel>(OnTapSubmenuCommandAsync);
+            _switchProductModificationModeCommand ??= new AsyncCommand<SpoilerBindableModel>(OnSwitchProductModificationModeCommandAsync);
 
             CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 
             _currentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
-            var dishId = _currentSeat.SelectedItem.Id;
+            var dishId = _currentSeat.SelectedItem?.Id;
 
             _currentDish = _currentSeat.SelectedDishes.FirstOrDefault(row => row.Id == dishId);
 
@@ -317,7 +316,7 @@ namespace Next2.ViewModels
                                 CanShowDot = !string.IsNullOrWhiteSpace(row.Comment),
                             },
                         },
-                        TapCommand = _tapSubmenuCommand,
+                        TapCommand = _switchProductModificationModeCommand,
                     };
 
                     result.PropertyChanged += SelectedOptionPropertyChanged;
@@ -345,15 +344,15 @@ namespace Next2.ViewModels
 
             if (replacementProduct is not null && replacementProduct.Products is not null)
             {
-                var products = _isOrderedByAscendingReplacementProducts
+                var orderedProducts = _isOrderedByAscendingReplacementProducts
                     ? replacementProduct.Products.OrderBy(row => row.Name)
                     : replacementProduct.Products.OrderByDescending(row => row.Name);
 
-                ReplacementProducts = new(products.Select(row => row.ToSimpleProductBindableModel()));
+                ReplacementProducts = new(orderedProducts.Select(row => row.ToSimpleProductBindableModel()));
 
                 foreach (var product in ReplacementProducts)
                 {
-                    var defaultProductPrice = products.FirstOrDefault(x => x.Id == product.Id).DefaultPrice;
+                    var defaultProductPrice = orderedProducts.FirstOrDefault(x => x.Id == product.Id).DefaultPrice;
 
                     product.DefaultPrice = СalculatePriceOfProportion(defaultProductPrice);
                 }
@@ -480,30 +479,30 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnTapSubmenuCommandAsync(SpoilerBindableModel? item)
+        private async Task OnSwitchProductModificationModeCommandAsync(SpoilerBindableModel? selectedProductSpoiler)
         {
             if (IsInternetConnected)
             {
-                if (item?.SelectedItem is not null)
+                if (selectedProductSpoiler?.SelectedItem is not null)
                 {
-                    SelectedSidebarProduct = item;
+                    SelectedSidebarProduct = selectedProductSpoiler;
 
                     _currentProduct = _currentDish.SelectedProducts.FirstOrDefault(row => row.DishReplacementProductId == SelectedSidebarProduct.DishReplacementProductId);
 
                     _isOrderedByAscendingReplacementProducts = true;
                     _isOrderedByDescendingInventory = true;
 
-                    var index = SidebarProducts.IndexOf(item);
+                    var indexSelectedProductSpoiler = SidebarProducts.IndexOf(selectedProductSpoiler);
 
                     for (int i = 0; i < SidebarProducts.Count; i++)
                     {
-                        if (i != index)
+                        if (i != indexSelectedProductSpoiler)
                         {
                             SidebarProducts[i].SelectedItem = null;
                         }
                     }
 
-                    switch (item.SelectedItem.State)
+                    switch (selectedProductSpoiler.SelectedItem.State)
                     {
                         case ESubmenuItemsModifactions.Options:
                             LoadOptionsProduct();
@@ -653,9 +652,10 @@ namespace Next2.ViewModels
 
                 if (selectedProductCurrent.Id != SelectedReplacementProduct.Id)
                 {
-                    var newSelectedProduct = (SimpleProductModelDTO)_currentDish.ReplacementProducts
+                    var newSelectedProduct = (SimpleProductModelDTO?)_currentDish.ReplacementProducts
                         ?.FirstOrDefault(row => row.Id == SelectedSidebarProduct.DishReplacementProductId)
-                        ?.Products.FirstOrDefault(product => product.Id == SelectedReplacementProduct?.Id)?.Clone();
+                        ?.Products
+                        ?.FirstOrDefault(product => product.Id == SelectedReplacementProduct?.Id)?.Clone();
 
                     selectedProductCurrent = SelectedReplacementProduct.ToProductBindableModel();
 

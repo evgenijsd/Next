@@ -35,14 +35,14 @@ namespace Next2.ViewModels.Dialogs
             {
                 SelectedDish = selectedDish;
 
-                ProductNames = string.Join(", ", selectedDish.SelectedProducts.Where(x => !string.IsNullOrEmpty(x.Product.Name)).Select(x => x.Product.Name).ToArray());
+                ProductNames = string.Join(", ", selectedDish.SelectedProducts?.Where(x => !string.IsNullOrEmpty(x.Product.Name)).Select(x => x.Product.Name).ToArray());
             }
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ORDER, out FullOrderBindableModel order))
             {
                 CurrentOrder = order;
 
-                ProductNames = string.Join(", ", selectedDish.SelectedProducts.Where(x => !string.IsNullOrEmpty(x.Product.Name)).Select(x => x.Product.Name).ToArray());
+                ProductNames = string.Join(", ", selectedDish.SelectedProducts?.Where(x => !string.IsNullOrEmpty(x.Product.Name)).Select(x => x.Product.Name).ToArray());
             }
         }
 

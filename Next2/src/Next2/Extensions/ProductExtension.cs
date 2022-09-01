@@ -12,9 +12,9 @@ namespace Next2.Extensions
             return new()
             {
                 Id = product.Id,
-                Name = product.Name,
+                Name = new(product.Name),
                 DefaultPrice = product.DefaultPrice,
-                ImageSource = product.ImageSource,
+                ImageSource = new(product.ImageSource),
                 Options = product.Options?.Select(row => (OptionModelDTO)row.Clone()),
                 Ingredients = product.Ingredients?.Select(row => (SimpleIngredientModelDTO)row.Clone()),
             };
@@ -25,9 +25,9 @@ namespace Next2.Extensions
             return new()
             {
                 Id = product.Id,
-                Name = product.Name,
+                Name = new(product.Name),
                 DefaultPrice = product.DefaultPrice,
-                ImageSource = product.ImageSource,
+                ImageSource = new(product.ImageSource),
                 Options = product.Options?.Select(row => (OptionModelDTO)row.Clone()),
                 Ingredients = product.Ingredients?.Select(row => (SimpleIngredientModelDTO)row.Clone()),
             };
@@ -85,9 +85,7 @@ namespace Next2.Extensions
                 Comment = new(product.Comment),
                 DishReplacementProductId = product.DishReplacementProductId,
                 Product = (SimpleProductModelDTO)product.Product?.Clone(),
-                Price = product.Product is not null
-                    ? product.Product.DefaultPrice
-                    : 0,
+                Price = product.Product?.DefaultPrice ?? 0,
                 SelectedOptions = (OptionModelDTO)product.SelectedOptions?.FirstOrDefault()?.Clone(),
                 SelectedIngredients = new(product.SelectedIngredients?.Select(row => (SimpleIngredientModelDTO)row.Clone())),
                 AddedIngredients = new(product.AddedIngredients?.Select(row => (SimpleIngredientModelDTO)row.Clone())),
@@ -122,8 +120,8 @@ namespace Next2.Extensions
                 Comment = new(product.Comment),
                 DishReplacementProductId = product.DishReplacementProductId,
                 SelectedOptionsId = product.SelectedOptions is not null
-                            ? new Guid[1] { product.SelectedOptions.Id }
-                            : null,
+                    ? new Guid[1] { product.SelectedOptions.Id }
+                    : null,
                 SelectedIngredientsId = product.SelectedIngredients?.Select(x => x.Id),
                 AddedIngredientsId = product.AddedIngredients?.Select(x => x.Id),
                 ExcludedIngredientsId = product.ExcludedIngredients?.Select(x => x.Id),

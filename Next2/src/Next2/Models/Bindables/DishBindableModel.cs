@@ -50,9 +50,9 @@ namespace Next2.Models.Bindables
             return new DishBindableModel()
             {
                 Id = Id,
-                Name = Name,
+                Name = new(Name),
                 DishId = DishId,
-                ImageSource = ImageSource,
+                ImageSource = new(ImageSource),
                 TotalPrice = TotalPrice,
                 IsSplitted = IsSplitted,
                 DiscountPrice = DiscountPrice,
@@ -63,8 +63,8 @@ namespace Next2.Models.Bindables
                 SelectDishCommand = SelectDishCommand,
                 DishProportions = DishProportions?.Select(x => (SimpleDishProportionModelDTO)x.Clone()),
                 SelectedDishProportion = (DishProportionModelDTO)SelectedDishProportion?.Clone(),
-                SelectedProducts = SelectedProducts,
-                ReplacementProducts = ReplacementProducts,
+                SelectedProducts = new(SelectedProducts.Select(row => (ProductBindableModel)row.Clone())),
+                ReplacementProducts = ReplacementProducts.Select(row => (DishReplacementProductModelDTO)row.Clone()),
             };
         }
     }

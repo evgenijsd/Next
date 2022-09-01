@@ -30,11 +30,11 @@ namespace Next2.Extensions
             {
                 Id = dish.Id,
                 DishId = dish.Id,
-                Name = dish.Name,
-                ImageSource = dish.ImageSource,
+                Name = new(dish.Name),
+                ImageSource = new(dish.ImageSource),
                 TotalPrice = dish.OriginalPrice,
                 DiscountPrice = 0,
-                SelectedDishProportion = dish.DishProportions?.Where(x => x.PriceRatio == 1)?.Select(x => x.ToDishProportionModelDTO())?.FirstOrDefault(),
+                SelectedDishProportion = dish.DishProportions?.FirstOrDefault(x => x.PriceRatio == 1)?.ToDishProportionModelDTO(),
                 DishProportions = dish.DishProportions?.Select(row => (SimpleDishProportionModelDTO)row.Clone()),
                 ReplacementProducts = dish.ReplacementProducts?.Select(row => (DishReplacementProductModelDTO)row.Clone()),
                 SelectedProducts = selectedProducts,
@@ -46,9 +46,7 @@ namespace Next2.Extensions
             return new()
             {
                 DishId = dish.DishId,
-                SelectedDishProportionId = dish.SelectedDishProportion is null
-                    ? Guid.Empty
-                    : dish.SelectedDishProportion.Id,
+                SelectedDishProportionId = dish.SelectedDishProportion?.Id ?? Guid.Empty,
                 TotalPrice = dish.TotalPrice,
                 DiscountPrice = dish.DiscountPrice,
                 SplitPrice = dish.SplitPrice,
@@ -63,8 +61,8 @@ namespace Next2.Extensions
             {
                 Id = dish.Id,
                 DishId = dish.DishId,
-                Name = dish.Name,
-                ImageSource = dish.ImageSource,
+                Name = new(dish.Name),
+                ImageSource = new(dish.ImageSource),
                 TotalPrice = dish.TotalPrice,
                 DiscountPrice = dish.DiscountPrice,
                 SplitPrice = dish.SplitPrice,
@@ -80,9 +78,7 @@ namespace Next2.Extensions
             return new()
             {
                 DishId = dish.DishId,
-                SelectedDishProportionId = dish.SelectedDishProportion is null
-                    ? Guid.Empty
-                    : dish.SelectedDishProportion.Id,
+                SelectedDishProportionId = dish.SelectedDishProportion?.Id ?? Guid.Empty,
                 TotalPrice = dish.TotalPrice,
                 DiscountPrice = dish.DiscountPrice,
                 SplitPrice = dish.SplitPrice,
@@ -97,8 +93,8 @@ namespace Next2.Extensions
             {
                 Id = dish.Id,
                 DishId = dish.DishId,
-                Name = dish.Name,
-                ImageSource = dish.ImageSource,
+                Name = new(dish.Name),
+                ImageSource = new(dish.ImageSource),
                 TotalPrice = dish.TotalPrice,
                 DiscountPrice = dish.DiscountPrice,
                 SplitPrice = dish.SplitPrice,

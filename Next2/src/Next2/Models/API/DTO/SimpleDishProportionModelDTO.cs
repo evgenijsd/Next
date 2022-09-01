@@ -20,7 +20,7 @@ namespace Next2.Models.API.DTO
                 Id = Id,
                 PriceRatio = PriceRatio,
                 ProportionId = ProportionId,
-                ProportionName = ProportionName,
+                ProportionName = new(ProportionName),
             };
         }
     }

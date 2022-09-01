@@ -10,7 +10,7 @@ namespace Next2.Extensions
             return new()
             {
                 Id = proportion.Id,
-                Name = proportion.ProportionName,
+                Name = new(proportion.ProportionName),
             };
         }
 
@@ -19,7 +19,7 @@ namespace Next2.Extensions
             return new()
             {
                 Id = proportion.Id,
-                Name = proportion.ProportionName,
+                Name = new(proportion.ProportionName),
             };
         }
 
@@ -40,7 +40,7 @@ namespace Next2.Extensions
                 Id = proportion.Id,
                 ProportionId = proportion.ProportionId,
                 PriceRatio = proportion.PriceRatio,
-                ProportionName = proportion.ProportionName,
+                ProportionName = new(proportion.ProportionName),
             };
         }
 

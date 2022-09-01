@@ -10,8 +10,8 @@ namespace Next2.Extensions
             return new()
             {
                 Id = customer.Id,
-                FullName = customer.FullName,
-                Phone = customer.Phone,
+                FullName = new(customer.FullName),
+                Phone = new(customer.Phone),
             };
         }
 
@@ -20,8 +20,8 @@ namespace Next2.Extensions
             return new()
             {
                 Id = customer.Id,
-                FullName = customer.FullName,
-                Phone = customer.Phone,
+                FullName = new(customer.FullName),
+                Phone = new(customer.Phone),
             };
         }
     }

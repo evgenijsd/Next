@@ -621,7 +621,7 @@ namespace Next2.Services.Order
 
             try
             {
-                var isPriceChanged = true;
+                var isPriceChangedSuccessfully = true;
 
                 dish.SelectedDishProportion = selectedProportion.ToDishProportionModelDTO();
 
@@ -637,12 +637,12 @@ namespace Next2.Services.Order
 
                     if (!resultPriceChange.IsSuccess)
                     {
-                        isPriceChanged = false;
+                        isPriceChangedSuccessfully = false;
                         break;
                     }
                 }
 
-                if (isPriceChanged)
+                if (isPriceChangedSuccessfully)
                 {
                     result.SetSuccess(dish);
                 }

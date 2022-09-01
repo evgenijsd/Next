@@ -20,9 +20,9 @@ namespace Next2.Models.API.DTO
             return new SimpleIngredientModelDTO()
             {
                 Id = Id,
-                Name = Name,
+                Name = new(Name),
                 Price = Price,
-                ImageSource = ImageSource,
+                ImageSource = new(ImageSource),
                 IngredientsCategory = (SimpleIngredientsCategoryModelDTO)IngredientsCategory?.Clone(),
             };
         }

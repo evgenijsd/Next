@@ -10,9 +10,6 @@ namespace Next2.Models.Bindables
 
         public string? Name { get; set; }
 
-        public override string ToString()
-        {
-            return Id.ToString();
-        }
+        public override string ToString() => Id.ToString();
     }
 }

@@ -10,7 +10,7 @@ namespace Next2.Extensions
             return new()
             {
                 Id = option.Id,
-                Name = option.Name,
+                Name = new(option.Name),
             };
         }
 
@@ -19,7 +19,7 @@ namespace Next2.Extensions
             return new()
             {
                 Id = option.Id,
-                Name = option.Name,
+                Name = new(option.Name),
             };
         }
     }

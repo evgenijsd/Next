@@ -14,7 +14,7 @@ namespace Next2.Models.API.DTO
             return new ProportionModelDTO()
             {
                 Id = Id,
-                Name = Name,
+                Name = new(Name),
             };
         }
     }

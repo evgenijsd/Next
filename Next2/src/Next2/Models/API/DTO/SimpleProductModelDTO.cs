@@ -24,9 +24,9 @@ namespace Next2.Models.API.DTO
             return new SimpleProductModelDTO()
             {
                 Id = Id,
-                Name = Name,
+                Name = new(Name),
                 DefaultPrice = DefaultPrice,
-                ImageSource = ImageSource,
+                ImageSource = new(ImageSource),
                 Options = Options?.Select(row => (OptionModelDTO)row.Clone()),
                 Ingredients = Ingredients?.Select(row => (SimpleIngredientModelDTO)row.Clone()),
             };
