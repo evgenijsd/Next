@@ -285,7 +285,8 @@
                                         <Grid
                                             HorizontalOptions="Fill"
                                             VerticalOptions="Fill"
-                                            RowDefinitions="38, 2">
+                                            RowDefinitions="38, 2"
+                                            Opacity="1">
 
                                             <VisualStateManager.VisualStateGroups>
 
@@ -311,6 +312,35 @@
                                                 </VisualStateGroup>
 
                                             </VisualStateManager.VisualStateGroups>
+
+                                            <Grid.Triggers>
+
+                                                <MultiTrigger TargetType="Grid">
+                                                    
+                                                    <MultiTrigger.Conditions>
+                                                        
+                                                        <BindingCondition Value="False" >                                                            
+                                                            <BindingCondition.Binding>
+                                                                <MultiBinding Converter="{StaticResource equalsMultiConverter}">
+
+                                                                    <Binding Path="CurrentTableNumber" Source="{RelativeSource AncestorType={x:Type viewModels:HoldDishesViewModel}}" />
+                                                                    <Binding Path="TableNumber" />
+
+                                                                </MultiBinding>
+                                                            </BindingCondition.Binding>                                                            
+                                                        </BindingCondition>
+                                                        
+                                                        <BindingCondition
+                                                            Binding="{Binding CurrentTableNumber, Source={RelativeSource AncestorType={x:Type viewModels:HoldDishesViewModel}}, Converter={xct:IntToBoolConverter}}"
+                                                            Value="True" />
+                                                        
+                                                    </MultiTrigger.Conditions>
+                                                    
+                                                    <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                                                    
+                                                </MultiTrigger>
+
+                                            </Grid.Triggers>
 
                                             <Grid
                                                 Grid.Row="0"

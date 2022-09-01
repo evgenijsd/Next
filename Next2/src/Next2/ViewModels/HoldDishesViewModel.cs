@@ -44,6 +44,8 @@ namespace Next2.ViewModels
 
         public int TableNumber { get; set; }
 
+        public int CurrentTableNumber { get; set; }
+
         public ObservableCollection<HoldDishBindableModel> HoldDishes { get; set; } = new();
 
         public ObservableCollection<object>? SelectedHoldDishes { get; set; }
@@ -145,9 +147,20 @@ namespace Next2.ViewModels
             if (selectedCount == 0)
             {
                 SelectedHoldDishes = null;
+                CurrentTableNumber = 0;
             }
-            else if (SelectedHoldDishes?.Count != selectedCount)
+            else
             {
+                var selectedBindableDishes = selectedDishes.Select(x => x as HoldDishBindableModel).ToList();
+                var firstDish = selectedBindableDishes.FirstOrDefault();
+                CurrentTableNumber = firstDish.TableNumber;
+                var indexDish = selectedBindableDishes.IndexOf(selectedBindableDishes.FirstOrDefault(x => x.TableNumber != CurrentTableNumber));
+
+                if (indexDish != -1)
+                {
+                    selectedDishes.RemoveAt(indexDish);
+                }
+
                 SelectedHoldDishes = new(selectedDishes);
             }
 
