@@ -159,9 +159,13 @@ namespace Next2.ViewModels
                 if (indexDish != -1)
                 {
                     selectedDishes.RemoveAt(indexDish);
+                    selectedCount--;
                 }
 
-                SelectedHoldDishes = new(selectedDishes);
+                if (SelectedHoldDishes?.Count != selectedCount)
+                {
+                    SelectedHoldDishes = new(selectedDishes);
+                }
             }
 
             return Task.CompletedTask;
