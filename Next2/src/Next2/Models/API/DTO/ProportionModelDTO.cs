@@ -3,15 +3,15 @@ using System;
 
 namespace Next2.Models.API.DTO
 {
-    public class ProportionModelDTO : IBaseApiModel
+    public class ProportionModelDTO : IBaseApiModel, ICloneable
     {
         public Guid Id { get; set; }
 
         public string? Name { get; set; }
 
-        public ProportionModelDTO Clone()
+        public object Clone()
         {
-            return new()
+            return new ProportionModelDTO()
             {
                 Id = Id,
                 Name = Name,

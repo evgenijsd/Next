@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Next2.Models.API.DTO
 {
-    public class SimpleProductModelDTO : IBaseApiModel
+    public class SimpleProductModelDTO : IBaseApiModel, ICloneable
     {
         public Guid Id { get; set; }
 
@@ -19,16 +19,16 @@ namespace Next2.Models.API.DTO
 
         public IEnumerable<SimpleIngredientModelDTO>? Ingredients { get; set; }
 
-        public SimpleProductModelDTO Clone()
+        public object Clone()
         {
-            return new()
+            return new SimpleProductModelDTO()
             {
                 Id = Id,
                 Name = Name,
                 DefaultPrice = DefaultPrice,
                 ImageSource = ImageSource,
-                Options = Options?.Select(row => row.Clone()),
-                Ingredients = Ingredients?.Select(row => row.Clone()),
+                Options = Options?.Select(row => (OptionModelDTO)row.Clone()),
+                Ingredients = Ingredients?.Select(row => (SimpleIngredientModelDTO)row.Clone()),
             };
         }
     }

@@ -3,7 +3,7 @@ using System;
 
 namespace Next2.Models.API.DTO
 {
-    public class SimpleTableModelDTO : IBaseApiModel
+    public class SimpleTableModelDTO : IBaseApiModel, ICloneable
     {
         public Guid Id { get; set; }
 
@@ -11,9 +11,9 @@ namespace Next2.Models.API.DTO
 
         public int SeatNumbers { get; set; }
 
-        public SimpleTableModelDTO Clone()
+        public object Clone()
         {
-            return new()
+            return new SimpleTableModelDTO()
             {
                 Id = Id,
                 Number = Number,

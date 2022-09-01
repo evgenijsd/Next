@@ -652,7 +652,7 @@ namespace Next2.ViewModels
 
                 if (selectedProductCurrent.Id != SelectedReplacementProduct.Id)
                 {
-                    var newSelectedProduct = _currentDish.ReplacementProducts
+                    var newSelectedProduct = (SimpleProductModelDTO)_currentDish.ReplacementProducts
                         ?.FirstOrDefault(row => row.Id == SelectedSidebarProduct.DishReplacementProductId)
                         ?.Products.FirstOrDefault(product => product.Id == SelectedReplacementProduct?.Id)?.Clone();
 

@@ -3,7 +3,7 @@ using System;
 
 namespace Next2.Models.API.DTO
 {
-    public class DishProportionModelDTO : IBaseApiModel
+    public class DishProportionModelDTO : IBaseApiModel, ICloneable
     {
         public Guid Id { get; set; }
 
@@ -11,13 +11,13 @@ namespace Next2.Models.API.DTO
 
         public ProportionModelDTO Proportion { get; set; } = new();
 
-        public DishProportionModelDTO Clone()
+        public object Clone()
         {
-            return new()
+            return new DishProportionModelDTO()
             {
                 Id = Id,
                 PriceRatio = PriceRatio,
-                Proportion = Proportion?.Clone(),
+                Proportion = (ProportionModelDTO)Proportion?.Clone(),
             };
         }
     }
