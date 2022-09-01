@@ -248,6 +248,8 @@
                 HeightRequest="45"
                 Margin="20, 12, 0, 12"
                 Padding="0"
+                Opacity="{DynamicResource OpacityWhenDisabled_i1}"
+                IsEnabled="False"
                 Style="{DynamicResource BorderButtonStyle_i2}"
                 Background="{DynamicResource IndicationColor_i5}"
                 Text="{xct:Translate HoldItem}"
@@ -256,15 +258,17 @@
                 
                 <buttons:BorderButton.Triggers>
 
-                    <DataTrigger
-                        TargetType="buttons:BorderButton"
-                        Binding="{Binding SelectedDish.HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}"
-                        Value="True">
+                    <MultiTrigger TargetType="buttons:BorderButton">
 
-                        <Setter Property="IsEnabled" Value="False" />
-                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                        <MultiTrigger.Conditions>
+                            <BindingCondition Binding="{Binding SelectedDish.HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}" Value="False" />
+                            <BindingCondition Binding="{Binding CurrentOrder.Table, Converter={xct:IsNullOrEmptyConverter}}" Value="False" />
+                        </MultiTrigger.Conditions>
 
-                    </DataTrigger>
+                        <Setter Property="IsEnabled" Value="True" />
+                        <Setter Property="Opacity" Value="1" />
+
+                    </MultiTrigger>
 
                 </buttons:BorderButton.Triggers>
                 

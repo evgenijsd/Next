@@ -1,11 +1,9 @@
-﻿using Next2.Enums;
-using Next2.Helpers;
+﻿using Next2.Helpers;
 using Next2.Models.Bindables;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -40,15 +38,22 @@ namespace Next2.ViewModels.Dialogs
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ORDER, out FullOrderBindableModel order))
             {
-                CurrentOrder = order;
+                var seats = order.Seats.Select(x => x.SeatNumber).ToList();
 
-                ProductNames = string.Join(", ", selectedDish.Products.Where(x => !string.IsNullOrEmpty(x.Name)).Select(x => x.Name).ToArray());
+                seats.Insert(0, Constants.Limits.ALL_SEATS);
+
+                Seats = new(seats);
+                Seat = Seats.First();
             }
         }
 
         #region -- Public properties --
 
-        public DishBindableModel SelectedDish { get; set; }
+        public DishBindableModel? SelectedDish { get; set; }
+
+        public ObservableCollection<int>? Seats { get; set; }
+
+        public int? Seat { get; set; }
 
         public FullOrderBindableModel CurrentOrder { get; set; }
 
@@ -85,7 +90,7 @@ namespace Next2.ViewModels.Dialogs
 
         private void OnUpdateHoldTime()
         {
-            var holdTime = new DateTime(CurrentTime.Year, CurrentTime.Month, CurrentTime.Day, Hour, Minute, second: 0);
+            var holdTime = new DateTime(CurrentTime.Year, CurrentTime.Month, CurrentTime.Day, Hour, Minute, second: 0, DateTimeKind.Local);
 
             if (CurrentTime > holdTime)
             {
@@ -104,6 +109,11 @@ namespace Next2.ViewModels.Dialogs
             if (_holdTime > CurrentTime)
             {
                 parameters.Add(Constants.DialogParameterKeys.HOLD, _holdTime);
+
+                if (SelectedDish is null && Seat is not null)
+                {
+                    parameters.Add(Constants.DialogParameterKeys.SEATS, Seat);
+                }
             }
 
             RequestClose(parameters);

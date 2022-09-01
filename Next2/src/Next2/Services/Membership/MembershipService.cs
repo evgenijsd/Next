@@ -62,8 +62,8 @@ namespace Next2.Services.Membership
                 var membershipForUpdate = new UpdateMembershipCommand
                 {
                     Id = member.Id,
-                    StartDate = $"{member.StartDate:s}",
-                    EndDate = $"{member.EndDate:s}",
+                    StartDate = member.StartDate,
+                    EndDate = member.EndDate,
                     CustomerId = member.Customer.Id,
                     IsActive = member.IsActive,
                 };

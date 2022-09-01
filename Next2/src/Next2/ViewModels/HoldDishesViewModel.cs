@@ -188,7 +188,7 @@ namespace Next2.ViewModels
         {
             var holdDishes = new ObservableCollection<HoldDishBindableModel>();
 
-            var resultOfGettingHoldDishes = await _dishesHolding.GetAllHoldDishesAsync();
+            var resultOfGettingHoldDishes = await _dishesHolding.GetHoldDishesAsync();
 
             if (resultOfGettingHoldDishes.IsSuccess)
             {

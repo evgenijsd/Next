@@ -309,6 +309,7 @@ namespace Next2.Extensions
                         SplitPrice = row.SplitPrice,
                         TotalPrice = row.TotalPrice,
                         DiscountPrice = row.DiscountPrice,
+                        HoldTime = row.HoldTime,
                         SelectedDishProportion = new()
                         {
                             Id = row.SelectedDishProportion.Id,

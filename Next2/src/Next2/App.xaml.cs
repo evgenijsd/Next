@@ -234,7 +234,7 @@ namespace Next2
                 cfg.CreateMap<SimpleProductModelDTO, SimpleProductModelDTO>();
                 cfg.CreateMap<GiftCardModelDTO, GiftCardModelDTO>();
                 cfg.CreateMap<PaidOrderBindableModel, PaidOrderBindableModel>();
-                cfg.CreateMap<HoldDishModel, HoldDishBindableModel>().ReverseMap();
+                cfg.CreateMap<HoldItemModelDTO, HoldDishBindableModel>().ReverseMap();
                 cfg.CreateMap<HoldDishBindableModel, TableBindableModel>()
                     .ForMember(x => x.Id, s => s.Ignore());
                 cfg.CreateMap<SimpleOrderModelDTO, SimpleOrderBindableModel>()

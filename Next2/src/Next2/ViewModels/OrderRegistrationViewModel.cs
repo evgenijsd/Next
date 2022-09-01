@@ -118,6 +118,8 @@ namespace Next2.ViewModels
 
         public TimeSpan TimerHoldSelectedDish { get; set; }
 
+        public bool IsNotAnyHoldTime { get; set; } = true;
+
         public bool IsOrderWithTax { get; set; } = true;
 
         public bool IsSideMenuVisible { get; set; } = true;
@@ -356,13 +358,22 @@ namespace Next2.ViewModels
 
         private bool OnDishReleaseTimerTick()
         {
+            IsNotAnyHoldTime = CurrentOrder.Table?.Number is not null;
+
             foreach (var seat in CurrentOrder.Seats)
             {
                 foreach (var dish in seat.SelectedDishes)
                 {
-                    if (dish.HoldTime is not null && dish.HoldTime <= DateTime.Now)
+                    if (dish.HoldTime is not null)
                     {
-                        dish.HoldTime = null;
+                        if (dish.HoldTime <= DateTime.Now)
+                        {
+                            dish.HoldTime = null;
+                        }
+                        else
+                        {
+                            IsNotAnyHoldTime = false;
+                        }
                     }
                 }
             }
@@ -917,32 +928,73 @@ namespace Next2.ViewModels
 
         private async Task OnOpenHoldSelectionCommandAsync(DishBindableModel? selectedDish)
         {
+            var param = new DialogParameters();
+
             if (selectedDish is not null)
             {
-                var param = new DialogParameters { { Constants.DialogParameterKeys.DISH, selectedDish } };
-
-                PopupPage holdDishDialog = new Views.Tablet.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallback);
-
-                await PopupNavigation.PushAsync(holdDishDialog);
+                param.Add(Constants.DialogParameterKeys.DISH, selectedDish);
             }
+            else
+            {
+                param.Add(Constants.DialogParameterKeys.ORDER, CurrentOrder);
+            }
+
+            PopupPage holdDishDialog = App.IsTablet
+                ? new Views.Tablet.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallbackAsync)
+                : new Views.Mobile.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallbackAsync);
+
+            await PopupNavigation.PushAsync(holdDishDialog);
         }
 
-        private async void CloseHoldDishDialogCallback(IDialogParameters parameters)
+        private async void CloseHoldDishDialogCallbackAsync(IDialogParameters parameters)
         {
             await _notificationsService.CloseAllPopupAsync();
 
-            if (SelectedDish is not null)
-            {
-                if (parameters.TryGetValue(Constants.DialogParameterKeys.DISMISS, out bool isDismiss))
-                {
-                    SelectedDish.HoldTime = null;
-                }
+            bool isUpdateOrder = false;
 
+            if (IsInternetConnected)
+            {
                 if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
                 {
-                    SelectedDish.HoldTime = holdTime;
-                    TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
+                    if (parameters.TryGetValue(Constants.DialogParameterKeys.SEATS, out int seatNumber))
+                    {
+                        var seats = seatNumber == Constants.Limits.ALL_SEATS
+                            ? CurrentOrder.Seats
+                            : CurrentOrder.Seats?.Where(x => x.SeatNumber == seatNumber);
+
+                        if (seats is not null)
+                        {
+                            foreach (var seat in seats)
+                            {
+                                foreach (var dish in seat.SelectedDishes)
+                                {
+                                    dish.HoldTime = holdTime;
+                                    isUpdateOrder = true;
+                                }
+                            }
+                        }
+                    }
+                    else if (SelectedDish is not null)
+                    {
+                        SelectedDish.HoldTime = holdTime;
+                        TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
+                        isUpdateOrder = true;
+                    }
                 }
+
+                if (isUpdateOrder)
+                {
+                    var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
+
+                    if (!resultOfUpdatingOrder.IsSuccess)
+                    {
+                        await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+                    }
+                }
+            }
+            else
+            {
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 

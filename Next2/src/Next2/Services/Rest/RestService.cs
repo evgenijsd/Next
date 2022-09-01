@@ -17,9 +17,13 @@ namespace Next2.Services.Rest
 
         private TaskCompletionSource<bool>? _tokenRefreshingSource;
 
+        private JsonSerializerSettings _jsonFormatSerializeSettings;
+        private JsonSerializerSettings _jsonFormatDeserializeSettings;
+
         public RestService(ISettingsManager settingsManager)
         {
             _settingsManager = settingsManager;
+            SetJsonFormatSettings();
         }
 
         #region -- IRestService implementation --
@@ -39,7 +43,7 @@ namespace Next2.Services.Rest
 
                 var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                return JsonConvert.DeserializeObject<T>(data);
+                return JsonConvert.DeserializeObject<T>(data, _jsonFormatDeserializeSettings);
             }
         }
 
@@ -58,7 +62,7 @@ namespace Next2.Services.Rest
 
                 var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                return JsonConvert.DeserializeObject<T>(data);
+                return JsonConvert.DeserializeObject<T>(data, _jsonFormatDeserializeSettings);
             }
         }
 
@@ -85,7 +89,7 @@ namespace Next2.Services.Rest
 
             if (requestBody is not null)
             {
-                var json = JsonConvert.SerializeObject(requestBody);
+                var json = JsonConvert.SerializeObject(requestBody, _jsonFormatSerializeSettings);
 
                 if (requestBody is IEnumerable<KeyValuePair<string, string>> body)
                 {
@@ -195,6 +199,20 @@ namespace Next2.Services.Rest
             additionalHeaders.Add("Authorization", $"Bearer {_settingsManager.Token}");
 
             return additionalHeaders;
+        }
+
+        private void SetJsonFormatSettings()
+        {
+            _jsonFormatSerializeSettings = new JsonSerializerSettings
+            {
+                DateFormatString = Constants.Formats.DATETIME_JSON_FORMAT,
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+            };
+
+            _jsonFormatDeserializeSettings = new JsonSerializerSettings
+            {
+                DateTimeZoneHandling = DateTimeZoneHandling.Local,
+            };
         }
 
         #endregion

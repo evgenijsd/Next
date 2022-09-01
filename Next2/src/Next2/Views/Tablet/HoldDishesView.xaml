@@ -342,7 +342,7 @@
                                                 <Label
                                                     Grid.Column="2"
                                                     Style="{DynamicResource TableCellLabelStyle}"
-                                                    Text="{Binding DishName}"
+                                                    Text="{Binding Name}"
                                                     LineBreakMode="TailTruncation" />
 
                                                 <Label
@@ -400,7 +400,8 @@
                 ScrollBarVisibility="Never"
                 SelectedItem="{Binding SelectedTable}"
                 ItemsSource="{Binding Tables}"
-                SelectionChangedCommand="{Binding SetHoldDishesByTableNumberCommand}">
+                SelectionChangedCommand="{Binding SetHoldDishesByTableNumberCommand}"
+                IsVisible="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}">
 
                 <controls:DropDownList.HeaderFormattedText>
                     <FormattedString>
