@@ -5,7 +5,7 @@ namespace Next2.Effects
     public class ScrollBarColorEffect : RoutingEffect
     {
         public ScrollBarColorEffect()
-            : base($"Next2.Effects.{nameof(ScrollBarColorEffect)}")
+            : base("com.headworks.ScrollBarColorEffect")
         {
         }
 
