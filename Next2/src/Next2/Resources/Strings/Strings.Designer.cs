@@ -1034,6 +1034,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No servers available.
+        /// </summary>
+        internal static string NoServersAvailable {
+            get {
+                return ResourceManager.GetString("NoServersAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No table.
         /// </summary>
         internal static string NoTable {

@@ -183,9 +183,11 @@ namespace Next2.Services.Order
 
                 var freeTables = await _restService.RequestAsync<GenericExecutionResult<GetAvailableTablesListQueryResult>>(HttpMethod.Get, query);
 
-                if (freeTables.Success && freeTables.Value?.Tables is not null)
+                var tables = Enumerable.Empty<TableModelDTO>();
+
+                if (freeTables.Success && tables is not null)
                 {
-                    result.SetSuccess(freeTables.Value.Tables);
+                    result.SetSuccess(tables);
                 }
             }
             catch (Exception ex)

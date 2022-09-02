@@ -81,6 +81,17 @@
 
                     <DataTrigger
                         TargetType="controls:DropDownList"
+                        Binding="{Binding Tables.Count}"
+                        Value="0">
+
+                        <Setter Property="HeaderFormattedText" Value="{xct:Translate NoTablesAvailable}"/>
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
+
+                    </DataTrigger>
+
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
                         Binding="{Binding IsValidSelectedTable}"                                        
                         Value="True">
 
@@ -152,7 +163,18 @@
                 ItemsSource="{Binding Employees}">
 
                 <controls:DropDownList.Triggers>
+                    
+                    <DataTrigger
+                        TargetType="controls:DropDownList"
+                        Binding="{Binding Employees.Count}"
+                        Value="0">
 
+                        <Setter Property="HeaderFormattedText" Value="{xct:Translate NoServersAvailable}"/>
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
+
+                    </DataTrigger>
+                    
                     <DataTrigger
                         TargetType="controls:DropDownList"
                         Binding="{Binding IsValidSelectedEmployee}"                                        

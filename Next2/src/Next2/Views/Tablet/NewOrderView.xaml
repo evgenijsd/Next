@@ -1108,11 +1108,11 @@
                     Text="{xct:Translate Seats}">
 
                     <Label.Triggers>
-                        
+
                         <DataTrigger TargetType="Label" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
                             <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                         </DataTrigger>
-                        
+
                     </Label.Triggers>
 
                 </Label>
@@ -1127,7 +1127,7 @@
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}">
 
                     <controls:CustomStepper.Triggers>
-                        
+
                         <DataTrigger TargetType="controls:CustomStepper" Value="True">
 
                             <DataTrigger.Binding>
@@ -1137,7 +1137,7 @@
                                         Path="OrderRegistrationViewModel.OrderNotificationStatus"
                                         Converter="{xct:NotEqualConverter}"
                                         ConverterParameter="{x:Static enums:ENotificationType.None}"/>
-                                    
+
                                     <Binding
                                         Path="OrderRegistrationViewModel.CurrentOrder.Seats.Count"
                                         Converter="{xct:EqualConverter}"
@@ -1151,7 +1151,7 @@
                         </DataTrigger>
 
                     </controls:CustomStepper.Triggers>
-                    
+
                 </controls:CustomStepper>
 
             </StackLayout>
@@ -1179,8 +1179,8 @@
                         
                     <DataTrigger
                         TargetType="controls:DropDownList"
-                        Binding="{Binding OrderRegistrationViewModel.SelectedTable, Converter={xct:IsNullOrEmptyConverter}}"
-                        Value="True">
+                        Binding="{Binding OrderRegistrationViewModel.Tables.Count}"
+                        Value="0">
 
                         <Setter Property="HeaderFormattedText" Value="{xct:Translate NoTablesAvailable}"/>
                         <Setter Property="IsEnabled" Value="False"/>
