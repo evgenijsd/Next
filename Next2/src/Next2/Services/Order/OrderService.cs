@@ -2,7 +2,6 @@
 using Next2.Enums;
 using Next2.Extensions;
 using Next2.Helpers.ProcessHelpers;
-using Next2.Models.API;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
@@ -616,24 +615,17 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients)
+        public async Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionBindableModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients)
         {
             var result = new AOResult<DishBindableModel>();
 
             try
             {
-                var selectedProportionPriceRatio = selectedProportion.PriceRatio;
+                var isPriceChangedSuccessfully = true;
 
-                dish.SelectedDishProportion = new DishProportionModelDTO()
-                {
-                    Id = selectedProportion.Id,
-                    PriceRatio = selectedProportionPriceRatio,
-                    Proportion = new ProportionModelDTO()
-                    {
-                        Id = selectedProportion.ProportionId,
-                        Name = selectedProportion.ProportionName,
-                    },
-                };
+                dish.SelectedDishProportion = selectedProportion.ToDishProportionModelDTO();
+
+                var selectedProportionPriceRatio = selectedProportion.PriceRatio;
 
                 foreach (var product in dish.SelectedProducts ?? new())
                 {
@@ -641,17 +633,26 @@ namespace Next2.Services.Order
                         ? product.Product.DefaultPrice
                         : product.Product.DefaultPrice * (1 + selectedProportionPriceRatio);
 
-                    ChangeIngredientsPriceBaseOnProportion(product, selectedProportionPriceRatio);
+                    var resultPriceChange = await ChangeIngredientsPriceBaseOnProportionAsync(product, selectedProportionPriceRatio);
+
+                    if (!resultPriceChange.IsSuccess)
+                    {
+                        isPriceChangedSuccessfully = false;
+                        break;
+                    }
                 }
 
-                result.SetSuccess(dish);
+                if (isPriceChangedSuccessfully)
+                {
+                    result.SetSuccess(dish);
+                }
             }
             catch (Exception ex)
             {
                 result.SetError($"{nameof(ChangeDishProportionAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            return Task.FromResult(result);
+            return result;
         }
 
         public decimal CalculateDishPriceBaseOnProportion(DishBindableModel dish, decimal priceRatio, IEnumerable<IngredientModelDTO> ingredients)
@@ -827,6 +828,7 @@ namespace Next2.Services.Order
                 var menuService = App.Resolve<IMenuService>();
 
                 List<Task<AOResult<DishModelDTO>>> tasks = new();
+
                 var dishesIds = currentOrder.Seats.SelectMany(row => row.SelectedDishes).Select(row => row.DishId).Distinct();
 
                 foreach (var dishId in dishesIds)
@@ -840,7 +842,7 @@ namespace Next2.Services.Order
 
                 if (isSuccessUpdateDishes)
                 {
-                    var dishes = dishesResult.Where(row => row.IsSuccess).Select(row => row?.Result);
+                    var dishes = dishesResult.Select(row => row?.Result);
 
                     foreach (var seat in currentOrder.Seats)
                     {
@@ -852,7 +854,7 @@ namespace Next2.Services.Order
                             if (sourceDish is not null)
                             {
                                 dish.DishProportions = sourceDish.DishProportions;
-                                dish.Products = new(sourceDish.ReplacementProducts.SelectMany(x => x.Products));
+                                dish.ReplacementProducts = sourceDish.ReplacementProducts;
                             }
                         }
                     }
@@ -938,33 +940,57 @@ namespace Next2.Services.Order
             return result;
         }
 
-        private void ChangeIngredientsPriceBaseOnProportion(ProductBindableModel product, decimal priceRatio)
+        private async Task<AOResult> ChangeIngredientsPriceBaseOnProportionAsync(ProductBindableModel product, decimal priceRatio)
         {
-            var allIngredients = product?.Product?.Ingredients;
-            var addedIngredients = product?.AddedIngredients;
-            var excludedIngredients = product?.ExcludedIngredients;
+            var result = new AOResult();
 
-            if (allIngredients is not null && allIngredients.Any())
+            var menuService = App.Resolve<IMenuService>();
+
+            var resultOfGettingIngredients = await menuService.GetIngredientsAsync();
+
+            if (resultOfGettingIngredients.IsSuccess)
             {
-                if (addedIngredients is not null && addedIngredients.Any())
+                var allIngredients = resultOfGettingIngredients.Result;
+                var addedIngredients = product?.AddedIngredients;
+                var excludedIngredients = product?.ExcludedIngredients;
+
+                if (allIngredients is not null && allIngredients.Any())
                 {
-                    foreach (var ingredient in addedIngredients)
+                    try
                     {
-                        ingredient.Price = priceRatio == 1
-                            ? allIngredients.FirstOrDefault(row => row.Id == ingredient.Id).Price
-                            : allIngredients.FirstOrDefault(row => row.Id == ingredient.Id).Price * (1 + priceRatio);
+                        if (addedIngredients is not null && addedIngredients.Any())
+                        {
+                            foreach (var ingredient in addedIngredients)
+                            {
+                                var defaultIngredient = allIngredients.FirstOrDefault(row => row.Id == ingredient.Id);
+
+                                ingredient.Price = priceRatio == 1
+                                    ? defaultIngredient.Price
+                                    : defaultIngredient.Price * (1 + priceRatio);
+                            }
+                        }
+                        else if (excludedIngredients is not null && excludedIngredients.Any())
+                        {
+                            foreach (var ingredient in excludedIngredients)
+                            {
+                                var defaultIngredient = allIngredients.FirstOrDefault(row => row.Id == ingredient.Id);
+
+                                ingredient.Price = priceRatio == 1
+                                    ? defaultIngredient.Price
+                                    : defaultIngredient.Price * (1 + priceRatio);
+                            }
+                        }
+
+                        result.SetSuccess();
                     }
-                }
-                else if (excludedIngredients is not null && excludedIngredients.Any())
-                {
-                    foreach (var ingredient in excludedIngredients)
+                    catch (Exception ex)
                     {
-                        ingredient.Price = priceRatio == 1
-                            ? allIngredients.FirstOrDefault(row => row.Id == ingredient.Id).Price
-                            : allIngredients.FirstOrDefault(row => row.Id == ingredient.Id).Price * (1 + priceRatio);
+                        result.SetError($"{nameof(ChangeIngredientsPriceBaseOnProportionAsync)}: exception", Strings.SomeIssues, ex);
                     }
                 }
             }
+
+            return result;
         }
 
         private async Task<AOResult<IEnumerable<OrderModelDTO>>> GetOrdersModelDTOAsync(IEnumerable<Guid> ordersId)

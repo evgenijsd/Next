@@ -45,7 +45,7 @@ namespace Next2.Services.Order
 
         Task<AOResult<Guid>> UpdateCurrentOrderAsync();
 
-        Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients);
+        Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionBindableModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients);
 
         Task<AOResult> UpdateOrdersAsync(IEnumerable<Guid> ordersId, string employeeId);
 

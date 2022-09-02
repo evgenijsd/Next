@@ -33,17 +33,17 @@ namespace Next2.ViewModels.Dialogs
             {
                 SelectedDish = selectedDish;
 
-                ProductNames = string.Join(", ", selectedDish.Products.Where(x => !string.IsNullOrEmpty(x.Name)).Select(x => x.Name).ToArray());
+                ProductNames = string.Join(", ", selectedDish.SelectedProducts?.Where(x => !string.IsNullOrEmpty(x.Product.Name)).Select(x => x.Product.Name).ToArray());
             }
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ORDER, out FullOrderBindableModel order))
             {
-                var seats = order.Seats.Select(x => x.SeatNumber).ToList();
+                var seatNumbers = order.Seats.Select(x => x.SeatNumber).ToList();
 
-                seats.Insert(0, Constants.Limits.ALL_SEATS);
+                seatNumbers.Insert(0, Constants.Limits.ALL_SEATS);
 
-                Seats = new(seats);
-                Seat = Seats.First();
+                SeatNumbers = new(seatNumbers);
+                SelectedSeatNumber = SeatNumbers.First();
             }
         }
 
@@ -51,9 +51,11 @@ namespace Next2.ViewModels.Dialogs
 
         public DishBindableModel? SelectedDish { get; set; }
 
-        public ObservableCollection<int>? Seats { get; set; }
+        public ObservableCollection<int>? SeatNumbers { get; set; }
 
-        public int? Seat { get; set; }
+        public int SelectedSeatNumber { get; set; }
+
+        public int CurrentSeatNumber { get; set; }
 
         public FullOrderBindableModel CurrentOrder { get; set; }
 
@@ -80,6 +82,9 @@ namespace Next2.ViewModels.Dialogs
 
         private ICommand? _selectTimeItemCommand;
         public ICommand SelectTimeItemCommand => _selectTimeItemCommand ??= new AsyncCommand<HoldTimeItem?>(OnSelectTimeItemCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand? _selectSeatCommand;
+        public ICommand SelectSeatCommand => _selectSeatCommand ??= new AsyncCommand(OnSelectSeatCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand? _holdCommand;
         public ICommand HoldCommand => _holdCommand ??= new AsyncCommand(OnHoldCommandAsync, allowsMultipleExecutions: false);
@@ -110,9 +115,9 @@ namespace Next2.ViewModels.Dialogs
             {
                 parameters.Add(Constants.DialogParameterKeys.HOLD, _holdTime);
 
-                if (SelectedDish is null && Seat is not null)
+                if (SelectedDish is null)
                 {
-                    parameters.Add(Constants.DialogParameterKeys.SEATS, Seat);
+                    parameters.Add(Constants.DialogParameterKeys.SEATS, SelectedSeatNumber);
                 }
             }
 
@@ -144,6 +149,13 @@ namespace Next2.ViewModels.Dialogs
                     SetHoldTime(DateTime.Now.AddMinutes(selectedHoldTime.Minute));
                 }
             }
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnSelectSeatCommandAsync()
+        {
+            CurrentSeatNumber = SelectedSeatNumber;
 
             return Task.CompletedTask;
         }

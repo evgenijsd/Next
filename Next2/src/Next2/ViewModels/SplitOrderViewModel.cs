@@ -82,7 +82,7 @@ namespace Next2.ViewModels
         {
             if (OriginalSeats is not null)
             {
-                var seats = OriginalSeats.ToSeatsBindableModels();
+                var seats = OriginalSeats.Select(x => x.ToSeatBindableModel()).OrderBy(x => x.SeatNumber);
 
                 InitSeats(seats);
             }
@@ -92,7 +92,7 @@ namespace Next2.ViewModels
         {
             if (seats is null)
             {
-                seats = Order.Seats.ToSeatsBindableModels();
+                seats = Order.Seats?.Select(x => x.ToSeatBindableModel()).OrderBy(x => x.SeatNumber);
             }
 
             Seats = new(seats);
@@ -114,20 +114,12 @@ namespace Next2.ViewModels
                 seat.SelectedItem = null;
             }
 
-            if (App.IsTablet)
-            {
-                var firstSeat = Seats.FirstOrDefault(x => x.SelectedDishes.Count > 0);
-                _selectedSeatNumber = firstSeat.SeatNumber;
-                firstSeat.SelectedItem = firstSeat.SelectedDishes.FirstOrDefault();
-                SelectedDish = firstSeat.SelectedItem;
-                firstSeat.Checked = true;
-                firstSeat.IsFirstSeat = true;
-            }
-            else
-            {
-                Seats.First().IsFirstSeat = true;
-                _selectedSeatNumber = Seats.First().SeatNumber;
-            }
+            var firstSeat = Seats.FirstOrDefault(x => x.SelectedDishes.Count > 0);
+            _selectedSeatNumber = firstSeat.SeatNumber;
+            firstSeat.SelectedItem = firstSeat.SelectedDishes.FirstOrDefault();
+            SelectedDish = firstSeat.SelectedItem;
+            firstSeat.Checked = true;
+            firstSeat.IsFirstSeat = true;
         }
 
         private async void SplitOrderDialogCallBack(IDialogParameters parameters)
@@ -242,7 +234,7 @@ namespace Next2.ViewModels
 
         private async Task UpdateOrderAsync()
         {
-            Order.Seats = Seats.ToSeatsModelsDTO();
+            Order.Seats = Seats.Select(x => x.ToSeatModelDTO());
 
             var orderUpdateResult = await _orderService.UpdateOrderAsync(Order);
 
@@ -282,7 +274,7 @@ namespace Next2.ViewModels
             foreach (var group in splittedBySeatsGroups)
             {
                 var seats = Seats.Where(s => group.Any(x => x == s.SeatNumber));
-                var outSeats = seats.ToSeatsModelsDTO();
+                var outSeats = seats.Select(x => x.ToSeatModelDTO());
 
                 bool isSuccessfull = false;
 
@@ -341,12 +333,7 @@ namespace Next2.ViewModels
                     order.Coupon = Order.Coupon;
                     order.Discount = Order.Discount;
                     order.TotalPrice = Order.TotalPrice;
-                    order.Table = new SimpleTableModelDTO
-                    {
-                        Id = Order.Table.Id,
-                        Number = Order.Table.Number,
-                        SeatNumbers = Order.Table.SeatNumbers,
-                    };
+                    order.Table = (SimpleTableModelDTO)Order.Table.Clone();
                 }
                 else
                 {

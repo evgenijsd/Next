@@ -472,7 +472,7 @@ namespace Next2.ViewModels
 
                 SelectedTable = CurrentOrder.Table is null
                     ? Tables.FirstOrDefault()
-                    : new()
+                    : new TableBindableModel()
                     {
                         Id = CurrentOrder.Table.Id,
                         SeatNumbers = CurrentOrder.Table.SeatNumbers,
@@ -482,7 +482,7 @@ namespace Next2.ViewModels
                 if (!tableBindableModels.Any(x => x.TableNumber == SelectedTable.TableNumber))
                 {
                     Tables.Add(SelectedTable);
-                    Tables = new(Tables.OrderBy(x => x?.TableNumber));
+                    Tables = new(Tables.OrderBy(x => x.TableNumber));
                 }
             }
             else if (_externalPageLoadStatus == ELoadingState.Completed)
@@ -926,7 +926,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnOpenHoldSelectionCommandAsync(DishBindableModel? selectedDish)
+        private Task OnOpenHoldSelectionCommandAsync(DishBindableModel? selectedDish)
         {
             var param = new DialogParameters();
 
@@ -943,14 +943,14 @@ namespace Next2.ViewModels
                 ? new Views.Tablet.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallbackAsync)
                 : new Views.Mobile.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallbackAsync);
 
-            await PopupNavigation.PushAsync(holdDishDialog);
+            return PopupNavigation.PushAsync(holdDishDialog);
         }
 
         private async void CloseHoldDishDialogCallbackAsync(IDialogParameters parameters)
         {
             await _notificationsService.CloseAllPopupAsync();
 
-            bool isUpdateOrder = false;
+            bool isCanUpdateOrder = false;
 
             if (IsInternetConnected)
             {
@@ -969,7 +969,7 @@ namespace Next2.ViewModels
                                 foreach (var dish in seat.SelectedDishes)
                                 {
                                     dish.HoldTime = holdTime;
-                                    isUpdateOrder = true;
+                                    isCanUpdateOrder = true;
                                 }
                             }
                         }
@@ -978,11 +978,11 @@ namespace Next2.ViewModels
                     {
                         SelectedDish.HoldTime = holdTime;
                         TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
-                        isUpdateOrder = true;
+                        isCanUpdateOrder = true;
                     }
                 }
 
-                if (isUpdateOrder)
+                if (isCanUpdateOrder)
                 {
                     var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
 
