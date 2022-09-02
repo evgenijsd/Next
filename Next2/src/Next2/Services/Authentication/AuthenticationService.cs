@@ -90,12 +90,8 @@ namespace Next2.Services.Authentication
 
                         _settingsManager.UserId = id;
                         _settingsManager.IsAuthorizationComplete = true;
-                        _settingsManager.Token = tokens.AccessToken is null
-                            ? string.Empty
-                            : tokens.AccessToken;
-                        _settingsManager.RefreshToken = tokens.RefreshToken is null
-                            ? string.Empty
-                            : tokens.RefreshToken;
+                        _settingsManager.Token = tokens.AccessToken ?? string.Empty;
+                        _settingsManager.RefreshToken = tokens.RefreshToken ?? string.Empty;
                         _settingsManager.TokenExpirationDate = DateTime.Now.AddHours(Constants.API.TOKEN_EXPIRATION_TIME);
 
                         var roles = response.Value.Roles;
@@ -121,6 +117,8 @@ namespace Next2.Services.Authentication
         {
             var result = new AOResult();
 
+            var isLogoutCompletedSuccessfully = true;
+
             var employee = new LogoutCommand()
             {
                 EmployeeId = _settingsManager.UserId.ToString(),
@@ -133,16 +131,25 @@ namespace Next2.Services.Authentication
 
                 var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Post, query, employee);
 
-                if (response.Success)
-                {
-                    _settingsManager.Clear();
-
-                    result.SetSuccess();
-                }
+                _settingsManager.Clear();
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(LogoutAsync)}: exception", Strings.SomeIssues, ex);
+                if (ex.Message == Constants.StatusCode.UNAUTHORIZED)
+                {
+                    _settingsManager.Clear();
+                }
+                else
+                {
+                    isLogoutCompletedSuccessfully = false;
+
+                    result.SetError($"{nameof(LogoutAsync)}: exception", Strings.SomeIssues, ex);
+                }
+            }
+
+            if (isLogoutCompletedSuccessfully)
+            {
+                result.SetSuccess();
             }
 
             return result;
