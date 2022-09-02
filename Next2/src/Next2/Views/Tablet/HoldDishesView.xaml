@@ -268,8 +268,7 @@
                                         <Grid
                                             HorizontalOptions="Fill"
                                             VerticalOptions="Fill"
-                                            RowDefinitions="38, 2"
-                                            Opacity="1">
+                                            RowDefinitions="38, 2" >
 
                                             <VisualStateManager.VisualStateGroups>
 
