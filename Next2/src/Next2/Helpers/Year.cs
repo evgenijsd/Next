@@ -5,5 +5,7 @@
         public int YearValue { get; set; }
 
         public double Opacity { get; set; }
+
+        public bool IsSelected { get; set; }
     }
 }

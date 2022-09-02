@@ -421,7 +421,7 @@
     <EmbeddedResource Update="Views\Mobile\Dialogs\PaymentCompleteDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\Dialogs\SelectDateDialog.xaml">
+    <EmbeddedResource Update="Views\Dialogs\SelectDateDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\Dialogs\SplitOrderDialog.xaml">

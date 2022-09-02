@@ -90,7 +90,7 @@
 
                     <StackLayout
                         Padding="{OnIdiom Phone='3, 2.4', Tablet='0'}"
-                        BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}">
+                        BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}" >
 
                         <VisualStateManager.VisualStateGroups>
 
@@ -146,7 +146,6 @@
         <pancakeview:PancakeView
             Grid.Row="0"
             Grid.RowSpan="3"
-            Margin="0, 32, 1, 0"
             Padding="0"
             VerticalOptions="StartAndExpand"
             HorizontalOptions="EndAndExpand"
@@ -161,8 +160,8 @@
             VerticalScrollBarVisibility="Never"
             SelectionMode="Single"
             BounceMode="DisabledForAndroidAndiOS"
-            ItemsSource="{Binding Years, Source={x:Reference calendar}}"
-            SelectedItem="{Binding SelectedYear, Source={x:Reference calendar}}"
+            ItemsSource="{Binding Years, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
+            SelectedItem="{Binding SelectedYear, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
             x:Name="yearsCollectionView">
             
             <controls:CustomCollectionView.ItemTemplate>
@@ -173,7 +172,8 @@
                             WidthRequest="120"
                             CornerRadius="0"
                             BackgroundColor="{Binding DropdownListBackgroundColor, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
-                            xct:TouchEffect.Command="{Binding SelectYearCommand, Source={RelativeSource AncestorType={x:Type local:Calendar}}}">
+                            xct:TouchEffect.Command="{Binding SelectYearCommand, Source={RelativeSource AncestorType={x:Type local:Calendar}}}" 
+                            xct:TouchEffect.CommandParameter="{Binding .}">
 
                             <Label
                                 VerticalTextAlignment="Center"
@@ -206,7 +206,7 @@
 
         <pancakeview:PancakeView
             Grid.Row="0"
-            VerticalOptions="FillAndExpand"
+            VerticalOptions="Center"
             HorizontalOptions="EndAndExpand"
             HeightRequest="{Binding DropdownHeaderHeightRequest, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
             WidthRequest="{Binding DropdownHeaderWidthRequest, Source={RelativeSource AncestorType={x:Type local:Calendar}}}"
