@@ -34,8 +34,6 @@
             <Setter Property="BackgroundColor" Value="Transparent" />
             <Setter Property="WidthRequest" Value="100" />
             <Setter Property="CornerRadius" Value="5" />
-            <Setter Property="IsEnabled" Value="False" />
-            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
         </Style>
 
         <Style TargetType="buttons:IconTextButton">
@@ -86,52 +84,36 @@
                 <StackLayout
                     Grid.Column="1"
                     Orientation="Horizontal"
-                    Spacing="12">
+                    Spacing="12"
+                    Opacity="{DynamicResource OpacityWhenDisabled_i1}"
+                    IsEnabled="False">
+
+                    <StackLayout.Triggers>
+
+                        <DataTrigger
+                            TargetType="StackLayout"
+                            Binding="{Binding SelectedHoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}"
+                            Value="True">
+
+                            <Setter Property="IsEnabled" Value="True" />
+                            <Setter Property="Opacity" Value="1" />
+
+                        </DataTrigger>
+
+                    </StackLayout.Triggers>
 
                     <buttons:BorderButton
                         Style="{DynamicResource BorderButtonStyle_i1_1}"
                         BorderColor="{DynamicResource IndicationColor_i3}"
                         HorizontalOptions="EndAndExpand"
-                        Text="{xct:Translate Extend}">
-
-                        <buttons:BorderButton.Triggers>
-                            
-                            <DataTrigger 
-                                TargetType="buttons:BorderButton"
-                                Binding="{Binding SelectedHoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}"
-                                Value="True">
-                                
-                                <Setter Property="IsEnabled" Value="True" />
-                                <Setter Property="Opacity" Value="1" />
-                                
-                            </DataTrigger>
-                            
-                        </buttons:BorderButton.Triggers>
-
-                    </buttons:BorderButton>
+                        Text="{xct:Translate Extend}" />
 
                     <buttons:BorderButton
                         Style="{DynamicResource BorderButtonStyle_i1_1}"
                         BackgroundColor="{DynamicResource IndicationColor_i1}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                         BorderColor="{DynamicResource IndicationColor_i1}"
-                        Text="{xct:Translate Release}">
-
-                        <buttons:BorderButton.Triggers>
-                            
-                            <DataTrigger
-                                TargetType="buttons:BorderButton"
-                                Binding="{Binding SelectedHoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}"
-                                Value="True">
-                                
-                                <Setter Property="IsEnabled" Value="True" />
-                                <Setter Property="Opacity" Value="1" />
-                                
-                            </DataTrigger>
-                            
-                        </buttons:BorderButton.Triggers>
-
-                    </buttons:BorderButton>
+                        Text="{xct:Translate Release}" />
 
                 </StackLayout>
 
