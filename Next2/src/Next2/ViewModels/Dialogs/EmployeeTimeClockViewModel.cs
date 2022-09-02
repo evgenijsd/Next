@@ -57,18 +57,17 @@ namespace Next2.ViewModels.Dialogs
             }
             else
             {
-                var record = new WorkLogRecordModel
-                {
-                    Timestamp = DateTime.Now,
-                    EmployeeId = employeeId,
-                };
-
-                var resultOfLoggingWorkTime = await _workLogService.LogWorkTimeAsync(record);
+                var resultOfLoggingWorkTime = await _workLogService.LogWorkTimeAsync(employeeId.ToString());
 
                 if (resultOfLoggingWorkTime.IsSuccess)
                 {
-                    DateTime = record.Timestamp;
-                    State = resultOfLoggingWorkTime.Result;
+                    var timeTrack = resultOfLoggingWorkTime.Result;
+
+                    (State, DateTime) = timeTrack.End is null && timeTrack.Start is not null
+                        ? (EEmployeeRegisterState.CheckedIn, (DateTime)timeTrack.Start)
+                        : timeTrack.End is not null && timeTrack.Start is not null
+                            ? (EEmployeeRegisterState.CheckedOut, (DateTime)timeTrack.End)
+                            : (EEmployeeRegisterState.Undefined, DateTime.MinValue);
                 }
                 else
                 {
