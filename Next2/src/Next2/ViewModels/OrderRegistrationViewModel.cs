@@ -950,7 +950,7 @@ namespace Next2.ViewModels
         {
             await _notificationsService.CloseAllPopupAsync();
 
-            bool isUpdateOrder = false;
+            bool isCanUpdateOrder = false;
 
             if (IsInternetConnected)
             {
@@ -969,7 +969,7 @@ namespace Next2.ViewModels
                                 foreach (var dish in seat.SelectedDishes)
                                 {
                                     dish.HoldTime = holdTime;
-                                    isUpdateOrder = true;
+                                    isCanUpdateOrder = true;
                                 }
                             }
                         }
@@ -978,11 +978,11 @@ namespace Next2.ViewModels
                     {
                         SelectedDish.HoldTime = holdTime;
                         TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
-                        isUpdateOrder = true;
+                        isCanUpdateOrder = true;
                     }
                 }
 
-                if (isUpdateOrder)
+                if (isCanUpdateOrder)
                 {
                     var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
 

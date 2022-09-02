@@ -295,14 +295,15 @@
                     HeaderTextSize="{DynamicResource TSize_i9}"
                     ScrollBarVisibility="Never"
                     HorizontalOptions="FillAndExpand"
-                    ItemsSource="{Binding Seats}"
-                    SelectedItem="{Binding Seat}">
+                    ItemsSource="{Binding SeatNumbers}"
+                    SelectedItem="{Binding SeatNumber}"
+                    SelectionChangedCommand="{Binding SelectSeatCommand}">
 
                     <controls:DropDownList.HeaderFormattedText>
                         <FormattedString>
                             <Span Text="{xct:Translate Seat}" />
                             <Span Text=" " />
-                            <Span Text="{Binding Seat}" />
+                            <Span Text="{Binding CurrentSeatNumber}" />
                         </FormattedString>
                     </controls:DropDownList.HeaderFormattedText>
 
@@ -310,7 +311,7 @@
 
                         <DataTrigger
                             TargetType="controls:DropDownList"
-                            Binding="{Binding Seat}"
+                            Binding="{Binding SeatNumber}"
                             Value="{x:Static local:Constants+Limits.ALL_SEATS}">
 
                             <Setter Property="HeaderFormattedText" Value="{xct:Translate WholeOrder}" />
