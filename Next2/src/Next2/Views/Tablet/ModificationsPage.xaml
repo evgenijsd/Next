@@ -12,11 +12,10 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:helpers="clr-namespace:Next2.Helpers"
-    xmlns:modelsApi="clr-namespace:Next2.Models.API"
     xmlns:modelsDTO="clr-namespace:Next2.Models.API.DTO"
-    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
+    xmlns:bindables="clr-namespace:Next2.Models.Bindables"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
-    xmlns:views="clr-namespace:Next2.Views" 
+    xmlns:views="clr-namespace:Next2.Views"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Views.Tablet.ModificationsPage"
     x:DataType="viewmodels:ModificationsPageViewModel">
@@ -87,7 +86,7 @@
 
                     <BoxView.Triggers>
 
-                        <DataTrigger TargetType="BoxView" Binding="{Binding SelectedProduct.SelectedItem.State}" Value="Proportions">
+                        <DataTrigger TargetType="BoxView" Binding="{Binding SelectedSidebarProduct.SelectedItem.State}" Value="Proportions">
                             <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i1}"/>
                         </DataTrigger>
 
@@ -102,13 +101,13 @@
                 HeightRequest="1"/>
 
             <controls:CustomCollectionView
-                ItemsSource="{Binding ProductsDish}"
+                ItemsSource="{Binding SidebarProducts}"
                 VerticalScrollBarVisibility="Never"
                 HorizontalScrollBarVisibility="Never"
                 BounceMode="DisabledForAndroidAndiOS">
 
                 <controls:CustomCollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="modelsBindable:SpoilerBindableModel">
+                    <DataTemplate x:DataType="bindables:SpoilerBindableModel">
 
                         <StackLayout>
 
@@ -160,7 +159,7 @@
         <sc:StateContainer
             Grid.Column="1"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-            State="{Binding SelectedProduct.SelectedItem.State}">
+            State="{Binding SelectedSidebarProduct.SelectedItem.State}">
 
             <sc:StateCondition State="Proportions">
                 <StackLayout>
@@ -192,7 +191,7 @@
 
                         <controls:CustomCollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="modelsApi:ProportionModel">
+                            <DataTemplate x:DataType="bindables:ProportionBindableModel">
 
                                 <pancakeview:PancakeView
                                     Padding="12, 4"
@@ -272,7 +271,7 @@
 
                         <controls:CustomCollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="modelsDTO:SimpleProductModelDTO">
+                            <DataTemplate x:DataType="bindables:SimpleProductBindableModel">
 
                                 <pancakeview:PancakeView
                                     Padding="12, 4"
@@ -388,7 +387,7 @@
 
                         <controls:CustomCollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="modelsBindable:IngredientBindableModel">
+                            <DataTemplate x:DataType="bindables:IngredientBindableModel">
 
                                 <pancakeview:PancakeView
                                     Padding="12, 4"
@@ -449,7 +448,7 @@
 
                         <controls:CustomCollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="modelsDTO:OptionModelDTO">
+                            <DataTemplate x:DataType="bindables:OptionBindableModel">
 
                                 <pancakeview:PancakeView
                                     Padding="16, 4"

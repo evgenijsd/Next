@@ -1,9 +1,10 @@
 ﻿using Next2.Interfaces;
+using Prism.Mvvm;
 using System;
 
-namespace Next2.Models.API
+namespace Next2.Models.Bindables
 {
-    public class ProportionModel : IBaseApiModel
+    public class ProportionBindableModel : BindableBase, IBaseApiModel
     {
         public Guid Id { get; set; }
 
@@ -14,5 +15,7 @@ namespace Next2.Models.API
         public string? ProportionName { get; set; }
 
         public decimal Price { get; set; }
+
+        public override string ToString() => Id.ToString();
     }
 }
