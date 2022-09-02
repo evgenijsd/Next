@@ -15,6 +15,7 @@ using Next2.Views.Tablet;
 using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -23,6 +24,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet
 {
@@ -343,11 +345,63 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnOpenEmployeeWorkingHoursCommandAsync()
         {
-            var popupPage = new Views.Tablet.Dialogs.EmployeeTimeClockDialog(
-                _workLogService,
-                (IDialogParameters dialogResult) => PopupNavigation.PopAsync());
+            var parameters = new DialogParameters { { Constants.DialogParameterKeys.WORKLOG_SERVICE, _workLogService }, };
 
-            return PopupNavigation.PushAsync(popupPage);
+            return PopupNavigation.PushAsync(new Views.Tablet.Dialogs.EmployeeTimeClockDialog(parameters, CloseTrackTimeDialogCallBack));
+        }
+
+        private async void CloseTrackTimeDialogCallBack(IDialogParameters dialogResult)
+        {
+            await _notificationsService.CloseAllPopupAsync();
+
+            if (IsInternetConnected)
+            {
+                if (dialogResult.ContainsKey(Constants.DialogParameterKeys.EMPLOYEE_ID))
+                {
+                    if (dialogResult.TryGetValue(Constants.DialogParameterKeys.EMPLOYEE_ID, out string employeeId))
+                    {
+                        var confirmDialogParameters = new DialogParameters
+                        {
+                            { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                            { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                            { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["WantToLogOut"] },
+                            { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                            { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["LogOut_UpperCase"] },
+                        };
+
+                        PopupPage orderDeletionConfirmationDialog = App.IsTablet
+                            ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseLogOutConfirmationDialogCallback)
+                            : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseLogOutConfirmationDialogCallback);
+
+                        await PopupNavigation.PushAsync(orderDeletionConfirmationDialog);
+                    }
+                }
+            }
+            else
+            {
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
+            }
+        }
+
+        private async void CloseLogOutConfirmationDialogCallback(IDialogParameters parameters)
+        {
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isLogOutAccepted))
+            {
+                if (isLogOutAccepted)
+                {
+                    await _notificationsService.CloseAllPopupAsync();
+
+                    await _authenticationService.LogoutAsync();
+
+                    var navigationParameters = new NavigationParameters { { Constants.Navigations.LOGOUT, true }, };
+
+                    await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
+                }
+                else
+                {
+                    await _notificationsService.CloseAllPopupAsync();
+                }
+            }
         }
 
         #endregion

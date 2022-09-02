@@ -1,9 +1,11 @@
 ﻿using Next2.Enums;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.WorkLog;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using Prism.Xaml;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,14 +15,13 @@ namespace Next2.ViewModels.Dialogs
 {
     public class EmployeeTimeClockViewModel : BindableBase
     {
-        private readonly IWorkLogService _workLogService;
+        private IWorkLogService _workLogService;
 
         public EmployeeTimeClockViewModel(
-            IWorkLogService workLogService,
+            DialogParameters parameters,
             Action<IDialogParameters> requestClose)
         {
-            _workLogService = workLogService;
-
+            LoadData(parameters);
             RequestClose = requestClose;
             CloseCommand = new DelegateCommand(() => RequestClose(new DialogParameters()));
         }
@@ -49,6 +50,17 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private helpers --
 
+        private void LoadData(DialogParameters parameters)
+        {
+            if (parameters is not null)
+            {
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.WORKLOG_SERVICE, out IWorkLogService workLogService))
+                {
+                    _workLogService = workLogService;
+                }
+            }
+        }
+
         private async Task OnApplyCommandAsync()
         {
             if (EmployeeId.Length != Constants.Limits.LOGIN_LENGTH || !int.TryParse(EmployeeId, out int employeeId))
@@ -57,7 +69,7 @@ namespace Next2.ViewModels.Dialogs
             }
             else
             {
-                var resultOfLoggingWorkTime = await _workLogService.LogWorkTimeAsync(employeeId.ToString());
+                var resultOfLoggingWorkTime = await _workLogService.LogWorkTimeAsync(EmployeeId);
 
                 if (resultOfLoggingWorkTime.IsSuccess)
                 {
@@ -71,7 +83,9 @@ namespace Next2.ViewModels.Dialogs
                 }
                 else
                 {
-                    IsErrorNotificationVisible = true;
+                    var parameters = new DialogParameters() { { Constants.DialogParameterKeys.EMPLOYEE_ID, EmployeeId }, };
+
+                    RequestClose(parameters);
                 }
             }
         }
