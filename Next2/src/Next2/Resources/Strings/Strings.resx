@@ -816,6 +816,15 @@ A receipt has been printed for you.</value>
   <data name="TheOrderHasBeenRemoved" xml:space="preserve">
     <value>The order #{0} has been removed</value>
   </data>
+  <data name="HoldItemsFrom" xml:space="preserve">
+    <value>Hold Items From:</value>
+  </data>
+  <data name="WhatHold" xml:space="preserve">
+    <value>What should be hold?</value>
+  </data>
+  <data name="WholeOrder" xml:space="preserve">
+    <value>Whole order</value>
+  </data>
   <data name="Finished" xml:space="preserve">
     <value>Finished</value>
   </data>

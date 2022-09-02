@@ -186,15 +186,15 @@ namespace Next2.ViewModels
 
                 if (i < ordersCount / 3)
                 {
-                    ordersArray[i].Close = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, randomHours, randomMinutes, 0);
+                    ordersArray[i].Close = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, randomHours, randomMinutes, 0, DateTimeKind.Local);
                 }
                 else if (i < ordersCount / 2)
                 {
-                    ordersArray[i].Close = new DateTime(currentDate.Year, previousDay.Month, previousDay.Day, randomHours, randomMinutes, 0);
+                    ordersArray[i].Close = new DateTime(currentDate.Year, previousDay.Month, previousDay.Day, randomHours, randomMinutes, 0, DateTimeKind.Local);
                 }
                 else
                 {
-                    ordersArray[i].Close = new DateTime(currentDate.Year, theDayBeforeYesterday.Month, theDayBeforeYesterday.Day, randomHours, randomMinutes, 0);
+                    ordersArray[i].Close = new DateTime(currentDate.Year, theDayBeforeYesterday.Month, theDayBeforeYesterday.Day, randomHours, randomMinutes, 0, DateTimeKind.Local);
                 }
             }
 

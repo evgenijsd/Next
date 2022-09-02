@@ -211,7 +211,7 @@
                                                 Grid.Column="1"
                                                 LineBreakMode="TailTruncation"
                                                 Style="{DynamicResource ViewCellLabelStyle}"
-                                                Text="{Binding DishName}" />
+                                                Text="{Binding Name}" />
 
                                             <Label
                                                 Grid.Row="1"

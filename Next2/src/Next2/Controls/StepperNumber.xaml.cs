@@ -34,12 +34,12 @@ namespace Next2.Controls
         }
 
         public static readonly BindableProperty NumberProperty = BindableProperty.Create(
-            propertyName: nameof(Number),
+            propertyName: nameof(Value),
             returnType: typeof(int),
             declaringType: typeof(StepperNumber),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public int Number
+        public int Value
         {
             get => (int)GetValue(NumberProperty);
             set => SetValue(NumberProperty, value);
@@ -104,7 +104,7 @@ namespace Next2.Controls
 
         private Task OnChangeNumberCommandAsync(ENumberChange? numberChange)
         {
-            int number = Number;
+            int number = Value;
 
             switch (numberChange ?? ENumberChange.None)
             {
@@ -124,7 +124,7 @@ namespace Next2.Controls
                     break;
             }
 
-            Number = number;
+            Value = number;
 
             NumberChangedAction();
 

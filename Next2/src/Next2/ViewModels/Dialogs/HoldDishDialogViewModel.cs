@@ -1,11 +1,9 @@
-﻿using Next2.Enums;
-using Next2.Helpers;
+﻿using Next2.Helpers;
 using Next2.Models.Bindables;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -40,15 +38,24 @@ namespace Next2.ViewModels.Dialogs
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ORDER, out FullOrderBindableModel order))
             {
-                CurrentOrder = order;
+                var seatNumbers = order.Seats.Select(x => x.SeatNumber).ToList();
 
-                ProductNames = string.Join(", ", selectedDish.SelectedProducts?.Where(x => !string.IsNullOrEmpty(x.Product.Name)).Select(x => x.Product.Name).ToArray());
+                seatNumbers.Insert(0, Constants.Limits.ALL_SEATS);
+
+                SeatNumbers = new(seatNumbers);
+                SelectedSeatNumber = SeatNumbers.First();
             }
         }
 
         #region -- Public properties --
 
-        public DishBindableModel SelectedDish { get; set; }
+        public DishBindableModel? SelectedDish { get; set; }
+
+        public ObservableCollection<int>? SeatNumbers { get; set; }
+
+        public int SelectedSeatNumber { get; set; }
+
+        public int CurrentSeatNumber { get; set; }
 
         public FullOrderBindableModel CurrentOrder { get; set; }
 
@@ -76,6 +83,9 @@ namespace Next2.ViewModels.Dialogs
         private ICommand? _selectTimeItemCommand;
         public ICommand SelectTimeItemCommand => _selectTimeItemCommand ??= new AsyncCommand<HoldTimeItem?>(OnSelectTimeItemCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand? _selectSeatCommand;
+        public ICommand SelectSeatCommand => _selectSeatCommand ??= new AsyncCommand(OnSelectSeatCommandAsync, allowsMultipleExecutions: false);
+
         private ICommand? _holdCommand;
         public ICommand HoldCommand => _holdCommand ??= new AsyncCommand(OnHoldCommandAsync, allowsMultipleExecutions: false);
 
@@ -85,7 +95,7 @@ namespace Next2.ViewModels.Dialogs
 
         private void OnUpdateHoldTime()
         {
-            var holdTime = new DateTime(CurrentTime.Year, CurrentTime.Month, CurrentTime.Day, Hour, Minute, second: 0);
+            var holdTime = new DateTime(CurrentTime.Year, CurrentTime.Month, CurrentTime.Day, Hour, Minute, second: 0, DateTimeKind.Local);
 
             if (CurrentTime > holdTime)
             {
@@ -104,6 +114,11 @@ namespace Next2.ViewModels.Dialogs
             if (_holdTime > CurrentTime)
             {
                 parameters.Add(Constants.DialogParameterKeys.HOLD, _holdTime);
+
+                if (SelectedDish is null)
+                {
+                    parameters.Add(Constants.DialogParameterKeys.SEATS, SelectedSeatNumber);
+                }
             }
 
             RequestClose(parameters);
@@ -134,6 +149,13 @@ namespace Next2.ViewModels.Dialogs
                     SetHoldTime(DateTime.Now.AddMinutes(selectedHoldTime.Minute));
                 }
             }
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnSelectSeatCommandAsync()
+        {
+            CurrentSeatNumber = SelectedSeatNumber;
 
             return Task.CompletedTask;
         }

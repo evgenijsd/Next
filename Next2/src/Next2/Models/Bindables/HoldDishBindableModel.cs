@@ -4,14 +4,16 @@ using System;
 
 namespace Next2.Models.Bindables
 {
-    public class HoldDishBindableModel : BindableBase, IBaseModel
+    public class HoldDishBindableModel : BindableBase, IBaseApiModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public int TableNumber { get; set; }
 
-        public string DishName { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
 
         public DateTime ReleaseTime { get; set; }
+
+        public Guid OrderId { get; set; }
     }
 }
