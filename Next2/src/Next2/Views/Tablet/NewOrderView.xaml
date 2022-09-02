@@ -938,7 +938,7 @@
                 <Style x:Key="BorderButtonStyle_i2" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i1}">
                     <Setter Property="Padding" Value="0"/>
                     <Setter Property="HeightRequest" Value="36"/>
-                    <Setter Property="FontFamily" Value="Barlow-Semibold"/>
+                    <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
                     <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
                     <Setter Property="CornerRadius" Value="4"/>
                     <Setter Property="BackgroundColor" Value="Transparent"/>
