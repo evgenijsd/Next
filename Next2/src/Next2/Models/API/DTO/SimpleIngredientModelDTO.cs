@@ -3,7 +3,7 @@ using System;
 
 namespace Next2.Models.API.DTO
 {
-    public class SimpleIngredientModelDTO : IBaseApiModel
+    public class SimpleIngredientModelDTO : IBaseApiModel, ICloneable
     {
         public Guid Id { get; set; }
 
@@ -14,5 +14,17 @@ namespace Next2.Models.API.DTO
         public string? ImageSource { get; set; }
 
         public SimpleIngredientsCategoryModelDTO IngredientsCategory { get; set; } = new();
+
+        public object Clone()
+        {
+            return new SimpleIngredientModelDTO()
+            {
+                Id = Id,
+                Name = new(Name),
+                Price = Price,
+                ImageSource = new(ImageSource),
+                IngredientsCategory = (SimpleIngredientsCategoryModelDTO)IngredientsCategory?.Clone(),
+            };
+        }
     }
 }

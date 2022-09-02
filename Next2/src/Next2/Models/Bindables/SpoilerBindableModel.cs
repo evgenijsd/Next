@@ -11,6 +11,8 @@ namespace Next2.Models.Bindables
     {
         public Guid Id { get; set; }
 
+        public Guid DishReplacementProductId { get; set; }
+
         public string Title { get; set; } = string.Empty;
 
         public ObservableCollection<SpoilerItem> Items { get; set; } = new();

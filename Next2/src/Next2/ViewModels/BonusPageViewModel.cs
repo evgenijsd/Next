@@ -142,16 +142,6 @@ namespace Next2.ViewModels
             }
         }
 
-        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
-        {
-            base.OnPropertyChanged(args);
-
-            if (args.PropertyName is nameof(SelectedBonus))
-            {
-                Title = SelectedBonus?.Name ?? string.Empty;
-            }
-        }
-
         #endregion
 
         #region -- Private helpers --
@@ -219,9 +209,16 @@ namespace Next2.ViewModels
 
         private Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
         {
-            SelectedBonus = bonus == SelectedBonus
-                ? null
-                : bonus;
+            if (SelectedBonus == bonus)
+            {
+                SelectedBonus = null;
+            }
+            else
+            {
+                Title = bonus?.Name ?? string.Empty;
+                SelectedBonus = null;
+                SelectedBonus = bonus;
+            }
 
             if (bonus?.Type is EBonusType.Coupon)
             {

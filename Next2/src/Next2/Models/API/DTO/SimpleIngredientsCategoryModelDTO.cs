@@ -3,10 +3,19 @@ using System;
 
 namespace Next2.Models.API.DTO
 {
-    public class SimpleIngredientsCategoryModelDTO : IBaseApiModel
+    public class SimpleIngredientsCategoryModelDTO : IBaseApiModel, ICloneable
     {
         public Guid Id { get; set; }
 
         public string? Name { get; set; }
+
+        public object Clone()
+        {
+            return new SimpleIngredientsCategoryModelDTO()
+            {
+                Id = Id,
+                Name = new(Name),
+            };
+        }
     }
 }

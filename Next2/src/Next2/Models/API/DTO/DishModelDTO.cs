@@ -20,8 +20,6 @@ namespace Next2.Models.API.DTO
 
         public SimpleSubcategoryModelDTO Subcategory { get; set; } = new();
 
-        public IEnumerable<SimpleProductModelDTO>? Products { get; set; }
-
         public IEnumerable<SimpleDishProportionModelDTO>? DishProportions { get; set; }
 
         public IEnumerable<SimpleCouponModelDTO>? Coupons { get; set; }

@@ -472,7 +472,7 @@ namespace Next2.ViewModels
 
                 SelectedTable = CurrentOrder.Table is null
                     ? Tables.FirstOrDefault()
-                    : new()
+                    : new TableBindableModel()
                     {
                         Id = CurrentOrder.Table.Id,
                         SeatNumbers = CurrentOrder.Table.SeatNumbers,
@@ -482,7 +482,7 @@ namespace Next2.ViewModels
                 if (!tableBindableModels.Any(x => x.TableNumber == SelectedTable.TableNumber))
                 {
                     Tables.Add(SelectedTable);
-                    Tables = new(Tables.OrderBy(x => x?.TableNumber));
+                    Tables = new(Tables.OrderBy(x => x.TableNumber));
                 }
             }
             else if (_externalPageLoadStatus == ELoadingState.Completed)

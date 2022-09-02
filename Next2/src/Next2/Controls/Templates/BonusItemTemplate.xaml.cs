@@ -75,16 +75,16 @@ namespace Next2.Controls.Templates
             set => SetValue(ImagePathProperty, value);
         }
 
-        public static readonly BindableProperty BorderBonusColorProperty = BindableProperty.Create(
-            propertyName: nameof(BorderBonusColor),
+        public static readonly BindableProperty SelectedBackgroundColorProperty = BindableProperty.Create(
+            propertyName: nameof(SelectedBackgroundColor),
             returnType: typeof(Color),
             declaringType: typeof(BonusItemTemplate),
             defaultBindingMode: BindingMode.OneWay);
 
-        public Color BorderBonusColor
+        public Color SelectedBackgroundColor
         {
-            get => (Color)GetValue(BorderBonusColorProperty);
-            set => SetValue(BorderBonusColorProperty, value);
+            get => (Color)GetValue(SelectedBackgroundColorProperty);
+            set => SetValue(SelectedBackgroundColorProperty, value);
         }
 
         public static readonly BindableProperty BackColorProperty = BindableProperty.Create(
