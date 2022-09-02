@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 using UIEffects = Next2.Effects;
 
+[assembly: ResolutionGroupName("com.headworks")]
 [assembly: ExportEffect(typeof(ScrollBarColorEffect), nameof(ScrollBarColorEffect))]
 namespace Next2.iOS.Effects
 {

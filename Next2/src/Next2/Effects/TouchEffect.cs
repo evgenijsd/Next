@@ -5,7 +5,7 @@ namespace Next2.Effects
     public class TouchEffect : RoutingEffect
     {
         public TouchEffect()
-            : base($"Next2.Effects.{nameof(TouchEffect)}")
+            : base("com.headworks.TouchEffect")
         {
         }
 
