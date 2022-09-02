@@ -109,7 +109,7 @@ namespace Next2.ViewModels.Dialogs
 
                 Employees = new(Employees);
 
-                Tables = new(SelectedEmployeeToAssignFrom.Tables?.OrderBy(row => row?.Number));
+                Tables = new(SelectedEmployeeToAssignFrom.Tables?.OrderBy(row => row.Number));
 
                 _tempEmployeeToAssignFrom = new()
                 {
