@@ -926,7 +926,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnOpenHoldSelectionCommandAsync(DishBindableModel? selectedDish)
+        private Task OnOpenHoldSelectionCommandAsync(DishBindableModel? selectedDish)
         {
             var param = new DialogParameters();
 
@@ -943,7 +943,7 @@ namespace Next2.ViewModels
                 ? new Views.Tablet.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallbackAsync)
                 : new Views.Mobile.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallbackAsync);
 
-            await PopupNavigation.PushAsync(holdDishDialog);
+            return PopupNavigation.PushAsync(holdDishDialog);
         }
 
         private async void CloseHoldDishDialogCallbackAsync(IDialogParameters parameters)

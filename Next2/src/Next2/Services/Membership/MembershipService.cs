@@ -1,5 +1,5 @@
-﻿using Next2.Helpers.ProcessHelpers;
-using Next2.Models.API.Commands;
+﻿using Next2.Extensions;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
 using Next2.Resources.Strings;
@@ -59,14 +59,7 @@ namespace Next2.Services.Membership
 
             try
             {
-                var membershipForUpdate = new UpdateMembershipCommand
-                {
-                    Id = member.Id,
-                    StartDate = member.StartDate,
-                    EndDate = member.EndDate,
-                    CustomerId = member.Customer.Id,
-                    IsActive = member.IsActive,
-                };
+                var membershipForUpdate = member.ToUpdateMembershipCommand();
 
                 var query = $"{Constants.API.HOST_URL}/api/memberships";
 
