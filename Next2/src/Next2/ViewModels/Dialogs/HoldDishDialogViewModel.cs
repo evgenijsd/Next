@@ -43,7 +43,7 @@ namespace Next2.ViewModels.Dialogs
                 seatNumbers.Insert(0, Constants.Limits.ALL_SEATS);
 
                 SeatNumbers = new(seatNumbers);
-                SeatNumber = SeatNumbers.First();
+                SelectedSeatNumber = SeatNumbers.First();
             }
         }
 
@@ -53,7 +53,7 @@ namespace Next2.ViewModels.Dialogs
 
         public ObservableCollection<int>? SeatNumbers { get; set; }
 
-        public int SeatNumber { get; set; }
+        public int SelectedSeatNumber { get; set; }
 
         public int CurrentSeatNumber { get; set; }
 
@@ -117,7 +117,7 @@ namespace Next2.ViewModels.Dialogs
 
                 if (SelectedDish is null)
                 {
-                    parameters.Add(Constants.DialogParameterKeys.SEATS, SeatNumber);
+                    parameters.Add(Constants.DialogParameterKeys.SEATS, SelectedSeatNumber);
                 }
             }
 
@@ -155,7 +155,7 @@ namespace Next2.ViewModels.Dialogs
 
         private Task OnSelectSeatCommandAsync()
         {
-            CurrentSeatNumber = SeatNumber;
+            CurrentSeatNumber = SelectedSeatNumber;
 
             return Task.CompletedTask;
         }

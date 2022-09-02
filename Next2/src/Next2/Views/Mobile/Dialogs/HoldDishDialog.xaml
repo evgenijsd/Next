@@ -315,7 +315,7 @@
                     ScrollBarVisibility="Never"
                     HorizontalOptions="FillAndExpand"
                     ItemsSource="{Binding SeatNumbers}"
-                    SelectedItem="{Binding SeatNumber}"
+                    SelectedItem="{Binding SelectedSeatNumber}"
                     SelectionChangedCommand="{Binding SelectSeatCommand}">
 
                     <controls:DropDownList.HeaderFormattedText>
@@ -330,7 +330,7 @@
 
                         <DataTrigger
                             TargetType="controls:DropDownList"
-                            Binding="{Binding SeatNumber}"
+                            Binding="{Binding SelectedSeatNumber}"
                             Value="{x:Static local:Constants+Limits.ALL_SEATS}">
 
                             <Setter Property="HeaderFormattedText" Value="{xct:Translate WholeOrder}" />
