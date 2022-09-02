@@ -29,17 +29,17 @@ namespace Next2.Models.Bindables
 
         public DateTime? HoldTime { get; set; }
 
-        public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
+        public DishProportionModelDTO? SelectedDishProportion { get; set; } = new();
 
         public ObservableCollection<ProductBindableModel>? SelectedProducts { get; set; }
+
+        public IEnumerable<DishReplacementProductModelDTO>? ReplacementProducts { get; set; }
 
         public int SeatNumber { get; set; }
 
         public bool IsSeatSelected { get; set; }
 
         public IEnumerable<SimpleDishProportionModelDTO>? DishProportions { get; set; }
-
-        public ObservableCollection<SimpleProductModelDTO>? Products { get; set; } = new();
 
         public ICommand? SelectDishCommand { get; set; }
 
@@ -50,9 +50,9 @@ namespace Next2.Models.Bindables
             return new DishBindableModel()
             {
                 Id = Id,
-                Name = Name,
+                Name = new(Name),
                 DishId = DishId,
-                ImageSource = ImageSource,
+                ImageSource = new(ImageSource),
                 TotalPrice = TotalPrice,
                 IsSplitted = IsSplitted,
                 DiscountPrice = DiscountPrice,
@@ -61,48 +61,10 @@ namespace Next2.Models.Bindables
                 IsSeatSelected = IsSeatSelected,
                 SeatNumber = SeatNumber,
                 SelectDishCommand = SelectDishCommand,
-                DishProportions = DishProportions?.Select(x => new SimpleDishProportionModelDTO
-                {
-                    Id = x.Id,
-                    PriceRatio = x.PriceRatio,
-                    ProportionId = x.ProportionId,
-                    ProportionName = x?.ProportionName,
-                }),
-                SelectedDishProportion = new DishProportionModelDTO
-                {
-                    Id = SelectedDishProportion.Id,
-                    PriceRatio = SelectedDishProportion.PriceRatio,
-                    Proportion = new ProportionModelDTO
-                    {
-                        Id = SelectedDishProportion.Proportion.Id,
-                        Name = SelectedDishProportion.Proportion?.Name,
-                    },
-                },
-                Products = new(Products.Select(x => new SimpleProductModelDTO
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    DefaultPrice = x.DefaultPrice,
-                    ImageSource = x.ImageSource,
-                    Ingredients = x.Ingredients.Select(x => new SimpleIngredientModelDTO
-                    {
-                        Id = x.Id,
-                        ImageSource = x.ImageSource,
-                        Name = x.Name,
-                        IngredientsCategory = new SimpleIngredientsCategoryModelDTO
-                        {
-                            Name = x.IngredientsCategory.Name,
-                            Id = x.IngredientsCategory.Id,
-                        },
-                        Price = x.Price,
-                    }),
-                    Options = x.Options.Select(x => new OptionModelDTO
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                    }),
-                })),
-                SelectedProducts = SelectedProducts,
+                DishProportions = DishProportions?.Select(x => (SimpleDishProportionModelDTO)x.Clone()),
+                SelectedDishProportion = (DishProportionModelDTO)SelectedDishProportion?.Clone(),
+                SelectedProducts = new(SelectedProducts.Select(row => (ProductBindableModel)row.Clone())),
+                ReplacementProducts = ReplacementProducts.Select(row => (DishReplacementProductModelDTO)row.Clone()),
             };
         }
     }

@@ -6,7 +6,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using UIEffects = Next2.Effects;
 
-[assembly: ResolutionGroupName("Next2.Effects")]
+[assembly: ResolutionGroupName("com.headworks")]
 [assembly: ExportEffect(typeof(ScrollBarColorEffect), nameof(ScrollBarColorEffect))]
 
 namespace Next2.Droid.Effects
