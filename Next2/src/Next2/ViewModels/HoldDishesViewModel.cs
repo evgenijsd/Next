@@ -69,6 +69,9 @@ namespace Next2.ViewModels
         private ICommand? _selectAllHoldDishesTableCommand;
         public ICommand SelectAllHoldDishesTableCommand => _selectAllHoldDishesTableCommand ??= new AsyncCommand(OnSelectAllHoldDishesTableCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand? _releaseSelectionHoldDishesCommand;
+        public ICommand ReleaseSelectionHoldDishesCommand => _releaseSelectionHoldDishesCommand ??= new AsyncCommand(OnReleaseSelectionHoldDishesCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -178,6 +181,13 @@ namespace Next2.ViewModels
                 TableNumber = SelectedTable.TableNumber;
                 HoldDishes = GetHoldDishesByTableNumber(TableNumber);
             }
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnReleaseSelectionHoldDishesCommandAsync()
+        {
+            var selectedBindableDishes = SelectedHoldDishes.Select(x => x as HoldDishBindableModel).ToList();
 
             return Task.CompletedTask;
         }
