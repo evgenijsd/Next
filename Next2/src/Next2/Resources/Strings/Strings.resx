@@ -843,4 +843,7 @@ A receipt has been printed for you.</value>
   <data name="YouCannotAddSeatToSplitOrder" xml:space="preserve">
     <value>You cannot add a seat to a split order</value>
   </data>
+  <data name="TheEnteredEmployeeIDIsNotLoggedIn" xml:space="preserve">
+    <value>The entered Employee ID is not logged in. Please log in to the application through your profile</value>
+  </data>
 </root>
