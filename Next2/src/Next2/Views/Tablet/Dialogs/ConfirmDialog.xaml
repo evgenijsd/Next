@@ -33,7 +33,7 @@
             </Style>
 
             <ResourceDictionary>    
-                <x:Int32 x:Key="ComparingValue">15</x:Int32>
+                <x:Int32 x:Key="MaxTitleLength">15</x:Int32>
             </ResourceDictionary>
         </pancakeview:PancakeView.Resources>
         
@@ -47,11 +47,11 @@
                 MaxLines="{
                     Binding Title.Length,
                     Converter={xct:CompareConverter ComparisonOperator=Greater,
-                    ComparingValue={StaticResource ComparingValue}, FalseObject=1, TrueObject=2}}"
+                    ComparingValue={StaticResource MaxTitleLength}, FalseObject=1, TrueObject=2}}"
                 FontSize="{
                     Binding Title.Length,
                     Converter={xct:CompareConverter ComparisonOperator=Greater,
-                    ComparingValue={StaticResource ComparingValue}, FalseObject=TSize_i4_5, TrueObject=TSize_i4}}"/>
+                    ComparingValue={StaticResource MaxTitleLength}, FalseObject=TSize_i4_5, TrueObject=TSize_i4}}"/>
 
             <controls:LineSpacingLabel
                 VerticalTextAlignment="Start"
