@@ -42,11 +42,14 @@ using MobileViewModels = Next2.ViewModels.Mobile;
 using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
+using Device = Xamarin.Forms.Device;
 
 namespace Next2
 {
     public partial class App : PrismApplication
     {
+        private IAuthenticationService _authenticationService;
+
         public App(IPlatformInitializer? initializer = null)
             : base(initializer)
         {
@@ -54,7 +57,7 @@ namespace Next2
 
         #region -- Public properties --
 
-        public static bool IsTablet = Xamarin.Forms.Device.Idiom == TargetIdiom.Tablet;
+        public static bool IsTablet = Device.Idiom == TargetIdiom.Tablet;
 
         #endregion
 
@@ -158,9 +161,9 @@ namespace Next2
             var navigationParameters = new NavigationParameters();
             var navigationPath = $"{nameof(NavigationPage)}/";
 
-            IAuthenticationService authenticationService = Resolve<IAuthenticationService>();
+            _authenticationService = Resolve<IAuthenticationService>();
 
-            if (authenticationService.IsAuthorizationComplete)
+            if (_authenticationService.IsAuthorizationComplete)
             {
                 navigationParameters.Add(Constants.Navigations.IS_FIRST_ORDER_INIT, true);
                 navigationPath += nameof(MenuPage);
@@ -262,7 +265,12 @@ namespace Next2
 
         private async void OnUserActivityEndedCallback(object sender, EventArgs e)
         {
-            //await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(LoginPage)}");
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
+            });
+
+            _authenticationService.ClearSession();
         }
 
         #endregion

@@ -9,7 +9,7 @@ namespace Next2.Services.Activity
 
         public ActivityService()
         {
-            _timer = new Timer(Constants.Limits.USER_ACTIVITY_TIME);
+            _timer = new Timer(Constants.Limits.USER_ACTIVITY_TIME_SEC * 1000);
 
             _timer.Elapsed += OnUserActivityEndedCallback;
 

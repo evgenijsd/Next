@@ -32,11 +32,11 @@ namespace Next2.iOS
 
             _activityService = App.Current.Container.Resolve<IActivityService>();
 
-            bool result = base.FinishedLaunching(app, options);
+            var result = base.FinishedLaunching(app, options);
 
             if (result)
             {
-                var tapGestureRecognizer = new UITapGestureRecognizer(OnShouldReceiveTouchAction);
+                var tapGestureRecognizer = new UITapGestureRecognizer(OnTapGestureAction);
 
                 app.KeyWindow.AddGestureRecognizer(tapGestureRecognizer);
             }
@@ -57,7 +57,7 @@ namespace Next2.iOS
 
         #region -- Private helpers --
 
-        private void OnShouldReceiveTouchAction()
+        private void OnTapGestureAction()
         {
             _activityService.RefreshTimeLastActivity();
         }

@@ -51,7 +51,7 @@
             public const int MIN_MINUTE = 0;
             public const int MAX_MINUTE = 59;
             public const int HELD_DISH_RELEASE_FREQUENCY = 1;
-            public const int USER_ACTIVITY_TIME = 10000;
+            public const int USER_ACTIVITY_TIME_SEC = 900;
         }
 
         public static class Navigations
