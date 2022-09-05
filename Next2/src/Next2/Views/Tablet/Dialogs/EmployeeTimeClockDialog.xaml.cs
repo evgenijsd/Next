@@ -9,12 +9,12 @@ namespace Next2.Views.Tablet.Dialogs
     public partial class EmployeeTimeClockDialog : PopupPage
     {
         public EmployeeTimeClockDialog(
-            DialogParameters parameters,
+            IWorkLogService workLogService,
             Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new EmployeeTimeClockViewModel(parameters, requestClose);
+            BindingContext = new EmployeeTimeClockViewModel(workLogService, requestClose);
         }
     }
 }

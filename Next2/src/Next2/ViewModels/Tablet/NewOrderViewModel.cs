@@ -345,9 +345,7 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnOpenEmployeeWorkingHoursCommandAsync()
         {
-            var parameters = new DialogParameters { { Constants.DialogParameterKeys.WORKLOG_SERVICE, _workLogService }, };
-
-            return PopupNavigation.PushAsync(new Views.Tablet.Dialogs.EmployeeTimeClockDialog(parameters, CloseTrackTimeDialogCallBack));
+            return PopupNavigation.PushAsync(new Views.Tablet.Dialogs.EmployeeTimeClockDialog(_workLogService, CloseTrackTimeDialogCallBack));
         }
 
         private async void CloseTrackTimeDialogCallBack(IDialogParameters dialogResult)

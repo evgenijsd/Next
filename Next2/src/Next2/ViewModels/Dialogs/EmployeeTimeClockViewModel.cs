@@ -15,13 +15,14 @@ namespace Next2.ViewModels.Dialogs
 {
     public class EmployeeTimeClockViewModel : BindableBase
     {
-        private IWorkLogService _workLogService;
+        private readonly IWorkLogService _workLogService;
 
         public EmployeeTimeClockViewModel(
-            DialogParameters parameters,
+            IWorkLogService workLogService,
             Action<IDialogParameters> requestClose)
         {
-            LoadData(parameters);
+            _workLogService = workLogService;
+
             RequestClose = requestClose;
             CloseCommand = new DelegateCommand(() => RequestClose(new DialogParameters()));
         }
@@ -49,17 +50,6 @@ namespace Next2.ViewModels.Dialogs
         #endregion
 
         #region -- Private helpers --
-
-        private void LoadData(DialogParameters parameters)
-        {
-            if (parameters is not null)
-            {
-                if (parameters.TryGetValue(Constants.DialogParameterKeys.WORKLOG_SERVICE, out IWorkLogService workLogService))
-                {
-                    _workLogService = workLogService;
-                }
-            }
-        }
 
         private async Task OnApplyCommandAsync()
         {
