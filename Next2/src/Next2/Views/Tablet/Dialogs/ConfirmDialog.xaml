@@ -44,8 +44,14 @@
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 FontFamily="Barlow-SemiBold"
                 Text="{Binding Title}"
-                MaxLines="{Binding Title.Length, Converter={xct:CompareConverter ComparisonOperator=Greater, ComparingValue={local}, FalseObject=1, TrueObject=2}}"
-                FontSize="{Binding Title.Length, Converter={xct:CompareConverter ComparisonOperator=Greater, ComparingValue={StaticResource ComparingValue}, FalseObject=TSize_i4_5, TrueObject=TSize_i4}}"/>
+                MaxLines="{
+                    Binding Title.Length,
+                    Converter={xct:CompareConverter ComparisonOperator=Greater,
+                    ComparingValue={StaticResource ComparingValue}, FalseObject=1, TrueObject=2}}"
+                FontSize="{
+                    Binding Title.Length,
+                    Converter={xct:CompareConverter ComparisonOperator=Greater,
+                    ComparingValue={StaticResource ComparingValue}, FalseObject=TSize_i4_5, TrueObject=TSize_i4}}"/>
 
             <controls:LineSpacingLabel
                 VerticalTextAlignment="Start"
