@@ -68,13 +68,13 @@ namespace Next2.ViewModels.Dialogs
                     break;
 
                 case EMembershipEditType.Save:
-                    TimeSpan time = new(1, 0, 0);
+                    Member.StartDate = SelectedDate is null
+                        ? Member.StartDate
+                        : new(SelectedDate.Value.Year, SelectedDate.Value.Month, SelectedDate.Value.Day, 0, 1, 0, DateTimeKind.Local);
 
-                    Member.StartDate = (SelectedDate ?? Member.StartDate) + time;
-
-                    time = new(23, 0, 0);
-
-                    Member.EndDate = (SelectedEndDate ?? Member.EndDate) + time;
+                    Member.EndDate = SelectedEndDate is null
+                        ? Member.EndDate
+                        : new(SelectedEndDate.Value.Year, SelectedEndDate.Value.Month, SelectedEndDate.Value.Day, 23, 59, 0, DateTimeKind.Local);
 
                     if (Member.StartDate > Member.EndDate)
                     {
