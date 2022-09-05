@@ -1,7 +1,6 @@
 using Foundation;
 using Next2.Services.Activity;
 using Prism.Ioc;
-using System;
 using UIKit;
 
 namespace Next2.iOS
@@ -56,9 +55,9 @@ namespace Next2.iOS
 
         #endregion
 
-        #region -- Public helpers --
+        #region -- Private helpers --
 
-        public void OnShouldReceiveTouchAction()
+        private void OnShouldReceiveTouchAction()
         {
             _activityService.RefreshTimeLastActivity();
         }
