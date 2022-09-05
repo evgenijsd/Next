@@ -852,4 +852,7 @@ A receipt has been printed for you.</value>
   <data name="YouCannotAddSeatToSplitOrder" xml:space="preserve">
     <value>You cannot add a seat to a split order</value>
   </data>
+  <data name="NoServersAvailable" xml:space="preserve">
+    <value>No servers available</value>
+  </data>
 </root>

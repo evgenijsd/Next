@@ -116,7 +116,7 @@
 
                     <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
 
-                    <Setter Property="FontFamily" Value="Barlow-Semibold" />
+                    <Setter Property="FontFamily" Value="Barlow-SemiBold" />
 
                 </Style>
 
