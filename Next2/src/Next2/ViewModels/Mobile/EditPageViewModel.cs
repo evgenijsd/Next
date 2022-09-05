@@ -50,6 +50,8 @@ namespace Next2.ViewModels.Mobile
 
         public DishBindableModel? SelectedDish { get; set; }
 
+        public FullOrderBindableModel CurrentOrder { get; set; }
+
         public TimeSpan TimerHoldSelectedDish { get; set; }
 
         private ICommand? _openModifyCommand;
@@ -84,6 +86,7 @@ namespace Next2.ViewModels.Mobile
             SelectedDish = new();
 
             SelectedDish = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
+            CurrentOrder = _orderService.CurrentOrder;
 
             if (SelectedDish?.HoldTime is DateTime holdTime)
             {
@@ -121,18 +124,27 @@ namespace Next2.ViewModels.Mobile
         {
             await _notificationsService.CloseAllPopupAsync();
 
-            if (SelectedDish is not null)
+            if (IsInternetConnected)
             {
-                if (parameters.TryGetValue(Constants.DialogParameterKeys.DISMISS, out bool isDismiss))
+                if (SelectedDish is not null)
                 {
-                    SelectedDish.HoldTime = null;
-                }
+                    if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
+                    {
+                        SelectedDish.HoldTime = holdTime;
+                        TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
 
-                if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
-                {
-                    SelectedDish.HoldTime = holdTime;
-                    TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
+                        var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
+
+                        if (!resultOfUpdatingOrder.IsSuccess)
+                        {
+                            await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+                        }
+                    }
                 }
+            }
+            else
+            {
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
             }
         }
 

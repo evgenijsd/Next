@@ -5,7 +5,7 @@ using Next2.Models.Bindables;
 using Next2.Services.Authentication;
 using Next2.Services.Notifications;
 using Next2.Services.Order;
-using Next2.Views.Mobile.Dialogs;
+using Next2.Views.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System;
@@ -15,7 +15,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -187,15 +186,15 @@ namespace Next2.ViewModels
 
                 if (i < ordersCount / 3)
                 {
-                    ordersArray[i].Close = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, randomHours, randomMinutes, 0);
+                    ordersArray[i].Close = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, randomHours, randomMinutes, 0, DateTimeKind.Local);
                 }
                 else if (i < ordersCount / 2)
                 {
-                    ordersArray[i].Close = new DateTime(currentDate.Year, previousDay.Month, previousDay.Day, randomHours, randomMinutes, 0);
+                    ordersArray[i].Close = new DateTime(currentDate.Year, previousDay.Month, previousDay.Day, randomHours, randomMinutes, 0, DateTimeKind.Local);
                 }
                 else
                 {
-                    ordersArray[i].Close = new DateTime(currentDate.Year, theDayBeforeYesterday.Month, theDayBeforeYesterday.Day, randomHours, randomMinutes, 0);
+                    ordersArray[i].Close = new DateTime(currentDate.Year, theDayBeforeYesterday.Month, theDayBeforeYesterday.Day, randomHours, randomMinutes, 0, DateTimeKind.Local);
                 }
             }
 

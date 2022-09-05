@@ -75,15 +75,15 @@ namespace Next2.ViewModels.Dialogs
                 {
                     var timeTrack = resultOfLoggingWorkTime.Result;
 
-                    (State, DateTime) = timeTrack.End is null && timeTrack.Start is not null
-                        ? (EEmployeeRegisterState.CheckedIn, (DateTime)timeTrack.Start)
-                        : timeTrack.End is not null && timeTrack.Start is not null
+                    (State, DateTime) = timeTrack.Start is null
+                        ? (EEmployeeRegisterState.Undefined, DateTime.MinValue)
+                        : timeTrack.End is not null
                             ? (EEmployeeRegisterState.CheckedOut, (DateTime)timeTrack.End)
-                            : (EEmployeeRegisterState.Undefined, DateTime.MinValue);
+                            : (EEmployeeRegisterState.CheckedIn, (DateTime)timeTrack.Start);
                 }
                 else
                 {
-                    var parameters = new DialogParameters() { { Constants.DialogParameterKeys.EMPLOYEE_ID, EmployeeId }, };
+                    var parameters = new DialogParameters() { { Constants.DialogParameterKeys.NEED_TO_OFFER_LOGOUT, true }, };
 
                     RequestClose(parameters);
                 }

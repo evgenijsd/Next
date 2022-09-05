@@ -718,6 +718,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hold Items From:.
+        /// </summary>
+        internal static string HoldItemsFrom {
+            get {
+                return ResourceManager.GetString("HoldItemsFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incorrect email.
         /// </summary>
         internal static string IncorrectEmail {
@@ -1030,6 +1039,15 @@ namespace Next2.Resources.Strings {
         internal static string NoReceipt {
             get {
                 return ResourceManager.GetString("NoReceipt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No servers available.
+        /// </summary>
+        internal static string NoServersAvailable {
+            get {
+                return ResourceManager.GetString("NoServersAvailable", resourceCulture);
             }
         }
         
@@ -2193,6 +2211,24 @@ namespace Next2.Resources.Strings {
         internal static string Welcome {
             get {
                 return ResourceManager.GetString("Welcome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What should be hold?.
+        /// </summary>
+        internal static string WhatHold {
+            get {
+                return ResourceManager.GetString("WhatHold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Whole order.
+        /// </summary>
+        internal static string WholeOrder {
+            get {
+                return ResourceManager.GetString("WholeOrder", resourceCulture);
             }
         }
         

@@ -22,6 +22,7 @@
             public const string SHORT_DATE_FORMAT = "{0:dd.MM.yyyy}";
             public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
             public const string NUMBER_FORMAT = "{0:D2}";
+            public const string DATETIME_JSON_FORMAT = "yyyy-MM-ddTHH:mm:ss.ffffffZ";
         }
 
         public static class Analytics
@@ -42,6 +43,7 @@
             public const int MAXIMUM_DISCHARGE_NUMBER = 9;
             public const int MAX_QUERY_LENGTH = 100;
             public const int ALL_TABLES = 0;
+            public const int ALL_SEATS = 0;
             public const int PHONE_LENGTH = 14;
             public const int MAX_NAME_LENGTH = 80;
             public const int MIN_HOUR = 1;
@@ -137,7 +139,6 @@
             public const string SELECTED_DATE = "SELECTED_DATE";
             public const string DISH = "DISH";
             public const string DISCOUNT_PRICE = "DISCOUNT_PRICE";
-            public const string DISMISS = "DISMISS";
             public const string HOLD = "HOLD";
             public const string GIFT_GARD = "GIFT_GARD";
             public const string ACTION = "ACTION";
@@ -151,6 +152,7 @@
             public const string TABLE = "TABLE";
             public const string TABLES = "TABLES";
             public const string WORKLOG_SERVICE = "WORKLOG_SERVICE";
+            public const string NEED_TO_OFFER_LOGOUT = "NEED_TO_OFFER_LOGOUT";
         }
 
         public static class API

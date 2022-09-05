@@ -14,7 +14,7 @@ namespace Next2.ViewModels.Dialogs
     {
         private readonly ICustomersService _customersService;
 
-        private IEnumerable<Guid> _listGiftCardIDs;
+        private readonly IEnumerable<Guid> _listGiftCardIDs;
 
         public AddGiftCardDialogViewModel(
             IEnumerable<Guid> giftCardsId,

@@ -356,25 +356,20 @@ namespace Next2.ViewModels.Tablet
 
             if (IsInternetConnected)
             {
-                if (dialogResult.ContainsKey(Constants.DialogParameterKeys.EMPLOYEE_ID))
+                if (dialogResult.ContainsKey(Constants.DialogParameterKeys.NEED_TO_OFFER_LOGOUT))
                 {
-                    if (dialogResult.TryGetValue(Constants.DialogParameterKeys.EMPLOYEE_ID, out string employeeId))
+                    var confirmDialogParameters = new DialogParameters
                     {
-                        var confirmDialogParameters = new DialogParameters
-                        {
-                            { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
-                            { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
-                            { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["WantToLogOut"] },
-                            { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
-                            { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["LogOut_UpperCase"] },
-                        };
+                        { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["TheEnteredEmployeeIDIsNotLoggedIn"] },
+                        { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["WantToLogOut"] },
+                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["LogOut_UpperCase"] },
+                    };
 
-                        PopupPage orderDeletionConfirmationDialog = App.IsTablet
-                            ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseLogOutConfirmationDialogCallback)
-                            : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseLogOutConfirmationDialogCallback);
+                    PopupPage userIsNotLogInConfirmationDialog = new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseLogOutConfirmationDialogCallback);
 
-                        await PopupNavigation.PushAsync(orderDeletionConfirmationDialog);
-                    }
+                    await PopupNavigation.PushAsync(userIsNotLogInConfirmationDialog);
                 }
             }
             else
@@ -389,13 +384,27 @@ namespace Next2.ViewModels.Tablet
             {
                 if (isLogOutAccepted)
                 {
-                    await _notificationsService.CloseAllPopupAsync();
+                    if (IsInternetConnected)
+                    {
+                        await _notificationsService.CloseAllPopupAsync();
 
-                    await _authenticationService.LogoutAsync();
+                        var resultOfLogginOut = await _authenticationService.LogoutAsync();
 
-                    var navigationParameters = new NavigationParameters { { Constants.Navigations.LOGOUT, true }, };
+                        if (resultOfLogginOut.IsSuccess)
+                        {
+                            var navigationParameters = new NavigationParameters { { Constants.Navigations.LOGOUT, true }, };
 
-                    await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
+                            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
+                        }
+                        else
+                        {
+                            await ResponseToUnsuccessfulRequestAsync(resultOfLogginOut.Exception?.Message);
+                        }
+                    }
+                    else
+                    {
+                        await _notificationsService.ShowNoInternetConnectionDialogAsync();
+                    }
                 }
                 else
                 {

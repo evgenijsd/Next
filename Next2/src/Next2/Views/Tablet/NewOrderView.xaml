@@ -860,22 +860,25 @@
                                 Style="{DynamicResource BorderButtonStyle_i2_1}"
                                 Background="{DynamicResource IndicationColor_i5}"
                                 Text="{xct:Translate HoldItem}"
-                                Opacity="1"
+                                IsEnabled="False"
+                                Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                                 Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}"
                                 CommandParameter="{Binding OrderRegistrationViewModel.SelectedDish}">
                                 
                                 <buttons:BorderButton.Triggers>
                                     
-                                    <DataTrigger
-                                        TargetType="buttons:BorderButton"
-                                        Binding="{Binding OrderRegistrationViewModel.SelectedDish.HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}"
-                                        Value="True">
-                                        
-                                        <Setter Property="IsEnabled" Value="False" />
-                                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                                    <MultiTrigger TargetType="buttons:BorderButton">
 
-                                    </DataTrigger>
-                                    
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding OrderRegistrationViewModel.SelectedDish.HoldTime, Converter={xct:IsNotNullOrEmptyConverter}}" Value="False" />
+                                            <BindingCondition Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Table, Converter={xct:IsNullOrEmptyConverter}}" Value="False" />
+                                        </MultiTrigger.Conditions>
+
+                                        <Setter Property="IsEnabled" Value="True" />
+                                        <Setter Property="Opacity" Value="1" />
+
+                                    </MultiTrigger>
+
                                 </buttons:BorderButton.Triggers>
                                 
                             </buttons:BorderButton>
@@ -938,7 +941,7 @@
                 <Style x:Key="BorderButtonStyle_i2" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i1}">
                     <Setter Property="Padding" Value="0"/>
                     <Setter Property="HeightRequest" Value="36"/>
-                    <Setter Property="FontFamily" Value="Barlow-Semibold"/>
+                    <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
                     <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
                     <Setter Property="CornerRadius" Value="4"/>
                     <Setter Property="BackgroundColor" Value="Transparent"/>
@@ -1108,11 +1111,11 @@
                     Text="{xct:Translate Seats}">
 
                     <Label.Triggers>
-                        
+
                         <DataTrigger TargetType="Label" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
                             <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                         </DataTrigger>
-                        
+
                     </Label.Triggers>
 
                 </Label>
@@ -1127,7 +1130,7 @@
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}">
 
                     <controls:CustomStepper.Triggers>
-                        
+
                         <DataTrigger TargetType="controls:CustomStepper" Value="True">
 
                             <DataTrigger.Binding>
@@ -1137,7 +1140,7 @@
                                         Path="OrderRegistrationViewModel.OrderNotificationStatus"
                                         Converter="{xct:NotEqualConverter}"
                                         ConverterParameter="{x:Static enums:ENotificationType.None}"/>
-                                    
+
                                     <Binding
                                         Path="OrderRegistrationViewModel.CurrentOrder.Seats.Count"
                                         Converter="{xct:EqualConverter}"
@@ -1151,7 +1154,7 @@
                         </DataTrigger>
 
                     </controls:CustomStepper.Triggers>
-                    
+
                 </controls:CustomStepper>
 
             </StackLayout>
@@ -1179,8 +1182,8 @@
                         
                     <DataTrigger
                         TargetType="controls:DropDownList"
-                        Binding="{Binding OrderRegistrationViewModel.SelectedTable, Converter={xct:IsNullOrEmptyConverter}}"
-                        Value="True">
+                        Binding="{Binding OrderRegistrationViewModel.Tables.Count}"
+                        Value="0">
 
                         <Setter Property="HeaderFormattedText" Value="{xct:Translate NoTablesAvailable}"/>
                         <Setter Property="IsEnabled" Value="False"/>
@@ -1473,11 +1476,13 @@
 
                     </StackLayout>
 
+                    <BoxView HorizontalOptions="FillAndExpand" />
+
                     <buttons:IconButton
                         Style="{DynamicResource IconButtonStyle_i2}"
-                        HorizontalOptions="EndAndExpand"
                         IconSource="ic_time_circle_40x40"
-                        xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}"/>
+                        IsVisible="{Binding OrderRegistrationViewModel.IsNotAnyHoldTime}"
+                        xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}" />
 
                     <buttons:IconButton
                         Style="{DynamicResource IconButtonStyle_i2}"

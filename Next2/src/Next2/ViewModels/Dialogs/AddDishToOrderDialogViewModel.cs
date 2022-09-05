@@ -1,4 +1,4 @@
-﻿using Next2.Models.API;
+﻿using Next2.Extensions;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Prism.Mvvm;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace Next2.ViewModels
+namespace Next2.ViewModels.Dialogs
 {
     public class AddDishToOrderDialogViewModel : BindableBase
     {
@@ -31,16 +31,7 @@ namespace Next2.ViewModels
 
                     if (selectedDishProportion is not null)
                     {
-                        Dish.SelectedDishProportion = new()
-                        {
-                            Id = selectedDishProportion.Id,
-                            PriceRatio = selectedDishProportion.PriceRatio,
-                            Proportion = new ProportionModelDTO()
-                            {
-                                Id = selectedDishProportion.Id,
-                                Name = selectedDishProportion.ProportionName,
-                            },
-                        };
+                        Dish.SelectedDishProportion = selectedDishProportion.ToDishProportionModelDTO();
                     }
 
                     if (Dish.SelectedProducts is not null)
@@ -85,51 +76,9 @@ namespace Next2.ViewModels
             if (parameters.TryGetValue(Constants.DialogParameterKeys.DISH, out DishModelDTO dish)
                 && parameters.TryGetValue(Constants.DialogParameterKeys.DISCOUNT_PRICE, out decimal discountPrice))
             {
-                var products = new ObservableCollection<ProductBindableModel>();
+                Dish = dish.ToDishBindableModel();
 
-                foreach (var replacementProduct in dish.ReplacementProducts)
-                {
-                    var product = replacementProduct.Products.FirstOrDefault(row => row.Id == replacementProduct.ProductId);
-
-                    products.Add(new ProductBindableModel()
-                    {
-                        Id = product.Id,
-                        DishReplacementProductId = replacementProduct.Id,
-                        SelectedOptions = product.Options.FirstOrDefault(),
-                        AddedIngredients = new(product.Ingredients.Select(row => new SimpleIngredientModelDTO()
-                        {
-                            Id = row.Id,
-                            ImageSource = row.ImageSource,
-                            IngredientsCategory = row.IngredientsCategory,
-                            Name = row.Name,
-                            Price = row.Price,
-                        })),
-                        Product = new()
-                        {
-                            Id = product.Id,
-                            DefaultPrice = product.DefaultPrice,
-                            ImageSource = product.ImageSource,
-                            Ingredients = product.Ingredients,
-                            Name = product.Name,
-                            Options = product.Options,
-                        },
-                    });
-                }
-
-                Dish = new DishBindableModel()
-                {
-                    Id = dish.Id,
-                    DishId = dish.Id,
-                    Name = dish.Name,
-                    ImageSource = dish.ImageSource,
-                    TotalPrice = dish.OriginalPrice,
-                    DiscountPrice = discountPrice,
-                    DishProportions = dish.DishProportions,
-                    Products = new(dish.ReplacementProducts.SelectMany(x => x.Products)),
-                    SelectedProducts = products,
-                };
-
-                Proportions = dish.DishProportions.Select(row => new ProportionModel()
+                Proportions = dish.DishProportions.Select(row => new ProportionBindableModel()
                 {
                     Id = row.Id,
                     ProportionId = row.ProportionId,
@@ -145,7 +94,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                Proportions = Enumerable.Empty<ProportionModel>();
+                Proportions = Enumerable.Empty<ProportionBindableModel>();
             }
         }
 
@@ -153,9 +102,9 @@ namespace Next2.ViewModels
 
         public DishBindableModel Dish { get; } = new();
 
-        public IEnumerable<ProportionModel> Proportions { get; }
+        public IEnumerable<ProportionBindableModel> Proportions { get; }
 
-        public ProportionModel SelectedProportion { get; set; } = new();
+        public ProportionBindableModel SelectedProportion { get; set; } = new();
 
         public Action<IDialogParameters> RequestClose;
 

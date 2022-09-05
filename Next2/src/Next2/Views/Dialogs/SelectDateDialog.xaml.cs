@@ -3,7 +3,7 @@ using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
 using System;
 
-namespace Next2.Views.Mobile.Dialogs
+namespace Next2.Views.Dialogs
 {
     public partial class SelectDateDialog : PopupPage
     {

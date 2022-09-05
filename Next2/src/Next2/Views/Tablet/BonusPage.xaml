@@ -338,8 +338,8 @@
                             <DataTemplate x:DataType="models:BonusBindableModel">
 
                                 <templates:BonusItemTemplate
-                                    BackColor="Transparent"
-                                    BorderBonusColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                                    SelectedBackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                     TapSelectCommand="{Binding TapCommand}"
                                     TapSelectCommandParameter="{Binding .}"
                                     Text="{Binding Name}" />
@@ -369,8 +369,8 @@
                             <DataTemplate x:DataType="models:BonusBindableModel">
 
                                 <templates:BonusItemTemplate
-                                    BackColor="Transparent"
-                                    BorderBonusColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                                    SelectedBackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                     TapSelectCommand="{Binding TapCommand}"
                                     TapSelectCommandParameter="{Binding .}"
                                     Text="{Binding Name}" />

@@ -108,7 +108,7 @@
 
                                     <templates:BonusItemTemplate
                                         BackColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                        BorderBonusColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                        SelectedBackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                         HeightBonus="55"
                                         ImagePath="ic_arrow_right_24x24.png"
                                         TapSelectCommand="{Binding TapCommand}"
@@ -190,7 +190,7 @@
 
                                     <templates:BonusItemTemplate
                                         BackColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                        BorderBonusColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                        SelectedBackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                         HeightBonus="55"
                                         ImagePath="ic_arrow_right_24x24.png"
                                         TapSelectCommand="{Binding TapCommand}"
