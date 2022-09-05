@@ -1,6 +1,7 @@
 using Foundation;
 using Next2.Services.Activity;
 using Prism.Ioc;
+using System;
 using UIKit;
 
 namespace Next2.iOS
@@ -36,9 +37,8 @@ namespace Next2.iOS
 
             if (result)
             {
-                UITapGestureRecognizer tapGestureRecognizer = new UITapGestureRecognizer(Self, new ObjCRuntime.Selector("gestureRecognizer:shouldReceiveTouch:"));
+                UITapGestureRecognizer tapGestureRecognizer = new UITapGestureRecognizer(OnShouldReceiveTouchAction);
 
-                tapGestureRecognizer.Delegate = (IUIGestureRecognizerDelegate)Self;
                 app.KeyWindow.AddGestureRecognizer(tapGestureRecognizer);
             }
 
@@ -58,12 +58,9 @@ namespace Next2.iOS
 
         #region -- Public helpers --
 
-        [Export("gestureRecognizer:shouldReceiveTouch:")]
-        public bool ShouldReceiveTouch(UIGestureRecognizer gestureRecognizer, UITouch touch)
+        public void OnShouldReceiveTouchAction()
         {
             _activityService.RefreshTimeLastActivity();
-
-            return false;
         }
 
         #endregion
