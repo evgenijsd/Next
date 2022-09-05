@@ -37,7 +37,7 @@ namespace Next2.iOS
 
             if (result)
             {
-                UITapGestureRecognizer tapGestureRecognizer = new UITapGestureRecognizer(OnShouldReceiveTouchAction);
+                var tapGestureRecognizer = new UITapGestureRecognizer(OnShouldReceiveTouchAction);
 
                 app.KeyWindow.AddGestureRecognizer(tapGestureRecognizer);
             }
