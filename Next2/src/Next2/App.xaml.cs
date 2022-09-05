@@ -8,13 +8,18 @@ using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Next2.Resources.Strings;
+using Next2.Services.Activity;
 using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
 using Next2.Services.Customers;
+using Next2.Services.DishesHolding;
+using Next2.Services.Employees;
 using Next2.Services.Membership;
 using Next2.Services.Menu;
 using Next2.Services.Mock;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
+using Next2.Services.Reservation;
 using Next2.Services.Rest;
 using Next2.Services.Rewards;
 using Next2.Services.Settings;
@@ -23,8 +28,10 @@ using Next2.ViewModels;
 using Next2.ViewModels.Mobile;
 using Next2.ViewModels.Tablet;
 using Next2.Views;
+using Next2.Views.Mobile;
 using Prism;
 using Prism.Ioc;
+using Prism.Navigation;
 using Prism.Plugin.Popups;
 using Prism.Unity;
 using System;
@@ -35,12 +42,6 @@ using MobileViewModels = Next2.ViewModels.Mobile;
 using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
-using Next2.Services.Reservation;
-using Next2.Services.Notifications;
-using Next2.Views.Mobile;
-using Prism.Navigation;
-using Next2.Services.DishesHolding;
-using Next2.Services.Employees;
 
 namespace Next2
 {
@@ -83,6 +84,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<IReservationService, ReservationService>();
             containerRegistry.RegisterSingleton<IDishesHoldingService, DishesHoldingService>();
             containerRegistry.RegisterSingleton<IEmployeesService, EmployeesService>();
+            containerRegistry.RegisterSingleton<IActivityService, ActivityService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
@@ -169,6 +171,10 @@ namespace Next2
             }
 
             await NavigationService.NavigateAsync(navigationPath, navigationParameters);
+
+            var activityService = Resolve<IActivityService>();
+
+            activityService.UserActivityEnded += OnUserActivityEndedCallback;
         }
 
         protected override void OnStart()
@@ -252,6 +258,11 @@ namespace Next2
             return tableNumber == null
                 ? LocalizationResourceManager.Current["NotDefined"]
                 : $"{LocalizationResourceManager.Current["Table"]} {tableNumber}";
+        }
+
+        private async void OnUserActivityEndedCallback(object sender, EventArgs e)
+        {
+            //await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(LoginPage)}");
         }
 
         #endregion
