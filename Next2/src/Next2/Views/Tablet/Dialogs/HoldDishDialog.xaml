@@ -230,7 +230,7 @@
                         MinNumber="0"
                         MaxNumber="23"
                         NumberChangedAction="{Binding UpdateHoldTime}"
-                        Value="{Binding Hour}" />
+                        Number="{Binding Hour}" />
 
                     <Label Style="{DynamicResource LabelStyle_i1}" />
 
@@ -241,7 +241,7 @@
                         MinNumber="0"
                         MaxNumber="59"
                         NumberChangedAction="{Binding UpdateHoldTime}"
-                        Value="{Binding Minute}" />
+                        Number="{Binding Minute}" />
 
                 </StackLayout>
 

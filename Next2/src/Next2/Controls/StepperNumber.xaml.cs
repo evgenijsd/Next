@@ -33,16 +33,16 @@ namespace Next2.Controls
             set => SetValue(FontSizeProperty, value);
         }
 
-        public static readonly BindableProperty ValueProperty = BindableProperty.Create(
-            propertyName: nameof(Value),
+        public static readonly BindableProperty NumberProperty = BindableProperty.Create(
+            propertyName: nameof(Number),
             returnType: typeof(int),
             declaringType: typeof(StepperNumber),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public int Value
+        public int Number
         {
-            get => (int)GetValue(ValueProperty);
-            set => SetValue(ValueProperty, value);
+            get => (int)GetValue(NumberProperty);
+            set => SetValue(NumberProperty, value);
         }
 
         public static readonly BindableProperty MinNumberProperty = BindableProperty.Create(
@@ -104,7 +104,7 @@ namespace Next2.Controls
 
         private Task OnChangeNumberCommandAsync(ENumberChange? numberChange)
         {
-            int number = Value;
+            int number = Number;
 
             switch (numberChange ?? ENumberChange.None)
             {
@@ -124,7 +124,7 @@ namespace Next2.Controls
                     break;
             }
 
-            Value = number;
+            Number = number;
 
             NumberChangedAction();
 
