@@ -19,7 +19,7 @@
             <Setter Property="FontFamily" Value="Barlow-Bold"/>
             <Setter Property="HorizontalOptions" Value="Center" />
             <Setter Property="Margin" Value="0, 0, 0, 10" />
-            <Setter Property="Text" Value="{Binding Number, StringFormat={x:Static local:Constants+Formats.NUMBER_FORMAT}, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />
+            <Setter Property="Text" Value="{Binding Value, StringFormat={x:Static local:Constants+Formats.NUMBER_FORMAT}, Source={RelativeSource AncestorType={x:Type controls:StepperNumber}}}" />
         </Style>
 
         <Style x:Key="IconButtonStyle_i2" TargetType="buttons:IconButton">
