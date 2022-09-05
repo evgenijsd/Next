@@ -61,10 +61,18 @@ namespace Next2.Models.Bindables
                 IsSeatSelected = IsSeatSelected,
                 SeatNumber = SeatNumber,
                 SelectDishCommand = SelectDishCommand,
-                DishProportions = DishProportions?.Select(x => (SimpleDishProportionModelDTO)x.Clone()),
-                SelectedDishProportion = (DishProportionModelDTO)SelectedDishProportion?.Clone(),
-                SelectedProducts = new(SelectedProducts.Select(row => (ProductBindableModel)row.Clone())),
-                ReplacementProducts = ReplacementProducts.Select(row => (DishReplacementProductModelDTO)row.Clone()),
+                DishProportions = DishProportions is null
+                    ? null
+                    : DishProportions?.Select(x => (SimpleDishProportionModelDTO)x.Clone()),
+                SelectedDishProportion = SelectedDishProportion is null
+                    ? null
+                    : (DishProportionModelDTO)SelectedDishProportion.Clone(),
+                SelectedProducts = SelectedProducts is null
+                    ? null
+                    : new(SelectedProducts?.Select(row => (ProductBindableModel)row.Clone())),
+                ReplacementProducts = ReplacementProducts is null
+                    ? null
+                    : ReplacementProducts?.Select(row => (DishReplacementProductModelDTO)row.Clone()),
             };
         }
     }
