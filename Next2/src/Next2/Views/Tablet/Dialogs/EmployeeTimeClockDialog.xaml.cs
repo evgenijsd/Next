@@ -8,7 +8,9 @@ namespace Next2.Views.Tablet.Dialogs
 {
     public partial class EmployeeTimeClockDialog : PopupPage
     {
-        public EmployeeTimeClockDialog(IWorkLogService workLogService, Action<IDialogParameters> requestClose)
+        public EmployeeTimeClockDialog(
+            IWorkLogService workLogService,
+            Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 

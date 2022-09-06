@@ -1999,6 +1999,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The entered Employee ID is not logged in. Please log in to the application through your profile.
+        /// </summary>
+        internal static string TheEnteredEmployeeIDIsNotLoggedIn {
+            get {
+                return ResourceManager.GetString("TheEnteredEmployeeIDIsNotLoggedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The order #{0} has been removed.
         /// </summary>
         internal static string TheOrderHasBeenRemoved {
