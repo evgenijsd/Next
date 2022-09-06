@@ -51,6 +51,7 @@
             public const int MIN_MINUTE = 0;
             public const int MAX_MINUTE = 59;
             public const int HELD_DISH_RELEASE_FREQUENCY = 1;
+            public const int USER_ACTIVITY_TIME_SEC = 900;
         }
 
         public static class Navigations
@@ -86,7 +87,6 @@
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
             public const string CONFIRMED_APPLY_REWARD = "CONFIRM_APPLY_REWARD";
             public const string EMPLOYEE_ID = "EMPLOYEE_ID";
-            public const string LOGOUT = "LOGOUT";
             public const string ORDER = "ORDER";
             public const string IS_FIRST_ORDER_INIT = "IS_FIRST_ORDER_INIT";
         }
@@ -151,6 +151,9 @@
             public const string EMPLOYEE_ID = "EMPLOYEE_ID";
             public const string TABLE = "TABLE";
             public const string TABLES = "TABLES";
+            public const string NEED_TO_OFFER_LOGOUT = "NEED_TO_OFFER_LOGOUT";
+            public const string TITLE_FONT_SIZE = "TITLE_FONT_SIZE";
+            public const string TITLE_MAX_LINES = "TITLE_MAX_LINES";
         }
 
         public static class API

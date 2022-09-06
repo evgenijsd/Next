@@ -1,4 +1,6 @@
 using Foundation;
+using Next2.Services.Activity;
+using Prism.Ioc;
 using UIKit;
 
 namespace Next2.iOS
@@ -9,6 +11,8 @@ namespace Next2.iOS
     [Register(nameof(AppDelegate))]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
+        private IActivityService _activityService;
+
         // This method is invoked when the application has loaded and is ready to run. In this
         // method you should instantiate the window, load the UI into it and then make the window
         // visible.
@@ -26,7 +30,18 @@ namespace Next2.iOS
 
             LoadApplication(new App());
 
-            return base.FinishedLaunching(app, options);
+            _activityService = App.Current.Container.Resolve<IActivityService>();
+
+            var isLaunchCompleted = base.FinishedLaunching(app, options);
+
+            if (isLaunchCompleted)
+            {
+                var tapGestureRecognizer = new UITapGestureRecognizer(OnTapGestureAction);
+
+                app.KeyWindow.AddGestureRecognizer(tapGestureRecognizer);
+            }
+
+            return isLaunchCompleted;
         }
 
         public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, UIWindow forWindow)
@@ -36,6 +51,15 @@ namespace Next2.iOS
             return App.IsTablet
                 ? UIInterfaceOrientationMask.LandscapeRight
                 : UIInterfaceOrientationMask.Portrait;
+        }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private void OnTapGestureAction()
+        {
+            _activityService.RefreshTimeLastActivity();
         }
 
         #endregion

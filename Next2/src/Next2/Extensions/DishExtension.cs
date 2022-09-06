@@ -14,7 +14,7 @@ namespace Next2.Extensions
 
             foreach (var replacementProduct in dish.ReplacementProducts)
             {
-                var selectedProduct = replacementProduct.Products.FirstOrDefault(row => row.Id == replacementProduct.ProductId);
+                var selectedProduct = replacementProduct.Products?.FirstOrDefault(row => row.Id == replacementProduct.ProductId);
 
                 if (selectedProduct is not null)
                 {
@@ -69,7 +69,9 @@ namespace Next2.Extensions
                 IsSplitted = dish.IsSplitted,
                 HoldTime = dish.HoldTime,
                 SelectedDishProportion = (DishProportionModelDTO)dish.SelectedDishProportion?.Clone(),
-                SelectedProducts = new(dish.SelectedProducts?.Select(x => x.ToProductBindableModel())),
+                SelectedProducts = dish.SelectedProducts is null
+                    ? new()
+                    : new(dish.SelectedProducts.Select(x => x.ToProductBindableModel())),
             };
         }
 

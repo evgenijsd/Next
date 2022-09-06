@@ -43,8 +43,12 @@ namespace Next2.Extensions
                 Product = product.ToSimpleProductModelDTO(),
                 Price = product.DefaultPrice,
                 SelectedOptions = (OptionModelDTO)product.Options?.FirstOrDefault()?.Clone(),
-                SelectedIngredients = new(ingredients),
-                AddedIngredients = new(ingredients),
+                SelectedIngredients = ingredients is null
+                    ? new()
+                    : new(ingredients),
+                AddedIngredients = ingredients is null
+                    ? new()
+                    : new(ingredients),
             };
         }
 
@@ -58,8 +62,12 @@ namespace Next2.Extensions
                 Product = (SimpleProductModelDTO)product.Clone(),
                 Price = product.DefaultPrice,
                 SelectedOptions = (OptionModelDTO)product.Options?.FirstOrDefault()?.Clone(),
-                SelectedIngredients = new(ingredients),
-                AddedIngredients = new(ingredients),
+                SelectedIngredients = ingredients is null
+                    ? new()
+                    : new(ingredients),
+                AddedIngredients = ingredients is null
+                    ? new()
+                    : new(ingredients),
             };
         }
 
@@ -87,9 +95,15 @@ namespace Next2.Extensions
                 Product = (SimpleProductModelDTO)product.Product?.Clone(),
                 Price = product.Product?.DefaultPrice ?? 0,
                 SelectedOptions = (OptionModelDTO)product.SelectedOptions?.FirstOrDefault()?.Clone(),
-                SelectedIngredients = new(product.SelectedIngredients?.Select(row => (SimpleIngredientModelDTO)row.Clone())),
-                AddedIngredients = new(product.AddedIngredients?.Select(row => (SimpleIngredientModelDTO)row.Clone())),
-                ExcludedIngredients = new(product.ExcludedIngredients?.Select(row => (SimpleIngredientModelDTO)row.Clone())),
+                SelectedIngredients = product.SelectedIngredients is null
+                    ? new()
+                    : new(product.SelectedIngredients.Select(row => (SimpleIngredientModelDTO)row.Clone())),
+                AddedIngredients = product.AddedIngredients is null
+                    ? new()
+                    : new(product.AddedIngredients.Select(row => (SimpleIngredientModelDTO)row.Clone())),
+                ExcludedIngredients = product.ExcludedIngredients is null
+                    ? new()
+                    : new(product.ExcludedIngredients.Select(row => (SimpleIngredientModelDTO)row.Clone())),
             };
         }
 
@@ -104,9 +118,7 @@ namespace Next2.Extensions
                 SelectedOptions = product.SelectedOptions == null
                     ? null
                     : new OptionModelDTO[] { product.SelectedOptions },
-                SelectedIngredients = product.SelectedOptions == null
-                    ? null
-                    : product.SelectedIngredients?.Select(row => (SimpleIngredientModelDTO)row.Clone()),
+                SelectedIngredients = product.SelectedIngredients?.Select(row => (SimpleIngredientModelDTO)row.Clone()),
                 AddedIngredients = product.AddedIngredients?.Select(row => (SimpleIngredientModelDTO)row.Clone()),
                 ExcludedIngredients = product.ExcludedIngredients?.Select(row => (SimpleIngredientModelDTO)row.Clone()),
             };

@@ -34,14 +34,14 @@
         </pancakeview:PancakeView.Resources>
         
         <StackLayout>
-            <Label
+            <controls:LineSpacingLabel
                 VerticalTextAlignment="Center"
                 Padding="28, 26, 28, 20"
-                MaxLines="1"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontSize="{DynamicResource TSize_i4_5}"
                 FontFamily="Barlow-SemiBold"
-                Text="{Binding Title}"/>
+                Text="{Binding Title}"
+                MaxLines="{Binding TitleMaxLines}"
+                FontSize="{Binding TitleFontSize}"/> 
 
             <controls:LineSpacingLabel
                 VerticalTextAlignment="Start"
@@ -97,10 +97,11 @@
                     </buttons:BorderButton>
 
                 </Grid>
+
             </StackLayout>
-            
+
         </StackLayout>
-       
+
     </pancakeview:PancakeView>
 
 </rg:PopupPage>

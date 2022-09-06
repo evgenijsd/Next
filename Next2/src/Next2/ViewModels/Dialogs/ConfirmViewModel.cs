@@ -42,6 +42,10 @@ namespace Next2.ViewModels.Dialogs
 
         public string ConfirmationText { get; set; } = string.Empty;
 
+        public double TitleFontSize { get; set; } = (double)App.Current.Resources["TSize_i4_5"];
+
+        public int TitleMaxLines { get; set; } = 1;
+
         public ICommand CloseCommand { get; }
 
         public ICommand AcceptCommand { get; }
@@ -81,6 +85,16 @@ namespace Next2.ViewModels.Dialogs
                 if (parameters.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_TEXT, out string confirmationText))
                 {
                     ConfirmationText = confirmationText;
+                }
+
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.TITLE_FONT_SIZE, out double titleFontSize))
+                {
+                    TitleFontSize = titleFontSize;
+                }
+
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.TITLE_MAX_LINES, out int titleMaxLines))
+                {
+                    TitleMaxLines = titleMaxLines;
                 }
             }
         }

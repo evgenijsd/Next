@@ -33,7 +33,7 @@ namespace Next2.Controls
             set => SetValue(FontSizeProperty, value);
         }
 
-        public static readonly BindableProperty NumberProperty = BindableProperty.Create(
+        public static readonly BindableProperty ValueProperty = BindableProperty.Create(
             propertyName: nameof(Value),
             returnType: typeof(int),
             declaringType: typeof(StepperNumber),
@@ -41,8 +41,8 @@ namespace Next2.Controls
 
         public int Value
         {
-            get => (int)GetValue(NumberProperty);
-            set => SetValue(NumberProperty, value);
+            get => (int)GetValue(ValueProperty);
+            set => SetValue(ValueProperty, value);
         }
 
         public static readonly BindableProperty MinNumberProperty = BindableProperty.Create(

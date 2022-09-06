@@ -1,6 +1,5 @@
 using Next2.Interfaces;
 using Next2.Models;
-using Next2.Models.API.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,6 @@ namespace Next2.Services.Mock
         private readonly TaskCompletionSource<bool> _initCompletionSource = new();
 
         private IList<RewardModel> _rewards = new List<RewardModel>();
-        private IList<WorkLogRecordModel> _workLogBook = new List<WorkLogRecordModel>();
         private IList<ReservationModel> _reservationsList = new List<ReservationModel>();
 
         private Dictionary<Type, object> _base = new();
@@ -145,30 +143,22 @@ namespace Next2.Services.Mock
         {
             await Task.WhenAll(
                 InitRewardsAsync(),
-                InitWorkLogBookAsync(),
                 InitReservationsAsync());
 
             _base = new Dictionary<Type, object>
             {
                 { typeof(RewardModel), _rewards },
-                { typeof(WorkLogRecordModel), _workLogBook },
                 { typeof(ReservationModel), _reservationsList },
             };
 
             _maxIdentifiers = new Dictionary<Type, int>
             {
                 { typeof(RewardModel), GetMaxId(_rewards) },
-                { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
                 { typeof(ReservationModel), GetMaxId(_reservationsList) },
             };
 
             _initCompletionSource.TrySetResult(true);
         }
-
-        private Task InitWorkLogBookAsync() => Task.Run(() =>
-        {
-            _workLogBook = new List<WorkLogRecordModel>();
-        });
 
         private Task InitRewardsAsync() => Task.Run(() =>
         {
