@@ -148,7 +148,7 @@ namespace Next2
             }
         }
 
-        protected override async void OnInitialized()
+        protected override void OnInitialized()
         {
             InitializeComponent();
 
@@ -158,10 +158,25 @@ namespace Next2
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
+            _authenticationService = Resolve<IAuthenticationService>();
+        }
+
+        protected async override void OnStart()
+        {
+#if !DEBUG
+            AppCenter.Start(
+                $"ios={Constants.Analytics.IOSKey};android={Constants.Analytics.AndroidKey};",
+                typeof(Analytics),
+                typeof(Crashes));
+
+            Analytics.SetEnabledAsync(true);
+#endif
+            var activityService = Resolve<IActivityService>();
+
+            activityService.UserActivityEnded += OnUserActivityEndedCallback;
+
             var navigationParameters = new NavigationParameters();
             var navigationPath = $"{nameof(NavigationPage)}/";
-
-            _authenticationService = Resolve<IAuthenticationService>();
 
             if (_authenticationService.IsAuthorizationComplete)
             {
@@ -174,22 +189,6 @@ namespace Next2
             }
 
             await NavigationService.NavigateAsync(navigationPath, navigationParameters);
-
-            var activityService = Resolve<IActivityService>();
-
-            activityService.UserActivityEnded += OnUserActivityEndedCallback;
-        }
-
-        protected override void OnStart()
-        {
-#if !DEBUG
-            AppCenter.Start(
-                $"ios={Constants.Analytics.IOSKey};android={Constants.Analytics.AndroidKey};",
-                typeof(Analytics),
-                typeof(Crashes));
-
-            Analytics.SetEnabledAsync(true);
-#endif
         }
 
         protected override void OnSleep()
@@ -270,7 +269,12 @@ namespace Next2
                 await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
             });
 
-            _authenticationService.ClearSession();
+            var logoutResult = await _authenticationService.LogoutAsync();
+
+            if (!logoutResult.IsSuccess)
+            {
+                _authenticationService.ClearSession();
+            }
         }
 
         #endregion
