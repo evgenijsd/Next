@@ -152,6 +152,8 @@
             public const string TABLE = "TABLE";
             public const string TABLES = "TABLES";
             public const string NEED_TO_OFFER_LOGOUT = "NEED_TO_OFFER_LOGOUT";
+            public const string TITLE_FONT_SIZE = "TITLE_FONT_SIZE";
+            public const string TITLE_MAX_LINES = "TITLE_MAX_LINES";
         }
 
         public static class API

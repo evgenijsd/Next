@@ -361,6 +361,8 @@ namespace Next2.ViewModels.Tablet
                         { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["WantToLogOut"] },
                         { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
                         { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["LogOut_UpperCase"] },
+                        { Constants.DialogParameterKeys.TITLE_MAX_LINES, 2 },
+                        { Constants.DialogParameterKeys.TITLE_FONT_SIZE, (double)App.Current.Resources["TSize_i5"] },
                     };
 
                     PopupPage userIsNotLogInConfirmationDialog = new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseLogOutConfirmationDialogCallback);
