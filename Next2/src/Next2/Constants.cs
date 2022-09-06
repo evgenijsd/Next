@@ -87,7 +87,6 @@
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
             public const string CONFIRMED_APPLY_REWARD = "CONFIRM_APPLY_REWARD";
             public const string EMPLOYEE_ID = "EMPLOYEE_ID";
-            public const string LOGOUT = "LOGOUT";
             public const string ORDER = "ORDER";
             public const string IS_FIRST_ORDER_INIT = "IS_FIRST_ORDER_INIT";
         }

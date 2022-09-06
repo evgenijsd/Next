@@ -32,16 +32,16 @@ namespace Next2.iOS
 
             _activityService = App.Current.Container.Resolve<IActivityService>();
 
-            var result = base.FinishedLaunching(app, options);
+            var isLaunchCompleted = base.FinishedLaunching(app, options);
 
-            if (result)
+            if (isLaunchCompleted)
             {
                 var tapGestureRecognizer = new UITapGestureRecognizer(OnTapGestureAction);
 
                 app.KeyWindow.AddGestureRecognizer(tapGestureRecognizer);
             }
 
-            return result;
+            return isLaunchCompleted;
         }
 
         public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, UIWindow forWindow)

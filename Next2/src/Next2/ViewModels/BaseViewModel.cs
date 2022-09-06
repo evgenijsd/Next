@@ -100,14 +100,9 @@ namespace Next2.ViewModels
         {
             _authenticationService.ClearSession();
 
-            var navigationParameters = new NavigationParameters
-            {
-                { Constants.Navigations.LOGOUT, true },
-            };
-
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}", navigationParameters);
+                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
             });
 
             return Task.CompletedTask;

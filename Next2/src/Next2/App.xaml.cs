@@ -171,9 +171,6 @@ namespace Next2
 
             Analytics.SetEnabledAsync(true);
 #endif
-            var activityService = Resolve<IActivityService>();
-
-            activityService.UserActivityEnded += OnUserActivityEndedCallback;
 
             var navigationParameters = new NavigationParameters();
             var navigationPath = $"{nameof(NavigationPage)}/";
@@ -189,6 +186,13 @@ namespace Next2
             }
 
             await NavigationService.NavigateAsync(navigationPath, navigationParameters);
+
+            var activityService = Resolve<IActivityService>();
+
+            activityService.UserInactivityTimeLimit = Constants.Limits.USER_ACTIVITY_TIME_SEC;
+            activityService.UserActivityEnded += OnUserActivityEndedCallback;
+
+            activityService.StartMonitoringActivity();
         }
 
         protected override void OnSleep()
@@ -264,16 +268,19 @@ namespace Next2
 
         private async void OnUserActivityEndedCallback(object sender, EventArgs e)
         {
-            Device.BeginInvokeOnMainThread(async () =>
+            if (_authenticationService.IsAuthorizationComplete)
             {
-                await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
-            });
+                Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
+                    });
 
-            var logoutResult = await _authenticationService.LogoutAsync();
+                var logoutResult = await _authenticationService.LogoutAsync();
 
-            if (!logoutResult.IsSuccess)
-            {
-                _authenticationService.ClearSession();
+                if (!logoutResult.IsSuccess)
+                {
+                    _authenticationService.ClearSession();
+                }
             }
         }
 
