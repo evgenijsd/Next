@@ -376,36 +376,32 @@ namespace Next2.ViewModels.Tablet
 
         private async void CloseLogOutConfirmationDialogCallback(IDialogParameters parameters)
         {
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isLogOutAccepted))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isLogOutAccepted)
+                && isLogOutAccepted)
             {
-                if (isLogOutAccepted)
+                if (IsInternetConnected)
                 {
-                    if (IsInternetConnected)
+                    await _notificationsService.CloseAllPopupAsync();
+
+                    var resultOfLogginOut = await _authenticationService.LogoutAsync();
+
+                    if (resultOfLogginOut.IsSuccess)
                     {
-                        await _notificationsService.CloseAllPopupAsync();
-
-                        var resultOfLogginOut = await _authenticationService.LogoutAsync();
-
-                        if (resultOfLogginOut.IsSuccess)
-                        {
-                            var navigationParameters = new NavigationParameters { { Constants.Navigations.LOGOUT, true }, };
-
-                            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
-                        }
-                        else
-                        {
-                            await ResponseToUnsuccessfulRequestAsync(resultOfLogginOut.Exception?.Message);
-                        }
+                        await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
                     }
                     else
                     {
-                        await _notificationsService.ShowNoInternetConnectionDialogAsync();
+                        await ResponseToUnsuccessfulRequestAsync(resultOfLogginOut.Exception?.Message);
                     }
                 }
                 else
                 {
-                    await _notificationsService.CloseAllPopupAsync();
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
                 }
+            }
+            else
+            {
+                await _notificationsService.CloseAllPopupAsync();
             }
         }
 

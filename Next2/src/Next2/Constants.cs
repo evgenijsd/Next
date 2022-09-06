@@ -151,7 +151,6 @@
             public const string EMPLOYEE_ID = "EMPLOYEE_ID";
             public const string TABLE = "TABLE";
             public const string TABLES = "TABLES";
-            public const string WORKLOG_SERVICE = "WORKLOG_SERVICE";
             public const string NEED_TO_OFFER_LOGOUT = "NEED_TO_OFFER_LOGOUT";
         }
 
