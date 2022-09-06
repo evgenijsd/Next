@@ -20,7 +20,7 @@ namespace Next2.Services.Activity
 
                 if (_isMonitoringStarted)
                 {
-                    ResetAndStartTimer();
+                    _isMonitoringStarted = ResetAndStartTimer();
                 }
             }
         }
@@ -29,9 +29,7 @@ namespace Next2.Services.Activity
 
         public void StartMonitoringActivity()
         {
-            ResetAndStartTimer();
-
-            _isMonitoringStarted = true;
+            _isMonitoringStarted = ResetAndStartTimer();
         }
 
         public void RefreshTimeLastActivity()
@@ -47,12 +45,15 @@ namespace Next2.Services.Activity
 
         #region -- Private helpers --
 
-        private void ReinitializeTimer()
+        private bool ReinitializeTimer()
         {
+            var isSuccessReinitializeTimer = false;
+
             if (_timer is not null)
             {
                 _timer.Stop();
-                _timer.Dispose();
+
+                _timer = null;
             }
 
             if (_userInactivityTimeLimit > 0)
@@ -60,14 +61,23 @@ namespace Next2.Services.Activity
                 _timer = new Timer(_userInactivityTimeLimit * 1000);
 
                 _timer.Elapsed += OnUserActivityEndedCallback;
+
+                isSuccessReinitializeTimer = true;
             }
+
+            return isSuccessReinitializeTimer;
         }
 
-        private void ResetAndStartTimer()
+        private bool ResetAndStartTimer()
         {
-            ReinitializeTimer();
+            var isSuccessReinitializeTimer = ReinitializeTimer();
 
-            _timer?.Start();
+            if (isSuccessReinitializeTimer)
+            {
+                _timer?.Start();
+            }
+
+            return isSuccessReinitializeTimer;
         }
 
         private void OnUserActivityEndedCallback(object sender, ElapsedEventArgs e)
