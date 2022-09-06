@@ -56,14 +56,14 @@ namespace Next2.Droid
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
-        public override bool DispatchTouchEvent(MotionEvent ev)
+        public override bool DispatchTouchEvent(MotionEvent motionEvent)
         {
-            if (ev.Action == MotionEventActions.Up)
+            if (motionEvent.Action == MotionEventActions.Up)
             {
                 _activityService.RefreshTimeLastActivity();
             }
 
-            return base.DispatchTouchEvent(ev);
+            return base.DispatchTouchEvent(motionEvent);
         }
 
         #endregion

@@ -271,9 +271,9 @@ namespace Next2
             if (_authenticationService.IsAuthorizationComplete)
             {
                 Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
-                    });
+                {
+                    await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
+                });
 
                 var logoutResult = await _authenticationService.LogoutAsync();
 
