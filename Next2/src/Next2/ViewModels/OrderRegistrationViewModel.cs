@@ -206,7 +206,10 @@ namespace Next2.ViewModels
 
             InitOrderTypes();
 
-            await RefreshCurrentOrderAsync();
+            if (CurrentOrder.Number != _orderService.CurrentOrder.Number)
+            {
+                await RefreshCurrentOrderAsync();
+            }
         }
 
         protected override async void OnPropertyChanged(PropertyChangedEventArgs args)

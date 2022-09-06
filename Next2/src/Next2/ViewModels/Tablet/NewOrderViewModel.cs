@@ -62,8 +62,6 @@ namespace Next2.ViewModels.Tablet
             _eventAggregator.GetEvent<NewOrderStateChanging>().Subscribe(OnNewOrderStateChanging);
 
             OrderRegistrationViewModel = orderRegistrationViewModel;
-
-            orderRegistrationViewModel?.RefreshCurrentOrderAsync();
         }
 
         #region -- Public properties --
