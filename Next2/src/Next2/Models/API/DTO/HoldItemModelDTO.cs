@@ -9,6 +9,8 @@ namespace Next2.Models.API.DTO
 
         public Guid OrderId { get; set; }
 
+        public Guid DishId { get; set; }
+
         public int TableNumber { get; set; }
 
         public string? Name { get; set; }

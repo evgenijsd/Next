@@ -3,6 +3,7 @@ using Next2.Models.Bindables;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,7 +34,12 @@ namespace Next2.ViewModels.Dialogs
             {
                 SelectedDish = selectedDish;
 
-                ProductNames = string.Join(", ", selectedDish.SelectedProducts?.Where(x => !string.IsNullOrEmpty(x.Product.Name)).Select(x => x.Product.Name).ToArray());
+                ProductNames = string.Join(", ", selectedDish.ReplacementProducts.Select(x => !string.IsNullOrEmpty(x.Products.FirstOrDefault(y => y.Id == x.ProductId)?.Name)).ToArray());
+            }
+
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD_DISHES, out List<HoldDishBindableModel>? selectedDishes))
+            {
+                HoldDishes = new(selectedDishes);
             }
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ORDER, out FullOrderBindableModel order))
@@ -57,7 +63,7 @@ namespace Next2.ViewModels.Dialogs
 
         public int CurrentSeatNumber { get; set; }
 
-        public FullOrderBindableModel CurrentOrder { get; set; }
+        public ObservableCollection<HoldDishBindableModel> HoldDishes { get; set; }
 
         public ObservableCollection<HoldTimeItem> AvailableHoldingTimeInMinutes { get; set; }
 

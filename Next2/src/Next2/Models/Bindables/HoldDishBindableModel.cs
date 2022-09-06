@@ -8,12 +8,14 @@ namespace Next2.Models.Bindables
     {
         public Guid Id { get; set; }
 
+        public Guid OrderId { get; set; }
+
+        public Guid DishId { get; set; }
+
         public int TableNumber { get; set; }
 
         public string Name { get; set; } = string.Empty;
 
         public DateTime ReleaseTime { get; set; }
-
-        public Guid OrderId { get; set; }
     }
 }

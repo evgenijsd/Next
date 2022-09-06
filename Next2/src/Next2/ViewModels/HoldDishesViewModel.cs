@@ -3,8 +3,11 @@ using Next2.Enums;
 using Next2.Models.Bindables;
 using Next2.Services.Authentication;
 using Next2.Services.DishesHolding;
+using Next2.Services.Menu;
 using Next2.Services.Notifications;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,20 +21,22 @@ namespace Next2.ViewModels
     public class HoldDishesViewModel : BaseViewModel
     {
         private readonly IDishesHoldingService _dishesHolding;
+        private readonly IMenuService _menuService;
         private readonly IMapper _mapper;
 
         private EHoldDishesSortingType _holdDishesSortingType;
-
         public HoldDishesViewModel(
             INavigationService navigationService,
             IAuthenticationService authenticationService,
             INotificationsService notificationsService,
             IDishesHoldingService dishesHolding,
+            IMenuService menuService,
             IMapper mapper)
             : base(navigationService, authenticationService, notificationsService)
         {
             _dishesHolding = dishesHolding;
             _mapper = mapper;
+            _menuService = menuService;
         }
 
         #region -- Public properties --
@@ -185,11 +190,80 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnReleaseSelectionHoldDishesCommandAsync()
+        private async Task OnReleaseSelectionHoldDishesCommandAsync()
         {
-            var selectedBindableDishes = SelectedHoldDishes.Select(x => x as HoldDishBindableModel).ToList();
+            var selectedDishes = SelectedHoldDishes.Select(x => x as HoldDishBindableModel).ToList();
 
-            return Task.CompletedTask;
+            var param = new DialogParameters();
+
+            if (selectedDishes.Count > 1)
+            {
+                param.Add(Constants.DialogParameterKeys.HOLD_DISHES, selectedDishes);
+            }
+            else
+            {
+                var dishId = selectedDishes.FirstOrDefault().DishId;
+
+                var selectedDish = await GetDishByIdAsync(dishId);
+
+                param.Add(Constants.DialogParameterKeys.DISH, selectedDish);
+            }
+
+            PopupPage holdDishDialog = App.IsTablet
+                ? new Views.Tablet.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallbackAsync)
+                : new Views.Mobile.Dialogs.HoldDishDialog(param, CloseHoldDishDialogCallbackAsync);
+
+            await PopupNavigation.PushAsync(holdDishDialog);
+        }
+
+        private async void CloseHoldDishDialogCallbackAsync(IDialogParameters parameters)
+        {
+            await _notificationsService.CloseAllPopupAsync();
+
+            if (IsInternetConnected)
+            {
+                //if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD, out DateTime holdTime))
+                //{
+                //    if (parameters.TryGetValue(Constants.DialogParameterKeys.SEATS, out int seatNumber))
+                //    {
+                //        var seats = seatNumber == Constants.Limits.ALL_SEATS
+                //            ? CurrentOrder.Seats
+                //            : CurrentOrder.Seats?.Where(x => x.SeatNumber == seatNumber);
+
+                //        if (seats is not null)
+                //        {
+                //            foreach (var seat in seats)
+                //            {
+                //                foreach (var dish in seat.SelectedDishes)
+                //                {
+                //                    dish.HoldTime = holdTime;
+                //                    isCanUpdateOrder = true;
+                //                }
+                //            }
+                //        }
+                //    }
+                //    else if (SelectedDish is not null)
+                //    {
+                //        SelectedDish.HoldTime = holdTime;
+                //        TimerHoldSelectedDish = holdTime.AddMinutes(1) - DateTime.Now;
+                //        isCanUpdateOrder = true;
+                //    }
+                //}
+
+                //if (isCanUpdateOrder)
+                //{
+                //    var resultOfUpdatingOrder = await _orderService.UpdateCurrentOrderAsync();
+
+                //    if (!resultOfUpdatingOrder.IsSuccess)
+                //    {
+                //        await ResponseToUnsuccessfulRequestAsync(resultOfUpdatingOrder.Exception?.Message);
+                //    }
+                //}
+            }
+            else
+            {
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
+            }
         }
 
         private ObservableCollection<TableBindableModel> GetHoldTablesFromHoldDishes(ObservableCollection<HoldDishBindableModel> holdDishes)
@@ -229,6 +303,24 @@ namespace Next2.ViewModels
             IsNothingFound = !holdDishes.Any();
 
             return holdDishes;
+        }
+
+        private async Task<DishBindableModel> GetDishByIdAsync(Guid dishId)
+        {
+            var dish = new DishBindableModel();
+
+            var resultOfGettingDish = await _menuService.GetDishByIdAsync(dishId);
+
+            if (resultOfGettingDish.IsSuccess)
+            {
+                dish = _mapper.Map<DishBindableModel>(resultOfGettingDish.Result);
+            }
+            else
+            {
+                await ResponseToUnsuccessfulRequestAsync(resultOfGettingDish.Exception?.Message);
+            }
+
+            return dish;
         }
 
         #endregion
