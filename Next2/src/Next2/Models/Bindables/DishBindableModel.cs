@@ -63,16 +63,16 @@ namespace Next2.Models.Bindables
                 SelectDishCommand = SelectDishCommand,
                 DishProportions = DishProportions is null
                     ? null
-                    : DishProportions?.Select(x => (SimpleDishProportionModelDTO)x.Clone()),
+                    : DishProportions.Select(x => (SimpleDishProportionModelDTO)x.Clone()),
                 SelectedDishProportion = SelectedDishProportion is null
                     ? null
                     : (DishProportionModelDTO)SelectedDishProportion.Clone(),
                 SelectedProducts = SelectedProducts is null
                     ? null
-                    : new(SelectedProducts?.Select(row => (ProductBindableModel)row.Clone())),
+                    : new(SelectedProducts.Select(row => (ProductBindableModel)row.Clone())),
                 ReplacementProducts = ReplacementProducts is null
                     ? null
-                    : ReplacementProducts?.Select(row => (DishReplacementProductModelDTO)row.Clone()),
+                    : ReplacementProducts.Select(row => (DishReplacementProductModelDTO)row.Clone()),
             };
         }
     }
