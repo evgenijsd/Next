@@ -1,127 +1,55 @@
 ﻿using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.API.Commands;
+using Next2.Models.API.DTO;
+using Next2.Models.API.Results;
 using Next2.Resources.Strings;
 using Next2.Services.Authentication;
 using Next2.Services.Mock;
+using Next2.Services.Rest;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Next2.Services.WorkLog
 {
     public class WorkLogService : IWorkLogService
     {
-        private readonly IMockService _mockService;
-        private readonly IAuthenticationService _authenticationService;
+        private readonly IRestService _restService;
 
-        public WorkLogService(
-            IMockService mockService,
-            IAuthenticationService authenticationService)
+        public WorkLogService(IRestService restService)
         {
-            _mockService = mockService;
-            _authenticationService = authenticationService;
+            _restService = restService;
         }
 
         #region -- IWorkLogService implementation  --
 
-        public async Task<AOResult<EEmployeeRegisterState>> LogWorkTimeAsync(WorkLogRecordModel record)
+        public async Task<AOResult<TimeTrackResult>> LogWorkTimeAsync(string employeeId)
         {
-            var result = new AOResult<EEmployeeRegisterState>();
+            var result = new AOResult<TimeTrackResult>();
 
             try
             {
-                var employeeId = record.EmployeeId.ToString();
-
-                var resultOfGettingUser = await _authenticationService.GetUserById(employeeId);
-
-                if (resultOfGettingUser.IsSuccess)
+                var timeTrackCommand = new TimeTrackCommand()
                 {
-                    var resultOfGettingLastRecord = await GetLastRecordAsync(record.EmployeeId);
+                    EmployeeId = employeeId,
+                };
 
-                    if (resultOfGettingLastRecord.IsSuccess)
-                    {
-                        var lastRecord = resultOfGettingLastRecord.Result;
+                var query = $"{Constants.API.HOST_URL}/api/time-tracks";
 
-                        if (lastRecord.State == EEmployeeRegisterState.CheckedIn)
-                        {
-                            record.State = EEmployeeRegisterState.CheckedOut;
-                        }
-                        else
-                        {
-                            record.State = EEmployeeRegisterState.CheckedIn;
-                        }
-                    }
-                    else
-                    {
-                        record.State = EEmployeeRegisterState.CheckedIn;
-                    }
+                var resultOfGettingLastRecord = await _restService.RequestAsync<GenericExecutionResult<TimeTrackResult>>(HttpMethod.Post, query, timeTrackCommand);
 
-                    var resultOfInsertingRecord = await InsertRecordAsync(record);
-
-                    if (resultOfInsertingRecord.IsSuccess)
-                    {
-                        result.SetSuccess(record.State);
-                    }
+                if (resultOfGettingLastRecord.Success && resultOfGettingLastRecord.Value is not null)
+                {
+                    result.SetSuccess(resultOfGettingLastRecord.Value);
                 }
             }
             catch (Exception ex)
             {
                 result.SetError($"{nameof(LogWorkTimeAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        #endregion
-
-        #region -- Private helpers --
-
-        private async Task<AOResult<int>> InsertRecordAsync(WorkLogRecordModel record)
-        {
-            var result = new AOResult<int>();
-
-            try
-            {
-                var id = await _mockService.AddAsync(record);
-
-                if (id > 0)
-                {
-                    result.SetSuccess(id);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(InsertRecordAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        private async Task<AOResult<WorkLogRecordModel>> GetLastRecordAsync(int employeeId)
-        {
-            var result = new AOResult<WorkLogRecordModel>();
-
-            try
-            {
-                var records = await _mockService.GetAllAsync<WorkLogRecordModel>();
-
-                if (records is not null && records.Count() > 0)
-                {
-                    var lastRecord = records
-                        .Where(record => record.EmployeeId == employeeId)
-                        .OrderBy(record => record.Id)
-                        .Last();
-
-                    if (lastRecord is not null)
-                    {
-                        result.SetSuccess(lastRecord);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetLastRecordAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

@@ -15,6 +15,7 @@ using Next2.Views.Tablet;
 using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -23,6 +24,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet
 {
@@ -60,8 +62,6 @@ namespace Next2.ViewModels.Tablet
             _eventAggregator.GetEvent<NewOrderStateChanging>().Subscribe(OnNewOrderStateChanging);
 
             OrderRegistrationViewModel = orderRegistrationViewModel;
-
-            orderRegistrationViewModel?.RefreshCurrentOrderAsync();
         }
 
         #region -- Public properties --
@@ -343,11 +343,68 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnOpenEmployeeWorkingHoursCommandAsync()
         {
-            var popupPage = new Views.Tablet.Dialogs.EmployeeTimeClockDialog(
-                _workLogService,
-                (IDialogParameters dialogResult) => PopupNavigation.PopAsync());
+            return PopupNavigation.PushAsync(new Views.Tablet.Dialogs.EmployeeTimeClockDialog(_workLogService, CloseTrackTimeDialogCallBack));
+        }
 
-            return PopupNavigation.PushAsync(popupPage);
+        private async void CloseTrackTimeDialogCallBack(IDialogParameters dialogResult)
+        {
+            await _notificationsService.CloseAllPopupAsync();
+
+            if (IsInternetConnected)
+            {
+                if (dialogResult.ContainsKey(Constants.DialogParameterKeys.NEED_TO_OFFER_LOGOUT))
+                {
+                    var confirmDialogParameters = new DialogParameters
+                    {
+                        { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["TheEnteredEmployeeIDIsNotLoggedIn"] },
+                        { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["WantToLogOut"] },
+                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["LogOut_UpperCase"] },
+                        { Constants.DialogParameterKeys.TITLE_MAX_LINES, 2 },
+                        { Constants.DialogParameterKeys.TITLE_FONT_SIZE, (double)App.Current.Resources["TSize_i5"] },
+                    };
+
+                    PopupPage userIsNotLogInConfirmationDialog = new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseLogOutConfirmationDialogCallback);
+
+                    await PopupNavigation.PushAsync(userIsNotLogInConfirmationDialog);
+                }
+            }
+            else
+            {
+                await _notificationsService.ShowNoInternetConnectionDialogAsync();
+            }
+        }
+
+        private async void CloseLogOutConfirmationDialogCallback(IDialogParameters parameters)
+        {
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isLogOutAccepted)
+                && isLogOutAccepted)
+            {
+                if (IsInternetConnected)
+                {
+                    await _notificationsService.CloseAllPopupAsync();
+
+                    var resultOfLogginOut = await _authenticationService.LogoutAsync();
+
+                    if (resultOfLogginOut.IsSuccess)
+                    {
+                        await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
+                    }
+                    else
+                    {
+                        await ResponseToUnsuccessfulRequestAsync(resultOfLogginOut.Exception?.Message);
+                    }
+                }
+                else
+                {
+                    await _notificationsService.ShowNoInternetConnectionDialogAsync();
+                }
+            }
+            else
+            {
+                await _notificationsService.CloseAllPopupAsync();
+            }
         }
 
         #endregion

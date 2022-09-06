@@ -1,9 +1,11 @@
 ﻿using Next2.Enums;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.WorkLog;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using Prism.Xaml;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -57,22 +59,23 @@ namespace Next2.ViewModels.Dialogs
             }
             else
             {
-                var record = new WorkLogRecordModel
-                {
-                    Timestamp = DateTime.Now,
-                    EmployeeId = employeeId,
-                };
-
-                var resultOfLoggingWorkTime = await _workLogService.LogWorkTimeAsync(record);
+                var resultOfLoggingWorkTime = await _workLogService.LogWorkTimeAsync(EmployeeId);
 
                 if (resultOfLoggingWorkTime.IsSuccess)
                 {
-                    DateTime = record.Timestamp;
-                    State = resultOfLoggingWorkTime.Result;
+                    var timeTrack = resultOfLoggingWorkTime.Result;
+
+                    (State, DateTime) = timeTrack.Start is null
+                        ? (EEmployeeRegisterState.Undefined, DateTime.MinValue)
+                        : timeTrack.End is not null
+                            ? (EEmployeeRegisterState.CheckedOut, (DateTime)timeTrack.End)
+                            : (EEmployeeRegisterState.CheckedIn, (DateTime)timeTrack.Start);
                 }
                 else
                 {
-                    IsErrorNotificationVisible = true;
+                    var parameters = new DialogParameters() { { Constants.DialogParameterKeys.NEED_TO_OFFER_LOGOUT, true }, };
+
+                    RequestClose(parameters);
                 }
             }
         }

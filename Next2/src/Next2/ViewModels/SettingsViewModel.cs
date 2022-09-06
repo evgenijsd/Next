@@ -155,11 +155,6 @@ namespace Next2.ViewModels
                 {
                     _orderService.CurrentOrder = new();
 
-                    var navigationParameters = new NavigationParameters
-                    {
-                        { Constants.Navigations.LOGOUT, true },
-                    };
-
                     await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
                 }
             }

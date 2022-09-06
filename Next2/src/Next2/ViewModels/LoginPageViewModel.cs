@@ -59,10 +59,6 @@ namespace Next2.ViewModels
 
                 EmployeeId = inputtedEmployeeId;
             }
-            else if (parameters.ContainsKey(Constants.Navigations.LOGOUT))
-            {
-                await OnClearCommandAsync();
-            }
         }
 
         public override void OnDisappearing()
