@@ -96,7 +96,7 @@ namespace Next2.ViewModels
                 : _notificationsService.ResponseToBadRequestAsync(statusCode);
         }
 
-        public async Task PerformLogoutAsync()
+        public Task PerformLogoutAsync()
         {
             _authenticationService.ClearSession();
 
@@ -109,6 +109,8 @@ namespace Next2.ViewModels
             {
                 await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}", navigationParameters);
             });
+
+            return Task.CompletedTask;
         }
 
         #endregion

@@ -38,11 +38,11 @@ using System;
 using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
+using Device = Xamarin.Forms.Device;
 using MobileViewModels = Next2.ViewModels.Mobile;
 using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
-using Device = Xamarin.Forms.Device;
 
 namespace Next2
 {
