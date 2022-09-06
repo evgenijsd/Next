@@ -7,6 +7,7 @@ using Prism.Navigation;
 using Rg.Plugins.Popup.Contracts;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -99,12 +100,12 @@ namespace Next2.ViewModels
         {
             _authenticationService.ClearSession();
 
-            var navigationParameters = new NavigationParameters
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                { Constants.Navigations.LOGOUT, true },
-            };
+                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
+            });
 
-            return _navigationService.NavigateAsync($"{nameof(LoginPage)}", navigationParameters);
+            return Task.CompletedTask;
         }
 
         #endregion

@@ -8,13 +8,18 @@ using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Next2.Resources.Strings;
+using Next2.Services.Activity;
 using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
 using Next2.Services.Customers;
+using Next2.Services.DishesHolding;
+using Next2.Services.Employees;
 using Next2.Services.Membership;
 using Next2.Services.Menu;
 using Next2.Services.Mock;
+using Next2.Services.Notifications;
 using Next2.Services.Order;
+using Next2.Services.Reservation;
 using Next2.Services.Rest;
 using Next2.Services.Rewards;
 using Next2.Services.Settings;
@@ -23,29 +28,28 @@ using Next2.ViewModels;
 using Next2.ViewModels.Mobile;
 using Next2.ViewModels.Tablet;
 using Next2.Views;
+using Next2.Views.Mobile;
 using Prism;
 using Prism.Ioc;
+using Prism.Navigation;
 using Prism.Plugin.Popups;
 using Prism.Unity;
 using System;
 using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
+using Device = Xamarin.Forms.Device;
 using MobileViewModels = Next2.ViewModels.Mobile;
 using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
-using Next2.Services.Reservation;
-using Next2.Services.Notifications;
-using Next2.Views.Mobile;
-using Prism.Navigation;
-using Next2.Services.DishesHolding;
-using Next2.Services.Employees;
 
 namespace Next2
 {
     public partial class App : PrismApplication
     {
+        private IAuthenticationService _authenticationService;
+
         public App(IPlatformInitializer? initializer = null)
             : base(initializer)
         {
@@ -53,7 +57,7 @@ namespace Next2
 
         #region -- Public properties --
 
-        public static bool IsTablet = Xamarin.Forms.Device.Idiom == TargetIdiom.Tablet;
+        public static bool IsTablet = Device.Idiom == TargetIdiom.Tablet;
 
         #endregion
 
@@ -83,6 +87,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<IReservationService, ReservationService>();
             containerRegistry.RegisterSingleton<IDishesHoldingService, DishesHoldingService>();
             containerRegistry.RegisterSingleton<IEmployeesService, EmployeesService>();
+            containerRegistry.RegisterSingleton<IActivityService, ActivityService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
@@ -143,7 +148,7 @@ namespace Next2
             }
         }
 
-        protected override async void OnInitialized()
+        protected override void OnInitialized()
         {
             InitializeComponent();
 
@@ -153,12 +158,24 @@ namespace Next2
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
+            _authenticationService = Resolve<IAuthenticationService>();
+        }
+
+        protected async override void OnStart()
+        {
+#if !DEBUG
+            AppCenter.Start(
+                $"ios={Constants.Analytics.IOSKey};android={Constants.Analytics.AndroidKey};",
+                typeof(Analytics),
+                typeof(Crashes));
+
+            Analytics.SetEnabledAsync(true);
+#endif
+
             var navigationParameters = new NavigationParameters();
             var navigationPath = $"{nameof(NavigationPage)}/";
 
-            IAuthenticationService authenticationService = Resolve<IAuthenticationService>();
-
-            if (authenticationService.IsAuthorizationComplete)
+            if (_authenticationService.IsAuthorizationComplete)
             {
                 navigationParameters.Add(Constants.Navigations.IS_FIRST_ORDER_INIT, true);
                 navigationPath += nameof(MenuPage);
@@ -169,18 +186,13 @@ namespace Next2
             }
 
             await NavigationService.NavigateAsync(navigationPath, navigationParameters);
-        }
 
-        protected override void OnStart()
-        {
-#if !DEBUG
-            AppCenter.Start(
-                $"ios={Constants.Analytics.IOSKey};android={Constants.Analytics.AndroidKey};",
-                typeof(Analytics),
-                typeof(Crashes));
+            var activityService = Resolve<IActivityService>();
 
-            Analytics.SetEnabledAsync(true);
-#endif
+            activityService.UserInactivityTimeLimit = Constants.Limits.USER_ACTIVITY_TIME_SEC;
+            activityService.UserActivityEnded += OnUserActivityEndedCallback;
+
+            activityService.StartMonitoringActivity();
         }
 
         protected override void OnSleep()
@@ -252,6 +264,24 @@ namespace Next2
             return tableNumber == null
                 ? LocalizationResourceManager.Current["NotDefined"]
                 : $"{LocalizationResourceManager.Current["Table"]} {tableNumber}";
+        }
+
+        private async void OnUserActivityEndedCallback(object sender, EventArgs e)
+        {
+            if (_authenticationService.IsAuthorizationComplete)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
+                });
+
+                var logoutResult = await _authenticationService.LogoutAsync();
+
+                if (!logoutResult.IsSuccess)
+                {
+                    _authenticationService.ClearSession();
+                }
+            }
         }
 
         #endregion
