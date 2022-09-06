@@ -38,10 +38,10 @@ namespace Next2.Models.Bindables
                 DishReplacementProductId = DishReplacementProductId,
                 Product = (SimpleProductModelDTO)Product.Clone(),
                 Price = Price,
-                SelectedOptions = (OptionModelDTO)SelectedOptions.Clone(),
-                SelectedIngredients = new(SelectedIngredients.Select(row => (SimpleIngredientModelDTO)row.Clone())),
-                AddedIngredients = new(AddedIngredients.Select(row => (SimpleIngredientModelDTO)row.Clone())),
-                ExcludedIngredients = new(ExcludedIngredients.Select(row => (SimpleIngredientModelDTO)row.Clone())),
+                SelectedOptions = (OptionModelDTO)SelectedOptions?.Clone(),
+                SelectedIngredients = new(SelectedIngredients?.Select(row => (SimpleIngredientModelDTO)row.Clone())),
+                AddedIngredients = new(AddedIngredients?.Select(row => (SimpleIngredientModelDTO)row.Clone())),
+                ExcludedIngredients = new(ExcludedIngredients?.Select(row => (SimpleIngredientModelDTO)row.Clone())),
             };
         }
     }
