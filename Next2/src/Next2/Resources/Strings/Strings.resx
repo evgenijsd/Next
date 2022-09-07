@@ -858,4 +858,10 @@ A receipt has been printed for you.</value>
   <data name="NoServersAvailable" xml:space="preserve">
     <value>No servers available</value>
   </data>
+  <data name="ReleaseItem" xml:space="preserve">
+    <value>Release Item</value>
+  </data>
+  <data name="ReleaseItems" xml:space="preserve">
+    <value>Release Items</value>
+  </data>
 </root>

@@ -34,12 +34,21 @@ namespace Next2.ViewModels.Dialogs
             {
                 SelectedDish = selectedDish;
 
-                ProductNames = string.Join(", ", selectedDish.ReplacementProducts.Select(x => !string.IsNullOrEmpty(x.Products.FirstOrDefault(y => y.Id == x.ProductId)?.Name)).ToArray());
+                ProductNames = string.Join(", ", selectedDish.SelectedProducts?.Where(x => !string.IsNullOrEmpty(x.Product.Name)).Select(x => x.Product.Name).ToArray());
             }
 
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD_DISHES, out List<HoldDishBindableModel>? selectedDishes))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD_RELEASE, out DishBindableModel dish))
+            {
+                SelectedDish = dish;
+                IsNotRelease = false;
+
+                ProductNames = string.Join(", ", dish.ReplacementProducts.Select(x => x.Products.FirstOrDefault(y => y.Id == x.ProductId)?.Name).ToArray());
+            }
+
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD_DISHES_RELEASE, out List<HoldDishBindableModel>? selectedDishes))
             {
                 HoldDishes = new(selectedDishes);
+                IsNotRelease = false;
             }
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ORDER, out FullOrderBindableModel order))
@@ -62,6 +71,8 @@ namespace Next2.ViewModels.Dialogs
         public int SelectedSeatNumber { get; set; }
 
         public int CurrentSeatNumber { get; set; }
+
+        public bool IsNotRelease { get; set; } = true;
 
         public ObservableCollection<HoldDishBindableModel> HoldDishes { get; set; }
 

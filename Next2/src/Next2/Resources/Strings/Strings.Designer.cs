@@ -1430,6 +1430,24 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Release Item.
+        /// </summary>
+        internal static string ReleaseItem {
+            get {
+                return ResourceManager.GetString("ReleaseItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Release Items.
+        /// </summary>
+        internal static string ReleaseItems {
+            get {
+                return ResourceManager.GetString("ReleaseItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Release Time.
         /// </summary>
         internal static string ReleaseTime {

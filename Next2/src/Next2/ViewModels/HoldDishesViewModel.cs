@@ -198,7 +198,7 @@ namespace Next2.ViewModels
 
             if (selectedDishes.Count > 1)
             {
-                param.Add(Constants.DialogParameterKeys.HOLD_DISHES, selectedDishes);
+                param.Add(Constants.DialogParameterKeys.HOLD_DISHES_RELEASE, selectedDishes);
             }
             else
             {
@@ -206,7 +206,7 @@ namespace Next2.ViewModels
 
                 var selectedDish = await GetDishByIdAsync(dishId);
 
-                param.Add(Constants.DialogParameterKeys.DISH, selectedDish);
+                param.Add(Constants.DialogParameterKeys.HOLD_RELEASE, selectedDish);
             }
 
             PopupPage holdDishDialog = App.IsTablet
