@@ -291,6 +291,12 @@
                                 Span="1"/>
 
                         </controls:CustomCollectionView.ItemsLayout>
+                        
+                        <controls:CustomCollectionView.EmptyView>
+
+                            <templates:NoItemsInCategoryTemplate/>
+
+                        </controls:CustomCollectionView.EmptyView>
 
                         <controls:CustomCollectionView.ItemTemplate>
 
@@ -357,7 +363,6 @@
                                 HorizontalItemSpacing="15"/>
 
                         </controls:CustomCollectionView.ItemsLayout>
-
 
                         <controls:CustomCollectionView.EmptyView>
 

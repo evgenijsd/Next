@@ -107,6 +107,7 @@
                 BounceMode="DisabledForAndroidAndiOS">
 
                 <controls:CustomCollectionView.ItemTemplate>
+                    
                     <DataTemplate x:DataType="bindables:SpoilerBindableModel">
 
                         <StackLayout>
@@ -150,6 +151,7 @@
                         </StackLayout>
 
                     </DataTemplate>
+                    
                 </controls:CustomCollectionView.ItemTemplate>
 
             </controls:CustomCollectionView>
@@ -376,6 +378,12 @@
                                 ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
                             
                         </controls:CustomCollectionView.Effects>
+                        
+                        <controls:CustomCollectionView.EmptyView>
+
+                            <templates:NoItemsInCategoryTemplate/>
+
+                        </controls:CustomCollectionView.EmptyView>
 
                         <controls:CustomCollectionView.ItemTemplate>
 
