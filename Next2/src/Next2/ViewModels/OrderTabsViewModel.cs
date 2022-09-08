@@ -531,6 +531,10 @@ namespace Next2.ViewModels
 
                 if (resultOfSetCurrentOrder.IsSuccess)
                 {
+                    var employeeId = _authenticationService.AuthorizedUserId.ToString();
+
+                    await _orderService.SaveLastOrderIdToSettingsAsync(employeeId, SelectedOrder.Id);
+
                     if (App.IsTablet)
                     {
                         MessagingCenter.Send<MenuPageSwitchingMessage>(new(EMenuItems.NewOrder), Constants.Navigations.SWITCH_PAGE);

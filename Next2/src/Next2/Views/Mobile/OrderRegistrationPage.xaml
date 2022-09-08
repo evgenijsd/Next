@@ -132,6 +132,7 @@
             </controls:DropDownList.Triggers>
             
             <controls:DropDownList.DataTemplate>
+                
                 <DataTemplate x:DataType="models:OrderTypeBindableModel">
 
                     <templates:TextItemTemplate
@@ -143,6 +144,7 @@
                         xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                 </DataTemplate>
+                
             </controls:DropDownList.DataTemplate>
 
         </controls:DropDownList>
@@ -262,6 +264,7 @@
             </controls:CustomCollectionView.Behaviors>
 
             <controls:CustomCollectionView.EmptyView>
+                
                 <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                     <Frame
@@ -365,6 +368,7 @@
                     </StackLayout>
 
                 </StackLayout>
+                
             </controls:CustomCollectionView.EmptyView>
 
         </controls:CustomCollectionView>

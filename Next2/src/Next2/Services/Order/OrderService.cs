@@ -754,35 +754,7 @@ namespace Next2.Services.Order
             return resultOfUpdatingOrder;
         }
 
-        #endregion
-
-        #region -- Private helpers --
-
-        private Task<AOResult<Guid>> GetIdLastCreatedOrderFromSettingsAsync(string employeeId)
-        {
-            var result = new AOResult<Guid>();
-
-            try
-            {
-                if (!string.IsNullOrEmpty(_settingsManager.LastCurrentOrderIds))
-                {
-                    var lastCurrentOrderIds = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
-
-                    if (lastCurrentOrderIds is not null && lastCurrentOrderIds.ContainsKey(employeeId))
-                    {
-                        result.SetSuccess(lastCurrentOrderIds[employeeId]);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetIdLastCreatedOrderFromSettingsAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return Task.FromResult(result);
-        }
-
-        private Task<AOResult> SaveLastOrderIdToSettingsAsync(string employeeId, Guid orderId)
+        public Task<AOResult> SaveLastOrderIdToSettingsAsync(string employeeId, Guid orderId)
         {
             var result = new AOResult();
 
@@ -813,6 +785,34 @@ namespace Next2.Services.Order
             catch (Exception ex)
             {
                 result.SetError($"{nameof(SaveLastOrderIdToSettingsAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return Task.FromResult(result);
+        }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private Task<AOResult<Guid>> GetIdLastCreatedOrderFromSettingsAsync(string employeeId)
+        {
+            var result = new AOResult<Guid>();
+
+            try
+            {
+                if (!string.IsNullOrEmpty(_settingsManager.LastCurrentOrderIds))
+                {
+                    var lastCurrentOrderIds = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
+
+                    if (lastCurrentOrderIds is not null && lastCurrentOrderIds.ContainsKey(employeeId))
+                    {
+                        result.SetSuccess(lastCurrentOrderIds[employeeId]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetIdLastCreatedOrderFromSettingsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return Task.FromResult(result);
