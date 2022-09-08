@@ -30,25 +30,23 @@ namespace Next2.ViewModels.Dialogs
             RequestClose = requestClose;
             CloseCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.CANCEL, true } }));
 
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD_RELEASE, out bool notRelease))
+            {
+                IsNotRelease = false;
+            }
+
             if (parameters.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel selectedDish))
             {
                 SelectedDish = selectedDish;
 
-                ProductNames = string.Join(", ", selectedDish.SelectedProducts?.Where(x => !string.IsNullOrEmpty(x.Product.Name)).Select(x => x.Product.Name).ToArray());
+                ProductNames = IsNotRelease
+                    ? string.Join(", ", selectedDish.SelectedProducts?.Where(x => !string.IsNullOrEmpty(x.Product.Name)).Select(x => x.Product.Name).ToArray())
+                    : string.Join(", ", selectedDish.ReplacementProducts.Select(x => x.Products.FirstOrDefault(y => y.Id == x.ProductId)?.Name).ToArray());
             }
 
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD_RELEASE, out DishBindableModel dish))
-            {
-                SelectedDish = dish;
-                IsNotRelease = false;
-
-                ProductNames = string.Join(", ", dish.ReplacementProducts.Select(x => x.Products.FirstOrDefault(y => y.Id == x.ProductId)?.Name).ToArray());
-            }
-
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD_DISHES_RELEASE, out List<HoldDishBindableModel>? selectedDishes))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.HOLD_DISHES, out List<HoldDishBindableModel>? selectedDishes))
             {
                 HoldDishes = new(selectedDishes);
-                IsNotRelease = false;
             }
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ORDER, out FullOrderBindableModel order))
@@ -128,7 +126,11 @@ namespace Next2.ViewModels.Dialogs
         {
             var parameters = new DialogParameters();
 
-            if (_holdTime > CurrentTime)
+            if (!IsNotRelease)
+            {
+                parameters.Add(Constants.DialogParameterKeys.HOLD_RELEASE, true);
+            }
+            else if (_holdTime > CurrentTime)
             {
                 parameters.Add(Constants.DialogParameterKeys.HOLD, _holdTime);
 

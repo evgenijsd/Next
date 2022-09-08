@@ -140,7 +140,7 @@
             public const string DISH = "DISH";
             public const string DISCOUNT_PRICE = "DISCOUNT_PRICE";
             public const string HOLD = "HOLD";
-            public const string HOLD_DISHES_RELEASE = "HOLD_DISHES_RELEASE";
+            public const string HOLD_DISHES = "HOLD_DISHES_RELEASE";
             public const string HOLD_RELEASE = "HOLD_RELEASE";
             public const string GIFT_GARD = "GIFT_GARD";
             public const string ACTION = "ACTION";

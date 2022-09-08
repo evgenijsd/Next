@@ -1,6 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
 using Next2.Models.Bindables;
@@ -79,6 +80,29 @@ namespace Next2.Services.DishesHolding
             catch (Exception ex)
             {
                 result.SetError($"{nameof(GetHoldDishesAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> UpdateHoldItemsAsync(UpdateHoldItemsCommand holdItems)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                var query = $"{Constants.API.HOST_URL}/api/hold-items";
+
+                var updateResult = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, query, holdItems);
+
+                if (updateResult.Success)
+                {
+                    result.SetSuccess();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(UpdateHoldItemsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

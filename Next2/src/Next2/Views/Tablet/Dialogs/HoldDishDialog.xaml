@@ -93,49 +93,17 @@
 
                         <Label.Triggers>
 
-                            <DataTrigger
-                                TargetType="Label"
-                                Binding="{Binding SelectedDish, Converter={xct:IsNullOrEmptyConverter}}"
-                                Value="True">
-
+                            <DataTrigger TargetType="Label" Binding="{Binding SelectedDish, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
                                 <Setter Property="Text" Value="{xct:Translate WhatHold}" />
-
                             </DataTrigger>
 
-                            <DataTrigger
-                                TargetType="Label"
-                                Binding="{Binding IsNotRelease}"
-                                Value="False">
-
+                            <DataTrigger TargetType="Label" Binding="{Binding IsNotRelease}" Value="False">
                                 <Setter Property="Text" Value="{xct:Translate ReleaseItem}" />
-
                             </DataTrigger>
 
-                            <DataTrigger
-                                TargetType="Label"
-                                Binding="{Binding HoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}"
-                                Value="True">
-
-                                <Setter
-                                    Property="Text"
-                                    Value="{xct:Translate ReleaseItems}" />
-
-                            </DataTrigger>
-
-                            <!--<DataTrigger TargetType="Label" Value="True">
-
-                                <DataTrigger.Binding>
-                                    <MultiBinding Converter="{xct:VariableMultiValueConverter ConditionType=All}">
-
-                                        <Binding Path="IsNotRelease" Converter="{xct:InvertedBoolConverter}" />
-                                        <Binding Path="HoldDishes" Converter="{xct:IsNotNullOrEmptyConverter}" />
-
-                                    </MultiBinding>
-                                </DataTrigger.Binding>
-
+                            <DataTrigger TargetType="Label" Binding="{Binding HoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
                                 <Setter Property="Text" Value="{xct:Translate ReleaseItems}" />
-
-                            </DataTrigger>-->
+                            </DataTrigger>
 
                         </Label.Triggers>
 
@@ -159,8 +127,11 @@
                     Orientation="Horizontal"
                     HeightRequest="150"
                     IsVisible="{Binding HoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}">
-                    
-                    <Label Style="{DynamicResource LabelStyle_i1}" HorizontalOptions="CenterAndExpand"/>
+
+                    <Label
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="Center" 
+                        Text="{Binding HoldDishes.Count}"/>
 
                     <BoxView
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
@@ -169,7 +140,10 @@
                         HorizontalOptions="Center"
                         VerticalOptions="FillAndExpand" />
 
-                    <Label Style="{DynamicResource LabelStyle_i1}" HorizontalOptions="CenterAndExpand"/>
+                    <Label
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="Center"
+                        Text="{Binding HoldDishes[0].TableNumber}"/>
                     
                 </StackLayout>
 
@@ -344,7 +318,15 @@
                         BackgroundColor="{DynamicResource IndicationColor_i1}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                         Text="{xct:Translate Hold}"
-                        Command="{Binding HoldCommand}" />
+                        Command="{Binding HoldCommand}">
+
+                        <buttons:BorderButton.Triggers>
+                            <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsNotRelease}" Value="False">                                
+                                <Setter Property="Text" Value="{xct:Translate Release}" />                                
+                            </DataTrigger>                            
+                        </buttons:BorderButton.Triggers>
+                            
+                    </buttons:BorderButton>
 
                 </StackLayout>
 

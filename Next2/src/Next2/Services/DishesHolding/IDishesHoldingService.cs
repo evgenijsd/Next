@@ -1,6 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using System;
@@ -16,5 +17,7 @@ namespace Next2.Services.DishesHolding
         IEnumerable<HoldDishBindableModel> GetSortedHoldDishes(EHoldDishesSortingType typeSort, IEnumerable<HoldDishBindableModel> holdDihes);
 
         IEnumerable<HoldItemModelDTO> GetHoldDishesByTableNumber(int tableNumber);
+
+        Task<AOResult> UpdateHoldItemsAsync(UpdateHoldItemsCommand holdItems);
     }
 }
