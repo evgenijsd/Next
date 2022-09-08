@@ -56,7 +56,7 @@
                 
                 <StackLayout.Triggers>
 
-                    <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedProduct.SelectedItem.State}" Value="Proportions">
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedSidebarProduct.SelectedItem.State}" Value="Proportions">
                         <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i9}"/>
                     </DataTrigger>
 
@@ -71,7 +71,7 @@
                     
                     <Label.Triggers>
 
-                        <DataTrigger TargetType="Label" Binding="{Binding SelectedProduct.SelectedItem.State}" Value="Proportions">
+                        <DataTrigger TargetType="Label" Binding="{Binding SelectedSidebarProduct.SelectedItem.State}" Value="Proportions">
                             <Setter Property="TextColor" Value="{DynamicResource AppColor_i1}"/>
                         </DataTrigger>
 
@@ -107,6 +107,7 @@
                 BounceMode="DisabledForAndroidAndiOS">
 
                 <controls:CustomCollectionView.ItemTemplate>
+                    
                     <DataTemplate x:DataType="bindables:SpoilerBindableModel">
 
                         <StackLayout>
@@ -150,6 +151,7 @@
                         </StackLayout>
 
                     </DataTemplate>
+                    
                 </controls:CustomCollectionView.ItemTemplate>
 
             </controls:CustomCollectionView>
@@ -188,6 +190,12 @@
                                 HorizontalItemSpacing="15"/>
 
                         </controls:CustomCollectionView.ItemsLayout>
+
+                        <controls:CustomCollectionView.EmptyView>
+
+                            <templates:NoItemsInCategoryTemplate/>
+
+                        </controls:CustomCollectionView.EmptyView>
 
                         <controls:CustomCollectionView.ItemTemplate>
 
@@ -249,23 +257,7 @@
 
                         <controls:CustomCollectionView.EmptyView>
 
-                            <StackLayout>
-
-                                <ffimageloading:CachedImage
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="EndAndExpand"
-                                    HeightRequest="250"
-                                    Source="pic_plate.png" />
-
-                                <Label
-                                    Text="{xct:Translate NoItemsInCategory}"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                    FontSize="{DynamicResource TSize_i6}"
-                                    FontFamily="Barlow-Regular"
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="StartAndExpand"/>
-
-                            </StackLayout>
+                            <templates:NoItemsInCategoryTemplate/>
 
                         </controls:CustomCollectionView.EmptyView>
 
@@ -334,6 +326,7 @@
                         </CollectionView.ItemsLayout>
 
                         <CollectionView.ItemTemplate>
+                            
                             <DataTemplate x:DataType="modelsDTO:IngredientsCategoryModelDTO">
 
                                 <templates:CategoryItemTemplate
@@ -343,6 +336,7 @@
                                     FontFamily="Barlow-Medium"/>
 
                             </DataTemplate>
+                            
                         </CollectionView.ItemTemplate>
 
                     </controls:ExpandedGridCollectionView>
@@ -384,6 +378,12 @@
                                 ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
                             
                         </controls:CustomCollectionView.Effects>
+                        
+                        <controls:CustomCollectionView.EmptyView>
+
+                            <templates:NoItemsInCategoryTemplate/>
+
+                        </controls:CustomCollectionView.EmptyView>
 
                         <controls:CustomCollectionView.ItemTemplate>
 
@@ -445,6 +445,12 @@
                                 HorizontalItemSpacing="18"/>
 
                         </controls:CustomCollectionView.ItemsLayout>
+
+                        <controls:CustomCollectionView.EmptyView>
+
+                            <templates:NoItemsInCategoryTemplate/>
+
+                        </controls:CustomCollectionView.EmptyView>
 
                         <controls:CustomCollectionView.ItemTemplate>
 
