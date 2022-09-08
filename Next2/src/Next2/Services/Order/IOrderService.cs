@@ -56,5 +56,7 @@ namespace Next2.Services.Order
         void UpdateTotalSum(FullOrderBindableModel currentOrder);
 
         void CalculateOrderPrices(OrderModelDTO order);
+
+        Task<AOResult> SaveLastOrderIdToSettingsAsync(string employeeId, Guid orderId);
     }
 }
