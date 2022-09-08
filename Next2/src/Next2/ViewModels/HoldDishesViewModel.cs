@@ -305,7 +305,7 @@ namespace Next2.ViewModels
 
             if (resultOfGettingHoldDishes.IsSuccess)
             {
-                holdDishes = _mapper.Map<ObservableCollection<HoldDishBindableModel>>(resultOfGettingHoldDishes.Result);
+                holdDishes = _mapper.Map<ObservableCollection<HoldDishBindableModel>>(resultOfGettingHoldDishes.Result.OrderBy(x => x.TableNumber));
             }
             else
             {

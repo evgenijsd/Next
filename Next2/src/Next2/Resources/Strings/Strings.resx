@@ -864,4 +864,13 @@ A receipt has been printed for you.</value>
   <data name="ReleaseItems" xml:space="preserve">
     <value>Release Items</value>
   </data>
+  <data name="NumberOfItems" xml:space="preserve">
+    <value>Number of items</value>
+  </data>
+  <data name="OfItems" xml:space="preserve">
+    <value>of items</value>
+  </data>
+  <data name="Number2" xml:space="preserve">
+    <value>number</value>
+  </data>
 </root>

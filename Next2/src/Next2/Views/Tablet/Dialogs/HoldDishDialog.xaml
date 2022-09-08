@@ -130,8 +130,23 @@
 
                     <Label
                         HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="Center" 
-                        Text="{Binding HoldDishes.Count}"/>
+                        VerticalOptions="Center"
+                        HorizontalTextAlignment="Center">
+                        
+                        <Label.FormattedText>
+                            <FormattedString>
+
+                                <Span Text="{xct:Translate Number}" FontSize="Small"/>
+                                <Span Text="&#10;" />
+                                <Span Text="{xct:Translate OfItems}" FontSize="Small"/>
+                                <Span Text="&#10;" />
+                                <Span Text="&#10;" FontSize="Micro"/>
+                                <Span Text="{Binding HoldDishes.Count}" FontSize="Large" TextColor="{DynamicResource IndicationColor_i5}"/>
+
+                            </FormattedString>
+                        </Label.FormattedText>
+                        
+                    </Label>
 
                     <BoxView
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
@@ -143,7 +158,22 @@
                     <Label
                         HorizontalOptions="CenterAndExpand"
                         VerticalOptions="Center"
-                        Text="{Binding HoldDishes[0].TableNumber}"/>
+                        HorizontalTextAlignment="Center">
+                        
+                        <Label.FormattedText>
+                            <FormattedString>
+
+                                <Span Text="{xct:Translate Table}" FontSize="Small" />
+                                <Span Text="&#10;" />
+                                <Span Text="{xct:Translate Number2}" FontSize="Small" />
+                                <Span Text="&#10;" />
+                                <Span Text="&#10;" FontSize="Micro"/>
+                                <Span Text="{Binding HoldDishes[0].TableNumber}" FontSize="Large" TextColor="{DynamicResource IndicationColor_i7}"/>
+
+                            </FormattedString>
+                        </Label.FormattedText>
+                        
+                    </Label>
                     
                 </StackLayout>
 
