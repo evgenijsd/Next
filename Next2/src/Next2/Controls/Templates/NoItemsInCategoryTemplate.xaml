@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:Class="Next2.Controls.Templates.NoItemsInCategoryTemplate">
+
+    <ffimageloading:CachedImage
+        HorizontalOptions="Center"
+        VerticalOptions="EndAndExpand"
+        HeightRequest="250"
+        Source="pic_plate.png" />
+
+    <Label
+        Text="{xct:Translate NoItemsInCategory}"
+        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+        FontSize="{DynamicResource TSize_i6}"
+        FontFamily="Barlow-Regular"
+        HorizontalOptions="Center"
+        VerticalOptions="StartAndExpand"/>
+
+</StackLayout>

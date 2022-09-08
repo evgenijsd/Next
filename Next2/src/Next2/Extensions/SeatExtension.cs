@@ -31,7 +31,9 @@ namespace Next2.Extensions
                 SeatNumber = seat.Number,
                 Checked = seat.Number == 1,
                 IsFirstSeat = seat.Number == 1,
-                SelectedDishes = new(seat.SelectedDishes?.Select(row => row.ToDishBindableModel())),
+                SelectedDishes = seat.SelectedDishes is null
+                    ? new()
+                    : new(seat.SelectedDishes.Select(row => row.ToDishBindableModel())),
             };
         }
 

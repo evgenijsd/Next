@@ -8,6 +8,7 @@ using AndroidX.AppCompat.App;
 using Next2.Services.Activity;
 using Prism.Ioc;
 using Xamarin.Forms;
+using System;
 
 namespace Next2.Droid
 {
@@ -58,12 +59,22 @@ namespace Next2.Droid
 
         public override bool DispatchTouchEvent(MotionEvent motionEvent)
         {
+            bool isTouchEventSent = false;
+
+            try
+            {
+                isTouchEventSent = base.DispatchTouchEvent(motionEvent);
+            }
+            catch (Exception ex)
+            {
+            }
+
             if (motionEvent.Action == MotionEventActions.Up)
             {
                 _activityService.RefreshTimeLastActivity();
             }
 
-            return base.DispatchTouchEvent(motionEvent);
+            return isTouchEventSent;
         }
 
         #endregion

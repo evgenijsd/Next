@@ -1,5 +1,6 @@
 ﻿using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
+using System;
 
 namespace Next2.Extensions
 {
@@ -11,7 +12,7 @@ namespace Next2.Extensions
                 Id = member.Id,
                 StartDate = member.StartDate,
                 EndDate = member.EndDate,
-                CustomerId = member.Customer.Id,
+                CustomerId = member.Customer?.Id ?? Guid.Empty,
                 IsActive = member.IsActive,
             };
     }
