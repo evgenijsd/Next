@@ -53,6 +53,14 @@
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             </Style>
 
+            <Style x:Key="LabelStyle_i4" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                <Setter Property="FontFamily" Value="Barlow-Medium" />
+            </Style>
+
             <DataTemplate x:Key="timeItemTemplate">
                 <templates:HoldTimeItemTemplate 
                     HeightRequest="32"
@@ -128,24 +136,23 @@
                     HeightRequest="150"
                     IsVisible="{Binding HoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}">
 
-                    <Label
-                        HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="Center"
-                        HorizontalTextAlignment="Center">
-                        
+                    <Label Style="{DynamicResource LabelStyle_i4}">                        
                         <Label.FormattedText>
                             <FormattedString>
 
-                                <Span Text="{xct:Translate Number}" FontSize="Small"/>
+                                <Span Text="{xct:Translate Number}"/>
                                 <Span Text="&#10;" />
-                                <Span Text="{xct:Translate OfItems}" FontSize="Small"/>
+                                <Span Text="{xct:Translate OfItems}"/>
                                 <Span Text="&#10;" />
-                                <Span Text="&#10;" FontSize="Micro"/>
-                                <Span Text="{Binding HoldDishes.Count}" FontSize="Large" TextColor="{DynamicResource IndicationColor_i5}"/>
+                                <Span Text="&#10;" FontSize="{DynamicResource TSize_i12}"/>
+                                <Span
+                                    Text="{Binding HoldDishes.Count}"
+                                    FontSize="{DynamicResource TSize_i3}"
+                                    FontFamily="Barlow-Bold"
+                                    TextColor="{DynamicResource IndicationColor_i5}"/>
 
                             </FormattedString>
-                        </Label.FormattedText>
-                        
+                        </Label.FormattedText>                        
                     </Label>
 
                     <BoxView
@@ -155,24 +162,23 @@
                         HorizontalOptions="Center"
                         VerticalOptions="FillAndExpand" />
 
-                    <Label
-                        HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="Center"
-                        HorizontalTextAlignment="Center">
-                        
+                    <Label Style="{DynamicResource LabelStyle_i4}">                        
                         <Label.FormattedText>
                             <FormattedString>
 
-                                <Span Text="{xct:Translate Table}" FontSize="Small" />
+                                <Span Text="{xct:Translate Table}"/>
                                 <Span Text="&#10;" />
-                                <Span Text="{xct:Translate Number2}" FontSize="Small" />
+                                <Span Text="{xct:Translate Number2}"/>
                                 <Span Text="&#10;" />
-                                <Span Text="&#10;" FontSize="Micro"/>
-                                <Span Text="{Binding HoldDishes[0].TableNumber}" FontSize="Large" TextColor="{DynamicResource IndicationColor_i7}"/>
+                                <Span Text="&#10;" FontSize="{DynamicResource TSize_i12}"/>
+                                <Span
+                                    Text="{Binding HoldDishes[0].TableNumber}"
+                                    FontSize="{DynamicResource TSize_i3}" 
+                                    FontFamily="Barlow-Bold"
+                                    TextColor="{DynamicResource IndicationColor_i7}"/>
 
                             </FormattedString>
-                        </Label.FormattedText>
-                        
+                        </Label.FormattedText>                        
                     </Label>
                     
                 </StackLayout>

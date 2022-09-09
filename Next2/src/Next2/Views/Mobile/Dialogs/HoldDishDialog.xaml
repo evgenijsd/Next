@@ -20,8 +20,8 @@
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
         CornerRadius="5"
         HeightRequest="650"
-        HorizontalOptions="Center"
-        VerticalOptions="Center"
+        HorizontalOptions="CenterAndExpand"
+        VerticalOptions="CenterAndExpand"
         xct:ShadowEffect.Color="Black"
         xct:ShadowEffect.Radius="16">
 
@@ -60,6 +60,14 @@
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             </Style>
 
+            <Style x:Key="LabelStyle_i5" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
+                <Setter Property="FontFamily" Value="Barlow-Medium" />
+            </Style>
+
             <DataTemplate x:Key="timeItemTemplate">
                 <templates:HoldTimeItemTemplate 
                     HeightRequest="40"
@@ -69,11 +77,22 @@
 
         </pancakeview:PancakeView.Resources>
 
+        <pancakeview:PancakeView.Triggers>
+
+            <DataTrigger
+                TargetType="pancakeview:PancakeView"
+                Binding="{Binding IsNotRelease, Converter={xct:InvertedBoolConverter}}"
+                Value="True">
+
+                <Setter Property="HeightRequest" Value="500" />
+
+            </DataTrigger>
+
+        </pancakeview:PancakeView.Triggers>
+
         <Grid>
             
-            <StackLayout
-                VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand">
+            <StackLayout>
 
                 <StackLayout
                     HorizontalOptions="FillAndExpand"
@@ -81,7 +100,7 @@
                     Padding="20, 17">
 
                     <Label
-                        Style="{DynamicResource LabelStyle_i4}"
+                        Style="{DynamicResource LabelStyle_i5}"
                         VerticalTextAlignment="Center"
                         FontSize="{DynamicResource TSize_i6}"
                         FontFamily="Barlow-SemiBold"
@@ -89,13 +108,16 @@
 
                         <Label.Triggers>
 
-                            <DataTrigger
-                                TargetType="Label"
-                                Binding="{Binding SelectedDish, Converter={xct:IsNullOrEmptyConverter}}"
-                                Value="True">
-
+                            <DataTrigger TargetType="Label" Binding="{Binding SelectedDish, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
                                 <Setter Property="Text" Value="{xct:Translate WhatHold}" />
+                            </DataTrigger>
 
+                            <DataTrigger TargetType="Label" Binding="{Binding IsNotRelease}" Value="False">
+                                <Setter Property="Text" Value="{xct:Translate ReleaseItem}" />
+                            </DataTrigger>
+
+                            <DataTrigger TargetType="Label" Binding="{Binding HoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
+                                <Setter Property="Text" Value="{xct:Translate ReleaseItems}" />
                             </DataTrigger>
 
                         </Label.Triggers>
@@ -103,7 +125,7 @@
                     </Label>
 
                     <Label
-                        Style="{DynamicResource LabelStyle_i4}"
+                        Style="{DynamicResource LabelStyle_i5}"
                         VerticalTextAlignment="Center"
                         HorizontalOptions="EndAndExpand"
                         FontSize="{DynamicResource TSize_i6}"
@@ -111,13 +133,64 @@
                         Text="{Binding CurrentTime, StringFormat={x:Static local:Constants+Formats.TIME_FORMAT}}" />
 
                 </StackLayout>
+                
 
-                <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+                <StackLayout
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
+                <StackLayout 
+                    Orientation="Horizontal"
+                    VerticalOptions="FillAndExpand"
+                    IsVisible="{Binding HoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}">
+
+                    <Label Style="{DynamicResource LabelStyle_i5}">                        
+                        <Label.FormattedText>
+                            <FormattedString>
+
+                                <Span Text="{xct:Translate NumberOfItems}"/>
+                                <Span Text="&#10;" FontSize="{DynamicResource TSize_i0_10}"/>
+                                <Span
+                                    Text="{Binding HoldDishes.Count}"
+                                    FontSize="{DynamicResource TSize_i0_10}"
+                                    FontFamily="Barlow-Bold"
+                                    TextColor="{DynamicResource IndicationColor_i5}"/>
+
+                            </FormattedString>
+                        </Label.FormattedText>                        
+                    </Label>
+
+                    <BoxView
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                        Margin="0, 20"
+                        WidthRequest="2"
+                        HorizontalOptions="Center"
+                        VerticalOptions="FillAndExpand" />
+
+                    <Label Style="{DynamicResource LabelStyle_i5}">                        
+                        <Label.FormattedText>
+                            <FormattedString>
+
+                                <Span Text="{xct:Translate TableNumber}"/>
+                                <Span Text="&#10;" FontSize="{DynamicResource TSize_i0_10}"/>
+                                <Span
+                                    Text="{Binding HoldDishes[0].TableNumber}"
+                                    FontSize="{DynamicResource TSize_i0_10}" 
+                                    FontFamily="Barlow-Bold"
+                                    TextColor="{DynamicResource IndicationColor_i7}"/>
+
+                            </FormattedString>
+                        </Label.FormattedText>                        
+                    </Label>
+                    
+                </StackLayout>
+                        
                     <pancakeview:PancakeView
                         CornerRadius="8"
                         Margin="20, 15, 20, 20"
-                        Border="{pancakeview:BorderMarkup Thickness=1, Color={StaticResource TextAndBackgroundColor_i2}}">
+                        Border="{pancakeview:BorderMarkup Thickness=1, Color={StaticResource TextAndBackgroundColor_i2}}"
+                        IsVisible="{Binding HoldDishes, Converter={xct:IsNullOrEmptyConverter}}">
 
                         <pancakeview:PancakeView.Triggers>
 
@@ -191,7 +264,8 @@
                         HorizontalOptions="CenterAndExpand"
                         ItemSizingStrategy="MeasureFirstItem"
                         ItemTemplate="{DynamicResource timeItemTemplate}"
-                        BounceMode="DisabledForAndroidAndiOS">
+                        BounceMode="DisabledForAndroidAndiOS"
+                        IsVisible="{Binding IsNotRelease}">
 
                         <CollectionView.ItemsLayout>
 
@@ -276,6 +350,10 @@
                     Padding="20"
                     Spacing="15">
 
+                    <BoxView
+                        HeightRequest="1"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+                    
                     <buttons:BorderButton
                         Style="{DynamicResource BorderButtonStyle_i2_1}"
                         BackgroundColor="Transparent"
@@ -300,14 +378,14 @@
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="Start"
                 Margin="20, 73, 20, 0"
-                IsVisible="{Binding SelectedDish, Converter={xct:IsNullOrEmptyConverter}}">
+                IsVisible="{Binding SeatNumbers, Converter={xct:IsNotNullOrEmptyConverter}}">
 
                 <Label
                     FontFamily="Barlow-Medium"
                     Margin="0, 0, 0, 10"
                     FontSize="{DynamicResource TSize_i8}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    Text="{xct:Translate HoldItemsFrom}" />
+                    Text="{xct:Translate HoldItemsFrom}"/>
 
                 <controls:DropDownList
                     Style="{DynamicResource DropDownListStyle_i1}"
