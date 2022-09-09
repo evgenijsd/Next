@@ -36,11 +36,11 @@ namespace Next2.iOS
 
             if (isLaunchCompleted)
             {
-                UITapGestureRecognizer tap = new UITapGestureRecognizer(Self, new ObjCRuntime.Selector("gestureRecognizer:shouldReceiveTouch:"));
+                UITapGestureRecognizer tapGestureRecognizer = new UITapGestureRecognizer(Self, new ObjCRuntime.Selector("gestureRecognizer:shouldReceiveTouch:"));
 
-                tap.Delegate = (IUIGestureRecognizerDelegate)Self;
+                tapGestureRecognizer.Delegate = (IUIGestureRecognizerDelegate)Self;
 
-                app.KeyWindow.AddGestureRecognizer(tap);
+                app.KeyWindow.AddGestureRecognizer(tapGestureRecognizer);
             }
 
             return isLaunchCompleted;
