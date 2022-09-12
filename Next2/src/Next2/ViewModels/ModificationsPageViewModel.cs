@@ -21,6 +21,7 @@ using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace Next2.ViewModels
 {
@@ -63,13 +64,15 @@ namespace Next2.ViewModels
 
             _switchProductModificationModeCommand ??= new AsyncCommand<SpoilerBindableModel>(OnSwitchProductModificationModeCommandAsync);
 
+            var originalCurrentSeat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
+
+            var indexDish = originalCurrentSeat.SelectedDishes.IndexOf(originalCurrentSeat.SelectedItem);
+
             CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 
             _currentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
-            var dishId = _currentSeat.SelectedItem?.Id;
-
-            _currentDish = _currentSeat.SelectedDishes.FirstOrDefault(row => row.Id == dishId);
+            _currentDish = _currentSeat.SelectedDishes[indexDish];
 
             InitializeSidebarProducts();
 
@@ -153,13 +156,9 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
             {
-                var products = _currentDish.SelectedProducts;
-
-                _currentProduct = products.FirstOrDefault(row => row.DishReplacementProductId == SelectedSidebarProduct.DishReplacementProductId);
-
                 _currentProduct.Comment = text;
 
-                var indexProduct = products.IndexOf(_currentProduct);
+                var indexProduct = _currentDish.SelectedProducts.IndexOf(_currentProduct);
 
                 SidebarProducts[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
                 SidebarProducts[indexProduct].SelectedItem = SidebarProducts[indexProduct].Items.FirstOrDefault();
@@ -487,12 +486,12 @@ namespace Next2.ViewModels
                 {
                     SelectedSidebarProduct = selectedProductSpoiler;
 
-                    _currentProduct = _currentDish.SelectedProducts.FirstOrDefault(row => row.DishReplacementProductId == SelectedSidebarProduct.DishReplacementProductId);
-
                     _isOrderedByAscendingReplacementProducts = true;
                     _isOrderedByDescendingInventory = true;
 
                     var indexSelectedProductSpoiler = SidebarProducts.IndexOf(selectedProductSpoiler);
+
+                    _currentProduct = _currentDish.SelectedProducts[indexSelectedProductSpoiler];
 
                     for (int i = 0; i < SidebarProducts.Count; i++)
                     {
