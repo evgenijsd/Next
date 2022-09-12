@@ -14,6 +14,8 @@ namespace Next2.Models.API.DTO
 
         public string? Email { get; set; }
 
+        public int? Points { get; set; }
+
         public DateTime? Birthday { get; set; }
 
         public string? MembershipId { get; set; }

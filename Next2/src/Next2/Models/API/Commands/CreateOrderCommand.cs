@@ -14,5 +14,7 @@ namespace Next2.Models.API.Commands
         public Guid? TableId { get; set; }
 
         public Guid? CustomerId { get; set; }
+
+        public bool IsSplitBySeats { get; set; }
     }
 }
