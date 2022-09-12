@@ -2,6 +2,7 @@
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models.API;
 using Next2.Models.API.DTO;
+using Next2.Models.API.Results;
 using Next2.Models.Bindables;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace Next2.Services.Order
 
         Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish);
 
-        Task<AOResult<Guid>> UpdateOrderAsync(OrderModelDTO order);
+        Task<AOResult<UpdateOrderResult>> UpdateOrderAsync(OrderModelDTO order);
 
         Task<AOResult> AddSeatInCurrentOrderAsync();
 
@@ -43,7 +44,7 @@ namespace Next2.Services.Order
 
         Task<AOResult> SetCurrentOrderAsync(Guid orderId);
 
-        Task<AOResult<Guid>> UpdateCurrentOrderAsync();
+        Task<AOResult<UpdateOrderResult>> UpdateCurrentOrderAsync();
 
         Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionBindableModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients);
 

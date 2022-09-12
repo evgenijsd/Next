@@ -7,12 +7,14 @@ namespace Next2.Models.API.DTO
     {
         public Guid Id { get; set; }
 
-        public Guid OrderId { get; set; }
-
         public int TableNumber { get; set; }
 
         public string? Name { get; set; }
 
         public DateTime ReleaseTime { get; set; }
+
+        public Guid OrderId { get; set; }
+
+        public Guid DishId { get; set; }
     }
 }

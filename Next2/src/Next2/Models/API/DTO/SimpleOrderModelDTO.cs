@@ -20,6 +20,8 @@ namespace Next2.Models.API.DTO
 
         public int? TableNumber { get; set; }
 
+        public DateTime? Close { get; set; }
+
         public CustomerNameModelDTO Customer { get; set; } = new ();
     }
 }
