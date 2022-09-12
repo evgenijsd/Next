@@ -26,7 +26,7 @@ namespace Next2.Services.Order
 
         Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish);
 
-        Task<AOResult<GuidExecutionResult>> UpdateOrderAsync(OrderModelDTO order);
+        Task<AOResult<UpdateOrderResult>> UpdateOrderAsync(OrderModelDTO order);
 
         Task<AOResult> AddSeatInCurrentOrderAsync();
 
@@ -44,7 +44,7 @@ namespace Next2.Services.Order
 
         Task<AOResult> SetCurrentOrderAsync(Guid orderId);
 
-        Task<AOResult<GuidExecutionResult>> UpdateCurrentOrderAsync();
+        Task<AOResult<UpdateOrderResult>> UpdateCurrentOrderAsync();
 
         Task<AOResult<DishBindableModel>> ChangeDishProportionAsync(ProportionBindableModel selectedProportion, DishBindableModel dish, IEnumerable<IngredientModelDTO> ingredients);
 

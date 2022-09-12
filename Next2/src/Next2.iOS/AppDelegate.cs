@@ -9,7 +9,7 @@ namespace Next2.iOS
     // User Interface of the application, as well as listening (and optionally responding) to
     // application events from iOS.
     [Register(nameof(AppDelegate))]
-    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate, IUIGestureRecognizerDelegate
     {
         private IActivityService _activityService;
 
@@ -36,7 +36,9 @@ namespace Next2.iOS
 
             if (isLaunchCompleted)
             {
-                var tapGestureRecognizer = new UITapGestureRecognizer(OnTapGestureAction);
+                UITapGestureRecognizer tapGestureRecognizer = new UITapGestureRecognizer(Self, new ObjCRuntime.Selector("gestureRecognizer:shouldReceiveTouch:"));
+
+                tapGestureRecognizer.Delegate = (IUIGestureRecognizerDelegate)Self;
 
                 app.KeyWindow.AddGestureRecognizer(tapGestureRecognizer);
             }
@@ -51,6 +53,14 @@ namespace Next2.iOS
             return App.IsTablet
                 ? UIInterfaceOrientationMask.LandscapeRight
                 : UIInterfaceOrientationMask.Portrait;
+        }
+
+        [Export("gestureRecognizer:shouldReceiveTouch:")]
+        public bool ShouldReceiveTouch(UIGestureRecognizer gestureRecognizer, UITouch touch)
+        {
+            OnTapGestureAction();
+
+            return false;
         }
 
         #endregion

@@ -10,5 +10,9 @@ namespace Next2.Models.API.DTO
         public string? Name { get; set; }
 
         public int SeatNumber { get; set; }
+
+        public int DiscountPercentage { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

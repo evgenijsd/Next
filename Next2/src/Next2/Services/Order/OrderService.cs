@@ -504,9 +504,9 @@ namespace Next2.Services.Order
             return Task.FromResult(result);
         }
 
-        public async Task<AOResult<GuidExecutionResult>> UpdateOrderAsync(OrderModelDTO order)
+        public async Task<AOResult<UpdateOrderResult>> UpdateOrderAsync(OrderModelDTO order)
         {
-            var result = new AOResult<GuidExecutionResult>();
+            var result = new AOResult<UpdateOrderResult>();
 
             try
             {
@@ -514,7 +514,7 @@ namespace Next2.Services.Order
 
                 var query = $"{Constants.API.HOST_URL}/api/orders";
 
-                var response = await _restService.RequestAsync<GenericExecutionResult<GuidExecutionResult>>(HttpMethod.Put, query, updateCommand);
+                var response = await _restService.RequestAsync<GenericExecutionResult<UpdateOrderResult>>(HttpMethod.Put, query, updateCommand);
 
                 if (response.Success)
                 {
@@ -595,9 +595,9 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<GuidExecutionResult>> UpdateCurrentOrderAsync()
+        public async Task<AOResult<UpdateOrderResult>> UpdateCurrentOrderAsync()
         {
-            var result = new AOResult<GuidExecutionResult>();
+            var result = new AOResult<UpdateOrderResult>();
 
             try
             {

@@ -22,6 +22,10 @@ namespace Next2.Models.API.DTO
 
         public bool IsSplitted { get; set; }
 
+        public Guid? RewardId { get; set; }
+
+        public int? Points { get; set; }
+
         public DateTime? HoldTime { get; set; }
 
         public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
