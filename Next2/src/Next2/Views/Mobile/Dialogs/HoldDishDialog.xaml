@@ -383,7 +383,15 @@
                             BackgroundColor="{DynamicResource IndicationColor_i1}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                             Text="{xct:Translate Hold}"
-                            Command="{Binding HoldCommand}" />
+                            Command="{Binding HoldCommand}" >
+
+                            <buttons:BorderButton.Triggers>
+                                <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsNotRelease}" Value="False">
+                                    <Setter Property="Text" Value="{xct:Translate Release}" />
+                                </DataTrigger>
+                            </buttons:BorderButton.Triggers>
+
+                        </buttons:BorderButton>
 
                     </StackLayout>
                     
