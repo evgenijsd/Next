@@ -20,7 +20,7 @@
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
         CornerRadius="5"
         HeightRequest="650"
-        HorizontalOptions="CenterAndExpand"
+        HorizontalOptions="FillAndExpand"
         VerticalOptions="CenterAndExpand"
         xct:ShadowEffect.Color="Black"
         xct:ShadowEffect.Radius="16">
@@ -64,7 +64,7 @@
                 <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
                 <Setter Property="VerticalOptions" Value="Center" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
-                <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
                 <Setter Property="FontFamily" Value="Barlow-Medium" />
             </Style>
 
@@ -79,29 +79,39 @@
 
         <pancakeview:PancakeView.Triggers>
 
-            <DataTrigger
+            <DataTrigger 
                 TargetType="pancakeview:PancakeView"
                 Binding="{Binding IsNotRelease, Converter={xct:InvertedBoolConverter}}"
                 Value="True">
 
-                <Setter Property="HeightRequest" Value="500" />
+                <Setter Property="HeightRequest" Value="260" />
 
+            </DataTrigger>
+
+            <DataTrigger
+                TargetType="pancakeview:PancakeView"
+                Binding="{Binding HoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}"
+                Value="True">
+
+                <Setter Property="HeightRequest" Value="380" />
+                
             </DataTrigger>
 
         </pancakeview:PancakeView.Triggers>
 
         <Grid>
-            
-            <StackLayout>
+
+            <StackLayout HorizontalOptions="FillAndExpand">
 
                 <StackLayout
                     HorizontalOptions="FillAndExpand"
                     Orientation="Horizontal"
-                    Padding="20, 17">
+                    Padding="20, 17" >
 
                     <Label
                         Style="{DynamicResource LabelStyle_i5}"
                         VerticalTextAlignment="Center"
+                        HorizontalOptions="Start"
                         FontSize="{DynamicResource TSize_i6}"
                         FontFamily="Barlow-SemiBold"
                         Text="{xct:Translate HoldItem}">
@@ -140,7 +150,7 @@
                     HorizontalOptions="FillAndExpand"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
-                <StackLayout 
+                <StackLayout
                     Orientation="Horizontal"
                     VerticalOptions="FillAndExpand"
                     IsVisible="{Binding HoldDishes, Converter={xct:IsNotNullOrEmptyConverter}}">
@@ -153,7 +163,7 @@
                                 <Span Text="&#10;" FontSize="{DynamicResource TSize_i0_10}"/>
                                 <Span
                                     Text="{Binding HoldDishes.Count}"
-                                    FontSize="{DynamicResource TSize_i0_10}"
+                                    FontSize="{DynamicResource TSize_i0_7}"
                                     FontFamily="Barlow-Bold"
                                     TextColor="{DynamicResource IndicationColor_i5}"/>
 
@@ -163,7 +173,7 @@
 
                     <BoxView
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        Margin="0, 20"
+                        Margin="0, 50"
                         WidthRequest="2"
                         HorizontalOptions="Center"
                         VerticalOptions="FillAndExpand" />
@@ -176,7 +186,7 @@
                                 <Span Text="&#10;" FontSize="{DynamicResource TSize_i0_10}"/>
                                 <Span
                                     Text="{Binding HoldDishes[0].TableNumber}"
-                                    FontSize="{DynamicResource TSize_i0_10}" 
+                                    FontSize="{DynamicResource TSize_i0_7}" 
                                     FontFamily="Barlow-Bold"
                                     TextColor="{DynamicResource IndicationColor_i7}"/>
 
@@ -256,7 +266,8 @@
                     <BoxView
                         HeightRequest="1"
                         Margin="20, 0"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                        IsVisible="{Binding IsNotRelease}" />
 
                     <controls:CustomCollectionView
                         Margin="10, 0, 16, 0"
@@ -342,34 +353,40 @@
 
                 </StackLayout>
 
-                <StackLayout
-                    HeightRequest="40"
-                    MinimumHeightRequest="40"
-                    HorizontalOptions="FillAndExpand"
-                    Orientation="Horizontal"
-                    Padding="20"
-                    Spacing="15">
+                <StackLayout>
 
                     <BoxView
                         HeightRequest="1"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
-                    
-                    <buttons:BorderButton
-                        Style="{DynamicResource BorderButtonStyle_i2_1}"
-                        BackgroundColor="Transparent"
-                        BorderColor="{DynamicResource IndicationColor_i3}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        Text="{xct:Translate Cancel}"
-                        Command="{Binding CloseCommand}" />
-
-                    <buttons:BorderButton
-                        Style="{DynamicResource BorderButtonStyle_i2_1}"
                         HorizontalOptions="FillAndExpand"
-                        BackgroundColor="{DynamicResource IndicationColor_i1}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        Text="{xct:Translate Hold}"
-                        Command="{Binding HoldCommand}" />
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
+                    <StackLayout
+                        Spacing="15"
+                        Orientation="Horizontal"
+                        HeightRequest="40"
+                        MinimumHeightRequest="40"
+                        HorizontalOptions="FillAndExpand"
+                        Padding="20, 15">
+
+
+                        <buttons:BorderButton
+                            Style="{DynamicResource BorderButtonStyle_i2_1}"
+                            BackgroundColor="Transparent"
+                            BorderColor="{DynamicResource IndicationColor_i3}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            Text="{xct:Translate Cancel}"
+                            Command="{Binding CloseCommand}" />
+
+                        <buttons:BorderButton
+                            Style="{DynamicResource BorderButtonStyle_i2_1}"
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="{DynamicResource IndicationColor_i1}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                            Text="{xct:Translate Hold}"
+                            Command="{Binding HoldCommand}" />
+
+                    </StackLayout>
+                    
                 </StackLayout>
 
             </StackLayout>
