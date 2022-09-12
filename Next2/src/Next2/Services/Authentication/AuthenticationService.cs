@@ -131,13 +131,13 @@ namespace Next2.Services.Authentication
 
                 var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Post, query, employee);
 
-                _settingsManager.Clear();
+                ClearSession();
             }
             catch (Exception ex)
             {
                 if (ex.Message == Constants.StatusCode.UNAUTHORIZED)
                 {
-                    _settingsManager.Clear();
+                    ClearSession();
                 }
                 else
                 {
@@ -157,7 +157,12 @@ namespace Next2.Services.Authentication
 
         public void ClearSession()
         {
-            _settingsManager.Clear();
+            _settingsManager.UserId = -1;
+            _settingsManager.IsAuthorizationComplete = false;
+            _settingsManager.IsUserAdmin = false;
+            _settingsManager.Token = string.Empty;
+            _settingsManager.RefreshToken = string.Empty;
+            _settingsManager.TokenExpirationDate = DateTime.Now;
         }
 
         #endregion

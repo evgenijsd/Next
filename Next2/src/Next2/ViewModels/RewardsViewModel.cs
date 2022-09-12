@@ -18,7 +18,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels
@@ -135,8 +134,6 @@ namespace Next2.ViewModels
                 {
                     PageState = ERewardsPageState.RewardsExist;
 
-                    LoadSeats();
-
                     Order.Rewards = _mapper.Map<IEnumerable<RewardModel>, ObservableCollection<RewardBindabledModel>>(customersRewardsResult.Result, opt => opt.AfterMap((input, output) =>
                     {
                         foreach (var reward in output)
@@ -149,39 +146,6 @@ namespace Next2.ViewModels
             }
         }
 
-        public void LoadSeats()
-        {
-            //var bindableSeats = _orderService.CurrentOrder.Seats.Where(x => x.SelectedDishes.Any());
-
-            //Order.Seats.Clear();
-
-            //foreach (var seat in bindableSeats)
-            //{
-            //    var freeDishes = _mapper.Map<ObservableCollection<FreeDishBindableModel>>(seat.SelectedDishes);
-
-            //    if (App.IsTablet)
-            //    {
-            //        SetProductsNamesForDishes(seat.SelectedDishes, freeDishes);
-            //    }
-
-            //    var newSeat = new SeatWithFreeDishesBindableModel
-            //    {
-            //        Id = seat.Id,
-            //        SeatNumber = seat.SeatNumber,
-            //        Dishes = freeDishes,
-            //    };
-
-            //    Order.Seats.Add(newSeat);
-            //}
-        }
-
-        //private void SetProductsNamesForDishes(ObservableCollection<DishBindableModel> dishBindables, ObservableCollection<FreeDishBindableModel> freeDishes)
-        //{
-        //    //for (int i = 0; i < dishBindables.Count; i++)
-        //    //{
-        //    //    freeDishes[i].ProductNames = string.Join(", ", dishBindables[i].Products.Select(x => x.Title));
-        //    //}
-        //}
         private void ApplyCancelRewardToDish(ObservableCollection<SeatWithFreeDishesBindableModel> seats, RewardBindabledModel reward)
         {
             bool CompareDishWithRewardDish(FreeDishBindableModel dish) => dish.Id == reward.DishId && dish.IsFree != reward.IsApplied;
