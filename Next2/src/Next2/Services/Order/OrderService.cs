@@ -606,6 +606,26 @@ namespace Next2.Services.Order
                 var orderDTO = CurrentOrder.ToOrderModelDTO();
 
                 result = await UpdateOrderAsync(orderDTO);
+
+                if (result.IsSuccess)
+                {
+                    var updateSeats = result.Result.Seats.ToList();
+                    int indexSeat = 0;
+
+                    foreach (var seat in CurrentOrder.Seats)
+                    {
+                        var updateDishes = updateSeats?[indexSeat].SelectedDishesId.ToList();
+                        int indexDish = 0;
+
+                        foreach (var dish in seat.SelectedDishes)
+                        {
+                            dish.Id = updateDishes?[indexDish] ?? new();
+                            indexDish++;
+                        }
+
+                        indexSeat++;
+                    }
+                }
             }
             catch (Exception ex)
             {

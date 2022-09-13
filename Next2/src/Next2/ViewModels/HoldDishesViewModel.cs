@@ -267,7 +267,7 @@ namespace Next2.ViewModels
                 {
                     foreach (var selectedHoldDish in selectedHoldDishes)
                     {
-                        if (selectedHoldDish.DishId == dish.DishId)
+                        if (selectedHoldDish.Id == dish.Id)
                         {
                             dish.HoldTime = null;
                             selectedHoldDishes.Remove(selectedHoldDish);
