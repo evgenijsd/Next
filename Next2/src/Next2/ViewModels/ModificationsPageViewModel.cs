@@ -21,7 +21,6 @@ using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace Next2.ViewModels
 {
